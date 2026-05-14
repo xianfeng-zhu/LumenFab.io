@@ -1,5 +1,21 @@
 # LumenFab.io V1 Site Scaffold With 3D Design
 
+Status: Completed
+
+Completed on: 2026-05-14
+
+Deployment:
+
+- GitHub Pages: https://xianfeng-zhu.github.io/LumenFab.io/
+- Repository: https://github.com/xianfeng-zhu/LumenFab.io
+
+Verification:
+
+- `npm test`: passed
+- `npm run build`: passed
+- GitHub Pages workflow: passed
+- Published home page returned HTTP 200
+
 ## Goal
 
 Create the first website scaffold for LumenFab.io: a Chinese learning-path site for AI data-center optical interconnects.
@@ -128,9 +144,9 @@ Create scaffold pages only:
 
 ## Acceptance Checks
 
-- `npm test` verifies required scaffold files and content markers.
-- `npm run build` succeeds.
-- Home page renders.
-- Learning path page lists chapters 00-13.
-- A sample MDX page can include the 3D model component.
-- GitHub Pages workflow exists.
+- [x] `npm test` verifies required scaffold files and content markers.
+- [x] `npm run build` succeeds.
+- [x] Home page renders.
+- [x] Learning path page lists chapters 00-13.
+- [x] A sample MDX page can include the 3D model component.
+- [x] GitHub Pages workflow exists.
