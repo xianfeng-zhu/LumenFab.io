@@ -10,19 +10,19 @@ export const chapters: Chapter[] = [
     id: "00",
     title: "00. Start Here",
     purpose: "给读者一张完整技术栈地图，说明网站如何阅读。",
-    path: "/learn/"
+    path: "/learn/what-this-site-explains/"
   },
   {
     id: "01",
     title: "01. Why Optical Interconnects",
     purpose: "解释 AI 数据中心为什么需要光互连，以及铜互连的高速边界。",
-    path: "/learn/copper-vs-optical-links/"
+    path: "/learn/why-ai-clusters-stress-interconnects/"
   },
   {
     id: "02",
     title: "02. Optical Link Overview",
     purpose: "先看完整 Tx/Rx 链路，再拆器件和模块。",
-    path: "/learn/tx-rx-path/"
+    path: "/learn/electrical-signal-to-optical-signal/"
   },
   {
     id: "03",

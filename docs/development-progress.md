@@ -1,10 +1,10 @@
 # LumenFab.io Development Progress
 
-Last updated: 2026-05-14
+Last updated: 2026-05-15
 
 ## Current State
 
-Status: V1 site scaffold complete and deployed. Core learning path research is complete. Next active plan is ready.
+Status: V1 site scaffold is deployed. Core learning path 00-02 content is implemented locally and ready to publish.
 
 Repository:
 
@@ -25,7 +25,7 @@ Latest known successful deployment:
 - Trigger: push to `main`
 - Commit: `1fe9a33 docs: mark v1 scaffold plan complete`
 
-Active plan:
+Completed active plan:
 
 - `docs/plans/2026-05-14-v1-core-learning-path-content.md`
 
@@ -62,6 +62,20 @@ Active plan:
   - `docs/research/v1-core-learning-path/02-optical-link-tx-rx-transceiver.md`
 - Created next implementation plan:
   - `docs/plans/2026-05-14-v1-core-learning-path-content.md`
+- Implemented 00-02 reader-facing pages:
+  - `src/pages/learn/what-this-site-explains.mdx`
+  - `src/pages/learn/one-page-optics-stack.mdx`
+  - `src/pages/learn/how-to-read-this-site.mdx`
+  - `src/pages/learn/why-ai-clusters-stress-interconnects.mdx`
+  - `src/pages/learn/copper-vs-optical-links.mdx`
+  - `src/pages/learn/bandwidth-density-and-power-per-bit.mdx`
+  - `src/pages/learn/why-800g-1-6t-and-3-2t-matter.mdx`
+  - `src/pages/learn/electrical-signal-to-optical-signal.mdx`
+  - `src/pages/learn/tx-rx-path.mdx`
+  - `src/pages/learn/lane-channel-and-wavelength.mdx`
+  - `src/pages/learn/inside-a-transceiver.mdx`
+  - `src/pages/learn/dr-fr-lr-and-psm-wdm.mdx`
+- Updated learning path navigation for 00-02.
 
 ## Verification Commands
 
@@ -74,10 +88,10 @@ npm audit --omit=dev
 gh run list --repo xianfeng-zhu/LumenFab.io --limit 5
 ```
 
-Expected current baseline:
+Expected current baseline after 00-02 content:
 
-- `npm test`: 5 tests pass.
-- `npm run build`: 8 pages build.
+- `npm test`: 6 tests pass.
+- `npm run build`: 17 pages build.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - latest `Deploy to GitHub Pages` run: success.
 
@@ -103,37 +117,35 @@ Expected current baseline:
 
 ## Suggested Next Step
 
-Execute the active plan:
+Create the next plan:
 
 ```text
-docs/plans/2026-05-14-v1-core-learning-path-content.md
+docs/plans/2026-05-15-v1-physics-and-laser-foundations.md
 ```
 
 Suggested scope:
 
-- `00 Start Here`
-  - What this site explains
-  - The one-page stack map
-  - How to read the site
-- `01 Why Optical Interconnects`
-  - Why AI clusters stress interconnects
-  - Copper vs optical links
-  - Bandwidth density and power per bit
-- `02 Optical Link Overview`
-  - Electrical signal to optical signal
-  - Tx path
-  - Rx path
-  - What lane means
+- `03 Semiconductor And Optics Basics`
+  - Bandgap
+  - Direct vs indirect bandgap
+  - PN junction and carrier injection
+  - Refractive index, total internal reflection, waveguides and modes
+- `04 Laser Physics`
+  - Spontaneous vs stimulated emission
+  - Gain and threshold current
+  - Fabry-Perot cavity
+  - Distributed feedback and wavelength selection
 
 Reason:
 
-- These chapters define the reader's entry path.
-- They establish vocabulary for later laser, material, packaging, module, and system chapters.
-- They follow `docs/site-structure.md`: explain demand and link behavior before diving into components.
+- 00-02 now define the problem and link-level mental model.
+- 03-04 should provide the minimum physics needed before material platforms.
+- Laser physics must remain before material platforms so readers understand what the material must provide.
 
 Next execution target:
 
-- Start with Task 2 in the active plan: add page coverage tests for the 00-02 content pages.
+- Verify and publish 00-02 content.
+- Then create the 03-04 plan.
 
 ## Resume Checklist
 

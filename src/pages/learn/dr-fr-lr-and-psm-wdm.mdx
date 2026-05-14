@@ -1,0 +1,65 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: DR/FR/LR and PSM/WDM
+chapter: 02. Optical Link Overview
+description: DR、FR、LR 描述 reach class；PSM 和 WDM 描述光侧怎么组织 fiber 和 wavelength。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+DR、FR、LR 大致对应不同 reach class；PSM 用更多并行 fiber 简化光学复用，WDM 用多个 wavelengths 共用较少 fiber。
+
+## Why This Exists
+
+初学者经常看到 DR4、FR4、LR4、PSM、WDM、MPO、LC 这些词，但不清楚它们分别在描述距离、光纤数量、波长复用还是连接器。
+
+## Reach Classes
+
+| Label | Plain Meaning | Typical Data Center Reading |
+|---|---|---|
+| DR | Datacenter Reach | 短距单模。400G-DR4 常见为 4 条 optical lanes，parallel SMF，约 500 m class。 |
+| FR | Fiber Reach | 约 2 km class，常见为 duplex SMF + WDM。 |
+| LR | Long Reach | 约 10 km class，通常需要更严格光功率、接收灵敏度和色散预算。 |
+
+具体 reach、lane count、connector 和光功率指标要看标准、MSA 或具体模块规格。
+
+## PSM vs WDM
+
+PSM, or parallel single-mode:
+
+- 多条 independent optical lanes。
+- 常用 MPO/MTP 这类多芯连接器。
+- 光学 MUX/DEMUX 简化。
+- fiber count 更高。
+- 适合 breakout 场景，例如一个 400G DR4 拆到 4 个 100G。
+
+WDM, or wavelength division multiplexing:
+
+- 多个 wavelengths 共享一对 duplex single-mode fibers。
+- fiber count 更低。
+- 需要 MUX/DEMUX、波长控制和更复杂封装测试。
+- 常见于 FR4、LR4 这类入门例子。
+
+<ModelViewer
+  model="/models/dr4-fr4-topologies.glb"
+  title="DR4 与 FR4 光侧拓扑"
+  caption="未来展示 DR4 并行 fiber 与 FR4 多 wavelength 复用到 duplex fiber 的差异。"
+/>
+
+## Common Misconceptions
+
+- PSM 和 WDM 不是谁绝对更高级。它们是在 fiber count、光学复杂度、成本、reach、breakout 能力之间取舍。
+- `4` 后缀在常见 DR4/FR4/LR4 中很有教学价值，但不要把它当成所有 optic 命名的唯一规则。
+- FR/LR 不只是距离变长。链路预算、波长管理、接收灵敏度和测试要求都会变化。
+
+## How It Connects
+
+后续讲 PIC、MUX/DEMUX、grating coupler、edge coupler、封装测试时，这些拓扑会决定哪些器件和封装动作必须出现。
+
+## Further Reading
+
+- [100G Lambda MSA 400G-FR4 specification](https://100glambda.com/specifications/)
+- [Cisco 400G QSFP-400G-DR4 data sheet](https://www.cisco.com/c/en/us/products/collateral/interfaces-modules/transceiver-modules/datasheet-c78-743172.html)
+- [Arista and CommScope 400G/800G cabling guide](https://www.arista.com/assets/data/pdf/CablingGuides/Arista-CommScope-400G-800G-Connectivity-Guide.pdf)

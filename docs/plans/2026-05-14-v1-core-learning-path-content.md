@@ -1,5 +1,15 @@
 # V1 Core Learning Path Content Implementation Plan
 
+Status: Completed
+
+Completed on: 2026-05-15
+
+Verification:
+
+- `npm test`: passed
+- `npm run build`: passed
+- Pages built locally: 17
+
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Turn the current scaffold pages into the first real 00-02 learning path pages for LumenFab.io.
@@ -338,8 +348,8 @@ Expected:
 
 ## Completion Criteria
 
-- Research notes are committed.
-- 00-02 reader-facing pages exist.
-- Navigation points to those pages.
-- 3D placeholders are present only where they serve explanation.
-- GitHub Pages deployment succeeds after push.
+- [x] Research notes are committed.
+- [x] 00-02 reader-facing pages exist.
+- [x] Navigation points to those pages.
+- [x] 3D placeholders are present only where they serve explanation.
+- [ ] GitHub Pages deployment succeeds after push.

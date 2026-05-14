@@ -1,0 +1,47 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Lane, channel, and wavelength
+chapter: 02. Optical Link Overview
+description: lane、channel、wavelength 经常被混用。入门阶段要先把 electrical lane、optical lane 和 wavelength 分开。
+---
+
+## One-Sentence Answer
+
+`lane` 是并行数据通道，`wavelength` 是光的中心波长，`channel` 必须说明上下文。不要把 electrical lane、optical lane 和 fiber channel 混成一个词。
+
+## Why This Exists
+
+同一个 400G 或 800G 模块，host 电侧和光侧的拆法可能不同。电侧可能是 8 条 electrical lanes，光侧可能是 4 条 optical lanes，也可能是多条 wavelength 共用一对光纤。
+
+## Definitions
+
+- electrical lane：ASIC 到模块之间的高速差分电通道。
+- optical lane：光侧承载一份数据的路径，可以是独立 fiber，也可以是一个 wavelength。
+- wavelength：光的颜色或中心波长。WDM 中多个 wavelength 可以共享一根 Tx fiber 和一根 Rx fiber。
+- fiber channel：光纤和连接器组成的传输通道。
+- data lane：逻辑上承载一份数据的并行通道。
+
+## Example
+
+入门时可以用两个例子区分：
+
+- DR4：常见为 4 条 optical lanes，走并行单模光纤。
+- FR4：常见为 4 个 wavelengths，复用到一对 duplex single-mode fibers。
+
+这里的 `4` 常常表示四条光侧数据路径或四个波长，但不要把它写成所有命名规则的永恒定义。不同标准和速率会有自己的具体规定。
+
+## Common Misconceptions
+
+- 同一总速率不代表电侧 lane 数和光侧 lane 数相同。
+- wavelength 不是 lane 的同义词。它只是承载 optical lane 的一种方式。
+- 不要裸写 channel。写清楚是 fiber channel、data lane 还是 wavelength channel。
+
+## How It Connects
+
+理解这些词之后，DR/FR/LR、PSM/WDM、模块内部 signal flow 会清楚很多。
+
+## Further Reading
+
+- [100G Lambda MSA](https://100glambda.com/)
+- [Arista 800G transceivers and cables FAQ](https://www.arista.com/assets/data/pdf/Arista-800G-Transceivers-and-Cables-FAQ.pdf)
+- [Juniper: Know your 400G transceiver](https://www.juniper.net/documentation/us/en/software/junos/interfaces-ethernet-switches/topics/topic-map/400g-transceivers.html)

@@ -1,0 +1,54 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Why AI clusters stress interconnects
+chapter: 01. Why Optical Interconnects
+description: AI 训练和分布式推理让数据中心网络更像计算 fabric，而不只是服务器之间的普通连接。
+---
+
+## One-Sentence Answer
+
+AI 集群会让大量 GPU/XPU 在训练和推理中频繁交换数据，所以网络带宽、尾延迟、功耗和端口密度会直接影响计算效率。
+
+## Why This Exists
+
+传统云服务常见大量 north-south traffic：用户请求进入数据中心，服务返回结果。AI 集群更强调 east-west traffic：GPU、XPU、存储、NIC 和交换机之间不断横向交换数据。
+
+训练时，节点之间要交换梯度、参数分片和 collective operation 结果。分布式推理时，节点之间可能交换 KV cache、激活值或专家路由结果。网络不再只是“把包送到”，而会影响整批任务完成时间。
+
+## Physical Principle
+
+这里的底层问题不是光学，而是并行计算。很多加速器需要像一个更大的计算机一样协同工作。只要某些链路慢、拥塞或抖动，整体 job completion time 就会被拖慢。
+
+## Engineering Implementation
+
+AI 网络通常要同时处理两类扩展：
+
+- scale-up：紧耦合域内的 GPU-to-GPU 或 accelerator-to-accelerator 通信，目标是低延迟、高带宽。
+- scale-out：跨机柜、跨 pod 或更大范围扩展，目标是可路由、可运维、可容错和足够高的带宽。
+
+铜互连在很短距离内仍然重要。光互连的作用，是在更长距离和更高密度的 fabric 中承接高速连接。
+
+## Key Metrics
+
+- aggregate bandwidth：集群总吞吐。
+- radix：交换芯片可以连接多少高速端口。
+- bandwidth density：单位面板或单位封装边缘承载多少 Tbps。
+- power per bit：网络每传 1 bit 的能耗。
+- tail latency：最慢路径对整体任务的影响。
+
+## Common Misconceptions
+
+- AI 集群不是只要 GPU 越多越好。网络会决定这些 GPU 能不能有效组成一个系统。
+- 光模块需求不能只看 GPU 数量。还要看 scale-up 域大小、scale-out 拓扑、端口速率和网络层级。
+- scale-up 和 scale-out 不是同一件事。它们的距离、协议、运维和互连约束不同。
+
+## How It Connects
+
+下一步是看铜互连为什么在高速和距离上越来越难，以及光互连到底换来了什么。
+
+## Further Reading
+
+- [NVIDIA Spectrum-X](https://www.nvidia.com/en-us/networking/spectrumx/)
+- [NVIDIA NVLink](https://www.nvidia.com/en-us/data-center/nvlink/)
+- [Ethernet Alliance: 800G and 1.6T Ethernet for AI](https://ethernetalliance.org/blog/2024/03/13/enabling-next-generation-ai-applications-with-800g-1-6t-ethernet/)
+- [Arista AI Networking](https://www.arista.com/ko/solutions/ai-networking)

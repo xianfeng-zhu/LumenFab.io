@@ -1,0 +1,51 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Bandwidth density and power per bit
+chapter: 01. Why Optical Interconnects
+description: AI 网络不只追求总带宽，还追求单位空间和单位能耗能搬多少数据。
+---
+
+## One-Sentence Answer
+
+带宽密度和每比特功耗是一组问题：AI 集群需要在有限面板、封装边缘、机架空间和散热预算里搬更多数据。
+
+## Why This Exists
+
+端口从 400G 到 800G、1.6T，并不只是数字翻倍。同样 1RU 或 2RU 交换机面板空间内，要承载更多 Tbps。连接器、线缆、光模块、散热器、PCB 走线和供电都会变得更紧。
+
+## Engineering Implementation
+
+系统设计要同时回答几个问题：
+
+- 一个交换机面板能放多少端口。
+- 每个端口能承载多少 Tbps。
+- ASIC 到模块之间的高速电路径有多长。
+- SerDes、retimer、DSP、driver、TIA 和光模块消耗多少功率。
+- 这些热量能不能从机箱和模块里带走。
+
+这也是 LPO、NPO、CPO 这类架构会被讨论的背景：它们都试图调整电信号和光信号的边界，减少长距离高速电连接的代价。
+
+## Key Metrics
+
+- Tbps per rack unit。
+- Tbps per switch faceplate。
+- watts per bit。
+- SerDes reach。
+- module power budget。
+- thermal headroom。
+
+## Common Misconceptions
+
+- 总带宽高，不代表系统可部署。功耗、热和面板密度也要成立。
+- 光模块功耗不是唯一网络功耗。交换 ASIC、SerDes、retimer、线缆和冷却也在账里。
+- LPO/CPO 不是“神奇省电按钮”。它们把系统边界和补偿责任重新分配。
+
+## How It Connects
+
+理解带宽密度和每比特功耗后，再看 400G、800G、1.6T、3.2T 就不会只盯着数字。
+
+## Further Reading
+
+- [Ethernet Alliance Ethernet Roadmap](https://ethernetalliance.org/technology/ethernet-roadmap/)
+- [Arista 800G transceivers and cables FAQ](https://www.arista.com/assets/data/pdf/Arista-800G-Transceivers-and-Cables-FAQ.pdf)
+- [Broadcom Optical Interconnects for AI](https://docs.broadcom.com/doc/optical-interconnects-for-ai-2024)

@@ -1,0 +1,46 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Why 800G, 1.6T, and 3.2T matter
+chapter: 01. Why Optical Interconnects
+description: 这些数字通常是端口、模块或接口总速率，不是一根线里的单一物理速度。
+---
+
+## One-Sentence Answer
+
+400G、800G、1.6T 和 3.2T 代表端口、模块或接口总吞吐的代际提升；它们通常由多条 electrical lanes 或 optical lanes 聚合而成。
+
+## Why This Exists
+
+初学者很容易把 “800G” 理解成一根线直接跑 800G。更准确的理解是：总速率来自 lane rate、lane 数、调制、FEC、reach 和模块形态的组合。
+
+## Engineering Implementation
+
+可以先用这个口径理解：
+
+- 400G：可能由 4 条 100G class optical lanes 实现，也可能有其他拆法。
+- 800G：常见解释可以是 8×100G 或 4×200G class lane，具体取决于模块和标准。
+- 1.6T：可以理解成进一步提高 lane rate 或增加 lane 数。
+- 3.2T：在 CPO 或更高密度场景里，可能代表一个更大光引擎或共封装模块的总容量。
+
+这些数字真正重要的地方，不是名字本身，而是它们推动了：
+
+- 更高 electrical lane rate。
+- 更紧的信号完整性和均衡预算。
+- 更高光侧 lane rate 或更多波长/并行 fiber。
+- 更高封装、散热和测试难度。
+
+## Common Misconceptions
+
+- 不要把 800G、1.6T、3.2T 写成唯一物理实现。
+- 不要把 roadmap 当成已经普遍量产。
+- 不要只比较 headline speed。还要看 reach、功耗、fiber count、互操作性和热预算。
+
+## How It Connects
+
+下一章会进入一条链路内部，解释 electrical lane、optical lane、wavelength 和 transceiver 如何共同组成这些总速率。
+
+## Further Reading
+
+- [IEEE P802.3df Task Force](https://www.ieee802.org/3/df/)
+- [IEEE P802.3dj PAR](https://mentor.ieee.org/802-ec/dcn/22/ec-22-0198-00-00EC-draft-ieee-p802-3dj-par.pdf)
+- [OIF 3.2T Co-Packaged Module IA](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-3.2T-Module-01.0.pdf)

@@ -1,0 +1,59 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Inside a transceiver
+chapter: 02. Optical Link Overview
+description: 光模块是一个紧凑系统，里面同时有光器件、高速模拟电路、数字处理、电源、控制、封装和散热。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+Transceiver 不是一只激光器，也不是一个被动适配器。它是一个把高速电子、光子器件、封装、供电、固件和管理接口压进小体积里的系统。
+
+## Why This Exists
+
+很多光模块讨论会直接跳到 EML、SiPh 或 DSP。更稳的方式是先看模块内部有哪些功能块，再理解每条技术路线改的是哪一块。
+
+## Engineering Implementation
+
+一个 pluggable transceiver 通常包含：
+
+- optical engine：laser、modulator、PD、lens、coupler、MUX/DEMUX。
+- analog front-end：driver、TIA、limiting amplifier 或 linear amplifier。
+- digital processing：DSP、retimer、CDR、equalization、gearbox、monitoring。
+- power：DC/DC rails、analog/digital power isolation、thermal budget。
+- control：CMIS、state machine、DOM/DDM、alarms、firmware revision。
+- packaging：shell、connector、heatsink contact、fiber receptacle、alignment structure。
+
+<ModelViewer
+  model="/models/transceiver-exploded.glb"
+  title="光模块爆炸视图"
+  caption="未来展示外壳、PCB、DSP、driver/TIA、光引擎、光纤接口、散热路径和电连接器。"
+/>
+
+## Key Metrics
+
+- module power。
+- thermal resistance。
+- electrical interface rate。
+- optical output power。
+- receiver sensitivity。
+- management interface compliance。
+- manufacturing yield。
+
+## Common Misconceptions
+
+- 光模块不是“光纤插头”。它是小型光电系统。
+- DSP 不是所有模块唯一架构。LPO、linear receive、CPO 等会改变处理边界。
+- 封装不是最后一步。耦合、散热和测试决定模块能不能量产。
+
+## How It Connects
+
+后面讲 EML、SiPh、LPO、CPO 时，都可以回到这个模块结构：那些路线本质上是在移动或重组某些功能块。
+
+## Further Reading
+
+- [QSFP-DD MSA](https://www.qsfp-dd.com/specification/)
+- [OIF CMIS](https://www.oiforum.com/technical-work/implementation-agreements-ias/common-management-interface-specification-cmis/)
+- [Analog Devices: powering QSFP-DD optical transceivers](https://www.analog.com/en/resources/technical-articles/how-to-power-your-qsfpdd-optical-transceiver.html)

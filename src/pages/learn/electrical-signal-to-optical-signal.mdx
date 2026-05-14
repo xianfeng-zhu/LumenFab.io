@@ -1,0 +1,68 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Electrical signal to optical signal
+chapter: 02. Optical Link Overview
+description: 一条数据中心光链路的核心，是把高速电信号变成光信号，通过光纤传输，再恢复成电信号。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+光链路是一条 transducer chain：switch ASIC 或 NIC 输出 electrical lanes，模块把它们变成 optical lanes，光纤传输后，接收端再把光恢复成 electrical lanes。
+
+## Why This Exists
+
+在高速数据中心里，电信号不适合一直跑很远。光模块的作用不是“把网线换成光纤”这么简单，而是在电和光之间做两次高精度转换。
+
+## Engineering Implementation
+
+典型链路可以先压缩成这条路径：
+
+```text
+ASIC electrical output
+→ module electrical front-end
+→ DSP / CDR / retimer
+→ driver
+→ laser or modulator
+→ coupling
+→ fiber
+→ photodiode
+→ TIA
+→ CDR / DSP / equalizer
+→ ASIC electrical input
+```
+
+不同模块架构会调整某些 block 的位置。例如 LPO 会弱化或移除模块内重型 DSP，把补偿压力更多交给 host 侧。CPO 会把光引擎移到 ASIC 附近。但“电到光、光到电”的链路本质仍然成立。
+
+<ModelViewer
+  model="/models/tx-rx-link.glb"
+  title="Tx/Rx 链路总览"
+  caption="未来展示 copper trace、DSP、driver、laser/modulator、fiber、PD、TIA 和接收端恢复路径。"
+/>
+
+## Key Metrics
+
+- electrical lane rate。
+- optical lane rate。
+- insertion loss。
+- modulation quality。
+- receiver sensitivity。
+- pre-FEC BER。
+- power per bit。
+
+## Common Misconceptions
+
+- 光链路不是无损管道。光纤、连接器、耦合、反射和接收噪声都会影响恢复质量。
+- 光模块不是被动转接头。它包含高速电路、光器件、封装、固件和管理接口。
+- DSP 是否在模块内，是系统架构选择，不是“有没有光”的定义。
+
+## How It Connects
+
+下一页把 Tx 和 Rx 分开看。发射端负责产生足够干净的光波形，接收端负责从弱且受损的信号中恢复符号。
+
+## Further Reading
+
+- [OIF CMIS](https://www.oiforum.com/technical-work/implementation-agreements-ias/common-management-interface-specification-cmis/)
+- [Broadcom BCM87416 product brief](https://docs.broadcom.com/doc/BCM87416-PB)
+- [Marvell PAM4 Optical DSPs](https://www.marvell.com/products/optical/pam4-dsps.html)

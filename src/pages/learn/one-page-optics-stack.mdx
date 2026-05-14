@@ -9,13 +9,33 @@ import StackMap from "../../components/StackMap.astro";
 
 ## One-Sentence Answer
 
-AI 数据中心光互连是一套从系统带宽需求到光电转换、封装测试和网络架构的分层工程。
+AI 数据中心光互连是一套分层工程：计算需求先制造带宽和功耗压力，光链路再把电信号变成光、传输、检测，最后落到材料、器件、封装、模块、系统和公司分工。
 
 ## Why This Exists
 
 读者很容易把 InP、SiPh、EML、CPO、LPO、1.6T 和公司名字混在一起。这个页面只负责先把层级拆开。
 
 <StackMap />
+
+## Layer Boundaries
+
+- AI 集群需求：为什么需要更高 east-west bandwidth。
+- 电互连边界：为什么高速铜通道需要越来越多补偿。
+- 光链路：电信号如何变成光信号，再变回电信号。
+- 半导体与光学基础：为什么有些材料容易发光，有些适合导光。
+- 激光器物理：增益、反馈、约束和阈值。
+- 材料平台：InP、GaAs、Si、SOI、SiN、TFLN 各自解决什么问题。
+- 器件与 PIC：VCSEL、DFB、EML、PD、MZM、MRM 和片上光路。
+- 封装与测试：耦合、热、可靠性、良率和量产。
+- 模块与系统：pluggable、LPO、NPO、CPO 和网络架构。
+- 产业地图：最后把技术层映射到公司和供应链。
+
+## Common Misconceptions
+
+- 硅光不是 CPO。硅光是平台路线，CPO 是系统边界。
+- QW/QD 不是器件外形。它们是有源区概念。
+- EML、MZM、MRM 不是同一层概念。EML 是发射器件路线，MZM/MRM 是调制器结构。
+- 公司地图不是学习起点。它应该放在技术栈理解之后。
 
 ## How It Connects
 

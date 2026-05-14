@@ -64,3 +64,19 @@ test("GitHub Pages deployment workflow is configured without a custom domain", a
   assert.match(workflow, /enablement:\s+true/);
   assert.doesNotMatch(workflow, /CNAME|lumenfab\.io/i);
 });
+
+test("core learning path content pages exist", async () => {
+  for (const page of [
+    "src/pages/learn/what-this-site-explains.mdx",
+    "src/pages/learn/how-to-read-this-site.mdx",
+    "src/pages/learn/why-ai-clusters-stress-interconnects.mdx",
+    "src/pages/learn/bandwidth-density-and-power-per-bit.mdx",
+    "src/pages/learn/why-800g-1-6t-and-3-2t-matter.mdx",
+    "src/pages/learn/electrical-signal-to-optical-signal.mdx",
+    "src/pages/learn/lane-channel-and-wavelength.mdx",
+    "src/pages/learn/inside-a-transceiver.mdx",
+    "src/pages/learn/dr-fr-lr-and-psm-wdm.mdx"
+  ]) {
+    await fileExists(page);
+  }
+});

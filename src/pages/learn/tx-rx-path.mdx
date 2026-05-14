@@ -9,17 +9,54 @@ description: 用 Tx 和 Rx 两条路径理解一个光链路如何工作。
 
 Tx 把电信号变成被调制的光，Rx 把光信号变回可判决的电信号。
 
+## Why This Exists
+
+同一条光链路里，发射端和接收端面对的问题不同。Tx 要把信号“发得足够干净”，Rx 要把已经变弱、变形、带噪声的信号“认回来”。
+
 ## Engineering Implementation
 
 典型 Tx 路径包括 DSP 或 CDR、driver、laser 或 modulator、coupling、fiber。典型 Rx 路径包括 fiber、photodiode、TIA、CDR 或 DSP、电输出。
+
+## Tx Bottlenecks
+
+- driver 带宽和摆幅。
+- laser、EML 或 modulator 的线性度和带宽。
+- output power、extinction ratio、chirp 和温度稳定性。
+- laser-to-chip 或 chip-to-fiber coupling loss。
+- WDM 场景中的波长控制、MUX 和热稳定。
+
+Tx 的直觉：发射端要把比特变成一个足够清楚、足够强、足够稳定的光波形。
+
+## Rx Bottlenecks
+
+- PD responsivity。
+- TIA 输入噪声、带宽和线性度。
+- receiver sensitivity。
+- equalization 和 FEC 前误码。
+- 低光功率、反射、ISI、动态范围变化下的恢复能力。
+
+Rx 的直觉：接收端要从弱、脏、变形的波形里恢复 clock 和 symbols。
+
+## Key Metrics
+
+- TDECQ 或 SECQ：发射信号质量相关指标。
+- OMA：光调制幅度。
+- receiver sensitivity：接收端灵敏度。
+- pre-FEC BER：FEC 前误码率。
+- link budget：发射、损耗、接收能力之间的预算。
 
 ## Terms
 
 - Tx: Transmitter，发射端。
 - Rx: Receiver，接收端。
-- Lane: 一条并行承载数据的物理或逻辑通道。
+- Lane: 一条并行承载数据的物理或逻辑通道。必须说明是 electrical lane 还是 optical lane。
 - TIA: Transimpedance Amplifier，跨阻放大器。
 
 ## How It Connects
 
 后续页面会分别拆开 laser、modulator、photodiode、PIC、packaging 和 module。
+
+## Further Reading
+
+- [Coherent 100G TIAs for 400G/800G transceivers](https://www.coherent.com/news/releases/coherent-introduces-100g-transimpedance-amplifiers-for-400g-and-800g-optical-transceivers)
+- [Lumentum EMLs](https://www.lumentum.com/en/products/datacom-lasers/electro-absorption-modulated-lasers)
