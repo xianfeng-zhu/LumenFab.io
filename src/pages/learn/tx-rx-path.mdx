@@ -1,0 +1,25 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Tx path and Rx path
+chapter: 02. Optical Link Overview
+description: 用 Tx 和 Rx 两条路径理解一个光链路如何工作。
+---
+
+## One-Sentence Answer
+
+Tx 把电信号变成被调制的光，Rx 把光信号变回可判决的电信号。
+
+## Engineering Implementation
+
+典型 Tx 路径包括 DSP 或 CDR、driver、laser 或 modulator、coupling、fiber。典型 Rx 路径包括 fiber、photodiode、TIA、CDR 或 DSP、电输出。
+
+## Terms
+
+- Tx: Transmitter，发射端。
+- Rx: Receiver，接收端。
+- Lane: 一条并行承载数据的物理或逻辑通道。
+- TIA: Transimpedance Amplifier，跨阻放大器。
+
+## How It Connects
+
+后续页面会分别拆开 laser、modulator、photodiode、PIC、packaging 和 module。

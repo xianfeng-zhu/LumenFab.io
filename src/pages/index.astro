@@ -1,0 +1,30 @@
+---
+import ChapterNav from "../components/ChapterNav.astro";
+import StackMap from "../components/StackMap.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { sitePath } from "../lib/paths";
+---
+
+<BaseLayout title="中文 AI 数据中心光互连学习路径">
+  <section>
+    <p class="page-kicker">Learning path, not news feed</p>
+    <h1>从 AI 集群带宽压力，理解到光模块和 CPO。</h1>
+    <p class="lede">
+      LumenFab.io 解释 AI 数据中心光模块、光互连、硅光、InP、EML、LPO、CPO
+      等知识。组织方式按理解依赖，不按产业链顺序。
+    </p>
+    <p>
+      <a href={sitePath("/learn/")}>进入学习路径</a>
+    </p>
+  </section>
+
+  <section class="band">
+    <h2>一条主线</h2>
+    <StackMap />
+  </section>
+
+  <section>
+    <h2>章节</h2>
+    <ChapterNav />
+  </section>
+</BaseLayout>

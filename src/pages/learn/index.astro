@@ -1,0 +1,27 @@
+---
+import ChapterNav from "../../components/ChapterNav.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sitePath } from "../../lib/paths";
+---
+
+<BaseLayout title="学习路径">
+  <p class="page-kicker">00-13</p>
+  <h1>学习路径</h1>
+  <p class="lede">
+    先理解问题和物理，再进入材料、器件、封装、模块和系统。公司地图放在最后。
+  </p>
+
+  <section class="band">
+    <h2>样板页</h2>
+    <ul>
+      <li><a href={sitePath("/learn/one-page-optics-stack/")}>The one-page optics stack</a></li>
+      <li><a href={sitePath("/learn/copper-vs-optical-links/")}>Copper vs optical links</a></li>
+      <li><a href={sitePath("/learn/tx-rx-path/")}>Tx path and Rx path</a></li>
+      <li><a href={sitePath("/learn/spontaneous-vs-stimulated-emission/")}>Spontaneous vs stimulated emission</a></li>
+      <li><a href={sitePath("/learn/why-photonic-packaging-is-hard/")}>Why photonic packaging is hard</a></li>
+      <li><a href={sitePath("/learn/model-demo/")}>3D model slot demo</a></li>
+    </ul>
+  </section>
+
+  <ChapterNav />
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+const layers = [
+  "AI 集群需求",
+  "电互连边界",
+  "光链路",
+  "半导体与光学基础",
+  "激光器物理",
+  "材料平台",
+  "晶圆与外延",
+  "器件与 PIC",
+  "封装与测试",
+  "光模块",
+  "系统架构",
+  "产业地图"
+];
+---
+
+<ol class="stack-map" aria-label="LumenFab 学习栈">
+  {layers.map((layer) => <li>{layer}</li>)}
+</ol>
+
+<style>
+  .stack-map {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stack-map li {
+    padding: 0.75rem 1rem;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    background: var(--surface);
+  }
+</style>

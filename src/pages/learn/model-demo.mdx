@@ -1,0 +1,24 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: 3D model slot demo
+chapter: Future Capability
+description: 演示页面如何预留 3D 教学模型位置。当前没有真实模型资产。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## Flexible Model Slot
+
+不同页面可以选择是否嵌入 3D。页面结构不需要固定，只需要在适合的位置放入模型组件。
+
+<ModelViewer
+  model="/models/dfb-laser.glb"
+  title="DFB 激光器结构"
+  caption="未来展示有源区、波导、分布反馈光栅和端面的位置关系。"
+/>
+
+<ModelViewer
+  model="/models/cpo-package.glb"
+  title="CPO 封装位置关系"
+  caption="未来展示 ASIC、EIC、PIC、interposer、substrate 和 fiber array 的相对位置。"
+/>

@@ -1,0 +1,157 @@
+---
+import { sitePath } from "../lib/paths";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "LumenFab.io 是中文 AI 数据中心光互连学习路径。"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title} | LumenFab.io</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={sitePath("/")}>LumenFab.io</a>
+      <nav aria-label="主导航">
+        <a href={sitePath("/learn/")}>学习路径</a>
+        <a href={sitePath("/learn/model-demo/")}>3D 插槽</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+    --bg: #f8faf7;
+    --surface: #ffffff;
+    --surface-2: #eef5f1;
+    --text: #16201b;
+    --muted: #65746d;
+    --border: #d7e1db;
+    --accent: #1d7a6b;
+    --accent-strong: #0f4f49;
+    --max: 1120px;
+    font-family:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "Noto Sans SC", sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  a {
+    color: var(--accent-strong);
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 1rem 1.25rem;
+  }
+
+  .brand {
+    color: var(--text);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .site-header nav {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .site-header nav a {
+    text-decoration: none;
+  }
+
+  main {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    line-height: 1.25;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 0;
+  }
+
+  h2 {
+    margin-top: 2.5rem;
+  }
+
+  p {
+    max-width: 74ch;
+  }
+
+  code {
+    padding: 0.1rem 0.25rem;
+    border-radius: 4px;
+    background: var(--surface-2);
+  }
+
+  .page-kicker {
+    margin: 0 0 0.65rem;
+    color: var(--accent-strong);
+    font-weight: 700;
+  }
+
+  .lede {
+    max-width: 860px;
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+
+  .band {
+    margin: 2rem 0;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  @media (max-width: 720px) {
+    .site-header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    main {
+      padding-top: 1rem;
+    }
+  }
+</style>

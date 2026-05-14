@@ -1,0 +1,82 @@
+---
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import ModelPlaceholder from "./ModelPlaceholder.astro";
+
+interface Props {
+  model?: string;
+  poster?: string;
+  title?: string;
+  caption?: string;
+  alt?: string;
+}
+
+const {
+  model,
+  poster,
+  title = "3D 模型",
+  caption = "拖动模型查看结构。",
+  alt = title
+} = Astro.props;
+
+const isExternal = model?.startsWith("http://") || model?.startsWith("https://");
+const publicAssetPath = model?.startsWith("/") ? join(process.cwd(), "public", model) : "";
+const hasModel = Boolean(model && (isExternal || existsSync(publicAssetPath)));
+---
+
+<figure class="model-viewer" data-fallback={hasModel ? "false" : "true"}>
+  {
+    hasModel ? (
+      <>
+        <script>
+          import "@google/model-viewer";
+        </script>
+        <model-viewer
+          src={model}
+          poster={poster}
+          alt={alt}
+          camera-controls
+          touch-action="pan-y"
+          loading="lazy"
+          reveal="auto"
+          shadow-intensity="0.35"
+          exposure="0.9"
+        />
+      </>
+    ) : (
+      <ModelPlaceholder title={title} caption="模型资产尚未生成。页面结构已预留 3D 教学位置。" />
+    )
+  }
+  <figcaption>
+    <strong>{title}</strong>
+    <span>{caption}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .model-viewer {
+    display: grid;
+    gap: 0.75rem;
+    margin: 2rem 0;
+  }
+
+  model-viewer {
+    width: 100%;
+    min-height: 360px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #101820;
+  }
+
+  figcaption {
+    display: grid;
+    gap: 0.25rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  figcaption strong {
+    color: var(--text);
+  }
+</style>

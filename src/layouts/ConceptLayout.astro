@@ -1,0 +1,40 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  chapter?: string;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    chapter?: string;
+  };
+}
+
+const frontmatter = Astro.props.frontmatter ?? {};
+const title = Astro.props.title ?? frontmatter.title ?? "Untitled";
+const description = Astro.props.description ?? frontmatter.description;
+const chapter = Astro.props.chapter ?? frontmatter.chapter;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="concept-page">
+    <header class="concept-header">
+      {chapter && <p class="page-kicker">{chapter}</p>}
+      <h1>{title}</h1>
+      {description && <p class="lede">{description}</p>}
+    </header>
+    <slot />
+  </article>
+</BaseLayout>
+
+<style>
+  .concept-page {
+    max-width: 900px;
+  }
+
+  .concept-header {
+    margin-bottom: 2rem;
+  }
+</style>
