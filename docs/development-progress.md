@@ -4,7 +4,7 @@ Last updated: 2026-05-15
 
 ## Current State
 
-Status: V1 site scaffold is deployed. Core learning path 00-02 content is implemented locally and ready to publish.
+Status: V1 site scaffold and core learning path 00-02 content are deployed.
 
 Repository:
 
@@ -23,7 +23,8 @@ Latest known successful deployment:
 
 - Run status: success
 - Trigger: push to `main`
-- Commit: `1fe9a33 docs: mark v1 scaffold plan complete`
+- Commit: `c697572 feat: add core learning path content`
+- Run: `25889940132`
 
 Completed active plan:
 
@@ -144,8 +145,7 @@ Reason:
 
 Next execution target:
 
-- Verify and publish 00-02 content.
-- Then create the 03-04 plan.
+- Create and execute the 03-04 plan.
 
 ## Resume Checklist
 

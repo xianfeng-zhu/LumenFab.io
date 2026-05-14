@@ -9,6 +9,7 @@ Verification:
 - `npm test`: passed
 - `npm run build`: passed
 - Pages built locally: 17
+- GitHub Pages run `25889940132`: passed
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
@@ -352,4 +353,4 @@ Expected:
 - [x] 00-02 reader-facing pages exist.
 - [x] Navigation points to those pages.
 - [x] 3D placeholders are present only where they serve explanation.
-- [ ] GitHub Pages deployment succeeds after push.
+- [x] GitHub Pages deployment succeeds after push.
