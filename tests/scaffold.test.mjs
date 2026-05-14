@@ -61,5 +61,6 @@ test("GitHub Pages deployment workflow is configured without a custom domain", a
   const workflow = await read(".github/workflows/deploy.yml");
   assert.match(workflow, /Deploy to GitHub Pages/);
   assert.match(workflow, /withastro\/action/);
+  assert.match(workflow, /enablement:\s+true/);
   assert.doesNotMatch(workflow, /CNAME|lumenfab\.io/i);
 });

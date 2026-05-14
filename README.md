@@ -47,6 +47,7 @@ http://127.0.0.1:4321/
 
 GitHub Pages deployment is configured in `.github/workflows/deploy.yml`.
 No custom domain is configured yet.
+If the repository stays private, GitHub Pages availability depends on the GitHub plan.
 
 ## 3D Model Assets
 
