@@ -4,7 +4,7 @@ Last updated: 2026-05-14
 
 ## Current State
 
-Status: V1 site scaffold complete and deployed.
+Status: V1 site scaffold complete and deployed. Core learning path research is complete. Next active plan is ready.
 
 Repository:
 
@@ -24,6 +24,10 @@ Latest known successful deployment:
 - Run status: success
 - Trigger: push to `main`
 - Commit: `1fe9a33 docs: mark v1 scaffold plan complete`
+
+Active plan:
+
+- `docs/plans/2026-05-14-v1-core-learning-path-content.md`
 
 ## Completed
 
@@ -52,6 +56,12 @@ Latest known successful deployment:
 - Added GitHub Pages deployment workflow.
 - Enabled GitHub Pages after repository was made public.
 - Verified deployed site returns HTTP 200.
+- Launched two research subagents for the next content phase.
+- Added core learning path research notes:
+  - `docs/research/v1-core-learning-path/00-01-ai-clusters-and-optical-interconnects.md`
+  - `docs/research/v1-core-learning-path/02-optical-link-tx-rx-transceiver.md`
+- Created next implementation plan:
+  - `docs/plans/2026-05-14-v1-core-learning-path-content.md`
 
 ## Verification Commands
 
@@ -93,7 +103,7 @@ Expected current baseline:
 
 ## Suggested Next Step
 
-Create the next plan:
+Execute the active plan:
 
 ```text
 docs/plans/2026-05-14-v1-core-learning-path-content.md
@@ -120,6 +130,10 @@ Reason:
 - These chapters define the reader's entry path.
 - They establish vocabulary for later laser, material, packaging, module, and system chapters.
 - They follow `docs/site-structure.md`: explain demand and link behavior before diving into components.
+
+Next execution target:
+
+- Start with Task 2 in the active plan: add page coverage tests for the 00-02 content pages.
 
 ## Resume Checklist
 
