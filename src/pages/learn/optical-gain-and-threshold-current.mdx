@@ -1,0 +1,69 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Optical gain and threshold current
+chapter: 04. Laser Physics
+description: 阈值不是营销指标，而是增益刚好补偿腔体和波导损耗的工作点。
+---
+
+## One-Sentence Answer
+
+Optical gain 表示光在有源区传播时被受激辐射放大；threshold current 是电注入刚好让增益补偿总损耗、激光振荡开始建立的电流。
+
+## Why This Exists
+
+光模块资料常说 threshold current、slope efficiency、output power、temperature sensitivity。如果不知道阈值的物理含义，就很难理解为什么材料、外延、波导、腔体、封装和散热都会影响激光器。
+
+## Physical Principle
+
+腔内光每走一圈会经历两类变化：
+
+- gain: 有源区受激辐射带来的放大。
+- loss: 吸收、散射、镜面输出、自由载流子吸收、弯曲和耦合损耗。
+
+当 small-signal gain 刚好等于总损耗时，器件到达阈值。低于阈值时，主要是自发辐射和弱放大；高于阈值后，特定腔模迅速占据主导。
+
+## Engineering Implementation
+
+阈值电流不是只由材料决定。它会受这些因素影响：
+
+- active region 的增益效率。
+- optical confinement factor。
+- cavity length 和 mirror / grating loss。
+- internal absorption 和 scattering。
+- leakage current。
+- 温度和热阻。
+- 外延缺陷和非辐射复合。
+
+低阈值通常有利于功耗和热稳定，但不是唯一目标。高速调制、输出功率、可靠性、线宽、良率和成本也要一起权衡。
+
+## Key Metrics
+
+- threshold current。
+- threshold current density。
+- material gain。
+- modal gain。
+- internal loss。
+- mirror loss。
+- slope efficiency。
+- wall-plug efficiency。
+
+## Common Misconceptions
+
+- 阈值不是一个绝对固定常数，会随温度、老化和封装条件变化。
+- 阈值低不自动代表器件最好，还要看功率、调制、寿命和噪声。
+- 提高电流不是无限提高光输出，热和非线性会很快介入。
+
+## How It Connects
+
+Previous layer: stimulated emission explains how light can be amplified.
+
+Next layer: Fabry-Perot cavity explains feedback and longitudinal modes.
+
+## Further Reading
+
+- [RP Photonics Encyclopedia, article on Laser Threshold](https://www.rp-photonics.com/laser_threshold.html)
+- [RP Photonics Encyclopedia, article on Laser Diodes](https://www.rp-photonics.com/laser_diodes.html)
+
+## Short Version
+
+激光阈值是增益和损耗刚好打平的点。它把材料、外延、腔体、波导、热和封装都连在一起，所以是理解激光器工程难度的核心指标。

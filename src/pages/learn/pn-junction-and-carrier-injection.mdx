@@ -1,0 +1,63 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: PN junction and carrier injection
+chapter: 03. Semiconductor And Optics Basics
+description: PN 结负责把电子和空穴送到一起；材料和结构决定它们复合后是否高效发光。
+---
+
+## One-Sentence Answer
+
+PN 结通过正向偏置把电子和空穴注入到结区或有源区，让它们复合；在合适材料和结构里，这种复合可以产生 LED 光或激光增益。
+
+## Why This Exists
+
+如果只说“直接带隙材料会发光”，仍然少了一步工程逻辑：器件必须把载流子送到正确位置，并让它们和光模式重叠。
+
+## Physical Principle
+
+n 型半导体以电子为主要载流子，p 型半导体以空穴为主要载流子。两者接触后，界面附近形成耗尽层和内建电场。
+
+正向偏置会降低势垒，使电子和空穴更容易注入并复合。复合释放的能量可能：
+
+- 变成光子，也就是辐射复合。
+- 变成晶格振动或缺陷相关耗散，也就是非辐射复合。
+
+## Engineering Implementation
+
+普通 PN 结只能解释“电子和空穴怎么相遇”。通信激光器还需要更多结构：
+
+- 异质结把载流子限制在薄的 active region。
+- 波导把光限制在同一片区域附近。
+- 金属接触和电流通道决定注入是否均匀。
+- 外延质量和缺陷控制决定非辐射复合有多严重。
+
+所以激光器不是“一个 PN 结加两根线”这么简单。PN 结是入口，异质结构、量子阱、波导、腔体和封装才把它变成可用器件。
+
+## Key Metrics
+
+- forward voltage。
+- injection efficiency。
+- carrier confinement。
+- overlap between optical mode and active region。
+- leakage current。
+- defect-assisted recombination。
+
+## Common Misconceptions
+
+- p 型材料整体不等于带正电，n 型材料整体不等于带负电。
+- PN 结可以发光，但高效激光器还需要增益、反馈和光学约束。
+- “注入更多电流”不总是更好，过热和泄漏会破坏效率与寿命。
+
+## How It Connects
+
+Previous layer: 直接带隙解释为什么复合可能高效发光。
+
+Next layer: photon energy 解释发出的光为什么对应某个波长。
+
+## Further Reading
+
+- [MIT OCW 3.15 LEDs and Lasers lecture handout](https://ocw.mit.edu/courses/3-15-electrical-optical-magnetic-materials-and-devices-fall-2006/b8c5e774bd8ce5038bd28b87da0d439b_lecture11_12_13.pdf)
+
+## Short Version
+
+PN 结的作用是把电子和空穴带到一起。材料决定复合是否容易发光，异质结构决定载流子和光场是否被限制在正确位置。激光器在 PN 注入之上，还要加增益、反馈、约束和热管理。

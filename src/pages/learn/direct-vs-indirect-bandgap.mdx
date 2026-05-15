@@ -1,0 +1,62 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Direct vs indirect bandgap
+chapter: 03. Semiconductor And Optics Basics
+description: 直接带隙和间接带隙解释了为什么 III-V 材料更容易发光，而硅不擅长做原生激光器。
+---
+
+## One-Sentence Answer
+
+直接带隙材料里，导带底和价带顶在相同的 k 状态附近，电子复合更容易直接放出光子；间接带隙材料还要处理较大的晶体动量变化，所以更容易把能量交给声子和热。
+
+## Why This Exists
+
+AI 数据中心光模块经常同时出现 InP、GaAs、Si 和 SiPh。读者要先知道：这些不是同一层级的“公司路线词”，而是有物理原因的材料分工。
+
+## Physical Principle
+
+电子从导带回到价带时，需要同时满足能量和动量相关条件。光子很擅长带走能量，但在晶体里不擅长带走很大的 k 状态变化。
+
+- **Direct bandgap**：导带底和价带顶在同一 k 状态附近，辐射复合更容易。
+- **Indirect bandgap**：导带底和价带顶不在同一 k 状态附近，常需要声子协助。
+
+所以直接带隙通常更适合高效发光器件；间接带隙材料可以发光，但效率通常差得多。
+
+## Engineering Implementation
+
+这带来非常实际的分工：
+
+- **GaAs**：适合 850 nm VCSEL、短距多模生态。
+- **InP 相关 III-V 材料**：适合 1310 nm / 1550 nm 通信光源和探测。
+- **Si**：适合 CMOS、硅光波导、调制和集成，但不适合直接作为高性能原生激光器。
+
+后面讲外部 CW laser + SiPh 时，这个分工会反复出现：硅光 PIC 不等于硅自己承担所有发光任务。
+
+## Key Metrics
+
+- bandgap type: direct or indirect。
+- emission wavelength range。
+- radiative efficiency。
+- non-radiative recombination probability。
+- lattice match and defect density, later belongs to epitaxy chapter。
+
+## Common Misconceptions
+
+- 直接带隙不等于“自动就是好材料”。它只说明发光路径更有利。
+- 间接带隙不等于完全不能发光，而是不适合作为高效原生光源。
+- SiPh 不是“硅激光器路线”的同义词。SiPh 更常指硅平台上的光路、调制、复用和集成。
+
+## How It Connects
+
+Previous layer: bandgap 给出跃迁能量。
+
+Next layer: PN 结和载流子注入说明怎么把电子与空穴送到可复合的位置。
+
+## Further Reading
+
+- [MIT OCW 3.15 lecture 9: direct and indirect gap](https://ocw.mit.edu/courses/3-15-electrical-optical-magnetic-materials-and-devices-fall-2006/resources/lecture9/)
+- [MIT OCW 6.772 Compound Semiconductor Devices lecture notes](https://ocw.mit.edu/courses/6-772-compound-semiconductor-devices-spring-2003/pages/lecture-notes/)
+
+## Short Version
+
+直接带隙更容易把电子空穴复合变成光子，间接带隙更容易把能量耗散到晶格振动。这个差异解释了为什么数据中心光源常用 III-V，而硅更多承担电子和光路集成。

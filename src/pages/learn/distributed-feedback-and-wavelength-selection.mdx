@@ -1,0 +1,78 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Distributed feedback and wavelength selection
+chapter: 04. Laser Physics
+description: DFB 光栅不是一面镜子，而是沿传播方向分布的波长选择反馈结构。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+Distributed feedback laser 在波导附近加入周期结构，让满足 Bragg 条件的波长获得更强反馈，从而更容易形成稳定单纵模输出。
+
+## Why This Exists
+
+数据中心单模发射器里，DFB、EML、external CW laser 经常出现。读者需要先理解 DFB 为什么能选波长，再去看 InP 平台、光栅制造、EML 和硅光外部光源架构。
+
+## Physical Principle
+
+DFB 的核心是分布式 Bragg feedback。沿光传播方向放置周期性折射率扰动，每一个周期都会产生很小的反射。只有满足相位匹配的波长，这些微反射才会持续相长叠加。
+
+<ModelViewer
+  model="/models/dfb-grating.glb"
+  title="DFB 光栅与有源区关系"
+  caption="未来展示波导、有源区、周期光栅、Bragg 反馈和相位移区域。"
+/>
+
+粗略关系可以记为：
+
+```text
+lambda_B ≈ 2 * n_eff * Lambda / m
+```
+
+其中 `Lambda` 是光栅周期，`n_eff` 是有效折射率，`m` 是光栅阶数。
+
+## Engineering Implementation
+
+DFB 设计会涉及：
+
+- 光栅周期和有效折射率。
+- 光栅耦合强度。
+- 光栅与有源区的相对位置。
+- quarter-wave phase shift 或其他选模设计。
+- 再生长、刻蚀深度和侧壁质量。
+- 对温度、反射和封装应力的敏感性。
+
+EML 常可以理解为 DFB laser + electro-absorption modulator 的集成发射器件。DFB 是激光反馈结构，EML 是更高一层的发射器件组织方式。
+
+## Key Metrics
+
+- Bragg wavelength。
+- coupling coefficient。
+- side-mode suppression ratio。
+- linewidth。
+- wavelength drift。
+- optical feedback sensitivity。
+- output power。
+
+## Common Misconceptions
+
+- DFB 不是“一个更高级的 FP 镜子”，而是沿腔分布的反馈。
+- DFB 不等于 InP，也不等于 QW；它是反馈/腔体结构概念。
+- 单纵模不等于绝对无噪声，线宽、RIN、反馈敏感性和温漂仍然存在。
+
+## How It Connects
+
+Previous layer: FP cavity explains why feedback creates resonator modes.
+
+Next layer: optical confinement explains the vertical and lateral geometry that lets gain overlap with selected modes.
+
+## Further Reading
+
+- [RP Photonics Encyclopedia, article on Distributed Feedback Lasers](https://www.rp-photonics.com/distributed_feedback_lasers.html)
+- [MIT OCW 6.772 lecture 21 on DFB and DBR lasers](https://ocw.mit.edu/courses/6-772-compound-semiconductor-devices-spring-2003/2ab98fac1e90b41381ca8c5dbe4facf1_Lecture21v2.pdf)
+
+## Short Version
+
+DFB 用周期光栅把反馈分布到腔内，使目标波长的微反射相长叠加。它解决的是波长选择和模式稳定问题，不是材料平台或有源区分类问题。

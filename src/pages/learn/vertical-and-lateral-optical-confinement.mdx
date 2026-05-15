@@ -1,0 +1,75 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Vertical and lateral optical confinement
+chapter: 04. Laser Physics
+description: 激光器定向出光来自纵向反馈、垂直波导和横向约束的共同筛选。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+半导体激光器的光不是随便在芯片里乱跑；垂直异质结构和横向脊形或掩埋结构把光学模式限制在有源区附近，让增益和模式重叠。
+
+## Why This Exists
+
+很多 DFB 激光器图只画光栅和有源区，容易让人误以为输出方向只靠“端面镜”或“光栅”。实际器件需要三维约束：纵向、垂直和横向。
+
+## Physical Principle
+
+垂直方向通常靠异质结构波导：中间有效折射率较高，上下包层折射率较低，光被限制在有源区附近。
+
+横向方向常靠 ridge waveguide 或 buried heterostructure：中间通道的有效折射率和电流注入条件不同，模式更愿意集中在指定路径。
+
+<ModelViewer
+  model="/models/laser-confinement-cross-section.glb"
+  title="激光器三维模式约束"
+  caption="未来展示有源区、包层、脊形波导、电流注入和 optical mode 的位置关系。"
+/>
+
+## Engineering Implementation
+
+设计目标是让三件事重叠：
+
+- 注入载流子的区域。
+- 提供增益的 active region。
+- 被腔体选中的 optical mode。
+
+如果重叠不好，结果可能是阈值升高、效率下降、热点增加、模式不稳定或良率下降。
+
+典型结构取舍：
+
+- Ridge waveguide：制造相对简单，性能和成本平衡。
+- Buried heterostructure：约束更强，但工艺更复杂。
+- MQW / SCH：把载流子和光场限制到更薄更有效的区域。
+
+## Key Metrics
+
+- confinement factor。
+- mode overlap。
+- ridge width。
+- active-region thickness。
+- current leakage。
+- transverse mode stability。
+- thermal resistance。
+
+## Common Misconceptions
+
+- 激光定向不是单次复合事件决定的。
+- 光不是只在有源层里传播，模场会延伸到包层和附近材料。
+- 更强约束不总是免费收益，工艺复杂度、散射、热和良率都会变化。
+
+## How It Connects
+
+Previous layer: DFB selects wavelength and longitudinal feedback.
+
+Next layer: linewidth and mode stability explain why选模还会受到噪声、温度和反馈扰动。
+
+## Further Reading
+
+- [MIT OCW 3.15 LEDs and Lasers lecture handout](https://ocw.mit.edu/courses/3-15-electrical-optical-magnetic-materials-and-devices-fall-2006/b8c5e774bd8ce5038bd28b87da0d439b_lecture11_12_13.pdf)
+- [MIT OCW 6.974 Waveguides and Integrated Optics](https://ocw.mit.edu/courses/6-974-fundamentals-of-photonics-quantum-electronics-spring-2006/7ce86803e5d51ad749a86c37f5d72ce6_wavegude_int_opt.pdf)
+
+## Short Version
+
+半导体激光器把光限制在三维结构里：纵向靠腔体反馈，垂直靠异质结构波导，横向靠脊形或掩埋结构。方向性是模式被筛选和放大的结果。

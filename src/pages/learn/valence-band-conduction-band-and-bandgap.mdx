@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Valence band, conduction band, and bandgap
+chapter: 03. Semiconductor And Optics Basics
+description: 带隙不是材料里的几何缝隙，而是电子能量状态之间的关键差。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+价带和导带是半导体里电子可处在的两组能量状态；带隙是价带顶和导带底之间的能量差，它决定材料是否容易导电、吸光和发光。
+
+## Why This Exists
+
+后面讲 InP、GaAs、Si、DFB、EML、PD 和调制器时，很多判断都要回到同一个问题：电子能不能从一个能量状态跳到另一个状态，以及这次跃迁更容易把能量给光子还是给晶格振动。
+
+## Physical Principle
+
+孤立原子的电子能级是离散的。很多原子排成晶体后，能级会展宽成一段段允许电子存在的能量区间，也就是能带。
+
+- **Valence band**：较低能量的允许带，常温下很多电子原本在这里。
+- **Conduction band**：较高能量的允许带，电子进入后更容易参与导电。
+- **Bandgap**：两者之间电子不能稳定停留的能量差。
+
+<ModelViewer
+  model="/models/bandgap-diagram.glb"
+  title="能带与带隙示意"
+  caption="未来展示价带、导带、带隙、电子激发和复合的能量关系。"
+/>
+
+## Engineering Implementation
+
+在光器件里，带隙不只是教科书概念。它决定：
+
+- 激光器或 LED 可能发出什么波长的光。
+- 光探测器能吸收什么能量范围的光子。
+- 材料在目标波长下是透明、吸收还是提供增益。
+- 异质结构中载流子和光场能否被有效约束。
+
+## Key Metrics
+
+- `Eg`：bandgap energy。
+- 对应波长：粗略用 `E = hc/lambda` 连接光子能量和波长。
+- 吸收边：材料开始强吸收的光子能量附近。
+- 温度系数：温度变化会改变 bandgap 和器件工作点。
+
+## Common Misconceptions
+
+- 价带和导带不是芯片里的两层材料。
+- 带隙不是一个可以用显微镜看到的几何空洞。
+- 带隙越大不等于材料越好，只是对应的光子能量和器件用途不同。
+
+## How It Connects
+
+Previous layer: 光链路里需要光源、调制和探测。
+
+Next layer: 直接/间接带隙解释为什么 III-V 材料适合发光，而硅更适合集成和导波。
+
+## Further Reading
+
+- [MIT OCW 6.772 Compound Semiconductor Devices lecture notes](https://ocw.mit.edu/courses/6-772-compound-semiconductor-devices-spring-2003/pages/lecture-notes/)
+- [MIT OCW 3.46 Photonic Materials and Devices](https://ocw.mit.edu/courses/3-46-photonic-materials-and-devices-spring-2006/resources/3_46lec2_optmat2/)
+
+## Short Version
+
+半导体不是简单地“导电”或“不导电”。它的核心是电子能量状态可以被材料、掺杂、偏压和光子调控。价带、导带和带隙是理解光源、探测器、调制器和材料平台的入口。

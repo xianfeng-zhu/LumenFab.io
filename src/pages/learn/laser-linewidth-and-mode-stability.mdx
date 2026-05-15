@@ -1,0 +1,69 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Laser linewidth and mode stability
+chapter: 04. Laser Physics
+description: 线宽和模式稳定性决定光源是否适合严肃通信链路，而不只是能否发光。
+---
+
+## One-Sentence Answer
+
+Laser linewidth 描述激光频谱有多窄，mode stability 描述器件能否持续留在目标模式；它们会被腔体、噪声、温度、电流和外部反射共同影响。
+
+## Why This Exists
+
+数据中心不同链路对光源稳定性的要求不同。短距强度调制和长距/相干系统不在同一个要求层级。即便在非相干强度调制里，模式跳变、波长漂移和噪声也会影响链路预算与测试。
+
+## Physical Principle
+
+理想激光不是无限窄的单一频率。真实器件会有相位噪声、强度噪声、载流子噪声、热扰动和腔体扰动。这些因素让光谱有有限线宽。
+
+模式稳定性取决于：
+
+- 哪个腔模获得最高净增益。
+- 相邻模式的损耗差和增益差。
+- 光栅或滤波结构的选择性。
+- 外部反射是否扰动腔内相位。
+- 温度和电流是否推着增益峰与腔模相对移动。
+
+## Engineering Implementation
+
+DFB 通过分布式反馈和选模设计提高单纵模稳定性。工程上还会使用：
+
+- thermoelectric cooler 或温控。
+- monitor photodiode。
+- 低噪声 current driver。
+- optical isolator 或反射控制。
+- 封装应力和热路径控制。
+
+这些不只是实验室“调参”。在量产模块里，稳定性会变成测试、校准、可靠性和老化问题。
+
+## Key Metrics
+
+- linewidth。
+- side-mode suppression ratio。
+- relative intensity noise。
+- wavelength drift。
+- mode hop behavior。
+- optical feedback sensitivity。
+- aging drift。
+
+## Common Misconceptions
+
+- 单模不等于绝对单频，真实激光有有限线宽。
+- DFB 比 FP 稳定，但仍可能受反射、温度和电流噪声影响。
+- 线宽要求要看系统架构，不同数据中心链路不应套同一个指标。
+
+## How It Connects
+
+Previous layer: confinement and DFB explain why某个模式会被选中。
+
+Next layer: temperature sensitivity explains why模式和波长会随热环境移动。
+
+## Further Reading
+
+- [RP Photonics Encyclopedia, article on Distributed Feedback Lasers](https://www.rp-photonics.com/distributed_feedback_lasers.html)
+- [RP Photonics Encyclopedia, article on Resonator Modes](https://www.rp-photonics.com/resonator_modes.html)
+
+## Short Version
+
+激光器不只是要亮，还要稳定。线宽、边模抑制、反馈敏感性和温漂决定了它能否在真实链路和真实封装里长期保持可用。

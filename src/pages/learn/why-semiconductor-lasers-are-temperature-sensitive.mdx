@@ -1,0 +1,70 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Why semiconductor lasers are temperature-sensitive
+chapter: 04. Laser Physics
+description: 温度会同时移动材料增益、折射率、阈值、电阻和腔体条件，所以激光器热管理是核心工程问题。
+---
+
+## One-Sentence Answer
+
+半导体激光器对温度敏感，是因为温度会改变 bandgap、载流子分布、增益峰、折射率、阈值电流、波长和老化速度。
+
+## Why This Exists
+
+封装与测试章节会反复讨论热路径、TEC、老化、burn-in 和模块校准。读者需要先知道：热不是制造尾巴，而是激光器能否稳定工作的物理变量。
+
+## Physical Principle
+
+温度升高通常会带来几类变化：
+
+- bandgap 改变，材料增益谱移动。
+- 载流子分布变宽，非辐射过程和泄漏更明显。
+- 折射率改变，腔体或光栅的共振条件移动。
+- 电阻和自热改变，形成电-热耦合。
+- 缺陷相关退化和材料扩散更容易影响寿命。
+
+这些变化叠加后，输出波长、阈值电流、效率和噪声都会变化。
+
+## Engineering Implementation
+
+工程上常用手段包括：
+
+- TEC 控温。
+- 热沉和低热阻封装。
+- monitor photodiode 做功率反馈。
+- current derating。
+- 波长锁定或校准。
+- burn-in 和可靠性筛选。
+
+对于外部 CW laser + SiPh，温度还会影响激光器和 PIC 之间的耦合、调制器工作点和 WDM channel 对准。
+
+## Key Metrics
+
+- threshold current vs temperature。
+- wavelength drift。
+- slope efficiency vs temperature。
+- thermal resistance。
+- operating case temperature。
+- aging rate。
+- power stability。
+
+## Common Misconceptions
+
+- 温控不是只为了“不烧坏”，也是为了波长、效率、噪声和模式稳定。
+- 热问题不只在封装阶段出现，材料、外延、器件结构和驱动都会决定自热。
+- 高温能工作不等于能长期可靠量产。
+
+## How It Connects
+
+Previous layer: linewidth and mode stability show what thermal drift can disturb.
+
+Next layer: material platforms explain why InP, GaAs and Si 的热、带隙和集成角色不同。
+
+## Further Reading
+
+- [RP Photonics Encyclopedia, article on Laser Diodes](https://www.rp-photonics.com/laser_diodes.html)
+- [RP Photonics Encyclopedia, article on Distributed Feedback Lasers](https://www.rp-photonics.com/distributed_feedback_lasers.html)
+
+## Short Version
+
+温度会同时推材料、载流子、腔体和封装。半导体激光器的热管理不是外围工程，而是波长稳定、功耗、寿命和量产一致性的核心。

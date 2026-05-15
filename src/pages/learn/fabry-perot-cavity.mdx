@@ -1,0 +1,73 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Fabry-Perot cavity
+chapter: 04. Laser Physics
+description: FP 腔用两个端面反射提供反馈，是理解边发射半导体激光器的最小模型。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+Fabry-Perot cavity 用两个反射端面让光在有源区来回传播；只有满足往返相位条件并获得足够增益的模式才能稳定振荡。
+
+## Why This Exists
+
+DFB、DBR、EML 和外部 CW 光源都比最小模型复杂。先理解 FP 腔，读者才能知道“反馈”“纵模”“腔长”“镜面损耗”和“输出耦合”是什么意思。
+
+## Physical Principle
+
+最简单的边发射半导体激光器可以把芯片两端看成两面镜子。光沿波导轴向来回走，每次经过有源区被放大，每次到端面又被部分反射。
+
+<ModelViewer
+  model="/models/fabry-perot-cavity.glb"
+  title="Fabry-Perot 边发射腔"
+  caption="未来展示端面反射、有源区、往返传播、纵模和输出耦合。"
+/>
+
+满足条件的模式需要：
+
+- 往返相位相长。
+- modal gain 大于等于总损耗。
+- 横向与垂直模式能被波导约束。
+
+## Engineering Implementation
+
+在 III-V 半导体里，解理端面可以形成平整界面。半导体和空气折射率差较大，所以天然有明显 Fresnel reflection。工程上还可能镀膜：
+
+- 后端面高反，提高腔内反馈。
+- 前端面较低反，用作输出端。
+- 两端反射与腔长共同决定阈值和输出效率。
+
+FP 激光器常出现多个 longitudinal modes。对于高速通信，后续 DFB 或 DBR 结构会进一步增强波长选择。
+
+## Key Metrics
+
+- cavity length。
+- facet reflectivity。
+- mirror loss。
+- free spectral range。
+- longitudinal mode spacing。
+- threshold current。
+- side-mode behavior。
+
+## Common Misconceptions
+
+- FP 腔不是只解决“方向”，它也筛选波长和纵模。
+- 端面反射不是越高越好，输出也需要从某一侧耦出。
+- FP 是基础模型，不等于所有通信激光器都只靠两个裸端面工作。
+
+## How It Connects
+
+Previous layer: threshold current describes gain-loss balance.
+
+Next layer: DFB adds distributed wavelength-selective feedback.
+
+## Further Reading
+
+- [RP Photonics Encyclopedia, article on Fabry-Perot Laser Diodes](https://www.rp-photonics.com/fabry_perot_laser_diodes.html)
+- [RP Photonics Encyclopedia, article on Resonator Modes](https://www.rp-photonics.com/resonator_modes.html)
+
+## Short Version
+
+FP 腔是边发射激光器的最小反馈模型：光在两端面之间往返，被有源区放大，被损耗削弱，被腔长和相位条件筛选。理解它之后，DFB 的价值会更清楚。

@@ -28,7 +28,7 @@ export const chapters: Chapter[] = [
     id: "03",
     title: "03. Semiconductor And Optics Basics",
     purpose: "补足后续所需的半导体、光学和波导基础。",
-    path: "/learn/"
+    path: "/learn/valence-band-conduction-band-and-bandgap/"
   },
   {
     id: "04",

@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Photon, wavelength, frequency, and energy
+chapter: 03. Semiconductor And Optics Basics
+description: 光通信里的 850 nm、1310 nm、1550 nm，本质上都对应光子能量、材料带隙和系统损耗的选择。
+---
+
+## One-Sentence Answer
+
+一个光子的能量由频率决定，也可以用真空波长表示：`E = h nu = hc/lambda`；波长越短，单个光子的能量越高。
+
+## Why This Exists
+
+数据中心光模块资料会频繁出现 850 nm、1310 nm、1550 nm、O-band、C-band。如果不知道波长和能量的关系，就很难理解材料选择、探测器吸收、激光器温漂和链路损耗。
+
+## Physical Principle
+
+频率描述光场每秒振荡多少次，波长描述一个周期在空间中跨多远。真空中二者通过光速相连：
+
+```text
+c = lambda * nu
+E = h * nu = h * c / lambda
+```
+
+这不是说光只有“粒子”或只有“波”。在器件工程里，通常同时使用两种语言：
+
+- 波长和相位：用于干涉、波导、腔体、复用。
+- 光子能量：用于带隙、吸收、复合、探测。
+
+## Engineering Implementation
+
+材料带隙大致决定可发射或吸收的光子能量。工程上还会通过合金成分、量子阱厚度、应变和温度来微调。
+
+常见直觉：
+
+- 850 nm：常和 GaAs VCSEL、短距多模联系。
+- 1310 nm：常见于数据中心单模 DR / FR 路线，色散压力相对友好。
+- 1550 nm：常见于电信和部分长距/相干语境，光纤损耗低但系统设计不同。
+
+## Key Metrics
+
+- wavelength。
+- frequency。
+- photon energy。
+- bandgap energy。
+- spectral width。
+- wavelength drift with temperature。
+
+## Common Misconceptions
+
+- “波长更长”不等于光更强。强度和单个光子能量是不同概念。
+- 器件标称 1310 nm，不代表所有光都精确停在一个无限窄的波长。
+- 真空波长和介质内波长要区分；频率在介质边界通常保持不变。
+
+## How It Connects
+
+Previous layer: PN 结和复合解释光子从哪里来。
+
+Next layer: refractive index 解释光在材料里怎么传播、弯折和被约束。
+
+## Further Reading
+
+- [NIST Atomic Spectroscopy Introduction](https://www.nist.gov/pml/atomic-spectroscopy-compendium-basic-ideas-notation-data-and-formulas/atomic-spectroscopy-0)
+
+## Short Version
+
+波长、频率和光子能量是同一束光的不同描述。带隙连接材料和光子能量，波导和腔体连接波长与相位。光模块里的常见波段选择，正是这些物理量和工程约束共同决定的结果。

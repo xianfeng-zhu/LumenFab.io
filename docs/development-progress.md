@@ -1,10 +1,10 @@
 # LumenFab.io Development Progress
 
-Last updated: 2026-05-15
+Last updated: 2026-05-16
 
 ## Current State
 
-Status: V1 site scaffold and core learning path 00-02 content are deployed.
+Status: V1 site scaffold and core learning path 00-02 content are deployed. Physics and laser foundations 03-04 are implemented locally and ready to publish.
 
 Repository:
 
@@ -23,12 +23,16 @@ Latest known successful deployment:
 
 - Run status: success
 - Trigger: push to `main`
-- Commit: `c697572 feat: add core learning path content`
-- Run: `25889940132`
+- Commit: `7263123 docs: mark core learning path plan complete`
+- Run: `25889993234`
 
-Completed active plan:
+Completed plan:
 
 - `docs/plans/2026-05-14-v1-core-learning-path-content.md`
+
+Active plan:
+
+- `docs/plans/2026-05-16-v1-physics-and-laser-foundations.md`
 
 ## Completed
 
@@ -77,6 +81,26 @@ Completed active plan:
   - `src/pages/learn/inside-a-transceiver.mdx`
   - `src/pages/learn/dr-fr-lr-and-psm-wdm.mdx`
 - Updated learning path navigation for 00-02.
+- Added physics and laser foundations research note:
+  - `docs/research/v1-physics-and-laser-foundations/03-04-semiconductor-optics-and-laser-physics.md`
+- Created active implementation plan:
+  - `docs/plans/2026-05-16-v1-physics-and-laser-foundations.md`
+- Implemented 03-04 reader-facing pages locally:
+  - `src/pages/learn/valence-band-conduction-band-and-bandgap.mdx`
+  - `src/pages/learn/direct-vs-indirect-bandgap.mdx`
+  - `src/pages/learn/pn-junction-and-carrier-injection.mdx`
+  - `src/pages/learn/photon-wavelength-frequency-and-energy.mdx`
+  - `src/pages/learn/refractive-index-and-total-internal-reflection.mdx`
+  - `src/pages/learn/waveguides-and-optical-modes.mdx`
+  - `src/pages/learn/interference-resonance-and-loss.mdx`
+  - `src/pages/learn/spontaneous-vs-stimulated-emission.mdx`
+  - `src/pages/learn/optical-gain-and-threshold-current.mdx`
+  - `src/pages/learn/fabry-perot-cavity.mdx`
+  - `src/pages/learn/distributed-feedback-and-wavelength-selection.mdx`
+  - `src/pages/learn/vertical-and-lateral-optical-confinement.mdx`
+  - `src/pages/learn/laser-linewidth-and-mode-stability.mdx`
+  - `src/pages/learn/why-semiconductor-lasers-are-temperature-sensitive.mdx`
+- Updated learning path navigation for 03-04.
 
 ## Verification Commands
 
@@ -89,10 +113,10 @@ npm audit --omit=dev
 gh run list --repo xianfeng-zhu/LumenFab.io --limit 5
 ```
 
-Expected current baseline after 00-02 content:
+Expected current baseline after 03-04 content:
 
-- `npm test`: 6 tests pass.
-- `npm run build`: 17 pages build.
+- `npm test`: 7 tests pass.
+- `npm run build`: 30 pages build.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - latest `Deploy to GitHub Pages` run: success.
 
@@ -118,34 +142,32 @@ Expected current baseline after 00-02 content:
 
 ## Suggested Next Step
 
-Create the next plan:
+After publishing 03-04, create the next plan:
 
 ```text
-docs/plans/2026-05-15-v1-physics-and-laser-foundations.md
+docs/plans/2026-05-16-v1-material-platforms.md
 ```
 
 Suggested scope:
 
-- `03 Semiconductor And Optics Basics`
-  - Bandgap
-  - Direct vs indirect bandgap
-  - PN junction and carrier injection
-  - Refractive index, total internal reflection, waveguides and modes
-- `04 Laser Physics`
-  - Spontaneous vs stimulated emission
-  - Gain and threshold current
-  - Fabry-Perot cavity
-  - Distributed feedback and wavelength selection
+- `05 Material Platforms`
+  - Silicon: electronics and photonic integration
+  - GaAs: 850 nm and VCSEL
+  - InP: 1310/1550 nm and communication lasers
+  - SOI and Photonics-SOI
+  - SiN and TFLN as complementary platforms
+  - Why no single material wins everything
 
 Reason:
 
-- 00-02 now define the problem and link-level mental model.
-- 03-04 should provide the minimum physics needed before material platforms.
-- Laser physics must remain before material platforms so readers understand what the material must provide.
+- 03-04 now explain what light generation, guiding, gain, feedback, confinement, and temperature sensitivity require.
+- 05 can now explain why InP, GaAs, Si, SOI, SiN, and TFLN split roles.
+- Keep material platforms before raw materials, wafers, epitaxy, and active-region detail.
 
 Next execution target:
 
-- Create and execute the 03-04 plan.
+- Verify, publish, and mark the 03-04 plan complete.
+- Then create the 05 material-platforms plan.
 
 ## Resume Checklist
 

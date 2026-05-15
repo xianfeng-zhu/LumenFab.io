@@ -1,0 +1,69 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Interference, resonance, and loss
+chapter: 03. Semiconductor And Optics Basics
+description: 干涉和谐振解释了为什么腔体、滤波器、光栅和调制器能选择特定波长或相位条件。
+---
+
+## One-Sentence Answer
+
+干涉来自光场相位叠加，谐振来自某些相位条件被反复增强；损耗则决定这些增强能否在真实器件中维持。
+
+## Why This Exists
+
+DFB 光栅、Fabry-Perot 腔、微环、MZM、MUX/DEMUX 和滤波器都不是靠“材料记住某个波长”工作，而是靠相位、路径和反馈条件筛选光。
+
+## Physical Principle
+
+光是电磁场。两束同频光叠加时，相位相同会增强，相位相反会抵消。这就是干涉。
+
+如果一个结构让光反复走同一段路径，并且每轮回来相位仍然对齐，某些波长就会被增强。这就是谐振。
+
+真实器件中，增强永远要和损耗竞争：
+
+- 吸收损耗。
+- 散射损耗。
+- 弯曲损耗。
+- 耦合损耗。
+- 镜面或光栅引入的输出耦合。
+
+## Engineering Implementation
+
+这层基础会直接连接后面多个器件：
+
+- FP laser: 两端面形成纵向谐振腔。
+- DFB laser: 周期光栅通过 Bragg 条件选择波长。
+- Micro-ring modulator: 环形腔的谐振决定调制窗口。
+- MZM: 两臂相位差决定输出增强或抵消。
+- WDM filter: 通过波长选择把不同 channels 分开。
+
+## Key Metrics
+
+- phase。
+- optical path length。
+- resonance wavelength。
+- free spectral range。
+- Q factor。
+- insertion loss。
+- extinction ratio。
+
+## Common Misconceptions
+
+- 谐振不是“只允许一个波长存在”，而是某些波长更容易积累场强。
+- 高 Q 不一定总是好，高速调制还要考虑带宽。
+- 损耗不只是光变弱，也会改变阈值、热、噪声和链路预算。
+
+## How It Connects
+
+Previous layer: waveguide modes define how light travels in a structure.
+
+Next layer: laser physics uses gain plus resonant feedback to turn ordinary emission into laser oscillation.
+
+## Further Reading
+
+- [MIT OCW 6.974 Waveguides and Integrated Optics](https://ocw.mit.edu/courses/6-974-fundamentals-of-photonics-quantum-electronics-spring-2006/7ce86803e5d51ad749a86c37f5d72ce6_wavegude_int_opt.pdf)
+- [RP Photonics Encyclopedia, article on Resonator Modes](https://www.rp-photonics.com/resonator_modes.html)
+
+## Short Version
+
+干涉看相位，谐振看反复反馈后能否相长，损耗看这种增强能不能留下来。激光器、调制器、滤波器和复用器都在使用这套逻辑。

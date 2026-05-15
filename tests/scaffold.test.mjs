@@ -80,3 +80,23 @@ test("core learning path content pages exist", async () => {
     await fileExists(page);
   }
 });
+
+test("physics and laser foundation pages exist", async () => {
+  for (const page of [
+    "src/pages/learn/valence-band-conduction-band-and-bandgap.mdx",
+    "src/pages/learn/direct-vs-indirect-bandgap.mdx",
+    "src/pages/learn/pn-junction-and-carrier-injection.mdx",
+    "src/pages/learn/photon-wavelength-frequency-and-energy.mdx",
+    "src/pages/learn/refractive-index-and-total-internal-reflection.mdx",
+    "src/pages/learn/waveguides-and-optical-modes.mdx",
+    "src/pages/learn/interference-resonance-and-loss.mdx",
+    "src/pages/learn/optical-gain-and-threshold-current.mdx",
+    "src/pages/learn/fabry-perot-cavity.mdx",
+    "src/pages/learn/distributed-feedback-and-wavelength-selection.mdx",
+    "src/pages/learn/vertical-and-lateral-optical-confinement.mdx",
+    "src/pages/learn/laser-linewidth-and-mode-stability.mdx",
+    "src/pages/learn/why-semiconductor-lasers-are-temperature-sensitive.mdx"
+  ]) {
+    await fileExists(page);
+  }
+});

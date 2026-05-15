@@ -1,0 +1,63 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Refractive index and total internal reflection
+chapter: 03. Semiconductor And Optics Basics
+description: 折射率决定光在材料中的相速度，也决定光能否被高折射率区域约束。
+---
+
+## One-Sentence Answer
+
+折射率描述光在材料中传播相位的速度变化；当光从高折射率区域走向低折射率区域并满足角度条件时，全内反射可以把光限制住。
+
+## Why This Exists
+
+光纤、硅光波导、InP 激光器脊形波导、grating coupler、edge coupler 都离不开折射率差。没有这层基础，后面讲 PIC 和封装对准会变成背术语。
+
+## Physical Principle
+
+折射率 `n` 可以先理解为材料改变光传播相位速度的程度。不同材料折射率不同，光到界面时会反射、折射，也可能在特定条件下发生全内反射。
+
+全内反射需要：
+
+- 光从高折射率区域射向低折射率区域。
+- 入射角超过临界角。
+- 界面附近仍然有 evanescent field，不是“光完全没有进入另一侧”。
+
+## Engineering Implementation
+
+波导和光纤都利用类似思想：中间区域折射率较高，周围区域折射率较低。
+
+- 光纤：core 和 cladding。
+- 硅光波导：silicon core 和 oxide / air cladding。
+- InP 激光器：有源区、波导层、包层形成有效折射率差。
+
+工程难点在于：折射率差越大，光越容易被紧密约束，但制造误差、散射损耗、耦合难度和模式匹配也会改变。
+
+## Key Metrics
+
+- refractive index。
+- index contrast。
+- critical angle。
+- effective index。
+- propagation loss。
+- coupling loss。
+
+## Common Misconceptions
+
+- 全内反射不是完美无损反射，真实波导仍有散射、吸收、弯曲和侧壁粗糙损耗。
+- 光不是只待在几何 core 里，模场会伸入 cladding。
+- 折射率越高不自动等于器件越好，还要看损耗、工艺、耦合和热稳定性。
+
+## How It Connects
+
+Previous layer: photon wavelength tells us what light is being guided.
+
+Next layer: waveguide modes explain why only某些空间分布可以稳定传播。
+
+## Further Reading
+
+- [MIT OCW 6.974 Waveguides and Integrated Optics](https://ocw.mit.edu/courses/6-974-fundamentals-of-photonics-quantum-electronics-spring-2006/7ce86803e5d51ad749a86c37f5d72ce6_wavegude_int_opt.pdf)
+
+## Short Version
+
+折射率差让光可以被材料结构约束。全内反射是理解光纤、片上波导和激光器光场约束的第一层直觉，但真实器件还要处理模式、损耗和耦合。

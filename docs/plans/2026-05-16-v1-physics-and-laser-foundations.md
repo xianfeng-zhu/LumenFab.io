@@ -1,5 +1,13 @@
 # V1 Physics And Laser Foundations Implementation Plan
 
+Status: Implemented locally; deployment pending.
+
+Local verification:
+
+- `npm test`: passed
+- `npm run build`: passed
+- Pages built locally: 30
+
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Add the 03 semiconductor/optics basics and 04 laser physics reader-facing pages that prepare readers for material platforms, epitaxy, device structures, and photonic integration.
@@ -236,9 +244,9 @@ Expected:
 
 ## Completion Criteria
 
-- [ ] Research note is committed.
-- [ ] 03 reader-facing pages exist.
-- [ ] 04 reader-facing pages exist.
-- [ ] Navigation points to 03-04 pages.
-- [ ] 3D placeholders are present only where they clarify geometry.
+- [x] Research note is committed.
+- [x] 03 reader-facing pages exist.
+- [x] 04 reader-facing pages exist.
+- [x] Navigation points to 03-04 pages.
+- [x] 3D placeholders are present only where they clarify geometry.
 - [ ] Tests, build, audit, local browser check, and GitHub Pages deployment succeed.
