@@ -23,8 +23,8 @@ Latest known successful deployment:
 
 - Run status: success
 - Trigger: push to `main`
-- Commit: `654a0e4 feat: add physics and laser foundations`
-- Run: `25945740367`
+- Commit: `b512ec6 docs: mark physics and laser foundations complete`
+- Run: `25945780166`
 
 Completed plan:
 

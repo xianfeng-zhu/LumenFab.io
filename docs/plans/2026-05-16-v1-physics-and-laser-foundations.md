@@ -11,7 +11,7 @@ Verification:
 - `npm audit --omit=dev`: passed
 - Local browser check: passed
 - Pages built locally: 30
-- GitHub Pages run `25945740367`: passed
+- GitHub Pages run `25945780166`: passed
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
