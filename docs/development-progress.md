@@ -4,7 +4,7 @@ Last updated: 2026-05-16
 
 ## Current State
 
-Status: V1 site scaffold and core learning path 00-02 content are deployed. Physics and laser foundations 03-04 are implemented locally and ready to publish.
+Status: V1 site scaffold, core learning path 00-02, and physics/laser foundations 03-04 are deployed.
 
 Repository:
 
@@ -23,15 +23,12 @@ Latest known successful deployment:
 
 - Run status: success
 - Trigger: push to `main`
-- Commit: `7263123 docs: mark core learning path plan complete`
-- Run: `25889993234`
+- Commit: `654a0e4 feat: add physics and laser foundations`
+- Run: `25945740367`
 
 Completed plan:
 
 - `docs/plans/2026-05-14-v1-core-learning-path-content.md`
-
-Active plan:
-
 - `docs/plans/2026-05-16-v1-physics-and-laser-foundations.md`
 
 ## Completed
@@ -166,8 +163,7 @@ Reason:
 
 Next execution target:
 
-- Verify, publish, and mark the 03-04 plan complete.
-- Then create the 05 material-platforms plan.
+- Create and execute the 05 material-platforms plan.
 
 ## Resume Checklist
 
