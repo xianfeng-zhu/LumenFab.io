@@ -143,6 +143,9 @@ Expected current baseline after 05 content:
 - Use Three.js later for complex guided scenes, exploded views, hotspots, and animations.
 - Do not copy the research-note structure into the website.
 - Use research notes as source material only.
+- Each chapter must start with a professional source pack before reader-facing pages are written.
+- Source packs should include useful visual references and saved image assets when license/usage permits.
+- Public repo must not store copyrighted third-party figures without permission; mark those as `redraw needed` instead.
 - Keep company and investment mapping at the end of the learning path.
 
 ## Open Notes
@@ -198,4 +201,6 @@ gh run list --repo xianfeng-zhu/LumenFab.io --limit 5
 ```
 
 5. If continuing content work, create or update the active plan under `docs/plans/`.
-6. Keep commits small and push after each completed unit.
+6. Before writing a new chapter, create a source pack under `docs/research/v1-<chapter-slug>/` using `docs/research/source-pack-template.md`.
+7. Include an image/figure manifest and save allowed visual assets under the chapter research folder.
+8. Keep commits small and push after each completed unit.
