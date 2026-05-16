@@ -80,6 +80,8 @@ Completed plan:
 - Updated learning path navigation for 00-02.
 - Added physics and laser foundations research note:
   - `docs/research/v1-physics-and-laser-foundations/03-04-semiconductor-optics-and-laser-physics.md`
+- Added material-platform professional source notes:
+  - `docs/research/v1-material-platforms/05-material-platforms-professional-sources.md`
 - Created active implementation plan:
   - `docs/plans/2026-05-16-v1-physics-and-laser-foundations.md`
 - Implemented 03-04 reader-facing pages locally:
@@ -159,6 +161,7 @@ Reason:
 
 - 03-04 now explain what light generation, guiding, gain, feedback, confinement, and temperature sensitivity require.
 - 05 can now explain why InP, GaAs, Si, SOI, SiN, and TFLN split roles.
+- Material-platform source notes are available under `docs/research/v1-material-platforms/`.
 - Keep material platforms before raw materials, wafers, epitaxy, and active-region detail.
 
 Next execution target:
