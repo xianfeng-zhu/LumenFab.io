@@ -1,0 +1,65 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: "GaAs: 850 nm and VCSEL"
+chapter: 05. Material Platforms
+description: GaAs 解释了为什么短距多模光互连有一套围绕 850 nm VCSEL 的独立生态。
+---
+
+## One-Sentence Answer
+
+GaAs 适合 850 nm 附近的 VCSEL 和短距多模应用，因此它在 SR 光模块里承担了和 InP、SiPh 不同的角色。
+
+## Why This Exists
+
+数据中心里同时有 850 nm SR、多模光纤、VCSEL，也有 1310 nm DR/FR、单模光纤、DFB/EML/硅光。它们不是同一件事的不同品牌说法，而是不同距离、光纤、波长和器件生态。
+
+## Physical Principle
+
+GaAs 是直接带隙 III-V 材料。配合 AlGaAs 等材料体系，它可以形成适合 850 nm 附近发光的有源区和高反射 DBR 结构。
+
+VCSEL 的特殊点是 vertical cavity surface-emitting laser。它垂直出光，腔很短，通常依赖上下分布式 Bragg 反射镜形成反馈。
+
+这里先只讲材料平台原因。VCSEL 的详细器件结构会放到后面的 device layer。
+
+## Engineering Implementation
+
+GaAs/AlGaAs VCSEL 的工程优势包括：
+
+- 垂直出光，方便做二维阵列。
+- 可在晶圆级测试许多激光器。
+- 适合短距、低成本、多通道并行的 multimode fiber 链路。
+- 与 850 nm SR 光模块生态匹配。
+
+短距 SR 链路通常关注机柜内或数据中心内部较短距离。它和 1310 nm 单模 DR/FR 链路的链路预算、耦合方式、光纤类型和模块结构都不同。
+
+## Key Metrics
+
+- emission wavelength, often around 850 nm for common SR use。
+- threshold current。
+- slope efficiency。
+- relative intensity noise。
+- array uniformity。
+- coupling into multimode fiber。
+- OM3/OM4 reach。
+
+## Common Misconceptions
+
+- VCSEL 是器件结构，不是材料平台。
+- GaAs/VCSEL 不是“低端版 InP”，而是面向不同距离和光纤环境的工程选择。
+- SR 光模块不能直接用同一套逻辑解释 DR、FR 或 LR 单模链路。
+
+## How It Connects
+
+Previous layer: laser physics 解释 VCSEL 也需要增益、反馈和阈值。
+
+Next layer: device layer 会拆开 VCSEL 的 DBR、有源区、电流限制和出光几何。
+
+## Further Reading
+
+- [RP Photonics: Vertical-cavity surface-emitting lasers](https://www.rp-photonics.com/vertical_cavity_surface_emitting_lasers.html)
+- [TIA FOTC: 400GBASE-SR4 application overview](https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/multimode-standards-update/400gbase-sr4/)
+- [NVIDIA: 400G multimode SR4 850 nm VCSEL transceiver](https://docs.nvidia.com/networking/display/MMA4Z00NS400)
+
+## Short Version
+
+GaAs 的核心价值在于 850 nm VCSEL 和短距多模生态。它不应该被解释成 InP 或 SiPh 的简单替代品。它解决的是短距离、多通道、阵列化和多模耦合场景里的工程问题。

@@ -1,0 +1,73 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: "InP: 1310/1550 nm and high-speed communication"
+chapter: 05. Material Platforms
+description: InP 是通信波段有源光器件的核心平台之一，因为它能承载激光、放大、调制和探测相关结构。
+---
+
+## One-Sentence Answer
+
+InP 重要，是因为 InP 相关 III-V 异质结构适合 1310 nm / 1550 nm 通信波段的有源器件，而不只是因为它是一种衬底。
+
+## Why This Exists
+
+当模块讨论 DFB、EML、CW laser、SOA、photodiode、InP PIC 时，背后常常是 InP 平台或 InP-based 材料体系。读者需要先知道：InP 的角色不只是“一个材料名”，而是通信有源光器件生态。
+
+## Physical Principle
+
+InP 是直接带隙 III-V 材料。更关键的是，InP 衬底上可以生长 InGaAsP、AlGaInAs 等异质结构，把 bandgap 调到通信波段附近。
+
+这让同一平台有机会支持：
+
+- optical gain。
+- laser emission。
+- electro-absorption modulation。
+- semiconductor optical amplification。
+- photodetection。
+
+这和硅平台的核心差异很大：硅更擅长电光集成和无源/调制结构，InP 更擅长原生活性光功能。
+
+## Engineering Implementation
+
+InP 可以出现在几种层级：
+
+- 独立 DFB laser 或 EML。
+- 多通道 laser array。
+- integrated photonic circuit with active and passive sections。
+- 作为外部光源，给 silicon photonics PIC 提供 continuous-wave light。
+- 和硅、SiN 或封装基板进行 hybrid integration。
+
+InP 的代价是工艺、晶圆尺寸、成本结构和集成密度通常难以像 CMOS 硅平台那样扩展。所以现代光互连不只是 InP vs Si，而是 InP active function 与 silicon-scale integration 的组合问题。
+
+## Key Metrics
+
+- target wavelength: 1310 nm / 1550 nm。
+- optical output power。
+- threshold current。
+- modulation bandwidth。
+- side-mode suppression ratio。
+- photodiode responsivity。
+- dark current。
+- yield and reliability。
+
+## Common Misconceptions
+
+- InP 不等于“纯 InP 自己完成所有发光”。实际有源层常是 InP 上的 InGaAsP 或 AlGaInAs 等结构。
+- InP 不只是上游衬底词。它跨越外延、有源区、器件、PIC 和封装集成。
+- 硅光发展不等于 InP 消失。很多硅光系统仍需要 InP 光源。
+
+## How It Connects
+
+Previous layer: direct bandgap 和 optical gain 解释为什么 III-V 有源材料重要。
+
+Next layer: epitaxy and active regions 会解释 InGaAsP、AlGaInAs、QW 和 MQW 怎样形成增益或吸收区。
+
+## Further Reading
+
+- [PhotonHub: Indium Phosphide PICs](https://photonhub.eu/technology-platform/indium-phosphide-pics/)
+- [Optica: InP photonic circuits using generic integration](https://opg.optica.org/prj/fulltext.cfm?uri=prj-3-5-B60)
+- [Nokia: ICE-D intra data-center optics](https://www.nokia.com/optical-networks/ice-d-intra-datacenter/)
+
+## Short Version
+
+InP 的价值来自通信波段有源光功能。它可以支持激光、调制、放大和探测相关器件，也可以作为 PIC 平台或硅光系统的光源来源。它不是硅光的反义词，而是经常和硅光一起构成完整系统。

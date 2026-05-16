@@ -1,0 +1,71 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: "Silicon: electronics and photonic integration"
+chapter: 05. Material Platforms
+description: 硅的强项不是原生发光，而是把电子、波导、调制、探测和制造生态放到一个可规模化的平台里。
+---
+
+## One-Sentence Answer
+
+硅很适合做电子和光路集成，但因为它是间接带隙材料，不适合直接承担高性能通信激光器的角色。
+
+## Why This Exists
+
+AI 数据中心光模块里经常出现 silicon photonics、SiPh、SOI、external laser、InP laser。读者容易把它们理解成同一条路线的替代关系。
+
+更准确的理解是：硅平台擅长处理、路由、调制和探测光，但高效产生通信光通常还需要 III-V 光源或其他集成方式。
+
+## Physical Principle
+
+硅的材料优势来自半导体制造生态和良好的无源光学能力，而不是高效辐射复合。
+
+- 硅是间接带隙材料，电子空穴复合更容易把能量交给晶格振动。
+- 硅和二氧化硅之间有较大折射率差，可以形成紧凑波导。
+- 硅工艺可以利用成熟的晶圆制造、光刻、掺杂、金属互连和设计规则。
+
+这解释了为什么硅光很重要，也解释了为什么硅光不等于“硅激光器取代一切”。
+
+## Engineering Implementation
+
+典型 silicon photonics 平台会把这些功能放在同一个 PIC 上：
+
+- waveguide, splitter, coupler。
+- Mach-Zehnder modulator 或 microring modulator。
+- germanium photodetector。
+- heater, monitor photodiode, pad 和金属布线。
+- 与 driver、TIA、DSP 或 laser source 的封装集成。
+
+硅平台的工程价值在于把大量光学功能做成可设计、可复用、可制造的电光芯片。但光源经常来自外部 continuous-wave laser、InP chip、flip-chip laser 或异质集成结构。
+
+## Key Metrics
+
+- waveguide loss。
+- bend radius。
+- modulator bandwidth。
+- insertion loss。
+- coupling loss。
+- detector responsivity。
+- process uniformity。
+- thermal sensitivity。
+
+## Common Misconceptions
+
+- SiPh 不是“硅自己发光”的同义词。
+- 硅适合集成不等于每个光学功能都适合由硅原生完成。
+- 硅光不是单个器件，而是平台、工艺、PDK、设计和封装共同形成的路线。
+
+## How It Connects
+
+Previous layer: direct vs indirect bandgap 解释硅为什么不擅长原生发光。
+
+Next layer: SOI 和 Photonics-SOI 解释硅光平台常用的衬底结构。
+
+## Further Reading
+
+- [Sandia MESA: Silicon Photonics](https://www.sandia.gov/mesa/silicon-photonics/)
+- [imec: Silicon photonics and chip manufacturing infrastructure](https://www.imec-int.com/en/articles/silicon-photonics-piggybacking-decades-chip-manufacturing-experience)
+- [Soitec: Photonics-SOI substrates](https://www.soitec.com/home/products/product-platforms/photonics-soi)
+
+## Short Version
+
+硅的核心角色是规模化电光集成，而不是高效原生光源。它适合做紧凑波导、调制器、Ge 探测器和复杂 PIC。通信光源仍经常依赖 InP 等 III-V 平台，所以实际系统往往是材料组合，而不是单一材料胜出。

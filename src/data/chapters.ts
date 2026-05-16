@@ -40,7 +40,7 @@ export const chapters: Chapter[] = [
     id: "05",
     title: "05. Material Platforms",
     purpose: "解释 InP、GaAs、Si、SOI、SiN、TFLN 各自适合什么。",
-    path: "/learn/"
+    path: "/learn/silicon-electronics-and-photonic-integration/"
   },
   {
     id: "06",

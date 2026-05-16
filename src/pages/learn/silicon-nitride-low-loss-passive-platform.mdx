@@ -1,0 +1,72 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: SiN as a low-loss passive platform
+chapter: 05. Material Platforms
+description: SiN 的价值在于低损耗、相位稳定和宽波段无源光路，而不是原生激光能力。
+---
+
+## One-Sentence Answer
+
+Silicon nitride, SiN, 是低损耗无源光子平台，适合长光路、滤波、谐振和稳定相位，但通常需要其他平台提供光源和高速有源功能。
+
+## Why This Exists
+
+硅光讨论里经常出现 SiN。它不是 InP、SOI 或 TFLN 的简单替代品，而是解决另一类问题：当光要在芯片上走得更远、损耗更低、相位更稳定时，SiN 很有价值。
+
+## Physical Principle
+
+SiN 的折射率低于硅，但高于二氧化硅。它可以形成比硅波导更弱约束、更低散射损耗的波导结构。
+
+弱一些的光学约束通常意味着器件更大，但也可能带来：
+
+- lower propagation loss。
+- lower sensitivity to sidewall roughness。
+- better power handling。
+- lower phase drift in some passive circuits。
+- broad wavelength transparency, depending on process。
+
+## Engineering Implementation
+
+SiN 常见用途包括：
+
+- low-loss routing。
+- delay line。
+- filter。
+- resonator。
+- frequency comb and nonlinear photonics in some platforms。
+- external-cavity laser 的低损耗反馈结构。
+- 和 silicon photonics 或 III-V gain chip 做混合集成。
+
+在 AI 数据中心光互连语境里，SiN 需要被解释成“低损耗无源补充层”。它不是完整发射器平台，因为它本身没有高效原生增益。
+
+## Key Metrics
+
+- propagation loss。
+- bend radius。
+- coupling loss。
+- thermal sensitivity。
+- quality factor for resonators。
+- power handling。
+- integration compatibility with Si, InP, or TFLN。
+
+## Common Misconceptions
+
+- SiN 低损耗不等于它可以替代所有硅光功能。
+- SiN 不是原生激光平台。
+- 低损耗不等于封装简单。芯片到光纤、芯片到芯片的耦合仍然困难。
+
+## How It Connects
+
+Previous layer: waveguides and optical modes 解释为什么折射率、约束和损耗相关。
+
+Next layer: modulation and PIC 会继续解释 SiN 怎样作为低损耗路由、滤波和外腔结构参与复杂 PIC。
+
+## Further Reading
+
+- [imec: Silicon nitride-based photonics](https://www.imec-int.com/en/what-we-offer/development/silicon-nitride)
+- [imec: SiN co-integration with active silicon photonics](https://www.imec-int.com/en/press/imec-demonstrates-co-integration-its-high-quality-sin-waveguide-technology-its-active-silicon)
+- [LIGENTEC: Silicon nitride integrated photonics technology](https://www.ligentec.com/technology/)
+
+## Short Version
+
+SiN 是低损耗无源光子平台。它适合把光稳定、低损耗地路由和处理，但不擅长自己产生通信光。它的常见价值是和 Si、InP、TFLN 等平台组合，而不是独立通吃。

@@ -1,0 +1,78 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Why no single material wins everything
+chapter: 05. Material Platforms
+description: 光互连不是找一个万能材料，而是在发光、调制、探测、低损耗、电子集成和封装之间做系统组合。
+---
+
+## One-Sentence Answer
+
+没有一个材料平台能同时在发光、低损耗、调制、探测、电子集成、成本和量产成熟度上全部最优。
+
+## Why This Exists
+
+很多讨论会把材料路线讲成“谁取代谁”。这对学习不友好，因为它会遮住真正的工程问题：每个平台解决的是不同约束。
+
+更好的问题不是“哪个材料赢”，而是“这个链路里哪个功能最难，哪个平台最适合承担它”。
+
+## Physical Principle
+
+平台分工来自材料物理：
+
+```text
+InP  -> active light generation and communication-band active devices
+GaAs -> 850 nm VCSEL and short-reach multimode links
+Si   -> CMOS-compatible routing, modulation, Ge detection, dense integration
+SOI  -> high-index-contrast silicon waveguide substrate stack
+SiN  -> low-loss passive routing and stable phase
+TFLN -> high-speed linear electro-optic modulation
+```
+
+这些优点来自不同的 bandgap、折射率、晶格、工艺温度、损耗、非线性、电光效应和制造生态。
+
+## Engineering Implementation
+
+真实产品经常是组合：
+
+- InP laser + silicon photonics modulator and routing。
+- external laser source + SiPh optical engine。
+- SiN low-loss passive circuit + III-V gain chip。
+- TFLN modulator + separate laser and driver。
+- GaAs VCSEL array + multimode fiber for short reach。
+
+一旦进入模块，问题还会继续扩大到 fiber coupling、thermal path、driver/TIA、DSP、test time、known-good-die、reliability 和 yield。
+
+## Key Metrics
+
+- optical power。
+- modulation bandwidth。
+- insertion loss。
+- propagation loss。
+- coupling tolerance。
+- wafer scale。
+- process maturity。
+- packaging complexity。
+- cost per bit。
+- power per bit。
+
+## Common Misconceptions
+
+- “硅光会取代 InP”太粗糙。硅光系统可能仍然需要 InP 光源。
+- “低损耗平台就更先进”不完整。低损耗不代表能原生发光或高速调制。
+- “材料平台决定一切”不完整。封装、测试、良率和系统架构同样决定能不能量产部署。
+
+## How It Connects
+
+Previous layer: 前六页解释每个平台的强项和边界。
+
+Next layer: raw materials to wafers 会把这些平台拆回衬底、晶圆和材料制备过程。
+
+## Further Reading
+
+- [PhotonDelta: Integrated photonics platforms compared](https://www.photondelta.com/news/integrated-photonics-platforms-compared-silicon-nitride-indium-phosphide-silicon-photonics/)
+- [imec: SiN co-integration with active silicon photonics](https://www.imec-int.com/en/press/imec-demonstrates-co-integration-its-high-quality-sin-waveguide-technology-its-active-silicon)
+- [Optica: InP photonic circuits using generic integration](https://opg.optica.org/prj/fulltext.cfm?uri=prj-3-5-B60)
+
+## Short Version
+
+AI 数据中心光互连不是单材料竞赛。InP、GaAs、Si、SOI、SiN 和 TFLN 各自解决不同问题。真正的架构选择是把材料、器件、PIC、封装和系统边界组合起来，让链路在功耗、带宽、成本和可靠性上成立。

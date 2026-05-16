@@ -1,0 +1,82 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: SOI and Photonics-SOI
+chapter: 05. Material Platforms
+description: SOI 不是成品 PIC，而是让硅光波导和器件得以制造的关键衬底结构。
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+
+## One-Sentence Answer
+
+SOI 用 top silicon、buried oxide 和 handle wafer 形成高折射率差结构，Photonics-SOI 则进一步把这类衬底优化给光学器件使用。
+
+## Why This Exists
+
+读者看到 SOI、SiPh、Photonics-SOI、PIC 时，容易把它们混在一起。SOI 是衬底结构，silicon photonics 是平台和工艺路线，PIC 是最终光路电路。
+
+## Physical Principle
+
+SOI 的基本结构可以理解为：
+
+```text
+top silicon device layer
+buried oxide, BOX
+silicon handle wafer
+```
+
+硅的折射率高，二氧化硅的折射率低。top silicon 经过刻蚀后可以形成波导，BOX 帮助把光限制在上层硅波导附近。
+
+<ModelViewer
+  model="/models/soi-waveguide-stack.glb"
+  title="SOI 波导截面"
+  caption="未来展示 top silicon、buried oxide、handle wafer、刻蚀波导和光学模式分布。"
+/>
+
+## Engineering Implementation
+
+Photonics-SOI 关注的不是普通晶圆能不能导电，而是它能不能稳定支持低损耗、高一致性的光学结构。
+
+关键问题包括：
+
+- top silicon thickness。
+- BOX thickness。
+- wafer uniformity。
+- interface roughness。
+- propagation loss。
+- coupler and grating performance。
+- thermal behavior。
+
+在量产思维里，衬底的一致性会一路影响波导尺寸、有效折射率、调制器偏置点、滤波器中心波长和最终良率。
+
+## Key Metrics
+
+- device-layer thickness。
+- BOX thickness。
+- thickness uniformity。
+- waveguide propagation loss。
+- sidewall roughness after etch。
+- wafer diameter and process compatibility。
+- thermal resistance。
+
+## Common Misconceptions
+
+- SOI 不是 silicon photonics 的全部，它只是常见起点之一。
+- Photonics-SOI 不是最终光芯片，而是为光子器件优化的衬底平台。
+- 有了 SOI 不等于自动解决激光、封装、耦合和测试。
+
+## How It Connects
+
+Previous layer: silicon page 解释为什么硅适合光路集成。
+
+Next layer: raw materials to wafers 会继续拆开 SOI wafer、LNOI wafer、InP substrate 和 GaAs substrate 怎样被制造出来。
+
+## Further Reading
+
+- [Soitec: Photonics-SOI substrates](https://www.soitec.com/home/products/product-platforms/photonics-soi)
+- [Soitec: Silicon photonics SOI technology for AI datacentres](https://www.soitec.com/home/group/newsroom/press-releases/2025/03/19/soitec-contributes-to-accelerated-development-of-integrated-optical-connectivity-solutions-for-ai-datacentres-with-its-silicon-photonics-soi-technology)
+- [Sandia MESA: Silicon Photonics](https://www.sandia.gov/mesa/silicon-photonics/)
+
+## Short Version
+
+SOI 是硅光常用的衬底结构。它用硅和二氧化硅的折射率差形成紧凑波导基础。Photonics-SOI 则把衬底质量、厚度和界面控制拉到光学器件需要的水平，但它仍不是完整 PIC 或完整模块。

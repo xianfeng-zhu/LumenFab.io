@@ -100,3 +100,17 @@ test("physics and laser foundation pages exist", async () => {
     await fileExists(page);
   }
 });
+
+test("material platform pages exist", async () => {
+  for (const page of [
+    "src/pages/learn/silicon-electronics-and-photonic-integration.mdx",
+    "src/pages/learn/gaas-850-nm-and-vcsel.mdx",
+    "src/pages/learn/inp-1310-1550-nm-and-high-speed-communication.mdx",
+    "src/pages/learn/soi-and-photonics-soi.mdx",
+    "src/pages/learn/silicon-nitride-low-loss-passive-platform.mdx",
+    "src/pages/learn/lnoi-and-tfln.mdx",
+    "src/pages/learn/why-no-single-material-wins-everything.mdx"
+  ]) {
+    await fileExists(page);
+  }
+});

@@ -4,7 +4,7 @@ Last updated: 2026-05-16
 
 ## Current State
 
-Status: V1 site scaffold, core learning path 00-02, and physics/laser foundations 03-04 are deployed.
+Status: V1 site scaffold, core learning path 00-02, and physics/laser foundations 03-04 are deployed. Material platforms 05 are implemented locally and pending deployment.
 
 Repository:
 
@@ -80,9 +80,7 @@ Completed plan:
 - Updated learning path navigation for 00-02.
 - Added physics and laser foundations research note:
   - `docs/research/v1-physics-and-laser-foundations/03-04-semiconductor-optics-and-laser-physics.md`
-- Added material-platform professional source notes:
-  - `docs/research/v1-material-platforms/05-material-platforms-professional-sources.md`
-- Created active implementation plan:
+- Created physics and laser foundations implementation plan:
   - `docs/plans/2026-05-16-v1-physics-and-laser-foundations.md`
 - Implemented 03-04 reader-facing pages locally:
   - `src/pages/learn/valence-band-conduction-band-and-bandgap.mdx`
@@ -100,6 +98,19 @@ Completed plan:
   - `src/pages/learn/laser-linewidth-and-mode-stability.mdx`
   - `src/pages/learn/why-semiconductor-lasers-are-temperature-sensitive.mdx`
 - Updated learning path navigation for 03-04.
+- Added material-platform professional source notes:
+  - `docs/research/v1-material-platforms/05-material-platforms-professional-sources.md`
+- Created material-platform implementation plan:
+  - `docs/plans/2026-05-16-v1-material-platforms.md`
+- Implemented 05 material-platform reader-facing pages locally:
+  - `src/pages/learn/silicon-electronics-and-photonic-integration.mdx`
+  - `src/pages/learn/gaas-850-nm-and-vcsel.mdx`
+  - `src/pages/learn/inp-1310-1550-nm-and-high-speed-communication.mdx`
+  - `src/pages/learn/soi-and-photonics-soi.mdx`
+  - `src/pages/learn/silicon-nitride-low-loss-passive-platform.mdx`
+  - `src/pages/learn/lnoi-and-tfln.mdx`
+  - `src/pages/learn/why-no-single-material-wins-everything.mdx`
+- Updated learning path navigation for 05.
 
 ## Verification Commands
 
@@ -112,10 +123,10 @@ npm audit --omit=dev
 gh run list --repo xianfeng-zhu/LumenFab.io --limit 5
 ```
 
-Expected current baseline after 03-04 content:
+Expected current baseline after 05 content:
 
-- `npm test`: 7 tests pass.
-- `npm run build`: 30 pages build.
+- `npm test`: 8 tests pass.
+- `npm run build`: 37 pages build.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - latest `Deploy to GitHub Pages` run: success.
 
@@ -141,32 +152,35 @@ Expected current baseline after 03-04 content:
 
 ## Suggested Next Step
 
-After publishing 03-04, create the next plan:
+After publishing 05, create the next plan:
 
 ```text
-docs/plans/2026-05-16-v1-material-platforms.md
+docs/plans/2026-05-16-v1-raw-materials-to-wafers.md
 ```
 
 Suggested scope:
 
-- `05 Material Platforms`
-  - Silicon: electronics and photonic integration
-  - GaAs: 850 nm and VCSEL
-  - InP: 1310/1550 nm and communication lasers
-  - SOI and Photonics-SOI
-  - SiN and TFLN as complementary platforms
-  - Why no single material wins everything
+- `06 Raw Materials To Wafers`
+  - In, P, Ga, As, Si, Ge, LiNbO3: what each is used for
+  - High-purity raw materials
+  - Polycrystal synthesis
+  - Single-crystal growth
+  - Wafer slicing, grinding, polishing, and CMP
+  - Epi-ready substrates
+  - InP substrate
+  - GaAs substrate
+  - SOI wafer
+  - LNOI wafer
 
 Reason:
 
-- 03-04 now explain what light generation, guiding, gain, feedback, confinement, and temperature sensitivity require.
-- 05 can now explain why InP, GaAs, Si, SOI, SiN, and TFLN split roles.
-- Material-platform source notes are available under `docs/research/v1-material-platforms/`.
-- Keep material platforms before raw materials, wafers, epitaxy, and active-region detail.
+- 05 explains why material platforms split roles.
+- 06 can now explain how those platform names become physical substrate and wafer starting points.
+- Keep raw materials and wafer manufacturing before epitaxy, active-region detail, device structures, and packaging.
 
 Next execution target:
 
-- Create and execute the 05 material-platforms plan.
+- Deploy 05, then create and execute the 06 raw-materials-to-wafers plan.
 
 ## Resume Checklist
 

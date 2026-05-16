@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: LNOI and TFLN
+chapter: 05. Material Platforms
+description: TFLN 的核心吸引力是 Pockels 效应带来的高速、线性、低损耗电光调制。
+---
+
+## One-Sentence Answer
+
+Thin-film lithium niobate, TFLN, 或 LNOI，是很强的电光调制平台，但它不是完整光模块的单材料答案。
+
+## Why This Exists
+
+当 lane rate 提高，调制器要同时面对带宽、驱动电压、插入损耗、线性度和热稳定性。TFLN 受到关注，是因为 lithium niobate 的 Pockels effect 很适合高速电光调制。
+
+## Physical Principle
+
+Lithium niobate 具有强 electro-optic effect。外加电场可以改变材料折射率，从而改变光的相位。
+
+这对 Mach-Zehnder modulator 很重要：如果两个臂的相位差可以被电信号快速、线性地控制，就可以把电信号转换成光强或光相位变化。
+
+薄膜化之后，LNOI/TFLN 把传统铌酸锂调制能力推向更紧凑的芯片平台。
+
+## Engineering Implementation
+
+TFLN 的典型角色是 high-speed modulator platform。它可能和这些平台组合：
+
+- Si 或 SiN 波导层。
+- InP light source。
+- CMOS driver。
+- interposer, substrate, fiber array, package。
+
+所以在网站结构里，TFLN 先在本章作为材料平台出现，后面会在 modulation and PIC 里作为具体调制路线再次出现。
+
+## Key Metrics
+
+- modulation bandwidth。
+- Vpi or Vpi-L。
+- insertion loss。
+- optical propagation loss。
+- RF loss。
+- linearity。
+- wafer scale and foundry maturity。
+- packaging compatibility。
+
+## Common Misconceptions
+
+- TFLN 不是已经替代所有 SiPh 调制器的最终答案。
+- TFLN 不提供高效原生通信光源，所以不能消除 InP 光源问题。
+- 低 Vpi 不等于不需要 driver、DSP、封装和热设计。
+
+## How It Connects
+
+Previous layer: interference and resonance 解释调制器为什么可以通过相位改变影响输出。
+
+Next layer: modulation and PIC 会具体比较 Mach-Zehnder modulator、microring modulator、TFLN modulator 和 silicon modulator。
+
+## Further Reading
+
+- [Nature Reviews Physics: Integrated electro-optics on thin-film lithium niobate](https://www.nature.com/articles/s42254-025-00825-5)
+- [Nature: Integrated lithium niobate electro-optic modulators](https://www.nature.com/articles/s41586-018-0551-y)
+- [Nature Communications: Lithium niobate on silicon nitride platform](https://www.nature.com/articles/s41467-023-39047-7)
+- [Lightium: Thin-film lithium niobate photonic foundry](https://lightium.com/)
+
+## Short Version
+
+TFLN 的价值是高速、低损耗、线性电光调制。它通常需要和光源、驱动、电路、封装和其他光子平台组合。它应该被理解成强调制平台，而不是完整模块路线的全部。
