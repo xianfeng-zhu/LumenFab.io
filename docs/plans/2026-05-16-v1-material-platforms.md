@@ -1,6 +1,18 @@
 # V1 Material Platforms Implementation Plan
 
-Status: Implemented locally. Deployment pending.
+Status: Completed.
+
+Completed on: 2026-05-16
+
+Verification:
+
+- `npm test`: passed
+- `npm run build`: passed
+- `npm audit --omit=dev`: passed
+- Local preview HTTP check: passed
+- Deployed HTTP check: passed
+- Pages built locally: 37
+- GitHub Pages run `25959921062`: passed
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
@@ -178,10 +190,10 @@ Expected:
 
 ## Completion Criteria
 
-- [ ] 05 plan exists.
-- [ ] Material-platform page-existence test follows TDD red/green.
-- [ ] Seven 05 reader-facing pages exist.
-- [ ] Learning path navigation links to 05 pages.
-- [ ] Chapter 05 path points to the first 05 page.
-- [ ] Progress file is updated.
-- [ ] Tests, build, audit, and GitHub Pages deployment succeed.
+- [x] 05 plan exists.
+- [x] Material-platform page-existence test follows TDD red/green.
+- [x] Seven 05 reader-facing pages exist.
+- [x] Learning path navigation links to 05 pages.
+- [x] Chapter 05 path points to the first 05 page.
+- [x] Progress file is updated.
+- [x] Tests, build, audit, and GitHub Pages deployment succeed.

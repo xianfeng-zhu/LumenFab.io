@@ -4,7 +4,7 @@ Last updated: 2026-05-16
 
 ## Current State
 
-Status: V1 site scaffold, core learning path 00-02, and physics/laser foundations 03-04 are deployed. Material platforms 05 are implemented locally and pending deployment.
+Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, and material platforms 05 are deployed.
 
 Repository:
 
@@ -23,13 +23,14 @@ Latest known successful deployment:
 
 - Run status: success
 - Trigger: push to `main`
-- Commit: `b512ec6 docs: mark physics and laser foundations complete`
-- Run: `25945780166`
+- Commit: `73214a9 feat: add material platform foundations`
+- Run: `25959921062`
 
 Completed plan:
 
 - `docs/plans/2026-05-14-v1-core-learning-path-content.md`
 - `docs/plans/2026-05-16-v1-physics-and-laser-foundations.md`
+- `docs/plans/2026-05-16-v1-material-platforms.md`
 
 ## Completed
 
@@ -102,7 +103,7 @@ Completed plan:
   - `docs/research/v1-material-platforms/05-material-platforms-professional-sources.md`
 - Created material-platform implementation plan:
   - `docs/plans/2026-05-16-v1-material-platforms.md`
-- Implemented 05 material-platform reader-facing pages locally:
+- Implemented 05 material-platform reader-facing pages:
   - `src/pages/learn/silicon-electronics-and-photonic-integration.mdx`
   - `src/pages/learn/gaas-850-nm-and-vcsel.mdx`
   - `src/pages/learn/inp-1310-1550-nm-and-high-speed-communication.mdx`
