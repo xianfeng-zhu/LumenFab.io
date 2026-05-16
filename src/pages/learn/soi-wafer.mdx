@@ -1,0 +1,71 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: SOI wafer
+chapter: 06. Raw Materials To Wafers
+description: SOI 是工程化晶圆，不是普通硅片；它用顶层硅、埋氧层和支撑硅形成硅光常用的波导起点。
+---
+
+import { sitePath } from "../../lib/paths";
+
+## One-Sentence Answer
+
+SOI wafer 是 silicon-on-insulator 工程化衬底，典型结构是 top silicon / buried oxide / silicon handle wafer。
+
+<figure>
+  <img src={sitePath("/figures/06-engineered-substrate-stacks.svg")} alt="Bare substrate, SOI wafer, and LNOI wafer stack comparison" />
+  <figcaption>裸 III-V 衬底、SOI 和 LNOI 是不同类型的 wafer 起点。SOI 和 LNOI 都是层状工程化衬底。</figcaption>
+</figure>
+
+## Why This Exists
+
+硅光常用 SOI，但 SOI 经常被误解成“普通硅晶圆”。对光子器件来说，SOI 重要在于它提供了高折射率差波导结构。
+
+## Physical Principle
+
+硅折射率高，二氧化硅折射率低。SOI 的 top silicon 可以被刻蚀成波导，BOX 帮助把光限制在上层硅附近，降低向下泄漏。
+
+这使得硅光可以做紧凑 waveguide、coupler、splitter、modulator 和复杂 PIC。
+
+## Engineering Implementation
+
+SOI 可以通过 wafer bonding、layer transfer、Smart Cut 等工程化衬底技术实现。Soitec 的 Smart Cut 公开资料强调：
+
+- ion implantation 可以形成受控转移层。
+- implantation energy 控制转移层厚度。
+- bonding 让薄单晶层转移到另一片晶圆上。
+- donor substrate 可以重复利用。
+- top silicon 和 BOX 厚度可以按应用优化。
+
+Photonics-SOI 是进一步面向光子器件优化的 SOI。
+
+## Key Metrics
+
+- top silicon thickness。
+- BOX thickness。
+- thickness uniformity。
+- interface quality。
+- wafer diameter。
+- propagation loss after processing。
+- thermal behavior。
+
+## Common Misconceptions
+
+- SOI wafer 不是完整 silicon photonics PIC。
+- SOI 解决波导平台问题，不解决硅的间接带隙问题。
+- 有 SOI 不等于有激光器、封装或模块。
+
+## How It Connects
+
+Previous layer: silicon material-platform page explains why silicon is useful for integration.
+
+Next layer: modulation and PIC will explain how SOI becomes actual waveguides, modulators, filters and couplers.
+
+## Further Reading
+
+- [Soitec: Smart Cut technology](https://www.soitec.com/home/technology/innovation/smart-cut)
+- [Soitec: Photonics-SOI substrates](https://www.soitec.com/home/products/product-platforms/photonics-soi)
+- [SUMCO: Production Processes](https://www.sumcosi.com/english/products/process/index.html)
+
+## Short Version
+
+SOI 是工程化层状晶圆。它把薄硅层放在埋氧层上，让硅光波导可以紧凑地限制光。它是硅光平台的重要起点，但不是完整 PIC，也不是原生硅激光器方案。

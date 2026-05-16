@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Bare substrate and engineered substrate stacks</title>
+  <desc id="desc">Simplified cross-sections comparing bare InP or GaAs substrate, SOI wafer, and LNOI wafer stack.</desc>
+  <rect width="1200" height="620" fill="#f8fafc"/>
+  <text x="60" y="62" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#111827">Substrate is not always one layer</text>
+  <text x="60" y="96" font-family="Arial, sans-serif" font-size="18" fill="#4b5563">Original LumenFab research diagram. For source-pack use.</text>
+
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <g transform="translate(90,160)">
+      <text x="180" y="0" font-size="24" font-weight="700" fill="#111827">Bare III-V substrate</text>
+      <rect x="0" y="60" width="360" height="120" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+      <text x="180" y="128" font-size="22" fill="#0f172a">InP or GaAs single crystal</text>
+      <text x="180" y="225" font-size="16" fill="#475569">Later: epitaxy grows functional layers on top.</text>
+    </g>
+
+    <g transform="translate(90,380)">
+      <text x="180" y="0" font-size="24" font-weight="700" fill="#111827">SOI / Photonics-SOI</text>
+      <rect x="0" y="48" width="360" height="34" rx="4" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+      <rect x="0" y="82" width="360" height="46" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+      <rect x="0" y="128" width="360" height="94" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+      <text x="180" y="72" font-size="16" fill="#0f172a">top silicon device layer</text>
+      <text x="180" y="110" font-size="16" fill="#0f172a">buried oxide, BOX</text>
+      <text x="180" y="178" font-size="18" fill="#0f172a">silicon handle wafer</text>
+    </g>
+
+    <g transform="translate(690,160)">
+      <text x="180" y="0" font-size="24" font-weight="700" fill="#111827">LNOI / TFLN wafer</text>
+      <rect x="0" y="48" width="360" height="34" rx="4" fill="#fecdd3" stroke="#e11d48" stroke-width="2"/>
+      <rect x="0" y="82" width="360" height="46" rx="4" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+      <rect x="0" y="128" width="360" height="94" rx="6" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+      <text x="180" y="72" font-size="16" fill="#0f172a">thin-film LiNbO3</text>
+      <text x="180" y="110" font-size="16" fill="#0f172a">insulator layer</text>
+      <text x="180" y="178" font-size="18" fill="#0f172a">Si, quartz, sapphire, or LN handle</text>
+    </g>
+
+    <g transform="translate(690,420)">
+      <rect x="0" y="0" width="360" height="98" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+      <text x="180" y="36" font-size="20" font-weight="700" fill="#111827">Reader rule</text>
+      <text x="180" y="66" font-size="16" fill="#475569">wafer stack ≠ epi stack ≠ device</text>
+    </g>
+  </g>
+</svg>

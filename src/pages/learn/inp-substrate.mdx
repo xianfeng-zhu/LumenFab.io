@@ -1,0 +1,76 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: InP substrate
+chapter: 06. Raw Materials To Wafers
+description: InP 衬底是通信波段 III-V 外延和器件的底座，但它还不是激光器或探测器。
+---
+
+## One-Sentence Answer
+
+InP substrate 是 1310 nm / 1550 nm 通信器件常用的 III-V 外延底座，它的质量会影响后续激光器、调制器和探测器的上限。
+
+## Why This Exists
+
+AI 数据中心讨论 InP 时，常把 substrate、epitaxy、DFB、EML、PD、InP PIC 混在一起。这一页只讲 substrate 层。
+
+## Physical Principle
+
+InP 是 III-V 化合物半导体。InP-based 异质结构可以把 bandgap 调到通信波段，因此 InP 衬底成为很多通信光源和探测器的底座。
+
+但裸 InP substrate 还没有有源区。它只是给后续 InGaAsP、AlGaInAs、InGaAs 等材料层提供晶格模板和机械支撑。
+
+## Engineering Implementation
+
+InP substrate 链条可以理解为：
+
+```text
+high-purity In + P
+→ polycrystalline InP
+→ VGF / related single-crystal growth
+→ slicing, grinding, polishing, CMP
+→ cleaning, inspection
+→ epi-ready InP substrate
+```
+
+关键难点包括：
+
+- phosphorus vapor pressure。
+- stoichiometry。
+- pBN crucible and melt environment。
+- dislocation density。
+- wafer cracking and fragility。
+- diameter scaling from smaller wafers to 4-inch or 6-inch。
+- customer qualification。
+
+## Key Metrics
+
+- diameter。
+- orientation。
+- EPD。
+- resistivity and doping。
+- surface roughness。
+- TTV。
+- bow and warp。
+- particle count。
+
+## Common Misconceptions
+
+- InP substrate 不是 InP laser。
+- 6-inch InP 不是简单把 3-inch 放大。
+- InP 供应链瓶颈不只在最终切片，也在原料、多晶、长晶、抛光、检测和认证。
+
+## How It Connects
+
+Previous layer: single-crystal growth explains how substrate starts.
+
+Next layer: epitaxy will explain how InP-based active layers are grown for DFB, EML and PD.
+
+## Further Reading
+
+- [Freiberger: Technology](https://freiberger.com/en/technology/)
+- [Sumitomo Electric / SEIEM: GaAs and InP wafers](https://sumitomoelectric.com/company/office_group_companies/sei-electronics-materials-ltd/SEIEM)
+- [Coherent: 6-inch InP scalable wafer fabs](https://www.coherent.com/news/press-releases/worlds-first-6-inch-inp-scalable-wafer-fabs-paving-the-way-for-the-next-generation-of-lasers-for-ai-transceivers-and-6g-wireless-networks)
+
+## Short Version
+
+InP substrate 是通信波段 III-V 器件的关键底座。它本身不是器件，而是后续外延和器件加工的起点。InP 的难点来自化合物合成、长晶、缺陷、脆性、晶圆尺寸、表面准备和客户认证。

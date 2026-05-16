@@ -1,0 +1,86 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Raw material, ingot, wafer, substrate, and epi-ready wafer
+chapter: 06. Raw Materials To Wafers
+description: 先把几个层级分清，后面才不会把衬底、外延片和器件混成一件事。
+---
+
+import { sitePath } from "../../lib/paths";
+
+## One-Sentence Answer
+
+raw material 是原料，ingot 是单晶锭，wafer 是切出来的薄片，substrate 是后续生长和加工的底座，epi-ready wafer 是已经准备好进入外延的高质量衬底。
+
+<figure>
+  <img src={sitePath("/figures/06-raw-to-wafer-flow.svg")} alt="Raw material to epi-ready wafer flow" />
+  <figcaption>原料到 epi-ready wafer 的简化流程。这里仍然没有进入外延层和器件加工。</figcaption>
+</figure>
+
+## Why This Exists
+
+很多产业讨论会说“某公司做 InP wafer”或“某路线用 LNOI wafer”。如果不拆层级，读者很容易以为 wafer 已经等于激光器、调制器或完整 PIC。
+
+本章的核心是建立制造起点的语言。
+
+## Physical Principle
+
+晶体材料不是随便切一片就能用。半导体和光子器件需要晶体有确定的结构、方向、纯度和表面状态。
+
+一个实用层级是：
+
+```text
+raw material
+→ purified feedstock
+→ polycrystal
+→ single crystal ingot / boule
+→ sliced wafer
+→ polished substrate
+→ epi-ready wafer
+→ epi wafer
+→ device wafer
+```
+
+`epi wafer` 已经属于后续章节，因为它包含外延生长出来的功能层。
+
+## Engineering Implementation
+
+不同材料路线的具体流程不同，但大方向相似：
+
+- 先控制原料纯度和化学计量。
+- 再让材料形成单晶。
+- 把单晶切成晶圆。
+- 通过研磨、抛光、清洗和检测把表面变成可用起点。
+- 对 SOI、LNOI 等工程化衬底，还要做层转移、键合和薄膜厚度控制。
+
+## Key Metrics
+
+- crystal orientation。
+- total thickness variation。
+- bow and warp。
+- roughness。
+- particle count。
+- dislocation density。
+- etch pit density。
+- resistivity and doping。
+
+## Common Misconceptions
+
+- wafer 不等于 device。
+- substrate 不等于 epi wafer。
+- epi-ready 不是营销词，它指向后续外延能不能稳定开始。
+- polished surface 不是为了好看，而是为了减少缺陷、颗粒和表面损伤。
+
+## How It Connects
+
+Previous layer: materials explain why a platform is chosen.
+
+Next layer: epitaxy explains how functional optical layers are grown on this prepared surface.
+
+## Further Reading
+
+- [SUMCO: Production Processes](https://www.sumcosi.com/english/products/process/index.html)
+- [SUMCO: Wafer forming process](https://www.sumcosi.com/english/products/process/step_02.html)
+
+## Short Version
+
+制造链条要先把材料做成可靠的晶圆起点。raw material、single crystal、wafer、substrate、epi-ready wafer 和 epi wafer 是不同层级。后续外延和器件性能，很多时候从这个起点就已经被限制住了。

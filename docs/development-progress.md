@@ -4,7 +4,7 @@ Last updated: 2026-05-16
 
 ## Current State
 
-Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, and material platforms 05 are deployed.
+Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, and material platforms 05 are deployed. Raw materials to wafers 06 is implemented locally and pending deployment.
 
 Repository:
 
@@ -31,6 +31,7 @@ Completed plan:
 - `docs/plans/2026-05-14-v1-core-learning-path-content.md`
 - `docs/plans/2026-05-16-v1-physics-and-laser-foundations.md`
 - `docs/plans/2026-05-16-v1-material-platforms.md`
+- `docs/plans/2026-05-16-v1-raw-materials-to-wafers.md`
 
 ## Completed
 
@@ -112,6 +113,27 @@ Completed plan:
   - `src/pages/learn/lnoi-and-tfln.mdx`
   - `src/pages/learn/why-no-single-material-wins-everything.mdx`
 - Updated learning path navigation for 05.
+- Added raw-materials-to-wafers professional source pack and visual assets:
+  - `docs/research/v1-raw-materials-to-wafers/06-raw-materials-to-wafers-professional-sources.md`
+  - `docs/research/v1-raw-materials-to-wafers/images/`
+- Created raw-materials-to-wafers implementation plan:
+  - `docs/plans/2026-05-16-v1-raw-materials-to-wafers.md`
+- Implemented 06 raw-materials-to-wafers reader-facing pages locally:
+  - `src/pages/learn/in-p-ga-as-si-ge-and-linbo3.mdx`
+  - `src/pages/learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer.mdx`
+  - `src/pages/learn/high-purity-raw-materials.mdx`
+  - `src/pages/learn/polycrystal-synthesis.mdx`
+  - `src/pages/learn/single-crystal-growth.mdx`
+  - `src/pages/learn/wafer-slicing-lapping-polishing-and-cmp.mdx`
+  - `src/pages/learn/epi-ready-substrates.mdx`
+  - `src/pages/learn/inp-substrate.mdx`
+  - `src/pages/learn/gaas-substrate.mdx`
+  - `src/pages/learn/soi-wafer.mdx`
+  - `src/pages/learn/lnoi-wafer.mdx`
+- Added public original SVG figures for 06:
+  - `public/figures/06-raw-to-wafer-flow.svg`
+  - `public/figures/06-engineered-substrate-stacks.svg`
+- Updated learning path navigation for 06.
 
 ## Verification Commands
 
@@ -124,10 +146,10 @@ npm audit --omit=dev
 gh run list --repo xianfeng-zhu/LumenFab.io --limit 5
 ```
 
-Expected current baseline after 05 content:
+Expected current baseline after 06 content:
 
-- `npm test`: 8 tests pass.
-- `npm run build`: 37 pages build.
+- `npm test`: 9 tests pass.
+- `npm run build`: 48 pages build.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - latest `Deploy to GitHub Pages` run: success.
 
@@ -156,35 +178,35 @@ Expected current baseline after 05 content:
 
 ## Suggested Next Step
 
-After publishing 05, create the next plan:
+After publishing 06, create the next plan:
 
 ```text
-docs/plans/2026-05-16-v1-raw-materials-to-wafers.md
+docs/plans/2026-05-16-v1-epitaxy-active-regions.md
 ```
 
 Suggested scope:
 
-- `06 Raw Materials To Wafers`
-  - In, P, Ga, As, Si, Ge, LiNbO3: what each is used for
-  - High-purity raw materials
-  - Polycrystal synthesis
-  - Single-crystal growth
-  - Wafer slicing, grinding, polishing, and CMP
-  - Epi-ready substrates
-  - InP substrate
-  - GaAs substrate
-  - SOI wafer
-  - LNOI wafer
+- `07 Epitaxy And Active Regions`
+  - What epitaxy means
+  - MOCVD and MBE
+  - Lattice matching and strain
+  - Defects, dislocations, and non-radiative recombination
+  - Quantum wells and multiple quantum wells
+  - Quantum dots
+  - InGaAsP and AlGaInAs on InP
+  - InAs/GaAs QD systems
+  - Ge-on-Si for photodetectors
+  - Dark current
 
 Reason:
 
-- 05 explains why material platforms split roles.
-- 06 can now explain how those platform names become physical substrate and wafer starting points.
-- Keep raw materials and wafer manufacturing before epitaxy, active-region detail, device structures, and packaging.
+- 06 explains how materials become substrates and epi-ready wafers.
+- 07 can now explain how functional layers and active regions are grown on those prepared wafers.
+- Keep epitaxy and active-region concepts before device structures and PIC-level routing.
 
 Next execution target:
 
-- Deploy 05, then create and execute the 06 raw-materials-to-wafers plan.
+- Deploy 06, then create a source pack and implementation plan for 07 epitaxy and active regions.
 
 ## Resume Checklist
 

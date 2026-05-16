@@ -46,7 +46,7 @@ export const chapters: Chapter[] = [
     id: "06",
     title: "06. Raw Materials To Wafers",
     purpose: "说明原料、晶体、衬底和 epi-ready wafer 的区别。",
-    path: "/learn/"
+    path: "/learn/in-p-ga-as-si-ge-and-linbo3/"
   },
   {
     id: "07",

@@ -1,0 +1,63 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: High-purity raw materials
+chapter: 06. Raw Materials To Wafers
+description: 高纯原料的价值不是名字听起来更高级，而是杂质会被后续晶体、外延和器件性能放大。
+---
+
+## One-Sentence Answer
+
+高纯原料是晶圆质量的第一道边界，因为杂质、批次波动和化学计量误差会一路影响晶体缺陷、外延质量和器件可靠性。
+
+## Why This Exists
+
+AI 光互连讨论里常说 InP 紧缺、GaAs 供应、SOI 衬底、LNOI 晶圆。但在 wafer 之前，还有更上游的一步：原料必须被提纯并转换成适合长晶的 feedstock。
+
+## Physical Principle
+
+半导体器件对杂质非常敏感。一个很小的杂质浓度，可能改变载流子浓度、复合路径、吸收损耗、漏电、暗电流或可靠性。
+
+硅片路线里，高纯 silica / silicon metal / polysilicon 是起点。III-V 路线里，高纯 Ga、As、In、P 的纯度和化学计量同样重要。
+
+## Engineering Implementation
+
+原料控制不只是采购一个元素：
+
+- purity level。
+- oxygen, carbon, metal contamination。
+- batch consistency。
+- stoichiometry for compound semiconductors。
+- volatile element handling, especially As and P。
+- storage, transport, and clean handling。
+
+对于 InP 和 GaAs，Group V 元素的蒸气压让合成环境更敏感。Freiberger 的公开资料也把高纯 Ga/As、In/P 的化合物合成作为晶体生长前的关键步骤。
+
+## Key Metrics
+
+- nominal purity。
+- trace impurity concentration。
+- oxygen and carbon level。
+- stoichiometry。
+- batch-to-batch stability。
+- downstream defect density。
+
+## Common Misconceptions
+
+- 原料价格不等于原料难度。
+- 元素存在不等于半导体级原料可得。
+- 高纯原料只是开始，不代表后续长晶、切片和抛光已经解决。
+
+## How It Connects
+
+Previous layer: material-platform chapter explains why each material is useful.
+
+Next layer: polycrystal synthesis turns high-purity elements into usable compound feedstock.
+
+## Further Reading
+
+- [Shin-Etsu: Silicon Wafers](https://www.shinetsu.co.jp/en/products/semiconductor-silicon-business/silicon-wafers/)
+- [Freiberger: Technology](https://freiberger.com/en/technology/)
+
+## Short Version
+
+高纯原料决定后续晶体质量的起点。对硅来说，它从高纯硅料进入单晶锭；对 InP/GaAs 来说，还要处理化合物合成、化学计量和 Group V 元素挥发问题。原料不是全部瓶颈，但它是所有后续瓶颈的第一层。

@@ -1,0 +1,72 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: LNOI wafer
+chapter: 06. Raw Materials To Wafers
+description: LNOI 把薄膜铌酸锂放在绝缘层和支撑衬底上，为 TFLN 调制器提供片上平台。
+---
+
+import { sitePath } from "../../lib/paths";
+
+## One-Sentence Answer
+
+LNOI, lithium niobate on insulator, 是把 thin-film LiNbO3、insulator 和 support substrate 组合起来的工程化晶圆。
+
+<figure>
+  <img src={sitePath("/figures/06-engineered-substrate-stacks.svg")} alt="Bare substrate, SOI wafer, and LNOI wafer stack comparison" />
+  <figcaption>LNOI 和 SOI 都是层状 engineered substrate，但功能层不同。LNOI 的功能层是薄膜铌酸锂。</figcaption>
+</figure>
+
+## Why This Exists
+
+TFLN 调制器的讨论不能只从器件开始。要先知道：TFLN 依赖 LNOI 这类上游工程化晶圆。没有稳定的薄膜厚度、键合界面和表面质量，调制器性能和良率都难以稳定。
+
+## Physical Principle
+
+LiNbO3 有强 electro-optic effect。传统 bulk lithium niobate 调制器很大，而薄膜化之后，光场和电场可以更强地重叠，器件可以更短、更适合集成。
+
+LNOI 的关键是把单晶 LiNbO3 薄膜放到低折射率绝缘层和机械支撑衬底上。
+
+## Engineering Implementation
+
+LNOI 常见结构：
+
+```text
+thin-film LiNbO3
+SiO2 or other insulator
+Si, quartz, sapphire, LN, or other support substrate
+```
+
+公开资料中，NanoLN 把 300-900 nm lithium niobate thin films、SiO2 和不同支撑衬底列为产品结构。学术资料也常把 LNOI 制备和 ion slicing、wafer bonding、CMP、表面粗糙度控制联系起来。
+
+## Key Metrics
+
+- LN film thickness。
+- thickness uniformity。
+- crystal cut, such as X-cut or Z-cut。
+- bonding interface quality。
+- surface roughness。
+- propagation loss after waveguide fabrication。
+- wafer diameter。
+- support substrate type。
+
+## Common Misconceptions
+
+- LNOI 不是普通 LiNbO3 bulk wafer。
+- TFLN 调制器不是只由材料物理决定，晶圆制备、薄膜质量和后续封装都重要。
+- LNOI 不提供通信光源，它是调制平台起点。
+
+## How It Connects
+
+Previous layer: LNOI/TFLN material-platform page explains why electro-optic modulation matters.
+
+Next layer: modulation and PIC will explain TFLN Mach-Zehnder modulators and hybrid integration.
+
+## Further Reading
+
+- [NanoLN: Products](https://www.nanoln.com/PRODUCTS.html)
+- [MDPI Crystals: Wafer-scale Si on LNOI fabrication](https://www.mdpi.com/2073-4352/12/10/1477)
+- [PMC: Low-loss LNOI waveguides](https://pmc.ncbi.nlm.nih.gov/articles/PMC6265866/)
+
+## Short Version
+
+LNOI 是薄膜铌酸锂工程化晶圆。它把 LiNbO3 薄膜、绝缘层和支撑衬底组合起来，为高速 TFLN 调制器提供平台。它解决的是调制器材料平台起点，不是光源或完整模块。

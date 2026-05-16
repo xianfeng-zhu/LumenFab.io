@@ -1,0 +1,64 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Wafer slicing, lapping, polishing, and CMP
+chapter: 06. Raw Materials To Wafers
+description: 切片和抛光不是机械收尾，而是把单晶锭变成可进入半导体工艺的平整、干净、低损伤表面。
+---
+
+## One-Sentence Answer
+
+wafer forming 把单晶锭切成薄片，再通过 lapping、etching、polishing、CMP、cleaning 和 inspection 把它变成可用衬底。
+
+## Why This Exists
+
+晶锭长好之后仍然不能直接做外延或器件。切割会带来表面损伤，晶圆厚度和平行度需要控制，颗粒和缺陷需要检测。否则后续外延和器件加工会把这些问题放大。
+
+## Physical Principle
+
+外延和光子器件需要一个低粗糙度、低损伤、平整、洁净的表面。表面微小起伏、划伤、颗粒和 subsurface damage 都可能成为缺陷起点。
+
+抛光的目标不是外观漂亮，而是制造一个稳定的物理界面。
+
+## Engineering Implementation
+
+SUMCO 对硅片流程的公开说明给了一个清晰入口：
+
+- **Slicing**：把单晶锭切成大约 1 mm 厚的薄片。
+- **Lapping**：改善厚度和平行度。
+- **Etching**：去除前面机械加工造成的表面损伤。
+- **Polishing / CMP**：用化学和机械共同作用形成平整镜面。
+- **Cleaning and inspection**：去除颗粒，检测平整度、颗粒和表面状态。
+
+对于 InP/GaAs/LNOI，材料更脆或层结构更复杂，工艺窗口会不同，但基本目标类似：交付一个后续工艺能信任的表面。
+
+## Key Metrics
+
+- thickness。
+- total thickness variation。
+- bow。
+- warp。
+- surface roughness。
+- particle count。
+- subsurface damage。
+- edge quality。
+
+## Common Misconceptions
+
+- 抛光不是 cosmetic step。
+- CMP 不只属于芯片后段，也可以是晶圆制备和薄膜平台制备里的关键表面工艺。
+- 表面质量差不一定马上可见，但会在外延、良率、暗电流或可靠性里出现。
+
+## How It Connects
+
+Previous layer: single-crystal growth produces the ingot.
+
+Next layer: epi-ready substrates define what downstream epitaxy expects from the wafer surface.
+
+## Further Reading
+
+- [SUMCO: Wafer forming process](https://www.sumcosi.com/english/products/process/step_02.html)
+- [NanoLN: Products and services](https://www.nanoln.com/PRODUCTS.html)
+
+## Short Version
+
+切片、研磨、腐蚀、抛光、清洗和检测，把单晶锭变成可用晶圆。这个过程决定晶圆是否平整、洁净、低损伤。后续外延和器件加工的稳定性，很大程度依赖这里的表面质量。

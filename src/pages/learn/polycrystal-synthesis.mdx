@@ -1,0 +1,60 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Polycrystal synthesis
+chapter: 06. Raw Materials To Wafers
+description: 对 InP 和 GaAs 来说，单晶生长前通常要先把高纯元素合成为多晶化合物原料。
+---
+
+## One-Sentence Answer
+
+polycrystal synthesis 是把高纯元素先合成为成分受控的多晶化合物 feedstock，为后续单晶生长提供稳定起点。
+
+## Why This Exists
+
+硅的学习路径常从 polysilicon 和 Czochralski ingot 开始。III-V 材料更容易被讲成“拿 InP/GaAs wafer 来用”。中间缺了一步：高纯元素要先成为适合长晶的化合物原料。
+
+## Physical Principle
+
+GaAs 和 InP 都是化合物半导体。它们的关键不是只有 Ga、As、In、P 的纯度，还包括化学计量和合成过程稳定性。
+
+Group V 元素 As 和 P 有较高蒸气压。合成时要控制温度、压力和挥发，避免成分偏离、杂质引入或后续长晶不稳定。
+
+## Engineering Implementation
+
+Freiberger 的公开资料给出了一个实用理解：
+
+- 高纯 gallium + arsenic -> polycrystalline GaAs。
+- 高纯 indium + phosphorus -> polycrystalline InP。
+- InP 合成涉及高压 quartz reactor、phosphorus gas transport、liquid indium reaction 和 directional solidification。
+- 多晶料经过后续处理后，才进入单晶生长。
+
+这一步很少出现在普通光模块讨论里，但它解释了为什么 III-V substrate 供应不能只看最终 wafer 切割能力。
+
+## Key Metrics
+
+- stoichiometry。
+- impurity concentration。
+- inclusion density。
+- feedstock uniformity。
+- volatile species control。
+- downstream crystal yield。
+
+## Common Misconceptions
+
+- 多晶料不是最终 wafer。
+- 合成多晶不等于长出单晶。
+- InP/GaAs 难度不只是“元素贵”，还包括合成和长晶稳定性。
+
+## How It Connects
+
+Previous layer: high-purity raw materials set the input purity.
+
+Next layer: single-crystal growth turns polycrystal feedstock into oriented, usable crystal.
+
+## Further Reading
+
+- [Freiberger: Technology](https://freiberger.com/en/technology/)
+
+## Short Version
+
+对化合物半导体来说，高纯元素要先被合成为多晶化合物原料。这个过程控制成分、杂质和挥发，为后续 VGF、LEC 等单晶生长做准备。它是 InP/GaAs substrate 链条里容易被忽略但很关键的一步。

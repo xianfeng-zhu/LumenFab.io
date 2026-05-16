@@ -1,0 +1,77 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Epi-ready substrates
+chapter: 06. Raw Materials To Wafers
+description: epi-ready substrate 是外延可以信任的起始表面，不是已经长好功能层的 epi wafer。
+---
+
+## One-Sentence Answer
+
+epi-ready substrate 是经过晶向、表面、颗粒、粗糙度和缺陷控制后，准备进入外延生长的衬底。
+
+## Why This Exists
+
+很多讨论会把 substrate 和 epi wafer 混用。对理解激光器、探测器和 PIC 来说，这会造成层级混乱。
+
+更准确的关系是：
+
+```text
+substrate / epi-ready wafer
+→ epitaxy
+→ epi wafer
+→ device fabrication
+→ tested device
+```
+
+## Physical Principle
+
+外延是让新晶体层沿着衬底晶格继续生长。衬底表面如果有损伤、污染、错切不合适、颗粒或高缺陷密度，后续外延层很难保持高质量。
+
+所以 epi-ready 的本质是：把表面准备成适合外延复制晶格和控制材料层的起点。
+
+## Engineering Implementation
+
+epi-ready substrate 通常需要控制：
+
+- orientation and offcut。
+- surface roughness。
+- oxide or surface termination。
+- particle level。
+- flatness, bow, warp。
+- resistivity and doping。
+- defect density, including EPD for III-V substrates。
+- packaging and shipping cleanliness。
+
+不同下游用途要求不同。做 InP DFB、InP PD、GaAs VCSEL、Ge-on-Si detector 或 SiPh platform 时，衬底指标和后续工艺窗口不一样。
+
+## Key Metrics
+
+- epi-ready surface quality。
+- roughness。
+- particles。
+- EPD。
+- TTV。
+- bow and warp。
+- orientation。
+- resistivity。
+
+## Common Misconceptions
+
+- epi-ready 不等于 epi wafer。
+- 衬底不是无源“底板”，它会影响后续外延和器件性能。
+- 好衬底不能保证好器件，但差衬底会显著压低上限。
+
+## How It Connects
+
+Previous layer: wafer forming creates a polished, inspected wafer.
+
+Next layer: epitaxy grows functional layers such as cladding, active region, contact layers, or detector absorption layers.
+
+## Further Reading
+
+- [OSHA: Semiconductors - Epitaxy](https://www.osha.gov/semiconductors/epitaxy2)
+- [Freiberger: Technology](https://freiberger.com/en/technology/)
+
+## Short Version
+
+epi-ready substrate 是准备进入外延的衬底。它还不是 epi wafer，也不是器件。它的重要性在于给外延提供干净、平整、低缺陷、晶向受控的起始表面。

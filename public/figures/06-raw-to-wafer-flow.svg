@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Raw material to epi-ready wafer flow</title>
+  <desc id="desc">A simplified flow from raw elements to polycrystal, single crystal, sliced wafer, polished wafer, and epi-ready substrate.</desc>
+  <rect width="1200" height="520" fill="#f8fafc"/>
+  <text x="60" y="62" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#111827">Raw material to epi-ready wafer</text>
+  <text x="60" y="96" font-family="Arial, sans-serif" font-size="18" fill="#4b5563">Original LumenFab research diagram. For source-pack use.</text>
+
+  <g font-family="Arial, sans-serif" font-size="18" fill="#111827" text-anchor="middle">
+    <g transform="translate(95,180)">
+      <rect x="0" y="0" width="150" height="92" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+      <text x="75" y="38" font-weight="700">Raw elements</text>
+      <text x="75" y="66" font-size="15" fill="#374151">Si, In, P, Ga, As</text>
+    </g>
+    <g transform="translate(292,180)">
+      <rect x="0" y="0" width="150" height="92" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="2"/>
+      <text x="75" y="38" font-weight="700">Purification</text>
+      <text x="75" y="66" font-size="15" fill="#374151">impurity control</text>
+    </g>
+    <g transform="translate(489,180)">
+      <rect x="0" y="0" width="150" height="92" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+      <text x="75" y="38" font-weight="700">Polycrystal</text>
+      <text x="75" y="66" font-size="15" fill="#374151">compound feedstock</text>
+    </g>
+    <g transform="translate(686,180)">
+      <rect x="0" y="0" width="150" height="92" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="75" y="38" font-weight="700">Single crystal</text>
+      <text x="75" y="66" font-size="15" fill="#374151">CZ, VGF, LEC</text>
+    </g>
+    <g transform="translate(883,180)">
+      <rect x="0" y="0" width="150" height="92" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+      <text x="75" y="38" font-weight="700">Wafer forming</text>
+      <text x="75" y="66" font-size="15" fill="#374151">slice, lap, polish</text>
+    </g>
+    <g transform="translate(522,350)">
+      <rect x="0" y="0" width="170" height="92" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+      <text x="85" y="36" font-weight="700">Epi-ready wafer</text>
+      <text x="85" y="64" font-size="15" fill="#374151">clean, flat, inspected</text>
+    </g>
+  </g>
+
+  <g stroke="#475569" stroke-width="2.5" fill="none" marker-end="url(#arrow)">
+    <path d="M245 226 H292"/>
+    <path d="M442 226 H489"/>
+    <path d="M639 226 H686"/>
+    <path d="M836 226 H883"/>
+    <path d="M958 272 C958 330 715 330 650 350"/>
+  </g>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <g font-family="Arial, sans-serif" font-size="14" fill="#64748b">
+    <text x="60" y="482">Teaching boundary: this diagram stops before epitaxy and device processing.</text>
+  </g>
+</svg>

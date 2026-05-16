@@ -114,3 +114,21 @@ test("material platform pages exist", async () => {
     await fileExists(page);
   }
 });
+
+test("raw materials to wafers pages exist", async () => {
+  for (const page of [
+    "src/pages/learn/in-p-ga-as-si-ge-and-linbo3.mdx",
+    "src/pages/learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer.mdx",
+    "src/pages/learn/high-purity-raw-materials.mdx",
+    "src/pages/learn/polycrystal-synthesis.mdx",
+    "src/pages/learn/single-crystal-growth.mdx",
+    "src/pages/learn/wafer-slicing-lapping-polishing-and-cmp.mdx",
+    "src/pages/learn/epi-ready-substrates.mdx",
+    "src/pages/learn/inp-substrate.mdx",
+    "src/pages/learn/gaas-substrate.mdx",
+    "src/pages/learn/soi-wafer.mdx",
+    "src/pages/learn/lnoi-wafer.mdx"
+  ]) {
+    await fileExists(page);
+  }
+});

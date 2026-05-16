@@ -1,0 +1,64 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Single-crystal growth
+chapter: 06. Raw Materials To Wafers
+description: 单晶生长把材料变成有统一晶格方向的晶锭，后续晶圆才有可控的物理和工艺起点。
+---
+
+## One-Sentence Answer
+
+single-crystal growth 的目标是让材料形成大尺寸、低缺陷、方向受控的单晶锭，而不是一堆随机晶粒。
+
+## Why This Exists
+
+外延和器件制造都依赖晶体结构。如果衬底本身晶格杂乱、位错多、方向不可控，后面的有源区、波导和器件良率都会受到影响。
+
+## Physical Principle
+
+单晶意味着整个晶体在宏观尺度上共享同一个连续晶格方向。这样后续外延层才能沿着确定的晶体模板生长。
+
+多晶材料由许多晶粒组成，晶界会破坏连续性。对高性能半导体器件来说，多晶通常不能直接作为外延衬底。
+
+## Engineering Implementation
+
+常见长晶路线包括：
+
+- **CZ, Czochralski**：典型硅单晶长晶方法，用 seed crystal 从熔体中拉出单晶。
+- **MCZ**：带磁场控制的 CZ 变体，用于改善熔体流动和氧含量控制。
+- **VGF, Vertical Gradient Freeze**：常用于 GaAs/InP 等 III-V 材料，通过温度梯度推进固液界面。
+- **LEC, Liquid Encapsulated Czochralski**：用液封抑制挥发，常见于部分 III-V 长晶路线。
+
+不同材料不能简单套同一套工艺。硅可以做到大尺寸高成熟度；InP/GaAs 更脆、尺寸更小、缺陷和挥发控制更难。
+
+## Key Metrics
+
+- crystal orientation。
+- dislocation density。
+- etch pit density。
+- diameter。
+- resistivity uniformity。
+- dopant uniformity。
+- cracks and inclusions。
+- yield per ingot。
+
+## Common Misconceptions
+
+- 单晶长出来不等于 wafer 已经能用。
+- 长晶设备可以买，但成熟 recipe、良率和客户认证不能快速复制。
+- 更大直径不是简单放大，热应力、均匀性、开裂和自动化都会变难。
+
+## How It Connects
+
+Previous layer: polycrystal synthesis prepares feedstock.
+
+Next layer: wafer slicing and polishing turns crystal ingot into usable wafers.
+
+## Further Reading
+
+- [SUMCO: Production Processes](https://www.sumcosi.com/english/products/process/index.html)
+- [Freiberger: Technology](https://freiberger.com/en/technology/)
+- [Wikimedia Commons: Czochralski Process.svg](https://commons.wikimedia.org/wiki/File:Czochralski_Process.svg)
+
+## Short Version
+
+单晶生长把材料从 feedstock 变成可切片的晶锭。硅常用 CZ/MCZ，GaAs/InP 常见 VGF/LEC 等路线。它决定后续晶圆的晶向、缺陷、尺寸和均匀性，是外延和器件制造的底座。
