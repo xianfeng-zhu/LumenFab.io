@@ -4,7 +4,7 @@ Last updated: 2026-05-16
 
 ## Current State
 
-Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, and material platforms 05 are deployed. Raw materials to wafers 06 is implemented locally and pending deployment.
+Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, material platforms 05, and raw materials to wafers 06 are deployed.
 
 Repository:
 
@@ -23,8 +23,8 @@ Latest known successful deployment:
 
 - Run status: success
 - Trigger: push to `main`
-- Commit: `73214a9 feat: add material platform foundations`
-- Run: `25959921062`
+- Commit: `ea3e2bc feat: add raw materials to wafers foundations`
+- Run: `25963549438`
 
 Completed plan:
 
@@ -118,7 +118,7 @@ Completed plan:
   - `docs/research/v1-raw-materials-to-wafers/images/`
 - Created raw-materials-to-wafers implementation plan:
   - `docs/plans/2026-05-16-v1-raw-materials-to-wafers.md`
-- Implemented 06 raw-materials-to-wafers reader-facing pages locally:
+- Implemented 06 raw-materials-to-wafers reader-facing pages:
   - `src/pages/learn/in-p-ga-as-si-ge-and-linbo3.mdx`
   - `src/pages/learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer.mdx`
   - `src/pages/learn/high-purity-raw-materials.mdx`

@@ -1,6 +1,20 @@
 # V1 Raw Materials To Wafers Implementation Plan
 
-Status: Implemented locally. Deployment pending.
+Status: Completed.
+
+Completed on: 2026-05-16
+
+Verification:
+
+- `git diff --check`: passed
+- `npm test`: passed
+- `npm run build`: passed
+- `npm audit --omit=dev`: passed
+- Local preview HTTP check: passed
+- Deployed HTTP check: passed
+- Public SVG figure HTTP check: passed
+- Pages built locally: 48
+- GitHub Pages run `25963549438`: passed
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
@@ -234,12 +248,12 @@ Expected:
 
 ## Completion Criteria
 
-- [ ] Source pack exists and includes visual manifest.
-- [ ] Saved visual assets exist under `docs/research/v1-raw-materials-to-wafers/images/`.
-- [ ] 06 implementation plan exists.
-- [ ] Raw-materials-to-wafers page-existence test follows TDD red/green.
-- [ ] Eleven 06 reader-facing pages exist.
-- [ ] Learning path navigation links to 06 pages.
-- [ ] Chapter 06 path points to the first 06 page.
-- [ ] Progress file is updated.
-- [ ] Tests, build, audit, local preview, and GitHub Pages deployment succeed.
+- [x] Source pack exists and includes visual manifest.
+- [x] Saved visual assets exist under `docs/research/v1-raw-materials-to-wafers/images/`.
+- [x] 06 implementation plan exists.
+- [x] Raw-materials-to-wafers page-existence test follows TDD red/green.
+- [x] Eleven 06 reader-facing pages exist.
+- [x] Learning path navigation links to 06 pages.
+- [x] Chapter 06 path points to the first 06 page.
+- [x] Progress file is updated.
+- [x] Tests, build, audit, local preview, and GitHub Pages deployment succeed.
