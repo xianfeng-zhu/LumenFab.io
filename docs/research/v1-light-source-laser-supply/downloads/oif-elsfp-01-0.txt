@@ -1,0 +1,1765 @@
+                                                                     OIF-ELSFP-01.0
+
+
+
+
+         External Laser Small Form Factor Pluggable
+            (ELSFP) Implementation Agreement
+
+
+
+                              OIF-ELSFP-01.0
+
+
+                              August 8, 2023
+
+
+
+
+                  Implementation Agreement created and approved by
+                                        OIF
+                                 www.oiforum.com
+
+
+
+www.oiforum.com                                                                1
+                                                                                                OIF-ELSFP-01.0
+
+The OIF is an international non-profit organization with over 100 member companies, including the world’s
+leading carriers and vendors. Being an industry group uniting representatives of the data and optical worlds,
+OIF’s purpose is to accelerate the deployment of interoperable, cost-effective and robust optical internetworks
+and their associated technologies. Optical internetworks are data networks composed of routers and data
+switches interconnected by optical networking elements.
+With the goal of promoting worldwide compatibility of optical internetworking products, the OIF actively
+supports and extends the work of national and international standards bodies. Working relationships or formal
+liaisons have been established with Consortium for On-Board Optics (COBO), Ethernet Alliance (EA), ETSI NFV,
+IEEE 802.1 and 802.3, Internet Engineering Task Force (IETF), International Committee for Information
+technology Standards (INCITS T11), International Telecommunications Union - ITU-T Study Groups 13 and 15,
+Open Networking Foundation (ONF), International Electrotechnical Commission (IEC TC86/SC86B), InfiniBand
+(IBTA), International Photonics & Electronics Committee (IPEC), Storage Networking Industry Association Small
+Form Factor Committee (SNIA SFF).
+
+
+
+
+                                       For additional information contact:
+                                                        OIF
+                                      5177 Brandin Ct, Fremont, CA 94538
+                                      510-492-4040  info@oiforum.com
+                                               www.oiforum.com
+
+
+
+
+www.oiforum.com                                                                                             2
+                                                                                                                           OIF-ELSFP-01.0
+
+Working Group:                              Physical Link Layer - Co-Packaging Track
+
+
+TITLE:             External Laser Small Form Factor Pluggable (ELSFP) Implementation Agreement
+
+
+SOURCE:               TECHNICAL EDITOR                                       WORKING GROUP CHAIR
+                      Jock Bovington Ph.D.                                   David R. Stauffer Ph.D.
+                      Cisco                                                  Kandou Bus, S.A.
+                      170 West Tasman Drive                                  EPFL Innovation Park, Building I
+                      San Jose, CA 95134-1706                                1015 Lausanne, Switzerland
+                      Phone: +1 408-853-8907                                 Phone: +1 802-316-0808
+                      Email: jbovingt@cisco.com                              Email: david@kandou.com
+
+
+                      WORKING GROUP CHAIR
+                      Jeff Hutchins
+                      Ranovus
+                      1111 W El Camino #133-176
+                      Sunnyvale, CA, 94087
+                      Phone: +1 408-627-8036
+                      Email: jeff@ranovus.com
+
+
+ABSTRACT: This implementation agreement defines a form factor optimized for external lasers delivering
+continuous wave (CW) light to optical transceivers co-packaged within a system. They are field replaceable via a
+pluggable electro-optic blindmate connection. Details on the technical specifications and an appendix for
+application specific references such as parallel fiber eye safety references are included.
+
+
+Notice: This Technical Document has been created by the Optical Internetworking Forum (OIF). This document is offered to the OIF
+Membership solely as a basis for agreement and is not a binding proposal on the companies listed as resources above. The OIF reserves the
+rights to at any time to add, amend, or withdraw statements contained herein. Nothing in this document is in any way binding on the OIF or any
+of its members.
+The user's attention is called to the possibility that implementation of the OIF implementation agreement contained herein may require the use
+of inventions covered by the patent rights held by third parties. By publication of this OIF implementation agreement, the OIF makes no
+representation or warranty whatsoever, whether expressed or implied, that implementation of the specification will not infringe any third party
+rights, nor does the OIF make any representation or warranty whatsoever, whether expressed or implied, with respect to any claim that has
+been or may be asserted by any third party, the validity of any patent rights related to any such claim, or the extent to which a license to use
+any such rights may or may not be available or the terms hereof.
+Copyright © 2023 Optical Internetworking Forum
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or
+assist in its implementation may be prepared, copied, published and distributed, in whole or in part, without restriction other than the
+following, (1) the above copyright notice and this paragraph must be included on all such copies and derivative works, and (2) this document
+itself may not be modified in any way, such as by removing the copyright notice or references to the OIF, except as needed for the purpose of
+developing OIF Implementation Agreements.
+By downloading, copying, or using this document in any manner, the user consents to the terms and conditions of this notice. Unless the terms
+and conditions of this notice are breached by the user, the limited permissions granted above are perpetual and will not be revoked by the OIF
+or its successors or assigns.
+This document and the information contained herein is provided on an “AS IS” basis and THE OIF DISCLAIMS ALL WARRANTIES, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR
+ANY IMPLIED WARRANTIES OF MERCHANTABILITY, TITLE OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+www.oiforum.com                                                                                                                           3
+                                                                                                                                       OIF-ELSFP-01.0
+
+Contents
+
+CONTENTS .................................................................................................................... 4
+LIST OF FIGURES.......................................................................................................... 6
+LIST OF TABLES ........................................................................................................... 8
+DOCUMENT REVISION HISTORY................................................................................. 8
+1         INTRODUCTION ................................................................................................... 9
+    1.0     Objectives...................................................................................................................................... 9
+    1.1     Applications................................................................................................................................... 9
+2         MECHANICAL SPECIFICATIONS ..................................................................... 11
+    2.0     Overall Description...................................................................................................................... 11
+    2.1     Module Subsection ..................................................................................................................... 14
+    2.2     Blindmate Electro-Optical Connector and Cage Mechanical Specification ................................ 15
+      2.2.1        Electrical Connector Interface Subsection .......................................................................... 16
+      2.2.2        Cage Drawing ...................................................................................................................... 16
+    2.3     Module thermal interface, flatness, and roughness ................................................................... 18
+    2.4     Host connector and cage footprints ........................................................................................... 18
+    2.5     Module Keying ............................................................................................................................ 24
+3         MODULE OPTICAL INTERFACE SPECIFICATION .......................................... 29
+    3.0     Blindmate Optical Connection .................................................................................................... 29
+    3.1     Dual-Ferrule Configuration ......................................................................................................... 29
+      3.1.1        Module-Side Optical Connector.......................................................................................... 29
+      3.1.2        Host-Side Optical Connector ............................................................................................... 31
+    3.2     Single-Ferrule Configuration ....................................................................................................... 33
+    3.3     Ferrule Requirements ................................................................................................................. 34
+    3.4     Fiber wavelength and polarization assignments ........................................................................ 36
+      3.4.1        MT-12, 4PMF and 8PMF Configurations for 1311nm and CWDM4 Applications ............... 36
+    3.5     Optical Power Classes ................................................................................................................. 39
+    3.6     Test Point Definitions .................................................................................................................. 40
+      3.6.1        Optical Test Point Definition ............................................................................................... 40
+4         MODULE ELECTRICAL AND CONTROLS SPECIFICATIONS ........................ 41
+    4.0     Module Electrical Interface Specification ................................................................................... 41
+www.oiforum.com                                                                                                                                        4
+                                                                                                                                      OIF-ELSFP-01.0
+
+    4.1       Electrical Pinout .......................................................................................................................... 42
+    4.2       Mating Sequence and Presence Pin ............................................................................................ 43
+    4.3       Electrical Requirements .............................................................................................................. 44
+    4.4       ESD – Electro-Static Discharge .................................................................................................... 45
+5          MANAGEMENT INTERFACE ............................................................................. 46
+    5.0       Common Management Interface Specification .......................................................................... 46
+6          ELSFP DESIGNATIONS AND LABELING CONVENTIONS ............................. 47
+    6.0       ELSFP Module Capability Identification Designation .................................................................. 47
+    In order to better ensure port to module compatibility, ELSFP Modules shall be designated by their
+    basic optical characteristics as follows: .................................................................................................. 47
+    6.1       Labeling Convention ................................................................................................................... 47
+7          MODULE ENVIRONMENTAL AND THERMAL REQUIREMENTS .................... 48
+    7.0       Thermal Requirements ............................................................................................................... 48
+    7.1       External Case and Handle Touch Temperature .......................................................................... 48
+8          FORM FACTOR PERFORMANCE REQUIREMENTS ....................................... 49
+    8.0       Test Requirements ...................................................................................................................... 49
+9          SUMMARY .......................................................................................................... 53
+10         REFERENCES .................................................................................................... 54
+11   APPENDIX A: INTERPRETATION OF EYE SAFETY REQUIREMENTS FOR
+HIGH POWER RIBBON FIBERS ................................................................................. 56
+    11.0      ELSFP Interface with System Interlock ........................................................................................ 56
+    11.1      Automatic Power Reduction ....................................................................................................... 56
+12  APPENDIX B: RECOMMENDED ELSFP LASER POWER TURN-ON
+PROCEDURE ............................................................................................................... 57
+    12.0      Optical inspection and cleaning of host and ELSFP optical connectors ...................................... 57
+    12.1      Optical loss measurement .......................................................................................................... 57
+13         APPENDIX C: GLOSSARY ................................................................................ 60
+14         APPENDIX D: OPEN ISSUES / CURRENT WORK ITEMS ............................... 61
+15   APPENDIX E: LIST OF COMPANIES BELONGING TO OIF WHEN DOCUMENT
+IS APPROVED .............................................................................................................. 61
+
+
+
+
+www.oiforum.com                                                                                                                                        5
+                                                                                                                                    OIF-ELSFP-01.0
+
+List of Figures
+
+Figure 1 ELSFP module .................................................................................................................................. 9
+Figure 2 ELSFP in a co-packaged optics application ...................................................................................... 9
+Figure 3 Possible laser solutions for Co-Packaged Optical Systems. .......................................................... 10
+Figure 4 Host connector and cage .............................................................................................................. 11
+Figure 5 Host electro-optical connector, cage with heatsink, and ELSFP module ...................................... 11
+Figure 6 ELSFP module shroud and latch locations .................................................................................... 12
+Figure 7 ELSFP latch location and length dimension .................................................................................. 13
+Figure 8 Rounding Specifications ................................................................................................................ 14
+Figure 9 Module PCB interface tolerances ................................................................................................. 14
+Figure 10 Module electrical pin and card edge tolerances ......................................................................... 15
+Figure 11 Host connector details ................................................................................................................ 16
+Figure 12 Cage details ................................................................................................................................. 17
+Figure 13 Faceplate bezels for 1x1 single and 1x4 ganged cages ............................................................... 17
+Figure 14 Example of a riding heatsink ....................................................................................................... 18
+Figure 15 Single sided (1x1) host connector and cage footprint ................................................................ 20
+Figure 16 Belly to belly (1x1) host connector and cage footprint .............................................................. 21
+Figure 17 Single sided (1x4) Ganged host connector and cage footprint ................................................... 22
+Figure 18 Belly to belly (1x4) Ganged host connector and cage footprint ................................................. 23
+Figure 19 ELSFP single tab module keying scheme ..................................................................................... 24
+Figure 20 Keying prevents upside down module insert.............................................................................. 24
+Figure 21 Keying prevents mating modules to incompatibly keyed ports ................................................. 24
+Figure 22 Hardware keying slot and tab dimensions.................................................................................. 25
+Figure 23 Keying nomenclature .................................................................................................................. 25
+Figure 24 Key tab dimensions ..................................................................................................................... 26
+Figure 25 Hardware keying to match fiber scheme .................................................................................... 26
+Figure 26 Keying for Conventional versus Pass-Through ELSFP ................................................................. 27
+Figure 27 Board thickness versus bezel web width .................................................................................... 28
+Figure 28 Module-side optical interface ..................................................................................................... 29
+Figure 29 Module-side optical connector ................................................................................................... 30
+Figure 30 ELSFP module with optical connector......................................................................................... 31
+
+www.oiforum.com                                                                                                                                      6
+                                                                                                                                 OIF-ELSFP-01.0
+
+Figure 31 Host-side optical connector ........................................................................................................ 32
+Figure 32 Host connector assembly ............................................................................................................ 33
+Figure 33 Single-ferrule configuration ........................................................................................................ 33
+Figure 34 Air-gap MT ferrule ....................................................................................................................... 35
+Figure 35 Requirements on ferrule travel and contact force for optical mating........................................ 36
+Figure 36 Fiber naming and polarization output definition........................................................................ 37
+Figure 37 Polarization Extinction Ratio definition for MT ferrule output................................................... 37
+Figure 38 Fiber naming definition for 2 row/MT-24 ELSFP interface ......................................................... 38
+Figure 39 Fiber naming definition for 3 row/MT-36 ELSFP interface ......................................................... 39
+Figure 40 Optical test point definition ........................................................................................................ 40
+Figure 41 Host connector pin map and card edge ...................................................................................... 41
+Figure 42 Mating sequence of eye-safe blindmate connector ................................................................... 43
+Figure 43 Instantaneous and sustained peak currents for Icc Host (see Table 8) ...................................... 44
+Figure 44 Example host board power filtering circuit ................................................................................ 45
+Figure 45 System Interlock Example with ELSFP......................................................................................... 56
+Figure 46 Fiber optic inspection and cleaning procedure .......................................................................... 57
+Figure 47 ELSFP to OE optical loss measurement ....................................................................................... 58
+Figure 48 Recommended ELSFP power turn-on procedure ....................................................................... 59
+
+
+
+
+www.oiforum.com                                                                                                                                  7
+                                                                                                                                OIF-ELSFP-01.0
+
+List of Tables
+
+Table 1 ELSFP module flatness and roughness specifications .................................................................... 18
+Table 2 MT ferrule specifications ................................................................................................................ 34
+Table 3 Permissible Facet Terminations ..................................................................................................... 35
+Table 4 Specifications for air-gap MT ferrule.............................................................................................. 35
+Table 5 DR type (1311) and FR type (CWDM4) wavelength assignment .................................................... 38
+Table 6 Optical power classes ..................................................................................................................... 39
+Table 7 ELSFP electrical pinout ................................................................................................................... 42
+Table 8 Electrical power classes and current Limits ................................................................................... 44
+Table 9 Electrical power specifications ....................................................................................................... 45
+Table 10 Temperature Range Class of Operation ....................................................................................... 48
+Table 11 Form Factor Performance Requirements..................................................................................... 49
+Table 12 EIA-364-1000 Test Details ............................................................................................................ 51
+Table 13 Additional Test Procedures .......................................................................................................... 52
+
+
+
+
+Document Revision History
+This is an edit of text voted into straw ballot Q1’23, it is the editor’s modifications based on the third straw
+ballot text (oif2022.436.05.docx) and comments (oif2023.116.03). The editor believes this interpretation to be
+the consensus of the Co-Packaging Working Group.
+
+
+
+
+www.oiforum.com                                                                                                                                 8
+                                                                                         OIF-ELSFP-01.0
+
+1     Introduction
+
+
+
+
+                                   ELSFP
+                                   OSFP
+                                   style
+                                       Figure 1 ELSFP module
+The External Laser Small Form-Factor Pluggable (ELSFP) is a faceplate pluggable form factor to address
+
+                                   latch
+the laser packaging requirements for co-packaged optical (CPO) systems with optical engines (OEs)
+which do not have integrated lasers, but rather choose to locate lasers external to the OE.
+
+
+1.0    Objectives
+The ELSFP module includes a blindmate optical connector to ensure a safe method to field replace lasers
+in the event of failure. Flexibility has been added to the form factor to enable a range of applications
+from massive scale data center switches to special purpose optically enabled ASICs.
+
+
+1.1    Applications
+
+
+
+
+                        Figure 2 ELSFP in a co-packaged optics application
+
+www.oiforum.com                                                                                     9
+                                                                                             OIF-ELSFP-01.0
+
+The ELSFP is targeted primarily at CPO applications, which may include but are not limited to the use of
+external lasers to provide optical power to the OEs incorporated in switches, network interface cards,
+artificial intelligent and machine learning application specific integrated circuits (ASICs), and more. The
+major advantages of this form factor are to reliably provide a replaceable light source package, couple
+that light in a safe way to maintain the system as an IEC 60825-2 Hazard Level 1 product, and decouple
+the thermal environment of the laser from that of the co-packaged ASIC assembly. Lasers have
+historically demonstrated significantly lower maximum reliable junction temperatures than silicon die
+(including silicon photonic circuit elements and germanium photodetectors). By placing the ELSFP at the
+faceplate of CPO systems (removed from the heat of the co-package ASIC and OEs) a more efficient
+cooling solution can be designed for these systems, and greater reliability is achievable with the fail-safe
+of a field replaceable pluggable module in case of a laser failure.
+
+
+
+
+                Figure 3 Possible laser solutions for Co-Packaged Optical Systems.
+Figure 3 shows an example of the many possible solutions to provide laser light to CPO
+modules. The ELSFP defines 2 types of Front Panel Pluggable Laser Sources (FPLS) which
+enables a compact, eye safe, and versatile solution. Explicitly, 2a (Conventional ELSFP) and 2b
+(Pass-Through ELSFP) which are mechanically compatible with the same fundamental ELSFP
+port design assuming their keying features are compatible. These two options and the details of
+the hardware keys are discussed in greater detail in section 2. This modular approach also
+allows for reuse and feature upgrades as additional ELSFP modules become available.
+
+
+
+
+www.oiforum.com                                                                                         10
+                                                                                            OIF-ELSFP-01.0
+
+2     Mechanical Specifications
+2.0     Overall Description
+The ELSFP solution consists of several discrete components:
+      1. An external laser pluggable module
+      2. A host connector that includes both an electrical interface to the module and an optical
+         interface to the module, detachable from one another
+      3. A cage that provides module to connector alignment as well as EMI shielding and an interface to
+         enable a riding heat sink to contact the ELSFP module
+The below Figure 4, Figure 5, and Figure 6 illustrate the components. The ports are sized to enable
+multiple ELSFP units on various sized final system assemblies using either a single row of ports or two
+rows of ports based on connectors and cages that form a row on each side of a host PCB, commonly
+referred to as “belly to belly”.
+
+
+
+
+                                                    Press fit host connector
+
+                                                                               Riding heat sink
+
+
+
+
+                              Separately applied connector and cage
+
+                                   Figure 4 Host connector and cage
+
+
+
+
+          Figure 5 Host electro-optical connector, cage with heatsink, and ELSFP module
+
+
+
+
+www.oiforum.com                                                                                       11
+                                                                                          OIF-ELSFP-01.0
+
+
+
+
+                                                                                      OSFP style latch
+
+
+
+
+                                            Shroud providing paddle card and optical connector protection
+
+
+                                                                                     OSFP style latch
+                                            Shroud providing paddle card and optical connector protection
+                        Figure 6 ELSFP module shroud and latch locations
+Figure 7 provides some of the key module dimensions of the ELSFP. Along the length of the ELSFP
+dimensions reference the latch which is modelled after a conventional latch and pull-tab design similar
+to an OSFP module. The pull tab is allowed to extend from the front of the module and is used to release
+the latch from the cage of the module without the user needing to touch the front of the module, which
+is allowed to extend from the face plate of the system (which is roughly co-incident with the end of the
+cage) as seen in Figure 4. There are limited restrictions on the shape of the front of the module and as
+described in greater detail in section 6, the ELSFP may even have a front facing optical connector in the
+case of a Pass-Through ELSFP implementation. A few critical limitations are placed on the part of the
+module extending from the system.
+    •   No extrusions shall be made at the base of the module which may result in a mechanical
+        contention when two compliant modules are placed in a “belly-to-belly” configuration as
+        diagrammed in Figure 27 and described in Section 2.0.
+    •   The pull tab and any other attached elements protruding from faceplate (i.e., thermal assist
+        features, fiber optic connectors with attached fibers at their specified minimum bend radius)
+        should not extend greater than 127 mm (5 inches) from said faceplate so as to remain
+        compatible with the vast majority of cabinet designs. End customer specifications may vary.
+        Mechanical analysis should be done to confirm that such features do not put deleterious
+        mechanical force on the cage and electro-optic connector under reasonably assumed field
+        deployments.
+
+
+
+
+www.oiforum.com                                                                                      12
+                                                                                            OIF-ELSFP-01.0
+
+
+
+
+                        Figure 7 ELSFP latch location and length dimension
+The thermal interface or heat sink pedestal for cage mounted heat sinks in the ELSFP assembly is called
+out in Figure 7. A mandatory label area is intentionally unspecified. Suggested contents of a module
+label are provided along with a reminder of some specified safety requirements in the references
+section. Additionally, the Figure 7 clearly shows the card edge connector and two ELSFP optical
+connector to shell mounting features which are a characteristic identifier for the ELSFP. The following
+sections provide greater details on the most critical interfaces of the ELSFP, starting with its blind-mate
+electro-optic connector. Finally, an optional extrusion is permitted on top or on bottom of the front of
+the ELSFP module. This can be used to enable front side optical connectors for Pass-Through ELSFPs or
+thermal management features such as heat sinks. Use of this optional feature shall be designed so as to
+minimally impact the inlet air flow around the ELSFP into the system.
+
+
+
+
+www.oiforum.com                                                                                        13
+                                                                                          OIF-ELSFP-01.0
+
+2.1   Module Subsection
+More detailed specifications for the ELSFP Module are provided in this subsection. Figure 8 defines the
+specification for rounded surfaces of the outer shell.
+
+
+
+
+                                  Figure 8 Rounding Specifications
+The ELSFP module electro-optic connector end face is shown in Figure 9 including specifications for the
+board thickness, location, and dimensions for the module shell to properly mate with an ELSFP port.
+
+
+
+
+                             Figure 9 Module PCB interface tolerances
+
+
+
+
+www.oiforum.com                                                                                      14
+                                                                                          OIF-ELSFP-01.0
+
+The card edge consists of electrical contacts only on the bottom side of the module. Figure 10 details the
+dimensional and tolerance requirements of each of the contacts of this electrical interface. A pinout
+diagram can be found in Figure 41.
+
+
+
+
+                     Figure 10 Module electrical pin and card edge tolerances
+2.2   Blindmate Electro-Optical Connector and Cage Mechanical Specification
+The ELSFP host connector is shown in Figure 11. The host connector is applied to the host PCB with a
+combination of electrical press fit pins and supplemental mechanical methods.
+The host connector is configured to optionally accept an optical connector assembly which can house
+either one or two MT style ferrules insertable and removable from the rear of the host connector
+assembly.
+
+
+
+
+www.oiforum.com                                                                                        15
+                                                                                            OIF-ELSFP-01.0
+
+2.2.1 Electrical Connector Interface Subsection
+Figure 11 defines the location of the electro-optic interfaces relative to the system PCB. Detailed
+tolerances are provided for the opening in the electrical host connector to insert the optical host
+connector housing. Features have been included to allow this connector to latch into the electrical
+connector to form the complete electro-opto-mechanical assembly. Pillars at the base of the connector
+provide additional mechanical stability and are offset to enable either a single sided or belly to belly
+configuration. Additional definitions are provided for the bottom side host electrical pins.
+
+
+
+
+                                   Figure 11 Host connector details
+2.2.2 Cage Drawing
+Figure 12 defines a single ELSFP cage specification. Additionally, faceplate bezels are defined for both
+single and 1x4 ganged cage configurations in Figure 13.
+
+
+
+
+www.oiforum.com                                                                                        16
+                                                                               OIF-ELSFP-01.0
+
+
+
+
+                                  Figure 12 Cage details
+
+
+
+
+              Figure 13 Faceplate bezels for 1x1 single and 1x4 ganged cages
+
+www.oiforum.com                                                                          17
+                                                                                             OIF-ELSFP-01.0
+
+
+
+2.3   Module thermal interface, flatness, and roughness
+
+
+
+
+                                Figure 14 Example of a riding heatsink
+The thermal management of the ELSFP module is provided by mounting a riding heat sinks on the cage
+ports. There is a single riding heat sink as shown in Figure 14. The host connector is configured such that
+the airflow from the riding heat sink is not blocked in a front to rear or rear to front direction to allow
+cooling. Alternate heatsinks with lateral airflow, or designed for liquid cooled or immersion systems are
+also options for the ELSFP.
+ELSFP module flatness and roughness are specified to improve module thermal characteristics when
+used with a riding heat sink. Relaxed specifications are used for lower power modules to reduce cost.
+The module flatness and roughness specifications apply to the specified heat sink contact area for ELSFP
+by Figure 7. Specifications for ELSFP Module flatness and surface roughness are shown in Table 1.
+Flatness and roughness specifications apply to both top and bottom surfaces of the modules.
+                   Table 1 ELSFP module flatness and roughness specifications
+
+                                             Module Flatness                  Surface Roughness
+  Thermal Performance Target
+                                                   (mm)                           (Ra[21], μm)
+              Basic                                0.075                               1.6
+             Typical                                0.05                               0.8
+            Enhanced                               0.025                               0.4
+2.4   Host connector and cage footprints
+Footprints for the electrical host interface and mechanical attachment points for the cages are shown in
+this section. Configurations shown for systems which only have ELSFPs on a single side of the system
+PCB are referred to as “single sided”. For the cases in which both sides of the system PCB have an ELSFP
+located at the same lateral location, the bottom shell of the ELSFP (or belly) is facing the system PCB for
+modules on both sides of the board. This configuration is referred to as “belly to belly”. They are divided
+into the following configurations with PCB footprints in the figures referenced:
+Single module cages:
+         Figure 15 Single sided (1x1) host connector and cage footprint
+         Figure 16 Belly to belly (1x1) host connector and cage footprint
+Ganged module cages for higher density:
+
+
+
+
+www.oiforum.com                                                                                        18
+                                                                                OIF-ELSFP-01.0
+
+
+
+
+      Figure 17 Single sided (1x4) Ganged host connector and cage footprint
+      Figure 18 Belly to belly (1x4) Ganged host connector and cage footprint
+
+www.oiforum.com                                                                           19
+                                                                               OIF-ELSFP-01.0
+
+
+
+
+              Figure 15 Single sided (1x1) host connector and cage footprint
+
+
+
+
+www.oiforum.com                                                                          20
+                                                                                OIF-ELSFP-01.0
+
+
+
+
+             Figure 16 Belly to belly (1x1) host connector and cage footprint
+
+
+
+
+www.oiforum.com                                                                           21
+                                                                             OIF-ELSFP-01.0
+
+
+
+
+          Figure 17 Single sided (1x4) Ganged host connector and cage footprint
+
+www.oiforum.com                                                                        22
+                                                                              OIF-ELSFP-01.0
+
+
+
+
+          Figure 18 Belly to belly (1x4) Ganged host connector and cage footprint
+
+
+
+www.oiforum.com                                                                         23
+                                                                                         OIF-ELSFP-01.0
+
+2.5   Module Keying
+
+
+
+
+                        Figure 19 ELSFP single tab module keying scheme
+ELSFP modules shall have key tabs in the bottom of their shell which mate with cage key slots between
+the EMI gaskets at the face plate as shown in Figure 19. This hardware keying scheme is specified to
+ensure that the appropriate fiber connections are made when engaging an ELSFP module (Figure 21). It
+also protects both host side and module side electro-optical interfaces from upside down inserts. If no
+tabs are placed on the ELSFP module there would be a of risk damaging the optical connector as shown
+in Figure 20. Therefore at least 1 key tab is required. Key slot dimensions are specified in Figure 22.
+
+
+
+
+                      Figure 20 Keying prevents upside down module insert
+
+
+
+
+            Figure 21 Keying prevents mating modules to incompatibly keyed ports
+
+
+www.oiforum.com                                                                                     24
+                                                                                             OIF-ELSFP-01.0
+
+
+
+
+                        Figure 22 Hardware keying slot and tab dimensions
+
+
+
+
+                                    Figure 23 Keying nomenclature
+The keying nomenclature from Figure 23 uses 7 bits representing each of the potential key slots of the
+cage from left to right when looking into the host port, where “1” has key tab/slot, “0” has no key
+tab/slot. Figure 25 provides a pictorial table of the possible keys corresponding to 1 or 2 optical ferrules
+and different row counts of fibers. Modules with two ferrules of the appropriate row count may mate
+into ports with only one host ferrule populated. However, the host is responsible during bring up to
+
+www.oiforum.com                                                                                          25
+                                                                                           OIF-ELSFP-01.0
+
+identify if such a two-ferrule module is able to support the needs of the system and will only activate
+fiber channels from the mated ferrule. This offers the host the ability to provide some backwards
+compatibility if an early generation module only uses 1 ferrule, and later generations adopt a second.
+
+
+
+
+                                    Figure 24 Key tab dimensions
+
+
+
+
+                         Figure 25 Hardware keying to match fiber scheme
+
+www.oiforum.com                                                                                       26
+                                                                                             OIF-ELSFP-01.0
+
+Reference is also made for the 4th bit in the keying scheme to represent the presence (0) or absence (1)
+of fibers which pass through the pluggable from the host optical connector to a front side faceplate
+connector as diagramed in Figure 26. The ***1*** key is selected to signify a “Conventional ELSFP”
+without any non-laser fibers in the host connector. In this case all fibers are dedicated to the delivery of
+laser power from the ELSFP to the system via the blind-mate optical connector at the rear to the ELSFP.
+
+An alternate module type, the Pass-through ELSFP is also allowed. This is an option for the ELSFP which
+allows significantly more dense systems by freeing up face plate real estate and leverage the front side
+of the ELSFP to meet end customers’ optical connector requirements. The existence of “pass-through”
+fibers on the host connector is keyed by ***0***. This allows an operator in the field to mate a “Pass-
+Through ELSFP” of the appropriate number of rows of fibers (i.e., 1 row with 4 PMF laser fibers and 8
+SMF pass through fibers) to a port keyed for a conventional ELSFP (i.e. 1 row with only 4 PMF). The
+module’s front side optical connectors and pass-through fibers would not be used, but the module could
+still support the requirements of the system. The converse mating is disallowed because a Conventional
+ELSFP would not support a system requiring a Pass Through ELSFP. A pass-through module may support
+a system with a conventional port if the laser fiber count and power class requirements are met, but the
+opposite is not true and could result in stray light entering the ELSFP module from the system and
+missing optical interfaces on the front panel. As can be seen in Figure 23 a user can identify the keying
+requirements of a port by examining the slots between the EMI springs and tabs on the ELSFP module.
+
+
+
+
+                   Figure 26 Keying for Conventional versus Pass-Through ELSFP
+Modules and ports with a mismatch in the number of laser fibers and optical power class are allowed to
+mate. However, it is the responsibility of the host system to identify the level of support such a module
+can provide and report to the user this information. Similarly, other mismatches in laser properties and
+port expectations, such as the wavelength, laser fiber count, electrical power class, etc. are the
+responsibility of the host to identify during bring up and inform the user or use partial functionality of
+the ELSFP module (i.e. only power 4 of the port required laser fibers out of the 8 available in a module),
+details on this level of management is defined in the Implementation Agreement for ELSFP CMIS.
+
+
+
+
+www.oiforum.com                                                                                          27
+                                                                                       OIF-ELSFP-01.0
+
+
+
+
+                        Figure 27 Board thickness versus bezel web width
+Figure 27 highlights specific requirements for belly-to-belly systems. Using the bottom shell key tab
+system puts specific requirements on the webbing of the bezel of the faceplate and the minimum board
+thickness. Particularly in the case of a 1x4 cage careful attention should be paid to these related
+geometries in order to design a manufacturable system which also is EMI compliant.
+
+
+
+
+www.oiforum.com                                                                                  28
+                                                                                            OIF-ELSFP-01.0
+
+3     Module Optical Interface Specification
+3.0    Blindmate Optical Connection
+Optical connection to the ELSFP is made through a blindmate connector, whereby an optical connector
+assembly on the backside of the ELSFP module is mated with an optical connector assembly on the host
+connector. The optical connector assemblies possess coarse alignment features that engage prior to the
+engagement of the fine-alignment guide pins/holes on the multi-fiber ferrules, detailed further below.
+The optical connector assemblies shall accommodate either dual-ferrule or single-ferrule configurations
+populated with two or one ferrule, respectively. Optical connectors shall otherwise consist of the same
+optical housing components regardless of ferrule count. They shall be detachable from the electrical
+connector to separate the PCB assembly from the optical assembly. Figure 33 shows adjacent host side
+and module electro-optical interfaces with the correct single populated ferrule.
+3.1    Dual-Ferrule Configuration
+In the event of a dual ferrule configuration, the two ferrules shall be placed side-by-side above the
+module electrical card edge connector as dimensioned in Figure 28.
+3.1.1 Module-Side Optical Connector
+
+
+
+
+                               Figure 28 Module-side optical interface
+
+www.oiforum.com                                                                                         29
+                                                                                       OIF-ELSFP-01.0
+
+Figure 29 shows the module-side optical connector. The connector consists of a connector housing, and
+up to two fiber ferrules. There are no springs in the module-side optical connector, the mating force
+with the host-side is provided by the individual springs for each ferrule on the host-side optical
+connector. The housing features two guide-holes for coarse alignment with the host-side optical
+connector. The height of the connector housing is higher on the two sides, to ensure sufficient wall
+thickness and hence mechanical strength around the coarse-alignment guide holes. The optical
+connector does not possess a latch to mate with the host-side connector, but instead relies on the
+module-to-cage latch.
+
+
+
+
+                             Figure 29 Module-side optical connector
+
+
+
+
+www.oiforum.com                                                                                   30
+                                                                                          OIF-ELSFP-01.0
+
+
+
+
+                          Figure 30 ELSFP module with optical connector
+Figure 30 shows the optical connector integrated with the ELSFP module. The optical connector is
+enclosed and protected within the module shell. An optional connector-to-module attachment is also
+shown.
+3.1.2 Host-Side Optical Connector
+Figure 31 shows the host-side optical connector. The connector consists of a connector housing, and up
+to two MT style ferrule subassemblies. The connector housing possesses guide features for coarse-
+alignment with the module-side optical connector.
+The host-side ferrules are “pinned” (possess guide-pins) for fine alignment, to engage with the
+“unpinned” guide-holes of the module-side ferrules. The ferrules are aligned when the coarse-alignment
+features on the connector housing engage with the module-side connector housing, after which the
+ferrule guide-pins/holes of the ferrules engage. The host-side ferrules individually are spring-loaded
+within the ferrule subassembly, such that during the mating process, the ferrules comply as the facets of
+the host-side and modules-side come into contact and pressure is applied to latch the module into the
+cage.
+
+www.oiforum.com                                                                                      31
+                                                          OIF-ELSFP-01.0
+
+
+
+
+                  Figure 31 Host-side optical connector
+
+
+
+
+www.oiforum.com                                                     32
+                                                                                            OIF-ELSFP-01.0
+
+
+
+
+                                  Figure 32 Host connector assembly
+Figure 32 shows the optical connector integrated with the host connector. The optical connector is
+plugged in/out to the host from the system-side and is held in place via the latches on the sides of the
+optical connector.
+3.2   Single-Ferrule Configuration
+The single-ferrule configuration consists of the same optical connector components as the dual-ferrule
+configuration, except that the module-side optical connector assembly is populated with only one
+ferrule. In the single-ferrule configuration, the ferrule shall be populated on the left side of the ELSFP
+module and host connector as viewed while inserting the module into the system’s front panel, as
+shown in Figure 33.
+
+
+
+
+                                Figure 33 Single-ferrule configuration
+www.oiforum.com                                                                                         33
+                                                                                            OIF-ELSFP-01.0
+
+
+
+3.3   Ferrule Requirements
+The multi-fiber ferrules may be implemented with physical contact MT ferrules, or with MT-compatible
+air-gap type ferrules (referred to hereafter as “air-gap ferrules”).
+Both physical contact and air-gap ferrules use a 12 fiber MT ferrule as defined by TIA-604-5, IEC 61754-
+7-1 and IEC 61755-3-31; a 24 fiber MT ferrule as defined by TIA-604-5 and IEC 61754-7-2; or a 36 fiber
+MT ferrule as defined by TIA-604-5. The ferrules shall be angle-polished at 8±0.2°, as defined in IEC
+61755-3-31. Ferrule alignment pins shall reside on the host side ferrules. Specific guidance on MT
+alignment pin diameter, alignment hole diameter, and pitch are given in Table 2.
+                                   Table 2 MT ferrule specifications
+
+                                       12 Fiber MT                  24 Fiber MT           36 Fiber MT
+                                       TIA-604-5:                   TIA-604-5:             TIA-604-5:
+                                   Table 3, Option t=1          Table 3, Option t=1          Table 3
+   MT Alignment Pin Diameter         IEC 61754-7-1:               IEC 61754-7-2:          Option t=1
+                                  Table 4, Dimension A         Table 5, Dimension A
+                                                                                           TIA-604-5:
+                                       TIA-604-5:                   TIA-604-5:
+                                                                                             Table 3
+                                   Table 3, Option t=1          Table 3, Option t=1
+  MT Alignment Hole Diameter                                                               Option t=1
+                                     IEC 61754-7-1:               IEC 61754-7-2:
+                                  Table 1, Dimension A         Table 2, Dimension A
+
+                                        TIA-604-5:                   TIA-604-5:            TIA-604-5:
+                                Tables 5 & 12, Dimension C   Tables 5 & 12, Dimension C   Tables 5 & 12
+  MT Alignment Pin/Hole Pitch         IEC 61754-7-1:               IEC 61754-7-2:         Dimension C
+                                 Table 1 & 4, Dimension C     Table 2 & 5, Dimension C
+                                        TIA-604-5:                   TIA-604-5:            TIA-604-5:
+                                       Figure 3.2.3a                Figure 3.2.3b         Figure 3.2.3c
+         MT Fiber Pitch               IEC 61754-7-1:               IEC 61754-7-2:
+                                          Figure 4                     Figure 4
+
+The ferrules on the module-side optical connector are angle-polished MT ferrules, without any anti-
+reflection (AR) coating. The host-side ferrules can be either uncoated MT ferrules, or air-gap ferrules
+which are MT-compatible ferrules but with spacers on the ferrule end-face. This allows the choice of a
+physical-contact or air-gap optical mating, determined by the choice of ferrules on the host-side, as
+shown in Table 3. While an AR-coated ferrule on the module side would provide the best air-gap mating
+performance, this requires additional hardware keying to distinguish the ferrule type on the module side,
+to prevent the unwanted mating between AR-coated module-side ferrule and uncoated physical contact
+ferrule on the host side. Therefore, only uncoated ferrules on the module-side are allowed in this IA.
+The air-gap ferrules shall have additional requirements as follows. A spacer is applied to the perimeter
+of the host side ferrule as shown in Figure 34 and Table 3, such that when mated with the module side,
+an air-gap is formed between the ferrule end-faces and the fibers do not physically contact. Additionally,
+an AR coating is applied to that facet to reduce insertion loss and back reflection from that interface.
+Furthermore, the fiber height of the air-gap ferrules differs from that of physical contact ferrules. These
+are defined in Table 4 and apply regardless of the application’s fiber count. This type of an air-gap
+
+
+
+www.oiforum.com                                                                                           34
+                                                                                           OIF-ELSFP-01.0
+
+interface may have advantages in the repeatability of its insertion loss and cleaning, and requires the
+same amount of mating force regardless of the fiber count.
+                               Table 3 Permissible Facet Terminations
+
+
+
+
+                                     Figure 34 Air-gap MT ferrule
+
+
+
+                            Table 4 Specifications for air-gap MT ferrule
+    Component                   Parameter                  Value                   Applicable to
+   Anti-Reflection                                    ≤0.5% (λ = 1260 -
+                               Reflectance                                       Host-side ferrule
+      Coating                                             1650 nm)
+                                                       Polyphenylene
+                                 Material
+     Spacer Film                                        Sulfide (PPS)            Host-side ferrule
+                                 Thickness                9 ± 2 μm
+                                                                                   Host-side and
+      MT Ferrule               Fiber Height             1000-2500 nm               Module-side
+                                                                                     ferrules
+
+
+
+
+www.oiforum.com                                                                                       35
+                                                                                          OIF-ELSFP-01.0
+
+
+
+
+         Figure 35 Requirements on ferrule travel and contact force for optical mating
+Figure 35 provides a table of required mating forces to properly mate the optical ferrules of the ELSFP
+blind mate connector.
+3.4   Fiber wavelength and polarization assignments
+Each application of the ELSFP will have a dedicated specification for critical laser parameters such as
+power, wavelength, RIN/back reflection tolerance, SMSR, etc. These specifications shall be maintained
+as requirements for the Optical Engine or CPO Module which the ELSFP is supporting. However, some
+fundamental characteristics of the fiber output such as the wavelength and polarization assignments for
+each fiber shall conform to the descriptions below. Additional fiber assignments, including those for
+pass through ELSFPs are to be kept in the Implementation Agreement for ELSFP CMIS.
+3.4.1 MT-12, 4PMF and 8PMF Configurations for 1311nm and CWDM4 Applications
+The position fiber naming and polarization output orientation conventions are defined in Figure 36 using
+either one or two MT-12 ferrules. Unused channels of the MT-12 must be populated with dummy fibers
+to prevent contamination or possible damage when falsely mating for example an 8 fiber and 4 fiber MT
+ferrule. If color-coding of fibers is used, fibers are suggested to be color coded following TIA-598-C
+standard coloring scheme [17] for grouped fibers to prevent 180 rotation misassignment in installation.
+
+
+
+
+www.oiforum.com                                                                                       36
+                                                                                           OIF-ELSFP-01.0
+
+
+
+
+                    Figure 36 Fiber naming and polarization output definition
+The output of the ELSFP shall have a polarization extinction ratio (PER, in dB) requirement specified by
+the application, but defined by the relative alignment of the output E-field with the horizontal line
+between the center of the two guide holes of the module’s MT “unpinned” ferrule. PER is defined in
+Figure 37 as a ratio of powers and can be measured at TPL2 with a test grade MT patch cord which
+contributes a negligible degradation to the PER or with an appropriately designed and calibrated free
+space setup for applications with a more stringent specification.
+
+
+
+
+             Figure 37 Polarization Extinction Ratio definition for MT ferrule output
+A fiber naming convention is also defined in Figure 36. The ELSFP does not know what application and
+port it is used in. “Hard keys” specified in Figure 25 will not prevent mating of an 8PMF module into an
+4PMF port, however the host is responsible for identifying the ELSFP’s capabilities as advertised via
+CMIS and comparing these with the system and assigning only the lasers fibers required by that port.
+Table 5 lists the assignment of wavelengths for 1311 (DR Type) and CWDM4 (FR Type) type modules
+relative to the fiber position. 4PMF and 8PMF per MT-12 ferrule configurations are specified.
+
+
+
+
+www.oiforum.com                                                                                       37
+                                                                                            OIF-ELSFP-01.0
+
+              Table 5 DR type (1311) and FR type (CWDM4) wavelength assignment
+
+
+
+
+By conforming to this convention ELSFP modules can be “soft keyed” by host management firmware
+which notifies the user of any mismatch between the port and module which isn’t captured by the hard
+keying system. This concept is extended to additional applications and fiber maps. For optical interfaces
+with 2 rows of fiber in 1 or 2 of the ELSFP ferrules, a fiber naming convention has been provided in
+Figure 38.
+
+
+
+
+                Figure 38 Fiber naming definition for 2 row/MT-24 ELSFP interface
+
+
+For optical interfaces with 3 rows of fiber in 1 or 2 of the ELSFP ferrules, a fiber naming convention has
+been provided in Figure 39.
+
+
+
+www.oiforum.com                                                                                         38
+                                                                                            OIF-ELSFP-01.0
+
+
+
+
+                Figure 39 Fiber naming definition for 3 row/MT-36 ELSFP interface
+For additional fiber assignment maps please reference the applications list maintained in the
+Implementation Agreement for ELSFP CMIS. If you have an application that is not captured in that list,
+please make a proposal to the OIF Management working group so as to reduce the total number of fiber
+assignment maps and diversity of ports and track them accordingly.
+3.5   Optical Power Classes
+Table 6 specifies the nominal fiber optical power for each of the optical power classes is measured at
+TPL2 described in §7.4.1. The power is specified per wavelength per core and follows the naming
+convention proposed in the ITU nomenclature for radio frequency band naming [18], so can be
+expanded to lower or high powers as required.
+                                     Table 6 Optical power classes
+
+                          Optical Power Classes         Power/λ/Core (+/- 1.5dB)
+                              Low Power - LP                      11dBm
+                           Medium Power - MP                      14dBm
+                             High Power - HP                      17dBm
+                          Very High Power - VHP                   20dBm
+                         Ultra High Power - UHP                   23dBm
+                         Super High Power - SHP                   26dBm
+
+
+Laser drive circuits shall be implemented such that the bias achieves its set point so that the peak optical
+power for any fiber core does not exceed the steady state power for that bias set point by >1dB. This
+protects the ELSFP to OE fiber path and OE from potential optical damage and may also help to meet the
+ELSFPs inrush current rate specification in Table 9.
+
+
+
+www.oiforum.com                                                                                        39
+                                                                                            OIF-ELSFP-01.0
+
+3.6   Test Point Definitions
+3.6.1 Optical Test Point Definition
+Optical test points shall be defined at the end of a patch cord connected on the host side of the
+blindmate connector on an appropriate test board which provides controls to the ELSFP.
+
+
+
+
+                                Figure 40 Optical test point definition
+The ELSFP optical outputs are measured at TPL2 which is defined as the output of a short, 2-5 m, optical
+patch cord connected to an ELS optical output. The test grade patch cord and connector used shall be
+characterized sufficiently to remove or diminish its impact on the test results (i.e., the insertion loss,
+rotational and offset tolerances are known and exemplary).
+
+
+
+
+www.oiforum.com                                                                                        40
+                                                                                            OIF-ELSFP-01.0
+
+4     Module Electrical and Controls Specifications
+4.0    Module Electrical Interface Specification
+A card edge host electrical connector with 24 pins shall match the corresponding pads in Figure 41.
+
+
+
+
+                          Figure 41 Host connector pin map and card edge
+Note that to be determined (TBD) pins have been placed adjacent to the VCC and ground in the event
+that a future provision is required such as additional power and/or ground capacity. Additional notes for
+each pin are provided in Table 7. Similar to other CMIS compatible pluggable modules, the
+ModuleLowPwr state for the ELSFP module shall represent a minimum electrical power consumption
+state in order to power the module micro controller (MMC) and communicate with the Host. The ELSFP
+complies with the CMIS Module State Machine (MSM). When an ELSFP is initially plugged in the lasers'
+default state is OFF. First it is in the Resetting state. Upon completion of resetting, it enters the Reset
+state where it awaits a ResetS = FALSE signal and enters Management Initialization (MgmtInit). Once
+MgmtInit is complete the ELSFP enters the ModuleLowPwr or Low Power Mode state. Lasers shall ONLY
+be powered when the ELSFP module is in the ModuleReady state. To activate lasers the ELSFP must
+transition to the ModuleReady state and receive direction from the Host so as to maximize safety and
+prevent possible damage to the system or the optical engine. Only the Host Controller may request the
+Laser to be activated. Further details on management of the ELSFP are covered in the Implementation
+Agreement for ELSFP CMIS. Additional circuits, such as optional thermo-electric coolers (TECs) can be
+enabled prior to lasers. Table 7 also refers resistor values and noise filtering for the power supply
+detailed further in Figure 44 which are informative.
+
+
+
+
+www.oiforum.com                                                                                        41
+                                                                                            OIF-ELSFP-01.0
+
+4.1     Electrical Pinout
+The electrical interface pin definition for the ELSFP module is shown below. 24 electrical contacts are
+included in the host connector to mate to a card edge interface in the ELSFP module.
+                                     Table 7 ELSFP electrical pinout
+
+Pin #     Function           Requirements                                 Notes
+
+  1         VCC                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  2         VCC                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  3         VCC                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  4         TBD                   TBD                          (Reserved for future power)
+  5        ResetL           Pull up 10kΩ [1%]                     Reset Module, LVTTL
+  6       LPModeL             Only MMC on                     Low power mode (low), LVTTL
+  7         TBD                   TBD                         (Reserved for future ground)
+  8         GND                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  9         GND                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  10        GND                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  11        TBD                   TBD                                      TBD
+  12         SCL      TWI serial interface clock          Host will have 4.7kΩ [1%] pull up,
+                                 [19]                 module will be >=10kΩ [1%] pull up, LVCMOS
+  13        SDA        TWI serial interface data          Host will have 4.7kΩ [1%] pull up,
+                                  [19]                module will be >=10kΩ [1%] pull up, LVCMOS
+  14        TBD                   TBD                                      TBD
+  15        GND                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  16        GND                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  17        GND                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  18        TBD                   TBD                         (Reserved for future ground)
+  19      ModPrsL     Shorted to GND in module                  Presence Pin (low), LVTTL
+  20         IntL           Pull up 10kΩ [1%]                        Interrupt LVTTL
+  21        TBD                   TBD                          (Reserved for future power)
+  22        VCC                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  23        VCC                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+  24        VCC                1.5A, 3.3V                     1.5A, 3.3V with noise filtering
+
+
+www.oiforum.com                                                                                       42
+                                                                                           OIF-ELSFP-01.0
+
+4.2    Mating Sequence and Presence Pin
+The connector housing, ferrules and the electrical pads on the PCB are positioned such that during
+mating, the ferrules come into contact prior to electrical connection of the Presence Pin, thereby
+preventing powered (de)mating of the ELSFP module. The optical connector assemblies in the ELSFP
+module and the host are designed to engage in the following sequence leveraging the Presence Pin and
+optical connector spring.
+
+
+
+
+                    Figure 42 Mating sequence of eye-safe blindmate connector
+⚫     First, the module PCB engages with the host-side receptacle to provide the initial coarse alignment
+      between module and host, though without making electrical contact.
+⚫     Second, coarse alignment between the module- and host-side optical connectors is performed,
+      through the engagement of the coarse-alignment pins and guide-holes, on the host-side and
+      module-side connector housings, respectively.
+⚫     Third, fine-alignment between the optical connectors is performed, through the engagement of
+      fine-alignment guide-pins and holes, on the host-side and module-side ferrules, respectively.
+⚫     Fourth, the facets of the host-side and module-side ferrules come into contact. The spring-loaded
+      host-side ferrules are pushed back into the host-side optical connector housing as the ELSFP
+      module is inserted deeper into the cage.
+⚫     Lastly, electrical connection is made between the host-side electrical contacts and the pads on the
+      module-side PCB.
+This mating sequence is illustrated in Figure 42, and is designed to prevent powered (de)mating of the
+optical connectors. The module contains an automatic power-down feature that turns off optical
+emission when any presence pins are not engaged. The power down shall complete after disconnection
+of presence pin, but prior to the demating of the optical interface so as to prevent damaging that
+interface or causing a safety hazard.
+
+www.oiforum.com                                                                                       43
+                                                                                             OIF-ELSFP-01.0
+
+4.3     Electrical Requirements
+Power for the ELSFP shall be delivered by six pairs of 3.3V power and ground pins. The current capability
+of each of these pins is up to 1.5 A DC with a maximum operating rating voltage of 30 V DC . The total
+module power consumption of an ELSFP shall be reported via CMIS using the following electrical power
+classifications in Table 8. Current limits have also been supplied to ensure stable system power supply.
+Figure 43 provides an informative reference for the definitions of the various time and current limit
+specifications including those in Table 9.
+                            Table 8 Electrical power classes and current Limits
+                                    Power      Instantaneous    Sustained     Steady state     CMIS
+                                 Consumption    peak current   peak current     current       Register
+  Electrical Power Class (#)         P_#          Icc_ip_#       Icc_sp_#        Icc_#        Page 00h
+                                   (W) max       (mA) max       (mA) max       (mA) max       Byte 200
+      Low Power Mode (LP)            1.5             600            500           478
+Class 1 High Power Mode (1)          1.5           600             500            478        [000xxxxx]
+Class 2 High Power Mode (2)           5            2000           1667           1595        [001xxxxx]
+Class 3 High Power Mode (3)           10           4000           3333           3190        [010xxxxx]
+Class 4 High Power Mode (4)           15           6000           5000           4785        [011xxxxx]
+Class 5 High Power Mode (5)           20           8000           6666           6380        [100xxxxx]
+Class 6 High Power Mode (6)           30          12000           9999           9569        [101xxxxx]
+Class 7 High Power Mode (7)*          40          16000           13332          12759       [110xxxxx]
+Class 8 High Power Mode (8)*         >40         P_8 * 400     P_8 * 333.3    P_8/Vcc_min    [111xxxxx]
+
+
+All ELSFP modules shall report P_# max high power consumption per CMIS in MaxPower Byte 00h:201
+*Note: A future revision may allocate additional power and ground pins to support power class 8.
+
+
+
+
+          Figure 43 Instantaneous and sustained peak currents for Icc Host (see Table 8)
+
+www.oiforum.com                                                                                           44
+                                                                                                     OIF-ELSFP-01.0
+
+                                   Table 9 Electrical power specifications
+                    Parameter                       Symbol      Minimum Nominal Maximum                   Unit
+ELSFP power supply voltage including ripple,          Vcc          3.135          3.3        3.465         V
+droop, and noise below 100kHz
+Voltage drop across mated connector                Vcc_drop                                    66         mV
+Total VCC Supply Current*                              Icc                                      9          A
+Host RMS noise output 10 Hz-10 MHz                 eN_Host                                     25         mV
+Module RMS noise output 10 Hz - 10 MHz             eN_Mod                                      15         mV
+Module inrush - instantaneous peak duration           T_ip                                     50          μs
+Module inrush - initialization time                  T_init                                   500         ms
+Inrush or discharge current rate**                  |dI/dt|                                   100        mA/μs
+High power mode to Low power mode                   T_hplp                                    200          μs
+transition time from assertion of M_LPWn or
+M_RSTn or ForceLowPwr
+Notes:
+* Utilization of the maximum ELSFP electrical power rating requires thermal design and validation at the
+system level to ensure the maximum connector temperature is not exceeded. An informative design
+practice is to heatsink the host board power pin pads with multiple vias to a thick copper power plane for
+conductive cooling.
+** The specified Inrush or discharge current rate (|dI/dt|) limit shall not be exceeded for all power transient
+events. This includes hot-plug, hot-unplug, power-up, power-down, initialization, low-power to high-power
+and high-power to low-power.
+
+
+
+
+                          Figure 44 Example host board power filtering circuit
+Figure 44 provides an example implementation for a 3.3V power filter on the host board. The filter
+network may not be required if there is a dedicated DC-DC convertor per ELSFP. One may use multiple
+instances of the same RLC network with the same component values with reduced current handling.
+Additionally, tantalum capacitors are the preferred recommendation, in order to avoid strong natural
+resonance at corner frequencies for some ceramic alternatives. This is only an informative
+recommendation to use as a reference design.
+4.4    ESD – Electro-Static Discharge
+Where ESD performance is not otherwise specified, e.g., in the Ethernet specification, ELSFP modules
+shall meet ESD requirements given in EN61000-4-2, criterion B test specification when installed in a
+properly grounded cage and chassis. The units are subjected to 15 kV air discharges during operation
+and 8 kV direct contact discharges to the case. All the ELSFP modules and host pads including high speed
+signal pads shall withstand 1000 V electrostatic discharge based on Human Body Model per JEDEC JS-
+001 [12] [13] and IEC EN61000-4-2 [14].
+
+www.oiforum.com                                                                                                   45
+                                                                                         OIF-ELSFP-01.0
+
+5     Management Interface
+The ELSFP module shall comply to the Common Management Interface Specification (CMIS 5.3 or later).
+The ELSFP shall have a two wire interface (TWI). It shall consist of a minimum of 5 pins: 2 serial pins
+designated for clock (SCL) and for data (SDA). CMIS 5.3 or later also requires ResetL, IntL, and LPModeL
+signals, for which pins have been assigned.
+5.0    Common Management Interface Specification
+The common management interface specification (CMIS 5.3 or later) used with ELSFP is also used for the
+OIF-Co-Packaging-3.2T-Module-01.0 – Implementation Agreement for a 3.2Tb/s Co-Packaged (CPO)
+Module. A specific project describing the interface between the Host, CPO and ELSFP is managed within
+the OIF Management Working Group, so the reader is directed to updates to CMIS and Implementation
+Agreement for ELSFP CMIS and any white papers coming out of this group specific to ELSFP and CPO
+management.
+
+
+
+
+www.oiforum.com                                                                                     46
+                                                                                             OIF-ELSFP-01.0
+
+6     ELSFP Designations and Labeling Conventions
+6.0     ELSFP Module Capability Identification Designation
+In order to better ensure port to module compatibility, ELSFP Modules shall be designated by
+their basic optical characteristics as follows:
+
+                        ELSFP Designation: *aMF-bb#-cc-kkkkkkk
+          (*) = Number of fibers
+          (a) = Type of fiber (i.e., SMF, PMF)
+          (bb) = Power per Wavelength / Core (HP, VHP, UHP – Optical Power classes in Table 6)
+          (#) = Wavelengths per core (i.e., 1,2,4,8)
+          (cc) = Application dictates CPO interface supported wavelengths (i.e., CWDM4, 1311)
+          (kkkkkkk) = Physical key designation in binary
+Example ELSFP Designations:
+8PMF-VHP1-CWDM4-1101110
+    This module has (2) single row MT-12 ferrules, each with 4 active polarization maintaining fibers (8 in
+    total), that deliver 20+/-1.5dBm each and meet the wavelength requirements of the CWDM4
+    standards (i.e., 1271, 1291, 1311, 1331 nominal wavelength)
+4PMF-UHP1-1311-1101110
+    This module has (1) single row MT-12 ferrule, each with 4 active polarization maintaining fibers, that
+    deliver 23+/-1.5dBm each and meet the wavelength requirements of the 1311 nm standards such as
+    400G-BASE-DR4 (i.e., 1311 nominal wavelength)
+4PMF-VLP8-CWWDM18nmFixed-1111110
+    This module has (1) single row MT-12 ferrule, with 4 active polarization maintaining fibers, that deliver
+    8+/-1.5dBm in each of 8 wavelengths meeting the wavelength requirements of the CW-WDM MSA’s
+    18nm span (i.e., 1293.32, 1295.56, 1297.80, 1300.05, 1302.31, 1304.58, 1306.85, 1309.14: fixed
+    nominal 400GHz channel spacing, corresponding to the CW-WDM’s Type 1 maximum output power
+    class)
+6.1     Labeling Convention
+It is recommended that ELSFP modules be clearly labelled, and such a label may include:
+          Manufacturing and part number in compliance with the above ELSFP designation
+          Regulatory compliance labelling
+          A manufacturing traceability code
+Additional labels may be required to be placed on the top of the module for the module to follow safety
+regulations, for example high touch temperature labelling, etc.
+Labelling shall not interfere with requisite mechanical, thermal or EMI features.
+
+www.oiforum.com                                                                                          47
+                                                                                          OIF-ELSFP-01.0
+
+7     Module Environmental and Thermal Requirements
+ELSFP modules are designed to allow for up to 16 modules in single cages across a 19" rack; Additionally,
+by use of ganged and/or belly-to-belly higher ELSFP modules counts are possible with the appropriate
+thermal design for cooling/airflow.
+
+The equipment supplier is responsible for controlling the module case temperature to the specified
+range. The module supplier is responsible for defining a point on the module case where the
+temperature is measured. This should be a point connected to an internal component with the least
+thermal margin, e.g., a laser diode(s) or the “hot” side of the TEC opposite the laser(s). It is not
+necessarily the hottest point of the module surface. The module supplier can establish a monitor point
+for case temperature at a location of interest for touch temperature, i.e., outside the faceplate. An
+internal temperature sensor or sensors could provide a correlation to this point. The module should also
+report thermal margin or temperatures for specific critical internal components, including the laser(s),
+module micro controller, power supplies, and any TECs. These components can then have more well
+monitored maximum operating temperatures to provide future design flexibility and wider component
+selection. ELSFP module suppliers should provide system designers with sufficient module modelling
+information to establish component thermal margin in their systems while maintaining case
+temperature within limits. This information is outlined in IA OIF-Thermal-01.0 Section 6.
+7.0    Thermal Requirements
+The module case temperature may be within one or more of the case temperatures ranges defined in
+Table 10. The temperature ranges are applicable between 60 m below sea level and 1800m above sea
+level, utilizing the host systems designed airflow. For further information see Telcordia GR-63-CORE,
+Issue 5, December 2017, NEBSTM Requirements: Physical Protection.
+                         Table 10 Temperature Range Class of Operation
+                                Class              Module Case Temperature
+                              Standard                 0°C through 70°C
+                              Extended                -5°C through 85°C
+                              Industrial             -40°C through 85°C
+
+7.1    External Case and Handle Touch Temperature
+For all power classes, all module case and handle surfaces outside of the cage must comply with
+applicable touch temperature requirements. If the module case temperature will exceed applicable
+short-term touch temperature limits, a means must be provided to prevent contact with the case during
+unlatching and removal. Handles are typically low thermal conductivity elastomer and allow for a higher
+touch temperature, see IEC/UL 60950-1 [4] and Telcordia GR-63-CORE [19].
+
+
+
+
+www.oiforum.com                                                                                      48
+                                                                                                   OIF-ELSFP-01.0
+
+8     Form Factor Performance Requirements
+EIA-364-1000 shall be used to define the test sequences and procedures for evaluating the ELSFP
+connector systems described in this document. Where multiple test options are available, the
+manufacturer shall select the appropriate option where not previously specified. The selected procedure
+should be noted when reporting data. If there are conflicting requirements or test procedures between
+EIA-364 procedures and those contained within this document, this document shall be considered the
+prevailing authority. Unless otherwise specified, procedures for sample size, data, and collection to be
+followed as specified in EIA-364-1000. See EIA-364-1000 Annex B for objectives of tests and test groups.
+This document represents the minimum requirements for the defined product. Additional test
+conditions and evaluations may be conducted within the defined EIA-364-1000 sequences. More
+extreme test conditions and failure criteria may be imposed and still meet the requirements of this
+document.
+8.0    Test Requirements
+Table 11 summarizes the performance criteria that are to be satisfied by the connector described in this
+document. Most performance criteria are validated by EIA-364-1000 testing, but this test suite leaves
+some test details to be determined. To ensure that testing is repeatable, these details are identified in
+Table 12. Finally, testing procedures used to validate any performance criteria not included in EIA-364-
+1000 are provided in Table 13.
+                             Table 11 Form Factor Performance Requirements
+Parameters         Description/ Details                                             Requirements
+Mechanical/ Physical Tests
+Plating Type       Plating type on connector contacts                               Precious
+Surface            Surface treatment on connector contacts; if surface              Manufacturer to specify
+Treatment          treatment is applied, Test Group 6 is required
+Wipe length        Designed distance a contact traverses over a mating contact      Manufacturer to specify
+                   surface during mating and resting at a final position. If less
+                   than 0.127 mm, test group 6 is required
+Rated Durability   The expected number of durability cycles a component is          Connector/ cage: 100 cycles
+Cycles             expected to encounter over the course of its life                Module: 50 cycles
+Mating Force*      Amount of force needed to mate a module with a connector         100 N MAX
+                   when latches are deactivated
+Unmating Force*    Amount of forced needed to separate a module from a              45 N MAX
+                   connector when latches are deactivated
+Latch Retention*   Amount of force the latching mechanism can withstand             90 N MIN
+                   without unmating
+Cage Latch         Amount of force needed to mate a module with a connector         125 N MAX
+Strength*          when latches are deactivated
+Cage Retention     Amount of force a cage can withstand without                     180 N MIN
+to Host Board*     separating from the host board when a vertical load is
+                   uniformly distributed across the cage
+Environmental Requirements
+Field Life         The expected service life for a component                        10 years
+Field              The expected service temperature for a component                 65°C
+Temperature**
+
+www.oiforum.com                                                                                               49
+                                                                                                  OIF-ELSFP-01.0
+
+Electrical Requirements
+Current            Maximum current to which a contact is exposed in use           0.5 A per signal contact MAX
+                                                                                  1.5 A per power contact MAX
+Operating Rating Maximum voltage to which a contact is exposed in use             30 V DC per contact MAX
+Voltage
+Note:
+* These performance criteria are not validated by EIA-364-1000 testing, see Table 13 for test procedures and
+pass/fail criteria.
+** Field temperature is the ambient air temperature around the component.
+
+
+
+
+www.oiforum.com                                                                                                50
+                                                                                                  OIF-ELSFP-01.0
+
+Table 12 describes the details necessary to perform the tests described in the EIA-364-1000 test
+sequences. Testing shall be done in accordance with EIA-364-1000 and the test procedures it identifies
+in such a way that the parameters/ requirements defined in Table 11 are met. Any information in this
+table supersedes EIA-364-3 1000.
+                                   Table 12 EIA-364-1000 Test Details
+Performance            Description/ Details                                        Requirements
+Parameters
+Mechanical/ Physical Tests
+Durability             EIA-364-09                                                  No evidence of physical
+(preconditioning)      To be tested with connector, cage, and module. Latches      damage
+                       may be locked out to aid in automated cycling.
+Durability*            EIA-364-09                                                  No visual damage to mating
+                       To be tested with connector, cage, and module. Latches      interface or latching
+                       may be locked out to aid in automated cycling.              mechanism Environmental
+                                                                                   Tests
+Cyclic Temperature     EIA-364-31 Method IV omitting step 7a                       No intermediate test criteria
+and Humidity           Test Duration B
+Vibration              EIA-364-28                                                  No evidence of physical
+                       Test Condition V                                            damage
+                       Test Condition Letter C                                     -AND-
+                       Test set-up: Connectors may be restrained by a plate        No discontinuities longer
+                       that replicates the system panel opening as defined in      than 1 μs allowed
+                       this specification. External cables may be constrained to
+                       a non-vibrating fixture a minimum of 8 inches from the
+                       module.
+
+                       For cabled connector solutions: Wires may be attached
+                       to PCB or fixed to a non-vibrating fixture.
+Mixed Flowing Gas      EIA-364-65 Class II                                         No intermediate test criteria
+                       See Table 4.1 in EIA-364-1000 for exposure times            Electrical Tests
+                       Test option Per EIA-364-1000 option 3
+Electrical Tests
+Low Level Contact      EIA-364-23                                                  20 mΩ Max change from
+Resistance**           20 mV DC Max, 100 mA Max                                    baseline
+                       To include wire termination or connector-to-board
+                       termination
+Dielectric             EIA-364-20                                                  No defect or breakdown
+Withstanding Voltage   Method B                                                    between adjacent contacts
+                       300 VDC minimum for 1 minute                                -AND-
+                       Applied voltage may be product / application specific       1 mA Max Leakage Current
+Notes:
+* If the durability requirement on the connector is greater than that of the module, modules may be replaced
+after their specified durability rating.
+** The first low level contact resistance reading in each test sequence is used to determine a baseline
+measurement. Subsequent measurements in each sequence are measured against this baseline.
+
+
+
+
+www.oiforum.com                                                                                                51
+                                                                                                    OIF-ELSFP-01.0
+
+Table 13 describes the testing procedures necessary to validate performance criteria not validated by
+EIA-364-1000 testing. The tests are to be performed in such a way that the parameters/ requirements
+defined in Table 11 are met.
+                                    Table 13 Additional Test Procedures
+Tests                Test Descriptions and Details                            Pass/ Fail Criteria
+Mechanical/ Physical Tests
+Mating Force*        EIA-364-13                                               Refer to Table 11
+                     To be tested with cage, connector, and module.           -AND-
+Unmating Force*      Latching mechanism deactivated (locked out).             No physical damage to any
+Latch Retention*     EIA-364-13                                               components
+                     To be tested with cage, connector, and module.
+                     Latching mechanism engaged (not locked out).
+Latch Strength       An axial load applied using a static load or ramped
+                     loading to the specified load. To be tested with
+                     cage, connector, and module or module
+                     representative tool without heat sinks
+                     Latching mechanism engaged (not locked out).
+Cage Retention to    Tested with module, module analog, or fixtures           No physical damage to any
+Host Board           mated to cage.                                           components
+                     Pull cage in a direction perpendicular to the board at   -AND-
+                     a rate of 25.4mm/min to the specified force.             Cage shall not separate from board
+Electrical Tests
+Current              EIA-364-70                                               Refer to Table 11 for current
+                     Method 3, 30-degree temperature rise                     magnitude
+                     Contacts energized: All signal and power contacts
+                     energized simultaneously
+Note:
+* Values listed in Table 11 apply with or without the presence of a riding heat sink.
+
+
+
+
+www.oiforum.com                                                                                                52
+                                                                                           OIF-ELSFP-01.0
+
+9   Summary
+This External Laser Small Form-factor Pluggable (ELSFP) Implementation Agreement (IA) details the
+minimum specifications for interoperability in a multi-vendor ecosystem and provides specific examples
+in some cases for informative purposes. As each application will have specific optical requirements (i.e.,
+power, noise, wavelength, these have intentionally not been included in this IA). Some of the many
+applications for ELSFP are covered in the OIF-Co-Packaging-FD-01.0 – Co-Packaging Framework
+Document. Some basic goals for this form factor include:
+⚫   16 modules per row of an 18” standard rack
+⚫   1 or 2 MT-compatible physical contact or air-gap ferrules to enable servicing multiple OEs
+⚫   1x1, 1x4 and belly to belly configurations
+⚫   Compatible with both 4 and 8 fiber proposals for Implementation Agreement for a 3.2Tb/s Co-
+    Packaged (CPO) Module
+⚫   Additional volume above module PCB for diverse laser package options
+⚫   Flexible and enhanced riding heat sink thermal design vs. OSFP or QSFP-DD: increased size and
+    airflow are possible for diverse system cooling requirements
+
+
+
+
+www.oiforum.com                                                                                       53
+                                                                                           OIF-ELSFP-01.0
+
+10 References
+
+Foundational references for laser safety
+1. IEC 60825-1:2014 “Safety of laser products -Part 1: Equipment classification and requirements”
+2. IEC 60825-2:2021“Safety of laser products -Part 2: Safety of optical fiber communication systems
+(OFCSs)”
+3. IEC 60825-17:2015 “Safety of laser products -Part 17: Safety aspects for use of passive optical
+components and optical cables in high power optical fiber communication systems”
+4. IEC 60950-1:2005, with amendments AMD1:2009, AMD2:2013 “Information technology equipment –
+Safety –Part 1: General requirements”
+
+Published standards and other contributions, that apply the foundational references
+5. https://www.ieee802.org/3/10GEPON_study/email/msg00156.html (2006) -Comments by Peter
+Anslow
+6. oif2021.359.00 “Laser Safety for Multiple Channel External Laser Sources”, Bing Shao, Jock Bovington,
+Matt Traverso, Mark Nowell -Cisco
+7. IEEE 802.3bs section 124.9.2 Laser safety (for 400GBASE-DR4)
+8. IEEE 802.3cu section 151.9.2 Laser safety (for 400GBASE-FR4)
+9. ITU-T G.664 10/2012 “SERIES G: TRANSMISSION SYSTEMS AND MEDIA, DIGITAL SYSTEMS AND
+NETWORKS: Transmission media and optical systems characteristics –Characteristics of optical
+components and subsystems: Optical safety procedures and requirements for optical transport systems”
+10. ITU-T G.664 12/2014 Amendment 1 “SERIES G: TRANSMISSION SYSTEMS AND MEDIA, DIGITAL
+SYSTEMS AND NETWORKS: Transmission media and optical systems characteristics –Characteristics of
+optical components and subsystems: Optical safety procedures and requirements for optical transport
+systems”
+11. “Co-packaged Optics External Laser Source Guidance Document v1.0”, CPO JDF
+12. Human Body Model per ANSI/ESDA/JEDEC JS-001
+13. EN6100-4-2 (IEC immunity standard on ESD), criterion B test specification
+14. JEDEC JESD8C.01 Interface Standard for Nominal 3.0/3.3 V Supply Digital Integrated Circuit
+(LVCMOS)
+15. TIA-604-5 “FOCIS 5 Fiber Optic Connector Intermateability Standard- Type MPO”
+16. IEC 61754-7-1 “Fibre optic interconnecting devices and passive components - Fibre optic connector
+interfaces - Part 7-1: Type MPO connector family - One fibre row”
+17. TIA-598-C Optical Fiber Cable Color Coding
+https://web.archive.org/web/20120710203543/http://www.nds.com.vn/images/download/_Cabling%2
+0Standard%20-%20TIA%20598%20A%20-%20FO%20Cable%20Color%20Coding.pdf
+
+
+
+www.oiforum.com                                                                                       54
+                                                                                         OIF-ELSFP-01.0
+
+18. ITU Radiocommunication Article 2 Nomenclature, Section I – Frequency and Wavelength Bands
+https://web.archive.org/web/20111001005059/http:/life.itu.int/radioclub/rr/art02.htm
+19. EIA-364-70D, Temperature Rise Versus Current Test Procedure for Electrical Connectors and Sockets,
+Revision D, May 2021.
+20. Telcordia GR63 NEBSTM Requirements: Physical Protection, Section 4.1.7, December 2017
+21. ISO 21920-2, Geometrical product specifications (GPS) — Surface texture: Profile — Part 2: Terms,
+definitions and surface texture parameters, 2021
+
+
+
+
+www.oiforum.com                                                                                     55
+                                                                                      OIF-ELSFP-01.0
+
+11 Appendix A: Interpretation of eye safety requirements for high power
+   ribbon fibers
+
+ELSFP implementations shall meet IEC 60825-2 Hazard Level 1 when used as specified. Conformance to
+additional laser safety standards may be required for operation within specific geographic regions.
+11.0 ELSFP Interface with System Interlock
+
+
+
+
+                         Figure 45 System Interlock Example with ELSFP
+
+
+11.1 Automatic Power Reduction
+Systems without an interlock must execute Automatic Power Reduction (APR) within 250ms and fibers
+conforming to fiber assignment Figure 36 and Table 5 must not exceed 24.5 dBm/fiber in order to
+maintain Hazard level 1.
+
+
+
+
+www.oiforum.com                                                                                 56
+                                                                                          OIF-ELSFP-01.0
+
+12 Appendix B: Recommended ELSFP laser power turn-on procedure
+
+The ELSFP generates a high-level of optical power (>~15dBm/fiber) to support multiple optical
+modulators of an optical engine. It has been experimentally shown when the ELSFP is operated in high-
+power output mode that any contamination present is in the optical connector light path (particle, dust,
+condensation, or any foreign body) will result in permanent damage through “burning” of the material
+or of the connector ferule. “Burning” on the ELSFP optical connectors will result in catastrophic
+damages to the system that may only be remediated through factory return. The following section will
+provide recommendations for system operation and implementation of host systems control software
+in-order to minimize the chances of damages through optical burning.
+
+
+12.0 Optical inspection and cleaning of host and ELSFP optical connectors
+When inserting an ELSFP in the system faceplate, both mating MT surfaces of the ELSFP shall be
+thoroughly inspected following the IEC 61300-3-35 standard for facet inspection and cleaned using
+connector manufacturer recommended cleaning procedure. Properly cleaning the MT ferules will ensure
+a minimum amount of contaminant is present after insertion. Caution should also be taken when using,
+so called “wet” cleaning procedures. Residual cleaning solution left on optical facets is also a form of
+contamination which can result permanent facet damage. Please consult appropriate inspection and
+cleaning procedures provided by system and connector vendors.
+
+
+
+
+                     Figure 46 Fiber optic inspection and cleaning procedure
+12.1 Optical loss measurement
+Inspection and cleaning alone will not guarantee the absence of contaminants within the connector light
+path. Host software implementors should utilize a link loss verification procedure before requesting full
+operational output power from an ELSFP.
+
+
+www.oiforum.com                                                                                      57
+                                                                                          OIF-ELSFP-01.0
+
+Individual link loss can be assessed by the host system software by the following procedure in Figure
+47Figure 46.
+    1) The host controller sets the ELSFP lasers P0 to a low safe initial value first (<~15dBm)
+    2) The host controller measures the received optical power from the corresponding CW light input
+       port on the optical engine P1. The ELSFP to OE insertion loss is the difference between P0 and P1.
+    3) The insertion loss is compared to the expected value of loss for this specific link in the system.
+       Note: it is also advisable to compare the loss of multiple fiber paths from the ELSFP in relative
+       terms to identify potential contamination of one of more optical connections.
+    4) The ELSFP is set to high power only when the optical path loss is within specifications.
+
+
+
+
+                         Figure 47 ELSFP to OE optical loss measurement
+
+
+The full procedure to minimize the catastrophic “burning” damage on the connector of the ELSFP is
+illustrated in Figure 48.
+
+
+
+
+www.oiforum.com                                                                                         58
+                                                                        OIF-ELSFP-01.0
+
+
+
+
+                  Figure 48 Recommended ELSFP power turn-on procedure
+
+
+
+
+www.oiforum.com                                                                   59
+                                                                                    OIF-ELSFP-01.0
+
+13 Appendix C: Glossary
+A – Ampere
+AR – Anti-Reflection
+ASIC – Application Specific Integrated Circuit
+CEA – Consumer Electronics Association
+Ch. - Channel
+CMIS – Common Management Interface Specification
+CPO – Co-Packaged Optical
+CW – Continuous Wave
+CWDM – Course Wavelength Division Multiplexing
+dB – Decibel
+DC – Direct Current
+dI/dt – change in current over time
+DR – 500m single mode link specification at 1311 nm channel(s)
+E-Field – Electric Field
+ECIA - Electronic Components Industry Association (ECIA)
+EIA – Electronic Industry Alliance
+ELSFP – External Laser Small Form-Factor Pluggable
+EMI – Electro-Magnetic Interference
+ESD – Electro-Static Discharge
+FR - 2000m single mode link specification with CWDM 1271, 1291, 1311 and 1331 nm channels
+GND – Ground
+HP – High Power
+IEC – International Electrotechnical Commission
+IEEE – International Electrical and Electronic Engineers
+ITU – International Telecommunications Union
+JEDEC - Joint Electron Device Engineering Council
+I – Current
+ICC – Common Collector Current
+LP – Low Power
+LVCMOS – Low Voltage Complementary Metal-Oxide-Semiconductor
+LVTTL – Low Voltage Transistor-Transistor Logic
+
+www.oiforum.com                                                                               60
+                                                                                           OIF-ELSFP-01.0
+
+MgmtInit – Management Initialization
+ModPrsL – Module Presence
+MP – Medium Power
+MT – Mechanical Transfer, refers to the ferrule of an optical interface with parallel fibers common in the
+industry and detailed in the referenced specifications from IEC and TIA.
+OE – Optical Engine, refers to the CPO module
+PCB – Printed Circuit Board
+PER – Polarization Extinction Ratio
+PMF – Polarization Maintaining Fiber
+PPS - Polyphenylene Sulfide
+RIN – Relative Intensity Noise
+SCL- Serial Clock
+SDA – Serial Data
+SHP – Super High Power
+SMF – Single Mode Fiber
+SMSR – Side-Mode Suppression Ratio
+TBD – To be determined
+TIA - Telecommunications Industry Association
+TP – Test Point
+UHP – Ultra High Power
+V – Voltage
+VCC – Common Collector Voltage
+VHP – Very High Power
+
+
+
+14 Appendix D: Open Issues / current work items
+There are no open comments on this Implementation Agreement. Please make a maintenance
+contribution if you have a comment or suggestion which you would like discussed for a future version of
+the document.
+
+
+15 Appendix E: List of companies belonging to OIF when document is approved
+Accton Technology                      Advanced Fiber Resources             Alibaba
+ Corporation                           Advanced Micro Devices, Inc.         Alphawave Semi
+ADTRAN                                 AIO Core Co., Ltd                    Amphenol Corp.
+
+www.oiforum.com                                                                                       61
+                                                                                 OIF-ELSFP-01.0
+
+Applied Optoelectronics, Inc.     InfiniLink                       Rosenberger
+Arista Networks                   InnoLight Technology Limited      Hochfrequenztechnik
+Astera Labs                       Integrated Device                Samsung Electronics Co. Ltd.
+Ayar Labs                          Technology                      Samtec Inc.
+BitifEye Digital Test Solutions   Intel                            SCINTIL Photonics
+ GmbH                             Jabil Canada Corporation         Semtech Canada Corporation
+BizLink Technology, Inc.          Juniper Networks                 Senko Advanced
+Broadcom Inc.                     Kandou Bus                        Components
+Cadence Design Systems            KDDI Research, Inc.              SeriaLink Systems Ltd.
+Casela Technologies USA           Keysight Technologies, Inc.      Sicoya GmbH
+Celestica                         Kuaishou Technology              SiFotonics Technologies Inc.
+China Telecom                     KYOCERA Corporation              Silith Technology
+CICT                              Lessengers Inc.                  Socionext Inc.
+Ciena Corporation                 Linktel Technologies Co., Ltd.   Source Photonics, Inc.
+Cisco Systems                     LIPAC                            Spirent Communications
+Coherent                          Lumentum                         Sumitomo Electric Industries,
+Cornelis Networks, Inc.           Luxshare-ICT                      Ltd.
+Corning                           MACOM Technology                 Sumitomo Osaka Cement
+Credo Semiconductor (HK)           Solutions                       Synopsys, Inc.
+ LTD                              Marvell Semiconductor, Inc.      TE Connectivity
+Dell, Inc.                        MaxLinear Inc.                   Tektronix
+Dexerials Corporation             MediaTek                         Telefonica S.A.
+DustPhotonics                     Meta Platforms                   TELUS Communications, Inc.
+EFFECT Photonics B.V.             Microchip Technology             Teramount
+Eoptolink Technology               Incorporated                    US Conec
+Epson Electronics America,        Microsoft Corporation            Viavi Solutions Deutschland
+ Inc.                             Mitsubishi Electric               GmbH
+Ericsson                           Corporation                     Wilder Technologies, LLC
+EXFO                              Molex                            Wistron Corporation
+Fathom Radiant                    Multilane Inc.                   Yamaichi Electronics Ltd.
+Foxconn Interconnect              NEC Corporation                  ZTE Corporation
+ Technology Ltd                   Nokia
+Fujikura                          NTT Corporation
+Fujitsu                           Nubis Communications, Inc.
+Furukawa Electric Co., Ltd.       NVIDIA Corporation
+Global Foundries                  O-Net Communications
+Google                            Optomind Inc.
+H3C                               Orange
+Hakusan Inc                       PETRA
+Hewlett Packard Enterprise        Precision Optical
+Hirose Electric Co. Ltd.           Transceivers, Inc.
+Hisense Broadband                 Quantifi Photonics USA Inc.
+ Multimedia                       Quintessent Inc.
+Huawei Technologies Co.,          Rambus Inc.
+ Ltd.                             Ranovus
+Infinera                          Retym
+
+www.oiforum.com                                                                             62
+

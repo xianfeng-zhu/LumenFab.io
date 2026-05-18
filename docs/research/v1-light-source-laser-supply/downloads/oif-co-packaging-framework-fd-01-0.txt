@@ -1,0 +1,1677 @@
+                                                               OIF-Co-Packaging-FD-01.0
+
+
+
+
+                  Co-Packaging Framework Document
+
+
+
+                        OIF-Co-Packaging-FD-01.0
+
+
+                               February 3, 2022
+
+
+
+                     Implementation Agreement created and approved
+                                          OIF
+                                   www.oiforum.com
+
+
+www.oiforum.com                                                                       1
+                                                                                OIF-Co-Packaging-FD-01.0
+
+
+
+
+The OIF is an international non-profit organization with over 100 member companies, including the world’s
+leading carriers and vendors. Being an industry group uniting representatives of the data and optical worlds,
+OIF’s purpose is to accelerate the deployment of interoperable, cost-effective and robust optical internetworks
+and their associated technologies. Optical internetworks are data networks composed of routers and data
+switches interconnected by optical networking elements.
+With the goal of promoting worldwide compatibility of optical internetworking products, the OIF actively
+supports and extends the work of national and international standards bodies. Working relationships or formal
+liaisons have been established with CFP-MSA, COBO, EA, ETSI NFV, IEEE 802.3, IETF, INCITS T11, ITU SG-15, MEF,
+ONF.
+
+
+                                       For additional information contact:
+                                                        OIF
+                                      5177 Brandin Ct, Fremont, CA 94538
+                                       510-492-4040 F info@oiforum.com
+                                               www.oiforum.com
+
+
+
+
+www.oiforum.com                                                                                             2
+                                                                                                       OIF-Co-Packaging-FD-01.0
+
+Working Group:                              Physical Link Layer Working Group
+
+
+TITLE:             Co-Packaging Framework Document
+
+
+SOURCE:               TECHNICAL EDITOR                                                  PLL WORKING GROUP CHAIR
+                      Kenneth Jackson                                                   David R. Stauffer, Ph. D.
+                      Sumitomo Electric                                                 Kandou Bus, S.A.
+                      2355 Zanker Rd.                                                   QI-I
+                      San Jose, CA 95131                                                1015 Lausanne Switzerland
+                      Phone: +1-626-506-9975                                            Phone: +1 802 316 0808
+                      Email: kjackson@sei-device.com                                    Email: david@kandou.com
+
+
+                      PLL WORKING GROUP – CO-PACKAGING VICE CHAIR
+                      Jeff Hutchins
+                      Ranovus
+                      Phone: +1 408 627 8036
+                      Email: jeff@ranvous.com
+
+
+ABSTRACT: This Framework Document addresses the application spaces and relevant technology considerations
+for co-packaging of optical and electrical communication interfaces with one or more ASICs. A primary objective of
+this effort is to identify new opportunities for interoperability standards for possible future work in the OIF or
+other standards organizations.
+Notice: This Technical Document has been created by the Optical Internetworking Forum (OIF). This document is offered to the OIF
+Membership solely as a basis for agreement and is not a binding proposal on the companies listed as resources above. The OIF reserves the
+rights to at any time to add, amend, or withdraw statements contained herein. Nothing in this document is in any way binding on the OIF or any
+of its members.
+The user's attention is called to the possibility that implementation of the OIF implementation agreement contained herein may require the use
+of inventions covered by the patent rights held by third parties. By publication of this OIF implementation agreement, the OIF makes no
+representation or warranty whatsoever, whether expressed or implied, that implementation of the specification will not infringe any third party
+rights, nor does the OIF make any representation or warranty whatsoever, whether expressed or implied, with respect to any claim that has
+been or may be asserted by any third party, the validity of any patent rights related to any such claim, or the extent to which a license to use
+any such rights may or may not be available or the terms hereof.
+Copyright © 2021 Optical Internetworking Forum
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or
+assist in its implementation may be prepared, copied, published and distributed, in whole or in part, without restriction other than the
+following, (1) the above copyright notice and this paragraph must be included on all such copies and derivative works, and (2) this document
+itself may not be modified in any way, such as by removing the copyright notice or references to the OIF, except as needed for the purpose of
+developing OIF Implementation Agreements.
+By downloading, copying, or using this document in any manner, the user consents to the terms and conditions of this notice. Unless the terms
+and conditions of this notice are breached by the user, the limited permissions granted above are perpetual and will not be revoked by the OIF
+or its successors or assigns.
+
+
+This document and the information contained herein is provided on an “AS IS” basis and THE OIF DISCLAIMS ALL WARRANTIES, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR
+ANY IMPLIED WARRANTIES OF MERCHANTABILITY, TITLE OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+
+
+www.oiforum.com                                                                                                                           3
+                                                                                                                   OIF-Co-Packaging-FD-01.0
+
+1      Table of Contents
+
+       COVER SHEET………………………………………………………………………….. 1
+1      TABLE OF CONTENTS .............................................................................................. 4
+2      LIST OF FIGURES ...................................................................................................... 6
+3      LIST OF TABLES ........................................................................................................ 7
+4      DOCUMENT REVISION HISTORY ............................................................................ 8
+5      INTRODUCTION ......................................................................................................... 9
+6      APPLICATIONS OVERVIEW ................................................................................... 11
+7      POTENTIAL INTERFACES FOR INTEROPERABILITY STANDARDS ................ 14
+    7.1 Introduction .......................................................................................................................................14
+    7.2 Electrical Interfaces............................................................................................................................14
+       7.2.1 Electrical Footprint .....................................................................................................................17
+       7.2.2 Socket Retention Mechanism .....................................................................................................18
+    7.3 Optical Interfaces ...............................................................................................................................18
+       7.3.1 Light (Laser) Sources ...................................................................................................................18
+       7.3.2 Pigtailed and/or Connectorized ..................................................................................................21
+       7.3.3 Connector or Fiber Exit Location and Size ..................................................................................21
+       7.3.4 Optical Budget ............................................................................................................................21
+    7.4 Thermal ..............................................................................................................................................22
+       7.4.1 Cooling Systems for Co-Packaging ..............................................................................................22
+       7.4.2 Reported Thermal Data: .............................................................................................................25
+    7.5 Power .................................................................................................................................................25
+       7.5.1 Supply Voltages, Currents ...........................................................................................................25
+    7.6 Management Interface ......................................................................................................................25
+       7.6.1 CMIS Over 2-Wire, SPI ................................................................................................................25
+    7.7 Environmental....................................................................................................................................26
+    7.8 Reliability, Redundancy and Repairability .........................................................................................26
+       7.8.1 Infant Mortality Targets and Over-Life Targets ..........................................................................27
+8      SUMMARY................................................................................................................. 28
+9      REFERENCES .......................................................................................................... 28
+
+
+www.oiforum.com                                                                                                                                            4
+                                                                                                               OIF-Co-Packaging-FD-01.0
+
+   9.1 Informative References .....................................................................................................................28
+10         APPENDIX A: GLOSSARY .................................................................................. 28
+11  APPENDIX B: GENERALIZED LASER SAFETY FOR MPO-BASED ELS
+MODULES ........................................................................................................................ 32
+   11.1 Introduction .....................................................................................................................................32
+   11.2 Laser Product Classification and Required Safety Features ............................................................32
+   11.3 Laser Class (IEC 60825-1) Versus Laser Hazard Levels (IEC 60825-2) ..............................................34
+      11.3.1 Measurement Geometry ..........................................................................................................35
+   11.4 OFCS Power Limits (IEC 60825-2: 2021) ..........................................................................................36
+   11.5 Accessible Emission Limit (AEL) Calculations, Wavelength (IEC 60825-1:2014 Laser Class 1/1M) .38
+   11.6 Exposure Level Versus Fiber Launch Power P0 At 1271 nm ............................................................40
+   11.7 AEL Calculations for MPO Connector – Condition 3: Aperture Distance 100 mm ..........................42
+      11.7.1 All Fibers Active.........................................................................................................................42
+      11.7.2 Two Groups of 4 Fibers Active ..................................................................................................43
+      11.7.3 Every Second Fiber Active.........................................................................................................44
+      11.7.4 Four Active Fibers with Maximum Separation .........................................................................45
+   11.8 AEL Calculations for MPO Connector – Condition 2: Aperture Distance 35 mm ............................46
+      11.8.1 All Fibers Active.........................................................................................................................46
+   11.9 Burn Hazard Labeling .......................................................................................................................47
+   11.10 AEL Calculations for Short Time Exposure (Laser class 1/1M) ......................................................47
+   11.11 Sample Scenarios for ELS Modules with Accessible MPO Connectors..........................................49
+      11.11.1 Eight Fibers at 18 dBm Each (Wavelengths 1271 nm, 1291 nm, 1311 nm, 1331 nm) ...........49
+      11.11.2 Eight Fibers at 22 dBm Each (Wavelengths 1271 nm, 1291 nm, 1311 nm, 1331 nm) ...........50
+      11.11.3 Four Fibers at 24 dBm Each (Wavelength 1311 nm Only)......................................................51
+12  APPENDIX C: LIST OF COMPANIES BELONGING TO OIF WHEN
+DOCUMENT IS APPROVED ........................................................................................... 52
+
+
+
+
+www.oiforum.com                                                                                                                                       5
+                                                                                                                      OIF-Co-Packaging-FD-01.0
+
+2      List of Figures
+Figure 1: Co-Packaging implementation....................................................................................................... 9
+Figure 2: Example use-cases for Co-Packaged optical or electrical engines. .............................................10
+Figure 3: Applications potentially benefitting from co-packaging. ............................................................12
+Figure 4: Possible common optical interconnect requirements for the indicated applications and
+associated endpoints. ..................................................................................................................................13
+Figure 5: Re-timed. Note: Trace length and SerDes type informational. Achievable distance depends
+on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+discontinuities. .............................................................................................................................................15
+Figure 6: Linear amplified. Note: Trace length and SerDes type informational. Achievable distance
+depends on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+discontinuities. .............................................................................................................................................16
+Figure 7: Half-retimed. Note: Trace length and SerDes type informational. Achievable distance
+depends on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+discontinuities. .............................................................................................................................................16
+Figure 8: Direct drive. Note: Trace length and SerDes type informational. Achievable distance depends
+on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+discontinuities. .............................................................................................................................................17
+Figure 9: Laser Light Sources: Use-cases, proposed terminology, and associated laser safety
+considerations. Numbered figure at left corresponds to an external laser source implementation. .......19
+Figure 10: Scenarios for optical power from ELS to OE. (a) 1:Na, (b) 1:Nb, (c) 1:Nc, (d) 1:1, (e) Ne:1, (f)
+Nf:1.. ............................................................................................................................................................20
+Figure 11: ELS interdependencies on other critical elements of the co-packaging ecosystem. ................21
+Figure 12: Impact of mid-board optical connectors. ..................................................................................22
+Figure 13: A typical 1RU data center Ethernet switch with 32 QSFP-DD 400Gb/s ports. ..........................23
+Figure 14: Switch ASIC power consumption trends. ..................................................................................23
+Figure 15: Generic reliability curve for co-packaging applications. ............................................................27
+
+
+
+
+www.oiforum.com                                                                                                                                               6
+                                                                                                                   OIF-Co-Packaging-FD-01.0
+
+3      List of Tables
+Table 1: Required features for the applications considered. (Note: Grayed cells to be completed when
+system requirements are better defined.) ...................................................................................................13
+Table 2: Attributes for the applications communication’s links endpoints. ..............................................14
+Table 3: Signaling formats and protocols for the specified applications. ..................................................14
+Table 4: Tradeoffs between solder reflow and socket attach approaches for co-packaged engines. .......17
+Table 5: Typical 1RU data center switch power consumption* ..................................................................23
+Table 6: Possible system cooling approaches. ............................................................................................24
+Table 7: Reliability targets. .........................................................................................................................27
+Table 8: Laser product classification and required safety features for IEC/EN 60825-1 3rd edition. .........32
+Table 9: Requirements Summary ...............................................................................................................33
+Table 10: Summary of requirements for location types in OFCS (IEC 60825-2: 2021)...............................34
+Table 11: Measurement aperture diameters and measurement distances for the default (simplified)
+evaluation. ...................................................................................................................................................35
+Table 12: OFCS power limits for 11 µm mode field diameter single-mode fiber and 0.1 numerical
+aperture multimode fibers (core diameter 50 µm). ....................................................................................36
+
+
+
+
+www.oiforum.com                                                                                                                                            7
+                                                                          OIF-Co-Packaging-FD-01.0
+
+
+
+4   Document Revision History
+
+Working Group: Physical and Link Layer Working Group
+
+
+
+
+SOURCE:         TECHNICAL EDITOR                        PLL WORKING GROUP CHAIR
+                Kenneth Jackson                         David R. Stauffer, Ph.D.
+                Sumitomo Electric                       Kandou Bus, SA
+                2355 Zanker Rd.                         QI-I
+                San Jose, CA 95131                      1015 Lausanne, Switzerland
+                Phone: +1-626-506-9975                  Phone: +1-802-316-0808
+                Email: kjackson@sei-device.com          Email: david@kandou.com
+
+
+
+
+DATE:                           February 3, 2022
+
+
+
+
+               Document                 Date                   Revisions/Comments
+
+                                     Feb 03,
+        OIF-Co-Packaging-FD-01.0                   Initial document release
+                                     2020
+
+
+
+
+www.oiforum.com                                                                                  8
+                                                                            OIF-Co-Packaging-FD-01.0
+
+5   Introduction
+Next generation datacenter switching networks and high-performance computing, such as machine-
+learning and artificial intelligence, are increasingly challenged by a combination of high-power
+dissipation and the need for high bandwidth I/O escape from the ASICs enabling these applications.
+Scaling of current architectures suggest that next generation systems will challenge the cooling
+capabilities of these systems. New architectures and new technology implementations are required if
+the desired performance levels are to be achieved.
+Co-packaging, where optical or electrical communications devices are attached on the same first-level
+substrate as the host ASIC (Figure 1), is expected to provide high bandwidth interconnects with
+significant power savings. By locating the optical engine in close proximity to the Host ASIC, the high-
+speed electrical channel losses and impedance discontinuities can be minimized, thus enabling the use
+of higher speed, lower power, off-chip I/O drivers.
+
+
+
+
+                                Figure 1: Co-Packaging implementation.
+
+
+
+
+Figures 2a – d show some specific use-cases with different packaging arrangements for engines and
+ASICs. The Co-Packaging Assembly (CPA) is a Multi-Chip Module (MCM) with either socketed or
+soldered ASIC and Optical Engines (OE) or Electrical Engines (EE) placed onto a high-performance
+substrate.
+
+
+
+
+www.oiforum.com                                                                                       9
+                                                                         OIF-Co-Packaging-FD-01.0
+
+
+
+
+              Figure 2: Example use-cases for Co-Packaged optical or electrical engines.
+Figure 2c shows a use case where the engine locations are populated with a passive Copper Cable
+Assembly (CCA) to connect to close-proximity transceivers (such as coherent) which may not fit into the
+OE or EE footprint for co-packaging. The CCA could also be used to connect with an on-board optical or
+electrical engine, or with a front-panel module.
+Figure 2d shows a use-case where a packaged ASIC (ASIC die plus ASIC substrate/RDL) and engine are
+attached to a common substrate using sockets which facilitate the attachment and removal of the
+devices during assembly and rework. This arrangement is referred to as socketed, “near-package
+optics” (NPO).
+
+
+
+www.oiforum.com                                                                                    10
+                                                                            OIF-Co-Packaging-FD-01.0
+
+The purpose of this Framework Document is to identify some of the key applications and their
+requirements for which co-packaging implementations may provide significant benefits. This paper will
+also discuss some of the issues associated with optical and electrical co-packaging and identify
+opportunities and develop industry consensus to pursue interoperability standards. It is expected that
+this Framework project will result in follow-on standardization activities at the OIF or other appropriate
+standard bodies.
+
+
+6   Applications Overview
+Three applications have been identified as benefitting from co-packaging (Figure 3):
+    1) Data center networking, which typically include Ethernet NICs and switches connecting servers
+       and storage devices,
+    2) AI training / machine learning, where specialized high-performance graphics or tensor
+       processors are tightly coupled to process (learn) from examples (training data) to provide
+       predictions and/or decisions and
+    3) System disaggregation, where the processing, memory and storage functions are shared among
+       multiple compute nodes to increase usage efficiency.
+
+Each application contains two communications endpoints, a Switching Node, connected to another
+Switch node or an End-node. They each have different requirements and operating environments.
+These applications are expected to drive the need for even higher bandwidth interconnects with lower
+latency and lower power dissipation than today’s implementations. Current approaches (those typically
+employing pluggable optical transceivers or passive copper cables) will have difficulty meeting these
+requirements and next generation systems require new architectures and technologies. By co-
+packaging the communications interfaces (e.g., optical or electrical engines) in close proximity to the
+ASIC, high data-throughput interconnects with lower power and lower latency are possible.
+
+
+
+
+www.oiforum.com                                                                                       11
+                                                                            OIF-Co-Packaging-FD-01.0
+
+
+
+
+                   Figure 3: Applications potentially benefitting from co-packaging.
+
+
+These co-packaged applications may use a variety of electrical interface standards such as XSR, LR, PCIe,
+or even wide interfaces such as AIB. Some of electrical interfaces will be low latency typically
+implemented with no FEC or perhaps a very low latency FEC code.
+
+
+Although these applications can have different overall requirements, the insertion loss of the optical
+interconnects supporting these applications can be similar. Figure 4 shows co-packaged optical engines
+with multiples of base lane data-rates of 100Gb/s and an optical insertion loss budget of 4dB (for single-
+mode fiber-based implementations) for use in data center networking and AI Training with Ethernet
+protocols. Short reach data center networking applications may have a loss budget of 1.8dB (for multi-
+mode fiber-based implementations). For some of the AI Training and disaggregated systems, where the
+resources being shared are not bandwidth intensive the base lane data-rate is expected to be lower
+(e.g., 32Gb/s NRZ interfaces based on PCIe gen 5) together with a lower-latency protocol such as CXL.
+Memory disaggregation, on the other hand, requires transfers of large data blocks between many
+endpoints (memory) and processors. Large radix switches with low latency will be needed and all-
+optical switching approaches may provide the desired performance. As a result, the optical insertion
+loss budget increases from 4dB to 8-10dB to accommodate these kinds of implementations.
+
+
+
+
+www.oiforum.com                                                                                       12
+                                                                                                       OIF-Co-Packaging-FD-01.0
+
+
+
+
+   Figure 4: Possible common optical interconnect requirements for the indicated applications and
+                                       associated endpoints.
+Table 1 shows some other required features for these applications, including energy efficiency, type of
+engine at the end node, number of engines per end node and switch node as well as engine reliability.
+Cells without values are expected to be added when the requirements are better defined.
+Table 1: Required features for the applications considered. (Note: Grayed cells to be completed when
+system requirements are better defined.)
+                                                                                     Application
+                                           Data Center
+                                        Switching Network                                                                   Disaggregation
+                                                                   HPC / AI         AI Training / ML       Disaggregation
+                                         (including Short                                                                     (Memory)
+                                              Reach)
+                                                             Ethernet                                             CXL
+                                                                                                                              Increased
+                                                  Point-to-point                     Point-to-point        Point-to-point
+                                                                                                                                Radix
+ Energy Efficiency 1                        ≤ 15 pJ/b              ≤ 15 pJ/b    5-10 pJ/b      5-10 pJ/b     5-10 pJ/b        5-10 pJ/b
+
+
+                                        Pluggable or CoPkg           CoPkg        CoPkg         CoPkg          CoPkg            CoPkg
+ Engine End Node
+                                             4 x 106G              32 x 106G    32 x 106G      32 x 32G       32 x 32G         32 x 32G
+
+
+ Engines per End Node                           1x                 2x to 4x      4x to 8x                     2x to 4x         2x to 4x
+ Engine per Switch Node                        16x                   16x
+ Switch Capacity                             ≤ 51.2T                ≤ 51.2T
+                      2
+ Engine Reliability                        10 FIT (3.2T)       10 FIT (3.2T)   10 FIT (3.2T)
+                                    3
+ 3.2Tb/s Laser Source Reliability          50 FIT (3.2T)       50 FIT (3.2T)   50 FIT (3.2T)
+ Engine and Laser Source Lifetime            6 years                6 years      6 years
+
+
+
+
+1 Energy efficiency estimates include engine-side host electrical interface, CDR, PIC components, and laser source.
+
+Excludes switch-side. Assumes XSR electrical interface for Ethernet co-packaged optics applications.
+2 Contribution to reliability from an engine excluding contribution from lasers
+3 Contribution to reliability from lasers excluding contribution from engine.
+
+
+www.oiforum.com                                                                                                                       13
+                                                                                                      OIF-Co-Packaging-FD-01.0
+
+Table 2 shows the attributes for the applications’ endpoints and Table 3 shows the expected signaling
+formats and protocols for the different applications.
+Table 2: Attributes for the applications communication’s links endpoints.
+                                                                  Location
+                      Switch Node                                       End Node
+                      (Dense)                                           (sparse)
+                                                                        High Speed
+ Electrical I/F       High speed (density)
+                                                                        Wide
+                      Air Cooling                                       Air Cooling
+ Thermal
+                      Liquid Cooling                                    Liquid Cooling
+ Optical              Higher Fiber Count                                   Lower Fiber Count
+
+                      Internal                                             Internal
+ Lasers
+                      External                                             External
+ Optical Engine                                                            Co-packaged
+                      Co-packaged
+ Form Factor                                                               Module
+
+
+
+
+Table 3: Signaling formats and protocols for the specified applications.
+                                                               Signaling
+ MAC                                   Electrical                                     Optical (Point-to-point)      Increased Radix
+                                                                       4dB
+                                                                       - 100G-CWDM4-OCP
+ Ethernet         - CEI-112G-XSR at 103 or 106 Gb/s per lane           - 100G-PSM4
+ • 100GbE         - CEI-112G-LR at 106 Gb/s per lane                   - 400GBASE-FR4/DR4                                N/A
+ • 400GbE         -CEI-224G (TBD) at up to 224 Gb/s per lane           1.8dB:
+                                                                       -100GBASE-VR/SR
+                                                                       400GBASE-VR4/SR4
+ CXL4             n x 4 x 32G NRZ                                      4dB CXL DR/FR                               8-10dB CXL
+ • n x 32GT/s     Wide I/F w/ optional FEC                             (potentially MMF solutions)                 xWDM/PSM
+
+In the remainder of this document, the data center networking application will be the primary focus
+describing possible co-packaging solutions for a 51.2Tb/s Ethernet switch in a 1RU configuration.
+
+
+7     Potential Interfaces for Interoperability Standards
+7.1 Introduction
+In this section, the potential interfaces for interoperability standards, including electrical, optical, and
+mechanical interfaces along with environmental operating conditions are described.
+7.2 Electrical Interfaces
+As mentioned earlier, co-packaging is expected to provide high bandwidth interconnects with significant
+power savings. By locating these communications interfaces (engines) in close proximity to the ASICs,
+
+
+4 CXL is used here as an example of a short-range device interconnect providing high-bandwidth, low latency
+
+connectivity. Other interconnect protocols with similar capabilities may be suitable.
+www.oiforum.com                                                                                                                 14
+                                                                                OIF-Co-Packaging-FD-01.0
+
+the high-speed electrical channel losses and impedance discontinuities can be minimized, thus enabling
+the use of higher speed, lower-power, off-chip I/O drivers from the ASIC. Some of the electrical
+interfaces being considered are described in Figure 5 through Figure 8. The “re-timed” interface shown
+in Figure 5 is expected to utilize the CEI-112G-XSR-PAM4 Extra Short Reach Interface implementation
+agreement currently being developed. The transmit (Tx) and receive (Rx) functions contained in the
+host ASIC side of the interface will have sufficient capabilities (e.g., drive amplitude, equalization, etc.) to
+enable low error rate communications between the ASIC and optical engine over approximately 50mm
+of 1st level packaging substrate, including package parasitics from the ASIC and the optical engine
+assembly. Test points, test methodologies and test criteria will be part of an IA associated with these
+component interfaces in future projects.
+
+
+
+
+Figure 5: Re-timed. Note: Trace length and SerDes type informational. Achievable distance depends
+    on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+                                         discontinuities.
+
+
+Figure 6 shows another potential electrical interface, “Linear Amplified”. In this case, the CDR/DSP
+function in the engine is eliminated (to reduce power dissipation) but because the modulation format
+may be PAM4, the drive signal must be relatively linear without amplitude compression. In addition, the
+SerDes in the ASIC must compensate for the entire link, from SerDes Tx to SerDes Rx. As a result, the Tx
+and Rx functions in the ASIC must have greater capability (e.g., more amplification and peaking) than
+
+
+
+
+www.oiforum.com                                                                                            15
+                                                                             OIF-Co-Packaging-FD-01.0
+
+similar functions in the “Re-Timed” interface shown in Figure 5.
+
+
+
+
+ Figure 6: Linear amplified. Note: Trace length and SerDes type informational. Achievable distance
+depends on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+                                           discontinuities.
+
+
+Another interface option, shown in Figure 7, is referred to as “Half-retimed”. Here one-half (either Tx or
+Rx) of the engine and ASIC communication is re-timed, with the other half utilizing a linear-amplified
+approach. This approach combines implementations from Figure 5 and Figure 6.
+
+
+
+
+  Figure 7: Half-retimed. Note: Trace length and SerDes type informational. Achievable distance
+depends on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+                                         discontinuities.
+The last host ASIC to engine interface considered is shown in Figure 8, “Direct Drive”. Here the engine
+functionality is simplified leaving only those functions necessary to support a linear optical
+communications channel (due to a PAM4 modulation format assumption). The host ASIC contains the
+necessary capabilities to drive the optical signals (e.g., sufficient amplitude capabilities to drive the
+optical modulator or laser) as well as equalization on the receive path to remove impairments imposed
+by the optical and electrical signal paths and enable error-free communications. Trace lengths for this
+approach are expected to be much shorter than the previous interfaces described due to the desire to
+eliminate DSP/CDR and amplification functionality. Again, for this electrical interface, test points, test
+methodologies and test criteria would be included in a future IA.
+
+
+
+www.oiforum.com                                                                                        16
+                                                                           OIF-Co-Packaging-FD-01.0
+
+
+
+
+   Figure 8: Direct drive. Note: Trace length and SerDes type informational. Achievable distance
+depends on channel impairments including insertion loss, crosstalk, package parasitics and impedance
+                                           discontinuities.
+For some of the use-cases shown in Figures 2a-d, the XSR electrical interface specification may be
+insufficient due to the increased channel loss and impedance discontinuities. In these cases, an
+enhanced electrical interface specification may be required (e.g. CEI-112G-XSR+-PAM4), having greater
+transmit voltage amplitude swings, and increased equalizer capabilities.
+7.2.1 Electrical Footprint
+The overall size of the co-packaged optical or electrical engine will be determined by the total
+bandwidth capability of the engine, wiring density on the engine and CPA substrate, the physical size of
+the optical fiber attachment interface and the thermal management approach. The engine is attached
+to the CPA substrate using a soldered ball-grid or copper pillar array or an array type removable
+connection (e.g., land-grid array). In the latter case, a retention mechanism is required which consumes
+CPA substrate area and can limit the achievable density.
+Some of the trade-offs between a solder reflow attach and socket attached are shown in Table 4.
+  Table 4: Tradeoffs between solder reflow and socket attach approaches for co-packaged engines.
+
+           Criteria                          Solder Reflow                  Socket
+  Configurability                    Requires Reflow compatible     Mountable, expandable to non-
+                                     components. Enable Surface     reflow application.
+                                     mount technology of optical
+                                     engine.
+  Electrical Performance / signal    Can be close to optimal        Can be excellent
+  integrity
+  Footprint                          Highest Density                Requires Clamping/Retention
+                                                                    Mechanism
+  Rework                             Limited and Yield Loss         Yes, but access limited in field
+  Large number of CPO engine /       High count integration yield   Complexity enabler
+  Complex System in Package          loss
+  Thermal                            Conventional approaches        attached with Retention hardware
+
+
+
+www.oiforum.com                                                                                        17
+                                                                            OIF-Co-Packaging-FD-01.0
+
+7.2.2 Socket Retention Mechanism
+When the engine is socketed on the CPA, a mechanical compression mechanism is required to compress
+the socket interposer and provide good electrical contact. The compression mechanism typically
+involves using bolts in the four corners surrounding the socket. The socket overhead can be reduced by
+ganging the socket compression hardware thereby sharing the bolt hardware and improving density.
+7.3 Optical Interfaces
+Like their pluggable counterparts, optical engines will provide connectivity between switches and
+servers over single mode or multimode optical fiber. Optical engines that are compliant and
+interoperable with pluggable module standards and work over installed cabling will have broader
+market appeal. For Data Center Networking, relevant application standards found in IEEE Ethernet 802.3
+include 400GBASE-DR4 (802.3bs) and 400GBASE-FR4 (802.3cu). Short Reach Data Center Networking
+may use emerging standards like 400GBASE-SR4 and 400GBASE-VR4 (802.3db) to enable low cost and
+low power optical links.
+7.3.1 Light (Laser) Sources
+Choosing the optimal laser source is critical to designing a co-packaged optics switch. The optical source
+may consist of multiple lasers operating at multiple wavelengths (to support FR applications) or a single
+laser or multiple lasers operating at a single wavelength (to support DR, VR and SR applications). When
+the optical engine is implemented using silicon photonic technology, the lasers maybe integrated within
+the engine or located externally as shown in Figure 9. In the external laser case, a high output power
+continuous wave (cw) optical source is used in conjunction with the modulators to provide a modulated
+data-stream.
+External laser sources (ELS) can improve the reliability of a CPO switch because lasers that have failed
+may be swapped at the faceplate without removing the switch from operation. In addition, ELS
+architectures physically separate the switch ASIC from the laser which improves the thermal
+environment for both. These benefits come at the cost of higher insertion loss. These losses must be
+compensated by increasing the output power of the ELS. Integrated lasers inside the optical engine have
+fewer losses to overcome and may operate at lower optical power. VCSEL based optical engines with
+multimode fibers have the potential to be the lowest cost and lowest power option for co-packaged
+optics for short reach applications.
+
+
+
+
+www.oiforum.com                                                                                       18
+                                                                           OIF-Co-Packaging-FD-01.0
+
+
+
+
+     Figure 9: Laser Light Sources: Use-cases, proposed terminology, and associated laser safety
+  considerations. Numbered figure at left corresponds to an external laser source implementation.
+When considering an external light source, a single form-factor may contain many lasers. Each laser
+may supply light to a single or to multiple modulators in the silicon photonic engine. Figure 10 shows
+various optical power delivery scenarios. For cases where the laser power is high, power splitting can be
+either inside the ELS, inside the OE, or between the ELS and OE. For cases where the laser power is low
+or multiple frequencies are needed, power combining can be inside the ELS or inside the OE.
+Additionally, there are cases where each laser feeds a single lane of the OE transmitter directly.
+
+
+
+
+www.oiforum.com                                                                                      19
+                                                                             OIF-Co-Packaging-FD-01.0
+
+
+
+
+Figure 10: Scenarios for optical power from ELS to OE. (a) 1:Na, (b) 1:Nb, (c) 1:Nc, (d) 1:1, (e) Ne:1, (f)
+                                               Nf:1..
+Future efforts to standardize ELS modules such as an Implementation Agreement in the OIF or an MSA
+must coordinate the activity with other critical elements of the co-packaging ecosystem. Figure 11
+shows the various interdependencies.
+Finally, ELSs must be compliant with relevant laser eye safety standards (e.g., IEC 60825-1 2014 (3rd ed)
+and IEC 60825-2 2021 (ed 4.0)) (see Appendix B: Generalized Laser Safety for MPO-Based ELS Modules).
+Typically, this means no firmware in the safety system. It should be hardwired, with typically
+microsecond assertion timings. The approach implemented needs to ensure that mis-connected
+scenarios are detectable and that the ELS be held at eye safe limit until the optical engine confirms
+connection integrity. The engine may need to feedback information to the ELS when no light is detected
+causing the light source to shut down.
+
+
+
+
+www.oiforum.com                                                                                        20
+                                                                              OIF-Co-Packaging-FD-01.0
+
+
+
+
+     Figure 11: ELS interdependencies on other critical elements of the co-packaging ecosystem.
+7.3.2 Pigtailed and/or Connectorized
+The engine can be either assembled with pigtail or built-in connector to carry the high-speed data in and
+out of the engine. The pigtail can consist of a ribbon fiber for high density optical interfaces, or a copper
+cable assembly for high density electrical interfaces.
+By definition, a connectorized engine will require an extra connector to reach the front panel. The
+pigtailed option may not require an extra connector if the pigtail is long enough to reach the front panel.
+The addition of an extra connector increases the insertion loss over an equivalent front-panel pluggable
+transceiver. The existing high density fiber optic connectors (e.g., MPO) do not meet the size and
+density constraints and may require a new connector technology to be developed.
+7.3.3 Connector or Fiber Exit Location and Size
+The fiber or copper cable exit away from the co-packaged assembly (CPA). Copper cables and surface
+coupled optical engines may need additional height above the socket to accommodate the attachment
+scheme. The additional height needs to be considered when designing the heat-sink approach.
+7.3.4 Optical Budget
+Optical specifications for front-panel pluggable modules are typically defined at TP2 and TP3 as shown in
+Figure 12. The third option, “CPO Pigtail + jumper”, shows the inclusion of a mid-board optical
+connector which increases the overall optical budget. Mid-board optical connectors enable the use of
+only one pigtail length for each CPO module. They also can minimize damage from handling of the CPO
+pigtail and if needed facilitates rework of failing optical connectors and components.
+On the transmit side, the additional loss can be remedied by increasing the transmit power, likely by
+increasing the laser power to meet the specifications at TP2. On the receive side, the additional loss is
+likely compensated for by requiring better received sensitivity either by an improved receiver or by
+reduced sensitivity margin in the receiver.
+
+
+www.oiforum.com                                                                                          21
+                                                                             OIF-Co-Packaging-FD-01.0
+
+Given the impact of faceplate connector loss on the optical loss budget, it is essential to control the
+insertion loss of the connectors. A 51.2T switch will have 256-1024 fibers on the front panel. Standards
+compliant connectors may have a loss distribution with a “long tail” that will be present when utilizing
+many connectors. CPO switch integrators should use front panel optical connectors with better loss
+performance characteristics than standards. In the industry these connectors are often called “Ultra Low
+Loss” connectors and have maximum loss values of 0.35 dB for single mode and 0.2 dB for multimode at
+beginning of life.
+
+
+
+
+                           Figure 12: Impact of mid-board optical connectors.
+
+
+Another key characteristic of the mid-board connector is that it is behind the front-panel such that it is
+likely mated and then not tested until the entire assembly is completed and ready for test. As a result,
+this “single-mate” scenario will likely require additional loss allocation compared to a typical optical
+connector for which there is easy access to clean and remate the connector if the insertion loss is high.
+Dense optical systems will be built with components different than what is used in conventional front-
+panel pluggables. These dense optical technologies often have increased loss compared with
+conventional approaches. In addition, end-users often require interoperability with existing
+infrastructure employing conventional technologies. The combination of these two factors provides a
+significant challenge for dense optical engines.
+However, in the case where interoperability is not required (book-ended applications), the optical
+budget can be optimized around the dense optical engine technology.
+7.4 Thermal
+7.4.1 Cooling Systems for Co-Packaging
+Co-packaged engines will require some sort of thermal management, either a conduction path to
+remove heat or to isolate the engine from other heat-generating components. In either case, the
+thermal management approach will have to be compatible with the overall system cooling
+implementation. Figure 13 shows a typical 1RU, data center switch in use today. The aggregate
+
+
+www.oiforum.com                                                                                         22
+                                                                             OIF-Co-Packaging-FD-01.0
+
+bandwidth is 12.8Tb/s and contains 32 pluggable optical transceiver ports. These switches are typically
+cooled by fans that pull air in over the front-panel and exhaust through the rear.
+
+
+
+
+        Figure 13: A typical 1RU data center Ethernet switch with 32 QSFP-DD 400Gb/s ports.
+
+
+Table 5 shows typical power dissipation values for some of the key functional blocks.
+Table 5: Typical 1RU data center switch power consumption*
+
+            12.8 Tb/s NPU power consumption:                                     432 W
+            32 400G QSFP56-DD ports @ 12 W each                                  384 W
+            Typical power consumption (including fans, power
+                                                                                 900W
+            suppliers, and typical power dissipation optics)
+            Total power consumption (worst case, maximum traffic,
+                                                                                1500 W
+            highest ambient temp & fan speed)
+            Ambient Operating temperature                                      0 to + 45 ⁰C
+            Redundant, hot swappable fans                                           7
+
+                              * Operates with forward and reverse air flow
+
+
+
+
+                          Figure 14: Switch ASIC power consumption trends.
+In the near future, as network switching bandwidth increases, power consumption will increase (Figure
+14) and forced air cooling approaches may be insufficient. Future network switches will likely require
+alternative system cooling implementations. A comparison of the different system cooling approaches
+is described in Table 6.
+
+www.oiforum.com                                                                                     23
+                                                                                OIF-Co-Packaging-FD-01.0
+
+
+
+
+Table 6: Possible system cooling approaches.
+
+ Cooling Approach                Pros                                Cons
+                                 Well-known, well understood         Limited cooling efficiency
+                                 technology
+                                 high reliability with multiple      Acoustics (noise)
+ Air-Cooled                      hot-swappable fan arrays
+                                 widely used in data centers
+                                 low-cost
+                                 Improved cooling capacity           limited (?) data-center deployments
+                                 compared to air-cooling
+ Liquid Cooling -- Closed loop   quieter than all-air cooling        Reliability mechanical pump)
+                                 No external plumbing                more costly than air-cooling
+                                 needed
+                                 Improved cooling capacity           Not widely deployed in data centers
+                                 compared to closed loop
+                                 liquid cooling
+                                 reliability local) is higher than   requires external source of flowing
+                                 closed loop cooling -- no           liquid and heat exchanger
+ Liquid Cooling -- Open loop     pump
+                                                                     Reliability--failure of external source
+                                                                     can take down many units
+                                                                     Costs (heat exchange module, chilled
+                                                                     liquid network facility)
+                                 Improved cooling capacity           Not widely deployed in data centers
+                                 compared to open/closed             (requires external source of flowing
+                                 loop liquid cooling                 liquid and heat exchanger
+                                 Potentially highest                 Reliability (fluid contamination, pump
+                                 equipment density                   system)
+ Immersive Cooling
+                                                                     Optics and fiber connectors need to be
+                                                                     hermetic
+                                                                     Requires major re-architecting of
+                                                                     equipment
+                                                                     Costs-- not deployed in volume
+
+
+
+www.oiforum.com                                                                                             24
+                                                                           OIF-Co-Packaging-FD-01.0
+
+7.4.2 Reported Thermal Data:
+Component temperatures or thermal margins are required by component and system designers as well
+as operators to assess operational status. Typically, the laser case/base temperature is monitored for
+this purpose as it reflects the status of the laser’s internal temperature control system. Co-packaged
+Optical systems integrate lasers systems with signal processing ASICS, and other photonics elements.
+These elements can have variable heat dissipation depending on operating mode, and FEC
+requirements. These power changes mean the temperature difference between the case and junction
+will vary for the same physical design. Consequently, a single case temperature may not be sufficient for
+monitoring system purposes as other devices approach operating limits with only a small variation in
+case temperature.
+Although local case temperatures can reflect changes in overall internal power dissipation, the
+operational status of DSP’s, drivers etc. will be better represented by the junction temperature sensors
+of these devices. It is recommended that the CPO reports laser case/base temperature and identifies its
+monitor location in addition to reporting at least one other temperature or thermal margin value that
+reflects the junction temperature of any DSP or other photonics element.
+7.5 Power
+As seen in Table 1, the estimated energy efficiency for co-packaged dense optical engines is expected to
+range from 5pJ/bit to 15pJ/bit depending on the particular application and CPO generation. For
+example, a 3.2T optical engine with a 10pJ/bit energy efficiency will consume 32W. A 3.2T optical
+engine footprint may be on the order of 20x20 mm2. Such a large power in a small area result in a
+power density of 8W/cm2 which is much higher than what the optical industry is accustomed to.
+
+
+7.5.1 Supply Voltages, Currents
+Different implementations will be architected employing differing technologies and different IC nodes
+resulting a variety of supply voltages and current draws for the supplies. For instance, an engine may
+include an advanced CMOS ASIC and a microcontroller (µC) which typically have supply voltages well
+below 1.0 volt. The engine may also need a supply to drive the high-speed I/O and perhaps higher
+voltages for some of the optical components.
+It is assumed the power supply conversion will be external to the engine as the power supply
+components will probably add to the engine size and height. Therefore, the host will need to supply the
+CPA with the necessary power supplies.
+Even if the industry agrees to a common set of supplies, the required current draw per supply will vary
+depending on the implementation.
+The number of supplies and the max current draw will drive the number of power related contacts for
+the engine as the current/contact guidelines are considered for the socket.
+7.6 Management Interface
+7.6.1 CMIS Over 2-Wire, SPI
+Typically, pluggable modules serve one or two ports, however, dense optical engines will serve many
+more ports. As an example, I2C was specified as a 2-wire management interface in the CMIS by the
+QSFP-DD MSA. In a high-density co-packaging application, the same MIS interface will need to serve
+www.oiforum.com                                                                                       25
+                                                                              OIF-Co-Packaging-FD-01.0
+
+many more ports. Switching to a faster MIS I/F such as SPI would improve the time for servicing the
+engines.
+7.7 Environmental
+The applications discussed in Section 6 are typically found in indoor, data center environments as
+opposed to outdoor environments. Operating temperature ranges are typically in the range of room
+temperature or higher than room temperatures and in next generation, much higher than room
+temperature due to the power dissipation of these high-performance systems. Some typical high-level
+operating conditions for a data center include the following:
+        • Altitude: 0 – 1800 meters (could include derating provisions)
+        • Relative Humidity (RH): 90 % max
+        • Ambient Temperature: 15 – 35 C
+For co-packaging implementations more in-depth discussion and analysis will be needed to determine
+the operating case temperatures or internal temperatures and which kind of thermal management
+solution is employed (see Section 7.4.1).
+7.8 Reliability, Redundancy and Repairability
+The use of co-packaged engines is by nature less field serviceable than front panel pluggable designs.
+As a result, there is a need for a reliability framework at both component and system level to align with
+the target application requirements. For data center switch network fabrics, redundant links are
+utilized to achieve acceptable performance even under fault conditions. Applications involving AI and
+Machine Learning are typically less tolerant of a link failure due to higher aggregate bandwidth
+requirements and a greater level of connectivity for acceptable cluster performance.
+A generic reliability curve is shown in Figure 15. The goal is to establish solid fabrication, processing, and
+assembly approaches with effective defect screens to minimize infant mortality. Component failure
+rates must be established that are compatible and consistent with system failure rate targets for
+random failures. In addition, it’s expected that adequate instrumentation and monitoring functions will
+be implemented to enable pre-emptive service or replacement due to wear-out.
+
+
+
+
+www.oiforum.com                                                                                          26
+                                                                                  OIF-Co-Packaging-FD-01.0
+
+
+
+
+                     Figure 15: Generic reliability curve for co-packaging applications.
+7.8.1 Infant Mortality Targets and Over-Life Targets
+Current pluggable transceiver module failure rates (~ 300 FIT) are insufficient if simply scaled for CPO
+applications. End system reliability must be achieved by leveraging integration. Table 7 shows the
+reliability targets for a data center network switch having an aggregate bandwidth of 51.2Tb/s
+implemented with sixteen 3.2Tb/s co-packaged engines.
+Table 7: Reliability targets.
+
+                                                                                                Service Life
+                                  N             AFR5         MTBF5 (hours)          FIT
+                                                                                                  (years)
+ CPO Engine6                     16            0.01%             100M               10               6
+ 3.2Tb/s Laser Source7           16            0.04%              20M               50               6
+ Rest of System                1 (Sum)         0.09%              10M              100               6
+ Total System                                   <1%                               <1146              6
+
+
+Further study is required to confirm the reliability of CPO implementations. Redundancy at component
+or sub-system level may be required to achieve overall system reliability targets. Furthermore, some
+implementations with reduced data-throughput performance, e.g., lane reduction of multi-lane
+interconnects, maybe required to enhance overall system availability.
+
+
+
+
+5 AFR = Annualized Failure Rate (% per year), MTBF=Mean-Time-Between-Failures
+6 Contribution to reliability from an engine excluding contribution from lasers
+7 Contribution to reliability from lasers excluding contribution from engine.
+
+
+www.oiforum.com                                                                                           27
+                                                                          OIF-Co-Packaging-FD-01.0
+
+8    Summary
+This Framework Document has addressed some of the key application spaces and relevant technology
+considerations for co-packaging of optical and electrical communication interfaces with one or more
+ASICs. Several optical and electrical interfaces as well as mechanical & thermal approaches have been
+presented which could benefit from a standardization process, e.g., an Implementation Agreement in
+the OIF. There are still other technology details and implementation aspects missing from this
+document that will warrant further study and may lead to additional standardization efforts.
+
+9    References
+9.1 Informative References
+    •    IEEE Standard for Ethernet--Amendment 10: Media Access Control Parameters, Physical Layers,
+         and Management Parameters for 200 Gb/s and 400 Gb/s Operation
+    •    IEEE Standard for Ethernet--Amendment 11: Physical Layers and Management Parameters for
+         100 Gb/s and 400 Gb/s Operation over Single-Mode Fiber at 100 Gb/s per Wavelength
+    •    IEEE 802.3ck (in-process)
+    •    CEI-112G-XSR-PAM4 (in-process)
+    •    IEC 60825-1: 2014 Safety of laser products – Part 1: Equipment classification and requirements
+    •    IEC 60825-2: 2021 Safety of laser products – Part 2: Safety of optical fibre communication
+         systems (OFCS)
+
+10 Appendix A: Glossary
+AGC: Automatic gain control. Refers to the adjustment of the gain to enhance the dynamic range of the
+amplifier.
+AI: Artificial Intelligence.
+AIB: Advanced Interface Bus. A chip-to-chip communications interface.
+ASIC: Application specific integrated circuit.
+CCA: Copper Cable Assembly
+CDR: Clock and data recovery.
+CMIS: Common Management Interface Specification. Refers to an industry specification which
+implements I2C, two-wire serial interface for monitoring and control of various elements of co-
+packaging.
+CMOS: Complimentary Metal-Oxide-Semiconductor. A common silicon ASIC fabrication process.
+Co-Packaged Assembly Socket: A co-packaged assembly attached to the host board with a removable
+interface.
+Co-Packaged Assembly Substrate: The substrate containing the ASIC and co-packaged engine.
+CPA: Co-Packaged Assembly. ASIC plus engine (optical or electrical)
+CPO: Co-Packaged Optics. Active optical components attached to a common substrate containing
+ASICs.
+
+
+www.oiforum.com                                                                                     28
+                                                                            OIF-Co-Packaging-FD-01.0
+
+CTLE: Continuous time linear equalizer. Sometimes this is referred to as a “peaking” circuit where the
+rising or falling edges have overshoot.
+CXL: Compute Express Link is an open industry standard interconnect offering high-bandwidth, low
+latency connectivity between host processor and devices such as accelerators, memory buffers, and
+smart I/O devices.
+DSP: Digital Signal Processor.
+EIC: Electrical Integrated Circuit. Refers to the electrical portion of an optical engine---may contain
+driver electronics to drive a laser or optical modulator as well as a transimpedance amplifier and post
+amplifier to convert a photo-current (arising from the photodetector) into a usable electrical signal.
+ELS: External Light Source. A high-power cw optical laser source providing light for the modulator
+portions of an optical engine. It is located outside the boundary of the optical engine and therefore is
+likely to experience a different set of environmental conditions.
+FEC: Forward Error Correction.
+FIT: Failures in Time (1e9 hours).
+Front Panel (Faceplate): The user accessible boundary of the system which in this document refers to
+the panel of a “19-inch rack”.
+I/O: Input/Output driver. The output driver on the switch or processor host ASIC.
+IA: Implementation Agreements, OIF documents that specify various names their defined interface
+specifications.
+Integrated Light Source: A high-power cw optical laser source providing light for the modulator portions
+of an optical engine. It is bonded to the optical engine and typically launches light into the photonic
+engine waveguides via evanescent coupling.
+LD-DRV: Laser diode driver. Refers to the ASIC which drives the laser or more generally, the
+optoelectronic device, which effectively acts as an electrical-to-optical converter.
+MCM: Multi-Chip Module.
+MMF: Multi-Mode Fiber. Optical fiber that transmits multiple spatial modes. Core diameters are much
+larger than the wavelength of the light being transmitted, e.g., 50 µm.
+MPO: Multiple-fiber Push-On/Pull-off. An optical fiber connector that can support multiple fiber
+connections.
+MR: Medium reach. Refers to the on-going project in OIF, CEI-112G-MR-PAM4, which is an electrical
+interface specification for package substrate distances of approximately 500mm, or 20 dB channel loss
+at the Nyquist frequency of the baud rate.
+NIC: Network Interface Card.
+NPU: Network Processing Unit. For example, a data center switch contained in a 1 RU chassis.
+NRZ: Non return to zero, a binary code in which 1s are represented by one significant condition (usually
+a positive voltage or presence of light) and 0s are represented by some other significant condition
+(usually a negative voltage or absence of light), with no other neutral or rest condition.
+
+
+www.oiforum.com                                                                                       29
+                                                                              OIF-Co-Packaging-FD-01.0
+
+OIC/PIC: Optical Integrate Circuit/Photonic Integrated Circuit. Typically refers to the optical portion of
+an optical engine---may contain waveguides, splitters, combiners, modulators as well as photodetectors.
+On-chip Light Source: A high-power cw optical laser source providing light for the modulator portions of
+an optical engine. It is attached to the optical engine and typically uses an imaging element (e.g., lens,
+turning mirror) to couple light into the optical waveguides of the optical engine. Since the light source is
+on-chip, the temperature range of operation is similar to that experienced by the photonic engine.
+Optical Chiplet (Optical Engine (OE), Optical Tile, CPO Module): The active optical element converting
+electrical signals from an ASIC to optical ones and vice-a-versa.
+Optical/Electrical Engine (EE) Socket: An optical or electrical engine attached to the co-packaged
+assembly substrate with a removable interface.
+Optical/Electrical Engine Substrate: The substrate on which the optical or electrical engine is attached
+to.
+PAMx: Pulse-amplitude modulation is a form of signal modulation where the message information is
+encoded in the amplitude of a series of signal pulses. For optical links it refers to intensity modulation.
+As an example, PAM4 is a two-bit modulation that will take two bits at a time and map the signal
+amplitude to one of four possible levels.
+PCIe: Peripheral Component Interconnect Express.
+PIC: Photonic Integrated Circuit.
+Pluggable Optics: Optical transceivers that are inserted into the front-panel of a system rack and
+provide the end-user with a variety of connection types. Some example form-factors include SFP, QSFP,
+QSFP-DD, and OSFP)
+PSMx: Parallel Single-Mode. An optical interface specification that uses “x” parallel single mode fibers
+to transmit/receive optical signals. PSM4 is the terminology used to describe a 100Gb/s link using 4
+pairs of single mode fibers with 25Gb/s per fiber.
+QSFP-DD: Quad-Small Form-Factor Pluggable Double-Density. A transceiver form-factor with 8
+electrical interface lanes in both directions capable of supporting up to 56Gb/s data rates per lane, for
+an aggregate data-rate of 400Gb/s in either direction.
+RDL: Redistribution Layer.
+ROSA: Receiver Optical Sub-Assembly. Refers to the photodetector and frequently the transimpedance
+amplifier within a package which usually provides a mechanism to align and couple the optical signal
+contained in the incoming fiber to the photodetector.
+RU: Rack Unit. A unit of measure frequently used as a measurement of the overall height of 19-inch
+rack frames, as well as the height of equipment that mounts in these frames. The height of the frame or
+equipment is expressed as multiples of rack units, e.g., 1RU, 2RU, 3RU, etc.
+SerDes: Serializer/Deserializer.
+SPI: Serial Peripheral Interface.
+TIA: Transimpedance amplifier. A photodetector is connected to this electronic device which converts
+the photo-current from the photodetector into a voltage.
+
+
+www.oiforum.com                                                                                          30
+                                                                           OIF-Co-Packaging-FD-01.0
+
+TOSA: Transmitter Optical Sub-Assembly. Refers to the laser and package which usually provides a
+mechanism to align and couple the output of the laser to an optical fiber.
+TPx: Test Points, TP2, TP3 as defined in IEEE.
+VCSEL: Vertical Cavity Surface Emitting Laser. A type of laser, which for optical communications
+applications, uses wavelengths in the range of 850 nm with multi-mode optical fibers.
+WDM: Wavelength Division Multiplexing. An optical communications technology which combines
+(multiplexes) several optical carrier signals of different wavelengths onto a single optical fiber.
+XSR: Extra short reach. Refers to an on-going project in the OIF, CEI-112G-XSR-PAM4, which is an
+electrical interface specification for package substrate distances of approximately 50mm, or 10 dB
+channel loss at the Nyquist frequency of the baud rate.
+
+
+
+
+www.oiforum.com                                                                                       31
+                                                                                     OIF-Co-Packaging-FD-01.0
+
+11 Appendix B: Generalized Laser Safety for MPO-Based ELS Modules
+11.1 Introduction
+This appendix explains the requirements for laser product classification, laser hazard levels, according to
+the IEC standards IEC60825-1 and IEC60825-2. For ELS modules covered by this framework document,
+those that have accessible MPO connectors, i.e., scenarios 2b and 3 in Figure 9, are analyzed in the
+following subsections. Calculations are provided for several foreseeable configurations of fibers in MPO
+connectors carrying various proposed power levels per fiber and at wavelengths suitable for -FR4 and/or
+-DR4 interfaces.
+11.2 Laser Product Classification and Required Safety Features
+Table 8: Laser product classification and required safety features for IEC/EN 60825-1 3rd edition.
+Laser Class
+(IEC/EN 60825-1 3rd Ed)   FDA Class       Hazard Description
+             1            Class I         Safe under reasonably foreseeable conditions
+            1M            No equivalent   As for Class 1 except may be hazardous if user employs optics
+            1C            No equivalent   See documentation
+             2            Class II        Low power; eye protection normally afforded by aversion & active responses
+            2M            No equivalent   As for Class 2 except may be more hazardous if user employs optics
+            3R            Class IIIa      Direct intrabeam viewing may be hazardous
+            3B            Class IIIb      Direct intrabeam viewing normally hazardous
+             4            Class IV        High power; diffuse reflections may be hazardous
+
+
+
+
+   Per ANSI:
+   “…In any case there shall be a designated LSO for all circumstances of
+   operation, maintenance, and service of a Class 3B or Class 4 laser or
+   laser system…”
+
+
+
+
+www.oiforum.com                                                                                                    32
+                                OIF-Co-Packaging-FD-01.0
+
+Table 9: Requirements Summary
+
+
+
+
+www.oiforum.com                                        33
+                                                                             OIF-Co-Packaging-FD-01.0
+
+
+
+11.3 Laser Class (IEC 60825-1) Versus Laser Hazard Levels (IEC 60825-2)
+The laser eye safety levels for IEC 60825-1 (Table 1) and for IEC 60825-2 (Table 10) are different.
+Table 10: Summary of requirements for location types in OFCS (IEC 60825-2: 2021)
+
+
+
+
+www.oiforum.com                                                                                       34
+                                                                                                        OIF-Co-Packaging-FD-01.0
+
+11.3.1 Measurement Geometry
+Table 11: Measurement aperture diameters and measurement distances for the default (simplified)
+evaluation.
+
+                                  Condition 1                         Condition 2                                 Condition 3
+                      Applied to collimated beam where          Applicable to optical fiber    Applied to determine irradiation relevant for the
+                      e.g. telescope or binoculars may          communications systems,        unaided eye, for low power magnifiers and
+                      increase the hazarda                      see IEC 60825-2                scanning beams
+ Wavelength           Aperture Stop           Distance                                               Aperture Stop /                Distance
+      (nm)                (mm)                  (mm)                                                Limiting aperture                 (mm)
+                                                                                                          (mm)
+     < 302.5                 -                     -                                                        1                           0
+  ≥ 302.5 to 400             7                  2,000                                                       1                          100
+  ≥ 400 to 1,400             50                 2,000             See Note 1 under 5.4.1                          7                     100
+                                                                                                          1 for t ≤ 0.35 s
+ ≥ 1,400 to 4,000      7 x Condition 3              2,000             See Note 1 under 5.4.1       1.5 t3/8 for 0.35s < t < 10 s        100
+                                                                                                          3.5 for t ≥ 10 s
+                                                                                                          1 for t ≤ 0.35 s
+   ≥ 4,000 to 105              -                       -                                           1.5 t3/8 for 0.35s < t < 10 s         0
+                                                                                                          3.5 for t ≥ 10 s
+    ≥ 105 to 106               -                       -                                                          11                     0
+ NOTE: The descriptions below the “Condition” headings are typical cases for information only and not intended to be exclusive.
+ a Condition 1 is not applied for classification of laser products intended for use exclusively indoors and where intrabeam with telescopic optics
+
+ such as binocular telescopes is not reasonably foreseeable.
+
+Two measurement conditions are specified for the determination of the accessible emission. Condition 1
+is applied for wavelengths where aided viewing of collimated beams with telescopic optics may increase
+the hazard. Condition 3 applies to the unaided eye. For power and energy measurement of scanned
+laser radiation, only Condition 3 shall be used. For classification of laser products intended for use
+exclusively indoors and where intra-beam viewing with telescopic optics such as binoculars is not
+reasonably foreseeable, it is not required to apply Condition 1.
+NOTE 1: Measurement Condition 3 also includes an evaluation of the radiation accessible for viewing
+with a low power magnifying glass. Viewing with higher power magnifying optics as might occur with
+fiber optic systems is covered in IEC 60825-2.
+
+Limitations of the classification scheme are discussed in Clause C.3, suggesting cases where additional
+risk analysis and warnings might be appropriate. Condition 2 was used in previous editions of this Part 1
+as the "magnifying glass" condition.
+The most restrictive of the applicable measurement conditions shall be applied. If the most restrictive
+condition is not obvious, both conditions shall be evaluated. For Classes 1M or 2M, both conditions
+always need to be evaluated.
+
+
+
+
+www.oiforum.com                                                                                                                              35
+                                                                                                    OIF-Co-Packaging-FD-01.0
+
+11.4 OFCS Power Limits (IEC 60825-2: 2021)
+
+
+Table 12: OFCS power limits for 11 µm mode field diameter single-mode fiber and 0.1 numerical
+aperture multimode fibers (core diameter 50 µm).
+  Wavelength                                                                Hazard Level
+ and Fiber Type                 1                 1M                    2                  2M                   3R                  3B
+                            1.95 mW            3.77 mW              5.00 mW             9.66 mW              25.0 mW              500 mW
+   633 nm (MM)
+                          (+2.9 dBm)          (+5.8 dBm)           (+7.0 dBm)          (+9.9 dBm)          (+14.0 dBm)          (+27.0 dBm)
+                            2.82 mW            5.45 mW                                                       14.5 mW              500 mW
+   780 nm (MM)                                                          -                    -
+                          (+4.5 dBm)          (+7.4 dBm)                                                   (+11.6 dBm)          (+27.0 dBm)
+                            3.89 mW            7.52 mW                                                       20.0 mW              500 mW
+   850 nm (MM)                                                          -                    -
+                          (+5.9 dBm)          (+8.8 dBm)                                                   (+13.0 dBm)          (+27.0 dBm)
+                            7.08 mW            13.7 mW                                                       36.3 mW              500 mW
+   980 nm (MM)                                                          -                    -
+                          (+8.5. dBm)        (+11.4 dBm)                                                   (+15.6 dBm)          (+27.0 dBm)
+                            1.80 mW            2.66 mW                                                       9.21 mW              500 mW
+   980 nm (SM)                                                          -                    -
+                          (+2.5 dBm)          (+4.2 dBm)                                                    (+9.6 dBm)          (+27.0 dBm)
+                            140 mW              270 mW                                                        500 mW              500 mW
+  1270 nm (MM)                                                          -                    -
+                         (+21.4 dBm)         (+24.3 dBm)                                                   (+27.0 dBm)          (+27.0 dBm)
+                            46.2 mW            76.5 mW                                                        237 mW              500 mW
+  1270 nm (SM)                                                          -                    -
+                         (+16.6 dBm)         (+18.8 dBm)                                                   (+23.7 dBm)          (+27.0 dBm)
+                            481 mW              500 mW                                                        500 mW              500 mW
+  1310 nm (MM)                                                          -                    -
+                         (+26.8 dBm)         (+27.0 dBm)                                                   (+27.0 dBm)          (+27.0 dBm)
+                            166 mW              277 mW                                                        500 mW              500 mW
+  1310 nm (SM)                                                          -                    -
+                         (+22.2 dBm)         (+24.4 dBm)                                                   (+27.0 dBm)          (+27.0 dBm)
+ 1400 nm to 1600            13.3 mW             371 mW                                                                            500 mW
+                                                                        -                    -           See note to 3.9
+      nm (MM)            (+11.2 dBm)         (+25.7 dBm)                                                                        (+27.0 dBm)
+                            10.1 mW             115 mW                                                                            500 mW
+  1420 nm (SM)                                                          -                    -           See note to 3.9
+                         (+10.0 dBm)         (+20.6 dBm)                                                                        (+27.0 dBm)
+                            10.2 mW             136 mW                                                                            500 mW
+  1550 nm (SM)                                                          -                    -           See note to 3.9
+                         (+10.1 dBm)         (+21.3 dBm)                                                                        (+27.0 dBm)
+ NOTE 1: Hazard levels 1M and 2M
+ The maximum power shown in the table for 11 µm fiber is limited by the power density. The precise fiber power limit is therefore
+ determined by the minimum expected beam divergence, which is in turn dependent on the MFD of a single-mode fiber. This can change for
+ different values of the MFD and there are significant changes in Class limits as the MFD changes. Some connectors use enlarg ed MFD
+ and the far field divergence is lower. These connectors can result in a higher hazard level and the higher hazard level is assigned when
+ using these connectors.
+ NOTE 2: Wavelength 1270 nm
+ Wavelength 1270 nm corresponds to the shortest wavelength in the datacom applications, e.g., LAN-WDM.
+ NOTE 3: Fiber parameters
+ The fiber parameters used are the most conservative cases; single-mode figures are calculated for a fiber with an 11 µm MFD, and
+ multimode figures for a fiber with a numerical aperture of 0.18. Many systems operating at 980 nm and 1550 nm use fibers with smaller
+ MFDs. For example, the limit for hazard level 1M when a wavelength of 150 nm is transmitted along dispersion shifted fiber cables having
+ upper limit values of MFD of 9.1 µm is 197 mW.
+
+The maximum mean power within the fiber for each hazard level for the most important wavelengths
+and optical fiber types used in OFCS is presented in Table 12. The values shown assume that APR is not
+in operation. For most typical systems with duty cycles between 10 % and 100 %, the peak power can be
+allowed to increase with duty cycle in an inversely proportional manner. However, for duty cycles ≤ 50
+%, it is most straightforward to limit the peak powers to twice these mean power limits, although IEC
+60825-1 can be used for a more sophisticated analysis to identify any increase in peak powers
+permissible for these types of systems. This is especially valid when "visible sources" with wavelengths
+in the photochemical hazard area are used.
+
+
+
+www.oiforum.com                                                                                                                        36
+                                                                          OIF-Co-Packaging-FD-01.0
+
+For the most common single-mode fibers, the point source limits need to be applied while for graded
+index multimode fibers with a core diameter of 62.5 μm (GI 62.5), the effect of angular subtense, which
+is linked to C6, needs to be considered for wavelengths between 400 nm and 1 400 nm.
+The following aperture diameter and measurement distances are to be used for Condition 2
+measurements:
+     3.5 mm at 35 mm for wavelengths ≥ 302.5 nm and < 1,400 nm.
+     3.5 mm at 14 mm for wavelengths ≥ 1,400 nm and < 4,000 nm.
+
+
+
+
+www.oiforum.com                                                                                     37
+                                                                           OIF-Co-Packaging-FD-01.0
+
+11.5 Accessible Emission Limit (AEL) Calculations, Wavelength (IEC 60825-1:2014 Laser Class
+      1/1M)
+
+
+                          AEL Calculations
+                          Wavelength [nm]:         1250-1350nm
+                          Point Source (single fiber)
+
+                          α ≤ 1.5 mrad: AEL = 3.9 * 10-4 C4 C7 W
+
+                          C4 = 5
+                          C7 = 8 + 100.04(λ –1 250)
+                          t = 100 s
+                          P0 based on Condition 3 (100 mm, 9.6 µm)
+
+
+                           Wavelength        AEL         P0          P0
+                             [nm]           [mW]       [mW]        [dBm]
+                               1271         29.09      99.73       19.99
+
+                               1291         100.72    345.30       25.38
+
+                               1311         500.00    500.00       26.99
+
+                               1331         500.00    500.00       26.99
+
+
+
+
+www.oiforum.com                                                                                   38
+                  OIF-Co-Packaging-FD-01.0
+
+
+
+
+www.oiforum.com                          39
+                                                              OIF-Co-Packaging-FD-01.0
+
+11.6 Exposure Level Versus Fiber Launch Power P0 At 1271 nm
+
+
+
+
+Where
+
+  Standard Single Mode Fiber SMF28e+
+
+
+
+
+                 -4
+ PAEL = 3.9 * 10 C4 C7 W
+
+ C4 = 5
+               0.04(λ –1 250)
+ C7 = 8 + 10
+ t = 100s
+ ω0 = 9.6µm
+
+ λ = 1271nm
+
+
+
+
+www.oiforum.com                                                                      40
+                  OIF-Co-Packaging-FD-01.0
+
+
+
+
+www.oiforum.com                          41
+                                                                        OIF-Co-Packaging-FD-01.0
+
+11.7 AEL Calculations for MPO Connector – Condition 3: Aperture Distance 100 mm
+11.7.1 All Fibers Active
+
+
+
+
+AEL Calculations
+Point Source (single fiber)
+α ≤ 1.5 mrad: AEL = 3.9 * 10-4 C4 C7 W
+Extended Source (multiple fibers)
+α > 1.5 mrad: AEL = 3.5 * 10-3 C6 C7 T2-0.25 W
+C4 = 5
+C7 = 8 + 100.04(λ –1 250)
+C6 = α/αmin
+T2 = 10 * 10 [(α-αmin)/98.5] s
+t = 100s
+
+
+Wavelength [nm]:                 1271 nm
+Fiber Spacing [µm]:              250 µm
+Fiber Diameter (MFD) [µm]:                9.6 µm
+
+
+
+
+For Laser Class 1/Hazard Level 1M evaluations of MPO connectors two neighboring emitters present the
+worst-case configuration.
+
+www.oiforum.com                                                                                 42
+                                                                        OIF-Co-Packaging-FD-01.0
+
+11.7.2 Two Groups of 4 Fibers Active
+
+
+
+
+AEL Calculations
+Point Source (single fiber)
+α ≤ 1.5 mrad: AEL = 3.9 * 10-4 C4 C7 W
+Extended Source (multiple fibers)
+α > 1.5 mrad: AEL = 3.5 * 10-3 C6 C7 T2-0.25 W
+C4 = 5
+C7 = 8 + 100.04(λ –1 250)
+C6 = α/αmin
+T2 = 10 * 10 [(α-αmin)/98.5] s
+t = 100s
+
+
+Wavelength [nm]:                 1271 nm
+Fiber Spacing [µm]:              250 µm
+Fiber Diameter (MFD) [µm]:                9.6 µm
+
+
+
+
+For Laser Class 1/Hazard Level 1M evaluations of MPO connectors two neighboring emitters present the
+worst-case configuration.
+
+
+www.oiforum.com                                                                                 43
+                                                                         OIF-Co-Packaging-FD-01.0
+
+11.7.3 Every Second Fiber Active
+
+
+
+
+AEL Calculations
+Point Source (single fiber)
+α ≤ 1.5 mrad: AEL = 3.9 * 10-4 C4 C7 W
+Extended Source (multiple fibers)
+α > 1.5 mrad: AEL = 3.5 * 10-3 C6 C7 T2-0.25 W
+C4 = 5
+C7 = 8 + 100.04(λ –1 250)
+C6 = α/αmin
+T2 = 10 * 10 [(α-αmin)/98.5] s
+t = 100s
+
+
+Wavelength [nm]:                 1271 nm
+Fiber Spacing [µm]:              250 µm
+Fiber Diameter (MFD) [µm]:                9.6 µm
+
+
+
+
+For Laser Class 1/Hazard Level 1M evaluations of MPO connectors with increased emitter spacing single
+emitters present the worst-case configuration.
+
+
+
+www.oiforum.com                                                                                   44
+                                                                         OIF-Co-Packaging-FD-01.0
+
+11.7.4 Four Active Fibers with Maximum Separation
+
+
+
+
+AEL Calculations
+Point Source (single fiber)
+α ≤ 1.5 mrad: AEL = 3.9 * 10-4 C4 C7 W
+Extended Source (multiple fibers)
+α > 1.5 mrad: AEL = 3.5 * 10-3 C6 C7 T2-0.25 W
+C4 = 5
+C7 = 8 + 100.04(λ –1 250)
+C6 = α/αmin
+T2 = 10 * 10 [(α-αmin)/98.5] s
+t = 100s
+
+
+Wavelength [nm]:                 1271 nm
+Fiber Spacing [µm]:              250 µm
+Fiber Diameter (MFD) [µm]:                9.6 µm
+
+
+
+
+For Laser Class 1/Hazard Level 1M evaluations of MPO connectors with increased emitter spacing single
+emitters present the worst-case configuration.
+
+
+
+
+www.oiforum.com                                                                                   45
+                                                                         OIF-Co-Packaging-FD-01.0
+
+11.8 AEL Calculations for MPO Connector – Condition 2: Aperture Distance 35 mm
+11.8.1 All Fibers Active
+
+
+
+
+AEL Calculations
+Point Source (single fiber)
+α ≤ 1.5 mrad: AEL = 3.9 * 10-4 C4 C7 W
+Extended Source (multiple fibers)
+α > 1.5 mrad: AEL = 3.5 * 10-3 C6 C7 T2-0.25 W
+C4 = 5
+C7 = 8 + 100.04(λ –1 250)
+C6 = α/αmin
+T2 = 10 * 10 [(α-αmin)/98.5] s
+t = 100s
+
+
+Wavelength [nm]:                 1271 nm
+Fiber Spacing [µm]:              250 µm
+Fiber Diameter (MFD) [µm]:                9.6 µm
+
+
+
+
+For Hazard Level 1 evaluations of MPO connectors single emitters present the worst-case configuration.
+
+
+www.oiforum.com                                                                                    46
+                                                                             OIF-Co-Packaging-FD-01.0
+
+11.9 Burn Hazard Labeling
+Warning for potential hazard to the skin or anterior parts of the eye
+For Class 1, 1M, 2, 2M or Class 3R, if the accessible emission exceeds the AEL of Class 3B as determined
+with a 3,5 mm diameter aperture placed at the closest point of human access, an additional warning
+shall be given on a product label and in the information for the user (see 5.3 a) for Class 1 and 1M, see
+5.3 c) for Class 2 and 2M, and see 5.3 d) for Class 3R).
+The following warning shall be given on the product housing and in the information for the user. Text
+borders and symbols shall be black on a yellow background, including for Class 1.
+LASER ENERGY - EXPOSURE NEAR APERTURE MAY CAUSE BURNS
+NOTE The risk of skin injury is only likely for highly divergent beams for exposure close to the aperture.
+While the placement of the explanatory label for Class 1 and 1M on the product is optional (see 7.2), the
+above warning is not optional.
+
+
+11.10 AEL Calculations for Short Time Exposure (Laser class 1/1M)
+AEL Calculations
+Wavelength [nm]:            1271nm
+Point Source (single fiber)
+
+α ≤ 1.5 mrad: EAEL = 3.5 * 10–3 t 0,75 C7 J
+
+C7 = 8 + 100.04(λ –1 250)
+t = 10s - 0.1ms
+PPeak = EAEL/t
+P0Peak based on Condition 3 (100mm, 9.6µm)
+
+
+Calculations a based on single pulse exposure as per IEC 60825-1
+APR regulations as per IEC 60825-2 have not considered as the
+FDA/CDRH does not recognize IEC 60825-2 for FDA filings under
+laser notice #56.
+
+
+
+
+www.oiforum.com                                                                                         47
+                  OIF-Co-Packaging-FD-01.0
+
+
+
+
+www.oiforum.com                          48
+                                                                             OIF-Co-Packaging-FD-01.0
+
+11.11 Sample Scenarios for ELS Modules with Accessible MPO Connectors
+11.11.1 Eight Fibers at 18 dBm Each (Wavelengths 1271 nm, 1291 nm, 1311 nm, 1331 nm)
+
+
+
+
+1271nm represents the most restrictive wavelength
+
+
+
+
+                                                                            Hazard Level 1   Hazard Level 1M
+                                                                            Limit            Limit
+                                                                                             Laser Class 1 Limit
+
+
+Hazard Level 1 emission levels are exceeded for continuous emission
+Laser Class 1 & Hazard Level 1M emission limits are maintained for continuous emission
+Hazard Level 1 emission limits are maintained if the exposure is limited to 2s or less.
+Total Accessible Power > 500 mW => Burn Hazard Label required
+
+
+
+
+www.oiforum.com                                                                                             49
+                                                                              OIF-Co-Packaging-FD-01.0
+
+11.11.2 Eight Fibers at 22 dBm Each (Wavelengths 1271 nm, 1291 nm, 1311 nm, 1331 nm)
+
+
+
+
+1271nm represents the most restrictive wavelength
+
+
+
+
+                                                                             Hazard Level 1
+                                                                             Limit            Hazard Level 1M
+                                                                                              Limit
+                                                                                              Laser Class 1 Limit
+
+
+
+
+Hazard Level 1/1M and laser class 1 emission levels are exceeded for continuous emission
+Emissions are within limits for Laser Class 1 & Hazard Level 1M if the exposure is limited to 0.3s or less.
+Emissions are within limits for Hazard Level 1 if the exposure is limited to 50ms or less.
+Total Accessible Power > 500 mW => Burn Hazard Label required
+
+
+
+
+www.oiforum.com                                                                                             50
+                                                                         OIF-Co-Packaging-FD-01.0
+
+11.11.3 Four Fibers at 24 dBm Each (Wavelength 1311 nm Only)
+
+
+
+
+                                                                          Hazard Level 1   Hazard Level 1M
+                                                                          Limit            Limit
+                                                                                           Laser Class 1 Limit
+
+
+
+
+Laser Class 1 & Hazard Level 1/1M emission limits are maintained for continuous emission
+
+
+Total Accessible Power > 500 mW => Burn Hazard Label required
+
+
+
+
+www.oiforum.com                                                                                          51
+                                                                            OIF-Co-Packaging-FD-01.0
+
+12 Appendix C: List of companies belonging to OIF when document is approved
+
+ Accton Technology Corporation     Hisense Broadband Multimedia        NVIDIA Corporation
+                                   Technologies Co., LTD
+ ADVA Optical Networking           Huawei Technologies Co., Ltd.       O-Net Communications (Shenzhen)
+                                                                       Limited
+ Advanced Fiber Resources (AFR)    I-Pex                               Open Silicon Inc.
+ Alibaba                           IBM Corporation                     Optomind Inc.
+ Alphawave IP Inc.                 Idea Sistemas Electronicos S.A.     Orange
+ Amphenol Corp.                    II-VI Incorporated                  PETRA
+ AnalogX Inc.                      Infinera                            Pointwo Technology
+ Applied Optoelectronics, Inc.     InnoLight Technology Limited        Precise-ITC, Inc.
+ Ayar Labs                         Innolume GmbH                       Quintessent Inc.
+ Banias Labs                       Innovium                            Ragile Networks, Inc.
+ BitifEye Digital Test Solutions   Integrated Device Technology        Rambus Inc.
+ GmbH
+ Broadcom Inc.                     Intel                               Ranovus
+ Cadence Design Systems            IPG Photonics Corporation           Retym
+ China Telecom                     Juniper Networks                    Rockley Photonics
+ CICT                              Kandou Bus                          Rosenberger Hochfrequenztechnik
+                                                                       GmbH & Co. KG
+ Ciena Corporation                 KDDI Research, Inc.                 Samsung Electronics Co. Ltd.
+ Cisco Systems                     Keysight Technologies, Inc.         Samtec Inc.
+ Commscope Connectivity            Kuaishou Technology                 Semtech Canada Corporation
+ Belgium BVBA
+ Cornelis Networks, Inc.           Lumentum                            Senko Advanced Components
+ Corning                           Luxshare-ICT                        Sicoya GmbH
+ Credo Semiconductor (HK) LTD      MACOM Technology Solutions          SiFotonics Technologies Co., Ltd.
+ Dell, Inc.                        Marvell Semiconductor, Inc.         Socionext Inc.
+ DustPhotonics                     Maxim Integrated Inc.               Source Photonics, Inc.
+ EFFECT Photonics B.V.             MaxLinear Inc.                      Spirent Communications
+ Eoptolink Technology              MediaTek                            Sumitomo Electric Industries, Ltd.
+ Epson Electronics America, Inc.   Meta                                Sumitomo Osaka Cement
+ ETRI                              Microchip Technology Incorporated   Synopsys, Inc.
+ EXFO                              Microsoft Corporation               TE Connectivity
+
+www.oiforum.com                                                                                             52
+                                                                        OIF-Co-Packaging-FD-01.0
+
+ Foxconn Interconnect         Mitsubishi Electric Corporation   Telefonica S.A.
+ Technology Ltd
+ Fujikura                     Molex                             TELUS Communications, Inc.
+ Fujitsu                      Multilane Inc.                    US Conec
+ Furukawa Electric Japan      NEC Corporation                   Viavi Solutions Deutschland GmbH
+ Global Foundries             NeoPhotonics                      Wilder Technologies, LLC
+ Global Unichip Corp (GUC)    Nitto Denko Corporation           Xelic
+ Google                       Nokia                             Xilinx
+ Hakusan Inc                  NTT Corporation                   Yamaichi Electronics Ltd.
+ Hewlett Packard Enterprise   Nubis Communications, Inc.        ZTE Corporation
+ (HPE)
+
+
+
+
+www.oiforum.com                                                                                53
+

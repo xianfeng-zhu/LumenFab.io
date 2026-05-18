@@ -1,0 +1,565 @@
+                                                                                 Contribution to the achievement of SDGs
+                                                                                               by Furukawa Electric Group
+
+
+
+
+                       Development of an External Laser Source
+                              for Co-Packaged Optics
+             Taketsugu Sawamura*1, Kazuhiko Kashima*1, Kyoko Nagai*1, Daiki Takeda*1,
+               Tsunetoshi Saito*1, Kouhei Umeta*1, Masayoshi Kimura*2, Hideyuki Nasu*1,
+       Nitidet Thudsalingkarnsakul* 3, Rattanaporn Suksomboon* 3, Sanguan Anantathanasarn* 3
+
+
+
+                                We designed and fabricated an external laser source (ELS) for a network switch
+             ABSTRACT
+                                equipment employing the Co-Packaged Optics (CPO). This ELS integrates a
+             newly developed uncooled 8-channel Transmitter Optical Sub-Assembly (TOSA) and a control
+             circuitries into a Quad Small Form Pluggable (QSFP) housing, widely employed for optical trans-
+             ceivers. In order to obtain a high fiber-coupled power with low power consumption, we
+             employed our high-power Distributed-Feed Back (DFB) laser diode, and we designed a heat dis-
+             sipation structure and an optical system, a power-saving control circuitries. At a housing tem-
+             perature of 55°C, the ELS achieved an optical fiber-coupled power of 20 dBm with power con-
+             sumption of 5.6 W and power conversion efficiency (PCE) of 14.3% which is the best in the
+             industry. The ELS achieved Polarization extinction ratio (PER) of >20 dB and Side-Mode
+             Suppression Ratio (SMSR) of >50 dB respectively.
+
+
+
+                                                                same substrate, an electrical transmission path between
+  1.   INTRODUCTION
+                                                                the optical transceiver and the switch ASIC can be signifi-
+To support a lot of kinds of IT services, such as cloud ser-    cantly shorter to <50 mm and transmission loss can be
+vices and 5G mobile networks, machine learning, Artificial      improved. Therefore, power hungry electronic devices
+Intelligence (AI), the volume of network traffic has been       which compensates electric signal degradation can be
+growing explosively and high-speed data processing in           eliminated and the power consumption of the optical
+data centers becomes more important. In data centers,           transceiver can be reduced. Although the temperature
+the network switch devices take a bigger role and their         increase of the optical transceiver itself is suppressed by
+transmission capacity depends on the performance of a           the reduction of power consumption, the switch ASIC
+switch Application Specific Integrated Circuit (ASIC).          generates a large amount of heat due to its large power
+Since 2010, the bandwidth of a switch ASIC has doubled          consumption and it derives temperature increase of opti-
+in two years and reached to 51.2 Tbps in 2022 1). The           cal transceivers mounted near a switch ASIC. For a com-
+existing network switch equipment consists of optical           pound semiconductor laser, it is difficult to keep charac-
+transceivers which are operated at the front panel, hence       teristics and the reliability in high ambient temperature
+the electrical transmission path between an optical trans-      environment. Hence, an external laser source (ELS) which
+ceiver and a switch ASIC is long and transmission loss          is placed at a front panel in an environmental condition of
+becomes high. In order to realize wide bandwidth, power         lower ambient temperature is proposed. And an ELS inte-
+hungry electronic devices which regenerate and shape            grates a number of lasers into a pluggable small form fac-
+the degraded signal during electrical transmission are          tor (SFF).
+necessary in existing network equipment.
+   For the reason above, adoption of CPO which can
+replace some electrical paths to optical paths in the net-
+work switch equipment is expected. Figure 1 shows a
+schematic illustration of the CPO. Since tiny optical trans-                               Switch ASIC
+ceivers are mounted together with a switch ASIC and on                                                   Optical
+                                                                                                       transceiver      Optical ﬁber
+
+                                                                                                       Substrate
+  *1
+    Photonics-Electronics Convergence Department,
+		 Photonics Laboratories
+ *2
+    Photonic Devices Department, Photonics Laboratories
+                                                                Figure 1   Schematic illustration of the CPO.
+ *3
+    Furukawa FITEL (Thailand)
+
+
+                                                                                     Furukawa Electric Review, No. 55 2024        46
+Development of an External Laser Source for Co-Packaged Optics
+
+
+
+
+   We designed and fabricated an ELS for the CPO, which          fiber-coupled power of 20 dBm without a TEC, our high-
+employed a QSFP housing widely employed in the optical           power DFB-LD 5) is employed. The temperature of the
+transceiver, and a newly developed uncooled 8-channel            substrate where each LD is mounted is defined as a case
+TOSA and control circuitries. In this paper we report            temperature. To guarantee the reliability of each LD under
+designs and characteristics of this ELS, which achieves a        the operating conditions of a case temperature of 55°C
+fiber-coupled power of 20 dBm with power consumption             and an optical output power of 20 dBm, a TOSA structure
+of 5.6 W and record PCE of 14.3% at a housing tempera-           is designed to keep a LD temperature <65°C.
+ture of 55°C.                                                    Furthermore, a coupling efficiency between the LD and
+                                                                 an optical fiber is targeted as >75% and a LD bias current
+                                                                 to obtain fiber-coupled power of 20 dBm is targeted as
+  2.     EXTERNAL LASER SOURCE FOR THE
+                                                                 <350 mA, based on an optical output power characteris-
+         CPO AND ITS DEVELOPMENT GOALS
+                                                                 tics of the LD.
+As the guidance and specifications of an ELS for CPO,               First, to design a pitch size to mount LDs, the relation-
+ELS guidance document 2) and ELSFP Implementation                ship between the pitch size and the laser temperature is
+Agree-ment 3) have been published by the CPO                     calculated by thermal simulations. The calculated results
+Collaboration and the Optical Internetworking Forum              are shown in Figure 3. If the pitch size is narrow, the LD
+(OIF). The proposed Small Form Factors (SFFs) are a              temperature increase by heat from adjacent LDs and the
+QSFP-DD and an Octal Small Form-factor Pluggable                 LD temperature decreases when the pitch is wider and
+(OSFP) which are adopted for optical transceivers, and an        saturated from the pitch size of 1.2 mm. From these
+External Laser Small Form Factor Pluggable (ELSFP)
+which is a newly proposed form factor for an ELS. The                                                          22.5 mm
+
+ELS has several optical outputs in compliant with
+                                                                                                                                               PMF
+                                                                                                                             13.0 mm
+400GBASE-FR4 or 400GBASE-DR4, which requires the                                          Control
+                                                                                          circuitries          TOSA
+wavelength allocation of 4-wavelength Coarse
+Wavelength Division Multiplexing (CWDM) (i.e., 1271 nm,
+                                                                                            Flexible printed circuit                   QSFP housing
+1291 nm, 1311 nm, 1331 nm) or single wavelength of
+1311 nm. And the ELS is required a high fiber-coupled
+power with low power consumption and high PCE, hence                                            Control
+                                                                                                                      TOSA
+                                                                                                circuitries
+uncooled laser structure which doesn’t consist of a
+Thermo-Electric Cooler (TEC) to cool laser diodes is pref-
+                                                                                                                                         OSFP housing
+erable. J. E. Johnson et al. reported uncooled 8-channel
+ELS using with a double-height QSFP-DD housing. The
+fiber-coupled power of this ELS achieved 20 dBm at                                                 Control circuitries                    TOSA
+housing temperature of 50°C, and power consumption
+was 8.0 W, and power conversion efficiency was 10% 4).
+                                                                                                                                       ELSFP housing
+   This time, we designed and fabricated a compact
+                                                                 Figure 2                    Internal layouts of ELSs employing QSFP, OSFP and
+uncooled 8-channel TOSA which can be built together
+                                                                                             ELSFP.
+with control circuitries in all housings proposed for an
+ELS housings that have been proposed. And we                                                                                                Laser diode
+designed and fabricated an ELS employing a QSFP hous-
+                                                                                           Laser pitch: 0.4 mm                              Substrate
+ing which is the smallest among proposed housings for
+an ELS. The target characteristics is optical output power                                 Laser pitch: 0.8 mm
+of 20 dBm for all channels at a housing temperature of
+55°C with power consumption of <6.5 W.                                                     Laser pitch: 1.2 mm
+
+                                                                                           70
+  3.     DESIGN OF 8-CHANNEL TOSA
+
+
+
+
+                                                                     LD temperature / ℃
+                                                                                           65
+Figure 2 shows schematic internal layouts of a QSFP
+ELS, an OSFP ELS and an ELSFP. The target size of an
+                                                                                           60
+8-channel TOSA is as small as 22.5 mm (L) x 13.0 mm
+(W) x 4.0 mm (H) which can be built in each housing. The                                                              Case temperature: 55℃
+                                                                                           55
+TOSA is electrically connected to the control circuitries
+through a flexible printed circuit (FPC). Since the laser
+                                                                                           50
+beam from the ELS is modulated by a silicon photonics                                       0.4         0.6       0.8     1.0     1.2         1.4       1.6
+modulator of an optical transceiver. Therefore, a polariza-                                                        Laser pitch / mm
+tion maintaining fiber (PMF) is employed to transmit lin-        Figure 3                    Calculated LD temperature as a function of the pitch
+early polarized beam. For the LD, in order to obtain a                                       size between DFB-LDs.
+
+
+                                                                                                              Furukawa Electric Review, No. 55 2024           47
+Development of an External Laser Source for Co-Packaged Optics
+
+
+
+
+results, 1.2 mm is employed to suppress the LD tempera-                         Photodiode          Focusing lens                                           PMF
+                                                                                          DFB laser    Optical isolator
+ture increase and to realize target width of 13.0 mm for                                                                                                              Slow axis
+
+TOSA. The relationship between LD bias current and LD
+
+
+                                                                                   Flexible cable
+temperature is also calculated by thermal simulations.                                                                                                               Laser TE
+                                                                                                                                                                     polarizing
+The results are shown in Figure 4. When the LD bias cur-                                                                                                             axis
+rent is 350 mA, the LD temperature increase is approxi-                                                                                                              Rotating aligned to
+                                                                                                                                                                    maximize polarization
+mately 6°C from a case temperature of 55°C, the LD tem-                                                                                                                extinction ratio.
+                                                                                                                                                       Substrate
+perature rises to 61°C. To meet the target LD temperature
+                                                                                Figure 5                             Schematic top view for the TOSA structure.
+of <65°C, the upper limit of the LD bias current should be
+550 mA.
+                                                                                                    Displacement of the optical ﬁber: 0.2 µm                             Unit: µm
+                                                                                                    Case temperature: 55℃                                                    6.0
+                          70                                                                                                                                                 5.4
+                                                                                                                                                                             4.8
+                                                                                                                                                                             4.2
+                                   Upper limit of the laser temperature
+
+
+
+
+     LD temperature / ℃
+                          65                                                                                                                                                 3.6
+                                                                                                                                      Aluminum cover                         3.0
+                                                                                                                                                                             2.4
+                                                                                                                                                                             1.8
+                          60
+                                                                                                                                                                             1.2
+                                                                                                                                                                             0.6
+                                              Case temperature: 55℃                                                                                                          0.0
+                          55
+                                                                                            Figure 6                               3D model of the TOSA deformed in thermal
+                                                                                                                                   stress simulation.
+                          50
+                               0   100    200    300     400       500    600
+                                            LD current / mA                                                                  100
+
+Figure 4                   Simulated LD temperature as a function of LD bias                                                 90
+                           current.
+
+
+                                                                                                    Optical power change
+                                                                                                                             80
+
+                                                                                                                             70
+   Figure 5 shows a schematic top view for the TOSA
+
+
+                                                                                                     (relative values) / %
+structure. Eight LDs are mounted on a substrate of the                                                                       60
+
+TOSA with 1.2 mm pitch and photodiodes (PDs) are also                                                                        50
+mounted on the substrate to monitor optical output                                                                                           -0.2 µm       +0.2 µm
+                                                                                                                             40
+power launched from back facets of the LDs. A laser
+beam launched from a front facet of the LD is coupled to                                                                     30
+                                                                                                                                   -5 -4 -3 -2 -1      0    1   2    3   4   5
+a PMF through a focusing lens and an optical isolator. An                                                                              Optical axis displacement / µm
+optical isolator is employed to avoid unwanted optical
+                                                                                                       Figure 7                      Optical power change as a function of
+reflection for the LD. A PMF is aligned and fixed to obtain                                                                          optical axis displacement.
+high optical output power and PER. And when a case
+temperature changes from 25ºC to 55ºC, the deformation
+of the TOSA and the displacement of the optical fiber are
+                                                                                  4.                      CHARACTERISTICS OF 8-CHANNEL
+calculated by thermal stress simulation, and an optical
+                                                                                                          TOSA
+power change by the optical fiber displacement are cal-
+culated. Figure 6 shows the simulated 3D model of TOSA                          Figure 8 shows a photograph of the 8-channel TOSA. At
+deformation when the TOSA case temperature changes                              the left edge of the substrate, the FPC is attached to con-
+from 25ºC to 55ºC. The aluminum cover, which prevents                           nect to the each LD and PD. At the right edge of the sub-
+contamination and dust for optical system, is slightly                          strate, 8-PMF cables are taken out through the aluminum
+deformed approximately 3 µm. Displacement of the opti-                          cover of TOSA.
+cal fiber is as small as approximately 0.2 μm. Figure 7
+shows optical power change as a function of optical axis
+displacement. As can be seen from Figure. 5, the axis
+displacement of 0.2 µm generates small degradation of
+optical power change. The estimated optical power deg-
+radation is less than 1%. Therefore, with this structure
+and optical system, an optical coupling efficiency can be
+consistent regardless of the TOSA case temperature.
+
+
+
+
+                                                                                          Figure 8                                Photograph of the 8-channel TOSA.
+
+
+                                                                                                                                        Furukawa Electric Review, No. 55 2024          48
+Development of an External Laser Source for Co-Packaged Optics
+
+
+
+
+                                  250                                                                                      250
+
+
+
+
+       Fiber-coupled power / mW                                                                 Fiber-coupled power / mW
+                                  200                                                                                      200
+
+
+                                  150                                                                                      150
+                                            Case temperature:                                                                           Case temperature:
+                                                                       Target ﬁber-coupled                                                                              Target ﬁber-coupled
+                                            25℃                                                                                         55℃
+                                                                       power: 20 dBm                                                                                    power: 20 dBm
+                                  100                                                                                      100
+
+
+                                  50                                                                                        50
+
+
+                                   0                                                                                            0
+                                        0       100    200      300   400     500     600                                           0      100    200       300   400      500    600
+                                                         LD current / mA                                                                            LD current / mA
+
+        Figure 9                            Optical power characteristics as a function of LD bias current and at the case temperatures of 25°C and 55°C.
+
+
+                                        0
+
+
+               Normalized
+                                    -20
+
+                                    -40
+
+
+           optical power / dB
+                                    -60
+
+                                    -80
+                                       1260             1270          1280          1290           1300                                   1310          1320       1330           1340
+                                                                                            Wavelength / nm
+                                                         Ch1
+                                                           （1271 nm）            Ch2（1291 nm）                                        Ch3（1311 nm）             Ch4（1331 nm）
+                                        0
+
+
+               Normalized
+                                    -20
+
+                                    -40
+
+
+           optical power / dB
+                                    -60
+
+                                    -80
+                                      1260             1270           1280          1290        1300                                      1310        1320         1330           1340
+                                                                                            Wavelength / nm
+                                                         Ch5（1271 nm）           Ch6（1291 nm）                                        Ch7（1311 nm）             Ch8（1331 nm）
+
+                Figure 10 Measured optical spectra of the 8-channel TOSA.
+
+
+
+   Figure 9 shows the optical power characteristics for all
+                                                                                                                           5.       DESIGN OF PIGTAILED-QSFP ELS
+8 channels as function of LD bias current at the case
+temperature of 25°C and 55°C. The coupling efficiency is                                                   Figure 11 shows a schematic illustration for a pigtailed
+consistent as 80% - 85% regardless of the case temper-                                                     QSFP ELS. The PMF cables are passed into a jacket
+ature. Therefore, the LD bias current to obtain a fiber-cou-                                               together with a tension member (aramid fiber) to keep
+pled power of 20 dBm at the case temperatures of 25°C                                                      tensile strength and a 12-lane MPO connector is attached
+and 55°C were <300 mA, which is lower than the estimat-                                                    at the end of the PMF cables. It is important that the opti-
+ed 350 mA. This TOSA also achieves a fiber-coupled                                                         cal axes of PMF inside the MPO ferrule are aligned with
+power of 20 dBm for all channels at a case temperature                                                     each other so that linear polarization can be maintained
+of 55°C and the power consumption measures as low as                                                       at the connection of the MPO connectors. Figure 11
+3.7 W. Accordingly, power conversion efficiency of the                                                     shows a schematic illustration for a definition of rotational
+TOSA achieves 21.2% which is the maximum value in the                                                      angle error too. As can be seen in the figure, the target
+industry. Figure 10 shows the measured optical spectra                                                     line is set to pass through the center of the guide pin. And
+for all channels. All the lasing wavelengths meet the                                                      the alignment line is set to pass through the individual
+wavelength requirements of CWDM 4 6). Measured side-                                                       center of two stress applying parts and the center of
+mode suppression ratio (SMSR) numbers are >50 dB for                                                       core. Each PMF is rotated and fixed so that the alignment
+all channels.                                                                                              line overlaps the target line by a visual observation. A
+                                                                                                           rotational angle error is defined as an angular difference
+                                                                                                           between the alignment line and the target line, and it is
+                                                                                                           targeted as <±3 degrees.
+
+
+                                                                                                                                                  Furukawa Electric Review, No. 55 2024       49
+Development of an External Laser Source for Co-Packaged Optics
+
+
+
+
+                                  Alignment line                           housing is thermally connected to the air-cooling heat
+                MT ferrule                                                 sink. Hence, the heat inside the housing is transferred to
+                       Guide pin hole                                      the air-cooled heat sink through the upper side of the
+                                                            Target line
+                         Guide pin                                         housing and dissipated. Therefore, we define that the
+                                                             Rotational    ELS’s housing temperature is the surface temperature of
+                                                             angle         the top housing. In order to drive the TOSA inside the
+                                                             error
+                                                                           QSFP housing without degrading TOSA’s characteristics,
+                                                          Target line
+      Guide pin hole                           Guide pin hole
+                                                                           it is important to minimize the difference between the
+                                                                           housing temperature and the TOSA case temperature.
+                        PMF                   Jacket                       Therefore, it is much preferable to attach the bottom sur-
+                                                                           face of TOSA on the top housing so that the thermal
+  Control                                                                  resistance is minimize. Figure 14 shows the temperature
+  circuitries   TOSA
+                                                                           distributions inside the QSFP housing while all channels
+                                       Boot
+                                                                           are driving at LD bias current of 300 mA and housing
+                   QSFP housing
+                                                                           temperature of 55°C in thermal simulation. The increase
+Figure 11 Schematic illustration for a pigtailed-QSFP ELS.
+                                                                           of TOSA case temperature is calculated as low as about
+                                                                           0.7°C. By adopting a highly efficient heat dissipation
+   Figure 12 shows the block diagram for control circuit-                  structure in which the bottom substrate of TOSA is
+ries. The control circuitries consist of a power supply reg-               mounted on the top housing, a temperature increase of
+ulator, a Micro Control Unit (MCU), LD control circuitries,                TOSA inside the housing is suppressed as low as 1.4°C.
+and a temperature sensor. Since the electric power sup-
+ply voltage for the ELS is 3.3 V, The LD control circuitries                                            Front panel
+employ DC/DC converters. To save the power consump-
+                                                                                   Heat sink      Heat ﬂow       Housing temperature
+tion, the DC/DC converters reduce a supply voltage of
+                                                                            Cage
+3.3 V to the maximum LD bias voltage, which enables
+injecting an LD bias current of 500 mA sufficiently.
+
+
+                                                                           Figure 13 Driving environment of the QSFP ELS.
+                       DC/DC       LD control circuitry              LD1
+                                                           PD1
+
+   Circuit of          DC/DC       LD control circuitry              LD2      Surface of top housing: 55℃        TOSA substrate: 55.7℃
+                                                           PD2
+  the electric
+ power source
+                       DC/DC       LD control circuitry              LD3
+                                                           PD3
+
+                       DC/DC       LD control circuitry              LD4
+                                                           PD4
+  Temperature
+    sensor                         LD control circuitry              LD5
+                       DC/DC                                                                       Top housing
+                                                           PD5
+                                                                                                          TOSA cover
+                       DC/DC       LD control circuitry              LD6
+                                                           PD6
+ Micro Control                                                              Control circuitries   TOSA substrate
+     Unit              DC/DC       LD control circuitry              LD7
+                                                           PD7             Figure 14 Cross-sectional view of a simulated temperature
+                                                                                     distributions inside the QSFP housing.
+                       DC/DC       LD control circuitry              LD8
+                                                           PD8
+
+Figure 12 Block diagram for the control circuitries.
+                                                                             6.    CHARACTERISTICS OF
+                                                                                   PIGTAILED-QSFP ELS
+   With this control circuitries, each LD can be operated
+on Auto Current Control (ACC) mode or Auto Power                           Figure 15 shows photographs of a fabricated pigtailed-
+Control (APC) mode, and the optical output power of                        QSFP ELS. The TOSA and the control circuitries are built
+each channel, internal temperature of the housing, and                     in the QSFP housing as designed and the 12-core MPO
+current and voltage of each laser diode and electric                       connector is attached at the end of the PMF cables.
+power source can be monitored through the Inter                            Figure 16 shows photographs of PMF end face at the MT
+Integrated Circuit (I2C) interface.                                        ferrule. As shown in Table 1, each cable can be assem-
+   Figure 13 shows the cross-sectional view of the pig-                    bled in good accuracy as the rotational angle error of
+tailed-QSFP ELS in an air-cooling environment. When the                    ±2 degrees. Furthermore measured PER numbers are
+pigtailed-QSFP ELS is inserted into a cage which has an                    >20 dB for all 8 channels.
+air-cooling heat sink at a top, the top surface of the QSFP
+
+
+                                                                                                  Furukawa Electric Review, No. 55 2024   50
+Development of an External Laser Source for Co-Packaged Optics
+
+
+
+
+                                                                                                              200
+                                                                                                                                                          TOSA
+                                                                                                              180
+                                                                                                                                                          ELS
+                                                                                                              160
+
+
+
+
+                                                                                   Fiber-coupled power / mW
+                      QSFP housing                                                                            140
+
+                                                                                                              120
+                                                                                                                         Case temperature: 55℃
+                                                                                                              100
+                                                                                                                                                     Housing temperature:
+                                                  Control                                                                                            55℃
+                                    MPO                                                                        80
+                                                  circuitries TOSA
+                                                                                                               60
+
+                                                                                                               40
+                                                  Inside of the housing                                        20
+
+Figure 15 Photograph of the pigtailed-QSFP ELS.                                                                 0
+                                                                                                                     0        100       200        300     400       500
+                                                                                                                                       LD current / mA
+
+                                                                               Figure 17 Optical power as a function of LD bias current for the
+                                                                 Target line             TOSA and the pigtailed-QSFP ELS.
+
+  Ch1               Ch2              Ch3                  Ch4
+                                                                                                              10.0
+                                                                 Target line
+                                                                                                               9.0              Calculated value
+                                                                                                               8.0              Measured value
+
+
+
+
+                                                                               ELS power consumption / W
+  Ch5               Ch6               Ch7                 Ch8
+
+Figure 16 Photographs of an end face of the MT ferrule.                                                        7.0
+                                                                                                               6.0
+
+Table 1      Measured PER and rotational angle error for each                                                  5.0
+             channel.                                                                                          4.0
+                                                                                                                                                     Fiber-coupled
+          Item        Ch1 Ch2 Ch3 Ch4 Ch5 Ch6 Ch7 Ch8                                                          3.0                                   power:
+ Rotational angle                                                                                                                                    20 dBm
+                       0.1    0.9   1.1     0.9     1.6    1.2   0.8   0.2                                     2.0
+  error (degree)
+                                                                                                               1.0
+          PER
+                      24.3 25.8 25.1 22.8 25.1 24.2 24.7 24.7
+          (dB)                                                                                                 0.0
+                                                                                                                     0        100      200         300     400       500
+                                                                                                                                       LD current / mA
+   Figure 17 shows the optical fiber-coupled power char-                       Figure 18 Calculated and measured power consumption as a
+acteristics of the TOSA and the ELS at the TOSA case                                     function of LD bias current for the pigtailed-QSFP ELS.
+temperature of 55°C and the housing temperature of
+55°C. The curve for the QSFP ELS is very slightly lower
+than that of the TOSA because the LD temperature is only
+                                                                                           7.                    CONCLUSION
+0.7°C higher. The fiber-coupled power of the TOSA is in
+good agreement with that of the ELS. It can be consid-                         We designed and fabricated the uncooled 8-channel
+ered that the TOSA case temperature increase is sup-                           TOSA which integrates our high-power DFB laser diodes.
+pressed in the housing well as the thermal simulation.                         The size of TOSA is as small as 22.5 mm (L) x 13.0 mm
+   Figure 18 shows calculated and measured power con-                          (W) x 4.0 mm (H) and it can be built together with control
+sumption as a function of LD bias current for the pigtailed-                   circuitries into the various housings proposed for an ELS.
+QSFP ELS. The calculated characteristic is shown with a                        In addition, with the heat dissipation structure to sup-
+dotted line and the measured results is shown with open                        press the laser temperature increase and the optical sys-
+circle plots. As can be seen from the graph, the measured                      tem to obtain high coupling efficiency, TOSA achieved
+result has a good agreement with the calculated result.                        fiber-coupled optical power >20 dBm for all channels at
+When all LDs are driven at an LD bias current of 300 mA                        power consumption of as low as 3.7 W at the TOSA case
+to obtain the optical fiber-coupled power of >100 mW at                        temperature of 55°C and the power conversion efficiency
+a housing temperature of 55°C, the power consumption                           is as high as 21.2% .
+of the ELS measures 5.6 W. Accordingly, PCE is calculat-                          Furthermore, we designed and fabricated the CPO ELS
+ed as high as the record PCE of 14.3%, and is realized.                        module employing a QSFP which is the smallest among
+                                                                               the housings proposed for an ELS. With power-saving
+                                                                               control circuitries and internal structure which has low
+                                                                               thermal resistance between TOSA and a QSFP housing,
+                                                                               the ELS module achieved total power consumption of as
+
+
+                                                                                                                                 Furukawa Electric Review, No. 55 2024   51
+Development of an External Laser Source for Co-Packaged Optics
+
+
+
+
+low as 5.6 W at the fiber coupled optical power of 20 dBm                                 REFERENCES
+for all channels and the housing temperature of 55°C,             1) Broadcom News Release: “Broadcom Ships Tomahawk 5,
+accordingly PCE of as high as 14.3% is achieved. The                 Industry’s Highest Bandwidth Switch Chip to Accelerate AI/ML
+MPO connector is assembled with a precise angle align-               Workloads”, Aug. 2022. [Online] Available:
+                                                                 		  https://www.broadcom.com/company/news/product-releases/60456
+ment of slow axis of PMFs, and measured PER numbers
+                                                                  2) CPO Collaboration: “Co-packaged Optics External Laser Source
+are as high as >20 dB for all channels.                              Guidance Document”, Version 1.0, Jan. 2020.
+                                                                  3) Optical Internetworking Forum: “External Laser Small Form
+                                                                     Factor Pluggable (ELSFP) Implementation Agreement”,
+                                                                     OIFELSFP-01.0, Aug. 2023.
+                                                                  4) J. E. Johnson, K. Bacher, R. Schaevitz, and V. Raghunathan:
+                                                                     “Performance and Reliability of Advanced CW Lasers for Silicon
+                                                                     Photonics Applications”, Optical Fiber Communication
+                                                                     Conference 2022, TuD.1, Mar. 2022.
+                                                                  5) Furukawa Electric HP > News Release > "Mass production of a
+                                                                     high output 100mW DFB laser diode chip” (Released date:
+                                                                     September 25, 2023, Referred on Dec. 20, 2024 )
+                                                                 		 [Online] Available:
+                                                                 		  https://www.furukawa.co.jp/en/release/2023/comm_20230925.html
+                                                                  6) CWDM4 MSA: “ 100G CWDM4 MSA Technical Specifications”,
+                                                                     Rev. 1.0, Aug. 2014.
+
+
+
+
+                                                                                      Furukawa Electric Review, No. 55 2024     52
+

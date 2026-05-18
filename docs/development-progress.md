@@ -1,10 +1,10 @@
 # LumenFab.io Development Progress
 
-Last updated: 2026-05-16
+Last updated: 2026-05-18
 
 ## Current State
 
-Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, material platforms 05, and raw materials to wafers 06 are deployed.
+Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, material platforms 05, raw materials to wafers 06, and the CPO component-entry homepage are deployed. Light source / laser supply professional source pack is created locally for the next content pass.
 
 Repository:
 
@@ -134,6 +134,33 @@ Completed plan:
   - `public/figures/06-raw-to-wafer-flow.svg`
   - `public/figures/06-engineered-substrate-stacks.svg`
 - Updated learning path navigation for 06.
+- Reworked homepage around CPO component entrances:
+  - `Light source / laser supply`
+  - `PIC / optical circuit`
+  - `EIC / driver and receiver`
+  - `Optical I/O / fiber coupling`
+  - `Package integration`
+  - `Manufacturing and test`
+  - `Reliability and operations`
+- Added component hub pages:
+  - `src/pages/components/laser-source.mdx`
+  - `src/pages/components/pic.mdx`
+  - `src/pages/components/eic.mdx`
+  - `src/pages/components/optical-io.mdx`
+  - `src/pages/components/packaging.mdx`
+  - `src/pages/components/manufacturing-test.mdx`
+  - `src/pages/components/reliability-operations.mdx`
+- Created Light source / laser supply professional source pack:
+  - `docs/research/v1-light-source-laser-supply/light-source-laser-supply-professional-sources.md`
+  - `docs/research/v1-light-source-laser-supply/downloads/oif-elsfp-01-0.pdf`
+  - `docs/research/v1-light-source-laser-supply/downloads/oif-mgt-co-packaging-elsfp-01-0.pdf`
+  - `docs/research/v1-light-source-laser-supply/downloads/oif-co-packaging-framework-fd-01-0.pdf`
+  - `docs/research/v1-light-source-laser-supply/downloads/frontiers-cpo-status-challenges-solutions-2023.pdf`
+  - `docs/research/v1-light-source-laser-supply/downloads/furukawa-external-laser-source-cpo-2024.pdf`
+- Extracted text versions of the downloaded PDFs for local search.
+- Saved local-only reference images for Light source / laser supply under:
+  - `docs/research/v1-light-source-laser-supply/reference-images/`
+  - This directory is ignored by git and intended for redraw / 3D-model reference only.
 
 ## Verification Commands
 
@@ -146,10 +173,10 @@ npm audit --omit=dev
 gh run list --repo xianfeng-zhu/LumenFab.io --limit 5
 ```
 
-Expected current baseline after 06 content:
+Expected current baseline after CPO component entry structure:
 
-- `npm test`: 9 tests pass.
-- `npm run build`: 48 pages build.
+- `npm test`: 12 tests pass.
+- `npm run build`: 55 pages build.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - latest `Deploy to GitHub Pages` run: success.
 
