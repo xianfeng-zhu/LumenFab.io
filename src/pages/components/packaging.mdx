@@ -1,0 +1,82 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Package integration
+chapter: CPO Components
+description: Packaging 决定 laser、PIC、EIC、fiber array、substrate 和散热路径能否从 demo 变成可量产产品。
+---
+
+## What This Component Does
+
+Package integration 把多个芯片和光学接口变成可工作的光引擎。它不是制造尾巴，而是 CPO 成败的核心。
+
+它处理的问题包括：
+
+- switch ASIC host boundary。
+- laser / PIC / EIC placement。
+- die attach and flip-chip。
+- interposer and package substrate。
+- fiber array and lens alignment。
+- edge coupling or grating coupling。
+- thermal path。
+- mechanical stress。
+- rework and yield。
+
+## ASIC Host Boundary
+
+CPO 里的 package integration 需要先回答一个边界问题：optical engine 到底放在 switch ASIC 的哪个位置关系上。
+
+传统可插拔模块的路径通常是：
+
+- switch ASIC。
+- package substrate。
+- PCB high-speed traces。
+- front-panel pluggable module。
+- fiber。
+
+CPO 把 optical engine 移到 ASIC 附近，目标是缩短高速电信号路径，降低电损耗和功耗，提高带宽密度。
+
+这不等于“ASIC 和 PIC 一定直接封成一颗东西”。实际方案可能是 ASIC 与 optical engine 在同一个封装生态里，也可能通过 socket、tile、substrate 或可维护结构靠近集成。
+
+一个更实用的关系图是：
+
+- Switch ASIC / host package。
+- Package substrate or interposer。
+- EIC / driver and receiver electronics。
+- PIC / optical circuit。
+- Optical I/O / fiber coupling。
+- Light source / laser supply。
+
+## Detail Entrypoints
+
+### Existing Pages
+
+- [Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)
+- [Inside a transceiver](../../learn/inside-a-transceiver/)
+- [SOI wafer](../../learn/soi-wafer/)
+- [LNOI wafer](../../learn/lnoi-wafer/)
+
+### Relevant Physics
+
+- [Waveguides and optical modes](../../learn/waveguides-and-optical-modes/)
+- [Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)
+- [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)
+
+### Later Deep Dives
+
+- Fiber array units.
+- Active and passive alignment.
+- Coupling loss.
+- Known-good-die.
+- Thermal management.
+- CPO package stack.
+- EIC / PIC / substrate placement model.
+
+## Common Boundaries
+
+- Packaging is not the same as wafer processing.
+- Coupling loss is not only an optical design problem; it is also alignment, assembly and stability.
+- CPO reduces some electrical distance but increases package integration pressure.
+
+## Short Version
+
+Package integration is where optical precision, electrical density, thermal design, mechanical stability, testability and yield collide. For CPO, it deserves to be a primary entrance, not a late appendix.

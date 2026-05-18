@@ -1,0 +1,57 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Light source / laser supply
+chapter: CPO Components
+description: 激光源部分把原料、InP 衬底、外延、有源区、腔体反馈、器件测试和可靠性连在一起。
+---
+
+## What This Component Does
+
+Light source 负责给光引擎提供可调制、可耦合、可长期工作的光。它可以是 DFB、EML、external CW laser、laser array，具体形态取决于架构。
+
+在 CPO 语境里，激光源不只是“一个发光芯片”。它牵涉：
+
+- raw materials and InP substrate。
+- epitaxy and active region。
+- laser cavity and feedback。
+- chip-level test。
+- burn-in and aging。
+- coupling into PIC or package。
+- thermal path and wavelength stability。
+
+## Detail Entrypoints
+
+### Materials And Wafers
+
+- [InP substrate](../../learn/inp-substrate/)
+- [Raw material, ingot, wafer, substrate, and epi-ready wafer](../../learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer/)
+- [In, P, Ga, As, Si, Ge, and LiNbO3](../../learn/in-p-ga-as-si-ge-and-linbo3/)
+
+### Physics
+
+- [Direct vs indirect bandgap](../../learn/direct-vs-indirect-bandgap/)
+- [Spontaneous vs stimulated emission](../../learn/spontaneous-vs-stimulated-emission/)
+- [Optical gain and threshold current](../../learn/optical-gain-and-threshold-current/)
+- [Fabry-Perot cavity](../../learn/fabry-perot-cavity/)
+- [Distributed feedback and wavelength selection](../../learn/distributed-feedback-and-wavelength-selection/)
+- [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)
+
+### Later Deep Dives
+
+- InP epitaxy and active regions.
+- QW / MQW gain region.
+- DFB laser.
+- EML and EAM.
+- External CW laser.
+- Laser burn-in, aging, RIN, SMSR and wavelength test.
+
+## Common Boundaries
+
+- InP substrate is not the laser.
+- QW/MQW is active-region detail, not substrate detail.
+- DFB is a cavity/feedback structure, not a material platform.
+- EML is a device integration form, not a raw material.
+
+## Short Version
+
+Light source is where material purity, InP substrate quality, epitaxy, gain physics, cavity design, thermal control and reliability all meet. This entrance covers both laser chips and external laser supply.

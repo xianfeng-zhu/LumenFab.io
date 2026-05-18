@@ -65,6 +65,67 @@ test("GitHub Pages deployment workflow is configured without a custom domain", a
   assert.doesNotMatch(workflow, /CNAME|lumenfab\.io/i);
 });
 
+test("homepage is a CPO knowledge entry rather than a learning-path pitch", async () => {
+  const home = await read("src/pages/index.astro");
+  const layout = await read("src/layouts/BaseLayout.astro");
+  const packaging = await read("src/pages/components/packaging.mdx");
+  assert.match(home, /CPO 光引擎拆解/);
+  assert.match(home, /Light source/);
+  assert.match(home, /PIC \/ optical circuit/);
+  assert.match(home, /Optical I\/O/);
+  assert.match(home, /Manufacturing and test/);
+  assert.match(home, /Reliability and operations/);
+  assert.match(home, /\/components\/laser-source\//);
+  assert.match(home, /\/components\/pic\//);
+  assert.match(home, /\/components\/optical-io\//);
+  assert.match(home, /\/components\/packaging\//);
+  assert.match(home, /\/components\/manufacturing-test\//);
+  assert.match(home, /\/components\/reliability-operations\//);
+  assert.match(home, /<a class="module-card"/);
+  assert.doesNotMatch(home, /查看组件详情|查看验证链路|查看可靠性问题/);
+  assert.doesNotMatch(home, /ASIC host boundary|\/components\/asic-host\//);
+  assert.doesNotMatch(home, /\/components\/test\//);
+  assert.match(packaging, /ASIC Host Boundary/);
+  assert.match(packaging, /Switch ASIC \/ host package/);
+  assert.doesNotMatch(layout, /知识库/);
+  assert.doesNotMatch(home, /学习路径/);
+  assert.doesNotMatch(home, /AI 集群/);
+  assert.doesNotMatch(layout, /学习路径/);
+  assert.doesNotMatch(layout, /3D 图解|model-demo/);
+  assert.doesNotMatch(home, /结构图与 3D 模型|3D model slot demo|\/learn\/model-demo\//);
+  assert.doesNotMatch(home, /Deep sample|先深化一个样板页/);
+});
+
+test("component hub pages exist", async () => {
+  for (const page of [
+    "src/pages/components/laser-source.mdx",
+    "src/pages/components/pic.mdx",
+    "src/pages/components/eic.mdx",
+    "src/pages/components/optical-io.mdx",
+    "src/pages/components/packaging.mdx",
+    "src/pages/components/manufacturing-test.mdx",
+    "src/pages/components/reliability-operations.mdx"
+  ]) {
+    await fileExists(page);
+  }
+});
+
+test("component hub pages link to detail pages through relative paths", async () => {
+  for (const page of [
+    "src/pages/components/laser-source.mdx",
+    "src/pages/components/pic.mdx",
+    "src/pages/components/eic.mdx",
+    "src/pages/components/optical-io.mdx",
+    "src/pages/components/packaging.mdx",
+    "src/pages/components/manufacturing-test.mdx",
+    "src/pages/components/reliability-operations.mdx"
+  ]) {
+    const source = await read(page);
+    assert.doesNotMatch(source, /\]\(\/learn\//);
+    assert.match(source, /\]\(\.\.\/\.\.\/learn\//);
+  }
+});
+
 test("core learning path content pages exist", async () => {
   for (const page of [
     "src/pages/learn/what-this-site-explains.mdx",

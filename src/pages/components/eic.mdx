@@ -1,0 +1,45 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: EIC / driver and receiver electronics
+chapter: CPO Components
+description: EIC 把高速电信号送进光器件或从探测器读出，决定 driver、TIA、DSP 和封装电路径的边界。
+---
+
+## What This Component Does
+
+EIC, electronic integrated circuit, 是光引擎里的电子侧。它连接 switch ASIC、driver、TIA、retimer/DSP、控制电路和电源网络。
+
+在 CPO 中，EIC 和 PIC 的距离更近，电互连长度更短，但这也把热、封装、电源完整性和测试问题推到更高难度。
+
+## Detail Entrypoints
+
+### Link-Level Basics
+
+- [Electrical signal to optical signal](../../learn/electrical-signal-to-optical-signal/)
+- [Tx path and Rx path](../../learn/tx-rx-path/)
+- [Lane, channel, and wavelength](../../learn/lane-channel-and-wavelength/)
+- [Inside a transceiver](../../learn/inside-a-transceiver/)
+
+### Physics Interfaces
+
+- [Photon, wavelength, frequency, and energy](../../learn/photon-wavelength-frequency-and-energy/)
+- [Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)
+
+### Later Deep Dives
+
+- Driver.
+- TIA.
+- CDR / retimer / DSP.
+- Switch ASIC electrical interface.
+- Power delivery and thermal coupling.
+- Signal integrity inside package.
+
+## Common Boundaries
+
+- LPO/CPO are architecture and system-boundary questions, not modulator structures.
+- Driver is not the same thing as modulator.
+- TIA belongs to receiver electronics, not optical detection material.
+
+## Short Version
+
+EIC is the electrical control and readout side of the optical engine. It is where high-speed electrical loss, driver swing, receiver noise, power and heat meet the optical components.

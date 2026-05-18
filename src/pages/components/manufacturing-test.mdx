@@ -1,0 +1,52 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Manufacturing and test
+chapter: CPO Components
+description: Manufacturing and test 连接晶圆、裸 die、封装、光耦合、链路测试和量产良率。
+---
+
+## What This Flow Does
+
+Manufacturing and test 不是一个物理组件。它是把 CPO 从 demo 变成可交付产品的验证链路。
+
+测试贯穿：
+
+- substrate and epi inspection。
+- wafer-level optical/electrical test。
+- known-good-die。
+- die attach and assembly inspection。
+- optical coupling test。
+- package-level test。
+- link-level BER / eye / TDECQ。
+- yield analysis。
+
+## Detail Entrypoints
+
+### Existing Pages
+
+- [Epi-ready substrates](../../learn/epi-ready-substrates/)
+- [Wafer slicing, lapping, polishing, and CMP](../../learn/wafer-slicing-lapping-polishing-and-cmp/)
+- [Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)
+- [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)
+
+### Later Deep Dives
+
+- Wafer-level optical test.
+- Known-good-die.
+- Laser burn-in and aging.
+- Package-level optical test.
+- Eye diagram.
+- BER.
+- OMA.
+- TDECQ.
+- Yield model.
+
+## Common Boundaries
+
+- Test is not only module final test.
+- Wafer-level test is harder in photonics because optical coupling itself is part of the measurement.
+- Known-good-die becomes more valuable as package integration gets more expensive.
+
+## Short Version
+
+Manufacturing and test is the quality gate across every layer. It belongs on the homepage, but as an engineering flow, not as a physical CPO block.

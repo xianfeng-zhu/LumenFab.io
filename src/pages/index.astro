@@ -1,39 +1,67 @@
 ---
-import ChapterNav from "../components/ChapterNav.astro";
-import StackMap from "../components/StackMap.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { sitePath } from "../lib/paths";
 ---
 
-<BaseLayout title="中文 AI 数据中心光互连学习路径">
-  <section>
-    <p class="page-kicker">Learning path, not news feed</p>
-    <h1>从 AI 集群带宽压力，理解到光模块和 CPO。</h1>
+<BaseLayout title="CPO 光引擎拆解">
+  <section class="hero-panel">
+    <p class="page-kicker">CPO optical engine map</p>
+    <h1>CPO 光引擎拆解</h1>
     <p class="lede">
-      LumenFab.io 解释 AI 数据中心光模块、光互连、硅光、InP、EML、LPO、CPO
-      等知识。它按理解依赖组织：先讲问题和链路，再讲物理、材料、器件、封装、模块和系统。
+      从一个 co-packaged optical engine 的结构切入：light source、PIC、EIC、
+      optical I/O 和 package integration。每个入口再回到底层材料、器件、封装、
+      测试和可靠性问题。
     </p>
-    <p>
-      <a href={sitePath("/learn/")}>进入学习路径</a>
-    </p>
-  </section>
-
-  <section class="band">
-    <h2>先读三页</h2>
-    <ul>
-      <li><a href={sitePath("/learn/what-this-site-explains/")}>What this site explains</a></li>
-      <li><a href={sitePath("/learn/why-ai-clusters-stress-interconnects/")}>Why AI clusters stress interconnects</a></li>
-      <li><a href={sitePath("/learn/electrical-signal-to-optical-signal/")}>Electrical signal to optical signal</a></li>
-    </ul>
-  </section>
-
-  <section class="band">
-    <h2>一条主线</h2>
-    <StackMap />
   </section>
 
   <section>
-    <h2>章节</h2>
-    <ChapterNav />
+    <div class="section-heading">
+      <p class="page-kicker">Structure</p>
+      <h2>按结构进入</h2>
+    </div>
+    <div class="module-grid">
+      <a class="module-card" href={sitePath("/components/laser-source/")}>
+        <h3>Light source / laser supply</h3>
+        <p>从 InP laser chip、CW laser、DFB/EML 到 external laser source。</p>
+      </a>
+
+      <a class="module-card" href={sitePath("/components/pic/")}>
+        <h3>PIC / optical circuit</h3>
+        <p>看光在芯片里如何传播、路由、调制、复用、耦合和探测。</p>
+      </a>
+
+      <a class="module-card" href={sitePath("/components/eic/")}>
+        <h3>EIC / driver and receiver</h3>
+        <p>Driver、TIA、控制电路和高速电接口决定电信号如何进入或离开光引擎。</p>
+      </a>
+
+      <a class="module-card" href={sitePath("/components/optical-io/")}>
+        <h3>Optical I/O / fiber coupling</h3>
+        <p>把 PIC 里的光耦合到 fiber array、connector 或板级光路，决定插损和装配窗口。</p>
+      </a>
+
+      <a class="module-card" href={sitePath("/components/packaging/")}>
+        <h3>Package integration</h3>
+        <p>把 laser、PIC、EIC、interposer、substrate、散热路径和机械约束组织起来。</p>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <p class="page-kicker">Engineering loop</p>
+      <h2>制造与验证闭环</h2>
+    </div>
+    <div class="module-grid">
+      <a class="module-card" href={sitePath("/components/manufacturing-test/")}>
+        <h3>Manufacturing and test</h3>
+        <p>从 wafer-level test、known-good-die 到 package-level BER，决定 demo 能否量产。</p>
+      </a>
+
+      <a class="module-card" href={sitePath("/components/reliability-operations/")}>
+        <h3>Reliability and operations</h3>
+        <p>老化、温漂、热循环、现场可维护性和失效定位决定 CPO 能否长期运行。</p>
+      </a>
+    </div>
   </section>
 </BaseLayout>

@@ -1,109 +1,120 @@
 ---
-import ChapterNav from "../../components/ChapterNav.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { sitePath } from "../../lib/paths";
 ---
 
-<BaseLayout title="学习路径">
-  <p class="page-kicker">00-13</p>
-  <h1>学习路径</h1>
-  <p class="lede">
-    先理解问题和物理，再进入材料、器件、封装、模块和系统。公司地图放在最后。
-  </p>
-
-  <section class="band">
-    <h2>00. Start Here</h2>
-    <ul>
-      <li><a href={sitePath("/learn/what-this-site-explains/")}>What this site explains</a></li>
-      <li><a href={sitePath("/learn/one-page-optics-stack/")}>The one-page optics stack</a></li>
-      <li><a href={sitePath("/learn/how-to-read-this-site/")}>How to read this site</a></li>
-    </ul>
+<BaseLayout title="内部索引">
+  <section class="hero-panel">
+    <p class="page-kicker">Internal index</p>
+    <h1>内部索引</h1>
+    <p class="lede">
+      主页是主要入口。这个页面只保留给本地整理和后续迁移使用：组件页负责“看见结构”，
+      底层页面负责“解释原因”。
+    </p>
   </section>
 
-  <section class="band">
-    <h2>01. Why Optical Interconnects</h2>
-    <ul>
-      <li><a href={sitePath("/learn/why-ai-clusters-stress-interconnects/")}>Why AI clusters stress interconnects</a></li>
-      <li><a href={sitePath("/learn/copper-vs-optical-links/")}>Copper vs optical links</a></li>
-      <li><a href={sitePath("/learn/bandwidth-density-and-power-per-bit/")}>Bandwidth density and power per bit</a></li>
-      <li><a href={sitePath("/learn/why-800g-1-6t-and-3-2t-matter/")}>Why 800G, 1.6T, and 3.2T matter</a></li>
-    </ul>
+  <section>
+    <div class="section-heading">
+      <p class="page-kicker">Product view</p>
+      <h2>CPO / 光引擎模块</h2>
+    </div>
+    <div class="module-grid">
+      <article class="module-card">
+        <h3>Laser source / laser chip</h3>
+        <ul>
+          <li><a href={sitePath("/learn/inp-substrate/")}>InP substrate</a></li>
+          <li><a href={sitePath("/learn/optical-gain-and-threshold-current/")}>Optical gain and threshold current</a></li>
+          <li><a href={sitePath("/learn/distributed-feedback-and-wavelength-selection/")}>Distributed feedback and wavelength selection</a></li>
+          <li><a href={sitePath("/learn/why-semiconductor-lasers-are-temperature-sensitive/")}>Why semiconductor lasers are temperature-sensitive</a></li>
+        </ul>
+      </article>
+
+      <article class="module-card">
+        <h3>PIC</h3>
+        <ul>
+          <li><a href={sitePath("/learn/silicon-electronics-and-photonic-integration/")}>Silicon: electronics and photonic integration</a></li>
+          <li><a href={sitePath("/learn/soi-and-photonics-soi/")}>SOI and Photonics-SOI</a></li>
+          <li><a href={sitePath("/learn/silicon-nitride-low-loss-passive-platform/")}>SiN as a low-loss passive platform</a></li>
+          <li><a href={sitePath("/learn/lnoi-and-tfln/")}>LNOI and TFLN</a></li>
+        </ul>
+      </article>
+
+      <article class="module-card">
+        <h3>EIC / electrical side</h3>
+        <ul>
+          <li><a href={sitePath("/learn/electrical-signal-to-optical-signal/")}>Electrical signal to optical signal</a></li>
+          <li><a href={sitePath("/learn/tx-rx-path/")}>Tx path and Rx path</a></li>
+          <li><a href={sitePath("/learn/inside-a-transceiver/")}>Inside a transceiver</a></li>
+        </ul>
+      </article>
+
+      <article class="module-card">
+        <h3>Packaging</h3>
+        <ul>
+          <li><a href={sitePath("/learn/why-photonic-packaging-is-hard/")}>Why photonic packaging is hard</a></li>
+          <li><a href={sitePath("/learn/soi-wafer/")}>SOI wafer</a></li>
+          <li><a href={sitePath("/learn/lnoi-wafer/")}>LNOI wafer</a></li>
+        </ul>
+      </article>
+
+      <article class="module-card">
+        <h3>Test</h3>
+        <ul>
+          <li><a href={sitePath("/learn/epi-ready-substrates/")}>Epi-ready substrates</a></li>
+          <li><a href={sitePath("/learn/wafer-slicing-lapping-polishing-and-cmp/")}>Wafer slicing, lapping, polishing, and CMP</a></li>
+          <li><a href={sitePath("/learn/why-photonic-packaging-is-hard/")}>Packaging and test boundary</a></li>
+        </ul>
+      </article>
+    </div>
   </section>
 
-  <section class="band">
-    <h2>02. Optical Link Overview</h2>
-    <ul>
-      <li><a href={sitePath("/learn/electrical-signal-to-optical-signal/")}>Electrical signal to optical signal</a></li>
-      <li><a href={sitePath("/learn/tx-rx-path/")}>Tx path and Rx path</a></li>
-      <li><a href={sitePath("/learn/lane-channel-and-wavelength/")}>Lane, channel, and wavelength</a></li>
-      <li><a href={sitePath("/learn/inside-a-transceiver/")}>Inside a transceiver</a></li>
-      <li><a href={sitePath("/learn/dr-fr-lr-and-psm-wdm/")}>DR/FR/LR and PSM/WDM</a></li>
-    </ul>
-  </section>
+  <section>
+    <div class="section-heading">
+      <p class="page-kicker">Foundation</p>
+      <h2>底层知识域</h2>
+    </div>
+    <div class="topic-columns">
+      <div>
+        <h3>材料平台</h3>
+        <ul>
+          <li><a href={sitePath("/learn/silicon-electronics-and-photonic-integration/")}>Silicon integration</a></li>
+          <li><a href={sitePath("/learn/gaas-850-nm-and-vcsel/")}>GaAs and VCSEL</a></li>
+          <li><a href={sitePath("/learn/inp-1310-1550-nm-and-high-speed-communication/")}>InP communication platform</a></li>
+          <li><a href={sitePath("/learn/why-no-single-material-wins-everything/")}>Why no single material wins everything</a></li>
+        </ul>
+      </div>
 
-  <section class="band">
-    <h2>03. Semiconductor And Optics Basics</h2>
-    <ul>
-      <li><a href={sitePath("/learn/valence-band-conduction-band-and-bandgap/")}>Valence band, conduction band, and bandgap</a></li>
-      <li><a href={sitePath("/learn/direct-vs-indirect-bandgap/")}>Direct vs indirect bandgap</a></li>
-      <li><a href={sitePath("/learn/pn-junction-and-carrier-injection/")}>PN junction and carrier injection</a></li>
-      <li><a href={sitePath("/learn/photon-wavelength-frequency-and-energy/")}>Photon, wavelength, frequency, and energy</a></li>
-      <li><a href={sitePath("/learn/refractive-index-and-total-internal-reflection/")}>Refractive index and total internal reflection</a></li>
-      <li><a href={sitePath("/learn/waveguides-and-optical-modes/")}>Waveguides and optical modes</a></li>
-      <li><a href={sitePath("/learn/interference-resonance-and-loss/")}>Interference, resonance, and loss</a></li>
-    </ul>
-  </section>
+      <div>
+        <h3>原料与晶圆</h3>
+        <ul>
+          <li><a href={sitePath("/learn/in-p-ga-as-si-ge-and-linbo3/")}>In, P, Ga, As, Si, Ge, and LiNbO3</a></li>
+          <li><a href={sitePath("/learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer/")}>Raw material to epi-ready wafer</a></li>
+          <li><a href={sitePath("/learn/inp-substrate/")}>InP substrate</a></li>
+          <li><a href={sitePath("/learn/gaas-substrate/")}>GaAs substrate</a></li>
+          <li><a href={sitePath("/learn/soi-wafer/")}>SOI wafer</a></li>
+          <li><a href={sitePath("/learn/lnoi-wafer/")}>LNOI wafer</a></li>
+        </ul>
+      </div>
 
-  <section class="band">
-    <h2>04. Laser Physics</h2>
-    <ul>
-      <li><a href={sitePath("/learn/spontaneous-vs-stimulated-emission/")}>Spontaneous vs stimulated emission</a></li>
-      <li><a href={sitePath("/learn/optical-gain-and-threshold-current/")}>Optical gain and threshold current</a></li>
-      <li><a href={sitePath("/learn/fabry-perot-cavity/")}>Fabry-Perot cavity</a></li>
-      <li><a href={sitePath("/learn/distributed-feedback-and-wavelength-selection/")}>Distributed feedback and wavelength selection</a></li>
-      <li><a href={sitePath("/learn/vertical-and-lateral-optical-confinement/")}>Vertical and lateral optical confinement</a></li>
-      <li><a href={sitePath("/learn/laser-linewidth-and-mode-stability/")}>Laser linewidth and mode stability</a></li>
-      <li><a href={sitePath("/learn/why-semiconductor-lasers-are-temperature-sensitive/")}>Why semiconductor lasers are temperature-sensitive</a></li>
-    </ul>
-  </section>
+      <div>
+        <h3>物理基础</h3>
+        <ul>
+          <li><a href={sitePath("/learn/direct-vs-indirect-bandgap/")}>Direct vs indirect bandgap</a></li>
+          <li><a href={sitePath("/learn/pn-junction-and-carrier-injection/")}>PN junction and carrier injection</a></li>
+          <li><a href={sitePath("/learn/waveguides-and-optical-modes/")}>Waveguides and optical modes</a></li>
+          <li><a href={sitePath("/learn/interference-resonance-and-loss/")}>Interference, resonance, and loss</a></li>
+        </ul>
+      </div>
 
-  <section class="band">
-    <h2>05. Material Platforms</h2>
-    <ul>
-      <li><a href={sitePath("/learn/silicon-electronics-and-photonic-integration/")}>Silicon: electronics and photonic integration</a></li>
-      <li><a href={sitePath("/learn/gaas-850-nm-and-vcsel/")}>GaAs: 850 nm and VCSEL</a></li>
-      <li><a href={sitePath("/learn/inp-1310-1550-nm-and-high-speed-communication/")}>InP: 1310/1550 nm and high-speed communication</a></li>
-      <li><a href={sitePath("/learn/soi-and-photonics-soi/")}>SOI and Photonics-SOI</a></li>
-      <li><a href={sitePath("/learn/silicon-nitride-low-loss-passive-platform/")}>SiN as a low-loss passive platform</a></li>
-      <li><a href={sitePath("/learn/lnoi-and-tfln/")}>LNOI and TFLN</a></li>
-      <li><a href={sitePath("/learn/why-no-single-material-wins-everything/")}>Why no single material wins everything</a></li>
-    </ul>
+      <div>
+        <h3>激光器原理</h3>
+        <ul>
+          <li><a href={sitePath("/learn/spontaneous-vs-stimulated-emission/")}>Spontaneous vs stimulated emission</a></li>
+          <li><a href={sitePath("/learn/optical-gain-and-threshold-current/")}>Optical gain and threshold current</a></li>
+          <li><a href={sitePath("/learn/fabry-perot-cavity/")}>Fabry-Perot cavity</a></li>
+          <li><a href={sitePath("/learn/distributed-feedback-and-wavelength-selection/")}>DFB and wavelength selection</a></li>
+        </ul>
+      </div>
+    </div>
   </section>
-
-  <section class="band">
-    <h2>06. Raw Materials To Wafers</h2>
-    <ul>
-      <li><a href={sitePath("/learn/in-p-ga-as-si-ge-and-linbo3/")}>In, P, Ga, As, Si, Ge, and LiNbO3</a></li>
-      <li><a href={sitePath("/learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer/")}>Raw material, ingot, wafer, substrate, and epi-ready wafer</a></li>
-      <li><a href={sitePath("/learn/high-purity-raw-materials/")}>High-purity raw materials</a></li>
-      <li><a href={sitePath("/learn/polycrystal-synthesis/")}>Polycrystal synthesis</a></li>
-      <li><a href={sitePath("/learn/single-crystal-growth/")}>Single-crystal growth</a></li>
-      <li><a href={sitePath("/learn/wafer-slicing-lapping-polishing-and-cmp/")}>Wafer slicing, lapping, polishing, and CMP</a></li>
-      <li><a href={sitePath("/learn/epi-ready-substrates/")}>Epi-ready substrates</a></li>
-      <li><a href={sitePath("/learn/inp-substrate/")}>InP substrate</a></li>
-      <li><a href={sitePath("/learn/gaas-substrate/")}>GaAs substrate</a></li>
-      <li><a href={sitePath("/learn/soi-wafer/")}>SOI wafer</a></li>
-      <li><a href={sitePath("/learn/lnoi-wafer/")}>LNOI wafer</a></li>
-    </ul>
-  </section>
-
-  <section class="band">
-    <h2>后续样板页</h2>
-    <ul>
-      <li><a href={sitePath("/learn/why-photonic-packaging-is-hard/")}>Why photonic packaging is hard</a></li>
-      <li><a href={sitePath("/learn/model-demo/")}>3D model slot demo</a></li>
-    </ul>
-  </section>
-
-  <ChapterNav />
 </BaseLayout>

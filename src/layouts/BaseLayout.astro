@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title,
-  description = "LumenFab.io 是中文 AI 数据中心光互连学习路径。"
+  description = "LumenFab.io 解释光互连、光模块与 CPO 的组件、材料、工艺和测试。"
 } = Astro.props;
 ---
 
@@ -23,10 +23,6 @@ const {
   <body>
     <header class="site-header">
       <a class="brand" href={sitePath("/")}>LumenFab.io</a>
-      <nav aria-label="主导航">
-        <a href={sitePath("/learn/")}>学习路径</a>
-        <a href={sitePath("/learn/model-demo/")}>3D 插槽</a>
-      </nav>
     </header>
     <main>
       <slot />
@@ -79,16 +75,6 @@ const {
   .brand {
     color: var(--text);
     font-weight: 800;
-    text-decoration: none;
-  }
-
-  .site-header nav {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .site-header nav a {
     text-decoration: none;
   }
 
@@ -158,6 +144,71 @@ const {
     border: 1px solid var(--border);
     border-radius: 8px;
     background: var(--surface);
+  }
+
+  .hero-panel {
+    max-width: 960px;
+    margin-bottom: 2.75rem;
+  }
+
+  .section-heading {
+    margin-bottom: 1rem;
+  }
+
+  .section-heading h2 {
+    margin-top: 0;
+  }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+  }
+
+  .module-card {
+    display: block;
+    padding: 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  a.module-card:hover,
+  a.module-card:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgb(15 79 73 / 10%);
+    transform: translateY(-1px);
+  }
+
+  a.module-card:focus-visible {
+    outline: 3px solid rgb(29 122 107 / 25%);
+    outline-offset: 3px;
+  }
+
+  .module-card h3 {
+    margin-top: 0;
+  }
+
+  .module-card p {
+    color: var(--muted);
+    font-size: 0.96rem;
+  }
+
+  .module-card ul,
+  .topic-columns ul {
+    padding-left: 1.1rem;
+  }
+
+  .topic-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
   }
 
   @media (max-width: 720px) {

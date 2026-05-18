@@ -1,0 +1,46 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: Optical I/O / fiber coupling
+chapter: CPO Components
+description: Optical I/O 解释 PIC 与 fiber array、connector、edge coupling、grating coupling 和光路插损之间的关系。
+---
+
+## What This Component Does
+
+Optical I/O 把芯片里的光接到芯片外。它通常包括 edge coupler、grating coupler、fiber array、lens、connector、光纤走线和相关的对准结构。
+
+它值得单独作为入口，因为 CPO 的难点不只是把芯片放近，还包括让大量光通道稳定、低损耗、可装配、可测试地离开封装。
+
+## Detail Entrypoints
+
+### Physics
+
+- [Refractive index and total internal reflection](../../learn/refractive-index-and-total-internal-reflection/)
+- [Waveguides and optical modes](../../learn/waveguides-and-optical-modes/)
+- [Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)
+- [Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)
+
+### Related Structures
+
+- [SOI and Photonics-SOI](../../learn/soi-and-photonics-soi/)
+- [Inside a transceiver](../../learn/inside-a-transceiver/)
+
+### Later Deep Dives
+
+- Edge coupler.
+- Grating coupler.
+- Fiber array unit.
+- Active and passive alignment.
+- Coupling loss budget.
+- Detachable fiber connector.
+- Fiber routing inside a CPO system.
+
+## Common Boundaries
+
+- Optical I/O is not just packaging glue.
+- Coupling loss is not only a PIC design issue.
+- Fiber connector and fiber routing can dominate manufacturability and serviceability.
+
+## Short Version
+
+Optical I/O is the boundary where chip-scale optical modes become system-level fiber links. It belongs near packaging, but it deserves its own entrance.
