@@ -1,0 +1,689 @@
+                          3.46 PHOTONIC MATERIALS AND DEVICES
+                                                   Lecture 11: Lasers
+
+
+                          Lecture                                                   Notes
+
+Recombination                                                 Direct: band-to-band transitions dominate
+
+                                                              Indirect: impurity-to-band dominates
+Free excitons
+                                                              Recombination is the process whereby an
+                                                              electron-hole pair mutually annihilate. If the
+                                                              energy lost when an electron is demoted from a
+                                                 1            higher-lying to a lower-lying electronic state is
+                                         Eex =      EXI       converted into a photon, the process is known as
+                    Eex                          n2
+                                                              radiative recombination.
+
+                                                              Excitons are Coulombically-bound electron-hole
+                                                              pairs.
+
+                                                              Since photons have very small momenta
+  hν = Eg − Eex           hν = Eg − Eex − Eph                 compared to electrons and holes, it is convenient
+                                                              and correct to think of the conserved momentum
+Eex:   exciton binding energy (dielectric medium)             before and after recombination with respect to
+EXI:   exciton binding energy (vacuum)                        the electron and hole alone.
+Eph:   phonon energy
+                                                              In a direct-bandgap semiconductor, the band
+Bound excitons                                                extrema (valence band maximum, conduction
+                                                              band minimum) coincide in wavevector. There is
+                    C          hν direct = Eg −E A/D          thus an abundance of electrons and holes
+                                                              available with corresponding momenta available
+       D                       hνindirect = Eg −E A/D −Eph
+                                                              to recombine with no additional requirement of
+                                                              momentum. In direct bandgap materials,
+                A                                             radiative recombination occurs efficiently and
+                    V                                         rapidly.
+
+                                                              This is not the case in indirect-bandgap materials
+                                                              such as the elemental semiconductors silicon
+                                                              and germanium. If their charge carriers are
+Isoelectronic Traps                                           delocalized, their lifetime is long and their
+                                                              radiative efficiency low. Impurity-to-band
+dopant          localized defect                              recombination processes are possible and can
+C in Si         1) traps e-                                   develop reasonable radiative efficiencies.
+N in GaP        2) attracts hole
+O in ZnTe       3) exciton bound to trap
+
+
+
+
+3.46 Photonic Materials and Devices                                                           Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                                           Page 1 of 16
+                                     Lecture                                              Notes
+
+Donor-acceptor Pairs                                            1)    hν ↑ with Pi ↑
+                                                                      transition prob.:      W(r)= Wmax e-r/R
+
+                            C                                   2)    as NA , ND ↑, hν ↑     (closer pairs)
+ D                                                         q2
+                                        hν = Eg −E A −ED +
+                                                           εr   3)    @ long times after injection h ν ↓
+                                         r = D → A separation
+                      A
+                                V
+
+Lasers                              Stimulated Emission
+              E2
+
+                                                                u (ν) = energy density
+
+
+              E1
+
+absorption      spontaneous stimulated                          Einstein postulate:
+                       1
+∝ B u (ν)       ∝A=        ∝ Cu (ν)
+                      t sp
+                                                                excited state driven to ground state by EM
+                                                                wave with hν = E2 − E1
+equilibrium (Ni = # atoms in state i)
+       absorption ≡ emission
+        N1B[u(ν )] ≡ N2 [A+C u(ν )]
+
+Boltzmann
+
+N2
+   = exp ⎡⎣−(E2 −E1)⎤⎦ / kT
+N1
+     = exp(−(hν) / kT)
+                         A
+     ⇒ u(ν) =       hν / kB T
+                e               −C
+
+Black Body Radiation                      (Planck)
+       ≡ equilibrium                                            same coefficient governs absorption and
+       ∴B=C                                                     stimulated emission. By postulating stimulated
+                                                                emission, Einstein showed that C ≠ O
+             A 8πhν3                                            ⇒ Planck’s factor of (-1) in the denominator,
+         ∴     =
+             B   c3                                             actually corresponds to stimulated emission!
+
+
+
+
+3.46 Photonic Materials and Devices                                                                 Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                                                Page 2 of 16
+                        Lecture                              Notes
+
+                                      Separate electron and hole traps can result in
+                                      radiative recombination. The process is referred
+                                      to as spatially indirect (in contrast with the
+                                      wavevector-indirect transition inside indirect­
+                                      bandgap materials). The transition probability
+                                      decays exponentially with the spatial separation
+                                      among the donor-accept component.
+
+                                      Lasing and stimulated emission
+                                      Lasing and the intimately-connected notion of
+                                      population inversion are conceptualized most
+                                      readily through the development of a set of rate
+                                      equations which account for three processes:
+                                      1) absorption, whereby an incident photon excites
+                                         an electron-hole pair
+                                      2) stimulated emission, whereby an incident
+                                         photon deexcites an electron-hole and, in the
+                                         process, stimulates the production of an
+                                         identical emitted photon.
+                                      3) spontaneous emission, which results in the
+                                         production of a photon but does not rely on the
+                                         presence of a stimulating field.
+
+                                      The rates of absorption and stimulated emission
+                                      are proportional to the energy density associated
+                                      with the stimulating field.
+
+                                      In the steady-state, the rate of excitation must
+                                      equal the rate of deexcitation, an equality which
+                                      leads to N1B [u(ν )] ≡ N2 [ A + Cu(ν)]
+
+                                      Neglecting Fermi-Diract statistics but instead
+                                      employing classical Maxwell-Boltzmann statistics,
+                                      which work well in non-degenerate media, it is
+                                      possible to solve for the steady-state energy
+                                      density u(ν) – and thus for the spectrum of
+                                      blackbody radiation, i.e. of a medium in
+                                      equilibrium.
+
+
+
+
+3.46 Photonic Materials and Devices                                     Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                    Page 3 of 16
+                            Lecture                                                 Notes
+
+Stimulated emission
+• wave emitted with same phase and in same                    (equilibrium black body)
+   direction as the driving wave.
+
+B ⋅ u(ν )        1
+          = hν / kT
+    A      e        −1
+
+ stimulated
+            = 10−2                  (5000 K)
+spontaneous
+
+Laser = Light Amplification by Stimulated Emission
+of Radiation
+
+
+
+
+Figures of Merit
+• gain
+• bandwidth
+• phase shift
+• power source
+• non linearity (saturation)
+• noise
+
+A. Discrete states (atoms in gas)
+
+W21, W12: rate of interaction = φσ21 (ν), φσ12 (ν)
+                ⎛ λ 2 ⎞⎟
+        σ (ν) = ⎜⎜⎜       ⎟⎟L(ν )
+                  ⎝ 8πτr ⎠⎟                                   (s )
+                                                                −1
+
+
+                                      Lorentzian line shape   prob. rate for stimulated emission/absorption
+                                    function ∫ L (ν) dν = 1
+
+W21 = W12 same rate for absorption & stimulated
+emission
+
+
+
+
+3.46 Photonic Materials and Devices                                                             Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                                            Page 4 of 16
+                        Lecture                                   Notes
+
+N1W12 = # photons absorbed/cm3/s          ΔN = N2 − N1
+N2W21 = # ‘cloned’, stimulated emission   ΔN > 0 → gain
+photons/cm3/s
+                                          ΔN < 0 → attenuation
+                                          ΔN = 0 → transparent
+
+                                          The stimulated emission process lies at the heart
+                                          of lasing and determines the properties of laser
+                                          light. Stimulated emission results in production of
+                                          a photon which is coherent with the stimulating
+                                          photon: this is to say that it has the same direction,
+                                          wavelength, and phase. When combined with
+                                          feedback inside a cavity, the coherence of the
+                                          stimulated emission process will ensure that laser
+                                          light is monochromatic, directional, and phase-
+                                          coherent.
+
+                                          Optical gain, or amplification, is the result of the
+                                          stimulated process. The rates of absorption and
+                                          stimulated emission will be a product of the
+                                          probability of the process per unit time with the
+                                          number of discrete states available to make the
+                                          transition.
+
+                                          The probability, in turn, is the product of the
+                                          photon flux φ (cm−2s−1) and the cross-section
+                                          σ (cm2 ) associated with the process.
+
+                                          The absorption process takes place from the lower
+                                          state (1) and thus its rate is proportional to the
+                                          number of states in the lower state, N1; whereas
+                                          the stimulated emission process begins from the
+                                          higher-lying electronic state and is proportional to
+                                          N2.
+
+
+
+
+3.46 Photonic Materials and Devices                                           Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                          Page 5 of 16
+                              Lecture                                                             Notes
+
+                      λ2
+ g(ν) = ΔNσ (ν) = ΔN        L (ν)
+                     8πτ sp
+       = gain coefficient (cm-1 )
+ ΔN = N2 −N1
+                                                                        d = cavity path length
+Gain = exp ⎡⎣g(ν) d⎤⎦
+
+B. Semiconductors
+                                    2mr3/2                              optical joint
+                                        2 (
+                                           hν − Eg )
+                                                    1/2
+σ ( ν ) → σ ( ν ) ρ ( ν) = σ ( ν)                                       density of states
+                                     πh
+ ΔN → fg = fe (ν) − fa (ν)                                              population difference
+       = fC (E2 ) − fV (E1)                                             difference → Fermi inversion
+                                             λ2                         factor defined by quasi EF
+      ⇒ g(ν) = σ (ν) ρ (ν) fg (ν) =                L (ν) ρ (ν) fg (ν)   prob CB state @ E2 filled
+                                            8πτ sp
+                                                                        prob VB state @ E1 filled
+
+Bandwidth
+• gain bandwidth                                                                      EFC
+      Eg       E −EFV
+          < ν < FC
+       h           h                                                                        EFV
+transparent ← gain → absorbing
+∴ as R (pump rate) ↑
+g(ν) ↑, bandwidth ↑
+fg (ν) ↑ (EFC −EFV ) ↑
+
+Example:           In0.72Ga0.28 As0.6P0.4                               Eg = 0.95eV, λ g = 1.3μm
+
+                                                                        τr = 2.5 ns
+
+                                                                        NA = ND  2×1017 cm−3
+                                                                        mC = 0.06 m0
+                  g
+                                                                        mV = 0.4 m0
+                                                                        n = 3.5 (index)
+
+
+
+
+3.46 Photonic Materials and Devices                                                                       Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                                                      Page 6 of 16
+                        Lecture                               Notes
+
+                                      The gain per unit length experienced by the field is
+                                      given by g(ν), and the single-pass gain G (relative
+                                      to the transparency condition = unity) experienced
+                                      during propagation over distance d is given by
+
+                                      G=e ( )
+                                            gν d
+
+
+
+                                      B. Semiconductors
+                                      In semiconductors, instead of summing over sets
+                                      of identical states as in a dilute gas, one integrates
+                                      over the continuum that is the energy density of
+                                      states. A joint density of states is used to account
+                                      for the density of transitions, which is a
+                                      consequence of the number of momentum-
+                                      matched state pairs, which can participate in
+                                      momentum-conserving absorption and emission
+                                      processes.
+
+                                      The occupation of the states in the conduction and
+                                      valence band are of critical importance, and allow
+                                      the semiconductor-based description of the
+                                      phenomenon of population inversion needed for
+                                      lasing. Whereas in a semiconductor in
+                                      equilibrium, there is a single Fermi level, in a
+                                      strongly-pumped semiconductor, the energy
+                                      distribution in the conduction and valence bands
+                                      are represented using two distinct quasi-Fermi
+                                      levels.
+
+                                      The condition for gain in a semiconductor is known
+                                      as the Bernard-Duraffourg condition: this
+                                      stipulates that the quasi Fermi level separation
+                                      exceed the energy of photons to be produced.
+                                      This same logic leads to the gain bandwidth:
+
+                                      Eg           EFC −EFV
+                                           <ν<
+                                       h               h
+
+
+
+
+3.46 Photonic Materials and Devices                                       Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                      Page 7 of 16
+                           Lecture                                              Notes
+
+                                                        ⇐ ΔnT = 1.25 ×1018 cm−3
+                                                        α = 600 cm-1
+         gp                                             @ Δn = 1.75 ×1018 cm-3
+                      ΔnT
+                                                        gP = 240 c   -1
+
+
+                                                        for a 350 μm long cavity:
+                                                        G = exp [ gP d] = 4447 = 36.5 dB
+                                      2 x 1018 (cm-3)
+                                                        The first graph depicts the gain, in units of cm-1, for
+                                                        increasing levels of non-equilibrium carrier
+                                                        concentration Δn .
+
+                                                        ΔnT = transparency condition
+                     ΔnT
+                                                          α = absorption coefficient @ Δn = 0
+   gp                                                   The second plot shows loss for pump levels below
+                                                        transparency, and gain for pump levels exceeding
+                           gp  α (Δn ΔnT −1)           the transparency carrier density.
+
+                                                        In electrically-driven devices, a current density J
+                                                        supplies the excess carriers associated with quasi-
+                                                        Fermi level separation and gain. A transparency
+                                                        carrier density JT may be found which provides a
+                                                        pumping level on the threshold between loss and
+Power          electronic pumping                       gain.
+        ⎛J   ⎞
+gP = α ⎜⎜⎜ −1⎟⎟⎟                                        J = injection current density
+        ⎝ JT ⎠⎟
+                                                        homojunction
+         et
+JT =           ΔnT                                        τr = 2.5 ns
+        ηi τ r                                                                α = 600 c    -1
+
+
+                                                          ηi = 0.5             t = 2 μm
+                                                        ΔnT = 1.25×1 18 cm−3
+                                                          h = 200 μm
+                                                          w = 100 μm
+
+
+
+
+                             t
+
+JT = 3.2×104 A / c     2
+
+
+
+
+3.46 Photonic Materials and Devices                                                             Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                                            Page 8 of 16
+                           Lecture                                 Notes
+
+large JT ⇒ heat dissipation problem
+
+   1) reduce active volume [t]               for homojunction t  Dτ sp
+   2) confine carriers
+   3) confine light
+
+
+                        homojunction
+             double
+             hetero-
+   JT        junction
+
+
+
+
+                              t
+
+
+L-I Characteristic
+
+
+                                                              d
+
+
+
+
+                                                          laser cavity
+                                       I                  (resonator)
+             Jth = Ith/A
+                                                mirror                     mirror
+        Jth = threshold current for lasing
+
+        J > Jth when gP > α r
+
+        α r = total losses
+        = absorption + mirror loss
+
+        free carrier        emitted
+                             [α m ]
+
+
+
+
+3.46 Photonic Materials and Devices                                        Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                       Page 9 of 16
+                        Lecture                              Notes
+
+                                      The current densities needed to pump
+                                      semiconductor lasers can be quite high. Shrinking
+                                      the active region volume, confining the carriers,
+                                      and confining the waveguide mode to the active
+                                      region all help to reduce the total current needed.
+
+
+
+                                      L-I Characteristic
+
+                                      The L-I characteristic is the output optical power,
+                                      typically in mW, as a function of the pump current
+                                      I, typically in mA. Below the threshold condition,
+                                      only spontaneous emission occurs, and its
+                                      external efficiency of emission is low, yielding a
+                                      weakly-sloped L-I. Above the threshold condition,
+                                      stimulated emission dominates as is efficiently
+                                      coupled into the lasing mode, resulting in a high
+                                      slope efficiency of Power vs. Current.
+
+                                      The threshold condition necessitates that all
+                                      sources of round-trip loss be fully compensate by
+                                      round-trip gain. Loss includes scattering per unit
+                                      length along the device; loss through the mirrors
+                                      which occurs upon partial reflection (partial escape
+                                      of light to outside world).
+
+
+
+
+3.46 Photonic Materials and Devices                                     Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                    Page 10 of 16
+                               Lecture                                        Notes
+
+Internal
+ φ = flux internal to laser cavity @ steady state,
+ φ ∝ j as determined by loss of population
+inversion by stimulated emission
+
+        j − jth                                       internal photon flux
+φ = ηi
+           e
+                (photons/cm2 ⋅ s)
+                                                      internal laser power
+                   1.24 ⎛⎜ eV ⎞⎟
+P = ηi (I − I th )       ⎜ ⎟
+                    λ 0 ⎜⎝ s ⎠⎟                       I(A), λ 0 (μm), P(W )
+Output
+  ηe = emission efficiency                            The external efficiency of a laser is given by the
+      = α m / α total                                 ratio of mirror loss – ‘desirable loss’ since it results
+                                                      in escape of stimulated photons into the lasing
+            Loss by emission
+      =                                               mode – divided by total loss which includes mirror
+          Total loss in resonator                     + all other sources of loss.
+
+        Photon lifetime × ln (mirror reflectance)-1   It also includes an internal efficiency ηi that
+      =
+                   round trip travel time             represents the fraction of carriers injected into the
+                                                      device which are captured into the active region
+                           ⎡ 1 ⎛ 1 ⎞⎤     1           for the production of optical gain.
+                         = ⎢ In ⎜⎜ ⎟⎟⎟⎥ ×
+                                 ⎜
+                           ⎢⎣ d ⎝ R ⎠⎥⎦ α total
+                                                      Record-high external quantum efficiencies for
+                                                      semiconductor lasers are as high as 90%, with
+               cavity length         cavity loss      50% being typical.
+                      mirror reflectance
+
+ φ0 = external photon flux
+ ηd = differential quantum efficiency
+                                  dφ0
+    = η e ηi                 =
+                                 d( j e)
+               j − jth
+φ0 = η e η i
+                  e
+                    1.24
+P0 = ηd (I − I th )
+                     λ0
+ η = power conversion efficiency
+        ⎛ I ⎞ hν
+ η = ηd ⎜⎜I − 0 ⎟⎟⎟
+         ⎜⎝   I ⎠ eV
+for emission @ hν = 1eV
+ η = ηd = 50%
+
+
+
+3.46 Photonic Materials and Devices                                                        Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                                       Page 11 of 16
+                        Lecture                                                Notes
+
+               hν                                       In a Fabry-Perot laser, feedback is provided by
+P0 = ηd (I − I th )                                     mirrors separated by length d. This results in the
+              eV
+ηd = slope of L (or P0) vs. I plot                      modal spacing in frequency of FSRν = c 2d .
+
+Cavity Modes                                            For a gain bandwidth B, this implies that B FSRν
+                                                        cavity modes can potentially be candidates for
+                                                        lasing.
+         g
+                                                        There can in addition be multiple transverse
+                                                        modes which, because they have different
+                                                        propagation constants, will be non-degenerate,
+                                                        further adding to the spectrum of modes possible.
+                                                        A transversely-single moded device can be made
+                                                        by making the waveguide sufficiently narrow.
+                                                                             FSRλ
+                                                                             FSRν
+modal spacing (longitudinal) Δν ≡ FSRν = c 2d
+
+# cavity modes                        M = B FSRν
+Example:     InGaAsP
+
+n = 3.5, λ 0 = 1.3 μm, d = 400 μm                       semiconductor lasers → small d
+         c0                                             ⇒ large FSRν
+FSRν =        = 107 GHz
+        2nd                                             ⇒ small M
+         λ 20
+FSRλ =        = 0.6 nm = 6 Å
+        2nd
+B  70 Å ⇒ 11 modes                                     possible
+
+                                       c0
+Single mode condition:         B<         ⇒ d < 36 μm
+                                      2nd
+
+
+Transverse modes
+                                                                                    t=
+t < λ 0 ⇒ single mode junction
+w > λ 0 ⇒ lateral multimode
+
+
+
+
+3.46 Photonic Materials and Devices                                                        Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                                       Page 12 of 16
+                        Lecture                                      Notes
+
+Single frequency operation                     Single-frequency lasers can be realized by:
+
+    1) reduce dimensions to single mode           1) Reducing the transverse dimensions to
+    2) two cavities                                  provide a single lateral mode
+    3) DBR          gratings                      2) Employing two cavities, known as an
+    4) DFB                                           external cavity configuration, which
+                                                     provides an added level of mode selection
+                                                  3) Creating a distributed Bragg reflector (DBR)
+Angular divergence                                   grating
+                                                  4) Creating a distributed feedback (DFB)
+•   Far field radiation pattern                      grating
+
+                                               The angular divergence of the beam is important
+                                               in coupling with subsequent optics, including
+                                               fibers. A transversely narrow waveguide structure
+                                  λ0 w         gives an angularly broader far-field pattern.
+
+                 t
+
+
+
+
+⇒ smaller dimensions ⇒ single mode, but with
+   large divergence
+⇒ harder to couple to fiber
+
+
+
+                                               A two-cavity device with independently-pumped
+                                               gain segments.
+
+
+
+
+3.46 Photonic Materials and Devices                                             Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                            Page 13 of 16
+                        Lecture                              Notes
+
+
+
+                                      A typical p-side-up laser structure with Distributed
+                                      Feedback grating for selection of a single, stable
+                                      longitudinal mode. The grating, and hence the
+                                      feedback, is distributed along the entire length of
+                                      the device.
+
+
+
+
+                           (a)
+
+
+
+
+                                      A Distributed Bragg Reflector (DBR) laser with
+                                      mirrors made using Bragg reflectors.
+
+
+
+
+                           (b)
+
+
+
+
+3.46 Photonic Materials and Devices                                      Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                     Page 14 of 16
+                                      Lecture
+
+
+
+
+3.46 Photonic Materials and Devices             Lecture 11: Lasers
+Prof. Lionel C. Kimerling                            Page 15 of 16
+                       Lecture                              Notes
+
+                                      Angular divergence of a laser of transverse
+                            t         dimensions w and t showing the inverse
+                                      proportionality of divergence with transverse
+                                      dimension.
+
+
+
+
+         t
+
+
+
+
+                                      An AlGaAs-GaAs semiconductor laser grown on
+                                      a GaAs substrate.
+
+
+
+                                      Compound semiconductors, through their
+                                      composition, allow a wide range in choice of
+                                      bandgaps and hence emission energies.
+
+
+
+
+3.46 Photonic Materials and Devices                                   Lecture 11: Lasers
+Prof. Lionel C. Kimerling                                                  Page 16 of 16
+

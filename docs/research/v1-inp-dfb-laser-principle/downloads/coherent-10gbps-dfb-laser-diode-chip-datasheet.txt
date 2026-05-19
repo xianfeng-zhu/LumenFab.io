@@ -1,0 +1,77 @@
+Optoelectronic Devices
+
+
+
+10 Gbps DFB LASER DIODE CHIP
+DFB15
+
+
+
+
+FEATURES                                  AVAILABLE WAVELENGTHS
+• Designed for 10 Gb/s                    • CWDM 1270 nm to 1330 nm
+• Operating temperature -40 °C to 85 °C
+                                                                                      10 Gbps DFB LASER DIODE CHIP
+
+Electro-Optical Characteristics
+Operating conditions: Top = -40 to 85 °C
+Parameter                           Symbol           Condition                Min        Typical       Max         Unit
+                                                        85 °C                              21          29          mA
+Threshold Current                        Ith
+                                                        25 °C                              8                       mA
+                                                        85 °C                 0.1                               W/A
+Slope Efficiency                         SE
+                                                        25 °C                              0.4                  W/A
+Forward Voltage                          Vf          PO = 5 mW                                         1.6           V
+Series Resistance                        R           PO = 5 mW                 4           6            9       Ohm
+Front/Back Power Ratio                Pf/Pb                                   10                       60
+Side Mode Suppression Ratio          SMSR            PO = 5 mW                35
+Wavelength                                 λ      see table below
+Wavelength Temp. Coefficient         dλ /dT                                               0.09                 nm/°C
+Beam Divergence (Horizontal)             θH            FWHM                                20                  degree
+Beam Divergence (Vertical)               θV            FWHM                                30                  degree
+Relaxation oscillation frequency           fr    I = Ith+25 mA, 72 °C        10.5         11.3                  GHz
+
+Available Wavelengths
+Channel                            Symbol            Condition                Min        Typical       Max         Unit
+CWDM-L0                              λ              0 °C to 85 °C            1263.5      1269.5        1277        nm
+CWDM-L1                              λ              0 °C to 85 °C            1283.5      1289.5        1297        nm
+CWDM-L2                              λ              0 °C to 85 °C            1303.5      1309.5        1317        nm
+CWDM-L3                              λ              0 °C to 85 °C            1323.5      1329.5        1337        nm
+
+Absolute Maximum Ratings
+Parameter                             Symbol                    Condition                Max Rating           Unit
+                                                                T <25 °C                    110               mA
+Operating Current                          Iop              T = 25 - 85 °C                  100               mA
+                                                                T >85 °C                    150               mA
+Reverse Voltage                            VR                                                    2             V
+
+Environmental Exposure Ratings
+Parameter                             Symbol                    Condition                Max Rating           Unit
+Case temperature                            Tc                                           -10 to +95           °C
+Storage Temperature                      Tstg                                            -40 to +100          °C
+
+
+
+
+                                                                                                                          2
+                                                           10 Gbps DFB LASER DIODE CHIP
+
+Chip Dimensions
+Parameter                                            Min   Typical        Max      Unit
+Chip width                                           260    280           300      µm
+Chip length                                          180    200           220      µm
+Chip thickness                                       80      85           90       µm
+Bond pad width                                               75                    µm
+Bond pad length                                              75                    µm
+
+
+
+                  Top view                                    Side view
+
+
+
+
+                      © 2022 Coherent Corp.                   sales@coherent.com
+                      Legal notices : coherent.com/legal      www.coherent.com
+

@@ -35,6 +35,16 @@ test("concept layout reads MDX frontmatter for title metadata", async () => {
   assert.match(layout, /frontmatter\.description/);
 });
 
+test("code blocks use readable light-theme styling", async () => {
+  const config = await read("astro.config.mjs");
+  const layout = await read("src/layouts/BaseLayout.astro");
+  assert.match(config, /theme:\s+"github-light"/);
+  assert.match(layout, /pre\.astro-code/);
+  assert.match(layout, /background:\s+var\(--surface-2\)\s+!important/);
+  assert.match(layout, /pre\.astro-code span/);
+  assert.match(layout, /color:\s+inherit\s+!important/);
+});
+
 test("learning path keeps all 14 chapters in order", async () => {
   const data = await read("src/data/chapters.ts");
   for (const chapter of [
@@ -124,6 +134,46 @@ test("component hub pages link to detail pages through relative paths", async ()
     assert.doesNotMatch(source, /\]\(\/learn\//);
     assert.match(source, /\]\(\.\.\/\.\.\/learn\//);
   }
+});
+
+test("light source component page is organized as a layer map", async () => {
+  const page = await read("src/pages/components/laser-source.mdx");
+  assert.match(page, /## One-Sentence Answer/);
+  assert.match(page, /## Why CPO Cares/);
+  assert.match(page, /## Where The Laser Can Live/);
+  assert.match(page, /## From Material To Supplied Light/);
+  assert.match(page, /## Do Not Mix These Layers/);
+  assert.match(page, /external laser source \/ ELSFP/);
+  assert.match(page, /QW \/ MQW \/ QD/);
+  assert.match(page, /DFB is a laser cavity|DFB 是 laser cavity/);
+  assert.match(page, /\.\.\/\.\.\/learn\/inp-dfb-laser-principle\//);
+  assert.match(page, /OIF: External Laser Small Form Factor Pluggable/);
+});
+
+test("InP DFB laser principle deep page ties physics to CPO light source needs", async () => {
+  await fileExists("src/pages/learn/inp-dfb-laser-principle.mdx");
+  const page = await read("src/pages/learn/inp-dfb-laser-principle.mdx");
+  assert.match(page, /title: InP \/ DFB laser principle/);
+  assert.match(page, /## 1\. 激光器在做什么/);
+  assert.match(page, /## 2\. 为什么是 InP/);
+  assert.match(page, /## 3\. 从电流到光子/);
+  assert.match(page, /## 4\. 受激辐射/);
+  assert.match(page, /## 5\. 波导与谐振腔/);
+  assert.match(page, /## 6\. DFB 光栅/);
+  assert.match(page, /## 7\. 指标和应用/);
+  assert.match(page, /## 8\. 完整链条/);
+  assert.match(page, /## 9\. 后续 3D 模型应该展示什么/);
+  assert.match(page, /lambda_B/);
+  assert.match(page, /p-i-n carrier injection/);
+  assert.match(page, /SCH/);
+  assert.match(page, /grating coupling coefficient/);
+  assert.match(page, /SMSR/);
+  assert.match(page, /\.\.\/inp-substrate\//);
+  assert.match(page, /\.\.\/spontaneous-vs-stimulated-emission\//);
+  assert.match(page, /MIT OCW 6\.772/);
+  assert.match(page, /Lumentum: High Power CW Laser/);
+  assert.match(page, /Cornell ECE 533/);
+  assert.match(page, /RP Photonics: Distributed Feedback Lasers/);
 });
 
 test("core learning path content pages exist", async () => {

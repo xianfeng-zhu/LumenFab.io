@@ -1,0 +1,310 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: InP / DFB laser principle
+chapter: Light Source Deep Dive
+description: 从电流、InP 材料、有源区、受激辐射、波导和 DFB 光栅，一路解释通信波段 DFB 激光器为什么能输出稳定 CW 光。
+---
+
+## One-Sentence Answer
+
+InP DFB laser 把电流注入到 InP 体系的量子阱有源区，用受激辐射提供 optical gain，再用沿波导分布的 DFB grating 选择目标波长，最终输出通信系统需要的稳定单模 CW light。
+
+这页先讲原理，不先讲公司。要分清楚这些层级：
+
+| 层级 | 例子 | 它回答的问题 |
+|---|---|---|
+| substrate / platform | InP substrate | 器件长在什么晶体底座上 |
+| active region | InGaAsP / InAlGaAs MQW | 电子和空穴在哪里复合，增益从哪里来 |
+| optical confinement | SCH / cladding / ridge waveguide | 光和载流子怎样被限制在有源区附近 |
+| cavity / feedback | FP / DFB / DBR | 光怎样被反馈、选模和稳定波长 |
+| device output | CW DFB laser / DML / EML | 最终输出连续光还是调制光 |
+| system boundary | internal laser / external laser source / ELSFP | 光在哪里产生，怎样送到 PIC 或 optical engine |
+
+## 1. 激光器在做什么
+
+激光器不是简单“发亮”。它要把电能变成方向集中、波长较窄、相位关系更一致的光。
+
+一个半导体激光器必须同时解决四件事：
+
+| 问题 | 需要的机制 | 如果做不好 |
+|---|---|---|
+| 怎样产生光子 | 电子和空穴复合 | 只有热和电流，没有有效发光 |
+| 怎样放大光 | 受激辐射和 optical gain | 像 LED 一样发散发光，不能形成激光 |
+| 怎样留住光 | waveguide、facet、grating、cavity | 光很快逃逸，无法反复经过有源区 |
+| 怎样选波长 | FP/DFB/DBR 反馈结构 | 多个纵模竞争，谱线不干净 |
+
+普通 LED 主要依靠 spontaneous emission。它可以把电流变成光，但光子方向、相位和波长都比较分散。Laser 需要 stimulated emission。已有光子经过有源区时，会刺激载流子复合并产生“和它一样”的光子。这个复制过程让光被放大，也让输出更有序。
+
+DFB laser 里的 `DFB` 只解决其中一部分问题：它解决的是反馈和波长选择，不是材料本身，也不是有源区本身。
+
+## 2. 为什么是 InP
+
+数据中心单模光通信常用 1310 nm 附近的 O-band，也会在其他系统里使用 1550 nm 附近的 C-band。要在这些波长高效发光，需要合适的 III-V 直接带隙材料体系。
+
+InP 的价值在于它能承载通信波段的 III-V 异质结构：
+
+- [InP substrate](../inp-substrate/) 提供晶体底座、机械支撑和外延模板。
+- InGaAsP / InAlGaAs 可以在 InP 上形成适合 1.3 / 1.55 micrometer 的有源层。
+- 多量子阱可以通过材料成分、阱厚和应变设计来调整 gain peak。
+- InP 平台能支撑 DFB laser、EML、SOA、PD 和部分 InP PIC 器件。
+
+光子能量和波长近似满足：
+
+```text
+E_photon ≈ h * c / lambda
+```
+
+材料的 bandgap 决定电子和空穴复合时释放多少能量，也就决定可能发出的波长。直接带隙材料更容易把复合能量变成光子；间接带隙材料更容易把能量交给晶格振动，因此发光效率低。
+
+这一点解释了为什么 silicon photonics 需要外部或异质集成光源。Silicon 很适合做低损耗波导、调制器、耦合器和大规模工艺平台，但它不是高效发光材料。InP 体系负责“产生光”，SiPh / PIC 体系负责“处理光”。
+
+## 3. 从电流到光子
+
+半导体激光器通常是电泵浦器件。电流不是直接变成光，而是先变成载流子注入。
+
+基本链条是：
+
+```text
+forward bias
+→ electrons injected from n side
+→ holes injected from p side
+→ carriers enter active region
+→ electron-hole recombination releases photons
+```
+
+真实器件更像 p-i-n 或双异质结构，而不是课本里最简单的 PN 结。中间的 intrinsic / active region 被设计成多量子阱，周围用 SCH 和 cladding 限制载流子和光场。
+
+一个 InP DFB laser 的纵向层级可以粗略看成：
+
+| 结构层 | 常见材料或结构 | 作用 |
+|---|---|---|
+| p-contact / metal | Ti/Pt/Au 等金属体系 | 把外部电流送进 p 侧 |
+| p-InP cladding | p-doped InP | 上包层和电流注入路径 |
+| SCH layer | InGaAsP / InAlGaAs | separate confinement heterostructure，帮助限制光场和载流子 |
+| MQW active region | InGaAsP / InAlGaAs quantum wells | 提供发光和 optical gain |
+| grating layer | 周期性折射率扰动 | 为 DFB 提供 Bragg feedback |
+| n-InP substrate | n-doped InP | 晶体底座、机械支撑和下电极路径 |
+| n-contact / metal | 背面金属 | 完成电路回路 |
+
+量子阱的重要性在于“限制”。如果电子和空穴分散在厚的 bulk active material 里，复合效率、阈值和温度表现都很难做得好。MQW 把载流子限制在很薄的势阱里，提高复合和增益效率。SCH 层则帮助解决另一个问题：量子阱很薄，单靠它不一定能很好地限制光场，所以需要额外的波导/限制结构让 optical mode 和 active region 有足够重叠。
+
+这里有一个工程权衡：
+
+| 设计目标 | 倾向做法 | 代价 |
+|---|---|---|
+| 低阈值 | 增大 optical confinement、减少 cavity loss | 可能增加吸收、热密度或模式敏感性 |
+| 高功率 CW | 降低局部功率密度、增大 mode size、提高散热能力 | 芯片可能更长，耦合和单模设计更难 |
+| 温度稳定 | 提高 barrier confinement，减少 carrier leakage | 材料体系和外延窗口更受限制 |
+| 易耦合到 fiber / PIC | 控制 far-field divergence 和 mode size | 可能牺牲一部分增益重叠 |
+
+## 4. 受激辐射
+
+自发辐射可以产生光，但它不会自动形成激光。激光需要受激辐射和反馈。
+
+受激辐射可以这样理解：
+
+```text
+incident photon + excited electron-hole pair
+→ incident photon + new matching photon
+```
+
+新光子和入射光子具有相同频率、相同相位、相同传播方向和相同偏振状态。只要有源区里存在足够多的可复合载流子，经过有源区的光就会被放大。
+
+但“有受激辐射”不等于“已经 lasing”。Lasing 还需要 gain 大于或等于总损耗：
+
+```text
+modal gain >= internal loss + mirror / grating / output coupling loss
+```
+
+这就是 threshold。低于阈值时，器件主要表现为自发辐射和弱放大。高于阈值后，满足反馈条件的模式快速增长，输出功率随电流明显上升。
+
+常见的 L-I 曲线可以分成三段：
+
+| 区域 | 现象 | 含义 |
+|---|---|---|
+| 低电流 | 光输出很弱 | 载流子还不足以补偿损耗 |
+| threshold 附近 | 输出曲线出现拐点 | modal gain 接近总损耗 |
+| 高于 threshold | 输出功率近似随电流线性增加 | stimulated emission 主导 |
+
+阈值不是一个固定常数。温度升高、缺陷增加、facet 退化、非辐射复合、自由载流子吸收、封装热阻和背反射都会改变阈值或斜率效率。
+
+## 5. 波导与谐振腔
+
+激光器要让光反复经过 active region。靠材料会发光还不够，还要把光困住。
+
+几个结构各自承担不同功能：
+
+| 结构 | 它做什么 | 对指标的影响 |
+|---|---|---|
+| ridge waveguide | 限制横向电流和 optical mode | 横模、耦合、散热和工艺良率 |
+| cladding | 通过折射率差提供垂直限制 | optical confinement 和吸收损耗 |
+| SCH | 让薄量子阱和较宽 optical mode 匹配 | gain overlap、阈值和输出功率 |
+| facet coating | 控制端面反射 | 输出耦合、反馈扰动和单模稳定 |
+| grating | 提供周期反馈 | wavelength selection、SMSR、linewidth |
+
+Fabry-Perot laser 的直觉是“两端镜子”。芯片两个 facet 反射，腔长决定 longitudinal modes。只要 gain bandwidth 里有多个模式接近阈值，就容易出现多模竞争。
+
+DFB laser 的直觉不同。它把“镜子”拆成很多个很弱的反射点，沿着光传播方向分布在波导附近。每个周期产生一点反射。满足 Bragg 条件的波长会让这些微反射相长叠加，得到强反馈。其他波长的反射相位对不上，反馈弱。
+
+这也是为什么 DFB 更适合稳定单纵模输出。它不是让 cavity mode 自由竞争后再挑一个，而是在反馈结构里内置了 wavelength-selective filter。
+
+## 6. DFB 光栅
+
+DFB 是 Distributed Feedback。它的关键是周期性折射率扰动。
+
+常用直觉公式是：
+
+```text
+lambda_B ≈ 2 * n_eff * Lambda / m
+```
+
+其中：
+
+| 符号 | 含义 |
+|---|---|
+| `lambda_B` | Bragg wavelength，最容易得到反馈的波长 |
+| `n_eff` | waveguide mode 看到的有效折射率 |
+| `Lambda` | grating period，光栅周期 |
+| `m` | grating order，光栅阶数 |
+
+这个公式说明两个重要事实：
+
+- 光栅周期直接参与波长选择。
+- 温度和电流改变 `n_eff`，所以 DFB 波长会随温度和电流漂移。
+
+DFB 的模式选择还取决于 grating coupling coefficient。可以把它理解为“每单位长度的反射耦合有多强”。太弱，反馈不够；太强，输出耦合、功率分布和空间烧孔会变复杂。实际设计常用 `kappa * L` 这类量来描述 grating strength 和 cavity length 的组合效果。
+
+Phase-shifted DFB 是一个非常关键的结构。普通均匀 DFB 容易在 Bragg wavelength 两侧形成两个竞争模式。加入 quarter-wave phase shift 后，可以把一个目标模式放到 stopband 中央附近，让它成为最低阈值模式，从而更容易得到稳定单模输出。
+
+DFB、DBR、FP 的边界如下：
+
+| 类型 | 反馈位置 | 典型特征 |
+|---|---|---|
+| FP laser | 两端 facet | 结构简单，可能多纵模 |
+| DFB laser | 光栅沿 active cavity 分布 | 单模稳定，调谐范围较窄，光栅和有源区耦合强 |
+| DBR laser | Bragg reflector 在 active region 外侧 | 可做更复杂调谐，但结构和控制更复杂 |
+| ECL | 外部腔和外部 grating | 线宽可很窄，调谐范围大，但机械和封装复杂 |
+
+因此，“DFB 激光器稳定”不是因为它没有 cavity，而是因为它把 cavity feedback 做成了分布式、波长选择性的结构。
+
+## 7. 指标和应用
+
+把 DFB 放回 CPO 和硅光外置光源场景，问题就变成：它能不能长期、低噪声、高效率地给 PIC 提供足够的 CW optical power。
+
+| 指标 | 物理来源 | 系统影响 |
+|---|---|---|
+| output power | gain、cavity loss、thermal resistance、facet limit | PIC 分光、调制、耦合和链路预算 |
+| threshold current | active region gain、loss、temperature | 功耗、热、aging margin |
+| slope efficiency | carrier-to-photon efficiency、output coupling | 电流增加能换来多少光功率 |
+| PCE / WPE | 光功率除以电功率 | CPO 机箱热预算 |
+| wavelength | bandgap、grating period、effective index | 是否落在 O-band / C-band / CWDM grid |
+| wavelength temperature coefficient | `n_eff`、bandgap 和热膨胀 | 是否需要 TEC 或校准 |
+| SMSR | side modes 和主模的功率差 | 单模纯净度和系统串扰边界 |
+| linewidth | 相位噪声、腔长、反馈、驱动噪声 | 相干性、频率稳定和部分系统噪声 |
+| RIN | 强度噪声、驱动电流、反馈扰动 | 接收灵敏度和调制信号质量 |
+| coupling efficiency | mode size、divergence、alignment、fiber/PIC interface | 外置光源需要的 laser power |
+| reliability | defect、facet、heat、ESD、package stress | burn-in、寿命、现场可维护性 |
+
+一个高功率 CPO 外置光源例子会同时谈到：
+
+- InGaAsP/InP MQW DFB active structure。
+- 大光腔和较大 spot size，用来降低局部功率密度并提高 fiber coupling。
+- grating coupling strength，用来控制 single-mode selectivity。
+- front facet AR coating 和 back facet HR coating，用来控制输出方向和反馈。
+- chip-on-submount / butterfly package / lensed PM fiber coupling。
+- PCE、SMSR、RIN、PER 和不同温度下的 ex-fiber power。
+
+这说明 CPO 的 laser source 不是只看一颗 chip。它把材料、有源区、光栅、热、封装、耦合、驱动、监测和现场维护全部连在一起。
+
+## 8. 完整链条
+
+一颗 InP DFB 激光器可以用这条链串起来：
+
+```text
+high-purity In / P
+→ InP substrate
+→ InP-compatible epitaxy
+→ InGaAsP / InAlGaAs SCH + MQW active region
+→ p-i-n carrier injection
+→ electron-hole recombination
+→ spontaneous photons seed the process
+→ stimulated emission provides optical gain
+→ ridge / cladding / SCH confine optical mode
+→ DFB grating provides Bragg feedback
+→ phase shift and grating strength select one mode
+→ threshold reached
+→ stable CW single-mode output
+→ facet coating, submount, package and fiber/PIC coupling
+→ optical module, ELSFP or CPO optical engine light supply
+```
+
+这条链里每一层都可能成为工程限制：
+
+| 层级 | 可能限制 |
+|---|---|
+| substrate | dislocation、晶圆尺寸、表面质量、epi-ready 状态 |
+| epitaxy | composition control、strain、interface quality、defect density |
+| active region | gain、carrier leakage、temperature stability、non-radiative recombination |
+| waveguide | confinement、loss、far-field divergence、coupling |
+| grating | wavelength accuracy、coupling strength、phase shift、regrowth/etch quality |
+| facet | AR/HR coating、back reflection、catastrophic optical damage |
+| package | thermal path、stress、ESD、fiber alignment、hermeticity |
+| test | threshold、spectrum、SMSR、RIN、burn-in、known-good-die |
+| system | serviceability、laser safety、power budget、fault isolation |
+
+## 9. 后续 3D 模型应该展示什么
+
+如果之后做 DFB laser 的 3D model，不应该只画一个长方体。至少要把这些空间关系讲清楚：
+
+| 3D 元素 | 需要展示的关系 |
+|---|---|
+| InP substrate | 它是底座，不是发光层 |
+| MQW active region | 它很薄，位于光场和载流子重叠区域 |
+| SCH / cladding | 它们把光场推到 active region 附近 |
+| ridge waveguide | 它限定电流和横向模式 |
+| grating | 它沿传播方向周期分布，不是端面镜子 |
+| optical mode | 它不是一条线，而是横截面上的场分布 |
+| facets / coatings | 它们控制输出、背反射和封装敏感性 |
+| submount / fiber / PIC coupling | 它们决定 demo 能不能变成可用产品 |
+
+最有教育价值的 3D 动画顺序可以是：
+
+```text
+layer stack
+→ carrier injection
+→ optical mode overlap
+→ Bragg reflection along grating
+→ phase-shifted single-mode selection
+→ output coupling into fiber or PIC
+```
+
+这样读者会看到：DFB laser 不是一个抽象符号，而是材料层、纳米光栅、光场、热路径和封装耦合共同工作的器件。
+
+## Read Next
+
+- [Light source / laser supply](../../components/laser-source/)：回到 CPO 光源系统边界。
+- [InP substrate](../inp-substrate/)：先理解 InP 衬底层。
+- [Direct vs indirect bandgap](../direct-vs-indirect-bandgap/)：理解为什么有些材料适合发光。
+- [PN junction and carrier injection](../pn-junction-and-carrier-injection/)：理解电流怎样注入载流子。
+- [Spontaneous vs stimulated emission](../spontaneous-vs-stimulated-emission/)：理解 LED 与 laser 的物理差别。
+- [Optical gain and threshold current](../optical-gain-and-threshold-current/)：理解 threshold 和增益/损耗平衡。
+- [Distributed feedback and wavelength selection](../distributed-feedback-and-wavelength-selection/)：更集中地看 DFB 选波长。
+- [Why semiconductor lasers are temperature-sensitive](../why-semiconductor-lasers-are-temperature-sensitive/)：理解温度为什么影响波长、阈值和寿命。
+
+## Reference Anchors
+
+- [Cornell ECE 533: Distributed Feedback Structures and Semiconductor DFB Lasers](https://courses.cit.cornell.edu/ece533/Lectures/handout13.pdf)
+- [MIT OCW 6.772: Lecture 21, DFB and DBR lasers](https://ocw.mit.edu/courses/6-772-compound-semiconductor-devices-spring-2003/2ab98fac1e90b41381ca8c5dbe4facf1_Lecture21v2.pdf)
+- [MIT OCW 3.46: Lecture 11, Optical Amplifiers and Lasers](https://ocw.mit.edu/courses/3-46-photonic-materials-and-devices-spring-2006/f94814c920d012501d9f0a734977b95d_3_46lec11_lasers.pdf)
+- [UGent: Multi-Section InP-on-Silicon DFB Laser Diodes](https://www.photonics.intec.ugent.be/download/phd_252.pdf)
+- [RP Photonics: Laser Diodes](https://www.rp-photonics.com/laser_diodes.html)
+- [RP Photonics: Distributed Feedback Lasers](https://www.rp-photonics.com/distributed_feedback_lasers.html)
+- [nanoplus Technical Note: DFB Laser Concept](https://nanoplus.com/fileadmin/user_upload/Data_sheets/Technical_Notes/nanoplus_TechnicalNote_DFB_Laser_Concept.pdf)
+- [Lumentum: High Power CW Laser for Co-Packaged Optics](https://www.lumentum.com/sites/default/files/2025-12/high_power_cw_laser_for_co-packaged_optics_2022.pdf)
+- [Coherent: 10 Gbps DFB Laser Diode Chip Datasheet](https://www.coherent.com/content/dam/coherent/site/en/resources/datasheet/networking/10gbps-dfb-laser-diode-chip-ds.pdf)
+- [Thorlabs: Single-Frequency Lasers Tutorial](https://www.thorlabs.com/single-frequency-lasers-tutorial?tabName=ECL+Tutorial)
+- [Lumentum: CW Lasers](https://www.lumentum.com/en/products/data-center/cw-lasers)
+
+## Short Version
+
+InP DFB laser 的逻辑是：InP 体系提供通信波段有源区，p-i-n 结构把电流注入成电子和空穴，MQW/SCH 提高增益和限制光场，受激辐射把光放大，ridge waveguide 把模式限制在芯片里，DFB grating 通过 Bragg feedback 选择目标波长，phase shift 帮助单模输出，封装和耦合把芯片变成 CPO、硅光或光模块能使用的稳定 CW 光源。

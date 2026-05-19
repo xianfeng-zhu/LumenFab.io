@@ -5,53 +5,105 @@ chapter: CPO Components
 description: 激光源部分把原料、InP 衬底、外延、有源区、腔体反馈、器件测试和可靠性连在一起。
 ---
 
-## What This Component Does
+## One-Sentence Answer
 
-Light source 负责给光引擎提供可调制、可耦合、可长期工作的光。它可以是 DFB、EML、external CW laser、laser array，具体形态取决于架构。
+Light source / laser supply 负责给 PIC 或 optical engine 提供稳定、足够功率、可耦合、可长期运行的光。
 
-在 CPO 语境里，激光源不只是“一个发光芯片”。它牵涉：
+这页先建立地图，不把所有激光器细节一次讲完。后续页面再分别展开 InP 衬底、外延、有源区、DFB、EML、external laser source、ELSFP、burn-in 和可靠性。
 
-- raw materials and InP substrate。
-- epitaxy and active region。
-- laser cavity and feedback。
-- chip-level test。
-- burn-in and aging。
-- coupling into PIC or package。
-- thermal path and wavelength stability。
+## Why CPO Cares
 
-## Detail Entrypoints
+CPO 把 optical engine 放到 switch ASIC 附近，目的是缩短高速电信号路径。但这也把光源问题放大了：
 
-### Materials And Wafers
+- silicon photonics / PIC 擅长处理光，不天然擅长发光。
+- switch ASIC 附近热密度高，而激光器对温度、老化和波长漂移敏感。
+- 如果 laser 放进 package，路径短，但封装、良率、维修更难。
+- 如果 laser 外置，热和可维护性更好，但 optical power、connector、fiber routing、safety 和 management 变复杂。
 
-- [InP substrate](../../learn/inp-substrate/)
-- [Raw material, ingot, wafer, substrate, and epi-ready wafer](../../learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer/)
-- [In, P, Ga, As, Si, Ge, and LiNbO3](../../learn/in-p-ga-as-si-ge-and-linbo3/)
+所以 CPO 里的 light source 不是单纯“哪种激光器更好”，而是一个系统边界问题：光在哪里产生，怎样送到 PIC，坏了以后怎么发现、隔离和维修。
 
-### Physics
+## Where The Laser Can Live
 
-- [Direct vs indirect bandgap](../../learn/direct-vs-indirect-bandgap/)
-- [Spontaneous vs stimulated emission](../../learn/spontaneous-vs-stimulated-emission/)
-- [Optical gain and threshold current](../../learn/optical-gain-and-threshold-current/)
-- [Fabry-Perot cavity](../../learn/fabry-perot-cavity/)
-- [Distributed feedback and wavelength selection](../../learn/distributed-feedback-and-wavelength-selection/)
-- [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)
+| 位置 | 例子 | 优点 | 难点 |
+|---|---|---|---|
+| OE 内部 | optical engine with internal laser | 光路短，系统边界直观 | 热、良率、返修、laser aging 压力集中 |
+| package 内或边上 | in-package source / laser tile | 靠近 PIC，集成度高 | package design、散热、测试和 known-good-die 更难 |
+| 外置光源 | external laser source / ELSFP | 远离 ASIC 热源，可维护性更好 | 光功率预算、blind-mate connector、fiber routing、safety、management 更复杂 |
+| PIC 上异质集成 | III-V-on-Si / bonded laser | 集成度最高，路径最短 | 工艺整合、可靠性和规模量产难度高 |
 
-### Later Deep Dives
+OIF 的 ELSFP 资料把 external laser source 作为一个可插拔供光模块来定义。它不是 DFB、QW 或 InP 这种器件层概念，而是把 CW light 从外部送给 optical engine 的系统形态。
 
-- InP epitaxy and active regions.
-- QW / MQW gain region.
-- DFB laser.
-- EML and EAM.
-- External CW laser.
-- Laser burn-in, aging, RIN, SMSR and wavelength test.
+## From Material To Supplied Light
 
-## Common Boundaries
+把光源从底层往上拆，可以看成一条因果链：
 
-- InP substrate is not the laser.
-- QW/MQW is active-region detail, not substrate detail.
-- DFB is a cavity/feedback structure, not a material platform.
-- EML is a device integration form, not a raw material.
+```text
+In / P raw materials
+→ InP substrate
+→ epitaxy
+→ QW / MQW active region
+→ optical gain
+→ DFB / CW laser chip
+→ laser package or TOSA
+→ ELS / optical engine
+→ PIC
+```
+
+这条链路里，每一层回答的问题不同：
+
+- [InP substrate](../../learn/inp-substrate/)：给通信波段 III-V 外延提供底座。
+- [Raw material, ingot, wafer, substrate, and epi-ready wafer](../../learn/raw-material-ingot-wafer-substrate-and-epi-ready-wafer/)：解释原料到晶圆的层级。
+- [Optical gain and threshold current](../../learn/optical-gain-and-threshold-current/)：解释 laser 为什么需要增益和阈值。
+- [Distributed feedback and wavelength selection](../../learn/distributed-feedback-and-wavelength-selection/)：解释 DFB 怎样稳定波长。
+- [InP / DFB laser principle](../../learn/inp-dfb-laser-principle/)：把材料、注入、有源区、受激辐射、波导和 DFB 光栅串成一颗通信激光器。
+- [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)：解释温度为什么影响波长、阈值和可靠性。
+
+## Do Not Mix These Layers
+
+| 层级 | 例子 | 它回答的问题 |
+|---|---|---|
+| 有源区 | QW / MQW / QD | 载流子在哪里复合，增益从哪里来 |
+| 材料平台 | InP / GaAs / III-V-on-Si | 器件主要建在什么材料体系上 |
+| 腔体 / 反馈结构 | FP / DFB / DBR | 光如何被反馈、选模和稳定波长 |
+| 器件 / 发射器 | CW laser / EML / laser array | 光源或发射器怎样实现 |
+| 系统供光方式 | internal laser / external laser source / ELSFP | 光在哪里产生，怎样送到 optical engine |
+
+这里最容易混的是 `DFB` 和 `ELSFP`。DFB 是 laser cavity / feedback 结构；ELSFP 是外置光源的可插拔形态。一个 ELSFP 模块里面可以使用 DFB laser，但 ELSFP 本身不是 DFB。
+
+## Key Metrics
+
+先记这些指标，后续页面再展开：
+
+- output power：送到 fiber 或 PIC 前可用的光功率。
+- wavelength：通常围绕 1310 nm 或 1550 nm 通信窗口设计。
+- linewidth：谱线宽度，影响相干性和噪声边界。
+- RIN：relative intensity noise，强度噪声。
+- SMSR：side-mode suppression ratio，反映单模稳定性。
+- wall-plug efficiency / PCE：电功率变成光功率的效率。
+- temperature sensitivity：温度对波长、阈值电流和输出功率的影响。
+- lifetime / burn-in：长期可靠性和早期失效筛选。
+- coupling loss：从 laser / TOSA / ELS 到 PIC 的光损耗。
+- serviceability：光源坏了以后能否定位和更换。
+
+## Next Pages
+
+这些页面适合后续逐步补：
+
+- External laser source in CPO。
+- CW laser and why PIC needs continuous light。
+- InP laser chip from substrate to active region。
+- [InP / DFB laser principle](../../learn/inp-dfb-laser-principle/)。
+- ELSFP and serviceable laser supply。
+- Laser reliability, burn-in and aging。
+
+## Reference Anchors
+
+- [OIF: External Laser Small Form Factor Pluggable Implementation Agreement](https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf)
+- [OIF: Management of External Light Sources and Co-Packaged Optical Engines](https://www.oiforum.com/wp-content/uploads/OIF-MGT-Co-Packaging-ELSFP-01.0.pdf)
+- [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
+- [Frontiers of Optoelectronics: Co-packaged optics status, challenges, and solutions](https://link.springer.com/article/10.1007/s12200-022-00055-y)
+- [Furukawa Electric: Development of an External Laser Source for Co-Packaged Optics](https://www.furukawaelectric.com/en/rd/review/fr055/10.html)
 
 ## Short Version
 
-Light source is where material purity, InP substrate quality, epitaxy, gain physics, cavity design, thermal control and reliability all meet. This entrance covers both laser chips and external laser supply.
+Light source / laser supply 是 CPO 里“光从哪里来”的入口。它跨越 InP 材料、外延、有源区、laser chip、TOSA、ELSFP、光耦合、热管理、测试和可靠性。先把层级分清楚，后面看 DFB、EML、CW laser、external laser source 才不会混在一起。

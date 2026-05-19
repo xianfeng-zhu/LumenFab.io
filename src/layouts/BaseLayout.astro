@@ -126,6 +126,49 @@ const {
     background: var(--surface-2);
   }
 
+  pre.astro-code {
+    margin: 1.25rem 0 1.75rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-2) !important;
+    color: var(--text) !important;
+    overflow-x: auto;
+    line-height: 1.65;
+  }
+
+  pre.astro-code code {
+    display: block;
+    padding: 0;
+    background: transparent;
+  }
+
+  pre.astro-code span {
+    color: inherit !important;
+    background: transparent !important;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin: 1.25rem 0 1.75rem;
+  }
+
+  th,
+  td {
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: var(--surface-2);
+  }
+
   .page-kicker {
     margin: 0 0 0.65rem;
     color: var(--accent-strong);

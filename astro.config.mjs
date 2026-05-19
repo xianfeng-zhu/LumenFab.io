@@ -10,5 +10,10 @@ const isProjectPage =
 export default defineConfig({
   site: process.env.SITE,
   base: process.env.ASTRO_BASE ?? (isProjectPage ? `/${repoName}` : "/"),
+  markdown: {
+    shikiConfig: {
+      theme: "github-light"
+    }
+  },
   integrations: [mdx()]
 });

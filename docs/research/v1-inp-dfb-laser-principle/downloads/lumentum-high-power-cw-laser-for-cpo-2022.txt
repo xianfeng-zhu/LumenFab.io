@@ -1,0 +1,93 @@
+                                                           SS2D.3.pdf                                 CLEO 2022 © Optica Publishing Group 2022
+
+
+
+
+             High Power CW Laser for Co-Packaged Optics
+      Wenjia Zhou1, Yan Zhu1, Jeff Wang1, Michael Moewe1, Ruichao Zhu1, Wei Zhao1, Victor Rossin1,
+                     Hongyu Liu1, Jinsong Wang1, Ting Zhu1, Prasad Yalamanchili1,
+                       Thang Pham2, Ruby Chen2, Vincent Zeng2, James Stewart2
+                                   (1)     Lumentum Inc. 1001 Ridder Park Drive, San Jose, CA 95131
+                                         (2) Facebook Inc, 1 Hacker Way, Menlo Park CA 94025
+                                          wenjia.zhou@Lumentum.com; thangtpham@fb.com
+
+         Abstract: A high-power, Continuous-Wave (CW) laser prototype for External Laser Sources
+         (ELSs) used in Co-Packaged Optics (CPO) applications is demonstrated at over 500mW ex-fiber,
+         more than 10% efficiency. © 2022 The Authors
+
+1. Introduction
+
+The amount of annual global data center traffic has tripled in the last five years, and nearly three-fourths of it resides
+inside data centers thanks to drivers such as video, AI, and HPC [1]. Power consumption of next-generation
+switches such as 51T and 102T switches might exceed cooling facility limits if traditional switch construction
+techniques with pluggable optics are used. CPO is one of the key initiatives to reduce power consumption in next-
+generation datacenter networking systems. CPO-based switch designs utilizing ELSs provide the advantages of
+serviceability of the laser sources, separation of the temperature-sensitive lasers from the switch IC, and easing
+space limitations on Silicon-Photonic (SiPho) die by eliminating the integrated lasers. For CPO-based, 51T
+switches, each laser would need to provide approximately 22 to 25dBm of optical power. In addition to the high-
+power output, it is necessary for the ELS to provide high Power Conversion Efficiency (PCE) for CPO systems to
+achieve the power reduction sought. Preliminary PCE target of 10% should achieve this goal.
+
+2. Laser Structure, Device Fabrication and Characterization
+
+The distributed feedback (DFB) laser structure is similar to the one used in [2]. Multiple quantum well (MQW)
+structure in InGaAsP/InP material system features a low QW confinement factor, which provides a low cavity loss,
+high saturation power, and large spot size. The far-field divergence angle is small, which makes high-efficiency
+fiber coupling possible. A large optical cavity design with a cavity length of 4mm is used, which reduces thermal
+and series resistances and therefore leads to high output power and high PCE. The quantum well is strained, and its
+composition is adjusted to target photoluminescence wavelength that aligns the gain peak with the DFB wavelength
+at 45°C. The barrier height is chosen to make the lasers relatively temperature insensitive. An in-house simulator,
+based on the coupled-wave method, is used to simulate the single-mode selectivity of the grating and the electric
+field distribution within the cavity for various grating coupling strengths. The optimal grating coupling strength is
+selected based on the simulation results. First-order DFB grating is patterned by holographic photolithography. After
+waveguide formation, surface passivation, VIA opening, metal contact formation, wafer thinning, polishing, and
+cleaving, laser fabrication completes with <0.1% front fact AR-coating and >95% back facet HR-coating.
+
+
+
+
+  Fig. 1. 25°C CW mode COS characterization results showing (a) Power-Current and PCE-Current, (b) spectrum
+                                                                 SS2D.3.pdf                                      CLEO 2022 © Optica Publishing Group 2022
+
+
+
+
+The lasers are mounted p-side down on AlN submounts for chip-on-submount (COS) testing. 25°C CW COS testing
+results of one device are shown in Fig. 1. The maximum output power reaches 880mW, the same as the power level
+recently demonstrated near 1550nm in [3]. However, the SCOW structure used in [3] has poor manufacturability
+since the structure is sensitive to waveguide etching conditions. On the other hand, our structure has proven
+manufacturability, as demonstrated by our high-power Raman pump lasers. The threshold current is 99 mA, and the
+slope efficiency is 0.45 W/A. The emission wavelength peaks around 1310 nm. The spectrum, measured with 0.1
+nm resolution, is single-mode during the entire operating current range. The side mode suppression ratio (SMSR) is
+more than 50 dB. The far-field full width at half maximum is 6.0° and 20.1° in the lateral and vertical directions.
+
+The COS device was packaged into a 14-pin butterfly (BTF) module. The power output from the COS device is
+coupled to a lensed polarization-maintaining fiber with a high coupling efficiency of 86%. The polarization
+extinction ratio (PER) is more than 16 dB. Fig. 2 shows characterization results of the module tested at 25°C,
+40°C and 50°C laser diode temperatures at 50°C and 70°C case temperatures. The maximum output powers are
+720mW, 640mW, and 580mW at 25°C, 40°C, and 50°C laser diode temperatures, respectively, independent of
+the case temperature. At 50°C, the threshold current is 150mA, and the slope efficiency is 0.35W/A. At 50°C and
+500mW ex-fiber output power, operating current and voltage are 2.0 A and 1.8V, respectively. At 400mW ex-
+fiber power, the module PCE is at least 10% at all the testing conditions. SMSR of the spectrum, measured with
+0.02nm resolution, is higher than 45dB. RINc measured without a reflector is lower than -156dBc over the
+output power range of 200-500mW with laser temperature at both 40 and 50°C.
+
+
+
+
+Fig. 2. Module characterization results showing (a) Power-Current-Voltage, (b) module PCE vs. ex-fiber power,
+ and emission spectrum at (c) 25°C, (d) 40°C, and (e) 50°C laser diode temperatures at 50°C case temperature
+
+3. Conclusions
+
+We have demonstrated high power CW 1310nm DFB lasers with a maximum out-of-facet power of 880mW at
+25°C. When packaged in a 14-BTF module, ex-fiber output power reaches 580mW at 50°C laser diode temperature.
+
+4. References
+
+[1] “Cisco global cloud index: Forecast and methodology, 2016-2021,” Feb. 2018, (White Paper).
+[2] Doussiere, P., Shieh, C. L., Demars, S., and Dzurko, K., “Very high-power 1310nm InP single mode distributed feed back laser diode with
+reduced linewidth,” Novel In-Plane Semiconductor Lasers VI, Intl. Society for Optics and Photonics (Feb. 2007), Vol. 6485, p. 64850G.
+[3] Mao, Y., Cheng, Y. , Xu, B., Ji, R., and Li, Y., "Record-High Power 1.55-μm Distributed Feedback Laser Diodes for Optical
+Communication," 2021 Optical Fiber Communications Conference and Exhibition (OFC) (2021), pp. 1-3.
+

@@ -1,10 +1,10 @@
 # LumenFab.io Development Progress
 
-Last updated: 2026-05-18
+Last updated: 2026-05-19
 
 ## Current State
 
-Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, material platforms 05, raw materials to wafers 06, and the CPO component-entry homepage are deployed. Light source / laser supply professional source pack is created locally for the next content pass.
+Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, material platforms 05, raw materials to wafers 06, and the CPO component-entry homepage are deployed. Light source / laser supply now has a deeper map page, and the first InP / DFB laser principle deep page is being added with a professional source pack.
 
 Repository:
 
@@ -23,8 +23,8 @@ Latest known successful deployment:
 
 - Run status: success
 - Trigger: push to `main`
-- Commit: `ea3e2bc feat: add raw materials to wafers foundations`
-- Run: `25963549438`
+- Commit: `65c2e9c docs: add light source research pack`
+- Run: `26047957801`
 
 Completed plan:
 
@@ -161,6 +161,27 @@ Completed plan:
 - Saved local-only reference images for Light source / laser supply under:
   - `docs/research/v1-light-source-laser-supply/reference-images/`
   - This directory is ignored by git and intended for redraw / 3D-model reference only.
+- Expanded the Light source / laser supply component page into a layer map:
+  - laser location options
+  - material-to-light chain
+  - layer boundaries for QW, InP, DFB, CW laser and ELSFP
+  - CPO-relevant light-source metrics
+- Created and expanded InP / DFB laser principle professional source pack:
+  - `docs/research/v1-inp-dfb-laser-principle/inp-dfb-laser-principle-professional-sources.md`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/cornell-rana-dfb-structures-semiconductor-dfb-lasers.pdf`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/nanoplus-dfb-laser-concept.pdf`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/rp-photonics-distributed-feedback-lasers.html`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/rp-photonics-laser-diodes.html`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/mit-6-772-lecture21-dfb-dbr-lasers.pdf`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/mit-3-46-lecture11-optical-amplifiers-and-lasers.pdf`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/ugent-multisection-inp-on-silicon-dfb-laser-diodes-phd.pdf`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/lumentum-high-power-cw-laser-for-cpo-2022.pdf`
+  - `docs/research/v1-inp-dfb-laser-principle/downloads/coherent-10gbps-dfb-laser-diode-chip-datasheet.pdf`
+- Saved local-only reference images for InP / DFB laser principle under:
+  - `docs/research/v1-inp-dfb-laser-principle/reference-images/`
+  - This directory is ignored by git and intended for redraw / 3D-model reference only.
+- Added first deep page under Light source:
+  - `src/pages/learn/inp-dfb-laser-principle.mdx`
 
 ## Verification Commands
 
@@ -173,10 +194,10 @@ npm audit --omit=dev
 gh run list --repo xianfeng-zhu/LumenFab.io --limit 5
 ```
 
-Expected current baseline after CPO component entry structure:
+Expected current baseline after InP / DFB laser principle page:
 
-- `npm test`: 12 tests pass.
-- `npm run build`: 55 pages build.
+- `npm test`: 14 tests pass.
+- `npm run build`: 56 pages build.
 - `npm audit --omit=dev`: 0 vulnerabilities.
 - latest `Deploy to GitHub Pages` run: success.
 
@@ -193,8 +214,9 @@ Expected current baseline after CPO component entry structure:
 - Do not copy the research-note structure into the website.
 - Use research notes as source material only.
 - Each chapter must start with a professional source pack before reader-facing pages are written.
-- Source packs should include useful visual references and saved image assets when license/usage permits.
-- Public repo must not store copyrighted third-party figures without permission; mark those as `redraw needed` instead.
+- Source packs should include useful visual references and saved image assets.
+- Third-party reference images should stay in gitignored `reference-images/` folders for redraw / 3D-model guidance unless a later review explicitly approves publication.
+- Public repo must not store copyrighted third-party figures without permission.
 - Keep company and investment mapping at the end of the learning path.
 
 ## Open Notes
@@ -205,35 +227,31 @@ Expected current baseline after CPO component entry structure:
 
 ## Suggested Next Step
 
-After publishing 06, create the next plan:
+After the first InP / DFB laser principle pass, continue within Light source / laser supply before moving to the next component:
+
+```text
+External laser source in CPO
+CW laser and why PIC needs continuous light
+ELSFP and serviceable laser supply
+Laser reliability, burn-in and aging
+```
+
+Then return to the chapter sequence:
 
 ```text
 docs/plans/2026-05-16-v1-epitaxy-active-regions.md
 ```
 
-Suggested scope:
-
-- `07 Epitaxy And Active Regions`
-  - What epitaxy means
-  - MOCVD and MBE
-  - Lattice matching and strain
-  - Defects, dislocations, and non-radiative recombination
-  - Quantum wells and multiple quantum wells
-  - Quantum dots
-  - InGaAsP and AlGaInAs on InP
-  - InAs/GaAs QD systems
-  - Ge-on-Si for photodetectors
-  - Dark current
-
 Reason:
 
-- 06 explains how materials become substrates and epi-ready wafers.
-- 07 can now explain how functional layers and active regions are grown on those prepared wafers.
-- Keep epitaxy and active-region concepts before device structures and PIC-level routing.
+- The homepage is currently component-entry based.
+- The user wants the first component, Light source / laser supply, to become a better depth sample before repeating the pattern for PIC, EIC, optical I/O, package integration, manufacturing/test and reliability.
 
 Next execution target:
 
-- Deploy 06, then create a source pack and implementation plan for 07 epitaxy and active regions.
+- Review the InP / DFB laser principle page in the local browser.
+- If accepted, commit and push this unit.
+- Next likely page: External laser source in CPO or CW laser and why PIC needs continuous light.
 
 ## Resume Checklist
 

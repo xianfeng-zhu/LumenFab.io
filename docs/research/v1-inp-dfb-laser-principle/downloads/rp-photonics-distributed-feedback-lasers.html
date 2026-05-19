@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+<meta name="license" content="https://www.rp-photonics.com/terms_of_use.html">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'nonce-4NQsmpIUdPHBEMCsaHHwmA=='; style-src 'self' 'unsafe-inline'; form-action 'self'; base-uri 'self'; frame-src 'self'; object-src 'none'">
+<title>Distributed Feedback Lasers – DFB laser</title>
+<link rel="stylesheet" type="text/css" href="/fonts.css?v5">
+<link rel="preload" href="/fonts/open-sans-v15-latin_greek-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/img/mesh1.webp" as="image" type="image/webp">
+<link rel="stylesheet" type="text/css" href="/jquery-ui-1.14.0.custom/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/encyclopedia.css?v348">
+<link rel="canonical" href="https://www.rp-photonics.com/distributed_feedback_lasers.html">
+<link rel="alternate" type="application/rss+xml" title="The Photonics Spotlight" href="https://www.rp-photonics.com/spotlight.rss?v113">
+<link rel="alternate" type="application/rss+xml" title="The RP Photonics Software News" href="https://www.rp-photonics.com/software_news.rss?v65">
+<link rel="alternate" type="application/rss+xml" title="The RP Photonics Marketing News" href="https://www.rp-photonics.com/marketing_news.rss?v58">
+<link rel="alternate" type="application/rss+xml" title="New encyclopedia articles" href="https://www.rp-photonics.com/new_articles.rss?v183">
+<link rel="alternate" type="text/markdown" title="Site summary for LLMs" href="/llms.txt">
+<meta name="date" content="2025-12-30T14:43:31Z">
+<meta name="description" content="Distributed feedback lasers are diode or fiber lasers where the whole laser resonator consists of a periodic structure, in which Bragg reflection occurs.">
+<meta name="copyright" content="2026 RP Photonics AG">
+<meta name="author" content="Dr. Rüdiger Paschotta">
+<meta name="publisher" content="RP Photonics AG">
+<meta name="citation_title" content="Distributed Feedback Lasers">
+<meta name="citation_author" content="Dr. R&uuml;diger Paschotta">
+<meta name="citation_journal_title" content="RP Photonics Encyclopedia">
+<meta name="citation_public_url" content="https://www.rp-photonics.com/distributed_feedback_lasers.html">
+<meta name="citation_publication_date" content="2005-01-10">
+<meta name="citation_doi" content="10.61835/gdn">
+<meta name="keywords" content="DFB laser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="distributed feedback lasers">
+<meta property="og:site_name" content="RP Photonics">
+<meta property="og:locale" content="en_US">
+<meta property="og:description" content="Distributed feedback lasers are diode or fiber lasers where the whole laser resonator consists of a periodic structure, in which Bragg reflection occurs.">
+<meta property="og:url" content="https://www.rp-photonics.com/distributed_feedback_lasers.html">
+<meta property="og:image" content="https://www.rp-photonics.com/previews/distributed_feedback_lasers.png">
+<meta property="og:image:type" content="image/png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Distributed feedback lasers are diode or fiber lasers where the whole laser resonator consists of a periodic structure, in which Bragg reflection occurs.">
+<meta name="twitter:title" content="distributed feedback lasers">
+<meta name="twitter:image" content="https://www.rp-photonics.com/previews/distributed_feedback_lasers.png">
+<script src="/jquery-3.7.1.min.js?v1"></script>
+<script defer src="/jquery-ui-1.14.0.custom/jquery-ui.min.js"></script>
+<script defer src="/general.js?v405"></script>
+<script defer src="/articles.js?v292"></script>
+<script src="/purify-3.2.4.min.js?v2"></script>
+<script nonce="4NQsmpIUdPHBEMCsaHHwmA==">
+function formatTable(e){let t=e.getAttribute("data-s").split(",");if(!t)return;let l=t[0],r=parseInt(getComputedStyle(e.parentNode).width),n=1;for(;n<t.length&&r<t[n];)l=t[n+1],n+=2;let o=e.getElementsByTagName("tbody")[0],a=o.children.length,d=e.rows[0].cells.length,s=Math.ceil(a*d/l),g=o.getElementsByTagName("td").length;if(s===a)return;let h=0,i=0,m=0;for(let t=0;t<s;t++){let t=document.createElement("tr");for(let r=1;r<=l&&h<g;r++)h++,t.appendChild(e.rows[i].cells[0]),e.rows[i].cells.length||(i++,m=0);o.appendChild(t)}for(let t=0;t<a;t++)e.rows[0].remove()}
+let localserver=false;
+let page="distributed_feedback_lasers.html"; let pagecat="E"; let shownbanner=""; let referrer=""; shownsponsors = ""; internal_user = false;
+</script>
+<style type="text/css">
+@media (max-width: 1150px) {
+  #bannerbox.not(.tour) { display: none; }
+  div#main, nav#mainnav { margin-right: 4vw; }
+  #copyrightbox { margin-left: 40px; }
+}
+</style>
+</head>
+<body>
+<noscript>
+Note: Javascript is disabled in your browser. On this website, it is required for a lot of the functionality, e.g. for page navigation and equations.
+</noscript>
+<script nonce="4NQsmpIUdPHBEMCsaHHwmA==">let nonce = '4NQsmpIUdPHBEMCsaHHwmA=='; </script>
+<header><div id="logohead" style="background-image:url('/img/mesh1.webp');">
+<nav id="areas">
+<div class="areadiv">
+<table id="areatable" data-s="2,600,1">
+<tr><td>
+<div class="areadiv"><table class="areasubtable">
+<tr><td id="enc" class="selected"><a href="/encyclopedia.html" title="This is the famous encyclopedia with over 1000 high-quality articles. New: AI-based semantic search!">Encyclo&shy;pedia</a></td>
+<td id="bg"><a href="/buyersguide.html" title="Here you find the RP Photonics Buyer's Guide and Virtual Exhibition. Find suppliers for photonics products, or advertise your products. New: AI-based features for users and advertisers!">Buyer's Guide</a></td></tr>
+</table>
+</div>
+</td>
+<td>
+<div class="areadiv"><table class="areasubtable">
+<tr>
+<td id="software"><a href="/software.html" title="We offer high quality simulation &amp; design software, e.g. for laser design, fiber optics and thin-film optics. Boost the quality and efficiency of your development!">Software</a></td>
+<td id="consulting"><a href="/consulting.html" title="We offer technical consulting services, including tailored training courses!">Consulting</a></td>
+</tr>
+</table>
+</div>
+</td></tr></table>
+</div>
+</nav>
+<script nonce="4NQsmpIUdPHBEMCsaHHwmA==">formatTable(document.getElementById('areatable'));</script>
+<a href="/company.html"><picture><source srcset="/img/rp_photonics_logo.webp?p=distributed_feedback_lasers.html" type="image/webp"><img src="/img/rp_photonics_logo.png?p=distributed_feedback_lasers.html" width="248" height="41" alt="RP Photonics" id="rplogo" title="click to learn on the company RP Photonics"></picture></a>
+<p id="title"><span id="title2">Encyclopedia</span> <span id="slogan">&hellip; the photonics community’s trusted resource!</span></p>
+</div></header>
+<div id="sponsorsbox" class="hide-on-print"><div class="sponsor-inner"></div></div>
+<script nonce="4NQsmpIUdPHBEMCsaHHwmA==">
+const sponsors = [{"name":"DataRay","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/dataray.html\" title=\"Visit the profile of DataRay\"><picture><source srcset=\"/bg/logos/dataray.webp\"><img src=\"/bg/logos/dataray.png\" alt=\"DataRay\" class=\"supplierlogo\"></picture></a>"},{"name":"Diamond SA","level":2,"prob":0.060999999999999998667732370449812151491641998291015625,"imglink":"<a href=\"/bg/profiles/diamond_sa.html\" title=\"Visit the profile of Diamond SA\"><picture><source srcset=\"/bg/logos/diamond_sa.webp\"><img src=\"/bg/logos/diamond_sa.png\" alt=\"Diamond SA\" class=\"supplierlogo\"></picture></a>"},{"name":"DK Photonics","level":2,"prob":0.060999999999999998667732370449812151491641998291015625,"imglink":"<a href=\"/bg/profiles/dk_photonics.html\" title=\"Visit the profile of DK Photonics\"><picture><source srcset=\"/bg/logos/dk_photonics.webp\"><img src=\"/bg/logos/dk_photonics.png\" alt=\"DK Photonics\" class=\"supplierlogo\"></picture></a>"},{"name":"Gentec Electro-Optics","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/gentec_electro_optics.html\" title=\"Visit the profile of Gentec Electro-Optics\"><picture><source srcset=\"/bg/logos/gentec_electro_optics.webp\"><img src=\"/bg/logos/gentec_electro_optics.png\" alt=\"Gentec Electro-Optics\" class=\"supplierlogo\"></picture></a>"},{"name":"Knight Optical","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/knight_optical.html\" title=\"Visit the profile of Knight Optical\"><picture><source srcset=\"/bg/logos/knight_optical.webp?v2\"><img src=\"/bg/logos/knight_optical.png?v2\" alt=\"Knight Optical\" class=\"supplierlogo\"></picture></a>"},{"name":"Menlo Systems","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/menlo_systems.html\" title=\"Visit the profile of Menlo Systems\"><picture><source srcset=\"/bg/logos/menlo_systems.webp\"><img src=\"/bg/logos/menlo_systems.png\" alt=\"Menlo Systems\" class=\"supplierlogo\"></picture></a>"},{"name":"M-Labs","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/m_labs.html\" title=\"Visit the profile of M-Labs\"><picture><source srcset=\"/bg/logos/m_labs.webp?v2\"><img src=\"/bg/logos/m_labs.png?v2\" alt=\"M-Labs\" class=\"supplierlogo\"></picture></a>"},{"name":"PowerPhotonic","level":2,"prob":0.060999999999999998667732370449812151491641998291015625,"imglink":"<a href=\"/bg/profiles/powerphotonic.html\" title=\"Visit the profile of PowerPhotonic\"><picture><source srcset=\"/bg/logos/powerphotonic.webp?v3\"><img src=\"/bg/logos/powerphotonic.png?v3\" alt=\"PowerPhotonic\" class=\"supplierlogo\"></picture></a>"},{"name":"RPMC Lasers","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/rpmc_lasers.html\" title=\"Visit the profile of RPMC Lasers\"><picture><source srcset=\"/bg/logos/rpmc_lasers.webp?v4\"><img src=\"/bg/logos/rpmc_lasers.png?v4\" alt=\"RPMC Lasers\" class=\"supplierlogo\"></picture></a>"},{"name":"Schäfter + Kirchhoff","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/schaefter_kirchhoff.html\" title=\"Visit the profile of Schäfter + Kirchhoff\"><picture><source srcset=\"/bg/logos/schaefter_kirchhoff.webp\"><img src=\"/bg/logos/schaefter_kirchhoff.png\" alt=\"Schäfter + Kirchhoff\" class=\"supplierlogo\"></picture></a>"},{"name":"Sinoptix","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/sinoptix.html\" title=\"Visit the profile of Sinoptix\"><picture><source srcset=\"/bg/logos/sinoptix.webp\"><img src=\"/bg/logos/sinoptix.png\" alt=\"Sinoptix\" class=\"supplierlogo\"></picture></a>"},{"name":"SmarAct","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/smaract.html\" title=\"Visit the profile of SmarAct\"><picture><source srcset=\"/bg/logos/smaract.webp\"><img src=\"/bg/logos/smaract.png\" alt=\"SmarAct\" class=\"supplierlogo\"></picture></a>"},{"name":"Stuttgart Instruments","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/stuttgart_instruments.html\" title=\"Visit the profile of Stuttgart Instruments\"><picture><source srcset=\"/bg/logos/stuttgart_instruments.webp?v4\"><img src=\"/bg/logos/stuttgart_instruments.png?v4\" alt=\"Stuttgart Instruments\" class=\"supplierlogo\"></picture></a>"},{"name":"TOPTICA Photonics","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/toptica_photonics.html\" title=\"Visit the profile of TOPTICA Photonics\"><picture><source srcset=\"/bg/logos/toptica_photonics.webp?v2\"><img src=\"/bg/logos/toptica_photonics.png?v2\" alt=\"TOPTICA Photonics\" class=\"supplierlogo\"></picture></a>"},{"name":"Vescent","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/vescent.html\" title=\"Visit the profile of Vescent\"><picture><source srcset=\"/bg/logos/vescent.webp?v3\"><img src=\"/bg/logos/vescent.png?v3\" alt=\"Vescent\" class=\"supplierlogo\"></picture></a>"}];
+</script>
+<div id="main"><main><article>
+<nav id="breadcrumbs"><img src="img/compass.svg" width="40" height="40" id="navigator" title="Search or browse articles" alt="navigation"><span><a href="company.html">RP Photonics</a> › <a href="encyclopedia.html">Encyclopedia</a> › <span aria-current="page">Distributed feedback lasers</span></span><div id="hamburger"><img src="/img/hamburger.svg" alt="menu"></div></nav>
+<noscript>Enable Javascript in your browser to get the page navigation fully working!</noscript>
+<h1>Distributed Feedback Lasers</h1>
+<p>Author: the photonics expert <a href="paschotta.html" rel="author">Dr. Rüdiger Paschotta</a> (RP)</p>
+<aside class="floatbox">
+<aside class="bg_vendorbox tight">
+<h2 class="bg_bgheading"><a href="bg/buy_distributed_feedback_lasers.html?s=vbox">50 suppliers for distributed feedback lasers</a></h2>
+<p>are found in the RP Photonics Buyer's Guide.
+ Among them:</p>
+<aside class="bg_vendoritem center"><a href="https://www.exail.com/photonics-space/low-linewidth-single-frequency-dfb-laser/" data-supplier="Exail" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/exail.webp"><img src="/bg/logos/exail.png" alt="Exail – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.csrayzer.com/DFB-Pulsed-laser-diode-module.html" data-supplier="CSRayzer Optical Technology" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/csrayzer_optical_technology.webp?v2"><img src="/bg/logos/csrayzer_optical_technology.png?v2" alt="CSRayzer Optical Technology – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.innolume.com/innoproducts/dfb-dbr-lasers/" data-supplier="Innolume" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/innolume.webp"><img src="/bg/logos/innolume.png" alt="Innolume – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.nktphotonics.com/products/single-frequency-fiber-lasers/" data-supplier="NKT Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/nkt_photonics.webp?v2"><img src="/bg/logos/nkt_photonics.png?v2" alt="NKT Photonics – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.alpeslasers.ch/room-temperature-continuous-wave-single-mode-laser/" data-supplier="Alpes Lasers" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/alpes_lasers.webp"><img src="/bg/logos/alpes_lasers.png" alt="Alpes Lasers – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=16787&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/thorlabs.webp"><img src="/bg/logos/thorlabs.png" alt="Thorlabs – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.toptica-eagleyard.com/product-family-single-frequency-laser-diodes/?_product-family=single-frequency-laser-diode" data-supplier="eagleyard Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/eagleyard_photonics.webp?v3"><img src="/bg/logos/eagleyard_photonics.png?v3" alt="eagleyard Photonics – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.alphalas.com/products/lasers/distributed-feedback-lasers.html" data-supplier="ALPHALAS" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/alphalas.webp?v3"><img src="/bg/logos/alphalas.png?v3" alt="ALPHALAS – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.toptica.com/products/tunable-diode-lasers/ecdl-dfb-lasers/dfb-pro" data-supplier="TOPTICA Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/toptica_photonics.webp?v2"><img src="/bg/logos/toptica_photonics.png?v2" alt="TOPTICA Photonics – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.aerodiode.com/product/1064-nm-laser-diode/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/aerodiode.webp"><img src="/bg/logos/aerodiode.png" alt="AeroDIODE – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.sacher-laser.com/home/laser-diodes/distributed_feedback_laser/dfb/single_mode.html" data-supplier="Sacher Lasertechnik" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/sacher_lasertechnik.webp"><img src="/bg/logos/sacher_lasertechnik.png" alt="Sacher Lasertechnik – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://eblanaphotonics.com/technology/" data-supplier="Eblana Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/eblana_photonics.webp?v2"><img src="/bg/logos/eblana_photonics.png?v2" alt="Eblana Photonics – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<aside class="bg_vendoritem center"><a href="https://www.rpmclasers.com/types/distributed-feedback-dfb-lasers/" data-supplier="RPMC Lasers" data-location="product-enc" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/rpmc_lasers.webp?v4"><img src="/bg/logos/rpmc_lasers.png?v4" alt="RPMC Lasers – supplier of distributed feedback lasers" class="supplierlogo"></picture></a></aside>
+<p>Find more supplier details at the <a href="#supplier_section">end of this Encyclopedia article</a>, or go to our</p>
+<div class="button action" style="display:block; margin-left:10px; width:250px; font-size:110%;"><a href="bg/buy_distributed_feedback_lasers.html?s=vbox">List of suppliers of<br>distributed feedback lasers</a></div>
+<p style="font-size:75%;">You are a not yet listed supplier?<br><a href="bg_free_listing.html">Start with a free entry!</a></p>
+<p style="font-size:75%;">Using our <a href="bg_ad_package.html">Advertising Package</a>, you can display your logo, further below your product description, and these will been seen by many photonics professionals.</p>
+</aside>
+<script nonce="4NQsmpIUdPHBEMCsaHHwmA==">advertisers = 'AEROD,ALPLAS,ALPHL,CSRAY,EAGY,EBLANA,EXAIL,INNLUM,NKTPH,RPMC,SACHL,THOLAB,TOPPH';</script><aside class="bg_promotionbox">
+<h2 class="bg_bgheading">Related Application Note from <a href="/bg/profiles/innolume.html">Innolume</a>:</h2>
+<a href="https://www.innolume.com/application-note/" data-supplier="Innolume" data-location="promotion" data-keyword="distributed feedback lasers" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/promotions/innolume/preview_distributed_feedback_lasers.webp"><img src="/bg/promotions/innolume/preview_distributed_feedback_lasers.jpg" alt="promotion of Innolume" width="300" height="170" class="promopreview center"></picture></a>
+</aside>
+<aside class="advicebox"><p>Ask <a href="company.html">RP Photonics</a> for advice concerning different kinds of single-frequency lasers.</p></aside>
+</aside>
+<div id="articletext" class="mr">
+<header class="articleheader" data-lim="Article header">
+<p><span class="part">Acronym:</span> DFB lasers</p>
+<p><a href="glossary.html" title="go to the glossary">Definition</a>: lasers where the whole laser resonator consists of a periodic structure, in which Bragg reflection occurs</p>
+<p id="categories"><a href="encyclopedia.html" title="Articles grouped by categories">Categories</a>: <a href="encyclopedia.html#optical_resonators"><picture><source srcset="img/cat_resonators_tr.webp"><img src="img/cat_resonators_tr.png?v2" width="103" height="81" alt="article belongs to category optical resonators">
+</picture>optical resonators</a>, <a href="encyclopedia.html#optoelectronics"><picture><source srcset="img/cat_optoelectronics_tr.webp"><img src="img/cat_optoelectronics_tr.png?v2" width="73" height="83" alt="article belongs to category optoelectronics">
+</picture>optoelectronics</a>, <a href="encyclopedia.html#laser_devices_and_laser_physics"><picture><source srcset="img/cat_lasers_tr.webp"><img src="img/cat_lasers_tr.png?v2" width="123" height="78" alt="article belongs to category laser devices and laser physics">
+</picture>laser devices and laser physics</a></p>
+<section class="mini-trees" aria-label="Concept trees">
+<section class="concept-tree"><ul class="tree" role="tree"><li role="treeitem"><span class="node"><a href="light_sources.html">light sources</a></span><ul role="group"><li role="treeitem"><span class="node"><a href="lasers.html">lasers</a></span><ul role="group"><li role="treeitem"><span class="node"><a href="solid_state_lasers.html">solid-state lasers</a></span></li><li role="treeitem"><span class="node"><a href="diode_pumped_lasers.html">diode-pumped lasers</a></span></li><li role="treeitem"><span class="node"><a href="lamp_pumped_lasers.html">lamp-pumped lasers</a></span></li><li role="treeitem" aria-current="page"><span class="node current">distributed feedback lasers</span></li><li role="treeitem" style="display:none"><span class="node"><a href="dye_lasers.html">dye lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="gas_lasers.html">gas lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="free_electron_lasers.html">free-electron lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="radiation_balanced_lasers.html">radiation-balanced lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="cryogenic_lasers.html">cryogenic lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="visible_lasers.html">visible lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="eye_safe_lasers.html">eye-safe lasers</a></span></li><li role="treeitem" style="display:none"><span class="node">infrared lasers</span></li><li role="treeitem" style="display:none"><span class="node"><a href="ultraviolet_lasers.html">ultraviolet lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="x_ray_lasers.html">X-ray lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="upconversion_lasers.html">upconversion lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="raman_lasers.html">Raman lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="high_power_lasers.html">high-power lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="multi_line_lasers.html">multi-line lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="narrow_linewidth_lasers.html">narrow-linewidth lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="tunable_lasers.html">tunable lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="pulsed_lasers.html">pulsed lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="ring_lasers.html">ring lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="seed_lasers.html">seed lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="ultrafast_lasers.html">ultrafast lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="industrial_lasers.html">industrial lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="scientific_lasers.html">scientific lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="alignment_lasers.html">alignment lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="medical_lasers.html">medical lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="space_qualified_lasers.html">space-qualified lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="miniature_lasers.html">miniature lasers</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="oem_laser_modules.html">OEM laser modules</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="lasers_for_material_processing.html">lasers for material processing</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="lasers_for_quantum_photonics.html">lasers for quantum photonics</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="lasers_for_raman_spectroscopy.html">lasers for Raman spectroscopy</a></span></li><li role="treeitem"><span class="node"><a class="more">(more topics)</a></span></li></ul></li></ul></li></ul></section>
+</section>
+<p><span class="part">Related: <span style="margin-left:10px;font-size:0.7rem"><span class="node"><a href="single_frequency_operation.html">single-frequency operation</a></span><span class="node"><a href="single_frequency_lasers.html">single-frequency lasers</a></span><span class="node"><a href="distributed_bragg_reflector_lasers.html">distributed Bragg reflector lasers</a></span><span class="node"><a href="fiber_bragg_gratings.html">fiber Bragg gratings</a></span><span class="node"><a href="fiber_lasers.html">fiber lasers</a></span><span class="node"><a href="semiconductor_lasers.html">semiconductor lasers</a></span></span></span></p>
+<p>Page views in 12 months: 4213
+</p>
+<p><a href="doi_links.html">DOI</a>: <a href="https://doi.org/10.61835/gdn" title="This link will reload the current page.">10.61835/gdn</a>&nbsp;&nbsp; <a href="encyclopedia_cite.html?article=distributed%20feedback%20lasers&doi=10.61835/gdn" rel="nofollow">Cite the article</a>: <a href="cite_bibtex.php?v3&a=distributed_feedback_lasers.html" rel="nofollow" data-filename="distributed_feedback_lasers.bib" class="encbox-button">BibTex</a> <a href="cite_biblatex.php?v3&a=distributed_feedback_lasers.html" rel="nofollow" data-filename="distributed_feedback_lasers.bib" class="encbox-button">BibLaTex</a> <a href="cite_plain_text.php?v2&a=distributed_feedback_lasers.html" rel="nofollow" data-filename="distributed_feedback_lasers.txt" class="encbox-button">plain text</a><a href="cite_html.php?v2&a=distributed_feedback_lasers.html" rel="nofollow" data-filename="distributed_feedback_lasers.txt" class="encbox-button">HTML</a>&nbsp;&nbsp; <a href="encyclopedia_link.html" class="encbox-button orange">Link to this page!</a>&nbsp;&nbsp; <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.rp-photonics.com%2Fdistributed_feedback_lasers.html" class="encbox-button linkedin">LinkedIn</a></p>
+<p>Content quality and neutrality are maintained according to our <a href="encyclopedia_policy.html">editorial policy</a>.</p></header>
+<div id="citation_dialog" style="display:none">
+<pre id="citationCode"></pre>
+<button id="copyButton">Copy to Clipboard</button>
+<button id="downloadButton">Download file</button>
+</div>
+<header class="bg_hint">📦 For purchasing, <a href="/bg/buy_distributed_feedback_lasers.html">use the RP Photonics Buyer's Guide for distributed feedback lasers</a>. It provides an expert-curated supplier directory, buyer-focused technical background information, and structured selection criteria to support professional procurement decisions.</header>
+<nav aria-label="Table of Contents" class="hide-on-print">
+<details>
+<summary>
+<h2 id="toc">Contents</h2>
+</summary>
+<div id="toclist">
+<p class="h2"><a href="#What-are-Distributed-Feedback-Lasers">What are Distributed Feedback Lasers?</a></p>
+<p class="h2"><a href="#Types-of-DFB-Lasers">Types of DFB Lasers</a></p>
+<p class="h3"><a href="#Fiber-Lasers">Fiber Lasers</a></p>
+<p class="h3"><a href="#Diode-Lasers">Diode Lasers</a></p>
+<p class="h3"><a href="#Quantum-Cascade-DFB-Lasers">Quantum Cascade DFB Lasers</a></p>
+<p class="h2"><a href="#Sensitivity-to-Feedback">Sensitivity to Feedback</a></p>
+<p class="h2"><a href="#Frequently-Asked-Questions">Frequently Asked Questions</a></p>
+<p class="h3"><a href="#faq_Q1">What is a distributed feedback (DFB) laser?</a></p>
+<p class="h3"><a href="#faq_Q2">Why do DFB lasers operate on a single frequency?</a></p>
+<p class="h3"><a href="#faq_Q3">What are the common types of DFB lasers?</a></p>
+<p class="h3"><a href="#faq_Q4">What limits the performance of DFB fiber lasers?</a></p>
+<p class="h3"><a href="#faq_Q5">How are DFB diode lasers constructed?</a></p>
+</div></details>
+</nav>
+<details open="open">
+<summary>
+<h2 id="What-are-Distributed-Feedback-Lasers">What are Distributed Feedback Lasers?</h2>
+</summary>
+<p>A distributed-feedback laser (DFB laser) is a <a href="lasers.html">laser</a> where the whole <a href="laser_resonators.html">resonator</a> consists of a periodic structure in the <a href="laser_gain_media.html">laser gain medium</a>, which acts as a distributed <a href="bragg_mirrors.html">Bragg reflector</a> in the wavelength range of laser action. Typically, the periodic structure is made with a <a href="optical_phase.html">phase</a> shift in its middle. Essentially, one has a direct concatenation of two Bragg gratings with optical <a href="gain.html">gain</a> within the gratings. The device has multiple axial <a href="resonator_modes.html">resonator modes</a>, but there is typically one mode which is favored in terms of losses. (This property is related to the above-mentioned phase shift.) Therefore, <a href="single_frequency_operation.html">single-frequency operation</a> is often easily achieved, despite <a href="spatial_hole_burning.html">spatial hole burning</a> due to the standing-wave pattern in the gain medium. Due to the large <a href="free_spectral_range.html">free spectral range</a>, <a href="wavelength_tuning.html">wavelength tuning</a> without <a href="mode_hopping.html">mode hops</a> may be possible over a range of several nanometers. However, the tuning range may not be as large as for a <a href="distributed_bragg_reflector_lasers.html">distributed Bragg reflector laser</a>.</p>
+<figure class="right" style="max-width:313px;">
+<picture><source srcset="img/dfb_fiber_laser.webp"><img src="img/dfb_fiber_laser.png" width="313" height="41" alt="DFB fiber laser">
+</picture>
+<figcaption><span class="start">Figure&nbsp;1:</span> DFB fiber laser, containing a fiber Bragg grating with a phase change in the middle, directly written into a rare-earth-doped fiber.</figcaption>
+</figure>
+<p>DFB lasers should not be confused with <a href="distributed_bragg_reflector_lasers.html">DBR lasers</a> = distributed Bragg reflector lasers.</p>
+</details>
+<details open="open">
+<summary>
+<h2 id="Types-of-DFB-Lasers">Types of DFB Lasers</h2>
+</summary>
+<p>Most distributed-feedback lasers are either <a href="fiber_lasers.html">fiber lasers</a> or <a href="semiconductor_lasers.html">semiconductor lasers</a>, operating on a single <a href="resonator_modes.html">resonator mode</a> (&rarr; <em><a href="single_frequency_operation.html">single-frequency operation</a></em>).</p>
+<details open="open">
+<summary>
+<h3 id="Fiber-Lasers">Fiber Lasers</h3>
+</summary>
+<p>In the case of a fiber laser, the distributed reflection occurs in a <a href="fiber_bragg_gratings.html">fiber Bragg grating</a>, typically with a length of a few millimeters or centimeters. Efficient <a href="pump_absorption.html">pump absorption</a> can be achieved only with a high <a href="doping_concentration.html">doping concentration</a> of the fiber, and unfortunately it is often not easy to write high contrast Bragg gratings into fibers with a composition (e.g. <a href="phosphate_glasses.html">phosphate glass</a>) which allows for a high doping concentration. Therefore, the output power is usually fairly limited (e.g. to a few tens of milliwatts), and the power conversion efficiency is small. However, this kind of single-frequency fiber laser is very simple and compact. Its compactness and robustness also leads to a low <a href="intensity_noise.html">intensity</a> and <a href="phase_noise.html">phase noise</a> level, i.e., also a low <a href="linewidth.html">linewidth</a>, although the fundamental linewidth limit (the <a href="schawlow_townes_linewidth.html">Schawlow–Townes linewidth</a>) is higher than for longer fiber lasers.</p>
+</details>
+<details open="open">
+<summary>
+<h3 id="Diode-Lasers">Diode Lasers</h3>
+</summary>
+<figure class="right" style="max-width:400px;">
+<picture><source srcset="img/3rd/butterfly_laser_aerodiode.webp"><img src="img/3rd/butterfly_laser_aerodiode.jpg" width="400" height="315" alt="laser with butterfly package">
+</picture>
+<figcaption><span class="start">Figure&nbsp;2:</span> A distributed feedback laser in a butterfly package. Image courtesy: <a href="https://www.aerodiode.com/" target="_blank" rel="nofollow noopener">Aerodiode</a></figcaption>
+</figure>
+<p>Semiconductor DFB lasers can be built with an integrated grating structure, e.g. a corrugated <a href="waveguides.html">waveguide</a>. The grating structure may be produced on top of the active region, which however requires time-consuming regrowth techniques. An alternative is to make laterally coupled structures, where the gratings are on both sides of the active region. Semiconductor DFB lasers are available for emission in different spectral regions at least in the range from 0.8&nbsp;&mu;m to 2.8&nbsp;&mu;m.</p>
+<p>Typical output powers are some tens of milliwatts. The linewidth is typically between a few MHz (telecom DFB lasers) and 100&nbsp;MHz (unoptimized low-cost devices); high-quality low-noise DFB lasers can go substantially below 1&nbsp;MHz. Wavelength tuning is often possible over several nanometers. Temperature-stabilized devices, as used e.g. in <a href="wavelength_division_multiplexing.html">DWDM systems</a>, can exhibit a high wavelength stability.</p>
+</details>
+<details open="open">
+<summary>
+<h3 id="Quantum-Cascade-DFB-Lasers">Quantum Cascade DFB Lasers</h3>
+</summary>
+<p>While traditional semiconductor DFB lasers cover the near-infrared range (e.g., 0.8&nbsp;&mu;m to 2.8&nbsp;&mu;m), distributed feedback structures are also commonly applied to <a href="quantum_cascade_lasers.html">quantum cascade lasers</a> (QCLs) to achieve single-frequency emission in the mid-infrared spectral region (e.g., 4&nbsp;&mu;m to 10&nbsp;&mu;m and beyond). These devices are particularly important for sensitive gas sensing applications (trace gas analysis) where strong fundamental absorption lines of molecules exist.</p>
+</details>
+</details>
+<details open="open">
+<summary>
+<h2 id="Sensitivity-to-Feedback">Sensitivity to Feedback</h2>
+</summary>
+<p>DFB lasers are generally quite sensitive to optical feedback (back-reflections from fibers or other components). Such feedback can disturb the <a href="single_frequency_operation.html">single-frequency operation</a>, increase the <a href="linewidth.html">linewidth</a>, or cause instability (&ldquo;<a href="coherence.html">coherence</a> collapse&rdquo;). Therefore, they are very often operated with an <a href="optical_isolators.html">optical isolator</a>, which may be integrated directly into the laser <a href="photonic_packaging.html">package</a> (e.g., in a butterfly package).</p>
+</details>
+<details open>
+<summary>
+<h2 id="Frequently-Asked-Questions">Frequently Asked Questions</h2>
+</summary>
+<div>
+<p class="AI_disclosure">This FAQ section was generated with AI based on the article content and has been reviewed by the article’s author (<a href="/paschotta.html">RP</a>).</p>
+<details>
+<summary>
+<h3 id="faq_Q1" class="faq">What is a distributed feedback (DFB) laser?</h3>
+</summary>
+<div><p id="faq_A1">A DFB laser is a type of laser where the optical feedback is provided by a periodic structure, such as a Bragg grating, that is integrated along the entire length of the laser gain medium. This structure acts as a distributed reflector.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q2" class="faq">Why do DFB lasers operate on a single frequency?</h3>
+</summary>
+<div><p id="faq_A2">The integrated periodic structure, often designed with a central phase shift, acts as a highly effective wavelength filter. It creates a resonator that strongly favors one specific axial mode in terms of optical losses, thus ensuring stable single-frequency operation.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q3" class="faq">What are the common types of DFB lasers?</h3>
+</summary>
+<div><p id="faq_A3">The most common types are semiconductor DFB lasers (diode lasers) and DFB fiber lasers. Both use an integrated Bragg grating for feedback, but they are based on different gain media and fabrication techniques.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q4" class="faq">What limits the performance of DFB fiber lasers?</h3>
+</summary>
+<div><p id="faq_A4">DFB fiber lasers have a short gain medium, which requires a high doping concentration for efficient pump absorption. However, the optical fibers that allow for high doping are often not ideal for writing the high-quality Bragg gratings needed, which limits output power and efficiency.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q5" class="faq">How are DFB diode lasers constructed?</h3>
+</summary>
+<div><p id="faq_A5">They are built with an integrated grating structure, often a corrugated waveguide. This grating can be fabricated on top of the active region, which requires complex regrowth techniques, or as laterally coupled structures on the sides of the active region.</p></div></details>
+</div></details>
+<a name="supplier_section"></a>
+<div class="bg_vendorbox2">
+<details open><summary>
+<h2 style="display:inline-block" id="Suppliers">Suppliers</h2>
+</summary>
+<p><a href="encyclopedia_policy.html">Sponsored content</a>: The <a href="buyersguide.html"><b>RP Photonics Buyer's Guide</b></a> contains <a href="bg/buy_distributed_feedback_lasers.html?s=vbox">50 suppliers for distributed feedback lasers</a>. Among them:</p>
+<div class="supplier_in_enc"><a href="/bg/profiles/alphalas.html"><picture><source srcset="/bg/logos/alphalas.webp?v3"><img loading="lazy" src="/bg/logos/alphalas.png?v3" alt="ALPHALAS, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.alphalas.com/products/lasers/distributed-feedback-lasers.html" data-supplier="ALPHALAS" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of ALPHALAS" target="_blank"><picture><source srcset="/bg/products/alphalas/distributed_feedback_lasers.webp"><img loading="lazy" src="/bg/products/alphalas/distributed_feedback_lasers.jpg" alt="distributed feedback lasers from ALPHALAS" width="250" height="167" class="product"></picture></a></div></div>
+<p>Narrow-band <a href="https://www.alphalas.com/products/lasers/distributed-feedback-lasers.html" data-supplier="ALPHALAS" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">distributed feedback diode lasers</a> with free-space beam or fiber coupling at numerous wavelengths: 1030&nbsp;nm, 1047&nbsp;nm, 1053&nbsp;nm and 1064&nbsp;nm are available from stock. In order to match the gain maximum of popular amplifying media as seed lasers, temperature tuning and wavelength selection are offered for the above standard laser wavelengths.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/exail.html"><picture><source srcset="/bg/logos/exail.webp"><img loading="lazy" src="/bg/logos/exail.png" alt="Exail, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.exail.com/photonics-space/low-linewidth-single-frequency-dfb-laser/" data-supplier="Exail" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of Exail" target="_blank"><picture><source srcset="/bg/products/exail/ffb_lasers.webp"><img loading="lazy" src="/bg/products/exail/ffb_lasers.jpg" alt="distributed feedback lasers from Exail" width="300" height="153" class="product"></picture></a></div></div>
+<p>Exail’s <a href="https://www.exail.com/photonics-space/low-linewidth-single-frequency-dfb-laser/" data-supplier="Exail" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">single-frequency fiber lasers</a> are based on UV Bragg grating technology applied to active rare-earth photosensitive fibers. The ultra-short cavity and the phase-shifted design permit ultra-narrow linewidth and robust mode-hop-free laser operation, ideal for various sensor applications (1.5&nbsp;and 2&nbsp;µm available upon request).</p>
+<p>Benefits and features:</p>
+<ul>
+<li>wavelength range 1530 — 1565&nbsp;nm and 2&nbsp;µm</li>
+<li>output power: &gt; 10&nbsp;mW (&gt; 10&nbsp;µW for low noise version)</li>
+<li>single longitudinal mode</li>
+<li>narrow linewidth, low phase noise, mode-hop-free</li>
+<li>linear polarization, PM available</li>
+<li>low optical feedback sensitivity</li>
+</ul>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/eblana_photonics.html"><picture><source srcset="/bg/logos/eblana_photonics.webp?v2"><img loading="lazy" src="/bg/logos/eblana_photonics.png?v2" alt="Eblana Photonics, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://eblanaphotonics.com/technology/" data-supplier="Eblana Photonics" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of Eblana Photonics" target="_blank"><picture><source srcset="/bg/products/eblana_photonics/dfb_lasers.webp"><img loading="lazy" src="/bg/products/eblana_photonics/dfb_lasers.jpg" alt="distributed feedback lasers from Eblana Photonics" width="500" height="261" class="product"></picture></a></div></div>
+<p>Eblana Photonics core product offerings are based on our patented <a href="https://eblanaphotonics.com/technology/" data-supplier="Eblana Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">Discrete-Mode manufacturing technology</a>, which delivers industry leading performance with fully scalable, consistent production and integration capability. Eblana’s Discrete-Mode laser diodes are <a href="https://eblanaphotonics.com/applications/" data-supplier="Eblana Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">used</a> extensively for trace gas sensing, fibre sensing and LIDAR applications and environmental monitoring in the near- and mid-IR (650&nbsp;nm – 12&nbsp;μm).</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/csrayzer_optical_technology.html"><picture><source srcset="/bg/logos/csrayzer_optical_technology.webp?v2"><img loading="lazy" src="/bg/logos/csrayzer_optical_technology.png?v2" alt="CSRayzer Optical Technology, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div>
+<p>CSRayzer <a href="https://www.csrayzer.com/DFB-Pulsed-laser-diode-module.html" data-supplier="CSRayzer Optical Technology" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">DFB butterfly package laser modules</a> are widely used for fiber-optic sensing, laser radar, optical communication, and scientific research.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/eagleyard_photonics.html"><picture><source srcset="/bg/logos/eagleyard_photonics.webp?v3"><img loading="lazy" src="/bg/logos/eagleyard_photonics.png?v3" alt="eagleyard Photonics, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.toptica-eagleyard.com/product-family-single-frequency-laser-diodes/?_product-family=single-frequency-laser-diode" data-supplier="eagleyard Photonics" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of eagleyard Photonics" target="_blank"><picture><source srcset="/bg/products/eagleyard_photonics/distributed_bragg_reflector_lasers.webp?v2"><img loading="lazy" src="/bg/products/eagleyard_photonics/distributed_bragg_reflector_lasers.jpg?v2" alt="distributed feedback lasers from eagleyard Photonics" width="400" height="306" class="product"></picture></a></div></div>
+<p>TOPTICA EAGLEYARD offers different kinds of laser types as <a href="https://www.toptica-eagleyard.com/product-family-single-frequency-laser-diodes/?_product-family=single-frequency-laser-diode" data-supplier="eagleyard Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">single frequency laser diodes</a>. The portfolio comprises a variety of laser and package designs from TO-package to hermetically sealed butterfly packages suitable for industrial applications. Benefit from space-qualifiable laser diodes and those that are space-qualified or have space heritage. We offer Distributed Feedback lasers (DFB lasers), Distributed Bragg Reflector lasers (DBR lasers), Rich Waveguide Stabilized lasers (RWS), miniECLs and uMOPA.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/aerodiode.html"><picture><source srcset="/bg/logos/aerodiode.webp"><img loading="lazy" src="/bg/logos/aerodiode.png" alt="AeroDIODE, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.aerodiode.com/product/1064-nm-laser-diode/" data-supplier="AeroDIODE" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of AeroDIODE" target="_blank"><picture><source srcset="/bg/products/aerodiode/distributed_feedback_lasers.webp"><img loading="lazy" src="/bg/products/aerodiode/distributed_feedback_lasers.jpg" alt="distributed feedback lasers from AeroDIODE" width="400" height="315" class="product"></picture></a></div></div>
+<p>SHIPS TODAY: Fiber-coupled DFB laser diodes (<a href="https://www.aerodiode.com/product/1030-nm-laser-diode/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">1030&nbsp;nm</a> DFB, <a href="https://www.aerodiode.com/product/1064-nm-laser-diode/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">1064&nbsp;nm</a>, <a href="https://www.aerodiode.com/product/1310-nm-laser-diode/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">1310&nbsp;nm</a>, <a href="https://www.aerodiode.com/product/1550-nm-laser-diode-dfb-pulsed/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">1550&nbsp;nm</a> or any wavelength between 1250&nbsp;nm and 1650&nbsp;nm) are offered as stock items or associated with a <a href="https://www.aerodiode.com/product/laser-diode-driver/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">CW</a> or <a href="https://www.aerodiode.com/product/pulsed-laser-diode-driver-tec-control/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">pulsed laser diode driver</a>. They are compatible with our <a href="https://www.aerodiode.com/product/high-speed-laser-diode-driver/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">high speed nanosecond pulsed drivers</a> or <a href="https://www.aerodiode.com/product/low-noise-laser-diode-driver/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">low noise laser diode driver</a> for ultra-narrow linewidth single frequency emission. The single-mode laser diode can reach high powers up to 500&nbsp;mW in the nanosecond pulse regime. Most turn-key diode &amp; driver solutions are optimized for single-shot to CW performances with pulse durations down to 1&nbsp;ns. The laser diode precision pulses are generated internally by an on-board pulse generator, or on demand from an external TTL signal.</p>
+<p>See also our tutorial on <a href="https://www.aerodiode.com/fiber-coupled-laser-diode-basics/" data-supplier="AeroDIODE" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">fiber-coupled laser diodes</a>.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/sacher_lasertechnik.html"><picture><source srcset="/bg/logos/sacher_lasertechnik.webp"><img loading="lazy" src="/bg/logos/sacher_lasertechnik.png" alt="Sacher Lasertechnik, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.sacher-laser.com/home/laser-diodes/distributed_feedback_laser/dfb/single_mode.html" data-supplier="Sacher Lasertechnik" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of Sacher Lasertechnik" target="_blank"><picture><source srcset="/bg/products/sacher_lasertechnik/laser_diodes.webp"><img loading="lazy" src="/bg/products/sacher_lasertechnik/laser_diodes.jpg" alt="distributed feedback lasers from Sacher Lasertechnik" width="150" height="150" class="product"></picture></a></div></div>
+<p>Sacher Lasertechnik offers single-mode narrow-linewidth <a href="https://www.sacher-laser.com/home/laser-diodes/distributed_feedback_laser.html" data-supplier="Sacher Lasertechnik" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">distributed feedback lasers</a> emitting between 760&nbsp;nm and 2800&nbsp;nm. Free space and fiber pigtailed versions available.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/rpmc_lasers.html"><picture><source srcset="/bg/logos/rpmc_lasers.webp?v4"><img loading="lazy" src="/bg/logos/rpmc_lasers.png?v4" alt="RPMC Lasers, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.rpmclasers.com/types/distributed-feedback-dfb-lasers/" data-supplier="RPMC Lasers" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of RPMC Lasers" target="_blank"><picture><source srcset="/bg/products/rpmc_lasers/distributed_feedback_lasers.webp?v3"><img loading="lazy" src="/bg/products/rpmc_lasers/distributed_feedback_lasers.jpg?v3" alt="distributed feedback lasers from RPMC Lasers" width="400" height="264" class="product"></picture></a></div></div>
+<p>Serving North America, RPMC Lasers offers a broad selection of <a href="https://www.rpmclasers.com/types/distributed-feedback-dfb-lasers/" data-supplier="RPMC Lasers" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">distributed feedback lasers</a> in NIR, SWIR, and LWIR wavelengths from approximately 750&nbsp;nm to 16&nbsp;µm, eliminating wavelength drift and providing exceptionally high spectral purity with multiple output powers available for most wavelengths.</p>
+<p>Our innovative DFB technology delivers narrow linewidth output with stable operation over a broad temperature range, low sensitivity to optical feedback, and high-quality, low-noise performance, enhanced by integrated TEC cooling for efficient thermal management and robust thermal and optical stability.</p>
+<p>Customizable, compact designs come in HHL, OEM, or turnkey packages, with lightweight, robust, hermetically sealed options and optional fiber coupling for long-term reliability and easy integration in sensing and telecom applications.</p>
+<p>Let RPMC help you find the right laser today!</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/thorlabs.html"><picture><source srcset="/bg/logos/thorlabs.webp"><img loading="lazy" src="/bg/logos/thorlabs.png" alt="Thorlabs, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=16787&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of Thorlabs" target="_blank"><picture><source srcset="/bg/products/thorlabs/distributed_feedback_lasers.webp"><img loading="lazy" src="/bg/products/thorlabs/distributed_feedback_lasers.jpg" alt="distributed feedback lasers from Thorlabs" width="250" height="250" class="product"></picture></a></div></div>
+<p>Thorlabs’ <a href="https://www.thorlabs.com/navigation.cfm?guide_id=2455&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">single-frequency laser</a> portfolio includes a wide variety of distributed feedback (DFB) lasers. We design and manufacture <a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=16787&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">low-noise DFB laser systems</a> in a turnkey platform with a center wavelength of 1310&nbsp;nm or 1550&nbsp;nm. Individual <a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=15266&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">DFB laser diodes in butterfly packing</a> are available from stock with center wavelengths of 1320&nbsp;nm, 1550&nbsp;nm, 1642&nbsp;nm, 1646&nbsp;nm, 1650&nbsp;nm, or 1654&nbsp;nm. We also manufacture DFB quantum cascade lasers (QCLs) in either <a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9101&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">D-Mount</a>, <a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=1858&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">Two-Tab C-Mount</a>, or thermally cooled <a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10151&utm_source=rp&utm_medium=buyers&utm_campaign=dfb_lasers" data-supplier="Thorlabs" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">Horizontal Heat Load</a> packages; with output at key wavelengths in the mid-infrared, these lasers are a popular choice for gas and chemical sensing applications.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/nkt_photonics.html"><picture><source srcset="/bg/logos/nkt_photonics.webp?v2"><img loading="lazy" src="/bg/logos/nkt_photonics.png?v2" alt="NKT Photonics, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.nktphotonics.com/products/single-frequency-fiber-lasers/" data-supplier="NKT Photonics" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of NKT Photonics" target="_blank"><picture><source srcset="/bg/products/nkt_photonics/single_frequency_lasers.webp"><img loading="lazy" src="/bg/products/nkt_photonics/single_frequency_lasers.jpg" alt="distributed feedback lasers from NKT Photonics" width="351" height="188" class="product"></picture></a></div></div>
+<p><a href="https://www.nktphotonics.com/products/single-frequency-fiber-lasers/" data-supplier="NKT Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">Koheras single-frequency fiber lasers</a> are longitudinally single-mode and feature extremely low phase and intensity noise levels. These lasers are available in erbium or ytterbium wavelength ranges and can be frequency-converted to various other bands. The all-fiber DFB design ensures robust and reliable operation for thousands of hours, prioritizing reliability. Koheras lasers are highly stable and mode-hop-free, even under changing environmental conditions. We also offer shot-noise-limited lasers for applications requiring exceptionally low-intensity noise.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/innolume.html"><picture><source srcset="/bg/logos/innolume.webp"><img loading="lazy" src="/bg/logos/innolume.png" alt="Innolume, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.innolume.com/innoproducts/dfb-dbr-lasers/" data-supplier="Innolume" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of Innolume" target="_blank"><picture><source srcset="/bg/products/innolume/distributed_feedback_lasers.webp"><img loading="lazy" src="/bg/products/innolume/distributed_feedback_lasers.jpg" alt="distributed feedback lasers from Innolume" width="400" height="254" class="product"></picture></a></div></div>
+<p>Innolume offers a wide range of <a href="https://www.innolume.com/innoproducts/dfb-dbr-lasers/" data-supplier="Innolume" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">Distributed Feedback (DFB) laser diodes</a> with emission from 780&nbsp;nm to 1330&nbsp;nm. DFB lasers can be selected from the <a href="https://www.innolume.com/innoproducts/dfb-dbr-lasers/" data-supplier="Innolume" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">portfolio</a> with a tolerance of ±1&nbsp;nm and following assembly options:</p>
+<ul>
+<li>PM or HI fiber</li>
+<li>900&nbsp;μm loose tube</li>
+<li>built-in optical isolator</li>
+<li>external fiber isolator</li>
+<li>different connectors (FC/APC, SC/APC, APC ferrule, etc.)</li>
+</ul>
+<p>Peak wavelength fine-tuning is possible within 0.1&nbsp;nm precision through continuous adjustment of chip temperature and current.</p>
+<p>See also our application note titled "<a href="https://www.innolume.com/application-note/">Guidelines for QD-DFB Laser Coupling in Optical Subassemblies</a>".</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/toptica_photonics.html"><picture><source srcset="/bg/logos/toptica_photonics.webp?v2"><img loading="lazy" src="/bg/logos/toptica_photonics.png?v2" alt="TOPTICA Photonics, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.toptica.com/products/tunable-diode-lasers/ecdl-dfb-lasers/dfb-pro" data-supplier="TOPTICA Photonics" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of TOPTICA Photonics" target="_blank"><picture><source srcset="/bg/products/toptica_photonics/distributed_feedback_lasers.webp?v2"><img loading="lazy" src="/bg/products/toptica_photonics/distributed_feedback_lasers.jpg?v2" alt="distributed feedback lasers from TOPTICA Photonics" width="622" height="350" class="product"></picture></a></div></div>
+<p>TOPTICA’s <a href="https://www.toptica.com/products/tunable-diode-lasers/ecdl-dfb-lasers/dfb-pro" data-supplier="TOPTICA Photonics" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">DLC DFB pro lasers</a> integrate both distributed-feedback (DFB) and distributed Bragg reflector (DBR) lasers. Available wavelengths include 633&nbsp;nm and the entire range from 760&nbsp;nm to 3500&nbsp;nm. Three laser heads accommodate different diode packages. Due to the absence of alignment-sensitive components, the DLC DFB pro lasers exhibit an exceptional stability and reliability.</p>
+</div>
+<div class="supplier_in_enc"><a href="/bg/profiles/alpes_lasers.html"><picture><source srcset="/bg/logos/alpes_lasers.webp"><img loading="lazy" src="/bg/logos/alpes_lasers.png" alt="Alpes Lasers, supplier of distributed feedback lasers" class="supplierlogo"></picture></a><div class="ot"><span class="ot H">&#x2699; hardware</span></div><div class="media"><div class="media-item"><a href="https://www.alpeslasers.ch/room-temperature-continuous-wave-single-mode-laser/" data-supplier="Alpes Lasers" data-location="profile" data-keyword="distributed feedback lasers" rel="sponsored noopener" class="bg externallink" title="Visit the website of Alpes Lasers" target="_blank"><picture><source srcset="/bg/products/alpes_lasers/dfb_lasers.webp"><img loading="lazy" src="/bg/products/alpes_lasers/dfb_lasers.jpg" alt="distributed feedback lasers from Alpes Lasers" width="500" height="363" class="product"></picture></a></div></div>
+<p>Alpes Lasers offers <a href="https://www.alpeslasers.ch/room-temperature-continuous-wave-single-mode-laser/" data-supplier="Alpes Lasers" data-location="product-enc" data-keyword="distributed feedback lasers" class="externallink bg" rel="sponsored">single-mode, tunable DFB lasers</a> with wavelengths from 4&nbsp;to 14&nbsp;μm and powers up to hundreds of milliwatts. These lasers are able to emit a single wavelength at a time. They can be tuned within a range that can reach up to 10&nbsp;cm<sup>−1</sup>; there exists a variety of modulation schemes which can be used for different purposes.</p>
+</div>
+</details>
+</div>
+<h2 class="biblio">Bibliography</h2>
+<table class="reftable"><tbody>
+<tr><td id="ref1">[1]</td><td>H. Kogelnik and C. V. Shank, &ldquo;Stimulated emission in a periodic structure&rdquo;, Appl. Phys. Lett. 18, 152 (1971); <a href="https://doi.org/10.1063/1.1653605" target="_blank" rel="noopener">doi:10.1063/1.1653605</a></td></tr>
+<tr><td id="ref2">[2]</td><td>H. Kogelnik and C. V. Shank, &ldquo;Coupled-wave theory of distributed feedback lasers&rdquo;, J. Appl. Phys.43 (5), 2327 (1972); <a href="https://doi.org/10.1063/1.1661499" target="_blank" rel="noopener">doi:10.1063/1.1661499</a></td></tr>
+<tr><td id="ref3">[3]</td><td>A. Yariv, &ldquo;Coupled-mode theory for guided-wave optics&rdquo;, IEEE J. Quantum Electron. 9 (9), 919 (1973); <a href="https://doi.org/10.1109/JQE.1973.1077767" target="_blank" rel="noopener">doi:10.1109/JQE.1973.1077767</a></td></tr>
+<tr><td id="ref4">[4]</td><td>H. W. Yen et al., &ldquo;Optically pumped GaAs waveguide lasers with a fundamental 0.11&nbsp;&mu; corrugated feedback&rdquo;, Opt. Commun. 9, 35 (1973); <a href="https://doi.org/10.1016/0030-4018(73)90330-1" target="_blank" rel="noopener">doi:10.1016/0030-4018(73)90330-1</a></td></tr>
+<tr><td id="ref5">[5]</td><td>K. H. Ylä-Jarkko and A. B. Grudinin, &ldquo;Performance limitations of high-power DFB fiber lasers&rdquo;, IEEE Photon. Technol. Lett. 15 (2), 191 (2003); <a href="https://doi.org/10.1109/LPT.2002.806827" target="_blank" rel="noopener">doi:10.1109/LPT.2002.806827</a></td></tr>
+<tr><td id="ref6">[6]</td><td>B. K. Das et al., &ldquo;Distributed feedback-distributed Bragg reflector (DFB-DBR) coupled cavity laser with Ti:(Fe:)Er:LiNbO<sub>3</sub> waveguide&rdquo;, Opt. Lett. 29 (2), 165 (2004); <a href="https://doi.org/10.1364/OL.29.000165" target="_blank" rel="noopener">doi:10.1364/OL.29.000165</a></td></tr>
+<tr><td id="ref7">[7]</td><td>K. Sato, &ldquo;Chirp characteristics of 40-Gb/s directly modulated distributed-feedback laser diodes&rdquo;, IEEE J. Lightwave Technol. 23 (11), 3790 (2005); <a href="https://doi.org/10.1109/JLT.2005.857753" target="_blank" rel="noopener">doi:10.1109/JLT.2005.857753</a></td></tr>
+<tr><td id="ref8">[8]</td><td>A. Schülzgen et al., &ldquo;Distributed feedback fiber laser pumped by multimode laser diodes&rdquo;, Opt. Lett. 33 (6), 614 (2008); <a href="https://doi.org/10.1364/OL.33.000614" target="_blank" rel="noopener">doi:10.1364/OL.33.000614</a></td></tr>
+<tr><td id="ref9">[9]</td><td>M. Pollnau and J. D. B. Bradley, &ldquo;Optically pumped rare-earth-doped Al<sub>2</sub>O<sub>3</sub> distributed-feedback lasers on silicon&rdquo;, Opt. Express 26 (18), 24164 (2018); <a href="https://doi.org/10.1364/OE.26.024164" target="_blank" rel="noopener">doi:10.1364/OE.26.024164</a></td></tr>
+</tbody></table>
+<p><a href="encyclopedia_literature.html" style="font-size:80%;">(Suggest additional literature!)</a></p>
+<div id="cited_by_dialog" style="display:none"></div>
+<h2 class="questions">Questions and Comments from Users</h2>
+<div>
+<div class="hide-on-print">
+<div>
+<p style="font-size:85%;">Here you can submit <a href="/questions.html">questions and comments</a>. As far as they get accepted by the author, they will appear above this paragraph together with the author&rsquo;s answer. The <a href="paschotta.html">author</a> will decide on acceptance based on certain <a href="questions.html">criteria</a>. Essentially, the issue must be of sufficiently broad interest.</p>
+<p style="font-size:85%;">Please do not enter personal data here. (See also our <a href="privacy.html">privacy declaration</a>.) If you wish to receive personal feedback or <a href="consulting.html">consultancy</a> from the author, please contact him, e.g. via <a href="contact.html">e-mail</a>.</p>
+</div>
+<form name="enter_questions" action="submit_questions.html" method="post" title="Input of question or comment">
+<p style="margin-bottom:3px;">
+<label>
+Your question or comment:
+<textarea name="question" rows="5" style="width:98%;"></textarea>
+</label>
+</p>
+<p style="margin-bottom:3px;">Spam check:</p>
+<p><label><input type="text" name="spamprotection" size="5"> &nbsp; (Please enter the sum of thirteen and three in the form of digits!)</label><input type="hidden" name="page" value="distributed_feedback_lasers.html"></p>
+<div style="margin-top:0.5em;"><input type="submit" name="form_submitted" value="Submit" style="font-size:100%;"></div>
+</form>
+<p style="margin-top:10px; font-size:85%;">By submitting the information, you give your consent to the potential publication of your inputs on our website according to our <a href="questions.html">rules</a>. (If you later retract your consent, we will delete those inputs.) As your inputs are first reviewed by the author, they may be published with some delay.</p>
+</div>
+</div>
+</div></article>
+<!--googleoff: index-->
+<aside id="bannerbox"><div class="bannercontent">
+<h2>Video on the Software RP Fiber Power</h2>
+<p>Our nice video explains in detail how <a href="/software_simulation.html?banner=RP_Fiber_Power_video_2024">computer simulations</a> greatly support research and development.</p>
+<a href="/rp_fiber_power.html?banner=RP_Fiber_Power_video_2024"><picture><source srcset="/img/fiberpower_video.webp"><img loading="lazy" src="/img/fiberpower_video.jpg" width="234" height="132" alt="RP Fiber Power video" style="margin:10px 0;"></picture></a>
+<p>Some key points:</p>
+<ul>
+<li>Breakthrough in usability: the great <a href="/rp_fiber_power_power_forms.html?banner=RP_Fiber_Power_video_2024">Power Forms</a> cover most cases.</li>
+<li>They combine great flexibility with easy use.</li>
+</ul>
+<div class="button action" style="width:200px; margin-top:10px;"><a href="/rp_fiber_power.html?banner=RP_Fiber_Power_video_2024">Learn more on<br>RP Fiber Power!</a></div>
+</div>
+</aside>
+<script type="text/javascript" nonce="4NQsmpIUdPHBEMCsaHHwmA==">shownbanner = "RP Fiber Power video 2024";</script><!--googleon: index--></main></div>
+<footer>
+<div id="cols">
+<div>
+<p><a href="/company.html"><b>Company</b></a></p>
+<ul>
+<li><a href="/company.html">About</a></li>
+<li><a href="/paschotta.html">Managing director</a></li>
+<li><a href="/privacy.html">Data privacy</a></li>
+<li><a href="/contact.html">Contact and legal info</a></li>
+</ul>
+</div>
+<div>
+<p><a href="/encyclopedia.html" style="color:#B20B28"><b>Encyclopedia</b></a></p>
+<ul>
+<li><a href="/encyclopedia_about.html">About</a></li>
+<li><a href="/spotlight.html">Photonics Spotlight</a></li>
+<li><a href="/quiz.html">Photonics Quiz</a></li>
+<li><a href="/encyclopedia_sponsoring.html">Sponsoring</a></li>
+<li><a href="/marketing.html">Marketing</a></li>
+</ul>
+</div>
+<div>
+<p><b>LinkedIn</b></p>
+<ul>
+<li><a href="https://www.linkedin.com/company/rp-photonics" target="_blank" rel="noopener">RP Photonics on LinkedIn</a></li>
+<li><a href="https://www.linkedin.com/in/rpaschotta/" target="_blank" rel="noopener">RP on LinkedIn</a></li>
+</ul>
+</div>
+</div>
+<div id="right">
+<div class="button action tour">
+<a href="encyclopedia.html?tour=Encyclopedia" title="After clicking this, find the tour navigation on the right side."><img src="/img/tour_bus.png" alt="&nbsp;"></a>
+<a href="encyclopedia.html?tour=Encyclopedia" title="After clicking this, find the tour navigation on the right side.">Explore this resource with our tour!</a>
+</div>
+<p>&copy; RP Photonics AG. All rights reserved.<br>Please respect our <a href="/terms_of_use.html">terms of use</a>.</p>
+</div>
+</footer>
+<script type="application/ld+json" nonce="4NQsmpIUdPHBEMCsaHHwmA==">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.rp-photonics.com/#website","url":"https://www.rp-photonics.com/","name":"RP Photonics"},{"@type":"WebPage","@id":"https://www.rp-photonics.com/distributed_feedback_lasers.html","url":"https://www.rp-photonics.com/distributed_feedback_lasers.html","name":"Distributed Feedback Lasers","description":"An authoritative and educational overview of distributed feedback lasers, clearly explained by photonics expert Dr. Paschotta in the RP Photonics Encyclopedia.","inLanguage":"en","isAccessibleForFree":true,"audience":{"@type":"PeopleAudience","audienceType":"Scientists and industry professionals in photonics","description":"Researchers, development engineers, application engineers and technical leads working with photonics, optics and laser technology."},"datePublished":"2005-01-10T08:53:39Z","dateModified":"2025-12-30T14:43:31Z","primaryImageOfPage":{"@type":"ImageObject","url":"https://www.rp-photonics.com/img/dfb_fiber_laser.png","width":313,"height":41},"isPartOf":{"@id":"https://www.rp-photonics.com/#website"},"license":"https://www.rp-photonics.com/terms_of_use.html","usageInfo":"https://www.rp-photonics.com/terms_of_use_ai.html","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"RP Photonics","item":"https://www.rp-photonics.com/"},{"@type":"ListItem","position":2,"name":"Encyclopedia","item":"https://www.rp-photonics.com/encyclopedia.html"},{"@type":"ListItem","position":3,"name":"Distributed feedback lasers","item":"https://www.rp-photonics.com/distributed_feedback_lasers.html"}]},"mainEntity":{"@id":"https://www.rp-photonics.com/distributed_feedback_lasers.html#main_page_content"}},{"@type":"Organization","@id":"https://www.rp-photonics.com/company.html#start","name":"RP Photonics AG","url":"https://www.rp-photonics.com/company.html","logo":{"@type":"ImageObject","url":"https://www.rp-photonics.com/img/rp_photonics_logo.png","width":885,"height":146},"description":"RP Photonics is a leading source of trusted and helpful photonics expertise. Its highly popular website offers a huge range of in-depth encyclopedia articles, other high quality scholarly articles, and a curated supplier directory with a purchasing advisor for laser and optics professionals. The core offers of RP Photonics are technical/scientific consultancy, advanced simulation software in photonics, and digital product marketing on its website.","areaServed":["Worldwide"],"founder":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"foundingDate":"2004","employee":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"sameAs":["https://www.linkedin.com/company/rp-photonics"]},{"@type":"Person","@id":"https://www.rp-photonics.com/paschotta.html#start","name":"Dr. Rüdiger Paschotta","affiliation":{"@id":"https://www.rp-photonics.com/company.html#start"},"jobTitle":"Founder and Managing Director","description":"Dr. Paschotta is a renowned expert in photonics, author of numerous scientific publications including the RP Photonics Encyclopedia, founder of RP Photonics, and widely trusted by the photonics community. He is known as highly competent in areas like laser physics and technology, fiber optics, nonlinear optics and physical simulation, apart from being an industry expert and thought leader.","url":"https://www.rp-photonics.com/paschotta.html","sameAs":["https://scholar.google.com/citations?user=WF6Z2DoAAAAJ","https://www.linkedin.com/in/rpaschotta/","https://www.researchgate.net/profile/Ruediger-Paschotta"],"image":{"@type":"ImageObject","url":"https://www.rp-photonics.com/img/paschotta12.jpg","width":130,"height":186}},{"@type":"CreativeWorkSeries","@id":"https://www.rp-photonics.com/encyclopedia.html#start","name":"RP Photonics Encyclopedia","headline":"The RP Photonics Encyclopedia","description":"The RP Photonics Encyclopedia is a comprehensive, scientifically robust open access educational reference source in the fields of optics and photonics, trusted by photonics experts worldwide for its reliable knowledge. Its articles are clearly written and well understandable, providing accessible introductions to many areas of photonics.","genre":["Educational","Scientific reference","Photonics encyclopedia"],"author":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"publisher":{"@id":"https://www.rp-photonics.com/company.html#start"},"url":"https://www.rp-photonics.com/encyclopedia.html","mainEntityOfPage":{"@id":"https://www.rp-photonics.com/encyclopedia.html"},"audience":{"@type":"PeopleAudience","audienceType":"Scientists and industry professionals in photonics","description":"Researchers, development engineers, application engineers and technical leads working with photonics, optics and laser technology."},"isAccessibleForFree":true,"inLanguage":"en","accessMode":["textual"],"about":["photonics","technology","science","optoelectronics","physics","optics","fiber optics","nonlinear optics","instrumentation","lasers","light sources","optical amplifiers","photonics components","light","light pulses","material processing","communications","spectroscopy","quantum optics","quantum photonics","photovoltaics","noise"]},{"@type":["Article","TechArticle","FAQpage"],"@id":"https://www.rp-photonics.com/distributed_feedback_lasers.html#main_page_content","name":"Distributed Feedback Lasers","headline":"Distributed Feedback Lasers","description":"Distributed feedback lasers are diode or fiber lasers where the whole laser resonator consists of a periodic structure, in which Bragg reflection occurs.","inLanguage":"en","isPartOf":{"@id":"https://www.rp-photonics.com/encyclopedia.html#start"},"image":{"@type":"ImageObject","url":"https://www.rp-photonics.com/img/dfb_fiber_laser.png","width":313,"height":41},"datePublished":"2005-01-10T08:53:39Z","dateModified":"2025-12-30T14:43:31Z","author":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"publisher":{"@id":"https://www.rp-photonics.com/company.html#start"},"mainEntityOfPage":{"@id":"https://www.rp-photonics.com/distributed_feedback_lasers.html"},"audience":{"@type":"PeopleAudience","audienceType":"Scientists and industry professionals in photonics","description":"Researchers, development engineers, application engineers and technical leads working with photonics, optics and laser technology."},"accessMode":["textual"],"license":"https://www.rp-photonics.com/terms_of_use.html","usageInfo":"https://www.rp-photonics.com/terms_of_use_ai.html","isAccessibleForFree":true,"articleSection":["Optical resonators","Optoelectronics","Laser devices and laser physics","RP Photonics Encyclopedia"],"keywords":["DFB laser"],"about":{"@type":"Thing","name":"Distributed Feedback Lasers","sameAs":["https://www.wikidata.org/entity/Q285877","https://en.wikipedia.org/wiki/Distributed-feedback_laser"]},"mainEntity":[{"@type":"Question","name":"What is a distributed feedback (DFB) laser?","acceptedAnswer":{"@type":"Answer","text":"A DFB laser is a type of laser where the optical feedback is provided by a periodic structure, such as a Bragg grating, that is integrated along the entire length of the laser gain medium. This structure acts as a distributed reflector."}},{"@type":"Question","name":"Why do DFB lasers operate on a single frequency?","acceptedAnswer":{"@type":"Answer","text":"The integrated periodic structure, often designed with a central phase shift, acts as a highly effective wavelength filter. It creates a resonator that strongly favors one specific axial mode in terms of optical losses, thus ensuring stable single-frequency operation."}},{"@type":"Question","name":"What are the common types of DFB lasers?","acceptedAnswer":{"@type":"Answer","text":"The most common types are semiconductor DFB lasers (diode lasers) and DFB fiber lasers. Both use an integrated Bragg grating for feedback, but they are based on different gain media and fabrication techniques."}},{"@type":"Question","name":"What limits the performance of DFB fiber lasers?","acceptedAnswer":{"@type":"Answer","text":"DFB fiber lasers have a short gain medium, which requires a high doping concentration for efficient pump absorption. However, the optical fibers that allow for high doping are often not ideal for writing the high-quality Bragg gratings needed, which limits output power and efficiency."}},{"@type":"Question","name":"How are DFB diode lasers constructed?","acceptedAnswer":{"@type":"Answer","text":"They are built with an integrated grating structure, often a corrugated waveguide. This grating can be fabricated on top of the active region, which requires complex regrowth techniques, or as laterally coupled structures on the sides of the active region."}}]}]}
+</script>
+</body>
+</html>

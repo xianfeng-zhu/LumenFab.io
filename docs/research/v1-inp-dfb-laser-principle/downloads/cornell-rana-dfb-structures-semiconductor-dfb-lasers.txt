@@ -1,0 +1,793 @@
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+
+Chapter 13
+
+Distributed Feedback (DFB)
+Structures and Semiconductor DFB
+Lasers
+13.1 Distributed Feedback (DFB) Gratings in Waveguides
+13.1.1 Introduction:
+Periodic structures, like the DBR mirrors in VCSELs, can be also realized in a waveguide, as shown
+below in the case of a InGaAsP/InP waveguide.
+               InP
+                                                      a
+
+               InGaAsP waveguide
+
+
+   InGaAsP/InP grating region
+
+
+               InP
+
+         z=0                                                                                    z=L
+
+In the waveguide shown above, periodic grooves have been etched in the top surface of the InGaAsP
+waveguide before the growth of the top InP layer. Such periodic grating structures are examples of
+one dimensional photonic bandgap materials. The relative dielectric constant is a function of the z-
+coordinate and can be written as,
+         ( x, y , z )   avg ( x, y )   ( x, y , z )
+The average dielectric constant  avg ( x, y ) corresponds to the waveguide structure shown below in
+which the grating region has been replaced by a layer with a z-averaged dielectric constant.
+               InP
+
+
+               InGaAsP
+
+
+   InGaAsP/InP grating region replaced by a layer with a z-averaged dielectric
+   constant
+
+               InP
+
+         z=0                                                                                   z=L
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+The z-average of the part  ( x, y , z ) is therefore zero. If the period of the grating is a , then one may
+expend  ( x, y , z ) in terms of a Fourier series,
+          ( x, y , z )  f x, y   d p e ipGz
+                                   p 0
+where the reciprocal lattice vector (also called the grating vector) G equals 2 a . If  ( x, y , z ) is
+real then, d  p  d p* . f x, y  equals one in the grating region and equals zero everywhere else. In the
+above Fourier series for  ( x, y , z ) , usually the fundamental harmonic dominates and therefore we
+will assume that,
+                                    
+         ( x, y , z)  f x, y  d1e iGz  d 1e  iGz        
+A wave travelling in the waveguide with a wavevector  can Bragg scatter from the periodic grating
+provided the conditions for Bragg scattering are satisfied,
+          G   final
+              final 
+The only way these conditions can be satisfied in one dimension is when  final    , i.e. the wave is
+reflected in the opposite direction,
+           G  
+                   G
+          
+                   2
+                     
+         a
+                   2neff
+So a forward traveling wave will be Bragg reflected if its wavevetor is close to G 2   a . If we call
+this special wavevector  o then  o  G 2   a . We can write  ( x, y , z ) as,
+                                    
+          ( x, y , z )  f x, y  d1e i 2  o z  d 1e  i 2  o z   
+13.1.2 Wave propagation in a DFB Grating Waveguide – Coupled Mode Technique:
+One can analyze wave propagation in a DFB grating waveguide in two steps discussed below.
+
+Step 1:
+First consider the waveguide corresponding to  avg ( x, y ) shown in the Figure above and solve for
+the eigemodes and the propagation vectors (eigenvalues) for all frequencies of interest. The
+                               
+eignemodes, E x, y e iz and H x, y e iz satisfy Maxwell’s equations,
+                                 
+          E x, y e iz  io H x, y e iz
+                                                
+          H x, y e iz  i o  avg x, y E x, y e iz
+or,
+                                             
+         t  izˆ   E x, y   io H x, y 
+                                                     
+         t  izˆ   H x, y   io avg x, y E x, y 
+The above equations can be solved to give the mode effective index neff   . Given a grating
+structure, we can now find the frequency o that will Bragg scatter from the relation,
+                     o                           
+          o           neff o    o 
+                  c                   a
+If the wavevector  is very different from  o then the grating structure will likely not affect the
+solution much (there will be not much scattering). The interesting case is when    o . This case is
+discussed below.
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+
+
+Step 2:
+We treat the part  ( x, y , z ) as a perturbation. The perturbation will have the strongest affect when
+    o . For    o , we write the solution as,
+                                                         
+          E x, y , z   A z  E x, y e iz  A z  E * x, y e iz
+                                                          
+          H x, y, z   A z  H x, y e iz  A z  H * x, y e  iz
+Here, the functions A z  and A z  are assumed to be slowly varying in space. The form of the
+solution allows for coupling between the forward and backward going waves because of Bragg
+scattering from the grating. The technique described below is called coupled mode theory. Plugging
+the assumed form of the solution in Maxwell’s equations gives,
+
+                                        
+                                                                                                         
+  A z  E x, y e iz  A z  E * x, y e  iz  io A z  H x, y e iz  A z  H * x, y e  iz          
+                                        
+                                                                                             
+  A z  H x, y e iz  A z  H * x, y e  iz  i o  avg x, y   f x, y  d1e i 2  o z  d 1e  i 2  o z    
+                                                                                                           
+                                                                       A z  E x, y e iz  A z  E * x, y e  iz 
+Using the Maxwell’s equation satisfied by the eigenmode we get,
+              dA z                           dA z 
+zˆ  E x, y   e iz  zˆ  E * x, y   e  iz  0
+                  dz                                dz
+     
+zˆ  H x, y 
+               dA z  iz
+                  dz
+                                      *
+                        e  zˆ  H x, y 
+                                                 dA z   iz
+                                                     dz
+                                                           e                                                       
+                                                                     i o f x, y  d1e i 2  o z  d 1e  i 2  o z
+
+
+                                                          
+                                                                                                         
+                                                                                                                        
+                                                                      A z  E x, y e iz  A z  E * x, y e  iz
+We multiply the first equation above by H * x, y  and multiply the second equation above by
+ 
+E * x, y  and then subtract the two equations, and keep only the terms that are approximately phase
+matched to get on left and right hand sides to get,
+                                                                           *           *
+           dA z                i 2  o z              f x, y E x, y  . E x, y  dxdy
+                                                                                                                    A z 
+              dz
+                      i o d1e
+                                                                *              *            
+                                                                                                   
+                                                   E x, y   H x, y   E x, y   H x, y  . zˆ dxdy
+If instead of subtracting, we add the two equations then we obtain,
+                                                                                           
+           dA z                     i 2  o z                f x, y E x, y  . E x, y  dxdy
+                                                                                                                         A z 
+              dz
+                      i o d 1e
+                                                                     *             *            
+                                                                                                           
+                                                       E x, y   H x, y   E x, y   H x, y  . zˆ dxdy
+If (and only if)  ( x, y , z ) is real and d 1  d1* , then the above two equations can be written as,
+                    
+          d  A z                   0           i e  i 2   o z   A z 
+                                                                       
+         dz  A z    i * e i 2   o z
+                                                           0
+                                                                                   
+                                                                                   
+                                                                           A z 
+where the coupling constant  is,
+                                             *
+                            nng E x, y  . E x, y  dxdy
+                                M *                                                
+                                                               nng E x, y  . E x, y  dxdy
+                                                                   M *
+             o d1 Grating region
+        
+            2nngM
+                                         
+                        nng E x, y  . E x, y  dxdy
+                              M *
+                                                                   
+                                                                               
+                                                                               
+                                                             Re  E x, y   H * x, y  . zˆ dxdy   
+                    d1
+                            G
+                 2nngM v g
+Here, nngM is the product of the index and the (material) group index of the grating region, v g is the
+group velocity of the mode, and the overlap integral G is the usual mode confinement factor for the
+grating region provided the mode electric field is real (for example, the mode electric field will be real
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+if  avg ( x, y ) is real and the z-component of the field is negligible). The coupling constant couples the
+forward and the backward propagating waves. To solve the above set of equations, we assume,
+          B ( z )  A ( z )e i (    o )z
+          B ( z )  A ( z )e  i (    o )z
+B  (z ) and B (z ) satisfy,
+           d B (z ) i (    o )        i        B (z )
+                      
+           dz B (z )   i *       i (    o ) B (z )
+                       i      i  B (z )
+                                           
+                        i *  i  B (z )
+We have a 2x2 linear system of equations. The eigenvalues of the matrix on the right hand sided are
+ s where,
+                      2                                       2
+          s               2  iq             s            2  iq
+The corresponding eigenvectors are,
+                                       
+        s                      s            
+                      is              is 
+The most general form of the solution is,
+         B  ( z )           iqz               iqz                 iq  s 
+                    C1            e    C2          e                          
+        B  ( z )           is              is                    iq  s 
+The constants C1 are C 2 are determined by the boundary conditions. Note that in terms of B  (z )
+and B (z) the electric field can be written as,
+                                               
+        E( x, y , z)  E( x, y )B (z)e i o z  E * ( x, y )B (z)e i o z
+From the expression above, the effective propagation vector of, say the forward going wave, at
+frequency  is not    anymore but is k   where,
+
+          k     o  q     o   2               o 2   2
+                                                      2
+                                                           o 
+The difference between the modal dispersions    and k   is depicted in the Figure below.
+
+
+
+
+                            ()                                        ()
+                                             Bandgap g
+
+
+
+                                            (k)            (k)
+
+
+
+
+Note that a frequency gap (or a bandgap) opens in the dispersion relation of magnitude given by,
+        g  2v g 
+For values of frequency that fall in this bandgap, no real value of the propagation vector k  
+satisfies the dispersion relation given above.
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+13.1.3 DFB Waveguide Mirror (or a Distributed Bragg Reflector (DBR)):
+Consider a DFB structure as shown in the Figure below. We need to calculate the reflectivity of the
+mirror for a wave coming in inside the waveguide from the left side. The reflection and transmission
+coefficients are,
+             B 0                    B ( L ) i o L
+         r                    t            e
+             B  0                  B  (0 )
+The boundary conditions are, B  L   0 and B  0   0 .
+
+                  B+(0)                                           B+(L)
+
+
+
+                  B-(0)                                            B-(L)
+
+
+
+
+               z=0                                                    z=L
+We need to find the constants C1 are C 2 in,
+         B  ( z )           iqz                  iqz               iq  s 
+                     C1          e      C2             e                       
+           B
+           ( z )           is                 is                  iq  s 
+in order to satisfy the above boundary conditions. The final result is,
+                        sinh[ s( z  L )]  is cosh[ s( z  L )]
+         B (z)                                                     B  (0 )
+                              sinh( sL )  is cosh( sL )
+                           * sinh[ s( z  L )]
+         B (z)                                      B  (0 )
+                       sinh( sL )  is cosh( sL )
+The reflection coefficient is,
+              B (0 )              * sinh( sL )
+         r            
+              B  (0)  sinh( sL )  is cosh( sL )
+The transmission coefficient is,
+             B (L ) ioL                        is
+         t           e                                        e ioL
+             B  (0)             sinh(sL )  is cosh(sL )
+The magnitude of the reflection coefficient is maximum when the wavevector  of the incident wave
+is equal to  o and   0 ,
+                        *
+         r   0  i       tanh  L 
+                    
+         Rmax  tanh 2   L 
+The Figure below plots the reflectivity of a DBR mirror as a function of the wavelength (or
+wavevector) for different values of the coupling constant. Note that the reflection coefficient r goes
+to zero when,
+         sL  in               n  nonzero integer
+                          2       n 2 2
+          (  ) 2         
+                                      L2
+                                                 2
+                                  2        
+          (   o )2               n2 
+                                          L
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+
+
+The first zero in the reflection on either side of  o determines the bandwidth over which the DBR
+mirror is an effective reflector. This bandwidth  DBR is,
+                                 2                                                2
+                        2                                           2  
+         DBR  2                               DBR  2v g    
+                            L                                            L
+An infinitely long DFB structure is a one dimensional photonic bandgap material. The stopband or the
+bandgap g of this material is,
+          g   DBR L    2v g 
+In crystals, the bandgap in the electron energy spectrum comes about as a result of the Bragg
+scattering of electrons from the periodic atomic potential and the magnitude of the bandgap is
+proportional to the strength of the scattering potential. In DFB structures, the photonic bandgap also
+results from the Bragg scattering of electromagnetic waves from the periodic index of the medium,
+and the strength of the bandgap also depends on the strength of the index variations as captured by the
+coupling constant  .
+
+
+13.2 Distributed Feedback (DFB) Lasers (1D Photonic Crystal
+Lasers)
+13.2.1 Introduction:
+The structure of a DFB laser is shown in the Figures below. The laser cavity is not like any we have
+seen before. There is no distinction between the optical cavity and the mirrors. The DFB grating
+provides back reflection that keeps the photons from escaping from the two end facets. The facets are
+assumed to be perfectly AR coated and provide no reflection. The laser cavity “minors” are
+“distributed” along the entire length of the cavity. The techniques developed in the last section are
+adequate to analyze lasing in DFB lasers. Analyzing a laser involves at least: (i) finding the
+frequencies of the lasing modes, (ii) finding the threshold gain g~th and the photon lifetime of each
+mode, and (iii) finding the output coupling efficiency  o .
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+
+
+                                                                             A DFB Laser
+
+
+
+
+                   InP (p-doped)
+                                                        a
+
+
+                   InGaAsP SCH and QWs
+
+
+    InGaAsP/InP grating region
+
+
+                   InP (n-doped) substrate
+
+
+
+             z=0                                                                                   z=L
+
+13.2.2 DFB Laser Analysis:
+For the waveguide cavity shown above, photon lifetime is related to the threshold gain g~th by the
+familiar relation:
+                        1
+         a v g g~th 
+                       p
+Photon lifetime is related to the two different kinds of losses; mirror or external losses, and cavity
+internal losses,
+          1
+              v g (~m  ~)
+         p
+To analyze the DFB laser shown above, we first assume ~  0 (i.e. no material losses in any region)
+and calculate the threshold gain, g~ . From the previous Section, the electric field and the magnetic
+                                    th
+field are,
+                                                       
+        E x, y , z   A z  E x, y e iz  A z  E * x, y e iz
+                                                        
+        H x, y , z   A z  H x, y e iz  A z  H * x, y e  iz
+The propagation vector  now includes the modal gain,
+                                           g~
+           'i "  n eff  i a
+                         c                   2
+The solution obtained in the previous Section for the boundary conditions, B  L   0 and B  0   0 ,
+was,
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+                       sinh[ s( z  L )]  is cosh[ s( z  L )]
+            B (z)                                                B  (0 )
+                            sinh( sL )  is cosh( sL )
+                          * sinh[ s( z  L )]
+            B (z)                                B  (0 )
+                      sinh( sL )  is cosh( sL )
+Here,
+                                           g~
+                 o   'ia             o
+                                            2
+                      2
+            s             2 .
+Therefore,  is now complex. Recall from Chapter 12 that the condition for lasing is that light
+comes out of the device when no light goes into the device. This can happen if B  (L )  0 and
+B  (0 )  0 when both B  (0 )  0 and B  (L )  0 . Using the expressions given above, it is not
+difficult to see that lasing implies,
+           sinh(sL )  is cosh(sL )  0
+This a complex equation. The real and imaginary parts of the expression on the left hand side must
+separately equal zero. This gives us two equations. We have two unknowns; the threshold gain g~th
+and the frequency (or the value of  ' ) of the lasing mode. Solution of the above equation gives
+multiple pairs. A pair is a value for the lasing mode propagation vector  ' and a corresponding value
+for the threshold gain g~ . The solutions (  ' , g~ ) are shown in the Figure below as circles in a
+                                      th                    th
+(  '  o )  a g~th L plane for different values of the coupling constant  L (assuming ~  0 ).
+
+                                                     || L = 0.5, 1, 3, 5
+
+
+
+
+                           a ĝth L
+
+
+
+
+                                                          (’-o) L
+
+As is the case in all lasers, the modes with the lowest threshold gain lase, and the other modes do not
+lase. For any given value of  L , the two modes that have the lowest threshold gain are the ones
+whose  ' values are located closest to the (  '  o )L  0 axis. (i.e. those modes whose  ' values are
+closest to  o ). Also note that there are no lasing modes with frequencies (or  ' values) within the
+bandgap of the DFB structure. The two modes with the lowest threshold gain are symmetrically
+located on the edges of the photonic bandgap. Also note that the threshold gain goes down with the
+increase in the value of the coupling constant (i.e. with the increase in the grating strength).
+
+Once we have determined g~th , the photon lifetime  p and the mirror loss ~m can be found from the
+relation,
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+         1
+              v g ~m  a v g g~th
+        p
+Once ~m has been determined, we can introduce internal cavity loss in the following way. The
+complex propagation vector in the presence of loss is,
+                                   g~     ~
+           'i "  neff  i a  i
+                       c             2      2
+The photon lifetime with material loss is,
+         1
+             v g (~m  ~)
+       p
+And the threshold gain in the presence of material loss is then,
+                       1
+        a v g g~th      v g (~m  ~)
+                      p
+The output coupling efficiency  o is,
+               ~
+       o  ~ m ~
+                m
+From the analysis so far it seems that DFB lasers should have two modes lasing at the same time. In
+real DFB lasers, only one of these two modes ends up lasing. Effects such as structural imperfections,
+spatial hole burning, and imperfect and unequal AR coatings end up decreasing the threshold gain of
+one of these two modes compared to that of the other one.
+
+
+
+13.3 Quarter-Wave Shifted (QWS) Distributed Feedback (DFB)
+Lasers (1D Photonic Crystal Defect Lasers)
+13.3.1 Introduction:
+A QWS DFB laser is realized by shifting the grating on the left half of the device by one-quarter of a
+wavelength with respect to the grating on the right half of the device, as shown in the Figure below,
+thereby creating a “crystal defect”.
+      InGaAsP/InP grating region
+
+                   InP (p-doped)
+                                                        a             a              a/2
+
+                   InGaAsP SCH and QWs
+
+
+
+
+                   InP (n-doped) substrate
+
+
+             z=0                                       z=L                                   z=2L
+We know from solid state physics that crystal defects can have energies within the bandgap. The
+frequency of the lasing mode in a QWS DFB laser is also within the bandgap of the DFB structure
+and the intensity of the lasing mode is localized near the defect. One can also think of the QWS DFB
+laser as being similar to a VCSEL in which a half-wavelength long cavity is sandwiched between two
+DBR mirrors. A quarter-wave shifted (QWS) DFB laser has the advantage that it has a unique mode,
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+the defect mode, that has the lowest threshold gain compared to all the other modes, and this mode
+always ends up being the lasing mode. Therefore, the lasing frequency can be designed with high
+accuracy without being at the mercy of structural imperfections.
+
+13.3.2 QWS DFB Laser Analysis:
+One can obtain the threshold gain of the QWS DFB laser by the same method as used in the previous
+section for ordinary DFB lasers. Here, we will use a different technique. We assume that the laser
+facets have perfect AR coatings. If one stands right in the middle of the laser cavity at z  L and
+calculates the reflection coefficient rR looking towards the right half of the cavity the answer,
+obtained earlier, is,
+
+                         * sinh(sL )
+        rR 
+                  sinh(sL )  is cosh(sL )
+Similarly, the reflection coefficient looking towards the left will be exactly the same,
+                         * sinh(sL )
+          rL 
+                  sinh(sL )  is cosh(sL )
+Now imagine there is a cavity of zero length located right at z  L . The roundtrip condition for lasing
+for this cavity will be simply,
+          r L rR  1
+This gives,
+                                      2
+                  * sinh(sL )       
+           sinh(sL )  is cosh(sL )   1
+                                      
+                     * sinh(sL )
+                                         1 0
+              sinh(sL )  is cosh( sL )
+This is again a complex equation. Depending on the phase of the coupling constant, only one choice
+of the sign will give physically correct answers. The real and imaginary parts of the expression on the
+left hand side must separately be equal to zero. This gives us two equations. We have two unknowns;
+the threshold gain g~th and the frequency (or the value of  ' ) of the lasing mode. Solution of the
+above equation gives multiple pairs. A pair is a value for the lasing mode propagation vector  ' and a
+corresponding value for the threshold gain g~ . The results are depicted in the Figure below for two
+                                              th
+different values of the coupling constant (assuming ~  0 ).
+
+                                             || L = 0.5, 1
+
+
+
+
+                    a ĝth L
+
+
+
+
+                                                   (’-o) L
+
+Note that in addition to the usual modes that appear on either side of the bandgap, there is a single
+mode with frequency right in the middle of the bandgap. This is the mode localized at the defect and
+has a threshold gain much smaller than all the other modes and is therefore the only mode that lases.
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+Once we have found g~th , the photon lifetime  p and the mirror loss ~m can be found from the
+relation,
+            1
+                  v g ~m  a v g g~th
+            p
+And once ~m has been determined, we can introduce internal cavity loss in the same way as was
+done in the case of DFB lasers without a quarter–wave shift. QWS DFB lasers have become important
+in modern wave division multiplexed (WDM) fiber optic communication systems that use dense
+wavelength packing which requires very precise control on the wavelengths of the lasers.
+
+
+
+13.4 2D Photonic Crystal Defect Lasers
+13.4.1 Introduction:
+Two dimensional photonic crystal (2D PC) lasers have also been realized in the last decade. Although,
+2D PC lasers require numerical tools for their analysis, the basic principles are the same as in the case
+of the 1D PC lasers (DFB lasers). Some examples of 2D PC lasers with defects are shown in the
+Figures below. In two dimensions, one has more freedom to tailor defects which localize the lasing
+mode.
+
+
+
+
+      Two-Dimensional Photonic Bandgap Defect Mode Laser
+      Science, 11 June (1999).
+
+
+
+
+                                               Seeking the Ultimate Nanolaser
+                                               Science, 13 October (2006)
+
+
+
+
+                 Ultrafast Photonic Crystal Nanocavity Laser
+                 Nature Physics, July (2006)
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+
+
+DBR mirror:
+
+<insert figure>
+
+Suppose an incident wave is coming from the left side.  B  (0)  0 and B  (L )  0. These are the
+two boundary conditions needed to determine c 1 and c 2 in (2). The result is (note: iq  s ):
+             sinh[s ( z  L )]  is cosh[ s ( z  l )] 
+B  (z )                                                B (0 )
+                 sinh(SL )  is cosh(SL )
+               k * sinh[s ( z  L )]
+B  (z )                               B  (0 )
+            sinh(SL )  is cosh(SL )
+The minor reflection coefficient r is
+    B  (0 )         k * sinh s ( zL )
+r           
+    B (0)  sinh(SL )  is cosh(SL )
+      
+
+and the reflectivity R is | r |2 .
+      B  (L )e i0L
+t                 note the ei 0L factor – since the reflection + transmission coefficients are defined
+       B  (0)
+for the actual electric fields. The reflectivity R is maximum when      0  0 (i.e. when the
+input wave’s  corresponds to the Bragg vector  0 of the grating).
+R max  tanh 2 (| k | L )  R max increases with the value of the product | k | L . On the next page R
+is plotted as a function of L for different values of | k | L . Note that R goes to zero when
+                                                                         2
+                                 n 2 2                                 
+SL  in  (  ) 2  | k |2              (    0 ) 2 | k |2 n 2   , and the first null occurs when
+                                     L2                                L 
+                            2
+                      
+                       2
+(    0 )  | k |    Reflection bandwidth increases with | k | .
+                     L 
+
+<insert figure>
+
+DBR Lasers
+
+DBR lasers use DBR mirrors in a waveguide geometry, as shown below:
+
+<insert figure>
+
+The length of the active region is L (there are no quantum wells in the DBR mirrors). We shall
+assume that the grating is shallow and presents a small perturbation to the waveguide defined by
+ avg ( x , y ). The lasting condition is:
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+                1       1     
+xy g~th   i  ln           
+                L  R 1R 2 
+where  i  Cavity intrinsic loss V g  group velocity of mode in the optical cavity L  length of the
+cavity and the photon lifetime  p is:
+
+ 1                   Vg      1    
+      xy V g g~th    ln           V   V (   )
+                                        g i   g  i   m
+p                    L  R 1R 2 
+Note that the reflectivities R 1 and R 2 depend on the value of  (or frequency  since
+      
+        n eff ( ) ). Consequently, the threshold gain g~th will also depend on frequency  .
+     c
+Longitudinal modes of the cavity whose frequencies fall within the reflection bandwidth of the DBR
+mirrors see high reflectivity mirrors while those whose frequencies fall outside the reflection
+bandwidth of the mirrors see low reflectivity mirrors.
+The questions then are: what are the frequencies of the longitudinal modes? How many longitudinal
+modes are present within the reflection bandwidth of the minus? What is the frequency spacing of the
+longitudinal modes?
+Let the DBR mirror reflection coefficients be written as
+r1  R1e i1 r 2  R 2 e i2
+The roundtrip phase condition is then:
+2  L  1   2  2n {n  1, 2, 3 }
+But note that 1 and  2 depend on  for DBR mirrors, i.e.
+2  L  1(  )   2 (  )  2n
+So its not that trivial to use the above equation to determine the  values (or the frequencies) of the
+cavity longitudinal modes.
+But we know that for a DBR mirror that is AR coated on the other end the mirror reflection
+coefficient is:
+                k * sinh(SL2 )                             0
+r2                                          where 
+       sinh(SL2 )  is cosh(SL2 )                    S  | k |2  2
+Since r 2 has a small bandwidth and is significant for only those values of  that are close to  0 , we
+may expand the phase of r 2 , i.e.  2 , around  0 .
+                          2
+2 (  )  2 (  0 )         (  0 )
+                           
+                               0
+But
+                                S cosh(SL2 ) 
+ 2 (  )    k 2  tan 1                 
+                                 sinh(SL2 ) 
+where k | k | e ik 2 ,  k * | k | e ik 2 , and the grating phase k is some important constant phase.
+                           
+  2 (  0 )    k 1    k 1
+                          2 2
+ 2   tanh(| k | L2 )
+     
+        |K |
+          0
+Define an effective grating length Leff as:
+              1 2    tanh | k | L2
+Leff 2              
+              2        2|k |
+                     0
+The roundtrip phase condition becomes:
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+2L  1(  )   2 (  )  2n
+2L    (k1  k 2 )  2(    0 )Leff 1  2(    0 ))Leff 2  2n .
+The above equation can be solved for the allowed values of  (that are near  0 ).
+
+Mode Spacing & Mode Selection:
+
+The spacing   between the cavity modes follows from the above equation:
+  [2L  2Leff 1  2Leff 2 ]  2
+                
+ 
+     L  Leff 1  Leff 2
+From earlier analysis, the reflectivity bandwidths of the DBR mirrors are:
+                                           2                                            2
+                                                                
+  bandwidth ,2  2 | k |   ,   bandwidth ,1  2 | k |2  
+                            2
+                              L2                                 L1 
+There can be many longitudinal modes lasing at the same time if the cavity mode spacing   is much
+smaller than the DBR mirrors’ reflectivity bandwidths. Due can have only a single longitudinal mode
+lasing in the cavity if   is equal to a larger than the reflectivity bandwidths of the DBR mirrors. We
+
+                                                                                   
+have,
+                                                          , 
+                                               bandwidth ,2          bandwidth ,1
+                                          2            2
+                              2        2    
+   L  Leff 1  Leff 2  2 | k |   ,2 | k |   
+                                     L2          L1  
+                                                         
+ Multiple longitudinal mode lasing. And,
+                
+                                    ,
+                               bandwidth,2  bandwidth,1
+      L  Leff 1  Leff 2
+ Single longitudinal mode lasing.
+The spacing in frequency between the cavity longitudinal modes can be obtained as follows:
+               
+ 
+      L  Leff 1  Leff 2
+                  
+      
+          L  Leff 1  Leff 2
+                        
+   V g
+            L  Leff 1  Leff 2
+In the same way, the reflectivity band widths of the DBR mirrors in frequency are:
+                                                2
+                                 
+                                  2
+  bandwidth ,2  2V g | k |  
+                                 L2 
+                                                2
+                                       
+  bandwidth ,1  2V g | k |2          
+                                       L1 
+
+Single Mode Operation:
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+Longitudinal mode selection (for lasing) in single mode DBR lasers can be understood as follows:
+Suppose there are three longitudinal modes within the reflectivity bandwidth of the DBR mirrors (as
+shown on the next page).
+
+<insert figure>
+
+The longitudinal mode in the center sees the highest reflectivity from the DBR mirrors and so has the
+smallest value of the threshold gain g~th . The two modes on either side of the center mode see lower
+mirror reflectivities and, consequently, have higher threshold gains compared to the center mode.
+When the laser is electrically pumped and the gain g~ becomes equal to the threshold gain g~th of the
+center mode, the center mode starts lasing. When the center mode starts lasing, the carrier density in
+the gain region gets clamped to the value N th corresponding to the threshold gain g~th of the center
+mode. If the current is increased, further, the photon density in the center mode increases but the
+carrier density remains fixed at N th . The gain of the active region also, therefore, remains fixed at the
+threshold gain g~ of the center mode. The gain of the active religion, therefore, never becomes large
+                  th
+enough so that the side modes can also large. In short, the clamping of the carrier density (and gain) at
+the onset of the lasing of the center mode prevents the side modes (which have higher threshold gains)
+from lasing.
+

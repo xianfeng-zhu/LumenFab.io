@@ -1,0 +1,121 @@
+                                                                                                         Nanosystems and
+                                                                                                         Technologies
+                                                                                                         GmbH
+
+                                                                                                         nanoplus
+                   DFB Laser Concept
+TECHNICAL
+                   LD, ICL, QCL
+NOTES
+
+ESD Precautions    Distributed feedback lasers (DFB) provide longitudinal and transverse single-mode
+                   emission at a precise wavelength with a narrow linewidth. In comparison to distributed
+Thermal            Bragg reflectors or VCSELs, they guarantee high output power and large mode-hop-free
+Management
+                   tunability. Thus, DFB lasers perfectly meet the high standards of gas sensing applications
+                   based on tunable diode laser absorption spectroscopy (TDLAS).
+DFB Laser
+Concept            This technical note introduces the unique nanoplus DFB laser technology in Laser Diodes
+                   (LD), Interband Cascade Lasers (ICL) and Quantum Cascade Lasers (QCL).
+Tunable Diode
+Laser Absorption
+Spectroscopy
+                       Key features:
+Reliability
+                       _ 	MONOMODE
+                       _ 	CONTINUOUS WAVE
+                       _ 	ROOM TEMPERATURE
+                       _ 	MODE HOP FREE TUNING
+                                                                                                        DFB laser with spectrum
+
+                                                                     The nanoplus DFB laser concept (see schema-
+                                                                     tic) is based on an overgrowth-free etching
+                                                                     process.
+
+                                                                     In nanoplus DFB lasers, the complex coupling
+                                                                     is achieved by combining a ridge waveguide
+                                                                     structure with metal gratings on top of the
+                                                                     waveguide layer on both sides of the laser
+                                                                     ridge.
+                      Schematic of nanoplus DFB laser
+                                                                 This high-precision process is carried out using
+                       electron beam lithography and allows the emission wavelength of the resulting DFB laser to
+                       be defined down to the nanometer range. In this way, the lasers can be precisely specified
+                       for their spectroscopic task.
+
+
+                       Compared to other production
+                       technologies, the nanoplus            "High-precision single mode lasers
+                       concept eliminates high-grade          for ultra fine measurements.”
+                       orientation-independent growth
+                       or patterning-related defects
+                       near the active layer.
+
+                       This patented manufacturing system offers many further
+                       advantages. It can be transferred to any material system
+                       such as GaAs, InP and GaSb, ICL, QCL (wide wavelength
+                       range), is easily customizable (short time-to-market)
+                       and achieves high yields (cost-effective production of
+                       large quantities).
+
+                       nanoplus uses this technology to manufacture laser sources
+                       for gas sensor applications in the visible, near infrared (NIR)
+                       and mid infrared (MIR) wavelength ranges. The devices are
+                       available at any customized wavelength between 760 nm
+                       and 14000 nm.
+                                                                                                                    nanoplus laser in
+                                                                                                                    butterfly package with
+                                                                                                                    single mode fiber
+                     Distributed Feedback Lasers:
+                     760 nm - 14000 nm
+                     With its unique production technology nanoplus designs three types of laser structures
+                     covering the nearly visible, NIR and MIR wavelength regions:
+                     Bipolar Laser Diodes, Interband Cascade Lasers, Quantum Cascade Lasers.
+
+
+
+
+                                             Typical cw spectrum of a nanoplus DFB laser                                                      Typical mode-hop-free tuning of a nanoplus
+                                                         at room temperature                                                                     DFB laser by current and temperature
+
+
+                                   Bipolar Laser Diodes                                       Interband Cascade Lasers                                       Quantum Cascade Lasers
+                                    760 nm - 2900 nm                                             2800 nm - 6500 nm                                            6000 nm - 14000 nm
+
+                                                                                                                                                   Electrons and holes recombine optically
+                      At the p-n junction of a semiconductor                         At the W-shaped quantum well of
+                                                                                                                                                   within the conduction band of the
+                      diode, there is an optical interband                           the semiconductor material, an optical
+                                                                                                                                                   semiconductor material (intraband).
+                      recombination of electrons and holes.                          interband recombination of electrons
+                                                                                                                                                   The valence band is irrelevant for the
+                      This transition has a high energy gap.                         and holes occurs. The energy of this
+                                                                                                                                                   optical transition. The energy of this
+                      For this reason, we achieve a shorter                          transition is between that of an LD and
+                                                                                                                                                   transition is low. For this reason, we
+                      wavelength range with these devices.                           a QCL. For this reason, we achieve a
+                                                                                                                                                   achieve a wider wavelength range with
+                                                                                     medium wavelength range with these
+                                                                                                                                                   these devices.
+                                                                                     devices.
+
+
+
+
+ Rev.DFBConcept.01
+Rev.DFBConcept.01
+                                        Structure LD                                                 Structure ICL                                                  Structure QCL
+
+                     Please check our literature on our website: nanoplus.com/literature.
+
+
+                     Further technical notes
+                     ESD precautions: How to avoid ESD damage to your laser.
+                     Thermal management: How to maximize temperature stability to optimize laser performance.
+
+                     Technical notes: nanoplus.com/downloads
+                     Please contact sales@nanoplus.com for customized specifications, quotes and further questions.
+                     nanoplus Nanosystems and Technologies GmbH, www.nanoplus.com, phone: +49 (0) 3693 50 5000-0, email: sales@nanoplus.com                                nanoplus.com
+                     ©
+                       copyright nanoplus Nanosystems and Technologies GmbH 2023, all rights reserved. Technical data is subject to change without notice.
+

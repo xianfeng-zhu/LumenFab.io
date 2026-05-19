@@ -1,0 +1,345 @@
+                         6.772/SMA5111 - Compound Semiconductors
+                      Lecture 21 - Laser Diodes - 2 - Outline
+    • In-plane laser diodes, cont.                      (continuing from Lect. 20)
+            Cavity design (in-plane geometries)
+              Vertical structure: homojunction, double heterojunction, quantum
+                                  well, quantum cascade
+              Lateral definition: stripe contact, buried heterostructure, shallow rib
+              End-mirror design: cleaved facet, etched facet, DFB, DBR
+            Output beam shaping
+    • Vertical cavity, surface emitting lasers (VCSELs)�
+            Basic concept, design and fabrication issues�
+            Structures, technologies�
+    • In-plane surface emitting lasers�
+            Deflecting, etched mirrors�
+            Second order gratings; holographic elements�
+    • Modulating laser diodes�
+            Small signal modulatioin�
+            Step change response�
+
+
+C. G. Fonstad, 4/03                                                         Lecture 21 - Slide 1�
+     Laser diodes: vertical design evolution�
+
+   Double heterostructure:�
+   The first major advance in laser�
+    diode design was the double�
+    heterostructure geometry�
+    which confines the carriers�
+    and the light to the same�
+    region.�
+   The threshold current density is                          (Image deleted)�
+    approximately�
+                        q n crit d
+                 J th =                  See Fig. 15-13(a) in: Yariv, A., Optical Electronics,
+
+                          t min
+                                         New York: Holt, Rinehart and Winston, 1985.
+
+
+
+   As predicted, and shown to the�
+    right, Jth decreases linearly�
+    with d until the guide layer is�
+    too thin to confine the light, at�
+    which point the overlap�
+    decreases and the threshold�
+    increases.�
+C. G. Fonstad, 4/03                                                           Lecture 21 - Slide 2
+          Laser diodes: vertical design evolution�
+  Double heterostructure:�
+     carriers and light are confined�
+     by the same narrow bandgap�
+     layer. The threshold decreases�
+     with d until the optical mode�
+     spills out.�
+
+  Separate confinement DH:�
+     the waveguide and carrier�
+     confinement functions are done�
+     by different layers. The overlap�
+     is less, but the threshold is still�
+     reduced.�
+
+  Quantum well: the overlap is
+     less than in SCDH, but there is
+     a net win because the quantum
+     well transitions are stronger.
+
+
+C. G. Fonstad, 4/03                                  Lecture 21 - Slide 3�
+     Laser diodes: Separate confinement issues�
+  Overlap estimate: because               Waveguide portion options:�
+     the optical mode is peaked in         the optical confinement/wave-�
+     the center of the waveguide           guide layer is often graded by�
+     the overlap of the mode and           some means so the carriers can�
+     the inverted carrier                  fall into the active or QW layers�
+     population is greater than            more easily:�
+     might first be expected. In the�
+     situation illustrated below, the�
+     inner layer is 1/3 the thickness,�
+     but the overlap overlap�
+     integral is only reduced by 1/2.�               Simple SCDH structure
+
+
+
+
+                                                     Linearly grading
+
+
+
+
+                                                    Parabolic grading
+
+
+
+                                                     Step grading
+C. G. Fonstad, 4/03                                                 Lecture 21 - Slide 4
+       Laser diodes: Further active�
+              layer evolution�
+    Quantum wire and dot: Most
+       of the work quantization beyond
+       the quantum well has focused on
+       quantum dots. An example                                         (Image deleted)
+       applied to a VCSEL is shown to
+       the right. The record low QD                      See Fig. 1 in S-F Tang et al, APL 78, No.17 (2001).
+       laser thresholds current densities
+       are a few 10's of A/cm2.
+
+
+      Strained quantum wells: As we
+         saw earlier in the term, tensile and
+         compressive strain modify the
+         valence band energy levels and can
+         enhance the transition strengths.
+         Strained quantum wells are often
+         used in laser diodes. The QWs are
+         thin enough that the layers are
+         pseudomorphic.
+                              InGaAs QW (10% In) on GaAs�
+                                The well is in compression.�
+C. G. Fonstad, 4/03                                                                       Lecture 21 - Slide 5�
+       Laser diodes: Further active layer evolution�
+       Quantum cascade lasers: To
+          obtain lasing at long wavelengths
+          people have historically relied on
+          the use of very narrow bandgap
+          lead-tin salts in traditional laser
+          diode geometries. A more recent
+          advance has been the use of the
+          transistions between the levels in
+          a quantum well.
+                                                              Cascase laser diodes operate at wave-
+                                                               lengths from 5 to well over 20 µm
+
+
+                                                              Many periods of an injector and
+                   (Image deleted)                             active region multi-quantum well
+   See Fig. 1 in R. Colombelli et al, APL 78, No.18 (2001).
+                                                               structure are used to obtain lasing
+                                                               of the n=2 to n=1 layer transition.
+                                                               In practice, complex superlattice
+                                                               structures like that shown to the
+                                                               left are used to optimize the
+                                                               performance.
+
+                              �
+C. G. Fonstad, 4/03                                                                            Lecture 21 - Slide 6�
+      Laser diodes: lateral design�
+
+
+       Stripe contact geometries:�
+       A laser diode with no lateral cavity de-
+        finition is called a "broad area" diode.
+       A step of importance in increasing laser
+        diode operating temperatures that was
+        comparable to the introduction of the
+        DH laser was the introduction of
+        stripes to define the cavity laterally.
+       A wide variety of stripe structures have
+        been used as the figures show.
+
+
+
+
+C. G. Fonstad, 4/03                                Lecture 21 - Slide 7�
+          Laser diodes: lateral design, cont.�
+
+
+              Lateral optical�
+               confinement:�
+              The stripes on the previous foils
+               provide lateral current�
+               confinement (to varying�
+               degrees) but minimal optical�
+               guiding. To achieve optical�
+               guiding, more elaborate
+               structures are used.�
+
+
+
+
+C. G. Fonstad, 4/03                               Lecture 21 - Slide 8�
+           Laser diodes: horizontal design�
+
+   Fabry-Perot cavity:�
+   The traditional way of
+    forming the primary
+    laser cavity has been by
+    cleaving the crystal to get
+    parallel facets (see right),
+    and using the reflection                              (Image deleted)
+    at the semiconductor-air       See Sze, S.M. Semiconductor Devices, Physics and Technology
+    interface.                     New York, Wiley, 1985.
+   Most modern in-plane
+    lasers still use cleaved
+    end-mirrors, often with
+    coatings.
+   Mirrors can also be made
+    by dry etching, but it is
+    difficult to get them as
+    vertical and parallel as is
+    achieved by cleaving.
+
+
+C. G. Fonstad, 4/03                                                         Lecture 21 - Slide 9�
+    Laser diodes: horizontal�
+          design, cont.�
+  Fabry-Perot modes
+
+
+
+
+                                         (Image deleted)
+
+
+                      See Zappe, Hans P. Introduction to Semiconductor Integrated
+                                    Optics, Fig. 9-12. pg. 240.
+
+
+
+
+C. G. Fonstad, 4/03                                                                 Lecture 21 - Slide 10�
+      Laser diodes: horizontal design, cont.�
+      Mode evolution above�
+       threshold:�
+      It is interesting to note how
+        the modes evolve in a
+        cleaved-facet laser at
+        currents near to, and well
+        above threshold. Near
+        threshold Fabry-Perot
+        cavity modes appear on
+        the output spectrum. As
+        the current is raised well
+        above threshold, one
+        mode will ideally grow
+        rapidly and dominate the
+        spectrum.
+      In the figure on the right
+        there is not one dominate
+        mode, which is not the
+        desired situation.
+
+
+C. G. Fonstad, 4/03                             Lecture 21 - Slide 11�
+      Laser diodes: horizontal design, cont.�
+   Distributed Feedback:�
+   Improved wavelength stability and control can be obtained using a�
+    distributed Bragg reflectors. By convention, when the distributed�
+    reflectors are within the active laser cavity the laser is called a DFB�
+    laser and when they are outside the active region on either end of�
+    the device the laser is called a DBR laser. Examples of each are�
+    shown below:�
+
+
+
+
+                                                Distributed Bragg Reflector�
+                                                       (DBR) Laser�
+  Distributed Feedback (DFB) Laser�
+
+C. G. Fonstad, 4/03                                              Lecture 21 - Slide 12�
+      Laser diodes: horizontal design, cont.�
+   Distributed Feedback, cont:�
+   The resonances of a DFB structure show the picket-fence Fabry-
+    Perot structure, but the strength of the resonances are not the same
+    as in a traditional FP cavity. Instead, the two modes on either side
+    of the Bragg resonance are the strongest and thus are favored.
+    This stabilizes the emission at one of these modes when the gain
+    curve overlaps them. Adding a quarter wavelength shift between
+    the two halves of the DFB structure can remove this degeneracy.
+
+
+
+
+Forward and backward modes (above)
+                      Spectral modes(right)
+C. G. Fonstad, 4/03                                            Lecture 21 - Slide 13
+       Laser diodes: surface emitting lasers�
+
+
+
+
+      In-plane verses surface emitting The attractions of surface
+        emitting devices
+
+
+
+
+C. G. Fonstad, 4/03                                        Lecture 21 - Slide 14�
+  Laser diodes: surface�
+     emitting lasers�
+
+    Etched deflector�
+    Dry etching can be used to�
+     etch angled deflectors to�
+     achieve vertical emission.�
+
+    Second order grating�
+    A DBR laser with a second
+     order grating (rather than                  (Images deleted)
+     first order) will have a mode   See Fig. 9.28 in Zappe, Hans P. Introduction to
+     normal to the surface                  Semiconductor Integrated Optics.
+
+
+    Vertical cavity surface
+     emitting laser (VCSEL)
+    The dominant surface emitting
+     laser is the VCSEL because it
+     is relatively easier to make.
+
+
+C. G. Fonstad, 4/03                                            Lecture 21 - Slide 15�
+              Laser diodes: VCSELs, cont.�
+
+
+      Device structures
+
+
+
+
+ a. Mesa; b. Ion implanted; c. Mesa with regrowth; d. Oxide confinement�
+
+
+
+
+C. G. Fonstad, 4/03                                             Lecture 21 - Slide 16
+              Laser diodes: VCSELs, cont.�
+
+
+
+   Oxidation of AlAs for current confinement�
+   The conversion of AlAs to Al2O3 is widely used to confine the current
+    to the center of a VCSEL
+
+
+
+   Oxidation rate of AlGaAs verses         Oxidation rate of AlAs verses�
+         aluminum fraction                        layer thickness�
+
+
+
+
+C. G. Fonstad, 4/03                                             Lecture 21 - Slide 17�
+
