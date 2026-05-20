@@ -438,6 +438,16 @@ const {
     display: none;
   }
 
+  .floating-toc::before {
+    position: absolute;
+    right: 0;
+    bottom: 2.85rem;
+    display: block;
+    width: min(22rem, calc(100vw - 2.5rem));
+    height: 1.05rem;
+    content: "";
+  }
+
   .floating-toc__button {
     display: grid;
     width: 3rem;
@@ -468,7 +478,7 @@ const {
   .floating-toc__panel {
     position: absolute;
     right: 0;
-    bottom: 3.75rem;
+    bottom: 3.55rem;
     width: min(22rem, calc(100vw - 2.5rem));
     max-height: min(70vh, 34rem);
     padding: 0.85rem;

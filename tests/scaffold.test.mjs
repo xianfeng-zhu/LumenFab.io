@@ -42,6 +42,7 @@ test("base layout provides a floating section menu for long pages", async () => 
   assert.match(layout, /document\.querySelectorAll\("\.concept-page h2, \.concept-page h3"\)/);
   assert.match(layout, /scroll-behavior:\s+smooth/);
   assert.match(layout, /\.floating-toc:hover \.floating-toc__panel/);
+  assert.match(layout, /\.floating-toc::before/);
   assert.match(layout, /toc\.hidden = false/);
   assert.match(layout, /toc\.setAttribute\("data-open", "true"\)/);
 });
