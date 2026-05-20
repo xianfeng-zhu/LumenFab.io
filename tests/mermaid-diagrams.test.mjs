@@ -13,9 +13,12 @@ function mermaidBlocks(source) {
 
 test("CPO light-source Mermaid diagrams keep package contents left-to-right", () => {
   const blocks = mermaidBlocks(page);
+  const packageBlocks = blocks.filter((block) => block.includes("Package Substrate Boundary"));
 
-  assert.equal(blocks.length, 2);
-  for (const block of blocks) {
+  assert.equal(blocks.length, 3);
+  assert.equal(packageBlocks.length, 2);
+  assert.match(blocks[0], /RM\["In \/ P 原料"\]\s+-->\s+SUB\["InP 衬底"\]/);
+  for (const block of packageBlocks) {
     assert.match(
       block,
       /subgraph\s+\w+\s+\[[^\n]+\]\n\s+direction LR/,
