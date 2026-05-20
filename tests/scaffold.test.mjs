@@ -183,7 +183,7 @@ test("light source component page is organized as a full source-chain page", asy
   assert.match(page, /## 评价指标/);
   assert.match(page, /## 总结：一颗光源从哪里来/);
   assert.match(page, /从 InP \/ III-V 材料为什么能够发光开始/);
-  assert.match(page, /光源放在封装内还是封装外/);
+  assert.match(page, /光源放在封装内或封装外/);
   assert.match(page, /先理解激光器本身如何从材料、外延和芯片工艺中形成/);
   assert.match(page, /制造阶段总览/);
   assert.match(page, /TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容/);
@@ -200,11 +200,11 @@ test("light source component page is organized as a full source-chain page", asy
   assert.match(page, /Transmitter Optical Sub-Assembly/);
   assert.match(page, /External Laser Small Form-Factor Pluggable/);
   assert.match(page, /Distributed Feedback/);
-  assert.match(page, /默认语境是网络交换 CPO/);
-  assert.match(page, /不是 GPU \/ TPU die/);
+  assert.match(page, /默认讨论网络交换 CPO/);
+  assert.match(page, /与 GPU \/ TPU die 分属不同语境/);
   assert.match(page, /external laser source/);
   assert.match(page, /QW \/ MQW 有源区/);
-  assert.match(page, /不是材料名称，也不是有源区名称/);
+  assert.match(page, /材料名称和有源区名称属于其他层级/);
   assert.match(page, /光学输出/);
   assert.match(page, /噪声与单模性/);
   assert.match(page, /电热效率/);

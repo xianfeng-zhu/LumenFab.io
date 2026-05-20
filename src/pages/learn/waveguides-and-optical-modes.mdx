@@ -9,11 +9,11 @@ import ModelViewer from "../../components/ModelViewer.astro";
 
 ## One-Sentence Answer
 
-波导用折射率结构限制光的传播；光在波导里不是任意分布，而是以满足边界条件的 optical modes 传播。
+波导用折射率结构限制光的传播；光在波导里以满足边界条件的 optical modes 传播。
 
 ## Why This Exists
 
-后面讲 DFB、MZM、MRM、硅光 PIC、edge coupler、grating coupler、封装对准时，真正要对准和设计的不是一根几何线，而是光学模式。
+后面讲 DFB、MZM、MRM、硅光 PIC、edge coupler、grating coupler、封装对准时，真正要对准和设计的是光学模式。
 
 ## Physical Principle
 
@@ -35,7 +35,7 @@ import ModelViewer from "../../components/ModelViewer.astro";
 
 ## Engineering Implementation
 
-工程上常见目标不是“让光进去”这么简单，而是让模式匹配：
+工程上常见目标是让模式匹配：
 
 - 光纤模式和芯片波导模式要匹配，否则耦合损耗高。
 - 激光器有源区和光学模式要重叠，否则增益效率低。
@@ -55,7 +55,7 @@ import ModelViewer from "../../components/ModelViewer.astro";
 ## Common Misconceptions
 
 - 波导不是空心管，光场可以延伸到 core 之外。
-- 单模不是指只有一个光子，而是指只支持一个主要空间传播模式。
+- 单模指只支持一个主要空间传播模式。
 - 模式匹配问题属于器件、PIC 和封装共同问题，不只属于光学课。
 
 ## How It Connects
@@ -70,4 +70,4 @@ Next layer: interference and resonance explain why cavities, filters and grating
 
 ## Short Version
 
-波导的核心不是“给光开一条槽”，而是创造一个能支持特定光学模式的折射率结构。后续所有 PIC、激光器和封装问题，都会反复回到模式约束和模式匹配。
+波导的核心是创造一个能支持特定光学模式的折射率结构。后续所有 PIC、激光器和封装问题，都会反复回到模式约束和模式匹配。

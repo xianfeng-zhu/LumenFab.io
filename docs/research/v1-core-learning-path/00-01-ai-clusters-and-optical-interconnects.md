@@ -2,7 +2,7 @@
 
 ## Scope
 
-本文件服务于 v1 core learning path 的 00-01 章。目标不是投资叙事，而是为网站建立稳定、可解释、可复用的工程口径：
+本文件服务于 v1 core learning path 的 00-01 章。目标是为网站建立稳定、可解释、可复用的工程口径：
 
 - AI 数据中心和 AI 集群为什么放大 east-west bandwidth、scale-up / scale-out、网络功耗、带宽密度压力。
 - 高速铜互连为什么在更高 lane rate、距离、插损、ISI、均衡、SerDes power 上变难。
@@ -54,7 +54,7 @@
 - 网络功耗不能只看交换 ASIC。SerDes、retimer、DSP、光模块、主动电缆、冷却与面板热设计都会进入系统级功耗。
 - 网站可用一句话：AI 集群让“每比特功耗”和“每毫米/每 RU 带宽”成为与总带宽同等重要的指标。
 
-### 3. 铜互连的核心挑战不是“不能传”，而是传得越来越贵
+### 3. 铜互连的核心挑战是传输代价持续升高
 
 - 铜在很短距离内仍然便宜、可靠、低延迟，仍是机箱内、机柜内、短跳线的主力。
 - 但 lane rate 提高后，单位时间间隔变短，铜通道的导体损耗、介质损耗、反射、串扰、skew、ISI 都更难控制。
@@ -158,7 +158,7 @@
   - OIF CEI-224G 覆盖 XSR、VSR、MR、LR 等不同电接口 reach classes。
   - VSR 支持 chip-to-module，可服务 200G、400G、800G、1600G optical modules。
   - MR 提到 144-232Gbps signaling 和最高 500 mm PCB / connector 级别应用。
-  - 这可用于说明 lane rate 提高后，行业会按应用距离拆分电接口规范，而不是一条铜链路打天下。
+  - 这可用于说明 lane rate 提高后，行业会按应用距离拆分电接口规范。
 - 谨慎点/时效风险:
   - OIF CEI 是实现协议和互操作范围，不代表所有产品已经量产。
 
@@ -230,7 +230,7 @@
   - 文章称 AI/ML 是推动 Ethernet 跨过 800G threshold 的 bandwidth-hungry application。
   - 文章提到 AI-driven data centers 正演进为 copper and fiber 混合互连。
   - 文章把 interconnect options 与 power efficiency 放在 Ethernet 演进中。
-  - 可用于网站 opening narrative：不是“光替代铜”，而是“铜和光在不同距离、功耗、密度边界上重新分工”。
+  - 可用于网站 opening narrative：“铜和光在不同距离、功耗、密度边界上重新分工”。
 - 谨慎点/时效风险:
   - Blog 语言偏行业传播。用于辅助说明，不作为唯一技术依据。
 
@@ -327,7 +327,7 @@
 - 要点:
   - Broadcom 将 AI workloads 增长与 higher bandwidth、lower latency、more power-efficient optical interconnects 联系起来。
   - 资料覆盖 CPO、200G/lane DSP and SerDes、400G optics、PCIe Gen6 over optics、LPO、AEC 等多个互连层次。
-  - 这证明行业不是在“铜 vs 光”二选一，而是在短距铜、active electrical、pluggable optics、linear optics、CPO 之间组合。
+  - 这证明行业会在短距铜、active electrical、pluggable optics、linear optics、CPO 之间组合。
   - XPU-CPO 和 PCIe over optics 可作为“光可能进入 scale-up fabric”的路线图例子。
 - 谨慎点/时效风险:
   - OFC demo / roadmap 属性强。不要把展示技术写成已广泛部署。
@@ -342,7 +342,7 @@
   - 资料围绕 AI optical interconnects 和 CPO 展开，适合说明为什么业界希望把 optics 靠近 switch / compute silicon。
   - 核心逻辑是减少高速电通道长度，从而降低电互连损耗和补偿功耗。
   - 可用于解释“pluggable optics 仍然需要 ASIC 到前面板模块的一段高速电连接”。
-  - CPO 的网站表述应聚焦“减少 electrical reach”，而不是“光本身永远低功耗”。
+  - CPO 的网站表述应聚焦“减少 electrical reach”。
 - 谨慎点/时效风险:
   - 需要注意 vendor framing。与 OIF CPO IA、Optica 来源交叉验证后使用。
 
@@ -436,4 +436,3 @@
 | 400G / 800G / 1.6T / 3.2T explanation | S04, S05, S09, S10, S11, S14, S16 | These are aggregate link/module/port rates. Explain by lane aggregation and standard generations, not by a single physical wire. |
 | Bandwidth density and power-per-bit | S10, S14, S15, S20, S21, S23 | AI fabrics are constrained by Tbps per RU, Tbps per package edge and watts per bit, not only by headline port speed. |
 | CPO / LPO / optical packaging future-looking section | S09, S18, S20, S21, S22, S23 | Present as emerging packaging strategies to shorten electrical paths. Mark roadmap and deployment status as time-sensitive. |
-

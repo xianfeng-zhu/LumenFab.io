@@ -56,4 +56,4 @@ Compress the page into 3-5 sentences.
 - Avoid saying "advanced" unless the reason is explicit.
 - Avoid treating demo, qualification, ramp, and volume production as the same stage.
 - When a concept belongs to a different layer, say so directly.
-
+- Avoid paired negation-plus-correction sentences. Prefer a direct positive definition.

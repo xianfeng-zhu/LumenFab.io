@@ -123,7 +123,7 @@ WDM：
   - 课程用 DSP/SerDes、driver、transmitter、optical channel、receiver、TIA、DSP 的顺序描述链路数据路径。
   - 明确把 driver 和 TIA 的性能指标与 bandwidth、linearity、power、output optical power 联系起来。
   - Equalization 包括 CTLE、FFE、DFE；短距光链路也受益于均衡。
-  - 强调 electro-optical co-design，适合解释“模块不是几个零件拼起来，而是链路共同优化”。
+  - 强调 electro-optical co-design，适合解释“模块需要链路共同优化”。
 - Cautions / timeliness:
   - 课程描述是高层教育内容，不是某个标准的强制定义。
   - 适合做概念骨架，不适合引用为某个 PMD 的参数来源。
