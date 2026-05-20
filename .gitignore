@@ -3,4 +3,3 @@ dist/
 .astro/
 .DS_Store
 npm-debug.log*
-docs/research/**/reference-images/
