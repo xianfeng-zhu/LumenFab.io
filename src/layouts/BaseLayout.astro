@@ -296,6 +296,53 @@ const {
     overflow-x: auto;
   }
 
+  .stage-list {
+    display: grid;
+    gap: 0.8rem;
+    margin: 1.75rem 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: stage;
+  }
+
+  .stage-list li {
+    position: relative;
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem 1rem 3.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    counter-increment: stage;
+  }
+
+  .stage-list li::before {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 800;
+    background: var(--accent);
+    border-radius: 999px;
+    content: counter(stage);
+  }
+
+  .stage-list strong {
+    color: var(--text);
+    font-size: 1.02rem;
+    line-height: 1.45;
+  }
+
+  .stage-list span {
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
   @media (max-width: 720px) {
     .site-header {
       align-items: flex-start;
@@ -304,6 +351,18 @@ const {
 
     main {
       padding-top: 1rem;
+    }
+
+    .stage-list {
+      gap: 0.9rem;
+    }
+
+    .stage-list li {
+      padding: 1rem 1rem 1rem 3.15rem;
+    }
+
+    .stage-list span {
+      font-size: 0.98rem;
     }
   }
 </style>

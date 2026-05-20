@@ -144,7 +144,7 @@ test("light source component page is organized as a full source-chain page", asy
   assert.match(page, /内置\/外置光源如何划分系统/);
   assert.match(page, /## 本页定位/);
   assert.match(page, /## 为什么 CPO 需要稳定光源/);
-  assert.match(page, /## 总览：从材料到光引擎输入/);
+  assert.match(page, /## 总览：从 InP 衬底到激光器芯片/);
   assert.match(page, /## 材料层：为什么是 InP \/ III-V/);
   assert.match(page, /## 晶圆与外延：结构如何长出来/);
   assert.match(page, /## 有源区：电流如何变成光增益/);
@@ -156,7 +156,9 @@ test("light source component page is organized as a full source-chain page", asy
   assert.match(page, /## 总结：一颗光源从哪里来/);
   assert.match(page, /从 InP \/ III-V 材料为什么能够发光开始/);
   assert.match(page, /光源放在封装内还是封装外/);
-  assert.match(page, /从材料、器件、封装到光引擎输入/);
+  assert.match(page, /先理解激光器本身如何从材料、外延和芯片工艺中形成/);
+  assert.match(page, /制造阶段总览/);
+  assert.match(page, /TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容/);
   assert.match(page, /MOCVD \/ MBE epitaxy/);
   assert.match(page, /p-contact \/ metal/);
   assert.match(page, /ridge waveguide/);

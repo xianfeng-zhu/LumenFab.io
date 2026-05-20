@@ -22,25 +22,40 @@ CPO 的基本动机是把光引擎放到 switch ASIC 附近，缩短高速电信
 - 如果激光器放进封装，光路较短，但封装、良率、返修和 known-good-die 判断更困难。
 - 如果激光器外置，热和可维护性更好，但连接器、光纤走线、功率预算、安全和管理更复杂。
 
-因此，CPO 光源不是单纯的器件选择问题，而是一条从材料、器件、封装到光引擎输入的工程链路。
+因此，CPO 光源不是单纯的器件选择问题。先理解激光器本身如何从材料、外延和芯片工艺中形成，才能进一步讨论它如何被封装、测试和接入光引擎。
 
-## 总览：从材料到光引擎输入
+## 总览：从 InP 衬底到激光器芯片
 
-这条链路可以先粗略看成如下路径：
+下面不是单纯的“工艺步骤清单”，而是一个制造阶段总览：每一阶段既包含工艺动作，也对应形成的关键器件结构。
 
-```mermaid
-graph LR
-    RM["In / P 原料"] --> SUB["InP 衬底"]
-    SUB --> EPI["外延结构"]
-    EPI --> ACTIVE["QW / MQW 有源区"]
-    ACTIVE --> CAV["波导 / 腔体 / DFB 光栅"]
-    CAV --> CHIP["DFB / CW laser chip"]
-    CHIP --> PKG["TOSA / ELSFP / 光引擎内光源"]
-    PKG --> OE["optical engine 输入光"]
-    OE --> PIC["PIC / 调制器"]
-```
+<ol className="stage-list">
+  <li>
+    <strong>InP 单晶生长与衬底制备</strong>
+    <span>从高纯 In / P 原料制备多晶 InP，再生长单晶晶锭，并经过切片、研磨、抛光和 CMP，得到 epi-ready InP 衬底。</span>
+  </li>
+  <li>
+    <strong>外延生长</strong>
+    <span>在 InP 衬底上生长多层 III-V 半导体结构，形成 cladding、SCH、QW / MQW 有源区和接触层。</span>
+  </li>
+  <li>
+    <strong>光栅与波导加工</strong>
+    <span>通过光刻、刻蚀、再生长或相关工艺形成 DFB 光栅、ridge waveguide 或 buried heterostructure，用来限制光场并提供反馈。</span>
+  </li>
+  <li>
+    <strong>电极、绝缘与电流限制</strong>
+    <span>形成 p/n contact、金属电极、钝化层和电流限制结构，使载流子能够被控制地注入有源区。</span>
+  </li>
+  <li>
+    <strong>解理与端面处理</strong>
+    <span>把晶圆加工成 laser bar / laser chip，并进行端面镀膜，控制反射、输出耦合和端面可靠性。</span>
+  </li>
+  <li>
+    <strong>芯片测试与筛选</strong>
+    <span>测试阈值电流、输出功率、光谱、SMSR、RIN 和老化表现，筛选可进入后续封装或系统集成的激光器芯片。</span>
+  </li>
+</ol>
 
-后续各节沿这条路径展开。当前版本先建立结构和关键概念，细节会逐步补齐。
+后续各节沿这条主线展开。TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容，本页只在必要处说明它们与激光器芯片的关系。
 
 ## 材料层：为什么是 InP / III-V
 

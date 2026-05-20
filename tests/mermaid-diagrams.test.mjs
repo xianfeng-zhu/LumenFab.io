@@ -15,9 +15,8 @@ test("CPO light-source Mermaid diagrams keep package contents left-to-right", ()
   const blocks = mermaidBlocks(page);
   const packageBlocks = blocks.filter((block) => block.includes("Package Substrate Boundary"));
 
-  assert.equal(blocks.length, 3);
+  assert.equal(blocks.length, 2);
   assert.equal(packageBlocks.length, 2);
-  assert.match(blocks[0], /RM\["In \/ P 原料"\]\s+-->\s+SUB\["InP 衬底"\]/);
   for (const block of packageBlocks) {
     assert.match(
       block,
@@ -25,4 +24,14 @@ test("CPO light-source Mermaid diagrams keep package contents left-to-right", ()
       `package subgraph is missing an explicit left-to-right direction:\n${block}`
     );
   }
+});
+
+test("CPO light-source manufacturing overview uses readable stage cards", () => {
+  assert.match(page, /<ol className="stage-list">/);
+  assert.match(page, /InP 单晶生长与衬底制备/);
+  assert.match(page, /外延生长/);
+  assert.match(page, /光栅与波导加工/);
+  assert.match(page, /电极、绝缘与电流限制/);
+  assert.match(page, /解理与端面处理/);
+  assert.match(page, /芯片测试与筛选/);
 });
