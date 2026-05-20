@@ -1,0 +1,82 @@
+---
+interface Props {
+  label: string;
+  note: string;
+}
+
+const { label, note } = Astro.props;
+---
+
+<span class="term-note">
+  <span class="term-note__label">{label}</span>
+  <button class="term-note__icon" type="button" aria-label={`${label}: ${note}`}>i</button>
+  <span class="term-note__tip" role="tooltip">{note}</span>
+</span>
+
+<style>
+  .term-note {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .term-note__label {
+    white-space: nowrap;
+  }
+
+  .term-note__icon {
+    display: inline-grid;
+    width: 1rem;
+    height: 1rem;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: var(--accent-strong);
+    cursor: help;
+    font: inherit;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    transform: translateY(-0.08em);
+  }
+
+  .term-note__icon:focus-visible {
+    outline: 3px solid rgb(29 122 107 / 25%);
+    outline-offset: 2px;
+  }
+
+  .term-note__tip {
+    position: absolute;
+    bottom: calc(100% + 0.45rem);
+    left: 0;
+    z-index: 20;
+    width: max-content;
+    max-width: min(24rem, 78vw);
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    box-shadow: 0 12px 34px rgb(15 79 73 / 14%);
+    color: var(--text);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.2rem);
+    transition:
+      opacity 140ms ease,
+      transform 140ms ease;
+    visibility: hidden;
+    white-space: normal;
+  }
+
+  .term-note:hover .term-note__tip,
+  .term-note:focus-within .term-note__tip {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+</style>

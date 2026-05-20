@@ -80,7 +80,7 @@ test("homepage is a CPO knowledge entry rather than a learning-path pitch", asyn
   const layout = await read("src/layouts/BaseLayout.astro");
   const packaging = await read("src/pages/components/packaging.mdx");
   assert.match(home, /CPO 光引擎拆解/);
-  assert.match(home, /Light source/);
+  assert.match(home, /CPO 光源系统/);
   assert.match(home, /PIC \/ optical circuit/);
   assert.match(home, /Optical I\/O/);
   assert.match(home, /Manufacturing and test/);
@@ -107,6 +107,7 @@ test("homepage is a CPO knowledge entry rather than a learning-path pitch", asyn
 });
 
 test("component hub pages exist", async () => {
+  await fileExists("src/components/TermNote.astro");
   for (const page of [
     "src/pages/components/laser-source.mdx",
     "src/pages/components/pic.mdx",
@@ -138,11 +139,33 @@ test("component hub pages link to detail pages through relative paths", async ()
 
 test("light source component page is organized as a layer map", async () => {
   const page = await read("src/pages/components/laser-source.mdx");
-  assert.match(page, /## One-Sentence Answer/);
-  assert.match(page, /## Why CPO Cares/);
-  assert.match(page, /## Where The Laser Can Live/);
-  assert.match(page, /## From Material To Supplied Light/);
-  assert.match(page, /## Do Not Mix These Layers/);
+  assert.match(page, /title: CPO 光源系统/);
+  assert.match(page, /chapter: CPO 光引擎组件/);
+  assert.match(page, /内置\/外置光源如何划分系统边界/);
+  assert.match(page, /## 先把光源说清楚/);
+  assert.match(page, /## 为什么 CPO 会放大光源问题/);
+  assert.match(page, /## 光源可以放在哪里/);
+  assert.match(page, /### 标准语境：ELS 和 ELSFP/);
+  assert.match(page, /## 从材料到光引擎输入/);
+  assert.match(page, /## 先分清几个层级/);
+  assert.match(page, /## 继续阅读/);
+  assert.match(page, /不是单纯的制造流程，而是一条理解链/);
+  assert.match(page, /材料 \/ 制造/);
+  assert.match(page, /器件物理/);
+  assert.match(page, /系统供光/);
+  assert.match(page, /说明重点/);
+  assert.match(page, /高纯铟和磷等原料/);
+  assert.match(page, /通信波段 III-V 外延的晶圆底座/);
+  assert.match(page, /把连续光送到光引擎输入端/);
+  assert.match(page, /TermNote/);
+  assert.match(page, /Optical Internetworking Forum/);
+  assert.match(page, /Transmitter Optical Sub-Assembly/);
+  assert.match(page, /External Laser Small Form-Factor Pluggable/);
+  assert.match(page, /Distributed Feedback/);
+  assert.match(page, /Electro-Absorption Modulated Laser/);
+  assert.match(page, /本页默认讨论网络交换 CPO/);
+  assert.match(page, /不是 GPU \/ TPU die/);
+  assert.match(page, /CPO 不要求光源一定外置/);
   assert.match(page, /external laser source \/ ELSFP/);
   assert.match(page, /QW \/ MQW \/ QD/);
   assert.match(page, /DFB is a laser cavity|DFB 是 laser cavity/);
