@@ -1,0 +1,6 @@
+graph LR
+    subgraph Substrate_A ["封装基板 Package Substrate Boundary"]
+        ASIC_A["Switch ASIC (Die)"] <-->|"高速电信号 (数毫米)"| OE_A["光引擎 (Optical Engine) <br/> (集成：硅光PIC + Driver/TIA + DFB激光器)"]
+    end
+    
+    style Substrate_A fill:#f4f7f6,stroke:#1d7a6b,stroke-width:2px,stroke-dasharray:5,5
