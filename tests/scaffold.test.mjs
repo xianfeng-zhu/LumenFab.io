@@ -33,6 +33,17 @@ test("concept layout reads MDX frontmatter for title metadata", async () => {
   assert.match(layout, /frontmatter/);
   assert.match(layout, /frontmatter\.title/);
   assert.match(layout, /frontmatter\.description/);
+  assert.match(layout, /margin:\s+0 auto/);
+});
+
+test("term notes do not create horizontal page overflow when hidden", async () => {
+  const component = await read("src/components/TermNote.astro");
+  assert.match(component, /\.term-note__tip/);
+  assert.match(component, /display:\s+none/);
+  assert.match(component, /\.term-note:hover \.term-note__tip/);
+  assert.match(component, /display:\s+block/);
+  assert.match(component, /@media \(max-width: 720px\)/);
+  assert.match(component, /position:\s+fixed/);
 });
 
 test("base layout provides a floating section menu for long pages", async () => {

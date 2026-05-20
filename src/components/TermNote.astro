@@ -53,6 +53,7 @@ const { label, note } = Astro.props;
     bottom: calc(100% + 0.45rem);
     left: 0;
     z-index: 20;
+    display: none;
     width: max-content;
     max-width: min(24rem, 78vw);
     padding: 0.55rem 0.7rem;
@@ -75,8 +76,21 @@ const { label, note } = Astro.props;
 
   .term-note:hover .term-note__tip,
   .term-note:focus-within .term-note__tip {
+    display: block;
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
+  }
+
+  @media (max-width: 720px) {
+    .term-note__tip {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      bottom: auto;
+      left: 1rem;
+      width: auto;
+      max-width: none;
+    }
   }
 </style>
