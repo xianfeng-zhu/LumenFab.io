@@ -27,6 +27,37 @@ const {
     <main>
       <slot />
     </main>
+
+    <script>
+      import mermaid from "mermaid";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "neutral",
+        securityLevel: "loose"
+      });
+
+      const preElements = document.querySelectorAll("pre");
+      for (const pre of preElements) {
+        const code = pre.querySelector("code");
+        const isMermaid =
+          pre.classList.contains("language-mermaid") ||
+          (code && code.classList.contains("language-mermaid")) ||
+          pre.getAttribute("data-language") === "mermaid" ||
+          pre.getAttribute("data-lang") === "mermaid";
+
+        if (isMermaid) {
+          const content = code ? code.textContent : pre.textContent;
+          if (content) {
+            const container = document.createElement("div");
+            container.className = "mermaid";
+            container.textContent = content.trim();
+            pre.parentNode?.replaceChild(container, pre);
+          }
+        }
+      }
+
+      mermaid.run();
+    </script>
   </body>
 </html>
 
@@ -252,6 +283,17 @@ const {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem;
+  }
+
+  .mermaid {
+    display: flex;
+    justify-content: center;
+    margin: 1.75rem 0;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow-x: auto;
   }
 
   @media (max-width: 720px) {
