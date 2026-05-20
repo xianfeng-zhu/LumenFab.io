@@ -35,6 +35,17 @@ test("concept layout reads MDX frontmatter for title metadata", async () => {
   assert.match(layout, /frontmatter\.description/);
 });
 
+test("base layout provides a floating section menu for long pages", async () => {
+  const layout = await read("src/layouts/BaseLayout.astro");
+  assert.match(layout, /data-floating-toc/);
+  assert.match(layout, /aria-label="章节目录"/);
+  assert.match(layout, /document\.querySelectorAll\("\.concept-page h2, \.concept-page h3"\)/);
+  assert.match(layout, /scroll-behavior:\s+smooth/);
+  assert.match(layout, /\.floating-toc:hover \.floating-toc__panel/);
+  assert.match(layout, /toc\.hidden = false/);
+  assert.match(layout, /toc\.setAttribute\("data-open", "true"\)/);
+});
+
 test("code blocks use readable light-theme styling", async () => {
   const config = await read("astro.config.mjs");
   const layout = await read("src/layouts/BaseLayout.astro");

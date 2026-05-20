@@ -28,6 +28,24 @@ const {
       <slot />
     </main>
 
+    <div class="floating-toc" data-floating-toc hidden>
+      <button
+        class="floating-toc__button"
+        type="button"
+        aria-label="章节目录"
+        aria-expanded="false"
+        aria-controls="floating-toc-panel"
+      >
+        <span class="floating-toc__bar"></span>
+        <span class="floating-toc__bar"></span>
+        <span class="floating-toc__bar"></span>
+      </button>
+      <nav class="floating-toc__panel" id="floating-toc-panel" aria-label="章节目录">
+        <p class="floating-toc__title">章节</p>
+        <ol class="floating-toc__list"></ol>
+      </nav>
+    </div>
+
     <script>
       import mermaid from "mermaid";
       mermaid.initialize({
@@ -57,6 +75,60 @@ const {
       }
 
       mermaid.run();
+
+      const toc = document.querySelector("[data-floating-toc]");
+      const tocButton = toc?.querySelector(".floating-toc__button");
+      const tocList = toc?.querySelector(".floating-toc__list");
+      const headings = Array.from(
+        document.querySelectorAll(".concept-page h2, .concept-page h3")
+      ).filter((heading) => heading.textContent?.trim());
+
+      const slugCounts = new Map();
+      const slugify = (text) => {
+        const base = text
+          .trim()
+          .toLowerCase()
+          .replace(/[^\p{L}\p{N}]+/gu, "-")
+          .replace(/^-+|-+$/g, "");
+        const slug = base || "section";
+        const count = slugCounts.get(slug) || 0;
+        slugCounts.set(slug, count + 1);
+        return count ? `${slug}-${count + 1}` : slug;
+      };
+
+      if (toc && tocButton && tocList && headings.length > 2) {
+        for (const heading of headings) {
+          if (!heading.id) {
+            heading.id = slugify(heading.textContent || "");
+          }
+
+          const item = document.createElement("li");
+          item.className = `floating-toc__item floating-toc__item--${heading.tagName.toLowerCase()}`;
+
+          const link = document.createElement("a");
+          link.href = `#${heading.id}`;
+          link.textContent = heading.textContent?.trim() || "";
+          link.addEventListener("click", () => {
+            toc.removeAttribute("data-open");
+            tocButton.setAttribute("aria-expanded", "false");
+          });
+
+          item.append(link);
+          tocList.append(item);
+        }
+
+        toc.hidden = false;
+        tocButton.addEventListener("click", () => {
+          const isOpen = toc.getAttribute("data-open") === "true";
+          if (isOpen) {
+            toc.removeAttribute("data-open");
+            tocButton.setAttribute("aria-expanded", "false");
+          } else {
+            toc.setAttribute("data-open", "true");
+            tocButton.setAttribute("aria-expanded", "true");
+          }
+        });
+      }
     </script>
   </body>
 </html>
@@ -80,6 +152,10 @@ const {
 
   * {
     box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
@@ -129,6 +205,11 @@ const {
 
   h2 {
     margin-top: 2.5rem;
+  }
+
+  h2,
+  h3 {
+    scroll-margin-top: 1.5rem;
   }
 
   p {
@@ -343,6 +424,113 @@ const {
     line-height: 1.75;
   }
 
+  .floating-toc {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 20;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
+
+  .floating-toc[hidden] {
+    display: none;
+  }
+
+  .floating-toc__button {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    gap: 0.2rem;
+    padding: 0.75rem;
+    background: var(--accent-strong);
+    border: 1px solid rgb(255 255 255 / 45%);
+    border-radius: 999px;
+    box-shadow: 0 12px 30px rgb(15 79 73 / 22%);
+    cursor: pointer;
+  }
+
+  .floating-toc__button:focus-visible {
+    outline: 3px solid rgb(29 122 107 / 25%);
+    outline-offset: 4px;
+  }
+
+  .floating-toc__bar {
+    display: block;
+    width: 1.15rem;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 999px;
+  }
+
+  .floating-toc__panel {
+    position: absolute;
+    right: 0;
+    bottom: 3.75rem;
+    width: min(22rem, calc(100vw - 2.5rem));
+    max-height: min(70vh, 34rem);
+    padding: 0.85rem;
+    overflow-y: auto;
+    background: rgb(255 255 255 / 96%);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 18px 50px rgb(15 79 73 / 16%);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.4rem);
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+
+  .floating-toc:hover .floating-toc__panel,
+  .floating-toc:focus-within .floating-toc__panel,
+  .floating-toc[data-open="true"] .floating-toc__panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .floating-toc__title {
+    margin: 0 0 0.55rem;
+    color: var(--accent-strong);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+
+  .floating-toc__list {
+    display: grid;
+    gap: 0.1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .floating-toc__item a {
+    display: block;
+    padding: 0.45rem 0.5rem;
+    color: var(--text);
+    border-radius: 6px;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    text-decoration: none;
+  }
+
+  .floating-toc__item--h3 a {
+    padding-left: 1.25rem;
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+
+  .floating-toc__item a:hover,
+  .floating-toc__item a:focus-visible {
+    color: var(--accent-strong);
+    background: var(--surface-2);
+    outline: none;
+  }
+
   @media (max-width: 720px) {
     .site-header {
       align-items: flex-start;
@@ -363,6 +551,17 @@ const {
 
     .stage-list span {
       font-size: 0.98rem;
+    }
+
+    .floating-toc {
+      right: 1rem;
+      bottom: 1rem;
+    }
+
+    .floating-toc__panel {
+      bottom: 3.5rem;
+      width: min(20rem, calc(100vw - 2rem));
+      max-height: 62vh;
     }
   }
 </style>
