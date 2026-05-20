@@ -52,10 +52,15 @@ test("base layout provides a floating section menu for long pages", async () => 
   assert.match(layout, /aria-label="章节目录"/);
   assert.match(layout, /document\.querySelectorAll\("\.concept-page h2, \.concept-page h3"\)/);
   assert.match(layout, /scroll-behavior:\s+smooth/);
+  assert.match(layout, /@media \(hover: hover\) and \(pointer: fine\)/);
   assert.match(layout, /\.floating-toc:hover \.floating-toc__panel/);
+  assert.match(layout, /\.floating-toc\[data-open="true"\] \.floating-toc__panel/);
   assert.match(layout, /\.floating-toc::before/);
   assert.match(layout, /toc\.hidden = false/);
   assert.match(layout, /toc\.setAttribute\("data-open", "true"\)/);
+  assert.match(layout, /event\.stopPropagation\(\)/);
+  assert.match(layout, /document\.addEventListener\("click"/);
+  assert.match(layout, /event\.key === "Escape"/);
 });
 
 test("code blocks use readable light-theme styling", async () => {

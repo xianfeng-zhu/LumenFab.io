@@ -97,6 +97,11 @@ const {
       };
 
       if (toc && tocButton && tocList && headings.length > 2) {
+        const closeToc = () => {
+          toc.removeAttribute("data-open");
+          tocButton.setAttribute("aria-expanded", "false");
+        };
+
         for (const heading of headings) {
           if (!heading.id) {
             heading.id = slugify(heading.textContent || "");
@@ -108,24 +113,33 @@ const {
           const link = document.createElement("a");
           link.href = `#${heading.id}`;
           link.textContent = heading.textContent?.trim() || "";
-          link.addEventListener("click", () => {
-            toc.removeAttribute("data-open");
-            tocButton.setAttribute("aria-expanded", "false");
-          });
+          link.addEventListener("click", closeToc);
 
           item.append(link);
           tocList.append(item);
         }
 
         toc.hidden = false;
-        tocButton.addEventListener("click", () => {
+        tocButton.addEventListener("click", (event) => {
+          event.stopPropagation();
           const isOpen = toc.getAttribute("data-open") === "true";
           if (isOpen) {
-            toc.removeAttribute("data-open");
-            tocButton.setAttribute("aria-expanded", "false");
+            closeToc();
           } else {
             toc.setAttribute("data-open", "true");
             tocButton.setAttribute("aria-expanded", "true");
+          }
+        });
+
+        document.addEventListener("click", (event) => {
+          if (toc.getAttribute("data-open") === "true" && !toc.contains(event.target)) {
+            closeToc();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            closeToc();
           }
         });
       }
@@ -495,12 +509,18 @@ const {
       transform 160ms ease;
   }
 
-  .floating-toc:hover .floating-toc__panel,
-  .floating-toc:focus-within .floating-toc__panel,
   .floating-toc[data-open="true"] .floating-toc__panel {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .floating-toc:hover .floating-toc__panel {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
   }
 
   .floating-toc__title {
