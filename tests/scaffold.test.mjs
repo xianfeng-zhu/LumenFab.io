@@ -191,8 +191,8 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /MOCVD \/ MBE epitaxy/);
   assert.match(page, /p-contact \/ metal/);
   assert.match(page, /ridge waveguide/);
-  assert.match(page, /高纯铟和磷等原料/);
-  assert.match(page, /通信波段 III-V 外延的晶圆底座/);
+  assert.match(page, /高压石英反应器/);
+  assert.match(page, /epi-ready 表面状态/);
   assert.match(page, /面向 1310 nm \/ 1550 nm 通信波段的半导体激光器/);
   assert.match(page, /Bragg wavelength/);
   assert.match(page, /chip test \/ burn-in/);
