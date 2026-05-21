@@ -1,0 +1,741 @@
+A I X T RON
+
+Global Presence
+
+Cambridge,
+UK
+
+Sunnyvale, USA
+
+Herzogenrath,
+Germany
+AIXTRON SE
+Headquarters
+
+Seoul, South Korea
+Tokyo, Japan
+Shanghai, China
+Hsinchu, Taiwan
+
+AIXTRON Group
+Representation
+
+CHINA
+
+TA I WA N
+
+AIXTRON China Ltd.
+Phone +86 (21) 6445 3226
+Fax
++86 (21) 6445 3742
+E-Mail chinainfo@aixtron.com
+
+AIXTRON Taiwan Co., Ltd.
+Phone +886 (3) 571 2678
+Fax
++886 (3) 571 2738
+E-Mail taiwaninfo@aixtron.com
+
+GE R M A N Y
+
+U N I T E D K I NG D OM
+
+AIXTRON SE
+Phone +49 (2407) 9030 0
+Fax
++49 (2407) 9030 40
+E-Mail info@aixtron.com
+
+AIXTRON Ltd.
+Phone +44 (1223) 519 444
+Fax
++44 (1223) 519 888
+E-Mail info@aixtron.com
+
+JA PA N
+
+US A
+
+AIXTRON K.K.
+Phone +81 (3) 5781 0931
+Fax
++81 (3) 5781 0940
+E-Mail japaninfo@aixtron.com
+
+AIXTRON Inc.
+Phone +1 (408) 747 7140
+Fax
++1 (408) 752 0173
+E-Mail usinfo@aixtron.com
+
+KOR E A
+
+www.aixtron.com
+
+AIXTRON Korea Co., Ltd.
+Phone +82 (31) 783 2220
+Fax
++82 (31) 783 4497
+E-Mail koreainfo@aixtron.com
+
+DEPOSITION TECHNOLOGY FOR BEGIN NERS
+
+How MOCVD works
+
+Contents
+
+MOCVD for Beginners
+
+MOCVD for Beginners . . . . . . . . . . . . . . . . . 3
+
+Metal Organic Chemical Vapor Phase
+Deposition (MOCVD) is a highly complex
+process for growing crystalline layers.
+
+MOCVD – A Definition . . . . . . . . . . . . . . . . . 4
+Planetary Reactor® Technology . . . . . . . . . . . . 5
+Close Coupled Showerhead® Technology . . . . . . . 6
+AIXTRON MOCVD . . . . . . . . . . . . . . . . . . . 7
+What are III-V Semiconductors? . . . . . . . . . . . . 8
+How MOCVD Works . . . . . . . . . . . . . . . . . . 9
+Epitaxy: Growth of Crystalline Layers . . . . . . . . . 10
+Precision in Deposition . . . . . . . . . . . . . . . . 11
+From Deposition to Device . . . . . . . . . . . . . . 12
+
+MOCVD is used in manufacturing light-emitting diodes (LEDs), lasers, transistors, solar
+cells and other electronic and opto-electronic
+devices, and is the key enabling technology for future markets with high growth
+potential.
+The LED lighting applications that will
+soon become the widespread standard in
+the private, commercial and public lighting
+market are a prime example of this trend.
+
+In this brochure, we would like to provide
+basic information on how MOCVD works
+and explain which applications are produced with this technology.
+The booklet is not intended to serve as a
+scientific paper for experts; its purpose is
+to explain to a non-specialist in an understandable way how vapor phase deposition
+works and why this technology has so much
+future potential.
+
+Page 2
+
+How LEDs Work: Construction & Operation Mode . . . 14
+
+PU BL I SH ED BY
+
+AIXTRON SE · Dornkaulstr. 2 · 52134 Herzogenrath · Germany
+L AYOU T
+
+www.eric-zimmermann.com
+
+Top view on Planetary Reactor® –
+an example for our key technology
+
+MOCVD – A Definition
+MOCVD (metal organic chemical vapor
+deposition) is a technology that is used to
+deposit very thin layers of atoms onto a
+semiconductor wafer (wafers are thin disks
+mostly made of saphire or silicon). It is the
+most significant manufacturing MOCVD
+process for III-V compound semiconductors, especially for those based on
+Gallium Nitride (GaN).
+
+Planetary Reactor ® Technology
+The Planetary Reactor® technology is
+based on the principle of horizontal
+laminar flow. The required process
+gases enter the deposition chamber
+through a special gas inlet (nozzle)
+located in the center of the reactor
+ceiling. A process pump extracts the
+gases from the chamber edge and
+forces them to flow radially and very
+homogeneously from the center to the
+edge of the process chamber, passing
+over the hot semiconductor substrates.
+This causes the chemicals to break up
+and to react. The desired atoms diffuse
+
+These semiconductors are the most important base materials for manufacturing
+red, blue, green and white LEDs.
+AIXTRON provides mainly two different
+system types for MOCVD deposition processes: The Planetary Reactor® and the
+Close Coupled Showerhead® technology.
+
+gn flow
+
+system desi
+
+Each individual wafer is located in a
+separate small pocket, which is rotating
+slowly during this deposition process,
+providing a uniform distribution of the
+materials across not only each single
+wafer but also wafer-to-wafer.
+
+manufacture the highest quality
+semiconductor layers (as thin as a
+millionth of a millimeter), which can
+be used to manufacture electronic or
+optoelectronic devices such as LEDs,
+lasers, solar cells etc.
+
+The properties of the deposited crystal
+at an almost atomic scale can be modified by varying the introduced gases.
+This enables customers to design and
+
+out
+
+Page 4
+
+then a
+miracle
+occurs
+
+through the gas phase onto the wafer
+surface, atomic layer by atomic layer.
+
+Gas inlet
+Susceptor
+
+Not a miracle but high tech engineering:
+MOCVD technology
+
+Wafer
+
+GOOD WORK,
+BUT I THINK WE MIGHT
+NEED JUST A LITTLE MORE
+DETAIL RIGHT HERE.
+
+Planetary Reactor® – 8x6 inch
+Sourc
+
+e: Un
+
+k n ow
+
+n
+
+Close Coupled Showerhead® Technology
+
+AIXTRON MOCVD
+
+With Close Coupled Showerhead® technology, chemicals are introduced vertically
+into the process chamber where semiconductor crystals are formed.
+
+The chosen deposition process takes place
+within the reactor chamber of the system.
+
+The chemicals decompose and the targeted
+atoms diffuse very quickly through the gas
+phase onto the wafer surface.
+
+The design of this showerhead assures that
+the process gases are always distributed
+evenly throughout the entire wafer surface.
+The showerhead is located very close to the
+heated wafers.
+
+Close Coupled Showerhead® –
+AIX R6 · 31x4 inch
+
+Here the semiconductor layers are deposited
+on the underlying wafers – at various temperatures (up to approximately 1,200°C).
+Further important components modularly
+used in the systems …
+
+Page 6
+
+In the reactor, the gases are introduced
+through a huge number of very small gas
+channels in the reactor ceiling, just like a
+bathroom showerhead.
+
+The method of how the gases are introduced and how they reach the wafer
+and are deposited onto the crystal is different in both technologies.
+However, both processes lead to similar
+results.
+
+• Gas mixing system
+• Process pump vacuum system
+• In-situ metrology
+(measuring systems controlling
+what happens inside the reactor)
+• Integrated wafer handlers for automation
+• Power supply unit
+
+Showerhead
+
+Close Coupled Showerhead® technolgy
+AIX R6 system
+
+What are III-V Semiconductors?
+
+How MOCVD works
+
+MOCVD is a process for manufacturing
+complex semiconductor multilayer structures used in electronic or optoelectronic
+components such as LEDs, lasers, highspeed transistors or solar cells. Unlike
+the better-known Silicon (used in the
+production of computer chips, for example), these semiconductors consist of not
+just one element, but rather of two or
+even more. They are therefore referred
+to as “compound semiconductors”. They
+include Gallium Arsenide (GaAs), Indium
+Phosphide (InP), Gallium Nitride (GaN)
+and related alloys.
+
+To produce compound semiconductors,
+the chemicals are vaporized and transported into the reactor together with other
+gases. There, the critical chemical reaction
+takes place that turns the chemicals into the
+desired crystal (the compound semiconductor).
+
+Periodic table
+(excerpt)
+
+II
+
+Page 8
+
+2
+
+The chemicals used for the deposition process
+are atoms of group III such as Ga, In, Al, combined with complex organic gas molecules,
+and atoms of group V such as As, P, N, combined with hydrogen atoms.
+
+Al = Aluminium
+Ga = Gallium
+In = Indium
+N = Nitrogen
+P = Phosphorus
+As = Arsenic
+Sb = Antimony
+
+Periode
+
+3
+4
+5
+6
+
+III
+
+Gruppe
+IV
+V
+
+VI
+
+9,0
+
+10,8
+
+12,0
+
+14,0
+
+16,0
+
+4
+
+5
+
+6
+
+7
+
+8
+
+Be
+
+B
+
+C
+
+N
+
+24,3
+
+27,0
+
+28,1
+
+31,0
+
+12
+
+13
+
+14
+
+15
+
+40,1
+
+69,7
+
+72,6
+
+74,9
+
+Mg
+Ca
+
+Al
+
+Ga
+
+Si
+
+Ge
+
+P
+
+As
+
+O
+
+32,1
+16
+
+31
+
+32
+
+33
+
+34
+
+118,7
+
+121,8
+
+127,6
+
+Sb
+
+49
+
+50
+
+51
+
+52
+
+137,3
+
+204,4
+
+207,2
+
+209,0
+
+209
+
+56
+
+81
+
+82
+
+83
+
+84
+
+Tl
+
+Pb
+
+Bi
+
+Deposition process takes place
+on the substrates (wafers)
+
+Vaporized metalorganic and other gases
+
+Transport
+
+Evacuation
+
+Chemical Reaction
+
+Desorption
+
+Te
+
+38
+
+Ba
+
+Surface processes while growing
+layers on the substrate
+
+Se
+
+114,8
+
+Sn
+
+Most importantly, they are highly efficient
+at converting light into electric power and
+vice-versa – this is what high-performance
+solar cells and all LEDs are based on.
+
+AIXTRON is a global leader in this technology.
+
+S
+
+87,6
+
+In
+
+Compound semiconductors have significant advantages over Silicon. Because
+electrons can move very fast in III-V
+materials, those devices containing III-V
+semiconductors can “process” the very
+high frequencies in mobile phones, for
+example. Moreover, they can also function
+even at very high temperatures.
+
+In MOCVD the injected gases are ultra-pure
+and can be finely dosed. AIXTRON MOCVD
+equipment enables the deposition on large
+areas and is therefore the first and most
+cost-effective choice for compound semiconductor manufacturers.
+
+79,0
+
+20
+
+Sr
+
+They are also called “III-V semiconductors” because they are made from
+elements of group III and V of the Periodic Table and can interact to form crystalline compounds.
+
+Po
+
+Adsorption
+
+Wafer
+
+Surface kinetics
+
+Wafer
+
+Growth
+
+Epitaxy: Growth of Crystalline Layers
+
+Precision in Deposition
+
+Epitaxy refers to the deposition of thin, single layers onto a suitable substrate on which
+they grow in the form of crystals. The word stems from a Greek term meaning “stacked”
+or “arranged in layers”.
+
+Precision is everything: The thinnest films required in an LED structure are less than one
+nanometer thick (which is 0.000001 mm). Such thin film layers are usually deposited onto
+substrates of four inch size (100 mm Ø). If we apply this precision to Germany it would
+mean that a thin film of snow of just 1 cm height would have to be spread uniformly across
+the entire country.
+
+Initial state
+
+Gas flow with precursors and dopants within the heated reactor
+
+Wafer
+4 inch
+(100 mm Ø)
+
+Germany
+Latitude
+approx.
+1,000 km
+
+The thickness of a single layer has to be very homogenous
+
+Page 10
+
+Crystals start to grow
+
+Substrates in a reactor made by AIXTRON
+
+Final state
+
+N = Nitrogen atoms
+Ga = Gallium atoms
+Diameter of a human hair: 100,000 nm
+
+In the subsequent LED chip processing
+stage, precision is measured in nanometers. This diagram compares the diameter of an average human hair to the
+epitaxial layers on the substrate.
+
+Epitaxial layer:
+1 atom layer up to
+a few thousand nm
+
+Substrate
+
+The Laser Diode
+
+The Transistor
+
+A laser device emits a narrow beam of concentrated light with a high density of energy and a
+very sharp color.
+The crystal structure of a laser looks similar to
+that of an LED. In order to create laser light from
+
+a diode, it is very important to have ultra high
+crystal quality and atomically sharp layer interfaces. The main advantage of laser diodes as
+compared to other laser types is the high speed
+of light availability. They can be switched on and
+off easily and have a very small device footprint.
+
+A transistor is a semiconductor device used to
+amplify and switch electronic signals.
+Transistors are commonly used as electronic
+switches, both for high-power applications
+such as switched-mode power supplies and for
+
+The LED
+Most currently available solar cells are made
+from Silicon. III-V solar cells are mainly used on
+satellites, as they are very robust against radiation in space. In so-called concentrator solar
+cells, III-V solar cells are being used for terrestrial applications.
+
+LEDs are among the world’s smallest light
+sources. Their low power consumption and low
+heat generation make LEDs more economical
+and safer in use than traditional lighting devices.
+
+The smallest LEDs measure about 0.1 mm2,
+whereas the “power LED” may be up to several
+square millimeters large and provides output of
+several hundred lumens.
+
+Page 12
+
+A solar cell is a solid state device that converts
+the energy of sunlight directly into electricity
+by the photovoltaic effect. Assemblies of cells
+are used to make solar modules, also known as
+solar panels. Materials presently used for photovoltaic solar cells include Silicon, cadmium telluride and copper indium selenide/sulfide.
+
+III-V transistors are the key electronic devices of
+applications such as mobile phones, hybrid cars
+or smart grids.
+
+From Deposition to Device
+
+From Deposition to Device
+The Solar Cell
+
+low-power applications such as logic gates.
+
+Picture credits pages 12–14:
+Laser diode: © Fraunhofer ILT, Aachen
+Solar cell und transistors:
+© Bapic & rockerman - Fotolia.com
+LED bulb: © Thomas Söllner - Fotolia.com
+LED: © OSRAM GmbH, Munich
+Power chip LED: © OSRAM GmbH, Munich
+LED TV: © Samsung
+
+Aboute the pictures on these pages …
+After the MOCVD deposition process, the different crystal structures are processed into numerous
+different electronic or optoelectronic devices, such as LEDs, lasers, transistors and solar cells.
+
+Lighting source of the future …
+The latest-generation LEDs for general lighting are also offered in standard commercial
+“bulb format”, in order to facilitate the changeover from traditional lighting, such as in private
+households.
+The description on the following pages explains exactly what LEDs are made of and how
+they work.
+
+How LEDs Work
+1
+
+Construction & Operation Mode
+
+2
+
+3
+
+4
+
+5
+
+Lens
+
+Metal contact
+4 inch wafer
+Power chip (example):
+1 mm x 1 mm
+
+After the deposition process, the
+wafers are processed into chips, finally resulting in the production of
+a finished LED. Depending on the
+chip size, a 4 inch wafer can deliver between 4,000 and 120,000
+LED chips.
+
+p-doped contact layer
+
+Active zone
+
+LED Chip size:
+1 mm – 10 mm
+Housing
+
+Carrier plate
+
+Heat sink
+
+Bond wire
+
+n-doped contact layer
+Saphire
+
+Metal contact
+
+Page 14
+
+Transparent contact
+
+Active zone
+with MultiQuantum-Well
+(MQW)
+
+Metal contact
+p-GaN
+
+Did you know … ? The scientific explanation of how an LED works:
+An LED has an active zone that determines the color of the light. This
+is embedded in a p-doped layer and an n-doped layer that transport
+electrons (n-doped side) and so-called “holes” (p-doped side) to the
+active layer when current is flowing.
+
+The electrons and holes are then transformed into photons (light)
+in the active zone. Doping atoms are used for n- and p-doping (for
+example, Silicon for n-doping or Magnesium for p-doping). During
+MOCVD growth, these doping atoms can be interspersed into the
+growing layer via the gas flow.
+
+Nucleation
+layer
+
+n-GaN
+
+Substrate
+
+Structure of an LED
+
+Power chip package
+Ostar LED chip
+LED-TV backlight unit with LED
+
+
