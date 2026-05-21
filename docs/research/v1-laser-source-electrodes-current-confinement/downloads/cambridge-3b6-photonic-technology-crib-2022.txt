@@ -1,0 +1,658 @@
+2022 3B6 Photonic Technology Crib
+1 a)
+
+GaAs based double heterostructure LED
+P+ contact diffusion
+Contact ring
+Isolating and A.R. oxide layer
+Very thin n GaAs contact layer
+GaAlAs P confining layer
+GaAs active layer
+GaAlAs N confining layer
+N+ GaAs substrate
+Emitting volume
+
+This is a simple LED structure where the pn junction from which the light is emitted is
+placed near the top of the device so that light, once generated can leave the device
+out of the top quickly. However light that once generated but travelling to the sides or
+downwards may be lost.
+
+GaAs based Burrus type high radiance LED
+
+N contact
+Multimode Fibre
+Emitting volume
+N+ GaAs substrate
+GaAlAs N confining layer
+GaAs active layer
+GaAlAs P confining layer
+Very thin n GaAs contact layer
+Isolating oxide layer
+Contact pad
+P+ contact diffusion
+
+The Burrus diode has much of the substrate etched away: this allows high coupling
+into a multimode fibre, sometimes a spherical micro-lens is interposed as well. In
+addition, the heat generation is close to the p surface which can be bonded directly to
+
+a heatsink and the contact metal also reflects some light back upwards into the fibre.
+Similar devices are made using the InP/GaInAsP materials system at longer
+wavelengths.
+Edge emitting LEDs generate light within a heterostructure and encourage it to be guided
+along the device and be output at one facet. The devices operate at similar current
+densities and currents to surface emitters as above, but the emitting spot is much
+smaller and the use of optical waveguiding increases the maximum brightness available.
+They are, therefore, often used where the small spot is useful, particularly in high
+performance fibre optic transmitters, but only when a laser is inappropriate. They are
+much better at coupling light into single mode fibres than surface emitters.
+Edge emitting LED
+
+Contact stripe
+
+Emitting spot
+
+b) i) Eg (in eV) = 𝐸𝑔 =
+
+ℎ𝑐
+𝑒𝜆
+
+= 1.495 eV.
+
+A good material would be AlGaAs which has a bandgap
+
+(tunable by varying the Al concentration), equal to the photon energy.
+ii) 1/τs = 1/τrr + 1/τnr
+
+ηint
+
+=> τs = 1.43 ns
+
+= (no. photons generated/unit time)/(total no. carriers injected/unit time)
+
+= (no. radiative recombinations/unit time)/(total no. recombinations/unit time)
+= (1/τrr )/(1/τrr
+
++ 1/τnr) => ηint = 0.714 (or 71.4%)
+
+iii) P = photon energy  quantum efficiency  number of injected electrons
+
+ hc  I
+  
+where η
+  e
+
+So ηext =
+
+𝑃
+
+𝜆 𝑒
+
+𝜂𝑖𝑛𝑡 ℎ𝑐 𝐼
+
+= ηint ηext
+
+=> ηext = 0.023 = 2.3%
+
+iv) Assume
+
+𝑑𝑃
+
+= −
+
+𝑑𝑡
+
+𝑃
+
+– the output power is directly proportional to the carrier
+
+𝜏𝑠
+
+density in an LED and once the current is turned off, the carrier density will reduce with
+a characteristic time given by the spontaneous emission time.
+𝑃 𝑑𝑃
+
+Integrating ∫𝑃
+
+0
+
+𝑃
+
+𝑡 𝑑𝑡
+
+= − ∫0
+
+𝜏𝑠
+
+or ln(P/P0) = -t/s
+
+Rearranging P = P0 e-t/s
+So the time taken to reduce the power to 1mW is 0.58 ns.
+ T-T1 
+
+v) From datasheet
+
+
+
+P(T)
+T 
+ e  0  so
+P(T1 )
+
+𝑃(100℃)
+
+100−20
+
+𝑃(20℃)
+
+= exp (−
+
+100
+
+) = 0.45
+
+As the power is proportional to current for both cases (though obviously with a different
+overall efficiency) to maintain the output power, we need to increase the current by factor
+1/0.45, so 60/0.45 = 133.5 mA or 73.3 mA increase.
+
+2.. In order for a system to lase, two main conditions must be achieved, (i) stimulated
+amplification must be stronger than absorption so that any optical signal is rapidly amplified in
+power, and (ii) some form of optical feedback must be provided so that lasing light generated can
+in part be fed back so that stimulated amplification can continue to occur, thus causing sustained
+stimulated emission and hence lasing output.
+To achieve continual net stimulated amplification, there must be a larger numbers of free carriers
+in the upper level than the lower level so that a photon is more likely to stimulate the emission of
+another photon rather than be absorbed. This therefore requires a “population inversion” to be
+created as normally carriers gather at the lowest possible energy levels.
+As a result of these requirements, in a typical laser system, much more care must be taken to
+ensure that the light does not scatter or “leak” out of the lasing region. It is also important to
+ensure that an optical cavity is bounded by reflectors, so that a lasing filament is formed which
+oscillates back and forth within the cavity, and that the generated light is confined to cause further
+stimulated emission. By using partial reflectors, some of the light is emitted from the cavity as
+the output from the laser.
+
+The formation of such a cavity, however, has a major effect on the form of optical spectrum
+generated. This can be understood by considering Fig. 2. If the laser cavity is formed by two
+mirrors with power reflection set a distance, L, apart, the optical filament will oscillate at such a
+wavelength that nodes occur at both reflectors.
+Fig. 2
+
+Fabry Perot Modes
+
+N half wavelengths
+Mirror
+
+Mirror
+
+As a result, a series of different wavelengths m can be supported by such a cavity where
+m = 2L/m.
+
+where m is an integer. In essence, a series of optical modes that can be generated are
+given by
+ = mc/(2L)
+so that the spacing in frequency between adjacent modes, m, is c/2L.
+As  = c/λ, |δν|= (c/λ2)|δλ| => |δλm| = (λ2/c)|δνm| = λ2/c.c/2L = 2/2L
+
+It should be noted, however, that wavelengths are only generated if electronic transitions occur
+with the necessary energy spacing. However, a range of optical lasing modes can be generated
+simultaneously if a range of energy levels are available. By meeting both these requirements, lasing
+action is achieved.
+It should also be noted that the length L is the optical length of the cavity and not the physical
+length unless the cavity is a vacuum. So if the cavity contains a material with a refractive index n,
+then the cavity length become n x the physical length.
+The diode injection laser is now the most common form of optical source used in fibre
+communication systems. In order to attain lasing action the following situations must be
+produced:
+
+Cleaving crystal facets results in
+good reflection as the laser diode
+I refractive index is ~ 4
+-----------------p
+Light
+Output
+
+n
+
+Light
+Output
+
+++++++++++
+
+
+
+A state must be obtained whereby more electrons exist in the higher electron energy level
+than the lower (population inversion). Such a condition may be achieved by driving a p-n
+junction at voltage greater than the bandgap. Here electrons will be injected directly into the
+conduction band and holes into the valence band so that at the junction, an incident photon
+is more likely to cause recombination rather than the excitation of a valence electron into the
+conduction band. Driving a p-n junction at such a high forward bias level can lead to very
+high power dissipation (10 MW/cm3) and hence steps are generally taken to ensure that the
+active light generating region is kept very small.
+
+
+
+A method is required to ensure that the photon density in the junction is maintained at a high
+level. This is generally done by cleaving the p-n diode in chip form so that dielectric mirrors
+are formed to reflect light back into the device. Typical reflectivities are 30%.
+
+Having a combination of a high concentration of electrons in the conduction band, holes in the
+valence band and photons in the diode cavity, stimulated emission is more likely than absorption
+and hence laser action occurs.
+At long wavelengths, no absorption or gain occurs, and at short wavelengths the material always
+absorbs, but near the wavelength corresponding to the bandgap increasing, forward bias will take
+the material from loss to gain.
+To make the laser more efficient, it is important to confine both carriers (so that the threshold
+carrier concentration can be reached at moderate currents) and photons (so the photons are
+confined to the same volume where there is gain). This is done best in the buried
+heterostructure laser where the heterostructure provides both carrier confinement and optical
+waveguiding in both vertical and lateral operation.
+
+Buried heterostructure laser schematic end view
+contact window
+p contact
+
+active
+
+oxide
+GaAlAs
+regrown current
+-blocking layer
+
+GaAlAs
+n confining
+layer
+GaAs substrate
+substrate
+
+emitting spot
+
+n contact
+The Buried Heterostructure laser has excellent current confinement and waveguiding, but is
+difficult and expensive to make, and is not quite as reliable as the ridge laser. The current
+confining layers are of Ga0.4Al0.6As doped with germanium, which gives a high resistivity.
+
+These
+
+structures are actually more popular with InP / GaInAsP materials, where good quality semiinsulating semiconductor cannot be grown, so in this case the current blocking layer consists of a
+p-n-p sandwich of InP, which together with the n InP of the substrate gives an
+n-p-n-p or "thyristor" structure which always has one reverse biased junction and blocks current
+under low bias conditions.
+b) Δλ = λ2/2nL => L = 429 µm
+c) i) A good answer should state that the rate equations make the following assumptions:
+ the carrier, photon and current densities are constant in the diode laser throughout its
+volume,
+ that the laser generates purely monochromatic light in one mode,
+ that the amplification of light by stimulated emission is linear with carrier concentration and,
+ that temperature effects are negligible.
+
+In terms of the electron rate equation:
+
+dn
+n
+I
+ 
+ g n  no P
+dt
+ s eV
+The LHS of the equation concerns the net rate of change of carrier concentration. The RHS has the
+following terms in order: (i) spontaneous emission, which causes a depletion of carriers per unit
+time), (ii) current injection (which causes an increase in carrier concentration), and (iii) nett
+stimulated emission and absorption which causes carrier depletion and enhancement respectively.
+
+dP
+n P
+ g n  no P   
+dt
+s  p
+The LHS of the equation concerns the net rate of change of photon density of the lasing mode.
+The RHS has the following terms in order: (i) stimulated emission, which causes a growth in
+photon density, (ii) spontaneous emission (which causes an increase in photon density, but which
+is diluted by the spectral overlap of the stimulated and spontaneous emission), and (iii) loss of
+photons from facets and through scattering, as defined by a lifetime.
+ii) Assume that the laser is in steady state, dn/dt = dP/dt = 0 and assume that  is very small.
+Below threshold, when P = 0 (there is no lasing light generated), the electron rate equation
+becomes simply
+
+0   n /  s  I / eV =>
+
+n = Is/eV
+
+so that the overall operation of the laser can be understood. The carrier concentration in the
+laser increases linearly with current until threshold, when it saturates to a constant value.
+(=> Ith = eVnth/ s)
+Rewriting the photon rate equation,
+
+0  g n  no P  P /  p = >
+
+
+
+
+
+P g n  no   1 /  p  0
+
+As P may have values greater than 0 (and not less!),
+
+
+
+g n  no   1 /  p  0 = > n  no  1 / g p
+
+
+
+However all the terms on the right hand side of the equation are constants. Maintaining a steady
+state for all values of lasing photon density greater than zero, the carrier constant in the laser is
+constant. Let this value be called the threshold carrier density, nth.
+=> Ith = (eV/ s).(no + 1/g  p)
+Considering the electron rate equation, 0   g n  no P  n /  s  I / eV
+But n = nth for all P>0, so in this regime,
+
+P
+
+I / eV  nth /  s 
+g n  no 
+
+Letting Ith = eVnth/s,
+=>
+
+P
+
+I  I th 
+ k I  I th 
+eV g nth  no 
+
+where the slope, the differential efficiency, k = 1/eVg(nth – no)
+
+nth = n0 + 1/gp
+
+n
+
+P
+
+nth
+slope k
+
+Ith
+
+iii)
+
+I
+
+From above Ith = (eV/ s).(no + 1/g  p)
+
+We know all variables apart from the photon lifetime
+
+1
+μ
+= 2.20ps
+1
+1
+ c  
+ln
+2 L R1 R2
+
+p   
+
+So Ith = 23.6 mA
+
+Ith
+
+I
+
+Q3. (a) One of the most common type of photodiodes is the PN junction diode. It consists of an N+
+substrate onto which is grown a thin P+ top contact layer. When the structure is reverse biased,
+some of the N+ region is depleted, most of the potential being dropped across the depletion region.
+A photodiode can work at high speeds that make them suitable for data communication
+applications.
+Structure
++ doping
+
++
+P
+
++
+N
+
+N
+
+A photoconductor is a piece of semiconductor that does not have a PN junction. It operates with
+external bias voltage. A photoconductor can have a large photoconductive gain but its response
+charge
+time is very long
+and the device is noisy. It is good for applications were low light levels need to be
+density
+detected but not where anyPhotoconductor
+speed is required
+(ie communications).
+re sponse
+Length "L"
+
+electric
+field
+
+g photons absorbed per unit vol, per unit time
+
+local
+potential
+Area "A"
+
+V
+I
+
+In order to detect wavelengths >about 1.6 µm, we have to use a semiconductor with a bandgap
+less than the normal Ge or GaInAs/InP. Materials for these wavelengths are difficult to handle and
+don’t produce good junctions, and in any case junction leakage becomes large. We can therefore
+introduce a donor level inside the bandgap to form a photoconductor, with energy gap between it
+and the conduction band slightly less than the photon energy to be detected. Thermal excitation
+will ionise a significant proportion of the donor atoms if the energy gap is less than about 5kT.
+Using the relationship λ=1.24/Eg, this implies we can use this technique for wavelengths out to
+about 10 µm at room temperature. Therefore, a photoconductor is suitable for detecting radiation
+in the wavelengths of 2-10µm.
+(b) (i)The photoconductive gain is defined as:
+G
+
+I photoconductor
+I photodiode
+
+g. r . e.V . A 
+      .V
+p
+ e
+
+
+L
+
+ r 2  e   p 
+
+g. e.L. A
+L 
+
+According to the equation above, the photocondctive gain can be increased by decreasing it’s
+length L or increasing it’s bias voltage V.
+(ii) This equation is not obvious in its meaning but some physical understanding can be arrived at
+as follows:
+V
+E
+L
+
+Substituting
+
+and
+
+ve  E .  e and similarly v p  E .  p
+
+ 
+
+G  r  ve  v p 
+
+L
+But
+ve
+L
+
+
+
+1
+
+ et
+
+and
+
+vp
+L
+
+
+
+1
+
+ pt
+
+,
+
+where  et ,  pt are the electron and hole transit times respectively
+
+So
+
+
+
+G r  r
+ et
+
+ pt
+
+Therefore, G=0.5s/2µs + 0.4s/4µs=350000.
+(c) (i) Bmin = 80% × 40 = 32 GHz;
+Bmin=Gmin / (2πCRf), Gmin=Bmin (2πCRf)=32×109 × 2π × 1×10-12 × 10×103=2010.62
+(ii) SNR = 23dB = 200;
+g = ηλe/(hc) = (0.8 × 1.3×10-6 × 1.6×10-19) / (6.63x10-34 × 3×108) = 0.837A/W;
+SNR = (gP)2 / (4kTB/Rf)
+= (0.837×P)2 / (4 × 1.38×10-23 × 310 × 32×109 / 10×103)
+= 200
+P = 3.954×10-6W = 3.954×10-3mW = -24.03 dBm
+(d) For an APD, the shot noise scaled by the excess noise factor becomes
+<iash2> = 2FM2e(gP+Id)B = 2M2+xe(gP+Id)B
+Including the resistive load, the general expression for SNR in photodetectors becomes:
+
+SNR 
+
+( MgP) 2
+2M 2 x e(gP  I d )B  4kTB
+
+R
+
+Note for M=1, the expression reduces to that for a pin photodiode.
+The thermal noise sets a lower limit on the signal to noise ratio. As the avalanche gain is increased
+from M=1, the SNR initially rises since the signal power rises as a function of M2 and the dominant
+thermal noise is unaffected. However, as a result of the excess noise factor x, the shot noise
+increases at a faster rate than the signal with increasing power. There is therefore an optimum
+multiplication factor for the highest signal to noise ratio. This is easily determined by differentiating
+the signal to noise ratio with respect to the multiplication factor and setting the derivative to zero
+for the optimum operating point.
+SNR
+
+M
+
+Q4. (a) As, by definition, a single mode fibre can only support one mode, by using single mode fibre
+the problems associated with intermodal dispersion are completely avoided. However, there still
+remain two other major sources of dispersion, namely material (or chromatic) dispersion and
+waveguide dispersion. Material dispersion arises because of the wavelength dependence of the
+refractive index of the material making up thre fibre and applies equally to a plane wave a similar
+medium as well as in waveguides. Any optical pulse will contain a finite spread of wavelengths.
+Waveguide dispersion arises because the mode propagation velocity in the fibre itself depends on
+wavelength regardless of any refractive index variations of the medium. The effects of material and
+waveguide dispersion are additive. The waveguide dispersion increases with decreasing values of
+V. Therefore reducing the core diameter will give an increased waveguide dispersion, and will thus
+shift the zero dispersion wavelength to higher wavelengths. The actual value of the zero dispersion
+wavelength depends on the fibre dimensions, the material refractive index profile. By a suitable
+design it is possible to make the zero dispersion wavelength lie anywhere between 1300 and
+1600nm.
+(b) (i) Graded index multi-mode fibres are better since they have smaller intermodal dispersion.
+For step index multi-mode fibres:
+
+The speed at which the ray travels down the optical fibre is dependent on its internal angle. Ray
+AA travels down the centre of the fibre and so travels less far than ray BB. The velocity of ray AA
+along the axis of the fibre will be c/n1. The component of the velocity of ray BB along the axis will
+be (c/n1)cos(90-ɸc) or (c/n1)sinɸc. Hence the time difference between the fastest and the slowest
+ray is:
+L n1
+n1  n2 
+t  t max  t min 
+c n2
+For graded index multi-mode fibres:
+
+The ray will undergo a series of small refractions and the value of ɸ increases. Eventually ɸ will be
+big enough that the ray undergoes total internal reflection, rather than further refraction and then
+is directed back towards the centre of the fibre. If we then assume that the refractive index step
+between layers becomes smaller and the layers become closer together, then the path becomes
+close to a sinusoid. At the optimum grading profile (α~2), then different initial ray angles will pass
+through the central axis with the same spatial frequency. The rays which have bigger initial angles
+travel further. However they predominantly travel further away from the centre of the fibre and
+here the refractive index is lower so they travel faster than rays travelling along the fibre axis. Thus
+
+these rays can compensate for the longer paths by having a lower average index.
+
+(ii) Consider a diffuse light source such as an isotropic radiator (also known as a Lambertian source).
+The power radiated per unit solid angle for such a source at an angle θ to the normal of its surface
+is given by
+I(θ) = I0 cos θ
+The total power emitted is found by integrating over all forward directions
+ /2
+
+P0   2I 0 cos sin d
+0
+
+ I 0
+
+The power that can be collected by a fibre is given by
+m
+
+P   2I 0 cos sin d
+0
+
+ I 0 sin 2  m
+
+Thus the collection efficiency is given by
+n n
+P
+ sin 2  m  1 2 2
+P0
+na
+2
+
+2
+
+Thus, the maximum collection efficiency can be obtained by having n1=1.58, and n2=1.50.
+(c) (i) As the arrival time of each photon is random, the interaction is statistical. The best
+distribution to model the process is the Poisson distribution.
+P(k|N) = exp (-N) Nk / k!
+where P(k|N) is the probabily of k carriers being photogenerated in a given bit period for an
+average carrier number N. Assume we have a perfect thresholding device which will give a “1”
+output if 1 or more carriers are generated in a bit period and a “0” if no carriers are generated.
+Hence the probability of error is given by:
+P.E. = prob of “1” being interpreted as “0” + prob of “0” being interpreted as “1”
+= 0.5 { P(0|N) + P(1|0) }
+= 0.5 exp (-N) N0 / 0! = 0.5 exp (-N)
+For a probability of error < 6×10-5, we need N ≥ 9. Since η=0.9, N’ = N/η = 9/0.9 = 10;
+Assume the probability for “0” and “1” equals, thus each bit has 10/2=5 photons on average.
+For a long haul communications link, λ=1.55µm. Photon energy: hc/λ = 1.283×10-19 J
+P = 5 × 1.283×10-19 × 40×109 = 2.566×10-8 W = 2.566×10-5 mW
+Quantum limited sensitivity = -45.91 dBm
+(ii) Δtsmf = D L Δλ = 17 × L × 0.01 = 0.17L ps;
+Bit period = 1 / (40×109) = 25 ps;
+
+Output pulse width = 25 × 1.3 = 32.5 ps;
+2
+2
+𝑡02 − 𝑡𝑖𝑛
+= 𝛥𝑡𝑠𝑚𝑓
+32.52 – 252 = (0.17L)2, L = 122.16 km.
+Sensitivity = 2dBm – 2×2dB – 2dB – 3dB – 0.1dB – 122.16×0.22dB = -33.97 dBm
+(iii) At wavelengths greater than about 1.6µm, the main losses are due to transitions between
+vibrational states of the lattice itself. The actual fundamental absorption peaks occur at
+wavelengths well into the infrared (in SiO2, for example, the main peak is at 9µm). However an
+incoming photon can simultaneously excite two or more fundamental lattice vibrations (or
+phonons). Thus a number of strong absorption bands extend all the way down to about 3µm with
+appreciable absorption still occurring below 2µm. Therefore, a low phonon energy glass fibre is
+needed when longer wavelength lasers (over 1550nm in this case) are used.
+The fundamental loss is due to Rayleigh scattering and can be characterised by an absorption
+coefficient that varies as λ-4. Since the fundamental loss 0.22 dB km-1 at a wavelength of 1.55µm,
+the fundamental loss is thus 0.108 dB km-1 at a wavelength of 1.85µm.
+
+

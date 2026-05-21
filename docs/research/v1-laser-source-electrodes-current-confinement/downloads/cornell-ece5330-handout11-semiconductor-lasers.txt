@@ -1,0 +1,1546 @@
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+Chapter 11
+Basics of Semiconductor Lasers
+11.1 Introduction
+11.1.1 Introduction to Semiconductor Lasers:
+In semiconductor optical amplifiers (SOAs), photons multiplied via stimulated emission. In SOAs
+photons were confined in the dimensions transverse to the waveguide but were allowed to escape from the
+end of the waveguide. We now consider optical cavities in which the photons are confined in all three
+dimensions and kept inside the cavity for much longer durations allowing them to multiply via stimulated
+emission and thereby generating a large population of photons inside the cavity. The simplest way to
+realize an optical cavity is to take an SOA waveguide and coat both the input and output facets with a
+high-reflectivity (HR) optical coating (SOAs generally have an anti-reflecting (AR) coating on the input
+and output facets). The optical cavity thus obtained is called a Fabry-Perot cavity and is shown below.
+
+R1
+
+R
+
+2
+
+z=0
+
+z=L
+~
+Suppose the modal gain is a g and the facet reflectivities are R1 and R 2 . If one follows a guided mode
+through one complete roundtrip of the cavity, one finds that the change in optical power after one
+complete roundtrip is,
+
+R1R2e a g  2L
+~ is small such that, R R e a g~ ~ 2L  1, any photons introduced into the cavity will
+When g
+1 2
+eventually leave the cavity (it will either be transmitted out of the cavity through either one of the two
+facts of the cavity or it will leave the cavity by being absorbed in the cavity because of the modal loss ~ ).
+~ is made large enough such that R R e a g~ ~ 2L
+The question that arises is what if the gain g
+~ ~
+
+1 2
+
+approaches unity? In this case, the number of photons lost in one complete roundtrip from the facets or
+due to the waveguide loss equals the increase in the number of photons in one roundtrip due to stimulated
+emission. In other words, the cavity gain per roundtrip equals the cavity loss per roundtrip. The condition,
+
+R1R 2e a g  2L  1
+is the lasing condition. When this condition is satisfied, a large photon population can build up inside the
+cavity starting from spontaneous emission and we have a laser (light amplification from stimulated
+emission of radiation).
+~ ~
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+The simplest way to analyze and understand laser dynamics is using rate equations. In this Chapter, we
+will setup laser rate equations using the Fabry-Perot optical cavity as a model.
+
+11.2 Photon Density Rate Equation
+11.2.1 Laser Threshold Gain:
+The value of the material gain that satisfies the lasing condition,
+
+R1R 2e a g  2L  1
+~ . We can write the expression for the threshold gain as,
+is called the threshold gain g
+~ ~
+
+th
+
+a g~th 
+
+1  1  ~
+log
+
+L  R1R2 
+
+The threshold gain is function of the parameters of the optical cavity. The lasing condition states that
+photons multiply via stimulated emission at the same rate inside the cavity as the rate at which they are
+being lost from the cavity. There are two sources of loss; the loss from the facets (or the mirrors) of the
+cavity and the intrinsic loss ~ from the waveguide. We can define a mirror loss ~m as follows,
+
+~m 
+
+1  1 
+log
+L  R1R2 
+
+The lasing condition then becomes,
+ g~  ~  ~
+a th
+
+m
+
+11.2.2 Effective Mode Volume:
+For the Fabry-Perot optical cavity, the volume of the active region is Va  WhL . Here, W is the width of
+the active region and h is the height of the active region. The area of the active region is Aa  Wh . The
+effective area of the mode is Aeff  Aa a and the effective volume of the mode is Vp  Aeff L .
+We now generalize the definition of the mode volume to all types of optical cavities. For any optical
+cavity, the optical mode confinement factor a for the active region is equal to the ratio of the mode
+energy in the active region to the total mode energy,
+ 
+M
+3
+  o n n g E.E * d r
+
+a  active
+ 
+M
+3
+  o n n g E.E * d r
+
+Active region
+Optical cavity
+Va
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+Suppose the total number of photons in the cavity is N p and the average photon density in the active
+region is n p , then,
+
+a 
+
+n pVa
+Np
+
+The effective mode volume Vp is defined by the expression,
+
+V
+Vp  a
+a
+This definition implies that the total number of photons N p can be written as,
+N p  n pV p
+Note that for the Fabry-Perot cavity,
+V
+A L
+Vp  Aeff L  a  a
+a
+a
+
+
+
+Aeff 
+
+Aa
+a
+
+11.2.3 Cavity Optical Gain:
+Consider an optical cavity with N p photons. The rate of stimulated emission (number of stimulated
+transitions per second per unit volume of the active region) is v gM gn p . If the cavity is a Fabry-Perot
+cavity then the stimulated emission rate is usually written in terms of the waveguide group velocity v g
+as, v g~n . Assuming a Fabry-Perot cavity, the total stimulated emission rate in the active region is,
+g
+
+p
+
+v g g~n pVa . But,
+
+V
+v g g~n pVa  v g g~n p a V p  a v g g~N p
+Vp
+Photon multiplication in the cavity due to stimulated emission can be expressed as,
+dN p
+ a v g g~N p
+dt
+The quantity a v g g~ is the cavity optical gain since it describes the rate of increase of the number of
+photons inside the cavity due to stimulated emission.
+11.2.4 Cavity Optical Loss and Cavity Photon Lifetime:
+Cavity photon lifetime  p expresses the rate at which photons are lost from the cavity, for example, by
+escaping from the end facets of a Fabry-Perot cavity or by getting absorbed in the cavity material
+(excluding stimulated absorption in the active region). The rate of photon loss is, N p  p . The total rate
+of change of photon number in the cavity is therefore,
+dN p 
+1
+  av g g~  N p
+ p 
+dt
+
+The first term inside the bracket on the right hand side describes optical gain and the second term
+describes the optical loss. The condition for lasing is that the rate of increase of photon number due to
+stimulated emission (optical gain) is equal to the rate of decrease of photon number due to loss. In other
+words, the threshold gain must satisfy,
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+a v g g~th 
+
+1
+
+p
+
+Using the expression obtained earlier for the threshold gain of a Fabry-Perot cavity,
+a g~th  ~m  ~
+we get an expression for the photon lifetime of a Fabry-Perot cavity,
+
+vg
+1
+1 
+log
+ v g ~m  ~ 
+ v g ~
+ RR 
+p
+L
+1 2 
+
+For more complex optical cavities, numerical methods are generally employed to calculate photon
+lifetimes, as we will see in the following Chapters. Once the photon lifetime has been determined, the
+threshold gain can be calculated.
+11.2.5 Spontaneous Emission:
+The rate equation for the photon number,
+dN p 
+1
+ a v g g~ 
+N p
+dt
+ p 
+
+does not consider the increase in the photon number due to spontaneous emission. Remembering that the
+spontaneous emission rate equals the stimulated emission rate assuming one photon in the optical mode,
+one can write,
+dN p 
+1
+~
+ a v g g~ 
+N p  a v g g n sp
+dt
+
+p 
+
+The spontaneous emission factor n sp is needed here since the gain g~ is related to the net stimulated rate
+(stimulated emission rate minus the stimulated absorption rate). The above equation is usually expressed
+not in terms of the total photon number N p but in terms of the average photon density n p in the active
+region by dividing both sides by Vp ,
+
+
+1
+~ n sp
+ a v g g~ 
+ n p  a v g g
+dt
+ p 
+Vp
+
+The above equation is the main result that we will use throughout this Chapter.
+dn p
+
+11.3 Carrier Density Rate Equation
+11.3.1 Carrier Density Rate Equation:
+We assume that the active region of the laser is biased with a current source, as shown below.
+
+I
+
+R1
+
+R
+
+2
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+The rate equation for the carrier density is the same as the one used for SOAs,
+dn i I
+
+ Rnr n   Gnr n   Rr n   Gr n   v g g~ np
+dt qVa
+The non-radiative recombination-generation rates and the radiative recombination-generation rates due to
+spontaneous emission into all the radiation modes are expressed as follows,
+
+
+
+
+
+Rnr (n)  Gnr n   A n  ni   C n n 2  ni2  An  Cn 3
+
+
+
+
+
+Rr (n)  Gr n   B n 2  ni2  Bn2
+
+The gain is also a function of the carrier density and this dependence is usually approximated by a
+logarithmic function,
+ n 
+
+g~n   g~o log
+ ntr 
+11.3.2 Threshold Carrier Density:
+The carrier density at which the gain g~ equals the threshold gain g~th is called the threshold carrier
+density. If,
+ n 
+
+g~n   g~o log
+ ntr 
+~
+
+~
+
+then, nth  ntr e g th g o .
+
+11.4 Laser Rate Equations
+11.4.1 Laser Rate Equations:
+We can now write down the laser rate equations for the photon density and the carrier density as follows,
+nsp
+dn p 
+1
+(1)
+  av g g~  n p  av g g~
+ p 
+Vp
+dt
+
+
+dn  i I
+
+ Rnr n   Gnr n   Rr n   Gr n   v g g~ n p
+(2)
+dt qVa
+The above two coupled nonlinear equations can exhibit a wide variety of dynamics associated with the
+operation of semiconductor lasers.
+11.4.2 Laser Output Power:
+We also need expressions for the light coming out of the laser. Photons leave the cavity in two ways; they
+can either escape from the end facets (or mirrors) or they can get absorbed by the cavity. Only the photons
+that leave the cavity from the mirrors constitute useful output. We define an output coupling efficiency
+o of the laser as,
+~
+o  ~ m ~
+ 
+m
+
+The output coupling efficiency o is equal to the fraction of the photons leaving the cavity from the end
+facets (or mirrors). The total number of photons leaving the cavity per second is,
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+Np
+
+n pVp
+
+
+
+p
+
+p
+
+The number of photons leaving the cavity from the mirrors is therefore,
+Np
+n pVp
+ o
+o
+
+p
+
+p
+
+The output power P of the laser is.
+Np
+n pVp
+P  o 
+ o 
+
+p
+
+p
+
+11.5 Operation of Semiconductor Lasers
+11.5.1 Introduction:
+The nonlinear laser equations can easily be solved numerically on a computer. However, more insight is
+obtained using approximate analytical solutions in different regimes of operation. We need to solve
+Equations (1) and (2) above in steady state for different values of the current bias. Steady state implies,
+dn p dt  dn dt  0 . So the equations that need to be solved are,
+
+nsp
+av g g~
+Vp
+np 
+1
+ av g g~
+
+(3)
+
+p
+
+i I
+qVa
+
+ Rnr n   Gnr n   Rr n   Gr n   v g g~ np
+
+(4)
+
+11.5.2 Regime I ( n  ntr ) – Laser below Threshold:
+Suppose the current is switched on from zero and is small enough such that n  n tr and the gain is
+negative. Any photons emitted spontaneously into the cavity will experience loss from the mirrors ( ~m ),
+from the waveguide ( ~ ), as well as from the active region. Photons will therefore not last for long inside
+the cavity and the photon density inside the cavity will be very small. In this regime, one can ignore the
+stimulated emission term in Equation (4) and determine carrier density from the equation,
+i I
+ Rnr n   Gnr n   Rr n   Gr n 
+(5)
+qVa
+Once the carrier density has been determined using Equation (5) above for a given current bias, the
+photon density can be determined using Equation (3) above.
+11.5.3 Regime II ( ntr  n  nth ) – Laser below Threshold:
+As the current is increased, the carrier density will increase as dictated by Equation (5) above. At some
+point the carrier density will exceed the transparency carrier density and the gain will become positive.
+Photons emitted spontaneously into the cavity will multiply via stimulated emission. Since n  n th , and
+g~  g~ , the photon multiplication rate is not large enough to balance the photon loss rate from the
+th
+
+cavity and therefore the photon density in the cavity will be small. Again, one can ignore the stimulated
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+emission term in Equation (4) and determine carrier density from Equation (5) and once the carrier
+density has been determined using Equation (5) for a given current bias, the photon density can be
+determined using Equation (3).
+11.5.4 Regime III ( n  nth ) – Laser near Threshold:
+As the current is increased further, at some current value the carrier density, as predicted by Equation (5),
+will equal the threshold carrier density n th . The current for which the carrier density, as predicted by
+Equation (5), equals the threshold carrier density is called the threshold current and is given as,
+i Ith
+ Rnr nth   Gnr nth   Rr nth   Gr nth 
+(6)
+qVa
+When the carrier density n equals the threshold carrier density n , the gain g~ equals the threshold gain
+th
+
+g~th and the photon density, as given by Equation (3) is infinite because the denominator is zero. In fact,
+if the carrier density were to exceed the threshold carrier density, the photon density, as given by
+Equation (3), would be negative – an obviously unphysical result. What is happening is that as the current
+is increased, and the carrier density increases and approaches the threshold carrier density, the gain
+approaches the threshold gain. As the gain increases, the simulated emission rate increases and
+approaches the rate at which the photons are lost from the cavity. Every photon in the cavity now has a
+chance to multiply before it is lost from the cavity and so the steady state photon population inside the
+cavity also increases. Equation (3), reproduced below,
+nsp
+av g g~
+Vp
+np 
+1
+ av g g~
+p
+predicts that as the gain g~ approaches the threshold gain g~ , and optical gain  v g~ approaches the
+th
+
+a g
+
+optical loss 1  p , the steady state photon density increases significantly because the denominator
+approaches zero. When the photon density becomes very large, Equation (5) is no longer valid because
+carrier recombination rate due to the stimulated emission cannot be ignored compared to the other nonradiative and radiative recombination rates. Therefore, Equation (4) has to be used to calculate the carrier
+density in steady state. Equation (4) shows that as the photon density increases significantly, the
+stimulated emission rate av g g~n p also increases and keeps the carrier density, and therefore the gain,
+from increasing as much with current as when the stimulated emission rate is ignored. In fact, because the
+photon density increases drastically when the optical gain av g g~ gets close to the optical loss 1  p , the
+increased stimulated emission rate never allows the carrier density to ever exceed the threshold carrier
+density nth and, therefore, the gain never exceeds the threshold gain g~th . This gain saturation brought
+about by a large photon density is needed to stabilize the photon density inside the cavity. If the optical
+gain were to exceed the threshold gain then the photon multiplication rate due to stimulated emission
+would exceed the photon loss rate and the steady state photon density would increase to infinity. In other
+words, there would be no steady state and this is the reason why Equation (3) predicts a negative photon
+density for av g g~  1  p .
+The Figure below shows the carrier density and the photon density vs. the current for regimes I-III.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+n
+
+np
+
+nth
+n
+
+tr
+
+I
+
+Ith
+
+I
+
+th
+
+I
+
+11.5.5 Regime IV ( n  nth ) – Laser above Threshold:
+When the current is increased beyond the threshold current Ith , the photon density becomes so large that
+the resulting increased recombination due to stimulated emission prevents the carrier density from
+increasing beyond nth . The carrier density gets fixed at a value close to (but less than) nth . To find the
+photon density when I  Ith , we start from Equation (4) and subtract Equation (6) to get,
+
+i I  Ith 
+qVa
+
+ Rnr n   Gnr n   Rr n   Gr n   Rnr nth   Gnr nth   Rr nth   Gr nth 
+
+ v g g~ np
+Since for I  Ith , n  nth and g~  g~th  1 av g p , the term inside the curly brackets is close to zero,
+and we get,
+
+i I  Ith 
+qVa
+
+
+
+np
+a p
+
+ Np  npVp  i
+
+I  Ith  
+
+p
+
+q
+The above equation shows that the photon density increases linearly with the current when the current
+exceeds the threshold current. The point where I  Ith is called the “threshold for lasing” or just as the
+“laser threshold.” Above threshold, the carrier density n , and the optical gain g~ , remain fixed to their
+values at threshold, and the photon density increases with the current and the corresponding increase in
+the stimulated emission rate is just enough in order to maintain the carrier density at its threshold value as
+the current is increased. The Figure below shows the carrier density and the photon density vs. the current
+for a laser operating below and above threshold. The rapid buildup of photon population when I  Ith is
+called lasing.
+n
+
+np
+
+nth
+n
+
+tr
+
+Ith
+
+I
+
+I
+
+th
+
+I
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+11.5.6 Laser Output Power above Threshold:
+The output power of the laser is the power coming out from the two end facets of the laser cavity. Since,
+Np
+n pVp
+P  o 
+ o 
+
+p
+
+p
+
+the laser power above threshold in terms of the current is,
+Np
+
+I  Ith 
+P   o 
+ oi
+p
+q
+The above expressions shows that if oi were equal to unity then every electron injected into the laser
+per second above the threshold injection rate of Ith q would end up producing a photon in the laser
+output. Above threshold, the laser is therefore a very efficient converter of electrical energy into optical
+energy. This property of the laser is commonly expressed in terms of the differential slope efficiency
+dS ,
+dP
+
+dS 
+ oi
+dI
+q
+or the differential quantum efficiency  dQ ,
+
+dQ 
+
+q dP
+ oi
+ dI
+
+11.5.7 A Worked Example:
+Consider an InGaAsP/InP laser (shown in the Figure below) with the following parameter values:
+
+Insulator
+1.5 m
+
+Optical Power (mW)
+
+Top metal
+
+InP substrate
+Current (mA)
+(LEFT) Output facet of a 5 QW InGaAsP/InP laser for 1.55 m operation. (RIGHT) Measured LI
+characteristics of the laser.
+
+A multiple quantum well (MQW) active
+region with 7 nm wells, 9 nm barriers
+and 100 nm SCH regions.
+
+Laser length = L = 500 m
+
+p doped
+
+SCH
+
+SCH
+
+n doped
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+Active region width = W = 1.5 m
+Active region height (all 5 quantum wells) = h = 0.035 m = 35 nm
+Facet reflectivities = R1 = R2 = 0.3
+Transparency carrier density = ntr = 1.75x1018 1/cm3
+Active region mode confinement factor (for all 5 quantum wells) = a = 0.07
+Waveguide group velocity = vg = c/3.4
+Waveguide modal loss = ~ = 15 1/cm
+A=0
+B = 10-9 cm3/s
+C = 5x10-29 cm6/s
+g~o =1500 1/cm
+Current injection efficiency =  i = 0.85
+Using the above parameters we can calculate the remaining laser parameters as follows. The effective
+mirror loss is,
+1  1 
+~m  log
+ 24 1/cm
+L  R1R2 
+The output coupling efficiency is,
+~
+ o  ~ m ~  0.62
+ 
+m
+
+The photon lifetime in the cavity is,
+
+vg
+1 
+1
+ v g ~m  ~ 
+log
+ v g ~
+ RR 
+L
+p
+1 2 
+
+  p  2.9 ps
+The threshold gain is,
+1
+ v g~ 
+a g th
+
+p
+
+ g~th  558 1/cm
+
+Since,
+
+ n 
+
+g~  g~o log
+ ntr 
+we can calculate the threshold carrier density,
+~
+
+~
+
+nth  n tr e gth go  2.59  1018 1/cm3
+From the threshold carrier density we can obtain the threshold current,
+ i I th
+2
+3
+ R nr nth   Gnr nth   R r nth   Gr nth   Anth  Bnth
+ Cnth
+qVa
+
+I th  37.5 mA
+The calculated threshold current value compares favorably with the observed value in the Figure above.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+11.6 Laser Stability and Relaxation Oscillations
+11.6.1 Introduction:
+Suppose a laser is biased with current I above threshold. The steady state values of carrier and photon
+densities are n and n p , respectively. Since I I th , n  n th . Suppose at time t  0 , the carrier density is
+
+suddenly increased from n to n  n . The new value of the carrier density is not the steady state value
+and we would like to see how, if at all, the steady state value is recovered. The carrier density n  n is
+greater than n th , and, consequently, the gain g~ is greater than the threshold gain g~th . In steady state, g~
+can never be greater than g~th , but this restriction does not hold in non-steady state situations.
+Alternatively, we could have perturbed the photon density at time t  0 to n p  n p . If the carrier or
+photon densities in a laser are disturbed (by some means) from their steady state values then it is
+important to know if these quantities return to their steady state values. If they do, the laser is stable. If
+they don’t, the laser is unstable. Studying the recovery dynamics associated with such carrier density or
+photon density perturbations tell a lot about the underlying laser physics.
+We start from the laser rate equations,
+dn i I
+
+ Rnr n   Gnr n   Rr n   Gr n   v g g~ np
+dt qVa
+
+1
+~ n sp
+ a v g g~ 
+ n p  a v g g
+dt
+ p 
+Vp
+
+and make the substitutions,
+n  n  n t 
+n p  n p  n p t 
+dn p
+
+The laser rate equations contain many nonlinear terms and we will linearize each of these terms around
+their steady state values and keep terms to only first order in the perturbed quantities, n t  and n p t  .
+This procedure yields,
+
+v g g~ n p  v g g~ n p
+ v g g~ n p
+
+ss
+
+ss
+
+dg~
+n p nt   v g g~n p t 
+dn ss
+
+ vg
+
+
+nt 
+
+ st
+
+
+
+n p t 
+a p
+
+Rnr n   Gnr n   Rr n   Gr n  Rnr n   Gnr n   Rr n   Gr n ss 
+d
+Rnr n   Gnr n  Rr n   Gr n  nt 
+dn
+ss
+ Rnr n   Gnr n   Rr n   Gr n  ss 
+av g g~ n p  a v g g~ n p
+ av g g~ n p
+
+ss
+
+ av g
+
+ss
+
+ a
+
+dg~
+n p nt   av g g~n p t 
+dn ss
+
+nt 
+
+ st
+
+
+
+n p t 
+
+p
+
+nt 
+
+r
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+We have introduced two new quantities in the above equations; the differential stimulated emission time
+ st and the differential recombination time  r , defined as follows,
+
+1
+
+d
+Rnr n  Gnr n  Rr n  Gr n
+ r dn
+ss
+~
+1
+dg
+ vg
+np
+dn ss
+ st
+
+
+The laser rate equations result in the following linear coupled differential equations for the perturbations,
+  I
+1 
+I 
+ 
+ 
+
+
+
+d  n t      r  st 
+a p   n t  
+
+
+
+ n p t 
+a
+dt n p t  
+0 
+
+ st
+
+
+We have ignored the perturbation in the spontaneous emission term in the laser rate equations since it is
+much smaller than the perturbation in the stimulated emission term.
+11.6.2 Relaxation Oscillations:
+The coupled differential equations for the perturbations in the carrier and photons densities constitute a
+second order linear system much like the equations for the current and the voltage in a LCR circuit. The
+coupled equations give the following identical second order differential equations for the perturbations,
+
+d 2 n p t 
+dt
+
+2
+
+d n t 
+
+
+
+dn p t 
+dt
+
+2
+ R
+n p t   0
+
+dn t 
+2
+ R
+n t   0
+dt
+dt
+where the relaxation oscillation frequency  R and the damping constant  are defined as,
+dg~ n p
+1
+R 
+ vg
+dn ss  p
+ st  p
+2
+
+2
+
+ 
+
+I
+
+r
+
+
+
+
+
+I
+
+ st
+
+The solutions of the above second order equations have the form,
+ 
+
+
+2
+2 
+ t
+
+
+2   
+2    
+n t   e 2 A cos R
+   t  B sin R
+   t 
+2 
+2  
+
+
+
+
+
+
+
+
+ 
+
+
+2 
+
+
+2    
+n p t 
+
+t  D sin  R   2  t 
+
+  
+  
+
+
+
+
+
+
+
+
+The constants A, B, C, and D can be chosen to satisfy the initial conditions. Suppose, n p t  0   0
+
+ t
+
+2
+C cos
+e
+
+then we get,
+
+ 
+R2   
+2
+
+2
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+A  n t  0 
+
+ nt  0
+
+B
+2
+
+C 0
+
+D
+
+ 
+ R2   
+2
+ 
+
+a n t  0 
+
+ st
+
+ 
+R2   
+2
+
+2
+
+2
+
+ 
+The Figure below shows the time evolution of the carrier density and photon density perturbations
+vertical scale is normalized). The perturbations are damped and the steady state is stable because any
+disturbances or perturbations decay with time. The decay is not monotonic but involves damped carrier
+and photon density oscillations that are 90-degrees out of phase. These oscillations are called relaxation
+oscillations. If the second order system is critically damped or over damped (i.e.,  R   2 ) then the
+perturbations will decay monotonically without any relaxation oscillations.
+
+np(t)
+
+t
+
+n(t)
+
+11.7 Direct Current Modulation of Lasers
+11.7.1 Introduction:
+Consider the LI (light vs. current) curve of a semiconductor laser. Suppose the laser is biased with current
+I and the corresponding output power is P .
+Power
+P
+
+I
+Now suppose the current is varied such that,
+I t   I  I t 
+
+th
+
+I
+
+Current
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+The output power can be written as,
+P t   P  P t 
+This current modulation is used in optical communication systems to transfer information from the
+electrical domain to the optical domain. The question we need to answer here is how fast can a laser be
+modulated? The answer can be obtained from the laser rate equations. We assume that,
+n t   n  n t 
+n p t   n p  n p t 
+As in the previous Section, we linearize the laser rate equations and obtain,
+  I
+I 
+1 
+ 
+ 
+
+
+
+
+d  n t      r  st 
+a p   n t    i I t   1
+
+
+
+
+ 
+  n p t 
+a
+qVa 0
+dt n p t  
+0 
+
+ st
+
+
+We assume that the time varying part of the current, carrier density, the photon density, and the output
+power are sinusoidal,
+I t   I  Re I f e  i 2ft
+
+
+
+
+
+
+
+n t   n  Re n f e  i 2ft
+
+
+
+n p t   n p  Re n p f e
+
+
+
+
+
+ i 2ft
+
+
+
+
+
+P t   P  Re P f e  i 2ft
+The solution is,
+  i 2f 
+ n f  
+I f   2 
+H f 
+
+n f    i
+qVa  R 
+ p 
+ a p 
+
+
+The solution above relates the small signal carrier and photon densities to the small signal current. The
+change in the output power is,
+
+P f    o i
+H f  I f 
+q
+The modulation response function H f  is,
+
+H f  
+
+ R2
+
+  2f   i 2f 
+2
+R
+
+2
+
+Note that since H f  0   1 ,
+
+P f  0    o i
+I f  0 
+q
+This low frequency result could also have be obtained directly from the relation,
+
+P   o i
+I  I th 
+q
+Also note that, n f  0   0 . This result is to be expected since the carrier density in steady state above
+threshold does not vary with current, and remains fixed at a value close to n th .
+11.7.2 High Frequency Response of Lasers:
+The relation,
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+H f  I f 
+q
+shows that the frequency response of the laser power to current modulation is governed by the function
+H f  . In optical communication systems, a detector at the receiving end converts the modulated light
+back into current. A schematic of a communication link is shown in the Figure below. Assuming the
+frequency dependent detector responsivity to be Rf  , the RF current at the output of the link is related to
+the RF current at the input to the link by the relation,
+
+Iout f   R f P f   R f o i
+H f  I in f 
+q
+The ratio of the RF power at the output to the RF power at the input is called the link loss and its
+expression is (assuming no optical losses in the fiber and no coupling losses),
+P f    o i
+
+Iout f 
+I in f 
+
+2
+
+
+H f 
+ R f o i
+2
+
+2
+
+q
+
+The ratio is proportional to H f  .
+2
+
+Iout(f)
+Iin(f)
+
+P(f)
+Load
+I
+
+Laser
+
+Fiber
+
+V
+
+Detector
+
+An optical communication link using a direct
+current modulated semiconductor laser
+10
+
+1
+
+10
+
+1
+
+10
+
+|H(f)| 2
+
+|H(f)| 2
+
+Increasing
+current
+0
+
+-1
+
+10 -2
+10
+
+10
+
+-1
+
+0
+
+2f/R
+
+The Figure above plots H f 
+
+2
+
+10
+
+10
+
+1
+
+10
+
+0
+
+-1
+
+10 -2
+10
+
+-1
+
+10
+
+0
+
+10
+2f (rad/s)
+
+as a function of frequency. The peak of H f 
+
+2
+
+10
+
+1
+
+10
+
+2
+
+occurs at a frequency f
+
+equal to approximately  R 2 (provided  R   ). The peak is called the relaxation oscillation peak.
+The frequency f3dB at which H f  decreases from its value at zero frequency by 3 dB (by a factor of 2)
+2
+
+is approximately equal to 1  2 R 2 (provided  R   ). f3dB is the maximum frequency at
+which the laser power can be current modulated. The relaxation oscillation frequency  R 2 therefore
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+sets the scale for the maximum frequency at which a laser can be current modulated. The relaxation
+oscillation frequency, given by the expression,
+1
+dg~ n p
+ vg
+R 
+dn ss  p
+ st  p
+increases as the square-root of the steady state photon density. Therefore, increasing the current will
+increase the frequency f3dB . However, this trend does not continue to very high current levels. This is
+because the damping constant, given by,
+I
+I
+I
+dg~
+
+
+ vg
+np
+ 
+dn ss
+ r  st  r
+increases linearly with the photon density (faster than the relaxation oscillation frequency). When the
+laser current is slightly larger than the threshold current,  R   because 1  p  1  st ,1  r . When
+the current is increased, f3dB also increases. As the current is increased to larger values, at some point the
+relaxation oscillation frequency  R becomes equal to 
+oscillation peak in H f 
+
+2
+
+2 . When this happens, the relaxation
+
+disappears and f3dB equals R 2  2 2 p . If the current is increased
+
+beyond this point, the frequency f3dB decreases instead of increasing. The maximum value of f3dB is
+therefore related to the inverse photon lifetime in the cavity,
+
+f3dB max 
+
+2
+2 p
+
+The inverse photon lifetime sets the upper limit on the modulation speed of semiconductor lasers.
+
+11.8 Band Diagrams and Circuit Models
+11.8.1 Band Diagram:
+In a laser, one must have the following condition satisfied,
+E fe  E fh  qV    E g
+The band diagram is shown in the Figure below.
+
+Efe
+qV
+E
+
+fh
+
+In the active region, the electron density n is a function of the Electron Fermi level, the hole density p is
+a function of the hole Fermi level and quasineutrality implies,
+n E fe   p E fh 
+The above relation, together with the condition, E fe  E fh  qV , uniquely determines the carrier density
+in the active region as a function of the voltage V across the junction.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+11.8.2 Electrical Impedance of the Active Region:
+Consider a laser operating in steady state. The impedance Z f  of the active relates the small signal
+circuit current I f  to the small signal voltage V f  across the junction,
+V f   I f  Z f 
+A small change in the carrier density n f  can be related to a small change in the voltage V f  as
+follows,
+n
+n f  
+V f 
+V ss
+The laser rate equations in Section 11.7 give,
+ i 2f
+I f 
+n f  
+H f   i
+2
+qVa
+
+R
+
+The above three Equations give,
+1
+1
+V f   i 2f
+Z f  
+H f   i
+
+2
+qVa n V ss
+I f 
+
+R
+
+The impedance of the active region is proportional to the modulation response function H f  . At low
+frequencies, when H f   1, the impedance of the active region is inductive and approaches zero as the
+frequency approaches zero.
+11.8.3 Total Electrical Impedance:
+Consider the laser connected as shown below. The total laser impedance ZT f  consists of the active
+region impedance Z f  in series with a resistor (representing the resistance of the top quasineutral region
+and the top contact) and also the capacitance between the top metal contact and the substrate,
+1
+ZT f   Z f   R 
+ i 2 f C
+
+Iin(f)
+I
+
+Laser
+
+Laser
+
+11.8.4 Circuit Parasitics and the High Frequency Current Modulation Response:
+The current in the active region I f  is related to the current I in f  as,
+I in f 
+I f  
+1  i 2 f C Z f   R 
+The laser current modulation response is therefore more accurately given by the expression,
+
+
+1
+
+
+H f  I f    o i
+H f  
+P f    o i
+ I in f 
+q
+q
+ 1  i 2 f C Z f   R  
+At high frequencies, the capacitance can short out the active region and the decrease the laser current
+modulation response. Careful attention must therefore be paid to circuit level parasitics when optimizing
+lasers for high speed applications.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+11.8.5 Laser Structures for High Speed Operation
+Few laser structures for high speed operation are shown in the Figure below.
+p-InGaAsP
+
+n-InP
+metal
+p-InP
+
+metal
+p-InP
+n-InP
+active
+
+SI-InP
+SI-InP
+
+p-InP
+
+n-substrate
+
+n-substrate
+
+Semi-insulating InP based
+mushroom structure (25 GHz)
+
+Buried heterostructure laser
+with regrown reversed biased
+junctions (10-15 GHz)
+substrate contact
+
+n-InP
+
+metal
+
+metal
+p-InP
+active
+
+polyimide
+
+SI-InP
+
+SI-InP
+
+p-InP
+active
+
+n-substrate
+
+n-substrate
+
+Co-planar strip line laser with mushroom
+structure (31 GHz)
+
+Polyimide planarized laser
+(19 GHz)
+
+11.8.6 Laser Packaging for Different Applications:
+
+Fiber
+
+RF-in
+
+Economical
+packages
+
+Packaging for high speed fiber optic
+communication applications
+
+Wire bonding
+pad
+Top metal
+contact
+
+Unpackaged laser chip
+
+High power Laser package
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+11.9 Cavity Modes and Multimode Lasing
+11.9.1 Cavity Modes:
+Consider the Fabry-Perot cavity, shown below.
+
+R1
+
+R
+
+2
+
+z=0
+
+z=L
+
+The mode field propagating in the forward direction can be written as,
+
+E ( x, y , z)  xˆE x ( x, y )  yˆE y ( x, y )  zˆE z ( x, y ) e iz
+
+
+
+
+
+If the transverse dimensions of the waveguide are chosen to be small enough, the waveguide will support
+only a single transverse mode. Suppose this mode is HE00. As discussed in earlier Chapters, for this
+transverse mode different values of the propagation vector  correspond to different longitudinal modes
+of the cavity. The spacing (in frequency) between adjacent longitudinal modes can be very small for long
+optical cavities, as we will see now. Since the cavity is closed at both ends periodic boundary conditions
+cannot be used to determine the density of modes. Suppose the complex field amplitude reflection
+coefficients at the two facets are r1 and r2 , respectively, and R1  r1
+
+2
+
+2
+
+and R 2  r 2 . We can write
+
+the reflection coefficients in terms of an amplitude and phase,
+r1  R1e i1
+r 2  R 2 e i 2
+For any cavity mode, the change in phase in one complete cavity roundtrip must be an integral multiple of
+2 ,
+ p  integer
+2L  1  2  p 2
+For adjacent modes we have,
+2L  1  2  2
+Dividing and multiplying by  , the frequency spacing between adjacent modes, gives,
+
+ 
+ 
+L  1  2    2
+2
+
+ 
+ 
+
+  
+
+
+ 
+L
+1  
+  1 2
+v g 2  
+ 
+
+The reflection phases are usually weak functions of the frequency and for long cavities we have,
+ c
+ 
+L ng
+The frequency spacing between adjacent cavity modes is called the free spectral range of the cavity. It is
+more commonly expressed as wavelength spacing,
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+ 
+
+2
+2ng L
+
+For example, in a 500 m long, 1.55 m Fabry-Perot laser cavity with a modal group index of 3.5, the
+wavelength spacing between adjacent cavity longitudinal modes is 0.69 nm.
+11.9.2 Multimode Lasing:
+Since the gain bandwidth of semiconductors is typically in the 10-50 nm range, there can be many modes
+within the gain bandwidth. This situation is depicted in the Figure below.
+
+Cavity modes
+
+Consider a laser cavity below threshold. As the current is increased, the carrier density increases and,
+consequently, the gain increases and at some value of the current the peak gain g~ will equal the threshold
+gain g~ and the cavity modes near the gain peak will start to lase. If the current is increased further, the
+th
+
+power in the lasing modes will increase but the carrier density will remain at the value equal to nth .
+Therefore, the gain spectrum will also remain fixed and independent of the current. The modes away from
+the gain peak will never acquire enough gain to lase no matter how much the current is increased. The
+lasing spectrum is therefore narrow but still several modes near the gain peak lase simultaneously. In a
+typical Fabry-Perot laser the number of lasing modes can be anywhere from just a few to as many as ~50.
+This multimode lasing behavior is not suitable for many laser applications, such as optical
+communications and spectroscopy. In the following Chapters we will discuss strategies to realize single
+frequency lasers.
+
+

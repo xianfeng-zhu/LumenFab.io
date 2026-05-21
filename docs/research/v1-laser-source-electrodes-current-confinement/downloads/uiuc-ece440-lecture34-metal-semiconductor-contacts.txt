@@ -1,0 +1,514 @@
+ECE 440
+Lecture 34 : MetalSemiconductor Junctions
+Class Outline:
+•Ideal Metal-Semiconductor Contacts
+•Rectifying Contacts
+•Ohmic Contacts
+
+Things you should know when you leave…
+
+Key Questions
+• What happens to the bands
+when we make contact between
+metals and semiconductors?
+• What is a rectifying contact?
+• What is an ohmic contact?
+• How does doping change the
+operation of an ohmic contact?
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+Now examine the
+block diagram for
+the cell phone…
+signal processing
+
+Optoelectronics
+(camera, display)
+
+Transmitter/Reciever
+
+Power Distribution
+
+(minimize drain on battery)
+
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+It contains a
+microprocessor unit…
+
+Integrated circuit
+containing millions of
+transistors
+
+Si wafer containing
+thousands of ICs
+
+cross section
+
+single
+transistor
+
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+The cross-section has many different layers, but why?
+metal layers
+
+interlevel
+dielectric (ILD)
+layers
+
+tungsten vias
+
+transistor devices
+
+single MOS transistor
+
+We will learn more about MOS
+and bipolar transistors later
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+We talk a lot about semiconductors, but how do we contact them?
+V
+
+Metal
+
+We have talked
+about the effects
+of electric fields,
+but how we apply
+one?
+
+Semiconductor
+
+Use a metal contact…
+
+In the ideal case, we assume:
+•The metal and semiconductor are in intimate contact on the atomic scale
+with no layers of any type between the components.
+•There is no interdiffusion or intermixing of the metal and the
+semiconductor.
+•There are no adsorbed impurities or surface charges at the MS interface.
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+What do the band diagrams look like?
+We need to understand several key
+energies in the metal and the
+semiconductor…
+
+E0
+
+•The topmost energy is the vacuum
+level, E0.
+•The difference between the Fermi
+energy and the vacuum level is the
+workfunction, Ф.
+•This is a material property of
+the metal.
+•The semiconductor workfunction
+is comprised of two properties.
+•The electron affinity, Χ.
+•Ec – Ef which is a function of
+doping.
+
+Φ S = χ + (EC − EF )FB
+
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+Now let’s bring the metal and semiconductor together…
+E0
+
+ФM
+
+Χ
+
+ФS
+
+EC
+EFS
+Ei
+
+EFM
+
+ΦB = ΦM − χ
+ФB
+
+ФM > ФS
+•When the materials are brought into
+contact with one another, they are not in
+equilibrium (EFS ≠ EFM).
+
+EV
+
+Surface
+potential energy
+barrier for
+electrons.
+
+EC
+Ei
+EV
+
+M. J. Gilbert
+
+Semiconductor
+N-type
+
+Metal
+
+EF
+
+•Electrons begin moving from the
+semiconductor to the metal.
+•The net transfer of electrons leaves a
+reduced electron concentration in the
+semiconductor and the barrier between
+the materials grows.
+•Process continues until Fermi level is
+constant.
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+What happens if ФM < ФS?
+ФM
+
+Χ
+
+ФS
+
+ФM < ФS
+
+EC
+EFM
+
+•When the materials are brought into
+contact with one another, they are not in
+equilibrium (EFS ≠ EFM).
+
+EFS
+Ei
+EV
+
+•Electrons begin moving from the metal
+to the semiconductor.
+
+EC
+Ei
+EV
+
+M. J. Gilbert
+
+Semiconductor
+N-type
+
+Metal
+
+EF
+
+•The net transfer of electrons from the
+metal into the semiconductor leaves a net
+excess of electrons at the surface.
+•Process continues until Fermi level is
+constant.
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+But the point of adding contacts was to apply fields, let’s look at this…
+Apply positive bias, V…
+
+V
+
+Current
+
+ФM > ФS
+
+EC
+Ei
+
+EFM
+
+EV
+
+M. J. Gilbert
+
+Semiconductor
+N-type
+
+Metal
+
+• This lowers EFM below EFS
+and reduces the barrier
+seen by electrons.
+• Current begins to flow
+from the semiconductor to
+EFS
+the metal.
+• Continue to raise the
+positive bias and more
+electrons will have enough
+energy to surmount the
+barrier and contribute to
+current flow.
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+What happens if we apply a negative bias to the contact…
+Apply increasingly negative
+bias, V…
+Current
+
+V
+
+Semiconductor
+N-type
+
+Metal
+
+ФM > ФS
+
+EFM
+EC
+Ei
+EV
+
+M. J. Gilbert
+
+• This lowers EFS below
+EFM and increases the
+barrier seen by
+electrons.
+• Current flow from the
+EFS
+semiconductor is blocked
+by the large potential
+barrier.
+• Only a small leakage
+current may flow from
+the metal to the
+semiconductor.
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+What happens when we reverse the relationship between the
+workfunctions?
+V
+
+Positive bias…
+
+Semiconductor
+N-type
+
+Metal
+
+ФM < ФS
+EC
+EFM
+
+Ei
+
+EFS
+
+EFM
+
+EV
+Current
+
+I
+Current
+V
+
+EC
+Ei EFS
+EV
+Negative bias…
+
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ideal Metal- Semiconductor Contacts
+Let’s summarize what we have so far…
+V
+
+Semiconductor
+N-type
+
+Metal
+
+ФM < ФS
+
+I
+V
+V
+
+M. J. Gilbert
+
+Semiconductor
+N-type
+
+Metal
+
+ФM > ФS
+N-type
+semiconductor
+
+P-type
+semiconductor
+
+φM > φS
+
+Rectifying
+
+Ohmic
+
+φM < φS
+
+Ohmic
+
+Rectifying
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Rectifying Contacts
+When ФM < ФS in an n-type seimconductor the contact is called
+rectifying…
+V
+
+Semiconductor
+N-type
+
+Metal
+
+ФM < ФS
+
+• A rectifying contact is one in which a forward bias
+drives a large current but a reverse bias results in a
+small current.
+• Despite efforts, contacts are not ideal.
+• In Si, exposure to air causes SiO2 to form before the
+metal can be deposited. Something similar happens in
+GaAs too.
+• Surface charges also change the surface potential
+barrier leading to unexpected behavior.
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Rectifying Contacts
+Surface states cause problems in III-V semiconductors…
+
+• Interface states pin the Fermi level at a fixed position
+regardless of the contact metal.
+• Schottky barrier determined by surface states rather
+than metal and semiconductor workfunction difference.
+• Effect is different in InAs as any metal becomes ohmic.
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ohmic Contacts
+The other type of contact is Ohmic…
+I
+V
+
+Semiconductor
+N-type
+
+Metal
+
+V
+
+ФM > ФS
+Interface states supplied by
+majority carrier
+
+• Ohmic contacts are low impedance contacts
+that allow current flow regardless of the
+polarity of the bias.
+• These are very important types of contact, so
+how do we make them?
+• We know that surface states at the interface
+can cause significant problems and make all
+contacts rectifying.
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+Ohmic Contacts
+How do you make an ohmic contact?
+Metal
+n+-Si
+n-Si
+Low Doping
+
+Moderate Doping
+
+SiO2
+
+To make an ohmic
+contact to silicon, we
+need to use clever
+doping…
+High Doping
+
+• Low doping – all thermionic emission.
+• Moderate doping – some thermionic emission and some field
+emission.
+• High doping – Mostly field emission.
+M. J. Gilbert
+
+ECE 440 – Lecture 34
+
+04/1 9/1 0
+
+

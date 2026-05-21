@@ -1,0 +1,1431 @@
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+Chapter 8
+Integrated Optical Waveguides
+7.1 Dielectric Slab Waveguides
+7.1.1 Introduction:
+A variety of different integrated optical waveguides are used to confine and guide light on a chip. The
+most basic optical waveguide is a slab waveguides shown below. The structure is uniform in the ydirection. Light is guided inside the core region by total internal reflection at the core-cladding
+interfaces.
+x
+
+Cladding
+
+z
+Core
+Cladding
+
+d
+
+n1
+n2
+n1
+
+Most actual waveguides are not uniform and infinite in the y-direction but can be approximated as
+slab waveguides if their width W is much larger than the core thickness d, as shown below.
+
+A better description of the guided light is in terms of the optical modes. The slab waveguide supports
+two different kinds of propagating modes:
+i.
+TE (transverse electric) mode: In this mode, the electric field has no component in the
+direction of propagation.
+ii.
+TM (transverse magnetic) modes: In this mode, the magnetic field has no component in the
+direction of propagation.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+To study these modes we start from Maxwell’s equations. The complex form of Maxwell’s equations
+is,
+
+
+  E  io H
+
+
+  H  i o n 2 ( x )E
+
+ 2 2
+
+ E 
+n ( x )E
+c2
+
+
+
+
+
+Since     E  (  E )   2E . In general   E  0 . Rather   [n 2 ( x )E ]  0 . But if index
+
+
+is piecewise uniform in different regions then inside each region one may assume   E  0 . So we
+have in each region,
+ 2 2
+
+  2E 
+n ( x)E
+2
+c
+
+Similarly, with the assumption of piecewise uniform index we can write for the H field,
+ 2 2
+
+  2H 
+n ( x)H
+c2
+7.1.2 TE Modes:
+For TE modes, the electric field can be written as,
+
+E ( x, z )  yˆE o  ( x )e iz
+In each region of piecewise uniform index (core and cladding),  (x ) satisfies,
+ 2
+2 2 
+2
+  2  2 n ( x ) ( x )     ( x )
+
+x
+c
+
+
+Given a value for the frequency  , we can find all solutions of the above equation which is an
+
+eigenvalue equation with eigenfunction  (x ) and eigenvalue   2 . Once we have the electric field,
+
+the magnetic field H can be found as follows,
+
+  xˆ   izˆ   E ( x, z )
+
+  E  x
+
+
+H ( x, z ) 
+io
+i0
+ zˆE  ( x )
+
+E 
+ o
+ xˆ o  ( x )e iz
+o
+ io x
+
+The boundary conditions needed to solve the eigenvalue equation above are as follows:
+
+i)
+ii)
+iii)
+
+y-component of the electric field is continuous at the core-cladding interfaces
+z-component of the magnetic field is continuous at the core-cladding interfaces
+x-component of the magnetic field is continuous at the core-cladding interfaces (this is
+automatically satisfied when (i) above is satisfied)
+
+The solutions are labeled with the integer index m (m  0,1,2,3,). So the field for the TE m mode is,
+
+E( x, z)  yˆEom ( x, )e i m ( )z
+where the dependence of the eigenfunctions and the propagation vector  on the frequency  is
+explicitly indicated. For the TE modes we assume the solution,
+
+C1e  ( x  d / 2) x  d / 2
+cos(kx)
+| x | d / 2
+ ( x )  C2 
+ sin(kx )
+C1e ( x  d / 2)
+
+x  d / 2
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+Plugging the above solutions in the equation,
+ 2
+2 2 
+2
+  2  2 n ( x ) ( x )     ( x )
+c
+ x
+
+we get,
+2 2 
+ 2  k2 
+n2 
+2 2
+
+c2
+ 
+(n2  n12 )  k 2
+
+2
+2
+c
+ 2
+n
+2 2 
+2 1
+c
+
+Using the boundary conditions give,
+ kd  
+tan
+(cosine solutions  even TE modes)
+
+ 2  k
+ kd  
+ cot
+(sine solutions  odd TE modes)
+
+ 2  k
+A solution can be obtained graphically by plotting the left and right sides of the above equations, as
+shown below where the left side is plotted using blue lines and right side using red lines. Below a
+certain frequency m the m-the mode ceases to exist. This cut-off frequency is,
+
+c
+m  m
+d n2  n2
+2
+
+1
+
+The values of  m ( ) for each mode are sketched in the Figure below.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+Cladding
+
+x
+TE0
+
+TE1
+
+z
+
+n1
+n2
+
+Core
+E
+
+y
+
+Ey
+
+n1
+
+Cladding
+
+The propagation vectors  m ( ) behave as
+
+
+
+d
+
+
+c
+
+n1 near then cut-off frequencies, and asymptotically
+
+n 2 curve at high frequencies. In most applications, waveguide dimensions are chosen
+c
+such that it supports only one mode. Unless necessary we will usually drop the mode index “m“.
+
+approach the
+
+7.1.3 TM Modes:
+Similar analysis can be done for the TM modes. Assume,
+
+H ( x, z)  yˆHo ( x )e iz
+
+
+
+
+Ho
+Ho 
+H
+
+E ( x, z ) 
+ zˆ
+ xˆ
+ ( x )e iz .
+
+ i o n 2 ( x )   i o n 2 ( x ) x
+ o n 2 ( x )
+For piecewise uniform index n (x ) ,  (x ), satisfies,
+
+ 2
+2 2
+
+n ( x )  ( x )    2 ( x )
+
+
+ x 2 c 2
+
+
+Assume solution of the form,
+2
+
+C e   ( x  d / 2) x  d / 2   2  k 2   n 2
+2
+ 1
+c2
+
+cos(kx )
+
+ ( x)   C2 
+| x | d / 2 
+2 2
+ sin(kx )
+n1
+
+ 2   2 
+C1e  ( x  d / 2) x  d / 2 
+c2
+
+The boundary conditions needed to solve the eigenvalue equation above are as follows:
+
+i)
+ii)
+iii)
+
+y-component of the magnetic field is continuous at the core-cladding interfaces
+z-component of the electric field is continuous at the core-cladding interfaces
+x-component of the electric field weighted by the square of the index is
+continuous at the core-cladding interfaces (this is automatically satisfied when (i)
+above is satisfied)
+
+Using the boundary conditions give,
+2
+ kd  n 2 
+tan
+ 2
+ 2  n1 k
+
+(cosine solutions  even TM modes)
+
+2
+ kd  n 2 
+ cot 
+ 2
+ 2  n1 k
+
+(sine solutions  odd TM modes )
+
+The above relations are similar to those obtained for the TE modes other than the factors containing
+the squares of the core and cladding refractive indices. The general behavior of the TM modes is
+similar to the TE modes.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+7.1.4 Effective Index and Group Index:
+The effective index neff ( ) of a mode is defined by the relation,
+
+ ( ) 
+
+
+
+neff ( )
+c
+The effective index of each mode equals n 1 at their cut-off frequencies and approaches n 2 at high
+frequencies. The group velocity of a mode is,
+
+1
+
+v g ( ) 
+
+v g is written as,
+v g ( ) 
+
+c
+ng ( )
+
+where n g ( ) is called the group index of the mode.
+
+7.2 Two Dimensional Waveguides
+7.2.1 Introduction:
+In slab waveguides, light is confined in only one dimension (the x-dimension in our notation) as it
+travels in the z-direction. In most actual waveguides light is confined in two dimensions (x and ydimensions) and travels in the z-direction. For example, the cross-section of a rectangular waveguide
+is shown below.
+
+Unfortunately, the exact modes of such 2D waveguides are not as easy to complete as those
+ of slab
+
+waveguide. The modes are neither TE nor TM. All modes
+have
+a
+small
+component
+of
+and
+E
+H
+
+fields in the direction of propagation. The E and the H fields can be written as,
+
+
+E ( x, y , z)  xˆE x ( x, y )  yˆE y ( x, y )  zˆE z ( x, y ) e iz  Et x, y   zˆE z ( x, y ) e iz
+
+
+H ( x, y , z)  xˆH x ( x, y )  yˆH y ( x, y )  zˆH z ( x, y ) e iz  Ht x, y   zˆH z ( x, y ) e iz
+
+
+
+
+
+
+
+
+
+
+We have defined the transverse components of the fields as follows,
+Et ( x, y )  xˆE x ( x, y )  yˆE y ( x, y )
+
+Ht ( x, y )  xˆH x ( x, y )  yˆH y ( x, y )
+
+
+
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+Since the exact solution is difficult and cumbersome, several levels of approximations are commonly
+used and are discussed below.
+7.2.2 Mode Solutions for 2D Waveguides:
+We need to solve the equation,
+
+
+2 2
+n ( x, y )E ( x, y )
+    E ( x, y , z ) 
+c2
+
+
+    E 
+H 
+
+i o 
+
+
+
+subject to all the proper boundary conditions for the E and H fields at all the interfaces.
+The operator  is,
+
+
+
+  xˆ
+ yˆ
+ zˆ
+x
+y
+z
+Define,
+
+
+
+t  xˆ
+ yˆ
+   t  zˆ
+x
+y
+z
+
+
+From   E  io H , it follows that,
+
+
+(  E ).zˆ  io H.zˆ  i o H z e iz
+
+ (t  Et ).zˆ  io H z
+
+(t  Et ).zˆ
+(1)
+ Hz 
+io
+Similarly it can be shown that,
+
+( t  Ht ).zˆ
+(2)
+Ez 
+ i o n 2
+Equations (1) and (2) show that knowing the transverse components of the field is enough since the zcomponents can be determined from the transverse components. We need to solve,
+ 2 2
+
+E 
+n ( x, y )E
+c2
+
+ 2 2
+
+   . E   2E 
+n ( x, y )E
+c2
+Taking the transverse component gives,
+
+
+ 2 2  iz
+t (.E )   2Et e iz 
+n Et e
+0
+(3)
+c2
+We need to find convenient and useful expressions for the first two terms on the right hand side. Now,
+
+
+.E  t .Et e iz  i E z e iz
+but,
+
+.(n 2 E )  0
+
+  t .(n 2 Et )  i n 2 E z  0
+
+t .(n 2 Et )
+ i E z  
+n2
+
+
+ i z
+ iz  .(n 2 E ) iz
+i z
+t
+t e
+ .E  t .Et e
+ i E z e
+  t .Et e
+
+2
+n
+
+2
+
+
+  .(n Et )  iz
+  t (.E )   t  t . Et e iz   t  t
+e
+n2
+
+
+The other term in Equation (3) is,
+
+
+
+
+
+
+
+
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+
+
+ 2 Et e iz  t2 Et e iz   2 Et e iz
+Using the results above, Equation (3) becomes,
+
+  2 2 
+
+ 
+1
+n Et    2Et
+ t2Et  t t .Et 
+t .(n 2Et ) 
+n2
+
+ c2
+The above eigenvalue equation is what one needs to solve to get the exact solution. This equation can
+be put in the form,
+Pˆxx Pˆxy  E x 
+E x 
+( 4)
+
+     2  
+Pˆyx Pˆyy  E y 
+E y 
+where the differential operators are.
+  1 ( n 2 E x )   2 E x  2 2
+Pˆxx E x  
+
+n Ex
+
+
+x  n 2
+x
+ y 2
+c2
+2
+2
+  1 (n E y )   E y
+Pˆxy E y  
+
+x  n 2
+y
+ xy
+
+
+2
+2
+ Ey
+  1 (n E y )   2 2
+
+
+Pˆyy E y  
+n Ey
+y  n 2
+y
+ c2
+x 2
+
+
+  1 ( n 2 E x )   2 E x
+Pˆyx E x  
+
+
+y  n 2
+x
+ yx
+The above equation
+is an eigenvalue equation and its solution gives the transverse components of the
+
+electric field E for the mode and the corresponding propagation constant  ( ) . E z ( x, y ) can be
+
+obtained from E x ( x , y ) and E y ( x , y ) as already explained, and H field can be obtained from the
+relation,
+
+
+ (  E )
+H
+i 0
+For piecewise uniform indices, all derivatives of the index n ( x , y ) can be dropped provided
+appropriate boundary conditions are used at all the interfaces.
+
+7.2.3 The Semi-Vectorial Approximation:
+In many cases of practical interest one transverse component of the electric field (either E x or E y )
+dominates over the other component. In such cases, we may assume that the other transverse field
+component is zero. For example, if we know a priori that E x dominates then we may assume that
+E y is zero and solve the much simpler eigenvalue equation,
+
+Pˆxx E x    2E x
+
+
+  1  (n 2 E x )   2 E x  2 2
+
+n ( x, y )E x )    2E x .
+
+
+x  n 2
+x  y 2
+c2
+
+The above equation is called the semi-vectorial approximation. For piecewise uniform dielectrics we
+can also write it as,
+
+
+
+2
+x 2
+
+E x
+
+2
+y 2
+
+ t2 E x 
+
+Ex 
+
+2
+c
+
+2
+
+2
+c2
+
+n 2 ( x, y )E x    2E x
+
+n 2 ( x, y )E x    2 E x
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+provided we take care to impose the boundary conditions on E x ( x, y ) at all the dielectric interfaces
+as appropriate for the x-component of the electric field. Once the dominant E x ( x, y ) component has
+been found, the remaining field components can be found as follows,
+
+ 
+
+
+ . n 2E  0
+
+
+
+1  n 2E x
+x
+ n2
+
+ (  E )
+H
+i o
+i
+
+ Ez 
+
+
+
+
+
+
+ Hy 
+
+  1  n 2E x 
+1
+
+Ex 
+
+
+x 
+ o
+ o x  n 2
+
+ Hx 
+
+  1  n 2E x 
+
+
+ o y  n 2
+x 
+
+
+.H  0
+
+1
+
+
+
+
+
+1 E x
+i o y
+When the horizontal electric field component dominates the modes are sometimes called HEpq modes
+or TEpq modes (with a slight abuse of terminology). When the vertical electric field component
+dominates the modes are called EHpq modes or TMpq modes (again with a slight abuse of
+terminology). The two subscripts p and q indicate the number of nodes the dominant electric field
+component has in the horizontal and vertical directions, respectively.
+ Hz  
+
+7.2.4 The Scalar Field Approximation:
+If one component of the transverse electric field dominates over the other transverse component and
+the index differences among different regions in the structure are also relatively small, then one may
+use the semi-vectorial approximation and also do away with the boundary conditions on the normal
+component of the electric field at all dielectric interfaces. For example, if we know a priori that
+E x ( x, y ) dominates then we may solve the equation,
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+
+
+2
+x
+
+2
+
+E x ( x, y ) 
+
+2
+y
+
+2
+
+
+
+2
+
+  t2 E x ( x, y ) 
+
+2
+
+E x ( x, y ) 
+
+2
+c
+
+2
+
+n 2 ( x, y )E x ( x, y )    2 E x ( x, y )
+
+n 2 ( x, y )E x ( x, y )    2 E x ( x, y )
+
+c
+assuming that the field and its derivative are continuous across all dielectric interfaces. This is called
+the scalar field approximation. Once the dominant electric field component has been found, the
+remaining field components can be found as in the case of the semi-vectorial approximation. Scalar
+field approximation seems crude but it gives very accurate answers for the propagation vector  ( )
+(or the effective index n eff ( ) ) as long as one is for away from the mode cut-off frequency. It is also
+very accurate in calculating mode confinement factors – as we will see in later Chapters. For most
+part of this course we will use the scalar field approximation to keep the computational overhead low.
+One disadvantage of the scalar field approximation is that it does not tell accurately whether the
+single-mode condition holds since the scalar field approximation is not accurate near mode cut-off.
+
+7.2.5 Slab Waveguide Approximation:
+If the aspect ratio of the waveguide is such that one dimension is much larger than the other
+dimension, then the modes and the corresponding wavevectors and effective indices can be
+approximated by those of the corresponding slab waveguide as discussed earlier.
+7.2.6 Energy and Power in Waveguides:
+The energy flow for electromagnetic fields is given by the complex Poynting vector,
+ 
+ 
+ 
+1
+S(r )  Re[E (r )  H * (r )]
+2
+ 
+ 
+ 
+ 
+1  
+S(r )  [E (r )  H * (r )  E * (r )  H (r )]
+4
+For waveguides electric and magnetic fields are of the form,
+
+E ( x, y , z )  xˆE x ( x, y )  yˆE y ( x, y )  zˆE z ( x, y ) e iz
+
+H ( x, y , z )  xˆ Hx ( x, y )  yˆH y ( x, y )  zˆH z ( x, y ) e iz
+
+
+
+
+
+
+
+The total energy flow (or power) in a waveguide is obtained by integrating the Poynting vector over
+the cross-section of the waveguide,
+
+
+
+
+
+
+1  
+1 
+P (z)   S . zˆ dxdy   [E  H * E * H ] . zˆ dxdy   [Et  Ht * Et * Ht ] . zˆ dxdy
+4
+4
+Assuming the medium to be dispersive, the energy per unit length of the waveguide is,
+  
+ 1  o    
+1
+W z    
+E.E *   o H.H * dxdy
+4
+ 4 
+
+
+
+  
+1
+1
+    o n 2n gM  n E.E *   o H.H * dxdy
+4
+4
+
+
+
+
+
+
+Here, ngM   is the material group index, defined earlier as,
+
+dn  
+d
+The superscript “M“ is intended so as not to cause confusion with the group index of the optical mode.
+The following relation can also be proven,
+ 
+ 
+1
+1
+2
+  o n E.E * dxdy    o H.H * dxdy
+4
+4
+Therefore, the energy per unit length can be written as,
+ngM    n    
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+ 
+1
+M
+  o n ng E.E * dxdy
+2
+The effective index neff ( ) of a mode is,
+
+ ( )  neff ( )
+c
+The group velocity of a mode is,
+1
+
+
+v g ( ) 
+W z  
+
+v g is frequently expressed in terms of the group index of the mode,
+v g ( ) 
+
+c
+ng ( )
+
+where n g ( ) is called the group index. One can prove the following relation between the power
+
+P (z ) and the energy per unit length W (z ) ,
+P(z)  v g W (z)
+which can also be written as,
+
+ 
+M
+  o n ng E.E * dxdy
+W (z)
+
+
+
+
+c
+P (z)  Re Et  Ht * . zˆ dxdy
+In the slab-waveguide approximation, assuming TE modes with the transverse component of the
+electric field given by  x, y  , one obtains the following expressions for various quantities of interest,
+ 
+1
+1
+2
+W z     o n ngM E.E * dxdy    o n ngM  dxdy
+2
+2
+
+
+
+1 
+1 
+2
+P (z)   [Et  Ht * Et * Ht ] . zˆ dxdy 
+  dxdy
+4
+2 o
+ng
+
+
+
+n g neff 
+
+M
+ n n g 
+
+ 
+
+2
+
+
+
+2
+
+dxdy
+
+dxdy
+
+7.2.7 Properties of Waveguide Modes and Orthogonality of Modes:
+Frequently, solutions in various cases involve expansions in terms of all the waveguide modes. In
+such cases, knowledge of the orthogonality of the modes is useful. The electric and the magnetic
+fields for the m-th mode can be written as,
+
+
+E m  Etm x, y   zˆEzm ( x, y ) e i m  z
+
+
+H m  Htm x, y   zˆHzm ( x, y ) e i m  z
+
+
+
+
+
+
+
+Some useful properties of the waveguides modes are listed below:
+i) When the indices are real, the propagation vectors are also real, and the transverse field components
+can be chosen to be real as well. Equations (1) and (2) show that in this case the z-components of the
+fields are purely imaginary.
+ii) When the indices are real, the complex conjugate of the electric field mode gives the field for the
+mode propagating in the opposite (time-reversed) direction. For example, if,
+
+
+E m  Etm x, y   zˆEzm ( x, y ) e i m  z
+
+
+
+
+
+represents the field for the forward propagating mode then,
+
+
+E m *  Etm x, y   zˆEzm ( x, y ) e i m  z
+
+  
+
+
+
+represents the field for the backward propagating mode.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+iii) When the indices are real, the negative of the complex conjugate of the magnetic field mode gives
+the field for the mode propagating in the opposite (time-reversed) direction. For example, if,
+
+
+H m  Htm x, y   zˆHzm ( x, y ) e i m  z
+
+
+
+
+
+represents the field for the forward propagating mode then,
+
+
+ H m *   Htm x, y   zˆHzm ( x, y ) e i m  z
+
+  
+
+
+
+represents the field for the backward propagating mode.
+iv) Consider two different modes, “m“ and “p“ with the same propagation vector but different
+frequencies then the orthogonality between the mode fields is expressed as,
+m p
+2
+ dxdy n x, y  E . E *  0 for m  p
+m p
+ dxdy H . H *  0 for m  p
+
+ 
+
+ 
+
+v) Consider two different modes, “m“ and “p“ with the same frequency but different propagation
+vectors then the orthogonality between the mode fields is expressed as,
+m  p
+ dxdy Et  Ht * . zˆ  0 for m  p
+
+
+
+ 
+
+vi) The most general way of expanding a time harmonic field of a particular frequency inside a
+waveguide is in terms of the waveguide modes,
+
+
+
+
+
+
+
+
+H x, y, z    a  H x, y   zˆH ( x, y ) e      b   H x, y   zˆH ( x, y ) e   
+
+
+
+
+E x, y, z    am Etm x, y   zˆEzm ( x, y ) e i m  z   bm Etm x, y   zˆEzm ( x, y ) e i m  z
+m
+
+m
+
+m
+
+m
+
+m
+t
+
+m
+z
+
+i m
+
+z
+
+m
+
+m
+
+m
+t
+
+m
+z
+
+i m
+
+z
+
+7.2.8 Longitudinal vs Transverse Modes of a Waveguide:
+Consider the model dispersion relations shown below for the first three modes of a waveguide. The
+HE and EH modes are called the transverse modes of the waveguide since these modes describe the
+field profile in dimensions x and y that are transverse to the direction of propagation.
+EH00 mode
+HE01 mode
+HE00 mode
+
+The field profile in the direction of propagation is described by the propagation vector  . The
+dispersion for the lowest HE00 mode is plotted below in a slightly different way that also shows the
+dispersion for negative values of the propagation vector (propagation in the –z-direction). Different
+values of  correspond to different longitudinal modes of the waveguide.
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+
+HE00 mode
+
+HE00 mode
+
+
+
+
+Periodic boundary conditions can be used to find the number of different longitudinal modes
+corresponding to a transverse mode in an interval  of frequency. The problem is identical to
+finding the density of states for photons in one dimension. If the length of the waveguide is L then
+there are L  2 different longitudinal modes in an interval  . Since v g      , there are
+
+
+
+
+
+2  L v g  2 different longitudinal modes in an interval  . The factor of 2 accounts for the
+forward and backward propagating modes.
+
+7.2 Perturbation Theory for Waveguides
+7.2.7 Perturbation Theory for Waveguides:
+Often one is interested in the change in the propagation vector of a mode that comes from a small
+change in some parameter, such as the frequency or the refractive index of the medium. The change in
+the propagation vector can be obtained from the complex electromagnetic variational theorem and the
+result is,
+ 
+ 
+  o n 2 E.E *   0 H.H * dxdy
+
+
+
+ 
+2  Re Et  Ht * . zˆ dxdy
+For example, if the frequency is changed then using the above Equation one obtains the familiar
+result,
+ 
+M
+ng W (z )
+  o n ng E.E * dxdy
+
+
+
+ vg 
+
+
+
+c
+P(z)  Re Et  Ht * . zˆ dxdy
+If the refractive index is changed then one obtains,
+ 
+ o n n E.E * dxdy
+
+
+
+  
+ Re Et  Ht * . zˆ dxdy
+In the slab waveguide approximation, assuming a TE mode and the transverse component of the
+electric field given by  x, y  , one obtains the following expression for the change in the propagation
+vector with the refractive index,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+ 1  n n 
+
+2
+
+c neff
+
+ 
+
+2
+
+
+
+dxdy
+
+dxdy
+
+
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+7.2.8 Mode Confinement Factors:
+Consider the waveguide shown below. The refractive index of the core is n2 and that of the cladding
+is n1 .
+
+n2 → n2 + n2
+
+Suppose the refractive index of the core changes by n2 . The change in the propagation vector can
+be found as follows,
+ 
+ o n n E.E * dxdy
+
+
+
+  
+ Re Et  Ht * . zˆ dxdy
+ 
+ 
+core  o n n E.E * dxdy
+core  o E.E * dxdy
+
+
+
+
+
+  n2 n2 
+ Re Et  Ht * . zˆ dxdy
+ Re Et  Ht * . zˆ dxdy
+ 
+M
+
+
+ n2 n2  core  o n2 n2g E.E * dxdy
+
+
+
+ n2 n2Mg   Re Et  Ht * . zˆ dxdy
+
+
+ 
+ 
+M
+M
+
+
+ n2 n2  core  o n2 n2g E.E * dxdy   o n ng E.E * dxdy
+
+
+
+ 
+ n2 n2Mg    o n ngM E.E * dxdy  Re Et  Ht * . zˆ dxdy
+
+
+ 
+M
+
+
+ n2  core  o n2 n2g E.E * dxdy  ng 
+
+ 
+ n2Mg    o n ngM E.E * dxdy  c 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ n 
+ g 
+n2
+2 
+c
+ n2Mg 
+
+
+
+
+
+Note that n2Mg is the material group index of the waveguide core, and n g is the group index of the
+waveguide mode. The overlap integral 2 , defined as,
+ 
+M
+core  o n2 n2g E.E * dxdy
+2 
+ 
+M
+  o n ng E.E * dxdy
+
+
+
+
+
+
+
+
+represents the fraction of the mode energy density confined in the waveguide core. 2 is called the
+transverse mode confinement factor for the waveguide core. The change in the propagation vector is,
+as expected, proportional to n2 and also to the fraction of the modal energy inside the core.
+Suppose now the refractive index of the cladding also changes by n1 then the total change in the
+propagation vector can be written as a simple sum,
+
+Semiconductor Optoelectronics (Farhan Rana, Cornell University)
+n 
+ n 
+
+ g 
+ g 
+1 
+
+
+
+n
+1
+2  M  n2
+
+M
+c
+c
+ n1g 
+ n 2g 
+
+
+
+
+In the slab waveguide approximation, assuming a TE mode and the transverse component of the
+electric field given by  x, y  , one obtains the following expression for the transverse mode
+confinement factor for the core,
+ 
+
+
+
+M
+
+2 
+
+core n2 n2g 
+M
+
+2
+
+2
+
+dxdy
+
+ n ng  dxdy
+The waveguide perturbation theory can be used to calculate the change in the propagation vector in
+the presence of material loss (or gain). Suppose the core of the waveguide becomes lossy and the
+imaginary part of the core refractive index acquires a non-zero value given by,
+c 2
+n2  n2  i
+ 2
+In this case, we can take the index perturbation n2 to be,
+c 2
+n2  i
+ 2
+The change in the waveguide propagation constant becomes,
+ n 
+ n 
+ n 
+~
+
+
+~
+ g  2
+ g   c 2 
+ g 
+ i 2 2  i
+i
+i
+n
+
+
+
+
+
+  2 
+
+
+2
+2
+2
+
+
+
+
+
+2
+2
+c
+c
+ n2Mg  2
+ n2Mg    2 
+ n2Mg 
+
+
+
+
+
+
+where,
+ n 
+ g 
+~2  
+2
+~  2 ~2
+ n2Mg 
+
+
+The propagation vector  acquires a small imaginary part because of optical loss in the waveguide
+core. The imaginary part of the propagation vector will cause the wave energy to decay with distance
+as it propagates in the waveguide.
+
+

@@ -1,0 +1,2926 @@
+JOURNAL OF APPLIED PHYSICS
+
+VOLUME 85, NUMBER 9
+
+1 MAY 1999
+
+APPLIED PHYSICS REVIEWS
+
+Semi-insulating semiconductor heterostructures: Optoelectronic
+properties and applications
+David D. Noltea)
+Department of Physics, Purdue University, West Lafayette, Indiana 47907-1396
+
+~Received 11 September 1998; accepted for publication 25 January 1999!
+This review covers a spectrum of optoelectronic properties of and uses for semi-insulating
+semiconductor heterostructures and thin films, including epilayers and quantum wells.
+Compensation by doping, implantation, and nonstoichiometric growth are described in terms of the
+properties of point defects and Fermi level stabilization and pinning. The principal optical and
+optoelectronic properties of semi-insulating epilayers and heterostructures, such as excitonic
+electroabsorption of quantum-confined excitons, are described, in addition to optical absorption by
+metallic or semimetallic precipitates in these layers. Low-temperature grown quantum wells that
+have an arsenic-rich nonstoichiometry and a supersaturated concentration of grown-in vacancies are
+discussed. These heterostructures experience transient enhanced diffusion and superlattice
+disordering. The review discusses the performance of optoelectronic heterostructures and
+microcavities that contain semi-insulating layers, such as buried heterostructure stripe lasers,
+vertical cavity surface emitting lasers, and optical electroabsorption modulators. Short time-scale
+applications arise from the ultrashort carrier lifetimes in semi-insulating materials, such as in
+photoconductors for terahertz generation, and in saturable absorbers for mode-locking solid state
+lasers. This review also comprehensively describes the properties and applications of
+photorefractive heterostructures. The low dark-carrier concentrations of semi-insulating
+heterostructures make these materials highly sensitive as dynamic holographic thin films that are
+useful for adaptive optics applications. The high mobilities of free carriers in photorefractive
+heterostructures produce fast dielectric relaxation rates that allow light-induced space-charge
+gratings to adapt to rapidly varying optical fringe patterns, canceling out environmental noise during
+interferometric detection in laser-based ultrasound, and in optical coherence tomography. They are
+also the functional layers in high-sensitivity dynamic holographic materials that replace static
+holograms in Fourier imaging systems and in experimental Tbit/s optical systems. Semi-insulating
+heterostructures and their applications have attained a degree of maturity, but many critical materials
+science issues remain unexplored. © 1999 American Institute of Physics.
+@S0021-8979~99!07209-6#
+
+TABLE OF CONTENTS
+
+D. Semi-insulating heterostructures for ultrafast
+optoelectronics. . . . . . . . . . . . . . . . . . . . . . . . . . . 6270
+E. Semi-insulating heterostructures for
+mode-locking solid state lasers. . . . . . . . . . . . . . 6272
+V. PHOTOREFRACTIVE SEMICONDUCTOR
+HETEROSTRUCTURES. . . . . . . . . . . . . . . . . . . . . 6273
+A. Dynamic holography in quantum wells. . . . . . . . 6274
+B. Photorefractive heterostructure geometries. . . . . 6275
+C. Photorefractive optical microcavities. . . . . . . . . . 6280
+D. Photorefractive quantum well applications. . . . . 6281
+
+I. INTRODUCTION. . . . . . . . . . . . . . . . . . . . . . . . . . . . 6259
+II. FULLY COMPENSATED SEMICONDUCTORS
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6260
+III. SEMI-INSULATING EPILAYERS AND
+HETEROSTRUCTURES. . . . . . . . . . . . . . . . . . . . . 6261
+A. Ion implantation of heterostructures. . . . . . . . . . 6261
+B. Compensated doping during epitaxy. . . . . . . . . . 6263
+C. Nonstoichiometric growth of heterostructures. . 6263
+D. Transient enhanced diffusion in
+nonstoichiometric quantum wells. . . . . . . . . . . . 6266
+IV. OPTOELECTRONIC SEMI-INSULATING
+HETEROSTRUCTURES. . . . . . . . . . . . . . . . . . . . . 6267
+A. Heterostructure stripe lasers. . . . . . . . . . . . . . . . . 6267
+B. Vertical cavity surface emitting lasers. . . . . . . . 6269
+C. Optical modulators. . . . . . . . . . . . . . . . . . . . . . . . 6269
+0021-8979/99/85(9)/6259/31/$15.00
+
+I. INTRODUCTION
+
+Semi-insulating semiconductors constitute a special
+class of semiconductor materials because they possess a special limiting behavior: they exhibit close to the minimum
+a!
+
+Electronic mail: nolte@physics.purdue.edu
+
+6259
+
+© 1999 American Institute of Physics
+
+6260
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+dark carrier density permissible for a given band gap. While
+the low carrier density of the semi-insulating semiconductors
+gives these materials extremely high resistivities in the dark,
+they may have significant photoconductivity under illumination because of their typically high carrier mobilities. These
+properties make these highly resistive materials valuable for
+applications that lie at the other end of the spectrum from
+applications for highly conducting doped semiconductor materials and devices. The semi-insulating semiconductors are
+valued for their high resistivity, high defect densities, and
+short carrier lifetimes. They provide insulating device isolation for integrated circuits and provide current blocking layers for heterostructure lasers. They exhibit strong photorefractive effects, and are of interest for use as ultrafast
+photodetectors, among other interesting effects and applications, many of which are described in this Review.
+Semi-insulating bulk semiconductor crystals have long
+been the mainstay of III–V integrated circuit technology because high-resistivity substrates partially replace the function
+of the oxide in silicon devices to isolate discrete devices or
+layers within an integrated circuit. Common examples of
+semi-insulating semiconductors are chromium-doped GaAs
+~GaAs:Cr! and GaAs compensated by the so-called EL2 defect ~GaAs:EL2! as well as iron-doped InP ~InP:Fe!. These
+semi-insulating materials are formed by either intentional
+doping with transition–metal impurities during growth from
+the melt, or by relying on the formation of native defects
+during crystal growth, such as the arsenic antisite defect, to
+compensate residual shallow dopants.
+In the past ten years, interest in semi-insulating materials
+has expanded to included the growth or fabrication of semiinsulating epilayers or heterostructures. This extension of
+semi-insulating materials into heterostructures was a natural
+evolution, because the semi-insulating heterostructures were
+used in the traditional role as high-resistivity insulating or
+transport blocking layers for electronic devices and lasers.
+But new applications for semi-insulating heterostructures
+have emerged that are unique to the heterostructures. These
+include photorefractive quantum wells, which are holographic thin films in which self-adapting holograms can be
+written that respond dynamically to changing light intensities. Related devices that rely on the semi-insulating properties of thin semiconductor films are photoconductive receivers for laser-based ultrasound detection. In addition, the new
+technique of low-temperature molecular beam epitaxy has
+inaugurated a subclass of semi-insulating semiconductor materials that have extremely high intrinsic defect densities.
+These low-temperature-growth ~LTG! materials have gained
+attention because of their ultrashort carrier lifetimes, which
+make them useful for terahertz electromagnetic wave generation, ultrafast photodetectors, and as saturable absorbers for
+mode-locking lasers.
+This review covers the full spectrum of properties and
+uses for semi-insulating semiconductor heterostructures and
+thin films, beginning with the growth and processing of the
+films, including implantation, doping, and nonstoichiometric
+growth. The principal optical and optoelectronic properties
+of semi-insulating epilayers and heterostructures, such as excitonic electroabsorption, are described. This is followed by
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 1. Transition–metal energy levels in the III–V semiconductors GaP,
+GaAs, and InP. The levels are plotted to show the relative band offsets ~Ref.
+3! among these isovalent semiconductors.
+
+a discussion of the performance of optoelectronic heterostructure devices that incorporate semi-insulating layers as
+part of their structures, including heterostructure stripe lasers, vertical cavity surface emitting lasers, and optical electroabsorption modulators. This review also covers ultrafast
+applications that arise from the ultrashort carrier lifetimes in
+semi-insulating materials, including ultrafast photoconductors, terahertz generation, and saturable absorbers for modelocking lasers. The properties and applications of photorefractive heterostructures are comprehensively described in
+the last section.
+
+II. FULLY COMPENSATED SEMICONDUCTORS
+
+Fully compensated semiconductors are formed when a
+dominant deep-level defect cancels the net charges from
+other defect and dopant levels. In this case the Fermi level is
+pinned at an energy near the dominant deep level energy,
+which can be located in principal, anywhere within the band
+structure. Only in the case when the Fermi level is pinned
+near the middle of the band gap will the material have the
+minimum dark carrier density, and only in the case of semiconductors with larger band gaps will the material be
+strongly semi-insulating.
+The most common defects used for intentional compensation are the transition metal defects.1,2 These are chosen
+because they are easily incorporated substitutionally into the
+semiconductor host, they produce both donor and acceptor
+levels, and there is a wide variety to choose from. The deep
+energy levels for transition metals from the first row of the
+periodic table are shown in Fig. 1 for several of the III–V
+semiconductors.3 The figure is plotted to emphasize the interesting and useful invariance of the transition metal energy
+levels among this class of homovalent semiconductors. This
+invariance has been used to predict heterostructure band
+offsets4–7 as well as to experimentally measure band-edge
+hydrostatic deformation potentials.8,9 The donor and acceptor
+levels show clear trends in their energy levels as the
+transition–metal ion progresses from Ti through Ni. The
+transition metal Mn is a special case, because it has a halfoccupied d shell that makes it more stable than the other
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+FIG. 2. Characteristic Fermi level pinning energies in several semiconductors showing Schottky pinning energies, charge-neutrality levels, and Fermi
+level stabilization energies ~Ref. 11!.
+
+ions. The Mn ions are also the most important constituents
+for the study of semimagnetic semiconductors among the
+II–VI semiconductors.10
+An alternate approach to the formation of fully compensated semiconductors is the use of radiation or implant damage. Damage of almost any kind leads to the formation of
+defects within the semiconductor characterized by dangling
+bonds. As increasing densities of these deep defects are produced by radiation, the Fermi level moves within the band
+gap. An important property of many semiconductors is the
+nearly universal convergence of the Fermi level to the Fermi
+level stabilization energy11 of a given material, independent
+of the type of radiation. This convergence to a universal
+energy can be explained through an autocompensation
+mechanism, in which the energies of the dangling-bond defects lie within a band of energies centered on the average
+dangling bond energy in that specific material. The defects
+include both donors and acceptors, which compensate each
+other. The Fermi level stabilization energy of several of the
+common semiconductors is shown in Fig. 2. Like Fig. 1, this
+plot emphasizes the similarities across the disparate materials, which allows the stabilization energy to be used to predict heterojunction band offsets.
+A less common compensation mechanism is the compensation of charge around small metallic precipitates. These
+precipitates can be formed through implantation of metal
+ions, followed by annealing,12–15 or can be formed directly
+by molecular beam epitaxy at low substrate temperatures followed by annealing.16–19 The metal inclusions act as internal
+Schottky contacts that deplete charge of either sign in a
+spherical depletion region.20 It has also been shown that
+voids can compensate charge in a manner completely analogous to the metal precipitates,21 and illustrates the universal
+charge-compensation capability of any internal semiconductor interface that leaves states unfilled. A complication in the
+
+Appl. Phys. Rev.: David D. Nolte
+
+6261
+
+interpretation of the compensation mechanism in nonstoichiometric ~LTG! GaAs is the presence of high concentrations of arsenic antisites. These defects are deep donors that
+compensate acceptors in a manner similar to bulk semiinsulating GaAs:EL2. However, the LTG materials show an
+evolution of compensation properties from the defect limit in
+as-grown or weakly annealed materials, to metallic precipitates in more strongly annealed materials. The details of
+LTG materials and their compensation mechanisms are described in Sec. III C.
+Fully compensated materials are sometimes erroneously
+labeled as ‘‘intrinsic’’ because the Fermi level rests near the
+middle of the band gap, where it would occur in the textbook
+case of an intrinsic semiconductor without defects. However,
+this word is misleading because Fermi levels in all semiconductors ~at usual temperatures! are pinned by the compensation of donors by acceptors, or vice versa. Furthermore,
+space-charge effects and carrier lifetimes in fully compensated semiconductors are far different than the properties attributed to intrinsic semiconductors. Therefore, the use of the
+term intrinsic is discouraged when referring to highly compensated materials.
+III. SEMI-INSULATING EPILAYERS AND
+HETEROSTRUCTURES
+A. Ion implantation of heterostructures
+
+Heterostructure devices and materials are typically only
+several microns thick. This thickness is compatible with ion
+implantation ranges for many ion species. Therefore, heterostructures are uniquely suited for the use of ion implantation
+to produce compensated semiconductor material. This can be
+done by implantation of compensating dopants, or by direct
+radiation damage through the implantation of ions such as
+oxygen or hydrogen.
+1. Proton implantation
+
+It was discovered in 1966 that proton bombardment of
+GaAs produces high resistivity material,22 but the first practical application did not occur until 1969 when it was used to
+isolate junction devices based on the ability to convert both
+n- and p-type conducting material23 to high resistivity.
+Shortly thereafter Dyment et al. demonstrated the use of proton implantation to form the narrow current-confinement
+stripes needed for low-threshold-current diode lasers.24
+These initial discoveries and applications of proton implanted GaAs were followed by extensive studies of its
+electronic25–28 and optical29,30 properties. Proton implantation has been commonly used for optoelectronic applications
+such as buried heterostructure diode lasers, vertical cavity
+surface emitting lasers, photorefractive quantum wells, and
+ultrafast photoconductors, all of which are discussed in later
+sections in this Review.
+Proton implantation compensates residual impurities
+through two effects. First, the knockout atoms and vacancies
+produced during the implantation have dangling bonds that
+compensate charge of either sign. Second, the protons ~hydrogen! can passivate shallow dopants by forming neutral
+complexes with shallow acceptors or donors.31 Compensation by radiation damage is the dominant mechanism within
+
+6262
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+FIG. 3. Range and longitudinal straggle for proton and oxygen implants in
+GaAs calculated using TRIM simulator ~Ref. 34!.
+
+Appl. Phys. Rev.: David D. Nolte
+
+tor of three to five to compensate the p-type materials than
+for the n-type materials.29,36
+Compensation by radiation damage can be removed by
+thermal annealing. The conductivity in doped n- and p-type
+GaAs and AlGaAs can be recovered using annealing temperatures of 600 °C or higher, although the recovery temperatures vary with dopant species and concentrations.29,36 In
+the p-type materials, the final resistivity after recovery is
+typically smaller by about a factor of five than before implantation. Because radiation damage can be removed by annealing at sufficiently high temperatures, this prevents the
+use of high-temperature processing stages for proton-isolated
+devices after the implantation step. This restriction has
+driven the search for other implanted ion species that can
+retain their compensating properties even after annealing.
+One of these alternative choices is oxygen implantation.
+2. Oxygen implantation
+
+the implant range of the proton, while hydrogen passivation,
+which is a considerably weaker effect, can extend several
+microns deeper into the material, especially after weak annealing at 300–600 °C.32 This extended diffusion of hydrogen into the device can have important consequences for
+optoelectronic applications.33 Details concerning the range of
+protons and the degree of damage produced depend on doses
+and dose rates, as well as on the temperature of the device
+during implantation.28 For instance, cold implants are more
+effective in producing compensation than room-temperature
+implantation by nearly a factor of two.
+The range for proton implantation into GaAs is shown in
+Fig. 3 as a function of proton energy, along with longitudinal
+straggle, calculated using the software package TRIM.34 For
+an implant energy of 175 keV, the proton range is 1.3 mm
+with a longitudinal straggle of 0.2 mm. The density profile of
+vacancies produced by 175 keV protons is shown in Fig. 4.
+On average, there are about 40–50 vacancies produced per
+implanted proton. Many of these vacancies recombine or
+form neutral complexes, leaving only a fraction of the radiation damage to compensate shallow dopants. Proton implantation studies into n-type GaAs have shown that protons with
+an energy in the range of 150 keV remove approximately
+three conduction electrons per proton.35 Implantation into
+p-type GaAs requires a higher dose by approximately a fac-
+
+Oxygen implantation into GaAs and AlGaAs shares
+some similarities with proton implantation. For instance asimplanted materials are highly resistive because of radiation
+damage, which anneals away above 600 °C, but after hightemperature annealing the mechanisms for compensating
+space charge are different. While hydrogen is mobile, and
+passivates shallow dopants by forming neutral complexes,
+oxygen is thought to be relatively immobile and to produce
+thermally stable deep levels that compensate charge from
+shallow dopants. Favennec et al.37 first reported the formation of high resistivity GaAs by oxygen implantation. It was
+recognized quickly that the doping effects and hightemperature stability38 made these implants superior to proton implantation for certain optoelectronic applications for
+which device lifetimes were critical issues, such as heterojunction diode lasers.39 Because of the larger mass of oxygen
+compared with the proton, significantly larger implant energies are needed to penetrate into heterostructures. For instance a range of only 0.3 mm requires an implant energy of
+approximately 200 keV. The higher energy and mass also
+contribute to many more knockout atoms per ion than for
+protons.
+Studies that compare oxygen implantation into AlGaAs
+with implantation into GaAs have found that oxygen implantation of n-type GaAs does not produce thermally stable
+semi-insulating material, but that implanted n-type AlGaAs
+does form stable semi-insulating material, possibly by forming AlO defect complexes that act as electron traps.40
+3. Transition metal implantation
+
+FIG. 4. Vacancy density profile for 175 keV proton implantation into GaAs.
+
+An alternative to oxygen implantation ~which relies on
+defects of unknown identity to compensate charge! is direct
+implantation of impurities to produce known deep levels.
+The transition metals present a wide variety of options for
+ion implantation, and produce stable deep level defects when
+incorporated substitutionally in the lattice. One of the most
+thoroughly studied transition metal implants is ironimplanted InP because of the technological importance of
+InP:Fe for optoelectronic devices that operate at wavelengths
+beyond 1 mm.
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+High-resistivity layers in n-type InP produced by Fe implantation were first demonstrated by Donnelly and
+Hurwitz.41 After annealing at 725 °C for 15 min, the material
+could reach a resistivity greater than 13107 V cm. The
+depth of the implanted region was noted to be greater than
+that predicted by implantation theory, indicating that Fe diffused into the substrate during annealing. Detailed studies of
+the implanted and annealed materials showed that implantation at room temperature with a dose of 1014 cm22 lead to
+amorphitization of the implanted layer. The layer could be
+recrystallized by annealing, but produced a pileup of iron
+and extended defects at the amorphous–crystalline
+interface.42 Implants with the substrate held at 200 °C
+showed that the InP remained crystalline and prevented inhomogeneous Fe distributions after annealing.43 This work
+formed the basis of a novel buried heterostructure InGaAsP/
+InP laser that employed a buried Fe implanted layer for current confinement.44 Extensive studies of related diode structures containing an Fe-implanted layer were made to
+understand charge transport issues in these structures.45,46
+
+B. Compensated doping during epitaxy
+
+Epitaxial growth techniques offer unprecedented control
+over the introduction of impurities into semiconductor material. All the epitaxial growth processes ~excluding liquid–
+phase epitaxy! occur far from equilibrium. This makes it
+possible to incorporate impurities at concentration levels that
+could not be sustained in equilibrium. In addition, it is relatively easy to introduce dopant precursors into the growth
+process, as in the use of transition–metal organic precursors
+in metal organic chemical vapor deposition ~MOCVD!
+growth. It is therefore possible to directly grow compensated
+semiconductor materials during the epitaxial process itself.
+Because of the importance of semi-insulating materials
+for III–V integrated circuits and optoelectronic devices, the
+first growth of semi-insulating InP using MOCVD in 1984
+represented a significant breakthrough.47,48 This was
+achieved using ferrocene as the dopant source, with measured resistivities approaching 23108 V cm. Space-chargelimited currents were observed in this material for fields over
+104 V/cm. 48
+After this first demonstration, the regrowth of semiinsulating InP as the current–confinement layers of buried
+heterostructure lasers became one of the standard laser fabrication procedures. The high-resistivity layer replaced
+reverse-biased p-n junctions as the current blocking layers in
+these lasers, giving smaller parasitic capacitance resulting in
+higher modulation bandwidth. An extensive literature has described many aspects of the growth and tailoring of semiinsulating layers as current blocking layers in lasers. However, Fe-doped InP loses its semi-insulating character under
+double injection of electrons and holes, which degrades laser
+performance. Therefore, alternative semi-insulating layers
+have also been explored for the buried heterostructure lasers.
+For instance, compensated epilayers of InP incorporating Cr
+have been grown using the MOVPE technique.49 This work
+followed earlier work that used MOVPE to grow Cr-doped
+GaAs.50 Deep donor concentrations up to 331016 cm23 in
+
+Appl. Phys. Rev.: David D. Nolte
+
+6263
+
+the InP:Cr layer were reported with resistivities as high as
+33108 V cm. Ultrafast carrier trapping had been observed in
+high-resistivity oxygen-doped GaAs grown by MOVPE with
+carrier lifetimes as short as 300 fs.51
+Molecular beam epitaxy ~MBE! has been used to grow
+transition–metal-doped semi-insulating epilayers. For example Cr-doped GaAs/AlGaAs photorefractive quantum
+well structures were grown by MBE.52 For the photorefractive application, very high concentrations of deep carrier
+traps are needed. MBE has also been used for extremely high
+doping of GaAs with Fe, leading to the spontaneous formation of Fe3GaAs precipitates.53 These metallic ~and magnetic! precipitates share some properties in common with
+intrinsic precipitates of arsenic in nonstoichiometric GaAs.
+C. Nonstoichiometric growth of heterostructures
+
+The pursuit of semi-insulating III–V heterostructures acquired a new tool in the arsenal of growth and processing
+techniques when it was discovered that nonstoichiometric
+arsenic-rich GaAs can be semi-insulating. Epitaxial growth
+techniques are inherently far from equilibrium, making it
+possible to grow materials with no bulk analog. In the case
+of MBE growth of GaAs, lowering the substrate temperature
+during growth causes excess arsenic to be incorporated into
+the lattice as arsenic antisite defects and as gallium vacancies. Under high-temperature annealing, the excess arsenic
+forms semimetallic precipitates. These point and semimetallic defects can compensate charge from shallow dopants ~and
+from each other! and render the material semi-insulating
+through a complicated interplay of compensation mechanisms. Nonstoichiometric materials have therefore been an
+important new addition to the list of MBE materials for both
+their technological importance, as well as their interesting
+physical behavior.
+1. Low-temperature-grown GaAs
+
+The growth of high-quality GaAs by MBE is typically
+performed on substrates held at a temperature near 600 °C,
+but there is a long history of MBE at lower substrate temperatures. Low-temperature conditions lead to the growth of
+polycrystalline material, with some early notable exceptions.
+In 1978 Murotani et al.54 discovered that MBE growth of
+GaAs at substrate temperatures near 400 °C produces crystalline GaAs that was semi-insulating. Growth of excellent
+quality GaAs at even lower temperatures down to 200 °C
+was shown to be possible using a modification of MBE
+called ‘‘migration enhanced epitaxy.’’ 55,56 The MEE materials had superior optical performance compared with ordinary
+MBE materials, but were not semi-insulating. Lowtemperature growth of semi-insulating material gained attention with the work by Smith et al.57 who found that backgating
+of
+metal–semiconductor–field-effect
+transistor
+~MESFET! devices could be eliminated when grown on LTG
+GaAs. This launched considerable activity in the study of the
+material and its potential applications. A complete overview
+of work on LTG materials can be found in Ref. 58.
+Low-temperature-grown GaAs is nonstoichiometric with
+an excess of arsenic that is taken up by point defects in the
+as-grown materials.59 The most common point defects are
+
+6264
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+the arsenic antisite defects AsGa, arsenic interstitials Asi , and
+gallium vacancies V Ga . The arsenic antisite defects are similar ~or identical! to the so-called EL2 electron trap in GaAs,
+and the defect properties observed in LTG materials are
+similar to the known properties of EL2.60,61 For layers grown
+at 200 °C, the as-grown antisite concentrations are approximately 1019 cm23. 62 The gallium vacancy concentration is
+lower by approximately a factor of 10 for this growth
+temperature,63 but is still far above equilibrium values, leading to interesting annealing behavior.64,65 The presence of
+gallium vacancies in LTG GaAs has extremely important
+consequences in terms of device thermal stability and operating lifetimes, because the vacancy is mobile and is the
+dominant mechanism for superlattice intermixing as well as
+impurity diffusion. The high as-grown vacancy concentrations in LTG materials lead to transient enhanced diffusion
+~described in Sec. III D 2! which can degrade optical and
+electronic device performance.
+It was discovered by Melloch et al.16 that the excess
+arsenic formed precipitates when LTG GaAs was annealed at
+temperatures above 600 °C. The precipitate size distribution
+was not homogeneous, but did have well-defined average
+sizes and spacings that increased with increasing annealing
+temperature and times. Subsequent studies of the precipitation process showed that it could be controlled with a high
+degree of specificity, leading to the term ‘‘precipitate
+engineering.’’ 66 For instance, the precipitates were found to
+nucleate and grow more readily in GaAs than AlGaAs,67 and
+in n-type material than in p-type material.17,67,68 By combining different doping and compositional layers in a heterostructure, and by controlling the growth and annealing
+temperatures,69 the precipitates could be induced to growth
+only in selected regions or planes. The presence of the precipitates in annealed LTG GaAs changes the electronic and
+optical properties of the material.
+2. Nonstoichiometric quantum wells
+
+The growth of quantum well structures at low substrate
+temperatures has been developed since the mid-1980’s. The
+initial growths were performed at low substrate temperatures
+down to 200 °C using migration enhanced MBE in which Ga
+or Al atoms are evaporated onto a clean GaAs surface in an
+As-free atmosphere.55,56,70 The atoms are mobile down to
+low temperature, and migrate across the growth surface. This
+produces high-quality materials that remain stoichiometric in
+spite of the low growth temperature. The good stoichiometry
+of the material is also indicated by the insensitivity of the
+quantum wells to annealing up to 800 °C.71 In nonstoichiometric quantum wells grown by MBE at low temperatures,
+the quantum wells intermix rapidly because of high grown-in
+vacancy concentrations.72
+The first study of optoelectronic properties of nonstoichiometric quantum wells grown at low substrate temperatures was performed by Knox et al.73 The AlGaAs/GaAs
+quantum wells were grown at 300 °C and exhibited broadened excitonic resonances. With annealing, the excitonic
+transition broadened further and shifted to higher energy. In
+AlAs/GaAs multiple quantum wells grown at 310 °C rela-
+
+Appl. Phys. Rev.: David D. Nolte
+
+tively sharp excitonic features were observed in the as-grown
+materials.74,75 This material was semi-insulating and showed
+excellent quantum-confined Stark effects74 that were useful
+for photorefractive quantum well applications.76–79 The
+properties of LTG quantum wells continues to be an area of
+active research,80,81 and in particular the diffusion properties
+under annealing have attracted attention because of the
+strong transient enhanced diffusion exhibited in these
+materials.72,82–84
+3. Optical and electro-optic properties of LTG
+materials
+
+Nonstoichiometric GaAs and related materials have high
+defect densities of a variety of species, including
+V Ga , Asi , AsGa, as well as arsenic precipitates. All these defect and precipitate species influence the optical properties of
+the material. As the material is increasingly annealed, the
+concentrations of point defects decrease while the size and
+spacing of the arsenic precipitates increase.17 These trends
+are reflected in the optical properties of the material. Because
+of the great variety of species and the different time dependencies, unraveling the specific contributions to the optical
+properties by each species is a challenging task that has
+caused some discussion and controversy in the literature. The
+presence of defects and precipitates directly influences the
+absorption and refractive index of the composite LTG material. These primary properties, in turn, are involved in secondary effects, such as sub-band-gap photoconductivity, excitonic electroabsorption, and resonant optical nonlinearities.
+The optical absorption of as-grown LTG materials has a
+strong extrinsic contribution both below and above the band
+gap. The spectrum of the absorption below the band gap
+shows striking similarities to the absorption spectrum of the
+arsenic antisite AsGa, which has been attributed to the defect
+level EL2. Some differences are found between the LTG
+spectrum and the EL2 spectrum, but these may be accounted
+for by the stronger perturbations that exist in the LTG materials compared to semi-insulating LEC GaAs.85 Using nearinfrared absorption calibrated to the EL2 defect86 and magnetic circular dichroism87 it is possible to quantify the
+concentrations of neutral @ As0Ga# and charged @ As1
+Ga# in the
+LTG materials.62 In samples grown at 200 °C, this study
+found initial concentrations of @As0Ga#5131020 cm23 and
+18
+23
+@As1
+Ga#52310 cm . In samples grown at 270 °C, initial
+concentrations
+were
+@As0Ga#5331018 cm23
+and
+1
+17
+23
+@AsGa#53310 cm . The concentration of ionized AsGa is
+therefore approximately an order of magnitude smaller than
+the concentration of the neutral species. This makes a strong
+argument that the Fermi level is pinned by the arsenic antisite defects in as-grown materials. With increasing annealing, both concentrations decrease with an activation energy
+between 1.3 and 1.4 eV. These optical techniques lose sensitivity to the defect concentrations for annealing above
+600 °C, which is expected to be the crossover temperature
+from defect-dominated compensation to precipitatedominated compensation mechanisms.
+The absorption spectrum below and above the band gap
+is shown in Fig. 5 for a sample grown at 250 °C and annealed
+at successively higher annealing temperatures from 400 to
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+FIG. 5. The absorption coefficient of LTG GaAs ~grown at 250 °C! for 1
+min annealings at increasing temperature ~Ref. 8!. The absorption of a GaAs
+reference sample is shown for comparison.
+
+600 °C for 1 min.88 The initial excess absorption is greater
+than 15 000 cm21, but decreases rapidly with increasing annealing as the arsenic antisite concentration decays. Contributions to the refractive index have also been studied as a
+function of growth and annealing89,90 using ellipsometry and
+Fabry–Perot oscillations. The defects make a positive contribution to the refractive index by as much as Dn50.25 at
+the band gap at 870 nm, but decrease the refractive index by
+approximately the same amount at the E 1 critical point near
+450 nm.
+As the point-defect density is reduced with increasing
+annealing, semimetallic arsenic precipitates become the
+dominant source of extra absorption in LTG GaAs. The inclusions represent a heterogeneity in the complex dielectric
+function of the material, leading to characteristic absorption
+that is unrelated to photoionization of point defects. A metal
+inclusion in a dielectric will absorb light because of the excitation of electric current in response to the electromagnetic
+field. This effect is classical, and can be viewed as energy
+dissipated through joule heating. Semiclassically, the light is
+absorbed by surface plasmons that are ~in principle! observable as Fröhlich resonances in the absorption spectrum.91,92
+In the case of arsenic precipitates, the inclusions are only
+semimetallic, and the Fröhlich resonance is severely broadened by the large imaginary component of the complex dielectric function of arsenic. This leads to a very broad and
+featureless absorption spectrum that extends above and below the GaAs band gap.93 An interesting challenge is to distinguish between the sub-band-gap absorption due to precipitates, and the absorption due to photoionization of point
+defects, because both lead to sub-band-gap absorption. In the
+special case of silver precipitates in Ag-implanted AlGaAs,
+the Fröhlich resonance can be large and sharp because silver
+behaves almost like a free-electron metal but the resonance
+will only be observable if the precipitates are nearly spherical in shape.93 The size and shape distribution of experimentally observed Ag precipitates has been found to be nonuniform, again leading to a featureless absorption spectrum
+below the band gap.15 It is important to note that although
+the arsenic and silver precipitates both lead experimentally to
+qualitatively similar absorption spectra, the origins are different. The absorption in the case of the arsenic precipitates
+
+Appl. Phys. Rev.: David D. Nolte
+
+6265
+
+FIG. 6. Electroabsorption spectra in response to a dc electric field of 15
+kV/cm that was applied across coplanar contacts for standard-temperature
+and low-temperature grown Al0.2Ga0.8As ~Ref. 97!.
+
+is homogeneously broadened, while the absorption in the
+case of silver precipitates is inhomogeneously broadened.
+These differences should therefore be accessible to optical
+techniques that differentiate between homogeneous and inhomogeneous broadening, such as photon echo techniques or
+spectral hole burning.
+In addition to energy dissipation by joule heating, it is
+also possible to observe photoemission of electrons from the
+arsenic precipitates. This is a quantum–mechanical process
+that generates photoconductivity for light below the band
+gap. This effect has practical application for use as an extrinsic photoconductor. The photoemission properties of arsenic
+precipitates have been studied in GaAs94 as well as
+AlGaAs95 in p-i-n diode structures. The wavelength and
+voltage dependence of the photocurrent is consistent with an
+emission barrier given by the energy separation of the Fermi
+level in the precipitates from the conduction band edge.
+Excitonic electroabsorption caused by the Franz–
+Keldysh effect96 has been studied in LTG materials in transverse geometries with coplanar metal–semiconductor–metal
+~MSM! contacts with wide gaps97 and with interdigitated
+electrodes.98 In samples of LTG AlGaAs annealed at 750 °C
+for 30 s, the excitonic electroabsorption showed a strong
+asymmetry and an enhancement relative to an AlGaAs
+sample grown at ordinary temperatures. The electroabsorption spectra are compared in Fig. 6. The enhanced electroabsorption in the LTG materials has been attributed to
+transport-driven charge accumulation on the precipitates,
+which produce strongly inhomogeneous local electric fields
+around the precipitates.99,100 The electro-optic effect in the
+LTG epilayers has been used for a demonstration of holographic storage with small pixel size in thin epilayers.101 The
+high resistivity of annealed LTG materials has also made it
+possible to study the polarization dependence of the Franz–
+Keldysh effect under high fields in thin samples of GaAs.102
+Franz–Keldysh oscillations are still observable in the LTG
+materials despite the broader excitonic linewidth, although
+samples with a weak annealing at 600 °C for 1 min did not
+show significantly enhanced electroabsorption.
+As described in Sec. III C 2, it has been shown that quantum wells with sharp excitonic features can be grown at low
+
+6266
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+FIG. 7. The quantum-confined Stark effect in LTG AlAs/GaAs multiple
+quantum wells vs annealing temperature for 30 s ~Ref. 74!.
+
+temperatures,74 providing fast photoconductive materials
+with good quantum-confined Stark shifts. When used in a
+p-i-n structure ~with mild in situ annealing at 450 °C for 24
+min during the growth of the top p layer!, the device shows
+an excellent quantum-confined Stark effect. However, with
+increasing annealing, the electroabsorption quickly degrades,
+as shown in Fig. 7. The rapid broadening with increasing
+annealing is much more pronounced than for stoichiometric
+quantum wells. This enhanced broadening is caused by the
+supersaturated concentration of group III vacancies in the
+LTG materials that causes transient enhanced diffusion in the
+nonstoichiometric quantum wells.
+
+D. Transient enhanced diffusion in nonstoichiometric
+quantum wells
+
+1. Gallium vacancy migration
+
+The diffusion of gallium vacancies is suspected to be the
+dominant self-diffusion mechanism in GaAs accounting for
+the migration of group III elements. Gallium vacancies migrate only on the gallium sublattice, and do not communicate
+with the arsenic sublattice.103 Vacancy diffusion is particularly effective for inducing intermixing of heterojunctions in
+heterostructures or superlattices. For example, when a group
+III vacancy migrates on its sublattice and passes through a
+heterojunction interface between GaAs and AlAs, a gallium
+and an aluminum atom swap places. Successive passes of
+vacancies across the interface produce a continuous intermixing, drawing aluminum into the GaAs and gallium into
+the AlAs. Considerable literature on quantum-well intermixing has documented this process.104,105 Differences between
+the migration probabilities of group III vacancies in GaAs
+relative to AlAs can produce nonlinear diffusion profiles because of the dependence of the diffusion coefficient on concentration. However, experiments on isotopic superlattices
+have helped quantify the equilibrium properties of gallium
+self-diffusion in stoichiometric GaAs free of concentration
+dependent effects,106 establishing the equilibrium diffusion
+properties of GaAs with a high degree of certainty.
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 8. Gallium vacancy concentration vs growth temperature in LTG GaAs
+obtained from positron annihilation measurements ~Ref. 63!.
+
+2. Nonequilibrium intermixing
+
+In low-temperature-grown heterostructures the material
+is produced far out of equilibrium, and in addition to the
+excess arsenic that is incorporated in the material, there is
+also a deficiency of group III atoms, leading to a supersaturated concentration of group III vacancies, such as the gallium vacancy V Ga . The concentration of gallium vacancies
+in LTG materials has been calibrated against growth temperature using positron annihilation spectroscopy,63 shown in
+Fig. 8. This excess concentration of vacancies produces large
+enhancements in the interdiffusion of quantum wells by
+many orders of magnitude relative to equilibrium diffusion.
+The first indication of enhanced diffusion in LTG quantum wells was found in the quantum-confined Stark effect in
+LTG AlAs/GaAs quantum wells annealed at successively
+higher temperatures between 600 and 900 °C.82 In addition to
+the broadening of the quantum-confined excitons due to interface roughening, which had been noticed previously,73
+there was also a shift to higher energy for the excitonic transition. This was caused by the diffusion of aluminum into the
+GaAs wells, which increased the average band gap.
+The enhanced interdiffusion of LTG quantum wells degrades the performance of devices in some applications. For
+instance, laser diode structures that have incorporated some
+LTG layers showed enhanced intermixing degradation of the
+laser junction.107 Additional aspects related to the performance of electroabsorption modulators and photorefractive
+quantum wells have been discussed in the literature.73,74,77,84
+Related observations of anomalous diffusion of gallium have
+been made in arsenic-deficient GaAs, produced at the surface
+by laser annealing.108
+The annealing-induced band-gap shift in the nonstoichiometric quantum wells was several orders of magnitude
+larger than the shifts induced by equivalent annealing in stoichiometric superlattices. Furthermore, the dependence of the
+enhanced diffusion on temperature was anomalously small,
+producing a small effective migration enthalpy for the intermixing process that did not at first appear to be consistent
+with the migration enthalpy for vacancy diffusion.82 None-
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+6267
+
+theless, subsequent studies have explained the small effective migration enthalpy for intermixing in LTG quantum
+wells in the context of the transient decay kinetics of the
+excess vacancy concentration as it relaxes to equilibrium.
+3. Transient decay of supersaturated vacancy
+concentration
+
+The time-dependent decay of the excess vacancy concentration in LTG materials can take many forms. For instance, if the formation of divacancy complexes is the dominant decay mechanism, then the decay would show secondorder kinetics. Similarly, if the vacancies are annihilated by
+arsenic interstitials to form arsenic antisites, or if the vacancies form complexes with other point defects, then the decay
+would not be single exponential, but would exhibit stretched
+exponential behavior as the concentrations of all defects decrease with increasing annealing. On the other hand, many
+thermodynamic relaxation processes do approximate single
+exponential behavior. In the case of single exponential decay, the time-dependent diffusion length is
+L 2D ~ t ! 5D 0 t exp@ 2 ~ H f 1H m ! /k B T # 1D 1 t a
+3exp~ 2H m /k B T !@ 12exp~ 2t/ t a !# ,
+
+~1!
+
+where H f and H m are the formation and migration enthalpies
+of the vacancies, respectively, and the annihilation time of
+the excess vacancy concentration t a is also assumed to be
+thermally activated by
+1/t a 5 n a exp~ 2H a /k B T ! ,
+
+~2!
+
+where H a is the annihilation enthalpy and n a is the attempt
+rate for annihilation of a vacancy. For long annealing times,
+the second term in Eq. ~1!, which describes the enhancement,
+decays to zero, leaving the equilibrium term.
+A strong case can be made for H a 5H m in Eq. ~2! because a vacancy must first migrate in order to annihilate.
+Under this condition, the effective migration enthalpy can
+vanish, leading to a diffusion process that appears athermal,
+which was observed experimentally in the enhanced diffusion of the LTG quantum wells.72,82 Detailed studies have
+been performed on the transient enhanced diffusion in LTG
+quantum wells using phototransmittance experiments. The
+diffusion data are shown in Fig. 9 compared with the theoretical curves from Eq. ~1!.109 For high-temperature annealing for long times, the transient behavior relaxes to the equilibrium diffusion coefficient. At short annealing times and
+low temperatures, the curves asymptotically approach a
+slope given by the vacancy migration enthalpy. At intermediate temperatures, the data fall on a family of isochronal
+curves. The small slope in this intermediate regime is a consequence of H a 'H m .
+
+FIG. 9. Transient enhanced diffusion coefficient in LTG AlAs/GaAs quantum wells for an array of isochronal and isothermal annealings, plotted as
+the square of the diffusion length divided by the annealing time ~Ref. 109!.
+
+layers in optoelectronic heterostructures has played an important role in the history and ongoing development of these
+devices.
+A. Heterostructure stripe lasers
+
+The goal of practical in-plane heterostructure laser designs is to laterally confine current, carriers, and photons.
+This is achieved most readily in stripe laser geometries in
+which a narrow strip of active region defines the laser axis.
+The narrow strip can be formed using many different approaches, some of which use semi-insulating materials. Several stripe laser designs are shown in Fig. 10, including semiinsulating, p-n blocking layer structures, and simple oxide
+stripe. The oxide is usually SiO2 that confines the current to
+a small strip near the top contact. The oxide stripe laser has
+lateral current confinement, but no charge or photon confinement, making its commercial value limited. Implanted stripe
+lasers use ion implantation to form semi-insulating regions
+
+IV. OPTOELECTRONIC SEMI-INSULATING
+HETEROSTRUCTURES
+
+Many heterostructures laser and modulator architectures
+require high-resistivity regions to confine current to specified
+areas, or to isolate devices or parts of devices from one another. Therefore, the growth or formation of semi-insulating
+
+FIG. 10. Stripe laser geometries showing semi-insulating, p-n reversed
+junction and oxide stripe structures.
+
+6268
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+that extend to the p-n junction on either side of the stripe.
+Proton or oxygen implantation has been used in this geometry. Protons produce semi-insulating material through the
+introduction of radiation damage, which is not stable under
+high-temperature annealing, and which can migrate to the
+active region during long-term operation of the laser. On the
+other hand, oxygen implantation in AlGaAs forms semiinsulating material that is stable even for annealing over
+600 °C. Oxygen can also be used to induce superlattice disordering in the implant region by postimplant annealing to
+provide lateral optical confinement as well as charge confinement.
+Much stronger optical and charge lateral confinement
+can be achieved in buried heterostructure ~BH! lasers. Buried
+heterostructure injection lasers have filamentary active regions that are completely buried inside a higher-band-gap
+semiconductor material, producing an optical waveguide geometry that has both excellent current and optical
+confinement.110 Much of the development of buried heterostructure lasers has focused on the design and fabrication of
+the blocking layers on either side of the stripe to have low
+capacitance and low leakage currents.
+The most common approach to producing a current
+blocking layer is to incorporate reverse-biased p-n junctions
+in the blocking layer. However, these junctions can be leaky
+and allow current to flow along the edge of the active layer
+around the p-n junction, especially at high power. Furthermore, the reverse-biased junction has a high capacitance that
+contributes to the total capacitance of the laser, limiting
+modulation speeds. An alternative material approach to the
+problem of the blocking layer has been to regrow semiinsulating materials around a stripe mesa to form a planar
+structure. The semi-insulating planar buried heterostructure
+~SI-PBH! lasers have high resistivity, and do not suffer from
+serious junction capacitance. These advantages have lead to
+the development of semi-insulating-embedded buried heterostructure lasers in both AlGaAs/GaAs devices and InP-based
+longer-wavelength devices.
+
+1. GaAs-based heterostructure stripe lasers
+
+Proton implantation was used among the earliest currentconfinement stripe laser geometries to electrically isolate the
+laser and to confine the current to a narrow stripe.24,111,112
+The proton implantation was convenient, produced highresistivity materials, could be performed after all growth
+steps to prevent annealing of the radiation damage, and could
+define stripe widths below 10 mm. It became one of the
+standard fabrication techniques for early double heterostructure lasers, and produced lasers with acceptable threshold
+currents.113–115 Optimal performance was achieved by reducing the proton implant range to use only the tail of the implant distribution to reach to the active junction.116–118 However, these DH lasers had no lateral charge confinement119 or
+optical confinement, which kept threshold currents relatively
+high, and long-term operation of the lasers could cause the
+implantation damage to migrate, leading to decreased carrier
+lifetimes in the active region, and ultimately to device
+failure.
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 11. L – I curve for SiO2 stripe laser compared with oxygen-implanted
+laser ~Ref. 121!.
+
+Replacing proton implantation with oxygen implantation
+increased the operating lifetime of the implanted stripe lasers
+by removing the reliance on mobile defects, such as vacancies, to form semi-insulating material. Oxygen implantation
+into n-GaAs and AlGaAs produces semi-insulating material
+that remains semi-insulating after annealing above
+600 °C.38,40 The first demonstration of an oxygen-implanted
+stripe laser was made by Blum et al.39 The oxygenimplanted stripe lasers showed early improvements in thermal resistance over conventional SiO2 current-confinement
+geometries.120 Later refinements led to significant reduction
+in threshold currents of oxygen-implanted devices compared
+with conventional oxide geometries.121 Figure 11 shows the
+light power–current (L – I) curve for two identical 10-mmstripe structures, one with SiO2 confinement, and the other
+with oxygen-implant confinement. In addition to the current
+confinement effects of the semi-insulating implant region,
+the improvement was also attributed to compositional disordering that provided lateral charge and optical confinement.
+The improvement in oxygen-implanted stripe lasers was
+studied as a function of stripe width.122 It was found that
+oxygen doses that were necessary to produce disordering,
+and therefore optical confinement, produced detrimental effects for lasers with stripe widths less than 5 mm, such as the
+migration of the implant damage into the active stripe.
+BH lasers have superior lateral confinement for current,
+charge, and photons relative to the implanted laser structures
+because the blocking layer can have a significantly higher
+band gap than the active region. In addition to better confinement of current and charge, the higher band gap has a lower
+refractive index, and produces strong index guiding. A buried heterostructure GaAs/AlGaAs laser was demonstrated by
+Tsang and Logan by forming the blocking layer using Gedoped Al0.65Ga0.35As regrowth by liquid–phase epitaxy.123
+Ge-doped AlGaAs is highly resistive124 and forms a high-gap
+current blocking layer. Subsequent BH laser growths were
+performed using MOCVD125,126 and MOVPE.127 In the case
+of MOCVD, the semi-insulating AlGaAs layer was grown by
+reducing the reactor pressure and increasing the V/III
+ratio.126
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+2. InP-based buried-heterostructure stripe lasers
+
+Buried heterostructure diode lasers that operate at wavelengths beyond 1 mm are commonly based on InP technology. Examples of these heterostructures include the lowband-gap materials InGaAs/InP and InGaAsP/InP. The lower
+band gaps allow higher thermal leakage currents in InPbased devices, which leads to high threshold current, low
+differential quantum efficiency, abnormal temperature dependence of the threshold current, and rollover of the lightcurrent characteristic. These problems place severe requirements on the blocking layers in the long-wavelength buried
+heterostructure designs. In addition, ion implantation cannot
+render these materials semi-insulating ~as demonstrated in
+Fig. 2!. The radiation damage produces a self-compensated
+set of defects that pin the Fermi level near the conduction
+band. Therefore semi-insulating blocking layers must be
+grown or fabricated postgrowth through implantation.
+The first InGaAsP buried heterostructure using semiinsulating current confinement was fabricated by Feimplantation into n-InP. 44 The implantation, followed by
+high temperature annealing, produced material with a resistivity as high as 108 V cm. 41 The single-channel device used
+in situ annealing after the implantation and before the final
+LPE regrowth. Detailed studies were made of the role of
+transport in the implanted layer and how it affected the transport properties of the laser.45 But the Fe-implantation depth
+was limited to only 0.3 mm using two implant energies of
+275 and 400 keV, giving the devices only moderate breakdown voltages.
+Devices with higher breakdown voltages were achieved
+by selectively regrowing semi-insulating InP into thicker
+blocking layers. The first demonstration of a semi-insulatorembedded buried heterostructure laser was made using chloride VPE of InP without iron,128 which attained resistivities
+of 104 V cm in the blocking layer. The device consisted of a
+planar structure that is compatible with circuit integration,
+and exhibited low parasitic capacitance. Successive devices
+were fabricated using selective regrowth of Fe-doped InP
+with MOCVD,129–131 and MOVPE.132–134
+Extensive simulations of the current confinement characteristics of semi-insulating-embedded buried heterostructure
+lasers have been performed for the semi-insulating Fe-doped
+InP-based structures.135,136 Despite the excellent low capacitance in the structures, leakage currents could not be completely eliminated by the semi-insulating layers in simple
+geometries. More complicated structures with additional
+functionality have lead to an extensive literature.
+B. Vertical cavity surface emitting lasers
+
+Vertical cavity surface emitting lasers ~VCSEL! show
+promise for laser optoelectronic systems because they have
+the potential for low thresholds,137 for integrability into
+dense two-dimensional arrays, and for their good mode quality for efficient fiber or free-space coupling.138 The first
+VCSEL was fabricated in 1979 in the GaInAsP/InP
+system,139 but serious progress was not made in this technology until the late 1980’s when the routine growth of highquality semiconductor Bragg mirrors became available.140
+
+Appl. Phys. Rev.: David D. Nolte
+
+6269
+
+Proton implantation for current confinement played a
+critical role in the VCSEL development in much the same
+way as it had for current-confinement in stripe lasers. Early
+VCSEL designs used deep proton implantation to the active
+layer to confine current in small active windows typically
+10–20 mm in diameter.141–143 As in the case of proton implantation for the stripe lasers, a chief concern in the protonimplanted VCSEL is the effect of the radiation-induced defects on the luminescence efficiency of the active region, as
+well as the effect on laser operating lifetimes because of the
+lateral migration of the radiation defects. It was found that
+postimplantation annealing ~of a 1015 cm22 proton implant
+with energies up to 300 keV at 450 °C! for 150 s restored the
+luminescence intensity without removing the current
+isolation.144 This annealing step was compatible with typical
+annealing steps for AuGeNi metallization processing common in GaAs technology. However, proton-implanted device
+degradation over long-term operation remained. Shallower
+proton implants were shown to remove part of the problem,
+yielding devices that had predicted lifetimes greater than
+105 h at 10 mA at an ambient temperature of 40 °C.145 Again
+as in the case of the stripe lasers, alternative current isolation
+approaches have been explored, including the use of more
+stable oxygen implantation.146
+
+C. Optical modulators
+
+Semiconductor optical modulator structures are often
+closely related to laser structures. They absorb light rather
+than emit light. Therefore, the structures can draw from similar functions of semi-insulating material for current confinement or current reduction in lasers, as well as the formation
+of guided wave structures.
+The semi-insulating regrowth processes that were developed for buried-heterostructure lasers can also be used for
+electroabsorption modulators. InP-based multiple-quantumwell buried-mesa electroabsorption optical modulators were
+fabricated by first growing a diode structure that was patterned into a mesa. The walls of the mesa were then buried
+by selective regrowth of Fe-doped InP using MOCVD. The
+use of semi-insulating material reduced the parasitic capacitance and improved high-frequency performance up to 5
+GHz in an InGaAs/InP structure,147,148 and up to 11 GHz in
+a GaInAsP/InP structure.149
+Proton implantation contributed to improvements in
+waveguide and modulator structures by removing free carriers from doped or optically excited GaAs. Optical wave
+guides for 1.15 mm light were fabricated by proton implantion around a stripe in GaAs.150 The implant damage removed carriers and reduced the refractive index. The high
+resistivity of proton-implanted GaAs heterostructures has
+also been used to form suppressed photocurrent optical
+modulators.151
+A class of optoelectronic device that shares many of the
+characteristics of excitonic electroabsorption modulators are
+the photorefractive quantum well structures.152,153 These devices rely on the same electroabsorption properties as intensity modulators. However, unlike the modulators ~that are
+reticulated using mesa etches or implant isolation! photore-
+
+6270
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+FIG. 12. Carrier lifetimes for oxygen-implanted silicon-on-sapphire ~SOS!
+and proton-implanted GaAs ~Refs. 155, 156, 157, and 158!.
+
+fractive quantum wells are unreticulated broad-area semiinsulating thin films that record holographic space-charge
+gratings. These devices are described in detail in Sec. V.
+D. Semi-insulating heterostructures for ultrafast
+optoelectronics
+
+The high defect densities associated with semi-insulating
+materials lead to short free-carrier lifetimes by providing efficient nonradiative recombination pathways. The short carrier lifetimes make these materials attractive for the generation and detection of ultrafast ~picosecond and
+subpicosecond! electromagnetic pulses by combining ultrafast optical excitation with the ultrashort carrier lifetimes
+in photoconductive circuits.
+1. Picosecond free-carrier decay in films and
+heterostructures
+
+The three photoconductive materials most commonly
+used for ultrafast applications are implanted silicon-onsapphire ~SOS!, implanted GaAs and related multiple quantum wells, and LTG GaAs and related heterostructures. Each
+of these materials has reasonably good transport properties
+combined with fast free-carrier decay. The quantum well materials have the additional useful property of large electrooptic effects associated with quantum-confined excitons.
+Silicon-on-sapphire exhibits decreasing carrier lifetimes
+with increasing doses of implanted oxygen.154 The lifetimes
+decrease to as short as 600 fs for oxygen implantation doses
+approaching 1014 cm22. Higher doses begin to degrade the
+material transport properties, and do not significantly improve the material speed,155 as shown in Fig. 12.
+The carrier lifetimes of GaAs can also be brought into
+the ps regime through implantation. The lifetimes of
+hydrogen-implanted GaAs are shown in Fig. 12 as a function
+of hydrogen implant dosage,156–158 compared with the speeds
+of SOS with oxygen implantation. It has also been possible
+to achieve subpicosecond lifetimes in arsenic-ion implanted
+GaAs.12 Implantation with MeV Ga and oxygen ions leads to
+ps lifetimes and semi-insulating GaAs material,159 as does
+the use of neutron irradiation of AlGaAs/GaAs quantum
+wells.160 The relatively universal ability of radiation damage
+to create semi-insulating GaAs and related heterostructures
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 13. Electron free carrier lifetimes vs annealing temperature for LTG
+GaAs containing different excess arsenic concentrations ~Ref. 165!.
+
+without strong dependence on the implant species is a simple
+consequence of the Fermi level pinning process illustrated in
+Fig. 2 in Sec. I. In all cases, the carrier lifetimes can be
+reduced to approximately 1 ps under the highest doses.
+Carrier lifetimes in LTG materials can be designed with
+considerable flexibility because it is possible to independently vary the excess arsenic concentrations, the intrinsic
+defect densities, and the precipitate sizes and densities by
+varying growth temperature, annealing times, and annealing
+temperatures. Carrier lifetimes in LTG materials below a picosecond can be achieved with the incorporation of large
+excess arsenic concentrations by growing at 200 °C or
+below.161–163 The combination of fast carrier lifetimes and
+high resistivity is achieved only after postgrowth annealing,
+which is needed to reduce the hopping conduction in the
+as-grown materials.
+Several systematic studies have been performed to relate
+the carrier lifetimes in LTG GaAs to the amount of excess
+arsenic incorporated in the material during low-temperature
+growth.164,165 The lifetimes for 30 s isochronal annealing are
+shown in Fig. 13 as a function of annealing temperature for a
+family of three different excess arsenic concentrations of
+0.52%, 0.25%, and 0.02%.165 These arsenic concentrations
+are only moderate, leading to greater than ps decay times,
+but illustrate the importance of calibrating the excess arsenic
+concentrations.
+2. Ultrafast photoconductive switches and
+transmission lines
+
+As the speeds of electronic circuits continually increase,
+it becomes difficult to find traditional drive electronics that
+are fast enough to test the performance of the circuits. Alternate methods for the generation of fast electrical transients
+must be used, such as combining ultrafast laser pulses with
+electronic photoconductive circuits to produce a hybrid optoelectronic technology.
+Fast electronic switches generated by fast laser pulses
+can be made using a simple photoconductive gap in a microstrip line that is illuminated by an ultrafast laser
+pulse.166,167 The initial work was performed on bulk semiconductors such as silicon, but it was recognized that short
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+6271
+
+FIG. 14. Ultrafast optoelectronic switches ~a! Auston switch; ~b! micro-stripline geometries; ~c! coplanar stripline geometry; ~d! sliding contact coplanar
+stripline.
+
+optical absorption depths of above-band-gap light made it
+possible to operate the switches using highly resistive photoconducting thin films.168 The short recombination lifetimes
+of amorphous silicon deposited by CVD on fused silica were
+used to produce rapid relaxation of the switch. The low mobilities of amorphous silicon limited device speed, but improved performance was found using radiation-damaged
+silicon-on-sapphire.154 The increasing speed of the photoconductive switches made it necessary to use optoelectronic
+methods to measure the electronic transient. These methods
+included using a second photoconductive gap to perform optoelectronic sampling,169 as well as using electro-optic crystals to sense the transient fields.170
+The original configurations of the Auston switches168
+used single strip lines on a substrate with a uniform ground
+electrode on the bottom surface, shown in Fig. 14~a! with
+variations on the microstrip geometry, shown in Fig. 14~b!.
+The propagation of picosecond pulses on these transmission
+lines exhibited severe mode dispersion. To reduce the dispersion effects, coplanar striplines superseded the single stripline designs.171 The coplanar strip lines, shown in Fig. 14~c!
+have negligible capacitance172 and less severe dispersion.
+These features make it possible for the device response speed
+to depend only on the intrinsic properties of the photoconducting material, rather than on the device geometry. Using
+the coplanar strip lines, electrical transients with subpicosecond duration were generated and detected.171,173 The incorporation of a ‘‘sliding contact’’ coplanar strip line configuration, shown in Fig. 14~d! significantly increased the
+flexibility of ‘‘excite–sample’’ experiments173 by allowing
+the excitation pulse to move. Additional excite–sample flexibility was made possible by using proton-implanted semiinsulating multiple quantum wells as the photoconductive
+
+material,174 and using the built-in excitonic electroabsorption
+to perform electroabsorption sampling.175
+The development of low-temperature-grown ~LTG!
+GaAs provided the optoelectronic switches with a material
+well-suited for integration with high speed GaAs electronics.
+This advantage was recognized early after the development
+of LTG57 material because it combined high mobilities with
+ultrashort lifetimes. Electrical transients with full width at
+half maximum ~FWHM! of 1.6 ps were generated from a
+photoconductive gap and coplanar strip lines fabricated on
+LTG material.176 The high breakdown voltage of LTG materials has also been used for picosecond switching of highvoltage pulses exceeding 800 V.177
+
+3. THz pulse generation and detection
+
+The propagation of fast electrical transients on conventional transmission lines, including the coplanar strip lines,
+produce significant distortion arising from dispersion and
+frequency-dependent losses. An alternative approach is freespace propagation of the electromagnetic transient by using
+photoconductive switches as Hertzian dipoles to radiate the
+electromagnetic pulses directly into free space. The radiated
+electromagnetic pulses could likewise be detected using another photoconductive switch. A free-space electromagnetic
+transient with a 1.6-ps–pulse duration was successfully demonstrated using silicon-on-sapphire as the photoconductive
+thin film.178 The designs of the radiating and detecting dipoles were further improved to produce single cycle transients with a bandwidth of 2 THz.179 The ability to manipulate and direct the THz transients was considerably advanced
+
+6272
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+with the introduction of THz optics.180,181 Additional enhancements in the THz bandwidth were achieved using
+defect-enhanced electric fields at the edge of the microstrip
+anode.182,183 The use of LTG materials in the antennas has
+also been demonstrated,184 and the LTG materials have
+largely replaced implanted silicon-on-sapphire in recent applications. For instance, LTG materials were used as ultrafast
+transient mirrors to produce infrared ps pulses at a wavelength of 10.6 mm.185
+4. Metal – semiconductor – metal ultrafast
+photodetectors
+
+Ultrafast metal–semiconductor–metal ~MSM! detectors
+are formed by placing coplanar electrical contacts on semiinsulating photoconductors. The contacts are usually interdigitated to increase the device responsivity ~by decreasing
+the carrier transit time!, and to decrease the resistance, and
+are coplanar to reduce capacitance. The low capacitance and
+low resistance of the interdigitated MSM detectors ensure
+that the RC time constants are short and that the MSM detector speed is limited by either the carrier transit time
+or the carrier recombination time. These attributes make the
+MSM detectors attractive for optoelectronic applications
+such as communications, chip connects, and high-speed
+sampling.186–190
+In semi-insulating materials, recombination lifetimes can
+be subpicosecond, producing ultrafast MSM photodetectors.
+The initial fabrication of a 375 GHz bandwidth detector with
+interdigitated contacts on LTG GaAs191 launched a period of
+development by many groups,192–196 with bandwidths approaching a THz. Similar ultrafast detectors have been fabricated using InP:Fe.197
+E. Semi-insulating heterostructures for mode-locking
+solid state lasers
+
+The significant flexibility in the properties of lowtemperature grown GaAs and related materials, especially
+the ability to tune carrier lifetimes by choosing growth and
+annealing conditions, has made the LTG materials key components in semi-insulating heterostructures for use in modelocking solid state lasers. Ultrafast pulse formation in solid
+state lasers using only passive components requires fast nonlinearities such as saturable absorption. Carrier thermalization in highly excited semiconductors has long been recognized as an important and fast nonlinearity ~approximately
+100 fs relaxation time! that can be used for passive mode
+locking. Furthermore, the fast carrier recombination times of
+LTG materials are ideal for the typically high repetition rates
+of mode-locked lasers, allowing the materials to fully relax
+prior to the next pulse.
+An interesting aspect of the use of saturable absorption
+in LTG materials to mode-lock lasers is the relatively long
+recombination time of the carriers relative to the duration of
+the optical pulse. For instance, in recent demonstrations of
+mode locking of Ti:sapphire lasers, LTG semiconductor
+saturable absorbers with lifetimes greater than 10 ps were
+used to produce pulses with 6.5 fs duration.198 Several
+mechanisms by which slow saturable absorbers can produce
+
+FIG. 15. Ultrafast pulse shaping mechanisms with slow saturable absorbers.
+~a! Slow loss and gain saturation; ~b! soliton pulse formation.
+
+ultrashort mode-locked pulses are illustrated in Fig. 15. In
+the first example, a slow saturable absorber coupled with a
+slow gain recovery can produce fast optical pulses during the
+short time that the gain exceeds the loss. However, in many
+solid-state lasers, the gain remains relatively constant, and
+the mode-locking dynamics must rely entirely on the slow
+saturable absorber. This has been shown to be possible with
+the stabilization of soliton-like pulses with slow saturable
+absorbers,199 illustrated in the second example in Fig. 15. In
+this case, the fast component of the saturable absorption is
+sufficient to form a soliton-like pulse in the laser cavity.
+One drawback of simple semiconductor saturable absorbers is the incompatibility of the band-edge resonant nonlinearities with the need for broadband tuning of popular
+solid-state lasers, and with the large bandwidths of ultrafast
+pulses. An early solution to this problem was the development of a broadband saturable absorber based on a gradedgap structure of LTG AlGaAs. The design is shown in Fig.
+16~a! for its implementation in a self-starting passively
+mode-locked Ti:sapphire laser.200 The graded gap spans the
+wavelength range from 870 nm at x50 to 723 nm at x
+50.22. This structure had a significantly wider bandwidth
+than previous LTG quantum-well saturable absorbers, allowing continuous tuning of sub-10-ps pulses over 100 nm from
+760 to 860 nm. This specific saturable absorber was incorporated in a resonant passive mode-locking ~RPM! configuration in which the saturable absorber resides in a weakly
+coupled external cavity shown in Fig. 16~b!.
+Mode-locking stability was significantly improved with
+the development of antiresonant semiconductor Fabry–Perot
+saturable absorbers that could reside intracavity.201 This was
+made possible by the use of an antiresonant design that reduced the intensity inside the semiconductor device and increased the saturation intensity. By bringing the saturable
+absorption intracavity, difficulties with active stabilization
+were removed and the laser designs became more compact.
+The antiresonant Fabry–Perot saturable absorber design was
+first demonstrated for mode locking a Nd:YLF laser. The top
+and bottom reflectors were composed of 50 periods of
+AlGaAs/GaAs multilayer stacks grown at ordinary temperatures. The saturable absorber was composed of 62-Å-InGaAs
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+6273
+
+FIG. 17. Semiconductor saturable absorber mirror ~SESAM! devices that
+incorporate LTG materials for fast recovery rates ~Ref. 203!.
+
+FIG. 16. ~a! Broadband saturable absorber design for resonant-passive
+mode-locking ~RPM! using a graded-gap LTG AlGaAs layer; ~b! use of a
+saturable absorber for RPM of a Ti: sapphire laser ~from Ref. 200!.
+
+quantum wells (x529%) grown at low substrate temperatures ~380 °C! with 60-Å-GaAs barriers. The carrier lifetime
+of the saturable absorber was measured at 69 ps.
+The antiresonant Fabry–Perot saturable absorber represented the first in a growing class of semiconductor saturable
+absorber mirrors ~SESAM!. The low modulation depth of the
+initial SESAM lead to the development of an anti-reflectioncoated saturable absorber mirror.202 This structure shown in
+Fig. 17 produced 34 fs pulses from Ti:sapphire with a 3 ms
+mode-locking buildup time.203 The saturable absorber is
+much thinner in this design, consisting of only a single
+150-Å-LTG GaAs well. The thin layer reduces the insertion
+loss of the device.
+Broadband SESAM devices for broad tuning and the
+ability to support 10 fs pulses required more bandwidth than
+allowed by AlGaAs/AlAs Bragg stacks. These SESAM devices were placed on Ag substrates that served as broadband
+mirrors. Two devices were tested shown in Fig. 17, a lowfinesse antiresonant Fabry–Perot and an antireflection coated
+absorber layer. The low-finesse structure produced 6.5 fs
+pulses from a Ti:sapphire laser. The interferometric autocorrelation of the laser pulse is shown in Fig. 18.198
+
+photorefractive heterostructures and quantum wells comprise
+a special class of photorefractive materials.204 These materials are useful for real-time hologram formation, and are used
+with light intensities that are significantly lower than for ordinary optical nonlinearities. Holograms in photorefractive
+quantum-well structures can be fully developed using only
+mW/cm2 of light intensity,205 while maintaining hologram
+erase and rewrite rates over a kilohertz.
+The photorefractive effect in heterostructures153 is based
+on the accumulation of photogenerated space charge trapped
+at deep defects. The photogeneration process usually involves two interfering laser beams that produce an interference intensity pattern on the device. Under an applied electric field, photocarriers generated in the bright interference
+fringes move to and are trapped at defects in the dark fringes.
+The separated space-charge produces a space-charge electric
+field that modifies the optical properties of the semiconductor through electroabsorption. The spatially modulated electroabsorption takes on the same spatial pattern as the inter-
+
+V. PHOTOREFRACTIVE SEMICONDUCTOR
+HETEROSTRUCTURES
+
+The photorefractive effect is an optical nonlinearity that
+transforms gradients in light intensity into changes in the
+optical properties of the photorefractive material. The photorefractive effect is unique to semi-insulating materials, and
+
+FIG. 18. Interferometric autocorrelation trace for a 6.5 fs pulse from a
+mode-locked Ti: sapphire laser using the SESAM structure of Fig. 17~b!
+~from Ref. 198!.
+
+6274
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+advantage of this dynamic and adaptive ability of the holograms. Several of the applications discussed at the end of this
+section include adaptive laser-based ultrasound detection,
+optical imaging through turbid media with possible biomedical applications, and femtosecond pulse shaping and realtime dispersion compensation for ultrafast fiber optical applications.
+A. Dynamic holography in quantum wells
+
+1. Grating geometries
+
+FIG. 19. Basic k-vector geometries for Raman–Nath diffraction, including
+momentum vectors and field amplitudes for degenerate ~self-diffraction! and
+nondegenerate readout.
+
+ference pattern, and constitutes the physical hologram. This
+hologram can move in real time to track changes in the light
+patterns up to rates comparable with the dielectric relaxation
+time of the semiconductor. This dynamic nature of the holograms make them ideal for adaptive optical applications. For
+a more complete treatment of the photorefractive effect see
+Ref. 206.
+Photorefractive quantum wells ~PRQW! may be viewed
+quite generally as dynamic holographic thin films that can be
+used to record moving holograms. Many applications take
+
+The geometries for hologram writing and self-diffraction
+are shown in Fig. 19 for a hologram written by plane waves,
+producing a regular holographic grating in the thin film that
+diffracts the writing beams into first-order diffracted beams.
+Because photorefractive quantum wells and heterostructures
+operate with an applied electric field, different orientations of
+the incident writing beams and applied field produce three
+distinct photorefractive grating geometries. These are shown
+in Fig. 20, and are classified by the orientations of the electric field and hologram grating vector relative to the plane of
+the thin film. When the electric field is applied in the plane of
+the thin film, this is called the transverse-field geometry
+which uses the Franz–Keldysh excitonic electroabsorption.
+For this reason, it is also called the Franz–Keldysh geometry. When the electric field is applied perpendicular to the
+quantum wells, this is called the longitudinal-field geometry,
+or the quantum-confined Stark geometry. When the write
+beams are incident from the same side of the structure, the
+beams write a transmission grating. When the beams are incident from opposite sides, they write a volume reflection
+grating.
+
+FIG. 20. The three basic photorefractive quantum well geometries showing field directions and grating vector orientations ~Ref. 153!.
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+The dynamic charge transport processes that form the
+space-charge gratings are significantly different in the different geometries. The relative orientation of the grating vector
+and the direction of transport has a major impact on the
+operation of the device. For instance, in both the transverse
+transmission and longitudinal reflection geometries the transport is parallel to the grating vector. This leads to ‘‘normal’’
+space-charge grating formation.153 However, for the longitudinal transmission geometry, the grating vector is perpendicular to the transport. This situation imposes different
+space-charge grating dynamics compared with the other geometries. The physics of the grating formation dynamics of
+each of these geometries are discussed in more detail in
+Sec. V B.
+2. Raman – Nath diffraction
+
+Photorefractive thin films perform as planar diffraction
+gratings because the thickness of the film is typically smaller
+than the hologram fringe spacing. This aspect of photorefractive quantum wells make them easier to operate than bulk
+photorefractive crystals, especially during nondegenerate
+four-wave mixing, because no alignment of the probe laser
+beam is necessary to observe a diffraction order. The principles of diffraction from thin films are described by the
+Raman–Nath diffraction theory that was originally developed to describe diffraction of light by sound waves207 ~as in
+acousto-optic modulators208! and undulating surfaces.209–211
+Raman–Nath diffraction in photorefractive quantum wells
+causes two-wave mixing in addition to diffraction into multiple higher orders.
+The space-charge gratings in the semi-insulating heterostructures produce space-charge electric fields that modify
+the dielectric function of the structure. The associated dielectric grating consists of both an index grating and an absorption grating because of the causal connection through
+Kramers–Kronig of the excitonic electroabsorption with the
+electrorefraction. Therefore, photorefractive quantum wells
+have absorption and index gratings that contribute approximately equally to the diffracted signal, although the contributions tradeoff with different wavelengths, and are only appreciable for wavelengths within one or two excitonic
+linewidths of the band gap. The spatially modulated complex
+refractive index under sinusoidal excitation is given by
+ñ ~ x ! 5ñ 0 1ñ 1 cos~ Kx1 f ! ,
+
+~3!
+
+where the phase shift f is the photorefractive phase shift that
+represents the spatial shift of the index grating relative to the
+interference fringe pattern writing the grating. Finite spatial
+shifts lead to finite energy transfer during photorefractive
+two-wave mixing. A plane wave transmitted through the thin
+film experiences a complex amplitude modulation given by
+E t ~ x ! 5E i e i @ d 0 1 d 1 cos~ Kx1 f !#
+
+~4!
+
+with the complex phase factors given by
+
+d j5
+
+a jL
+2pn jL
+1i
+,
+l cos u 8
+2 cos u 8
+
+~5!
+
+where n j and a j are the Fourier coefficients for the index and
+absorption gratings, L is the thickness of the film, and u 8 is
+
+6275
+
+the internal angle where sin u85(1/n 0 )sin u . The diffraction
+efficiency is defined as the ratio of the diffracted intensity
+relative to the incident intensity. In photorefractive quantum
+wells the diffraction efficiency is typically smaller than 5%.
+The first-order signal is largest and therefore the most interesting for applications. To good approximation for photorefractive quantum wells, the diffraction efficiency neglecting
+surface reflections is
+
+h 61 5
+
+FS
+
+D S
+
+DG S D
+
+p n 1L 2
+a 1L 2
+2 a 0L
+1
+exp
+.
+l cos u 8
+4 cos u 8
+cos u 8
+
+~6!
+
+3. Two-wave mixing
+
+During the hologram writing process, if the wavelength
+of the writing beams is tuned close to the excitonic transition
+energy, the same beams that write the grating are diffracted
+by the grating. This is sometimes called a degenerate wavemixing process, in which all the write and read beams have
+the same wavelength. Because the wavelengths are identical,
+a first-order diffraction from each write beam will propagate
+in the direction of the other write beam. This causes a linear
+superposition of a transmitted with a diffracted beam. The
+relative phases of the transmitted and diffracted waves are in
+general different, leading to interesting interference effects,
+such as nonreciprocal energy transfer in which one beam
+gains energy at the expense of the other. This interference
+between transmitted and diffracted waves is called two-wave
+mixing.
+The intensity I 1 of the combined transmitted and diffracted beams after passing through the dielectric film is
+
+F
+
+I 1 ~ L ! 5e 2 a 0 L I 1 ~ 0 ! 1 AI 1 ~ 0 ! I 2 ~ 0 !
+
+S
+
+3 6
+
+a 1L
+2 p n 1L
+sin f 1
+cos f
+l cos u 8
+2 cos u 8
+
+DG
+
+.
+
+~7!
+
+The most important consequence of Eq. ~7! is the difference
+in sign in front of the index term in the brackets. When the
+photorefractive phase shift f is nonzero, there is a nonreciprocal transfer of energy from one beam to the other. This
+feature makes it possible to measure the contributions from
+the absorption and index gratings separately. Photorefractive
+gain in a photorefractive thin film can be expressed in terms
+of the ratio of the mixed intensity to the unmixed intensity.
+The gain ratio is expressed in terms of the beam intensity
+ratio b 5I 2 (0)/I 1 (0) as
+
+g5
+
+I 1~ L !
+I 1~ 0 ! e 2a0L
+
+511
+
+S
+
+D
+
+b
+4 p n mL
+a mL
+sin f 1
+cos f ,
+11 b l cos u 8
+cos u 8
+
+~8!
+
+where the maximum grating amplitudes for unity modulation
+are n m and a m .
+B. Photorefractive heterostructure geometries
+
+1. Transverse-transmission geometry
+
+A typical MBE layer structure for a transverse-field photorefractive quantum well is shown in Fig. 21. The electro-
+
+6276
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 22. Fabricated transverse-field PRQW device that operates in transmission after the substrate is removed and the contacts are applied.
+
+FIG. 21. MBE growth structure for a typical transverse-field photorefractive
+quantum well.
+
+optic layer of the device is the multiple quantum well
+~MQW! structure composed of 100 periods of 70-Å-GaAs
+wells and 60-Å-Al0.3Ga0.7As barriers. The MQW layer is
+sandwiched between two Al0.2Ga0.8As buffer layers. The series of GaAs, AlAs, and Al0.5Ga0.5As layers on the bottom
+are for substrate removal using either epitaxial liftoff techniques or direct etching of the substrate. The entire structure
+is typically grown on a semi-insulating substrate, although
+this is removed in transmission devices, and therefore does
+not participate in the photorefractive structure.
+The fabrication of the transmission PRQW begins with
+proton implantation of the device. A double implantation of
+1012 cm22 at 160 keV and 531011 cm22 at 80 keV provides
+a relatively uniform defect density in the device to a depth of
+approximately 1.5 mm. After implantation, TiAu or AuGe
+coplanar contacts with a 1–3 mm gap are deposited on the p
+layer. The structure is then epoxied to a glass or sapphire
+substrate, and the semiconductor substrate is removed. A final proton implantation can be performed on the free surface
+as the final step to ensure uniform semi-insulating behavior
+through the entire device. The completed transverse-field
+PRQW device is shown in Fig. 22.
+The transverse-field electroabsorption, or Franz–
+Keldysh effect, is shown in Fig. 23 for increasing applied
+electric fields.212 The large electroabsorption produces differential transmission that exceeds 100% for a field of 25 kV/
+cm. The electrorefraction is also shown in the figure calculated from the electroabsorption using the Kramers–Kronig
+transform. Absorption changes as large as 5000 cm21 and
+refractive index changes of 1% are achieved under the maximum electric field. An important feature of the excitonic
+
+electroabsorption is the wavelength-dependent phase of the
+complex dielectric function that is imprinted onto the diffracted beam through the dependence of Da and Dn on
+wavelength. The excitonic spectral phase is shown in Fig.
+23~c! as a function of wavelength and electric field. The
+approximately linear dependence of the phase on wavelength
+has important practical consequences for applications such as
+adaptive ultrasound receiving and femtosecond pulse processing using the PRQW devices.
+The symmetric two-wave mixing gain G a is shown in
+Fig. 24 as a relative cross-beam modulation intensity DI/I.
+In addition to the symmetric term, there is also an asymmetric two-wave mixing gain G n that constitutes nonreciprocal
+transfer of energy from one beam to the other when an appreciable photorefractive phase shift is present. No net gain
+has yet been achieved in the PRQW devices. The four-wave
+mixing diffraction efficiency corresponding to the two-wave
+mixing is also shown in Fig. 24. An output diffraction efficiency of over 1% has been observed under the maximum
+electric field.
+The transverse-field PRQW structures have shown a series of interesting effects. The first observation of four-wave
+mixing in these devices was performed by Nolte et al.204
+using ‘‘off-the-shelf’’ quantum well structures that were
+made semi-insulating using proton implantation initially developed for ultrafast strip line studies.174,213 This first demonstration of the PRQW was followed by studies of twowave mixing,214 and other higher-order interference effects
+among the many diffraction orders.215
+The PRQW devices have many advantages over other
+traditional photorefractive devices such as the ferroelectric
+oxides,216 which typically required high intensities of W/cm2
+to achieve response rates on the order of a Hz. This highpower and low-speed characteristic of ferroelectrics was considered to be an insurmountable barrier to eventual commercialization. The PRQW devices, on the other hand, perform
+under low intensities down to mW/cm2 and by using high
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+6277
+
+FIG. 24. Photorefractive two-wave mixing efficiency for a 30% AlGaAs/
+GaAs transverse-field PRQW ~Ref. 212! and the associated output diffraction efficiency spectrum.
+
+FIG. 23. Franz–Keldysh electroabsorption Da, electrorefraction Dn and
+excitonic spectral phase c as functions of field and wavelength for 30%
+AlGaAs/GaAs multiple quantum wells ~Ref. 276!.
+
+intensities achieve rates greater than 100 kHz. This lowintensity and high-speed characteristic of the PRQW devices
+has improved the prospects for applications, opening up possibilities in image processing, ultrafast data generation, biomedical imaging, and laser-based ultrasound, described in
+Sec. V D.
+The low-intensity performance of the transverse-field
+PRQW is shown in Fig. 25 for two wavelengths corresponding to zero crossings of the electroabsorption and electrorefraction, respectively.205 The photorefractive gratings have
+saturation intensities on the order of 10 mW/cm2. The highspeed performance is shown in Fig. 26, which is obtained by
+moving gratings using an acoustic-optic modulator. The
+maximum rate at which the photorefractive grating can respond is the response rate of the material. At a power of 275
+mW, the response rate is 40 kHz. Many other aspects of the
+transverse-field geometry have been investigated, including
+performance using write lasers with above-band-gap
+photons,217 effects of the high absorption,218,219 as well as
+photorefractive properties of LTG epilayers and quantum
+wells.80,81,101.
+
+One intriguing aspects of the transverse-field PRQW devices is the presence of a nonzero photorefractive phase shift
+f in Eq. ~7! for these devices. The photorefractive phase
+shift is caused by a spatial shift of the physical space-charge
+grating relative to the intensity pattern that writes the grating.
+This spatial shift is an ordinary consequence of carrier diffusion in traditional bulk photorefractive materials, but was
+expected to vanish in the high-field drift-dominated
+transverse-field PRQW devices. Nonetheless, substantial
+photorefractive phase shifts were observed.205,214 The origin
+of the phase shift remained a mystery for several years after
+its discovery by Wang et al.,214 but a strong clue to its origin
+was seen in a characteristic field of 3–4 kV/cm at which it
+turned on relatively abruptly. This field is similar to the field
+that initiates the Gunn effect in bulk conducting materials.
+However, our materials were semi-insulating, and therefore
+could not support Gunn domain formation.
+The solution to this mystery was first proposed
+theoretically.220 It was observed that the formation of space
+charge was intimately related to the dielectric relaxation rate
+of the illuminated material. Therefore, transport effects that
+affected the dielectric relaxation would influence photorefractive grating formation. Although the PRQW devices
+
+FIG. 25. Demonstration of the low-intensity performance of the transversefield PRQW geometry measuring two-beam coupling as a function of laser
+intensity at two different wavelengths for which the mixing is entirely from
+absorption gratings or index gratings ~Ref. 205!.
+
+6278
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 26. Demonstration of high-speed performance in the transverse-field
+PRQW geometry measuring two-beam coupling as a function of Doppler
+shift on one of the writing beams for different write intensities.
+
+were semi-insulating, they experience electron heating by
+transport in the high electric fields. The photogenerated electron population is heated to many hundreds of degrees K,
+transferring many of the electrons from the direct G valley to
+the lower-mobility indirect valleys. The electron velocity
+therefore saturates with increasing field. This transport nonlinearity, which forms Gunn domains in conducting material,
+changes how the electrons respond to changes in electric
+fields even in semi-insulating materials. The effective dielectric relaxation rate in the PRQW devices becomes
+G die5
+
+F
+
+S
+
+en 0 d v~ E !
+dm~ E !
+d ln T e
+1iE D
+1m~ E !
+ee 0 dE
+dE
+dE
+
+DG
+
+, ~9!
+
+which is small when the differential velocity d v /dE becomes small due to the transport nonlinearity. This disables
+dielectric relaxation, and drives charge from bright fringes to
+accumulate in the dark fringes. The space-charge electric
+field in this situation is shifted by a quarter fringe spacing
+relative to the intensity, constituting a p/2 photorefractive
+phase shift. This theoretical mechanism was experimentally
+verified by Brubaker et al. by correlating the onset of the
+phase shift with the transport nonlinearity in photorefractive
+GaAs epilayers,221 shown in Fig. 27. The photorefractive
+phase shift is an important property that is relevant for many
+photorefractive applications. The identification of this new
+mechanism for inducing a phase shift therefore could have
+broad ramifications in the context of other photorefractive
+materials.222
+
+FIG. 27. The hot-electron photorefractive phase shift compared with nonohmic transport in a GaAs epilayer demonstrating the semi-insulating consequence of the Gunn effect ~Ref. 221!.
+
+dark fringe. Therefore, there is a spatial modulation of the
+field across the device, producing dielectric gratings in the
+quantum wells.
+The situation in Fig. 28 is not a steady-state condition,
+but represents a condition of optimal spatial modulation at
+some time after either the application of the electric field or
+of the illumination. For longer times, the region of spacecharge expands laterally and at long times screens the entire
+field, removing both the spatial modulation and the dielectric
+gratings. Therefore, the longitudinal transmission geometry
+is a transient grating geometry. Steady-state diffraction under
+steady-state field and illumination can only occur under special circumstances.223 In the longitudinal geometry, it is
+therefore necessary to describe the device performance in
+transient terms, such as peak or time-average performance.
+The longitudinal transmission geometry was proposed
+simultaneously with the demonstration of the transverse
+transmission geometry.204,213 It was first demonstrated in a
+II–VI CdZnTe/ZnTe quantum well structure,224,225 and was
+
+2. Longitudinal-transmission geometry
+
+A cross-sectional view of a longitudinal PRQW is shown
+in Fig. 28 across a few bright and dark fringes. In the absence of illumination, the electric field falls uniformly across
+the quantum well layer. When bright and dark fringes intersect the device plane, photogenerated carriers in the bright
+fringes transport vertically to the cladding layers, where they
+are trapped at defects. The accumulated space-charge produces a space-charge electric field that cancels the applied
+field in the bright fringe, but the applied field remains in the
+
+FIG. 28. Cross section with fringes of the longitudinal transmission geometry.
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+6279
+
+FIG. 29. Longitudinal-field PRQW response for 2 and 4 WM vs frequency
+offset in one of the write beams ~Ref.
+78!. The maximum photorefractive
+gain coincides with the knee in the diffraction efficiency.
+
+later demonstrated in Cr-doped AlGaAs/GaAs quantum well
+structures.52 Fabrication of the longitudinal-geometry devices remained difficult until an improved device design incorporated the photorefractive quantum well structure inside
+a p-i-n diode that was an all-semiconductor structure without extra dielectric layers.76 Subsequent improvements and
+modifications have included removing defects from the
+quantum wells,226 incorporating low-temperature-growth
+layers in the cladding,52,76,226 as well as removing defects
+from the cladding layer and relying on trapping in the quantum wells that were grown at low temperature for this
+purpose.77 Photorefractive quantum wells that operate at the
+technologically important wavelength 1.55 mm have also
+been developed in InGaAs/InGaAsP materials.227,228 One of
+these long-wavelength devices took a novel approach by using quantum dots in the cladding layer to trap and store the
+space charge rather than relying on defects.229
+Because of the complicated transient behavior of the longitudinal geometry, it has been the subject of considerable
+theoretical modeling. Fringing fields were shown to play an
+important role in the transient decay of the gratings and limited the spatial resolution by pulling carriers out of the bright
+fringes and into the dark fringes.230 Several models specifically addressed the transport issues in the devices.231,232 A
+much simpler approach modeled this structure as an equivalent circuit.233 The equivalent circuit described all the relevant phenomenological behavior without needing to perform detailed transport calculations. It also made a clear
+distinction between transient and time-average diffraction
+performance.
+Recent developments in the longitudinal transmission
+geometry have focused on the behavior of moving or running
+photorefractive gratings. Nonstationary gratings result when
+there is a time-dependent phase difference between the two
+writing beams. In the simplest case, a constant frequency
+offset between the beams produces an interference pattern
+that moves with constant velocity. Combining moving gratings with the transient response of the longitudinal geometry
+
+produces interesting and potentially useful behavior.
+For instance, with static interference gratings it is impossible to produce nonreciprocal energy transfer between the
+two writing beams during two-wave mixing because the longitudinal structure has a strictly local response to the intensity. An equivalent statement is that there is no asymmetry to
+define a direction of energy transfer in the static case. However, if the grating is moving, it breaks the left–right degeneracy, making energy transfer possible. The moving interference pattern produces a nonlocal optical nonlinearity by
+forcing the space-charge grating to lag behind the illumination. This spatial lag constitutes a spatial shift and introduces
+a photorefractive phase shift into Eq. ~7!.
+Forcing the space-charge grating to spatially lag the optical stimulus requires specific relationships between the
+grating velocity and the dielectric relaxation time of the material. If the interference pattern moves too slowly, the spacecharge grating can keep in step, and no energy transfer will
+be observed. If the interference pattern moves too quickly,
+then the space charge cannot respond to the spatial modulation in the light intensity, and the device will have a homogeneously screened field. But when the interference pattern
+moves approximately one fringe spacing in one dielectric
+relaxation time, an optimum condition exists that allows a
+large spatial modulation in the space charge, as well as a
+spatial lag of the grating by a quarter fringe spacing. Therefore an optimum grating velocity ~frequency offset! will produce a maximum nonreciprocal energy transfer between the
+two beams. This is shown in Fig. 29, together with the fourwave mixing diffraction efficiency that was measured simultaneously, as functions of the frequency offset between the
+two write beams.78 The two-wave mixing energy transfer is a
+maximum when the grating strength ~measured by four-wave
+mixing! begins to decay, marking the balance between grating velocity and dielectric relaxation time.
+The interplay between the moving gratings and the
+pulsed electric field is potentially useful for Doppler velocimetry applications. The equivalent circuit model of the lon-
+
+6280
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+FIG. 30. Transient 2 WM during strobed operation of the longitudinal p-i-n
+photorefractive diode in the presence of a Doppler-shifted writing beam
+showing optical interference oscillations after the field has been removed
+~Ref. 79!.
+
+gitudinal geometry shows that the space-charge grating is
+written by the displacement currents associated with the
+rapid change in the applied electric field.233 Therefore a
+single step in the field produces a temporarily frozen grating,
+in spite of the fact that the interference pattern is moving.
+Once the grating is frozen by the electric strobe, the phase of
+the interference pattern produces an oscillatory coupling with
+a sinusoidally oscillating transfer of energy between the
+beams, first in one direction, and then in the opposite direction. This behavior is shown in Fig. 30. It is important to
+note that the intensity shows oscillatory behavior even after
+the electric field is removed from the device as the strobed
+grating decays. The frequency of oscillation in the transmitted beam intensity is identical to the frequency offset between the writing beams. Therefore, measuring the oscillation frequency is equivalent to measuring the Doppler shift.79
+3. Longitudinal-reflection geometry
+
+The longitudinal-reflection geometry ~the third and last
+geometry shown in Fig. 20! is a traditional photorefractive
+geometry because the electronic transport is parallel to the
+grating vector. On the other hand it has the distinction of
+being the only PRQW geometry that operates with volume
+holographic gratings. Approximately ten fringes can be accommodated in the small thickness of a typical p-i-n quantum well diode structure. In spite of this small number of
+fringes, they are sufficient to produce a Bragg reflection. The
+effect of the Bragg reflection has been observed in a twowave mixing experiment as beam coupling caused by the
+interference between the transmitted beam and the diffracted
+beam.234
+This geometry poses several challenges. The counterpropagating beams produce interference fringes with a period of only 0.12 mm. This places severe requirements on
+mechanical stability to prevent washing out the gratings by
+fringe motion. The short fringe spacing also requires an extremely high defect density to support enough space charge
+to screen the applied electric field. To achieve this, the quantum wells were grown at low substrate temperature, incorporating high defect densities, but at the cost of degrading the
+device sensitivity. These experimental difficulties with this
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 31. Dynamic holography in photorefractive quantum well asymmetric
+Fabry–Perot structures operating in reflection. The cavity resonance leads to
+enhancements in the diffraction efficiency.
+
+geometry make it the least attractive for eventual applications. However, a continued effort may be merited by this
+geometry because it appears to be the only PRQW geometry
+that may achieve net gain.235
+C. Photorefractive optical microcavities
+
+Photorefractive quantum well devices have the advantages of high nonlinear optical sensitivity and fast dynamic
+holographic speeds, but these advantages are offset in some
+applications by diffraction efficiencies on the order of only
+1%. Therefore efforts to improve the diffraction efficiency
+are important for eventual commercialization of these devices. The semiconductor quantum well structures of the
+PRQW geometries lend themselves to enhancements using
+optical microcavity effects. The relevant microcavities are
+asymmetric Fabry–Perot structures that operate in reflection,
+because the quantum wells have high absorption.
+Asymmetric Fabry–Perot ~ASFP! structures operate
+through a sensitive balance of phase and amplitude of the
+reflected partial waves.236,237 These structures have been investigated extensively as high-contrast quantum well electroabsorption modulators.236–249 Significant enhancements were
+predicted theoretically in the holographic diffraction efficiency of photorefractive quantum wells operating as ASFP
+devices.250 One of the important findings was the relative
+insensitivity of the enhanced diffraction on the exact cavity
+balance condition. Balancing the cavity was found to pose
+severe difficulties for modulator arrays because the contrast
+ratio can change significantly with only very small changes
+in cavity length. This limited the usefulness of the ASFP
+concept for modulator arrays. However, in asymmetric
+Fabry–Perot devices that operate as dynamic holograms
+~shown in Fig. 31!, the diffraction enhancement is not highly
+sensitive to the cavity length. Therefore, the asymmetric
+Fabry–Perot concept may be fundamentally more attractive
+for diffractive devices than for the modulator applications for
+which they were initially developed.
+Fabry–Perot effects were investigated in the photorefractive quantum wells first in transmission251 in partially
+asymmetric cavities, and then in reflection in fully asymmetric cavities.252 In the latter case, the ratio of the diffracted
+intensity relative to the zero-order reflected intensity was observed to be 2:1 in a single diffraction order. By considering
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+FIG. 32. Output diffraction efficiency from two transverse-field PRQW
+asymmetric Fabry–Perot structures, showing 200% output diffraction efficiency into one diffraction order for one device ~Ref. 252!.
+
+the energy in both first-order diffracted beams, 80% of the
+energy scattered from the device appeared in the first diffraction orders, and only 20% remained in the zero-order reflected beam. The output diffraction efficiency ~defined as
+the ratio of the diffracted intensity to the reflected intensity!
+is shown in Fig. 32 for two devices with different cavity
+conditions. The output diffraction efficiency in the best case
+attains a value of 200%. Longitudinal photorefractive quantum well devices using asymmetric Fabry–Perot cavities
+have been fabricated on semiconductor Bragg stacks.223
+These longitudinal devices achieved peak transient input diffraction efficiencies of 1.2% under a bias of 20 V at an
+intensity of 9 mW/cm2. Even higher output diffraction efficiencies may be attainable by carefully balancing the cavity
+to produce a phase grating that would quench the zero-order
+reflection.253 Input diffraction efficiencies ~defined as the ratio of the diffracted intensity to the incident intensity! in the
+PRQW devices may approach several percent in ideal
+cases.250
+D. Photorefractive quantum well applications
+
+Applications for photorefractive quantum wells have
+broadened in recent years to contribute to such different areas as femtosecond function generators, biomedical imaging
+systems, and laser-based ultrasound receivers. Several of
+these applications are specifically suited to the PRQW devices and take advantage of their high-speed adaptive holography and their high sensitivity.
+1. Optical correlation and image processing
+
+The first applications for photorefractive quantum wells
+were optical correlation and image processing. A joint Fourier transform optical correlator was implemented using Crdoped GaAs/AlGaAs longitudinal-field photorefractive
+quantum well devices.254 This device performed an optical
+correlation using only 3 mW of power, the correlation was
+obtained in 1 ms, and the image could be erased in 2 ms. The
+grating writing process in the longitudinal geometry has sev-
+
+Appl. Phys. Rev.: David D. Nolte
+
+6281
+
+FIG. 33. Experimental arrangement for imaging through turbid media using
+a PRQW as a holographic coherence gate ~Ref. 257!.
+
+eral features that give it unique characteristics that are useful
+in optical correlators and image processing. The devices
+have gray-scale response to incident intensity, and have both
+linear and saturated regimes, depending on the applied fields
+and gate times.255 By controlling the saturation intensity of
+the device, it is possible to switch between image similarity,
+and image-area recognition.256
+2. Three dimensional and biomedical imaging
+
+Ultrafast laser pulses are convenient probes for distanceresolved scanning because the ultrashort pulses can be used
+for time-of-flight laser ranging with excellent depth resolution. For instance, a laser pulse with a duration of 100 fs can
+give a depth resolution less than 50 mm. Coherent laser ranging requires coincidence detection of the probe and a reference pulse. There are many ways to perform this detection
+for point-by-point scanning. However, there is a considerable
+advantage to obtaining a full image field that contains the
+depth information without the need to scan across the object.
+Image-field 3D acquisition with 50 mm-depth resolution
+is possible using photorefractive quantum wells as a ‘‘coherence gate.’’ 257 When a probe pulse reflects from a threedimensional topology, the returning wavefront is dispersed
+in time according to the roundtrip distance. When this signal
+wave interferes with a short reference pulse, it produces interference only when the probe and reference temporally
+overlap. Therefore, it is possible to make a hologram of
+those parts of an object located only at a specific depth. By
+changing the delay of the reference pulse, the full depthresolved image is acquired in successive layers like a topographic map. The optical schematic for the process is shown
+in Fig. 33, and the results of imaging a three-dimensional
+object are shown in Fig. 34. The object is a machined metal
+part with 100 mm step heights. The reconstruction is made
+from successive delays on the reference arm of the holographic writing system. The full-field acquisition in this
+depth-resolved holography can be recorded directly by
+video,258 or can be digitized and stored for future computed
+reconstruction.
+
+6282
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Because the time-of-flight uses coherent pulses, this
+same imaging system makes it possible to image through
+highly scattering turbid media. This process of coherence
+gating is called optical coherence tomography. Optical coherence tomography ~OCT! is a well-established laser imaging technique for imaging through translucent media259 and
+has been applied to shallow imaging through biological
+tissue.260–262 The difficulty of imaging through scattering
+media is that the scattered light obscures the image of interest carried by the ballistic light. When laser light propagates
+through a translucent medium, part of the light scatters off
+optical heterogeneities, while part continues to propagate unscattered, and reflects off buried objects of interest. This unscattered light is sometimes called ‘‘ballistic’’ light.263 The
+scattered and unscattered light have one very different
+property—the unscattered light remains coherent with the
+original laser beam, while the scattered light ~on average!
+does not. The process of OCT detects only the coherent light,
+rejecting the incoherent scattered light. While conventional
+OCT is a promising optical technology for imaging into media that were previously inaccessible, it performs point-bypoint scanning, which is time consuming ~as for confocal
+microscopy!, and is not compatible with direct imaging to
+video.
+Imaging through scattering media with holography264
+provides full-frame acquisition with the same depth resolution in turbid media as point-by-point scanning. Photorefractive quantum wells are candidates for this process because of
+their high sensitivity and speed. They can record holograms
+of coherent light buried in a high-intensity background,257
+and they can operate at video rates.258 Recent experiments
+have demonstrated imaging through 13 mean-free-paths
+~roundtrip! of a turbid medium using transverse-field photo-
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 34. Object and computer-reconstructed image demonstrating depthresolved holographic imaging using the setup of Fig. 33 ~Ref. 257!.
+
+refractive quantum wells.258 This depth may be doubled by
+optimized design and growth of the quantum wells, making
+it feasible to image to the bottom of human epidermal layers
+with obvious applications for biomedical imaging.
+3. Femtosecond pulse shaping and spectral
+holography
+
+Shaping of laser pulses on the femtosecond ~fs! time
+scale can be performed using optical Fourier synthesis techniques in which the amplitudes and phases of the optical
+frequency components of a fs pulse are individually
+manipulated.265,266 Access to the individual Fourier components of an ultrafast pulse can be attained by spectrally dispersing the pulse off an optical grating and transforming the
+spectrum into the Fourier plane. This is shown in the optical
+
+FIG. 35. Experimental setup for holographic fs pulse shaping showing the
+zero-dispersion delay line and the hologram writing beams ~Ref. 268!. The
+PRQW device occupies the Fourier
+plane of the pulse shaper.
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+train in the horizontal plane of Fig. 35. This optical configuration is called a zero-dispersion delay line in which a pulse
+diffracts off grating G1 and is Fourier transformed by lens
+F1 onto the Fourier plane, occupied by the PRQW in the
+figure, which acts as a shaping element. In the absence of
+this shaping element, the pulse is again transformed by lens
+F2 and is reconstituted by grating G2 to produce the original
+pulse. When a shaping element is placed in the Fourier
+plane, the phase and amplitude of each spectral component
+can be controlled independently. Therefore, the output pulse
+can be given any arbitrary pulse shape, limited within the
+spectral resolution of the zero-dispersion delay line. The
+pulse shaper therefore can be viewed as a general-purpose fs
+optical function generator. Many different optical elements
+can be used as the shaping element, including static amplitude and phase masks, or by programmable spatial light
+modulators. Dynamic holographic media, such as photorefractive materials, are an important class of shaping elements
+because they can be programmed optically in real time.
+Photorefractive quantum wells have several features that
+allow them to be compatible with holographic fsec pulse
+shaping. A key requirement for use of a holographic medium
+for fs pulse manipulation is the maintenance of transformlimited optical pulses after passing through the optical element. Diffraction of 100 fs pulses from photorefractive quantum wells have been shown to be transform limited,267
+although the limited bandwidth of the quantum-confined exciton transition lengthened the pulse duration to approximately 400 fs. The transform-limited diffraction from the
+quantum wells is a consequence of the approximately linear
+frequency dependence of the excitonic spectral phase, shown
+in Fig. 23~c!. A linear phase imposed in the spectral domain
+merely constitutes a time delay in the time domain, but does
+not lead to any distortion of the pulse.268 Photorefractive
+quantum wells are therefore compatible with fs pulse shaping and manipulation experiments, and have previously been
+used for electric-field cross-correlation measurements,269 and
+for time-to-space conversion experiments.270
+The implementation of holographic fs pulse shaping using a transverse-field PRQW device is shown in Fig. 35. The
+PRQW is placed in the Fourier plane of the zero-dispersion
+delay line. The hologram is written in the PRQW using
+beams in a vertical plane relative to the plane of the delay
+line. The hologram can be either a real-space image, or a
+Fourier image, depending on the focal length of the F lens.
+The probe pulse is consequently diffracted in the vertical
+plane of the pulse shaper while the unshaped transmitted
+pulse remains in the horizontal plane. These two pulses are
+therefore spatially separated.
+The operation of the holographic pulse shaper draws
+from aspects of Fourier optics. When the F lens in the hologram writing arm is used to image, then the temporally
+shaped pulse will have the envelope corresponding to the
+Fourier transform of the object in the writing beam. When
+the F lens acts as a Fourier transform element, then the temporally shaped pulse will have the envelope corresponding to
+the object itself. In this later case, the process is called spaceto-time mapping, and the shaped pulse is called the timedomain image of the object in the writing beam.
+
+Appl. Phys. Rev.: David D. Nolte
+
+6283
+
+FIG. 36. Holographically shaped pulses showing ~a! and odd pulse, and ~b!
+a square pulse ~Ref. 268!.
+
+Examples of these two modes of operation are shown in
+Fig. 36.271 The demonstration of shaping by direct imaging is
+shown in Fig. 36~a! in which a phase mask with a phase step
+of approximately pi radians was directly imaged onto the
+PRQW. A pi phase step in the spectral domain of a Gaussian
+pulse produces an odd pulse in the time domain. In this case,
+the time-domain pulse is the Hilbert transform of the original
+Gaussian pulse. The example of space-to-time mapping is
+shown in Fig. 36~b!. The square-wave shaped pulse is the
+time-domain image of a simple single slit.
+In holographic pulse shaping, the holograms are written
+by a separate laser from the manipulated pulse. Another class
+of application uses holographic media in which the holograms are written by the fs pulses themselves, called spectral
+holography.272 Considerably more functionality and direct
+use of the dynamic nature of the photorefractive materials is
+possible with spectral holography. Photorefractive quantum
+wells have been used to perform real-time dispersion compensation and have been demonstrated to remove arrivaltime drift.273
+4. Laser-based velocimetry and ultrasound detection
+
+The use of lasers to probe surface velocities and displacements has a long history based on the ability of interferometry to measure small changes in the relative phase of
+two coherent beams.274,275 However, in most practical applications, the interrogated surface is nonspecular, and the re-
+
+6284
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+FIG. 38. Principle of adaptive wavefront matching using the PRQW as an
+adaptive beam combiner for a compensated homodyne receiver.
+FIG. 37. Oscillatory mode coupling between Doppler-shifted write beams
+during two-wave mixing in a longitudinal-field PRQW p-i-n diode ~Ref.
+79!. The oscillation frequency is equal to the frequency shift between the
+write beams.
+
+turning wavefronts are typically distorted with significant
+speckle. In addition, relative motion, vibrations or other perturbations in the interrogated surface or in the environment
+make it difficult to maintain the appropriate phase bias
+needed for linear homodyne detection. One solution to this
+problem is the use of adaptive interferometers that compensate for speckle and adapt to slow changes in phase. Dynamic holography is one example of an adaptive system that
+can perform as an adaptive beam combiner in a compensated
+interferometer.
+Photorefractive quantum wells have several advantages
+as dynamic holographic media that lend themselves to laserbased ultrasound detection, such as their high speeds and
+high sensitivities. The high speeds allow them to have high
+compensation bandwidths, while the high sensitivities make
+them attractive for use with very weak signals. Two specific
+applications have emerged that use PRQW devices. Laserbased adaptive velocimetry has been demonstrated using
+longitudinal-field PRQW devices,79 while laser-based adaptive ultrasound detection has been demonstrated using
+transverse-field PRQW devices.276 Each device has unique
+attributes, in addition to the speed and sensitivity, that provide new avenues to compensated velocimetry and ultrasound detection.
+Doppler velocimetry using longitudinal-field PRQW devices can be performed with a variation on the moving grating process described at the end of Sec. V B2. It was noticed
+that the photorefractive gain continues to oscillate even after
+the electric field is turned off. Furthermore, the frequency of
+oscillation of the transient gain increased with increasing detuning of the signal beam relative to the reference beam. This
+is shown in Fig. 37 for AO detuning frequencies from 1 to
+300 kHz for an intensity of 100 mW/cm2. By considering the
+process in terms of oscillatory mode coupling, it can be
+shown that the measured oscillation frequency of the gain is
+equal to the frequency offset between the two write beams.79
+Because the two-wave mixing acts as an adaptive beam combiner, this process can be used to perform Doppler heterodyne detection that automatically compensates for speckle
+and slow phase distortions.
+
+A potentially more useful application of adaptive beam
+combining is compensated laser-based ultrasound detection.
+In manufacturing environments and during the nondestructive evaluation ~NDE! of parts and infrastructure, it is often
+necessary to make remote measurements of surface displacements caused by ultrasound signals. But the speckle and vibrations in these applications are prohibitive to the use of
+standard interferometers. The development of time-delay ~or
+self-referencing! interferometers ~such as the confocal
+Fabry-Perot277! allowed the processing of light scattered
+from a rough surface with a large field of view, but required
+path-length stabilization of the interferometer. Two-wave
+mixing, performing as an adaptive beam combiner, solves
+this stabilization problem.278,279
+The function of two-wave mixing in adaptive homodyne
+detection is shown in Fig. 38. The hologram in the PRQW is
+written by the reference and the signal beams. Each beam
+diffracts from the hologram and copropagates in the direction of the other beam. An important feature of dynamic
+holography is the matching of the wavefronts between the
+direct and diffracted waves in each of the arms. The matched
+wavefronts make it possible to detect the homodyne signal
+using a large-area detector. In addition, slow vibrations ~below the compensation bandwidth of the holographic material! are tracked by the dynamic holograms, removing the
+need for active stabilization. Therefore, dynamic holography
+in this application compensates both speckle and lowfrequency vibrations, while passing the high-frequency signal associated with the ultrasound.
+The expression for the signal-to-noise ratio of the adaptive beam combination is
+S
+5
+N
+
+Ah
+
+4p
+q P r 2 a L/2
+e 0 2 Ah ~ l !
+d~ t !,
+hnD f
+l
+
+~10!
+
+where h q is the quantum efficiency of the photodetector, P r
+is the power in the reference beam, D f is the detection bandwidth, L is the device thickness, h~l! is the PRQW diffraction efficiency, and d(t) is the surface displacement. An important figure-of-merit of the adaptive beam combiner is the
+smallest displacement that can be detected with a S/N ratio
+of unity. This is called the noise-equivalent surface displace-
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+Appl. Phys. Rev.: David D. Nolte
+
+6285
+
+ACKNOWLEDGMENTS
+
+The author gratefully acknowledges NSF ECS-9708230
+that has been the primary and continuing source of support
+for this work. Support from NSF DMR-9400415 and the
+BMDO Focused Research Initiative is also acknowledged.
+The help and support of M. R. Melloch, J. M. Woodall, E. E.
+Haller, W. Walukiewicz, and A. M. Glass over many years is
+also gratefully acknowledged and appreciated.
+1
+
+FIG. 39. Noise–equivalent–surface displacement ~NESD! for laser-based
+ultrasound detection using the adaptive PRQW ~Ref. 276!.
+
+ment ~NESD!. It is specified for a 1 W signal, a 1 Hz detection bandwidth, and a 70% quantum efficiency for the shotnoise-limited photodetector. It is given by
+d min~ l ! 5
+
+Ah
+
+1
+l
+e a 0 L/2
+4 p 2 Ah ~ l !
+
+hn
+
+,
+
+~11!
+
+q
+
+which is a strong function of wavelength through h~l!. The
+predicted and measured NESD for a 30% transverse-field
+PRQW is shown in Fig. 39 for unity beam ratio.276 The
+best experimental performance reaches approximately
+131026 Å(W/Hz) 1/2.
+The unique feature of the transverse-field PRQW devices in this application is the ability to use the excitonic
+spectral phase @shown in Fig. 23~c!# to tune the coherent
+detection to perfect quadrature. This is in contrast to the use
+of bulk photorefractive crystals in this application which
+must separately control the photorefractive phase shift. An
+example of a received homodyne signal generated by a piezoelectric transducer and detected adaptively using the
+PRQW is shown in Fig. 40 for different wavelengths as the
+laser is tuned through quadrature. The best linear detection
+occurs for wavelengths near 837 nm.
+
+FIG. 40. Time trace of an ultrasound signal measured through a transversefield PRQW device operating as an adaptive beam combiner ~Ref. 276!.
+
+A. Zunger, in Solid State Physics, edited by D. Turnbull and F. Seitz
+~Academic, New York, 1986!, Vol. 39.
+2
+B. Clerjaud, J. Phys. C 18, 3615 ~1985!.
+3
+J. M. Langer, C. Delerue, M. Lannoo, and H. Heinrich, Phys. Rev. B 38,
+7723 ~1988!.
+4
+L. Ledebo and B. K. Ridley, J. Phys. C 15, L961 ~1982!.
+5
+M. J. Caldas, A. Fazzio, and A. Zunger, Appl. Phys. Lett. 45, 671 ~1984!.
+6
+J. M. Langer and H. Heinrich, Phys. Rev. Lett. 55, 1414 ~1985!.
+7
+J. Tersoff and W. A. Harrison, Phys. Rev. Lett. 58, 2367 ~1987!.
+8
+D. D. Nolte, W. Walukiewicz, and E. E. Haller, Phys. Rev. Lett. 59, 501
+~1987!.
+9
+M. Hamera, W. Walukiewicz, D. D. Nolte, and E. E. Haller, Phys. Rev.
+B 39, 10114 ~1989!.
+10
+J. K. Furdyna and J. Kossut, in Semiconductors and Semimetals ~Academic, London, 1988!, Vol. 25.
+11
+W. Walukiewicz, Phys. Rev. B 37, 4760 ~1988!.
+12
+F. Ganikhanov, R. L. Gong, W. C. Chen, C. S. Chang, and C. L. Pan,
+Appl. Phys. Lett. 67, 3465 ~1995!.
+13
+A. Krotkus, S. Marcinkevicius, J. Jasinski, M. Kaminska, H. H. Tan, and
+C. Jagadish, Appl. Phys. Lett. 66, 3304 ~1995!.
+14
+J. C. P. Chang, N. Otsuka, E. S. Harmon, M. R. Melloch, and J. M.
+Woodall, Appl. Phys. Lett. 65, 2801 ~1994!.
+15
+D. Crouse, D. D. Nolte, J. C. P. Chang, and M. R. Melloch, J. Appl.
+Phys. 81, 7981 ~1997!.
+16
+M. R. Melloch, N. Otsuka, J. M. Woodall, A. C. Warren, and J. L.
+Freeouf, Appl. Phys. Lett. 57, 1531 ~1990!.
+17
+M. R. Melloch, N. Otsuka, K. Mahalingam, C. L. Chang, J. M. Woodall,
+G. D. Pettit, P. D. Kirchner, F. Cardone, A. C. Warren, and D. D. Nolte,
+J. Appl. Phys. 72, 3509 ~1992!.
+18
+M. R. Melloch, J. M. Woodall, N. Otsuka, K. Mahalingham, C. L. Chang,
+and D. D. Nolte, Mater. Sci. Eng., B 22, 31 ~1993!.
+19
+M. R. Melloch, N. Otsuka, E. S. Harmon, D. D. Nolte, J. M. Woodall,
+and D. T. McInturff, Jpn. J. Appl. Phys., Part 1 32, 771 ~1993!.
+20
+A. C. Warren, J. M. Woodall, J. L. Freeouf, D. Grischowsky, D. T.
+McInturff, M. R. Melloch, and N. Otsuka, Appl. Phys. Lett. 57, 1331
+~1990!.
+21
+D. D. Nolte, Appl. Phys. Lett. 70, 3401 ~1997!.
+22
+K. Wohlleben and W. Beck, Z. Naturforsch. A 21A, 1057 ~1966!.
+23
+A. G. Foyt, W. T. Lindley, C. M. Wolfe, and J. P. Donnelly, Solid-State
+Electron. 12, 209 ~1969!.
+24
+J. C. Dyment, L. A. D’Asaro, J. C. North, B. I. Miller, and J. E. Ripper,
+Proc. IEEE 60, 726 ~1972!.
+25
+J. P. Donnelly and F. J. Leonberger, Solid-State Electron. 20, 183 ~1977!.
+26
+H. Matsumura and K. G. Stephens, J. Appl. Phys. 48, 2779 ~1977!.
+27
+E. V. K. Rao, N. Duhamel, P. N. Favennec, and H. L’Haridon, J. Appl.
+Phys. 49, 3898 ~1978!.
+28
+H. B. Harrison and A. L. Martin, J. Appl. Phys. 51, 2935 ~1980!.
+29
+J. C. Dyment, J. C. North, and L. A. D’Asaro, J. Appl. Phys. 44, 207
+~1973!.
+30
+H. T. Minden, J. Appl. Phys. 47, 1090 ~1976!.
+31
+E. E. Haller, Semicond. Sci. Technol. 6, 73 ~1991!.
+32
+J. M. Zavada, H. A. Jenkinson, R. G. Sarkis, and R. G. Wilson, J. Appl.
+Phys. 58, 3731 ~1985!.
+33
+J. M. Zavada, H. A. Jenkinson, and D. C. Larson, Proc. SPIE 623, 144
+~1986!.
+34
+J. F. Ziegler, J. P. Biersack, and U. Littmark, The Stopping and Range of
+Ions in Solids ~Pergamon, New York, 1996!.
+35
+B. R. Pruniaux, J. C. North, and G. L. Miller, in Proceedings of Ion
+Implantation in Semiconductors ~Springer, Berlin, 1971!.
+36
+B. Schwartz, L. A. Koszi, P. J. Anthony, and R. L. Hartman, J. Electrochem. Soc. 131, 1703 ~1984!.
+37
+P. N. Favennec, G. P. Peblous, M. Binet, and P. Baudet, in Ion Implan-
+
+6286
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+tation in Semiconductors and other Materials, edited by B. L. Crowder
+~Plenum, New York, 1973!, p. 621.
+38
+P. N. Favennec, J. Appl. Phys. 47, 2532 ~1976!.
+39
+J. M. Blum, J. C. McGroddy, P. McMullin, K. K. Shih, A. W. Smith, and
+J. F. Ziegler, IEEE J. Quantum Electron. QE-11, 413 ~1975!.
+40
+S. J. Pearton, M. P. Iannuzzi, C. L. Reynolds, and L. Peticolas, Appl.
+Phys. Lett. 52, 395 ~1988!.
+41
+J. P. Donnelly and C. E. Hurwitz, Solid-State Electron. 21, 465 ~1978!.
+42
+M. Gauneau, H. L’Haridon, A. Rupert, and M. Salvi, J. Appl. Phys. 53,
+6823 ~1982!.
+43
+S. A. Schwarz, B. Schwartz, T. T. Sheng, S. Singh, and B. Tell, J. Appl.
+Phys. 58, 1698 ~1985!.
+44
+D. P. Wilt, B. Schwartz, B. Tell, E. D. Beebe, and R. J. Nelson, Appl.
+Phys. Lett. 44, 290 ~1984!.
+45
+J. Cheng, S. R. Forrest, B. Tell, D. Wilt, B. Schwartz, and P. D. Wright,
+J. Appl. Phys. 58, 1780 ~1985!.
+46
+J. Cheng, S. R. Forrest, B. Tell, D. Wilt, B. Schwartz, and P. Wright, J.
+Appl. Phys. 58, ~1985!.
+47
+J. A. Long, V. G. Riggs, and W. D. Johnston, J. Cryst. Growth 69, 10
+~1984!.
+48
+A. T. Macrander, J. A. Long, V. G. Riggs, A. F. Bloemeke, and W. D.
+Johnston, Appl. Phys. Lett. 45, 1297 ~1984!.
+49
+M. J. Harlow, W. J. Duncan, I. F. Lealman, and P. C. Spurdens, J. Cryst.
+Growth 140, 19 ~1994!.
+50
+S. J. Bass, J. Cryst. Growth 44, 29 ~1978!.
+51
+J. U. Kang, M. Y. Frankel, J. Huang, and T. F. Keuch, Appl. Phys. Lett.
+70, 1560 ~1997!.
+52
+A. Partovi, A. M. Glass, D. H. Olson, G. J. Zydzik, H. M. O’Bryan, T. H.
+Chiu, and W. H. Knox, Appl. Phys. Lett. 62, 464 ~1993!.
+53
+D. T. McInturff, E. S. Harmon, J. C. P. Chang, T. M. Pekarek, and J. M.
+Woodall, Appl. Phys. Lett. 69, 1885 ~1996!.
+54
+T. Murotani, T. Shimanoe, and S. Mitsui, J. Cryst. Growth 45, 302
+~1978!.
+55
+Y. Horikoshi, M. Kawashima, and H. Yamaguchi, Jpn. J. Appl. Phys.,
+Part 2 25, L868 ~1986!.
+56
+M. Asai, F. Sato, H. Imamoto, K. Imanaka, and M. Shimura, J. Appl.
+Phys. 64, 432 ~1988!.
+57
+F. W. Smith, A. R. Calawa, C. Chen, M. J. Mantra, and L. J. Mahoney,
+IEEE Electron Device Lett. EDL-9, 77 ~1988!.
+58
+M. R. Melloch, J. M. Woodall, E. S. Harmon, N. Otsuka, F. Pollak, D. D.
+Nolte, R. M. Feenstra, and M. A. Lutz, in Annual Review of Material
+Science, edited by B. W. Wessels ~Annual Reviews, Palo Alto, 1995!,
+Vol. 25.
+59
+M. Kaminska, Z. Lilienthal-Weber, E. R. Weber, T. George, B. Kortright,
+F. W. Smith, B. Y. Tsaur, and A. R. Calawa, Appl. Phys. Lett. 54, 1881
+~1989!.
+60
+N. D. Jager, A. K. Verma, P. Dreszer, N. Newman, Z. Liliental-Weber,
+M. Van Schilfgaarde, and E. R. Weber, J. Electron. Mater. 22, 1499
+~1993!.
+61
+N. D. Jager, P. Dreszer, N. Newman, A. K. Verma, Z. Liliental-Weber,
+and E. R. Weber, Mater. Sci. Forum 143-147, 1599 ~1994!.
+62
+X. Liu, A. Prasad, W. M. Chen, A. Kurpiewski, A. Stoschek, A.
+Lilienthal-Weber, and E. R. Weber, Appl. Phys. Lett. 65, 3002 ~1994!.
+63
+J. Gebauer, R. Krause-Rehburg, S. Eichler, M. Luysberg, H. Sohn, and E.
+R. Weber, Appl. Phys. Lett. 71, 638 ~1997!.
+64
+D. E. Bliss, W. Walukiewicz, J. W. I. Ager, E. E. Haller, K. T. Chan, and
+S. Tanigawa, J. Appl. Phys. 71, 1699 ~1992!.
+65
+D. E. Bliss, W. Walukiewicz, and E. E. Haller, J. Electron. Mater. 22,
+1401 ~1993!.
+66
+M. R. Melloch, E. S. Harmon, J. M. Woodall, D. D. Nolte, L. Carin, D.
+R. Kralij, J. C. P. Chang, and N. Otsuka, in Proceedings of Second
+International Conference of Ultra-Wideband, Short-Pulse Electromagnetics, edited by L. Carin and L. Felsen ~Plenum, New York, 1995!, pp.
+25–31.
+67
+K. Mahalingam, N. Otsuka, M. R. Melloch, J. M. Woodall, and A. C.
+Warren, J. Vac. Sci. Technol. B 10, 812 ~1992!.
+68
+V. Mahadev, M. R. Melloch, J. M. Woodall, N. Otsuka, and G. L. Liedl,
+J. Electron. Mater. 23, 1015 ~1994!.
+69
+K. Mahalingam, N. Otsuka, M. R. Melloch, J. M. Woodall, and A. C.
+Warren, J. Vac. Sci. Technol. B 9, 2328 ~1991!.
+70
+S. L. Xin, K. F. Wang, and W. I. Electron. Lett. 27, 1072 ~1991!.
+71
+T. Saku and Y. Horikoshi, Jpn. J. Appl. Phys., Part 2 27, 2015 ~1988!.
+72
+I. Lahiri, D. D. Nolte, M. R. Melloch, J. M. Woodall, and W. Walukiewicz, Appl. Phys. Lett. 69, 239 ~1996!.
+
+Appl. Phys. Rev.: David D. Nolte
+73
+
+W. H. Knox, G. E. Doran, M. Asom, G. Livescu, R. Leibenguth, and S.
+N. G. Chu, Appl. Phys. Lett. 59, 1491 ~1991!.
+74
+I. Lahiri, D. D. Nolte, E. S. Harmon, M. R. Melloch, and J. M. Woodall,
+Appl. Phys. Lett. 66, 2519 ~1995!.
+75
+M. R. Melloch, I. Lahiri, D. D. Nolte, J. C. P. Chang, E. S. Harmon, J. M.
+Woodall, N. Y. Li, and C. W. Tu, J. Vac. Sci. Technol. B 14, 2271
+~1996!.
+76
+I. Lahiri, K. M. Kwolek, D. D. Nolte, and M. R. Melloch, Appl. Phys.
+Lett. 67, 1408 ~1995!.
+77
+I. Lahiri, M. Aguilar, D. D. Nolte, and M. R. Melloch, Appl. Phys. Lett.
+68, 517 ~1996!.
+78
+I. Lahiri, R. M. Brubaker, D. D. Nolte, and M. R. Melloch, Appl. Phys.
+Lett. 69, 3414 ~1996!.
+79
+I. Lahiri, D. D. Nolte, M. R. Melloch, and M. B. Klein, Opt. Lett. 23, 49
+~1998!.
+80
+W. Feng, Z. G. Zhang, and J. M. Zhou, J. Appl. Phys. 79, 7404 ~1996!.
+81
+W. Feng, Y. Yu, H. Chen, Q. Huang, and J. M. Zhou, Appl. Phys. Lett.
+68, 812 ~1996!.
+82
+I. Lahiri, D. D. Nolte, J. C. P. Chang, J. M. Woodall, and M. R. Melloch,
+Appl. Phys. Lett. 67, 1244 ~1995!.
+83
+J. C. P. Chang, J. M. Woodall, M. R. Melloch, I. Lahiri, D. D. Nolte, N.
+Y. Li, and C. W. Tu, Appl. Phys. Lett. 67, 3491 ~1995!.
+84
+W. Feng, F. Chen, W. Q. Cheng, Q. Huang, and J. M. Zhou, Appl. Phys.
+Lett. 71, 1676 ~1997!.
+85
+M. Kaminska and E. R. Weber, in Proceedings of 16th International
+Conference Defects in Semiconductors, edited by G. Davies, G. DeLeo,
+and M. Stavola, Materials Science Forum, 1992, p. 1033.
+86
+G. M. Martin, Appl. Phys. Lett. 39, 747 ~1981!.
+87
+D. M. Hofmann, K. Krambrock, B. K. Meyer, and J. M. Spaeth, Semicond. Sci. Technol. 6, 170 ~1991!.
+88
+S. U. Dankowski, D. Streb, M. Ruff, P. Kiesel, M. Kneissl, B. Knüpfer,
+G. H. Döhler, U. D. Keil, C. B. Sorenson, and A. K. Verma, Appl. Phys.
+Lett. 68, 37 ~1996!.
+89
+K. G. Eyink, M. A. Capano, S. D. Walck, T. W. Haas, and B. G. Streetman, J. Vac. Sci. Technol. B 14, 2278 ~1996!.
+90
+S. U. Dankowski, P. Kiesel, B. Knupfer, M. Kneissl, G. H. Döhler, U. D.
+Keil, D. R. Dykaar, and R. F. Kopf, Appl. Phys. Lett. 65, 3269 ~1994!.
+91
+H. C. van de Hulst, Light Scattering by Small Particles ~Dover, New
+York, 1981!.
+92
+U. Kreibig and M. Vollmer, Optical Properties of Metal Clusters
+~Springer, New York, 1995!.
+93
+D. D. Nolte, J. Appl. Phys. 76, 3740 ~1994!.
+94
+D. T. McInturff, J. M. Woodall, A. C. Warren, N. Braslau, G. D. Petit, P.
+D. Kirchner, and M. R. Melloch, Appl. Phys. Lett. 60, 448 ~1992!.
+95
+D. T. McInturff, J. M. Woodall, A. C. Warren, N. Braslau, G. D. Pettit, P.
+D. Kirchner, and M. R. Melloch, Appl. Phys. Lett. 62, 2367 ~1993!.
+96
+J. D. Dow and D. Redfield, Phys. Rev. B 1, 3358 ~1970!.
+97
+D. D. Nolte, M. R. Melloch, J. M. Woodall, and S. E. Ralph, Appl. Phys.
+Lett. 62, 1356 ~1993!.
+98
+S. U. Dankowski, P. Kiesel, D. Streb, M. Ruff, S. Tautz, B. Knupfer, M.
+Kneissl, S. Malzer, G. H. Döhler, U. D. Keil, J. B. Ibbetson, and A. C.
+Gossard, in Proceedings of 23rd International Conference on the Physics
+of Semiconductors, edited by M. Scheffler and R. Zimmermann, 1996,
+p. 1051.
+99
+D. D. Nolte, I. Lahiri, J. McKenna, F. R. Steldt, J. C. P. Chang, M. R.
+Melloch, and J. M. Woodall, in Proceedings of the 23rd International
+Conference Physics Semiconductors ~World Scientific, Singapore, 1994!,
+p. 1775.
+100
+M. R. Melloch, D. D. Nolte, J. M. Woodall, J. C. P. Chang, D. B. Janes,
+and E. S. Harmon, Crit. Rev. Solid State Mater. Sci. 21, 189 ~1996!.
+101
+D. D. Nolte, M. R. Melloch, J. M. Woodall, and S. E. Ralph, Appl. Phys.
+Lett. 61, 3098 ~1992!.
+102
+M. Ruff, D. Streb, S. U. Dankowski, S. Tautz, P. Kiesel, B. Knüpfer, M.
+Kneissl, N. Linder, and G. H. Döhler, Appl. Phys. Lett. , ~1996!.
+103
+M. Bockstedte and M. Scheffler, Z. Phys. Chem. 200, 195 ~1997!.
+104
+T. Y. Tan, U. Gösele, and S. Yu, Crit. Rev. Solid State Mater. Sci. 17, 47
+~1991!.
+105
+K. J. Beernink, D. Sun, D. W. Treat, and B. P. Bour, Appl. Phys. Lett. 66,
+3597 ~1995!.
+106
+L. Wang, L. Hsu, E. E. Haller, J. W. Erickson, A. Fischer, K. Eberl, and
+M. Cardona, Phys. Rev. Lett. 76, 2342 ~1996!.
+107
+A. V. Syrbu, J. Fernandez, J. Behrend, L. Sagalowicz, V. P. Iakovlev, J.
+F. Carlin, C. A. Berseth, A. Rudra, and E. Kapon, Electron. Lett. 33,
+1954 ~1997!.
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+108
+
+N. G. Dzhumamukhambetov and A. G. Dmitriev, Sov. Tech. Phys. Lett.
+18, 127 ~1992!.
+109
+R. Guersen, I. Lahiri, M. R. Melloch, and D. D. Nolte, Phys. Rev. B
+~submitted!.
+110
+T. Tsukada, J. Appl. Phys. 45, 4899 ~1974!.
+111
+J. C. Dyment, Appl. Phys. Lett. 10, 84 ~1967!.
+112
+M. B. Panish, I. Hayashi, and S. Sumski, Appl. Phys. Lett. 16, 326
+~1970!.
+113
+R. L. Hartman, N. E. Schumaker, and R. W. Dixon, Appl. Phys. Lett. 31,
+756 ~1977!.
+114
+A. G. Steventon, P. J. Fiddyment, and D. H. Newman, Opt. Quantum
+Electron. 9, 519 ~1977!.
+115
+N. Matsumoto and S. Ando, Jpn. J. Appl. Phys. 16, 1697 ~1977!.
+116
+B. W. Hakki, J. Appl. Phys. 46, 292 ~1975!.
+117
+J. C. Bouley, P. Delpech, J. Charil, G. Chainmant, J. Landreau, and J. P.
+Noblanc, Appl. Phys. Lett. 33, 327 ~1978!.
+118
+J. C. Dyment and G. Smith, IEEE J. Quantum Electron. QE-17, 750
+~1981!.
+119
+B. W. Hakki, J. Appl. Phys. 44, 5021 ~1973!.
+120
+H. Beneking, N. Grote, H. Krautle, and W. Roth, IEEE J. Quantum
+Electron. QE-16, 500 ~1980!.
+121
+F. Xiong, T. A. Tombrello, H. Wang, T. R. Chen, H. Z. Chen, H.
+Morkoc, and A. Yariv, Appl. Phys. Lett. 54, 730 ~1989!.
+122
+R. P. Bryan, J. J. Coleman, L. M. Miller, M. E. Givens, R. S. Averback,
+and J. L. Klatt, Appl. Phys. Lett. 55, 94 ~1989!.
+123
+W. T. Tsang and R. A. Logan, Appl. Phys. Lett. 36, 730 ~1980!.
+124
+S. Zukotynski, S. Sumski, M. B. Panish, and H. C. Casey, J. Appl. Phys.
+50, 5795 ~1979!.
+125
+C. S. Hong, D. Kasemset, M. E. Kim, and R. A. Milano, Electron. Lett.
+19, 759 ~1983!.
+126
+T. Iwasaki, N. Matsuo, N. Matsumoto, and S. Kashiwa, Jpn. J. Appl.
+Phys., Part 2 25, L66 ~1986!.
+127
+M. Okayasu, A. Kozem, Y. Hasumi, J. Temmyo, and S. Uehara, Appl.
+Phys. Lett. 51, 1980 ~1987!.
+128
+K. Tanaka, M. Hoshino, K. Wakao, J. Komeno, H. Ishakawa, S. Yamakoshi, and H. Imai, Appl. Phys. Lett. 47, 1127 ~1985!.
+129
+N. K. Dutta, J. L. Ziko, T. Cella, D. A. Ackerman, T. M. Shen, and S. G.
+Napholtz, Appl. Phys. Lett. 48, 1572 ~1986!.
+130
+T. Sanada, K. Nakai, K. Wakao, M. Kuno, and S. Yamakoshi, Appl.
+Phys. Lett. 51, 1054 ~1987!.
+131
+K. N. Wakao, K. Sanada, T. Kuno, M. Odagawa, and T. Yamakoshi,
+IEEE J. Quantum Electron. QE-23, 943 ~1987!.
+132
+B. I. Miller, U. Koren, R. J. Capik, and Y. K. Su, Appl. Phys. Lett. 51,
+2260 ~1987!.
+133
+D. P. Wilt, J. Long, W. C. Cautremont-Smith, M. W. Focht, T. M. Shen,
+and R. L. Hartman, Electron. Lett. 22, 869 ~1986!.
+134
+B. I. Miller, U. Koren, and R. J. Capik, Electron. Lett. 22, 947 ~1986!.
+135
+S. Asada, S. Sugou, K. Kasahara, Y. Kato, and S. Kumashiro, Appl.
+Phys. Lett. 52, 703 ~1988!.
+136
+S. Asada, S. Sugou, K. Kasahara, and S. Kumashiro, IEEE J. Quantum
+Electron. 25, 1362 ~1989!.
+137
+R. S. Geels and L. A. Coldren, Appl. Phys. Lett. 57, 1605 ~1990!.
+138
+K. Tai, G. Hasnain, J. D. Wynn, R. J. Fischer, Y. H. Wang, B. Weir, J.
+Gamelin, and A. Y. Cho, Electron. Lett. 26, 1628 ~1990!.
+139
+H. Soda, C. Kitahara, and Y. Suematsu, Jpn. J. Appl. Phys. 18, 23 ~1979!.
+140
+T. E. Sale, Vertical Cavity Surface Emitting Lasers ~Wiley, New York,
+1995!.
+141
+M. Orenstein, A. C. Von Lehmen, C. Chang-Hasnain, N. G. Stoffel, J. P.
+Harbison, L. T. Florez, E. Clausen, and J. E. Jewell, Appl. Phys. Lett. 56,
+2384 ~1990!.
+142
+B. Tell, Y. H. Lee, K. F. Brown-Goebeler, J. L. Jewell, R. E. Leibenguth,
+M. T. Asom, G. Livescu, L. Luther, and V. D. Mattera, Appl. Phys. Lett.
+57, 1855 ~1990!.
+143
+P. Zhou, J. Cheng, C. F. Schaus, S. Z. Sun, K. Zheng, E. Armour, C.
+Hains, W. Hsin, D. R. Myers, and G. A. Vawter, IEEE Photonics Technol. Lett. 3, 591 ~1991!.
+144
+P. Ressel, H. Strusny, S. Gramlich, U. Zeimer, J. Sebastian, and K. Vogel, Electron. Lett. 29, 918 ~1993!.
+145
+W. Jiang, C. Gaw, P. Kiely, B. Lawrence, M. Lebby, and P. R. Claisse,
+Electron. Lett. 33, 137 ~1997!.
+146
+Y. Qian, Z. H. Zhu, Y. H. Lo, D. L. Huffaker, D. G. Deppe, H. Q. Hou,
+B. E. Hammons, W. Lin, and Y. K. Tu, Appl. Phys. Lett. 71, 25 ~1997!.
+147
+U. Koren, B. I. Miller, R. S. Tucker, G. E. Eisenstein, I. Bar Joseph, D.
+A. B. Miller, and D. S. Chemla, Electron. Lett. 12, 621 ~1987!.
+
+Appl. Phys. Rev.: David D. Nolte
+148
+
+6287
+
+B. I. Miller, U. Koren, R. S. Tucker, G. Eisenstein, I. Bar Joseph, D. A.
+B. Miller, and D. S. Chemla, IEEE Trans. Electron Devices ED-34, 2362
+~1987!.
+149
+H. N. Soda, K. Ishikawa, and H. Imai, Electron. Lett. 23, 1232 ~1987!.
+150
+E. Garmire, H. Stoll, A. Yariv, and R. G. Hunsperger, Appl. Phys. Lett.
+21, 87 ~1972!.
+151
+T. K. Woodward, B. Tell, W. H. Knox, and J. B. Stark, Appl. Phys. Lett.
+60, 742 ~1992!.
+152
+D. D. Nolte, D. H. Olson, and A. M. Glass, Appl. Phys. Lett. 56, 163
+~1990!.
+153
+D. D. Nolte and M. R. Melloch, in Photorefractive Effects and Materials,
+edited by D. D. Nolte ~Kluwer Academic, Dordrecht, 1995!.
+154
+P. R. Smith, D. H. Auston, A. M. Johnson, and W. M. Agustyniak, Appl.
+Phys. Lett. 38, 47 ~1981!.
+155
+F. E. Doany, D. Grischkowsky, and C. Chi, Appl. Phys. Lett. 50, 460
+~1987!.
+156
+Y. Silberberg, P. W. Smith, D. A. B. Miller, B. Tell, A. C. Gossard, and
+W. Wiegmann, Appl. Phys. Lett. 46, 701 ~1985!.
+157
+M. B. Johnson, T. C. McGill, and N. G. Paulter, Appl. Phys. Lett. 54,
+2424 ~1989!.
+158
+M. Lambsdorff, J. Kuhl, J. Rosenzweig, A. Axmann, and J. Schneider,
+Appl. Phys. Lett. 58, 1881 ~1991!.
+159
+K. P. Korona, J. Jasinski, A. Kurpiewski, M. Kaminska, C. Jagadish, H.
+H. Tan, A. Krotkus, and S. Marcinkevicius, Acta Phys. Pol. A 90, 851
+~1996!.
+160
+S. Ten, J. G. Williams, P. T. Guerreiro, G. Khitrova, and N. Peygambarian, Appl. Phys. Lett. 70, 158 ~1997!.
+161
+S. Gupta, P. K. Battacharya, J. Pamaulapati, and G. Mourou, Appl. Phys.
+Lett. 57, 1543 ~1990!.
+162
+S. Gupta, Appl. Phys. Lett. 59, 3276 ~1991!.
+163
+S. Gupta, J. F. Whitaker, and G. A. Mourou, IEEE J. Quantum Electron.
+28, 2464 ~1992!.
+164
+E. S. Harmon, M. R. Melloch, J. M. Woodall, D. D. Nolte, N. Otsuka,
+and C. L. Chang, Appl. Phys. Lett. 63, 2248 ~1993!.
+165
+A. J. Lochtefeld, M. R. Melloch, J. C. P. Chang, and E. S. Harmon, Appl.
+Phys. Lett. 69, 1465 ~1996!.
+166
+D. H. Auston, Appl. Phys. Lett. 26, 101 ~1975!.
+167
+R. A. Lawton and A. Scavannec, Electron. Lett. 11, 138 ~1975!.
+168
+D. H. Auston, P. Lavallard, N. Sol, and D. Kaplan, Appl. Phys. Lett. 36,
+66 ~1980!.
+169
+D. H. Auston, A. M. Johnson, P. R. Smith, and J. C. Bean, Appl. Phys.
+Lett. 37, 371 ~1980!.
+170
+J. A. Valdmanis, G. A. Mourou, and C. W. Gabel, IEEE J. Quantum
+Electron. 17, 664 ~1983!.
+171
+G. A. Mourou and K. E. Meyer, Appl. Phys. Lett. 45, 492 ~1984!.
+172
+D. R. Grischkowsky, M. B. Ketchen, C. Chi, I. N. Duling, N. J. Halas, J.
+Halbout, and P. G. May, IEEE J. Quantum Electron. 24, 221 ~1988!.
+173
+M. B. Ketchen, D. Grischkowsky, T. C. Chen, C. Chi, N. Duling, N. J.
+Halas, J.-M. Halbout, J. A. Kash, and G. P. Li, Appl. Phys. Lett. 48, 751
+~1986!.
+174
+W. H. Knox, J. E. Henry, K. W. Goosen, K. D. Li, B. Tell, D. A. B.
+Miller, D. S. Chemla, A. C. Gossard, J. English, and S. Schmitt-Rink,
+IEEE J. Quantum Electron. 25, 2586 ~1989!.
+175
+W. H. Knox, J. E. Henry, B. Tell, D. Li K, D. A. B. Miller, and D. S.
+Chemla, in Proceedings of OSA Proceedings on Picosecond Electronics
+and Optoelectronics, edited by T. Sollner and D. Bloom ~OSA, 1989!.
+176
+F. W. Smith, H. Q. Le, V. Diadiuk, M. A. Hollis, A. R. Calawa, S. Gupta,
+M. Frankel, D. R. Dykaar, G. A. Mourou, and T. Y. Hsiang, Appl. Phys.
+Lett. 54, 890 ~1989!.
+177
+T. Motet, J. Nees, S. Williamson, and G. Morou, Appl. Phys. Lett. 59,
+1455 ~1991!.
+178
+D. H. Auston, K. P. Cheung, and P. R. Smith, Appl. Phys. Lett. 45, 284
+~1984!.
+179
+P. R. Smith, D. H. Auston, and M. C. Nuss, IEEE J. Quantum Electron.
+24, 255 ~1988!.
+180
+C. Fattinger and D. Grischkowsky, Appl. Phys. Lett. 53, 1480 ~1988!.
+181
+M. van Exter, C. Fattinger, and D. Grischkowsky, Appl. Phys. Lett. 55,
+337 ~1989!.
+182
+N. Katzenellenbogen and D. Grischkowsky, Appl. Phys. Lett. 58, 222
+~1991!.
+183
+S. E. Ralph and D. Grischkowski, Appl. Phys. Lett. 59, 1972 ~1991!.
+184
+A. C. Warren, N. Katzenellenbogen, D. Grischkowsky, J. M. Woodall,
+M. R. Melloch, and N. Otsuka, Appl. Phys. Lett. 58, 1512 ~1991!.
+
+6288
+185
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+
+A. Y. Elazzabi, J. Meyer, M. K. Y. Hughes, and S. R. Johnson, Opt. Lett.
+19, 898 ~1994!.
+186
+W. Roth, H. Schumacher, J. Kluge, H. J. Geelen, and H. Beneking, IEEE
+Trans. Electron Devices 32, 1034 ~1985!.
+187
+M. Ito and O. Wada, IEEE J. Quantum Electron. QE-22, 1073 ~1986!.
+188
+J. B. D. Soole and H. Schumacher, IEEE J. Quantum Electron. 27, 737
+~1991!.
+189
+J. H. Burroughes, IEEE Photonics Technol. Lett. 3, 660 ~1991!.
+190
+S. Y. Chou and M. Y. Liu, IEEE J. Quantum Electron. 28, 2358 ~1992!.
+191
+Y. Chen, S. Williamson, T. Brock, F. Smith, and A. R. Calawa, Appl.
+Phys. Lett. 59, 1984 ~1991!.
+192
+M. Klingenstein, J. Kuhl, R. Notzel, K. Ploog, J. Rosenzweig, C. Moglestue, H. A. J. Schneider, and K. Kohler, Appl. Phys. Lett. 60, 627 ~1992!.
+193
+S. Y. Chou, Y. Liu, W. Khalil, T. Y. Hsiang, and S. Alexandrou, Appl.
+Phys. Lett. 61, 819 ~1992!.
+194
+S. Gupta, J. F. Whitaker, S. L. Williamson, G. A. Mourou, L. Lester, K.
+C. Hwang, J. Mazurowski, and J. M. Ballingall, J. Electron. Mater. 22,
+1449 ~1993!.
+195
+A. Rahman, D. Kralj, L. Carin, M. R. Melloch, and J. M. Woodall, Appl.
+Phys. Lett. 64, 2178 ~1994!.
+196
+R. P. Joshi and J. A. McAdo, Appl. Phys. Lett. 68, 1972 ~1996!.
+197
+E. H. Böttcher, D. Kuhl, F. Hieronymi, E. Dröge, T. Wolf, and D. Bimberg, IEEE J. Quantum Electron. 28, 2343 ~1992!.
+198
+I. D. Jung, F. X. Kärtner, N. Matuschek, D. H. Sutter, F. Morier-Genoud,
+G. Zhang, U. Keller, V. Scheuer, M. Tilsch, and T. Tschudi, Opt. Lett.
+22, 1009 ~1997!.
+199
+F. X. Kärtner and U. Keller, Opt. Lett. 20, 16 ~1995!.
+200
+G. R. Jacobovitz-Vaselka, U. Keller, and M. T. Asom, Opt. Lett. 17,
+1791 ~1992!.
+201
+U. Keller, D. A. B. Miller, G. D. Boyd, T. H. Chiu, J. F. Ferguson, and
+M. T. Asom, Opt. Lett. 17, 505 ~1992!.
+202
+I. D. Jung, L. R. Brovelli, M. Kamp, U. Keller, and M. Moser, Opt. Lett.
+20, 1559 ~1995!.
+203
+I. D. Jung, F. X. Kärtner, N. Matuschek, D. H. Sutter, F. Morier-Genoud,
+Z. Shi, V. Scheuer, M. Tilsch, T. Tschudi, and U. Keller, Appl. Phys.
+Lett. 65, 137 ~1997!.
+204
+D. D. Nolte, D. H. Olson, G. E. Doran, W. H. Knox, and A. M. Glass, J.
+Opt. Soc. Am. B 7, 2217 ~1990!.
+205
+Q. N. Wang, R. M. Brubaker, D. D. Nolte, and M. R. Melloch, J. Opt.
+Soc. Am. B 9, 1626 ~1992!.
+206
+D. D. Nolte, Photorefractive Effects and Materials ~Kluwer Academic,
+Dordrecht, 1995!.
+207
+C. V. Raman and N. S. N. Nath, Proc. Indian Acad. Sci. 2, 406 ~1935!.
+208
+E. I. Gordon, Proc. IEEE 54, 1391 ~1967!.
+209
+D. S. Subbaramaiya, Proc. Indian Acad. Sci. 6, 333 ~1938!.
+210
+E. P. Ippen, Proc. IEEE 55, 248 ~1967!.
+211
+E. Salzmann and D. Weismann, J. Appl. Phys. 40, 3408 ~1969!.
+212
+I. Lahiri, Ph.D. thesis, Purdue University, 1998.
+213
+A. M. Glass, D. D. Nolte, D. H. Olson, G. E. Doran, D. S. Chemla, and
+W. H. Knox, Opt. Lett. 15, 264 ~1990!.
+214
+Q. N. Wang, D. D. Nolte, and M. R. Melloch, Appl. Phys. Lett. 59, 256
+~1991!.
+215
+Q. N. Wang, D. D. Nolte, and M. R. Melloch, Opt. Lett. 16, 1944 ~1991!.
+216
+P. Günter and J.-P. Huignard, Photorefractive Materials and Their Applications I and II, in Topics in Applied Physics 61 ~Springer, Berlin,
+1988!.
+217
+D. D. Nolte, Q. N. Wang, and M. R. Melloch, Appl. Phys. Lett. 58, 2067
+~1991!.
+218
+M. Carrascosa, F. Agullo-Rueda, and F. Agullo-Lopez, Appl. Phys. A:
+Solids Surf. 55, 25 ~1992!.
+219
+L. F. Magaña, F. Agullo-Lopez, and M. Carrascosa, J. Opt. Soc. Am. B
+11, 1651 ~1994!.
+220
+Q. N. Wang, R. M. Brubaker, and D. D. Nolte, J. Opt. Soc. Am. B 11,
+1773 ~1994!.
+221
+R. M. Brubaker, Q. N. Wang, D. D. Nolte, and M. R. Melloch, Phys.
+Rev. Lett. 77, 4249 ~1996!.
+222
+Q. N. Wang, R. M. Brubaker, and D. D. Nolte, Opt. Lett. 19, 822 ~1994!.
+223
+S. R. Bowman, W. S. Rabinovich, G. Beadie, S. M. Kirkpatrick, D. S.
+Katzer, K. I. Anastosiou, and C. L. Adler, J. Opt. Soc. Am. B 15, 640
+~1998!.
+224
+A. Partovi, A. M. Glass, D. H. Olson, G. J. Zydzik, K. T. Short, R. D.
+Feldman, and R. F. Austin, Appl. Phys. Lett. 59, 1832 ~1991!.
+225
+A. Partovi, A. M. Glass, D. H. Olson, G. J. Zydzik, K. T. Short, R. D.
+Feldman, and R. F. Austin, Opt. Lett. 17, 655 ~1992!.
+
+Appl. Phys. Rev.: David D. Nolte
+226
+
+W. S. Rabinovich, S. R. Bowman, D. S. Katzer, and C. S. Kyono, Appl.
+Phys. Lett. 66, 1044 ~1995!.
+227
+C. De Matos, A. Le Corre, H. L’Haridon, B. Lambert, S. Salaum, J.
+Pleumeekers, and S. Gosselin, Appl. Phys. Lett. 68, 3576 ~1996!.
+228
+C. De Matos, A. Le Corre, H. L’Haridon, S. Gosselin, and B. Lambert,
+Appl. Phys. Lett. 70, 3591 ~1997!.
+229
+A. Le Corre, C. De Matos, H. Haridon, S. Gosselin, and B. Lambert,
+Appl. Phys. Lett. 70, 1575 ~1997!.
+230
+D. D. Nolte, Opt. Commun. 92, 199 ~1992!.
+231
+S. L. Smith and L. Hesselink, J. Opt. Soc. Am. B 11, 1878 ~1994!.
+232
+E. Canoglu, C. Yang, D. Mahgerefteh, E. Garmire, A. Partovi, T. H.
+Chiu, A. M. Glass, and G. J. Zydzik, Appl. Phys. Lett. 69, 316 ~1996!.
+233
+D. D. Nolte, I. Lahiri, and M. Aguilar, Opt. Commun. 131, 119 ~1996!.
+234
+D. D. Nolte, I. Lahiri, and M. R. Melloch, Opt. Lett. 21, 1888 ~1996!.
+235
+V. V. Shkunov and M. V. Zolotarev, J. Opt. Soc. Am. B 12, 913 ~1995!.
+236
+M. Whitehead and G. Parry, Electron. Lett. 25, 566 ~1989!.
+237
+R. H. Yan, R. J. Simes, and L. A. Coldren, IEEE Photonics Technol. Lett.
+1, 273 ~1989!.
+238
+D. S. Gerber, R. Droopad, and G. N. Maracas, IEEE Photonics Technol.
+Lett. 5, 55 ~1993!.
+239
+M. F. Krol, T. Ohtsuki, G. Khitrova, R. K. Boncek, B. P. McGinnis, H.
+M. Gibbs, and N. Peyghambarian, Appl. Phys. Lett. 62, 1550 ~1993!.
+240
+B. Pezeshki, G. A. Williams, and J. S. J. Harris, Appl. Phys. Lett. 60,
+1061 ~1992!.
+241
+G. Livescu, G. D. Boyd, R. A. Morgan, L. M. F. Chirovsky, A. M. Fox,
+R. E. Leibenguth, M. T. Asom, and M. W. Focht, Appl. Phys. Lett. 60,
+1418 ~1992!.
+242
+R. Yan, R. J. Simes, and L. A. Coldren, IEEE J. Quantum Electron. 25,
+2272 ~1989!.
+243
+R. Jin, G. Khitrova, H. M. Gibbs, and N. Peyghambarian, Appl. Phys.
+Lett. 59, 3216 ~1991!.
+244
+A. Larsson and J. Maserjian, Appl. Phys. Lett. 59, 3099 ~1991!.
+245
+J. F. Heffernan, M. H. Moloney, J. Hegarty, J. S. Roberts, and M. Whitehead, Appl. Phys. Lett. 58, 2877 ~1991!.
+246
+K. H. Calhoun and N. M. Jokerst, Opt. Lett. 18, 882 ~1993!.
+247
+G. B. Thompson, G. Robinson, J. W. Scott, C. J. Mahon, F. H. Peters, B.
+J. Thibeault, and L. A. Coldren, in Proceedings of IEEE/LEOS Summer
+Topical Meeting on Smart Pixels ~IEEE, New York, 1994!.
+248
+S. J. B. Yoo, R. Bhat, C. Caneau, J. Gamelin, M. A. Koza, and T. P. Lee,
+in Proceedings of Optical Fiber Communications Conference, 1995,
+p. 284.
+249
+I. J. Fritz, B. E. Hammons, A. J. Howard, T. M. Brennan, and J. A. Olsen,
+Appl. Phys. Lett. 62, 919 ~1993!.
+250
+D. D. Nolte and K. M. Kwolek, Opt. Commun. 115, 606 ~1995!.
+251
+K. M. Kwolek, M. R. Melloch, and D. D. Nolte, Appl. Phys. Lett. 65, 385
+~1994!.
+252
+K. M. Kwolek, M. R. Melloch, D. D. Nolte, and G. A. Brost, Appl. Phys.
+Lett. 67, 736 ~1995!.
+253
+D. D. Nolte, Opt. Lett. 19, 819 ~1994!.
+254
+A. Partovi, A. M. Glass, T. H. Chiu, and D. T. H. Liu, Opt. Lett. 18, 906
+~1993!.
+255
+W. S. Rabinovich, S. R. Bowman, R. Mahon, A. Walsh, G. Beadie, L.
+Adler, D. S. Katzer, and K. Ikossi Anastasiou, J. Opt. Soc. Am. B 13,
+2235 ~1996!.
+256
+C. L. Adler, S. R. Bowman, and W. S. Rabinovich, Opt. Commun. 136,
+75 ~1997!.
+257
+R. Jones, S. C. W. Hyde, M. J. Lynn, N. P. Barry, J. C. Dainty, P. M. W.
+French, K. M. Kwolek, D. D. Nolte, and M. R. Melloch, Appl. Phys.
+Lett. 69, 1837 ~1996!.
+258
+R. Jones, N. P. Barry, S. C. W. Hyde, P. M. W. French, K. M. Kwolek,
+D. D. Nolte, and M. R. Melloch, Opt. Lett. 23, 103 ~1998!.
+259
+J. A. Izatt, M. D. Kulkarni, K. Kobayashi, M. V. Sivak, J. K. Barton, and
+A. J. Welch, Optics and Photonics News, May, 1997, p. 41.
+260
+J. A. Izatt, M. D. Kulkarni, H.-W. Wang, K. Kobayashi, and M. V. Sivak,
+IEEE J. Sel. Top. Quantum Electron. 2, 1017 ~1996!.
+261
+Y. Pan, E. Lankenau, J. Welzel, R. Birngruber, and R. Engelhardt, IEEE
+J. Sel. Top. Quantum Electron. 2, 1029 ~1996!.
+262
+G. J. Tearney, M. E. Brazinski, B. E. Bouma, S. A. Boppart, C. Pitris, J.
+F. Southern, and J. G. Fujimoto, Science 276, 2037 ~1997!.
+263
+L. Wang, P. P. Ho, C. Liu, G. Zhang, and R. R. Alfano, Science 253, 769
+~1991!.
+264
+E. Leith, C. Chen, H. Chen, D. Dilworth, J. Lopez, J. Rudd, P.-C. Sun, J.
+Valdmanis, and G. Vossler, J. Opt. Soc. Am. A 9, 1148 ~1992!.
+
+J. Appl. Phys., Vol. 85, No. 9, 1 May 1999
+265
+
+A. M. Weiner, J. P. Heritage, and E. M. Kirschner, J. Opt. Soc. Am. B 5,
+1563 ~1988!.
+266
+A. M. Weiner, Prog. Quantum Electron. 19, 161 ~1995!.
+267
+R. M. Brubaker, Y. Ding, D. D. Nolte, M. R. Melloch, and A. M. Weiner,
+IEEE J. Quantum Electron. 33, 2150 ~1997!.
+268
+Y. Ding, D. D. Nolte, M. R. Melloch, and A. M. Weiner, IEEE J. Sel.
+Top. Quantum Electron. 4, 332 ~1998!.
+269
+R. M. Brubaker, Q. N. Wang, D. D. Nolte, E. S. Harmon, and M. R.
+Melloch, J. Opt. Soc. Am. B 11, 1038 ~1994!.
+270
+M. C. Nuss, M. Li, T. H. Chiu, A. M. Weiner, and A. Partovi, Opt. Lett.
+19, 664 ~1994!.
+271
+Y. Ding, R. M. Brubaker, D. D. Nolte, M. R. Melloch, and A. M. Weiner,
+Opt. Lett. 22, 718 ~1997!.
+
+Appl. Phys. Rev.: David D. Nolte
+272
+
+6289
+
+A. M. Weiner, D. E. Leaird, D. H. Reitze, and E. G. Paek, IEEE J.
+Quantum Electron. 28, 2251 ~1992!.
+273
+Y. Ding ~unpublished!.
+274
+C. B. Scruby and L. E. Drain, Laser Ultrasonics: Techniques and Applications ~Adam Hilger, Bristol, 1990!.
+275
+J. Monchalin, Rev. Prog. Quant. Nondestr. Eval. 12, 495 ~1993!.
+276
+I. Lahiri, L. J. Pyrak-Nolte, D. D. Nolte, M. R. Melloch, R. A. Kruger, G.
+D. Bacher, and M. B. Klein, Appl. Phys. Lett. 73, 1041 ~1998!.
+277
+J. Monchalin, R. Heon, P. Bouchard, and C. Padioleau, Appl. Phys. Lett.
+55, 1612 ~1989!.
+278
+A. Blouin and J.-P. Monchalin, Appl. Phys. Lett. 65, 932 ~1994!.
+279
+L.-A. Montmorillon, I. Biaggio, P. Delaye, J.-C. Launay, and G. Roosen,
+Opt. Commun. 129, 293 ~1996!.
+
+

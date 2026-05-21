@@ -1,0 +1,1567 @@
+Handout 06
+Dielectric Constant and Refractive Index of
+Semiconductors
+In this lecture you will learn:
+• Dielectric constant of solids
+• Interband and Intraband contributions to the dielectric constant of solids
+• Interband and Intraband contributions to the loss coefficient of solids
+• Linear response functions
+• Kramers-Kronig relations
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+Charge Dipole, Dipole Moment, and Polarization Density
+A charge dipole consists of a negative and a positive charge separated by some
+distance:
+
+Q
+
+
+d
+Q
+
+
+
+Dipole moment of a charge dipole is a vector p such that:
+
+
+
+pQd
+
+
+Polarization density vector P of a medium consisting of charge dipoles is the
+product of the number N of dipoles
+ per unit volume (i.e. dipole density) and the
+strength of each dipole given by p :
+
+
+
+
+P  Np  N Q d
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+1
+
+Dielectric Constant of Materials
+Dielectric Material (Insulator or
+Intrinsic Semiconductor)
++
+
+Dielectric in an E-field
+E
+
++ve nucleus
+
++
+
++
+
++
+
++
+
+-ve electron
+cloud (valence band
+and core electrons)
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
++
+
+Material gets polarized when placed in an electric field (i.e. develops charge
+dipoles) because the electron cloud shifts relative to the nuclei
+
+
+
+P   o e E
+
+ 
+
+D  o E  P   E
+
+
+P  Polarization density (# of dipoles
+per unit volume times the
+strength of one dipole)
+
+   o 1   e 
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+High Frequency Dielectric Constant of Solids
+Consider a sinusoidal E&M wave of frequency  propagating in a solid:
+
+
+
+ 
+ 
+ 
+E r , t   nˆ Eo cosq . r   t   Re E r ,   e  i  t
+
+
+
+ E
+
+
+q
+
+Where the electric field “phasor” is:
+ 
+ 
+E r ,    nˆ Eo e i q . r
+
+
+H
+
+Similarly, the magnetic field phasor is:
+ 
+ 
+H r ,    qˆ  nˆ  Ho e i q . r
+
+And the two field are related by the two Maxwell equations:
+
+ 
+ 
+  E r ,    i oH r ,  
+
+Faraday’s Law
+
+ 
+ 
+  H r ,     i    E r ,  
+
+Ampere’s Law
+
+These two equations together give the dispersion relation of the E&M wave:
+
+
+
+
+q
+
+   o
+
+q
+
+c
+
+    o
+
+q
+
+c
+n 
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+2
+
+Strategy to Calculate the Dielectric Constant of Materials
+1) Start with the Hamiltonian describing the interaction of the electrons with the
+electromagnetic field:
+ ˆ
+
+ ˆ
+
+q Ao  e iq . r  i  t  e  iq . r  i  t  
+
+ ˆ
+ˆ
+ˆ
+H  Ho 
+P . nˆ
+2m
+
+Hˆ o  n ,k  E n k  n ,k
+
+E
+
+
+
+2) Find out how the electron wavefunctions (i.e. Bloch
+functions) get modified using standard first order
+perturbation theory:
+
+ n,k
+  n,k
+new
+
+
+
+   cm ,k ' t
+m k'
+
+
+
+k
+
+ m,k '
+
+3) From the modified wavefunctions, calculate the electron
+charge density, and then the dipole density
+The above procedure, although doable, is a little complicated
+and we will use an alternate approach!
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+Refractive Index of Solids
+n  
+
+The refractive index of a material is defined as:
+
+ q
+
+The wave dispersion relation is then:
+
+  
+o
+
+c
+n 
+
+And the electric field phasor can be written as:
+ 
+i
+ 
+E r ,    nˆ Eo e i q . r  nˆ Eo e
+
+ n  
+c
+
+
+qˆ . r
+
+The refractive index usually has real and imaginary parts:
+
+n    n'    i n"  
+The electric field phasor is then:
+i
+ 
+E r ,    nˆ Eo e
+
+ n ' 
+c
+
+  n '' 
+
+qˆ . r
+qˆ . r 
+c
+e
+
+The imaginary part of the index describes
+wave decay (or wave amplification if gain
+is present)
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+3
+
+Imaginary Part of the Refractive Index and the Loss Coefficient
+We have already seen that stimulated absorption results in a wave to decay in
+a medium (optical loss):
+  
+ 
+
+qˆ . r
+E r ,    e 2
+
+
+
+Where:
+
+   
+
+ R  R 
+P
+2
+
+
+q
+ 
+ m   o n'  c
+
+
+2
+Pcv . nˆ
+
+
+d 3k
+
+2 
+
+
+
+
+
+ n '' 
+
+
+qˆ . r
+
+FBZ 2
+
+3
+
+fv k   fc k   Ec k   Ev k    
+E
+
+But we also have:
+
+ 
+E r ,    e
+
+c
+
+This means the imaginary part of the refractive index is:
+
+n' '   
+
+c   
+ 2
+
+
+
+k
+
+Stimulated
+absorption
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+Imaginary Part of the Refractive Index and the Loss Coefficient
+Transitions between just two bands:
+2
+
+
+q
+
+ m   o n'  c
+
+    
+
+2 
+
+
+d 3k
+
+
+
+FBZ 2
+
+Transitions among all bands:
+2
+
+
+q
+     
+ m   o n'  c
+
+ 2 
+
+r ,s
+
+
+
+3
+
+ 
+
+
+d 3k
+
+
+
+FBZ 2
+
+    
+
+
+
+
+
+       
+
+
+
+
+
+
+
+
+2
+Pcv . nˆ
+fv k  fc k  Ec k  Ev k  
+
+
+
+3
+
+
+
+
+
+
+2
+Prs . nˆ
+fs k  fr k  E r k  E s k  
+
+
+
+The above is a more general and complete expression for the loss coefficient
+E
+E
+
+n' '   
+
+Transitions
+between
+two bands
+only
+
+
+k
+
+c   
+2
+
+
+
+
+
+k
+
+Transitions
+among
+all bands
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+4
+
+High Frequency Dielectric Constant of Solids: Imaginary Part
+The refractive index of a material is defined as:
+Therefore, using the fact that:
+
+n   
+
+n"    n'  
+
+  
+o
+
+     o n 2     o  n'    in"   2   o  n'   2  i 2  o n'  n"  
+  '    i "     o  n'   2  i 2  o n'  n"  
+This implies:
+
+ "    2 o n'  n"  
+  "   
+
+ '     o  n'   2
+
+and
+
+ o n'  c
+  
+
+
+Using the expression for the absorption coefficient we get:
+2
+
+q 
+
+
+ m   2 r ,s
+
+ "    
+
+2 
+
+
+d 3k
+
+3
+FBZ 2 
+
+       
+
+
+
+
+
+
+
+
+2
+Prs . nˆ fs k  fr k  E r k  E s k  
+
+
+
+Question: What is the real part of the dielectric constant?
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+Linear Response Functions
+Linear Response Functions:
+In a linear time invariant (LTI) system, the stimulus phasor S() is related to the
+response phasor R() by a linear response function ():
+
+R       S  
+
+     '    i  "  
+
+The linear system must satisfy the following two properties:
+i) It must be causal (system cannot respond before the stimulus is applied)
+ii) A real stimulus S(t) must result in a real response R(t) (with no imaginary
+component)
+The second condition gives:
+
+      *     '      '   and  "      "  
+Most responses of solids are expressed in terms of linear response functions.
+Examples include:
+ 
+ 
+Conductivity:
+  
+J r ,       E r ,  
+ 
+
+Dielectric Constant:   
+D r ,       E r ,  
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+5
+
+Linear Response Functions and Kramers-Kronig Relations
+The two conditions, listed on previous slide, dictate that the real and imaginary parts
+of any response function cannot be independent – they must be RELATED!
+
+     '    i  "  
+
+R       S  
+
+This relationship between the real and the imaginary parts of the response functions
+is captured by the Kramers-Kronig relations:
+ d '
+
+ "    4 
+
+0 2
+
+ '  '   '   2 
+
+(1)
+
+   '2
+ d '
+'
+ '     '     4 
+ "  ' 2
+2
+
+
+  '2
+0
+
+(2)
+
+• If one knows the real part for all frequencies, then one can find the imaginary part
+using Kramers-Kronig relations
+• Conversely, if one knows the imaginary part for all frequencies, then one can find
+the real part using Kramers-Kronig relations
+PROOF OF KRAMERS-KRONIG RELATIONS GIVEN IN APPENDIX
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+High Frequency Dielectric Constant of Solids: Real Part
+We have:
+2
+
+q 
+
+
+ m   2 r ,s
+
+ "    
+
+
+d 3k
+
+2 
+
+       
+
+
+
+
+
+
+
+
+2
+Prs . nˆ fs k  fr k  E r k  E s k  
+
+FBZ 2 
+
+3
+
+
+
+And from the Kramers-Kronig relations we know:
+ d '
+
+ '     '     4 
+
+0 2
+
+ "  '
+
+2
+
+q
+  '     o  2   2 
+m
+r ,s
+2
+
+q
+  '     o  2   2 
+m
+r ,s
+
+'
+ 2   '2
+
+ '     o
+
+
+d 3k
+
+2 
+
+
+
+
+
+FBZ 2
+
+2 
+
+
+d 3k
+
+
+
+FBZ 2
+
+1
+     2Er k  Es k   2
+  E r k   E s k 
+
+
+
+
+
+
+2
+P . nˆ
+fs k  fr k
+3 rs
+
+1
+     2Er k  Es k   2
+  Er k   E s k 
+
+
+
+
+2
+P . nˆ
+fs k  fr k
+3 rs
+
+
+
+
+
+
+
+
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+6
+
+High Frequency Dielectric Constant of Solids
+2
+
+q 2
+  
+m
+r ,s
+
+ '     o  2 
+
+2
+
+q 
+
+
+ m   2 r ,s
+
+ "    
+
+
+d 3k
+
+2 
+
+
+
+FBZ 2
+
+2 
+
+
+d 3k
+
+
+ 1
+     2Er k  Es k   2
+  Er k   E s k 
+
+
+
+
+2
+P . nˆ
+fs k  fr k
+3 rs
+
+
+
+       
+
+
+
+
+
+
+
+
+2
+Prs . nˆ fs k  fr k  E r k  E s k  
+
+FBZ 2 
+
+3
+
+
+
+E
+
+• The low frequency dielectric constant would also
+include contributions from the lattice (phonons) in polar
+materials (like GaAs, NaCl)
+• The most important contributions to the dielectric
+constant will come from those two bands whose energy
+separation is close to the frequency  and where the
+lower band is full and the top band is empty
+
+
+
+k
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+Bandgaps and the High Frequency Dielectric Constant
+2
+
+q 2
+  
+m
+r ,s
+
+ '     o  2 
+
+2
+
+q 
+
+
+ m   2 r ,s
+
+ "    
+
+
+d 3k
+
+2 
+
+
+
+FBZ 2
+
+2 
+
+
+d 3k
+
+FBZ 2 
+
+3
+
+
+ 1
+     2Er k  Es k   2
+  Er k   E s k 
+
+
+
+
+2
+P . nˆ
+fs k  fr k
+3 rs
+
+
+
+       
+
+
+
+
+
+
+
+
+2
+Prs . nˆ fs k  fr k  E r k  E s k  
+
+A Three-Band Example:
+
+
+
+E
+
+ '   E g 1 
+Eg 2
+Eg1
+,
+
+,,
+
+ ()
+
+ ()
+
+
+
+Eg1
+
+
+k
+
+Eg1
+
+Eg 2
+
+Eg 2
+
+Frequency (h )
+
+Frequency (h)
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+7
+
+Bandgaps and the High Frequency Dielectric Constant
+2
+
+q 2
+ 
+m
+
+ '     o  2 
+
+
+2
+Pcv . nˆ
+
+
+
+
+
+Ec k   Ev k 1
+
+
+
+
+
+
+
+f
+k
+f
+k
+
+ 2
+v
+c
+3
+FBZ 2 
+ 2  Ec k   Ev k 
+
+2 
+
+
+d 3k
+
+Include just two bands and make some very rough estimates:
+
+Suppose :   E g
+
+
+Ec k  Ev k  Eg
+
+
+fv k  1
+fc k  0
+
+2
+
+Pcv . nˆ
+2
+d 3k
+q 2
+  '     o  2   
+
+2
+
+3
+m
+E g3
+FBZ 2 
+
+2
+Pcv . nˆ
+2
+q 2
+ o  2   
+nv
+m
+Eg3
+
+
+
+
+
+
+
+
+E
+
+
+
+Eg
+
+
+k
+
+
+
+
+fv k
+
+ Materials with larger bandgaps will have smaller real part of dielectric constants
+(and, therefore, smaller real part of refractive indices)
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+High Frequency Dielectric Constant: Case of Non-Zero Conductivity
+We have obtained an expression for the dielectric constant
+that incorporated interband optical processes
+What if the material also contained large densities of electrons
+or holes or both (i.e. what if the material was doped and
+conductive)?
+
+E
+
+
+
+Ef
+
+k
+
+Go back to Maxwell equations:
+
+ 
+ 
+  E r ,    i oH r ,  
+
+Faraday’s Law
+
+ 
+
+ 
+  H r ,    J    i    E r ,  
+
+Ampere’s Law
+
+New term (current density due to electrons or holes or both)
+
+
+
+J       E  
+ 
+
+ 
+   H r ,       E    i    E r ,  
+ 
+ 
+   H r ,     i  total   E r ,  
+Where:
+
+ total        i
+
+  
+
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+8
+
+High Frequency Dielectric Constant: Drude Model for Conductivity
+We have:
+
+E
+
+  
+ total        i
+
+
+Drude model for the frequency dependent conductivity:
+
+E
+
+
+f
+
+The equation for the electron velocity is (assuming
+parabolic/isotropic bands in 3D):
+
+me
+
+
+k
+
+
+
+
+dv mev
+
+ q E
+dt
+e
+
+In phasor notation (assuming a sinusoidal electric field):
+
+
+q m 
+v     e e E  
+1  i e
+The current density is:
+
+
+
+
+J    n  q  v       E  
+Where:
+
+   
+
+n q 2 e me
+1  i e
+
+(Drude model)
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+High Frequency Dielectric Constant : Non-Zero Conductivity
+E
+
+Assuming non-zero densities for both electrons and
+holes the total conductivity becomes:
+
+   
+
+n q 2 e me p q 2 h mh
+
+1  i e
+1  i h
+
+We have:
+
+ total        i
+
+  
+
+
+
+
+Ef
+
+k
+
+Therefore:
+
+ total        i
+
+nq 2 e me
+pq 2 h mh
+i
+ 1  i e   1  i h 
+
+Interband optical
+processes
+
+Intraband optical
+processes
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+9
+
+The Plasma Frequency
+Suppose we have a metal or a n-doped semiconductor for which:
+
+  1
+  E g
+
+E
+
+0
+
+Then we have:
+
+ total        i
+ i
+
+2
+
+2
+
+nq  e me
+pq  h mh
+i
+ 1  i e   1  i h 
+
+Ef
+
+
+
+nq 2 e me
+nq 2 me
+ 
+ 1  i e 
+2
+
+
+k
+
+  p2 
+  1 2 
+  
+
+
+
+Where the plasma frequency is defined as:
+For metals:
+
+ p 2 ~ 4  1015 Hz (UV-blue light frequency)
+
+nq 2
+p 
+ me
+
+For semiconductors:
+
+ p 2 ~ 1011  1013 Hz (Terahertz frequency)
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+The Complete Absorption Coefficient
+Now that we have the complete dielectric constant, we can find the complete
+absorption coefficient:
+
+ total     inter     intra     inter    i
+
+nq 2 me
+pq 2 mh
+i
+ 1  i e   1  i h 
+
+Interband optical
+processes
+
+Intraband optical
+processes
+
+ ocn'  
+  
+
+2
+2
+"
+   nq  e 2m2e  pq  h 2m2h   ocn'     
+  inter
+
+ 1   e  1   h
+
+"
+   2 o n'  n"   
+ total
+
+
+
+ 
+
+2
+
+
+q
+
+ m   o n'   c
+
+    
+
+
+
+
+
+ 2 
+
+r ,s
+
+FBZ
+
+
+d 3k
+
+2 
+
+3
+
+ 
+
+
+
+       
+
+
+
+
+
+
+2
+Prs . nˆ
+fs k  fr k  E r k  E s k  
+
+ nq 2 e me pq 2 h mh 
+1
+
+
+
+ ocn'    1   2 e2
+1   2 h2 
+
+
+
+Interband optical
+absorption
+
+
+
+
+
+Intraband optical
+absorption
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+10
+
+APPENDIX: Kramers-Kronig Relations (Proof)
+In a linear time invariant (LTI) system, the stimulus phasor S() is related to the
+response phasor R() by:
+R       S  
+The linear response function is ():
+
+     '    i  "  
+
+Reality:
+Real inputs must result in a real response. This condition gives:
+Causality:
+
+      *     '      '   and  "      "  
+
+Inverse FT gives:
+
+
+
+R t    dt '  t  t '  S t '
+
+
+ d
+
+ t  t '   
+
+  2
+
+   e  i  t  t ' 
+
+Causality implies that the system cannot exhibit response to an input before the
+input occurs:
+ t  t '   0
+for t  t '
+t
+
+R t    dt '  t  t '  S t ' 
+
+which gives:
+
+
+
+Infinite Frequency Response:
+No physical system can respond at infinite frequencies, so:
+
+      0
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+Kramers-Kronig Relations (Proof)
+The causality condition is:
+
+ t   0
+
+for
+
+t 0
+
+The function (), when considered as an analytic function in the complex plane,
+cannot have any pole in the upper half of the complex plane for the causality
+condition to hold
+Consider the following contour integral over the contour shown:
+
+
+
+d '   ' 
+2    '
+
+Since there are no poles in the upper half plane,
+the closed contour contains no poles, and the
+contour integral must be zero
+
+c2
+
+R=∞
+c1
+
+
+
+'
+
+d '   '
+0
+2    '
+0
+ d '   ' 
+d '   ' 
+d '   '
+ 
+ 
+ 
+0
+  2    ' c1 2    ' c2 2    '
+
+
+
+
+ 
+
+ d '   '
+
+
+
+  2    '
+
+i
+     0
+2
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+11
+
+Kramers-Kronig Relations (Proof)
+
+ 
+
+ d '   '
+
+
+
+
+
+  2    '
+
+i
+    
+2
+
+Matching the real and imaginary parts on both sides gives:
+
+ 
+
+ d '  "  '
+
+ '    2 
+
+  2    '
+
+ 
+
+ d '  '  '
+
+ "    2 
+
+  2    '
+
+ d '
+
+ 4 
+
+0 2
+
+ d '
+
+ 4
+
+0 2
+
+ "  ' 
+
+ '  ' 
+
+'
+ 2   '2
+
+
+ 2   '2
+
+Where the following relations have been used to get the second integrals:
+
+ '      '   and  "      "  
+In cases where the real part of () may not be zero at infinite frequencies, as it
+happened in the case of the dielectric constant, we just repeat the entire procedure
+from the beginning with () – ’(∞) instead of () to get:
+ d '
+
+ "    4 
+
+0 2
+
+ '  '   '   2 
+
+   '2
+'
+ '     '     4 
+ "  ' 2
+   '2
+0 2
+ d '
+
+ECE 407 – Spring 2009 – Farhan Rana – Cornell University
+
+12
+
+
