@@ -77,13 +77,10 @@ const { label, note } = Astro.props;
 
   @media (max-width: 720px) {
     .term-note__tip {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      bottom: auto;
-      left: 1rem;
-      width: auto;
-      max-width: none;
+      bottom: calc(100% + 0.4rem);
+      left: 0;
+      width: max-content;
+      max-width: min(20rem, calc(100vw - 2rem));
     }
   }
 </style>

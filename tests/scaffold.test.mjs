@@ -39,11 +39,14 @@ test("concept layout reads MDX frontmatter for title metadata", async () => {
 test("term notes do not create horizontal page overflow when hidden", async () => {
   const component = await read("src/components/TermNote.astro");
   assert.match(component, /\.term-note__tip/);
+  assert.match(component, /\.term-note\s*{\s*position:\s+relative/s);
+  assert.match(component, /\.term-note__tip\s*{[^}]*position:\s+absolute/s);
   assert.match(component, /display:\s+none/);
   assert.match(component, /\.term-note:hover \.term-note__tip/);
   assert.match(component, /display:\s+block/);
   assert.match(component, /@media \(max-width: 720px\)/);
-  assert.match(component, /position:\s+fixed/);
+  assert.doesNotMatch(component, /position:\s+fixed/);
+  assert.match(component, /max-width:\s+min\(20rem,\s+calc\(100vw - 2rem\)\)/);
 });
 
 test("base layout provides a floating section menu for long pages", async () => {
