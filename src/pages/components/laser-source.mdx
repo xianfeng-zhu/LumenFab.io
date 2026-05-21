@@ -68,30 +68,13 @@ CPO 的基本动机是把光引擎放到 <TermNote label="switch ASIC" note="数
   </li>
 </ol>
 
-后续各节沿这条主线展开。TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容，本页只说明它们会反向要求激光源具备怎样的输出功率、稳定性和可靠性。
+后续各节沿这六个阶段展开。TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容，本页只说明它们会反向要求激光源具备怎样的输出功率、稳定性和可靠性。
 
-## 材料层：为什么是 InP / III-V
+## 1. InP 单晶生长与衬底制备
 
-通信光源通常依赖 III-V 族半导体材料体系。原因在于它需要同时满足发光效率、波长范围、外延兼容性和器件可靠性。
+CPO 通信光源通常依赖 InP 相关 III-V 材料体系。InP 衬底提供晶格匹配、机械支撑和外延起始表面，后续 InGaAsP / InAlGaAs 有源区才在其上形成通信波段光增益。
 
-| 主题 | 要点 |
-|---|---|
-| 直接带隙 | InP 相关 III-V 材料体系适合高效辐射复合。 |
-| 通信波段 | InGaAsP / InAlGaAs 等有源区材料可以覆盖 1310 nm 和 1550 nm 附近通信窗口。 |
-| 衬底平台 | InP 可以作为通信波段激光器的衬底、包层和外延平台。 |
-| 异质集成 | 在硅光系统中，InP / III-V 通常负责发光，Si / SOI 更适合低损耗波导和大规模无源/调制结构。 |
-
-### CPO 场景下的材料选型与温度挑战
-
-在传统可插拔光模块中，激光器工作在 0℃ ~ 70℃ 的模块内部。而在 CPO 场景下，光引擎极其靠近散发巨大热量的 Switch ASIC，环境温度高达 80℃ ~ 100℃。
-
-这直接推动了有源区材料体系的演进：
-- **InGaAsP (铟镓砷磷)**：传统的发光材料。在高温下，其导带偏移较小，电子极易从量子阱中泄漏出来，导致阈值电流急剧上升，发光效率大幅衰减。
-- **InAlGaAs (铝铟镓砷)**：CPO 光源的优选材料体系。它具有更大的导带偏移（Conduction Band Offset），能够强力束缚高温下的注入电子。在 85℃ 甚至更高温度下，InAlGaAs 激光器依然保持高输出功率与低温漂。这一底层材料特性直接决定了 CPO 是需要强 TEC 降温还是能够支持无 TEC（uncooled）工作。
-
-## 晶圆与外延：结构如何长出来
-
-激光器的微观结构通过外延在衬底上形成多层半导体结构。后续会继续补充每一步的工艺窗口和缺陷控制。
+这一阶段的主线是把高纯 In / P 原料变成 epi-ready InP 衬底：
 
 ```text
 high-purity In / P — 高纯铟和磷等原料
@@ -99,6 +82,23 @@ high-purity In / P — 高纯铟和磷等原料
 → single-crystal InP ingot — 单晶 InP 晶锭
 → wafer slicing / lapping / polishing / CMP — 切片、研磨、抛光和平坦化
 → epi-ready InP substrate — 通信波段 III-V 外延的晶圆底座
+```
+
+| 关注点 | 对激光源的影响 |
+|---|---|
+| 纯度 | 金属杂质和残余污染会影响载流子寿命、暗电流和长期可靠性。 |
+| 晶体缺陷 | 位错、夹杂和微裂纹会成为非辐射复合中心或后续失效起点。 |
+| 表面状态 | epi-ready 表面需要足够平整、洁净、晶向受控，才能支撑高质量外延。 |
+| 尺寸与一致性 | 晶圆尺寸、厚度、翘曲和 TTV 会影响后续外延、光刻和切片稳定性。 |
+
+相关基础页：[High-purity raw materials](../../learn/high-purity-raw-materials/)、[Single-crystal growth](../../learn/single-crystal-growth/)、[Wafer slicing, lapping, polishing, and CMP](../../learn/wafer-slicing-lapping-polishing-and-cmp/)、[InP substrate](../../learn/inp-substrate/)。
+
+## 2. 外延生长
+
+外延把激光器的发光能力长在衬底上。MOCVD / MBE 等工艺在 InP 衬底上逐层生长 cladding、SCH、QW / MQW active region 和 contact layer，最终形成能同时限制载流子和光场的异质结结构。
+
+```text
+epi-ready InP substrate — 外延起始表面
 → MOCVD / MBE epitaxy — 外延生长多层半导体结构
 → cladding / SCH / MQW / contact layers — 形成包层、限制层、有源区和接触层
 ```
@@ -109,17 +109,29 @@ high-purity In / P — 高纯铟和磷等原料
 | cladding layer | 通过折射率差限制光场，并提供电流注入路径。 |
 | SCH layer | separate confinement heterostructure，用于约束光场和载流子。 |
 | QW / MQW active region | 电子和空穴复合并产生光增益的核心区域。 |
-| contact layer / metal | 把外部电流注入半导体结构。 |
+| contact layer / metal | 为后续电极和电流注入提供低阻接触基础。 |
 
-## 有源区：电流如何变成光增益
+通信波段通常使用 InGaAsP / InAlGaAs 等有源区材料覆盖 1310 nm 和 1550 nm 附近窗口。CPO 场景中，光引擎靠近高功耗芯片，热环境更严苛；InAlGaAs 这类具有更大导带偏移的材料体系，有助于在高温下限制电子泄漏、降低阈值上升和效率衰减。
 
-半导体激光器通常是电泵浦器件。外部电流先注入电子和空穴；电子和空穴在有源区复合，释放出的能量形成光子。
+## 3. 光栅与波导加工
+
+外延之后，激光器还需要把光场限制在有源区附近，并选择稳定波长。波导负责“让光在哪里走”，DFB 光栅负责“让哪个波长被选中”。
+
+常见结构包括 ridge waveguide、buried heterostructure、etched grating、regrowth grating 等。它们通常通过光刻、刻蚀、再生长和钝化等工艺形成。
+
+<TermNote label="DFB" note="Distributed Feedback，分布式反馈激光器或反馈结构，利用沿腔体分布的光栅选择稳定单模波长。" /> 属于激光器腔体 / 反馈结构。材料名称和有源区名称属于其他层级。DFB 通过沿传播方向分布的光栅提供反馈，使满足 Bragg 条件的波长获得更强选择性。
+
+与只依赖两个端面形成腔体的 Fabry-Perot 激光器相比，DFB 激光器更容易获得稳定单模输出。后续需要补充 Bragg wavelength、grating coupling coefficient、SMSR 和温度漂移之间的关系。
+
+在 CPO 场景中，外部连接器、光纤弯曲、PIC 耦合结构和封装内反射面都会把部分光反馈回激光器。器件侧需要关注隔离度、端面镀膜、反馈容忍度和 RIN 变化；封装侧则需要在光路中控制连接器反射、耦合损耗和光隔离器位置。
+
+## 4. 电极、绝缘与电流限制
+
+半导体激光器通常是电泵浦器件。外部电流先通过 p-contact / n-contact 注入电子和空穴；电子和空穴在有源区复合，释放出的能量形成光子。
 
 有源区通常采用 QW / MQW 结构，以便把载流子限制在较薄区域内，提高复合效率和光增益。当注入带来的增益超过器件内部损耗和输出损耗时，激光器进入阈值以上工作状态，输出稳定激光。
 
-## 激光器内部微观结构
-
-后续 3D 模型应优先服务这一节：读者需要看到电流路径、光场路径、量子阱位置、波导约束和反馈结构之间的空间关系。
+电极、绝缘层、钝化层和电流限制结构决定电流怎样进入有源区，也决定串联电阻、局部发热和横向模式稳定性。后续 3D 模型应优先展示这一部分：读者需要看到电流路径、光场路径、量子阱位置、波导约束和反馈结构之间的空间关系。
 
 | 微观结构 | 说明 |
 |---|---|
@@ -130,29 +142,32 @@ high-purity In / P — 高纯铟和磷等原料
 | ridge waveguide | 限制横向电流和光场，使模式集中在有源区附近。 |
 | facet / coating | 决定端面反射、输出耦合和可靠性风险。 |
 
-## DFB 如何选择波长
+## 5. 解理与端面处理
 
-<TermNote label="DFB" note="Distributed Feedback，分布式反馈激光器或反馈结构，利用沿腔体分布的光栅选择稳定单模波长。" /> 属于激光器腔体 / 反馈结构。材料名称和有源区名称属于其他层级。DFB 通过沿传播方向分布的光栅提供反馈，使满足 Bragg 条件的波长获得更强选择性。
+晶圆完成器件加工后，需要解理成 laser bar，再进一步分割成 laser chip。解理端面同时承担光学腔面和输出窗口的作用，因此端面质量会直接影响反射、损耗、输出耦合和可靠性。
 
-与只依赖两个端面形成腔体的 Fabry-Perot 激光器相比，DFB 激光器更容易获得稳定单模输出。后续需要补充 Bragg wavelength、grating coupling coefficient、SMSR 和温度漂移之间的关系。
+端面处理通常包括清洁、镀膜和检验。高反膜、增透膜或特定反射率膜层会改变腔体损耗和输出耦合比例；端面缺陷、污染或局部热点则可能诱发 COD（catastrophic optical damage）等失效模式。
 
-### CPO 链路中的反射敏感性 (Reflection Sensitivity)
+| 端面相关项 | 影响 |
+|---|---|
+| 解理质量 | 决定腔面平整度、散射损耗和局部缺陷风险。 |
+| AR / HR coating | 控制反射率、输出耦合和外部反馈敏感性。 |
+| bar-level handling | 影响端面污染、机械损伤和后续测试稳定性。 |
+| facet reliability | 影响高功率连续工作下的寿命和失效概率。 |
 
-在自底向上的光路中，DFB 激光器对微小的外部反射光（Reflection）都极其敏感。微弱的回授光会进入 DFB 谐振腔，破坏布拉格光栅选择的单一波长，导致光谱展宽、激射模式不稳定，并大幅度增加相对强度噪声（RIN）。
+## 6. 芯片测试与筛选
 
-在 CPO 场景中，外部连接器、光纤弯曲、PIC 耦合结构和封装内反射面都会把部分光反馈回激光器。器件侧需要关注隔离度、端面镀膜、反馈容忍度和 RIN 变化；封装侧则需要在光路中控制连接器反射、耦合损耗和光隔离器位置。
-
-## 从 laser chip 到器件级供光单元
-
-裸激光器芯片还需要经过器件级筛选、端面处理、基础封装、耦合、热控制和监控，才能作为 TOSA、laser package 或外置光源模块的核心发光单元。
+裸激光器芯片进入封装之前，需要先证明它具备足够稳定的器件级输出能力。测试会覆盖电学、光学、光谱、噪声、温度和早期失效风险。
 
 | 环节 | 作用 |
 |---|---|
-| chip test / burn-in | 筛除早期失效，评估输出功率、阈值、电压和光谱稳定性。 |
-| TOSA / laser package | 把裸芯片、耦合光学、监控探测器和封装接口组织成可用发射组件。 |
-| monitor PD / control loop | 监测输出功率并辅助闭环控制。 |
-| TEC / thermistor | 控制或监测温度，降低波长漂移和功率漂移。 |
-| fiber / lens coupling | 把芯片输出光耦合到光纤、光波导或 optical engine 输入端。 |
+| L-I-V test | 测量阈值电流、斜率效率、工作电压和输出功率。 |
+| spectrum / SMSR | 判断中心波长、边模抑制和单模稳定性。 |
+| RIN / linewidth | 评估噪声、频谱纯度和链路可用性。 |
+| temperature sweep | 观察波长漂移、功率漂移和高温工作余量。 |
+| chip test / burn-in | 暴露早期失效风险，筛选可进入后续封装的芯片。 |
+
+通过筛选的芯片仍需要后续基础封装、耦合、热控制和监控，才能成为 TOSA、laser package 或外置光源模块的核心发光单元。更完整的 wafer-level test、KGD 和 package-level test 放在 [Manufacturing and test](../manufacturing-test/) 展开。
 
 ## 与封装页面的接口
 
