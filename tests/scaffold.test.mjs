@@ -192,7 +192,7 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /ridge waveguide/);
   assert.match(page, /高纯铟和磷等原料/);
   assert.match(page, /通信波段 III-V 外延的晶圆底座/);
-  assert.match(page, /CPO 通信光源通常依赖 InP 相关 III-V 材料体系/);
+  assert.match(page, /面向 1310 nm \/ 1550 nm 通信波段的半导体激光器/);
   assert.match(page, /Bragg wavelength/);
   assert.match(page, /chip test \/ burn-in/);
   assert.match(page, /AR \/ HR coating/);
