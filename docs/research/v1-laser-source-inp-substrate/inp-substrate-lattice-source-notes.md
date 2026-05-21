@@ -44,6 +44,8 @@ Purpose: narrow source pack for enriching `src/pages/components/laser-source.mdx
 ## Writing Takeaways
 
 - InP is useful for telecom laser sources because it is a direct-bandgap III-V platform and because InP-compatible alloys can form active regions in the 1310 nm / 1550 nm windows.
+- The cleaner causal explanation is: telecom wavelength and gain requirements point to InGaAsP / InAlGaAs active regions; those active regions then make InP valuable as a lattice-matched substrate and III-V platform.
+- Pure InP itself should not be described as the usual 1310 nm / 1550 nm gain layer. Its role in this section is substrate / template / cladding platform; the gain layer is generally an alloy quantum-well structure.
 - The substrate acts as a crystal template. Epitaxy tries to continue the atomic ordering of the substrate, so the natural lattice spacing of the deposited layer should be close to the substrate lattice spacing.
 - Ioffe lists InP lattice constant as 5.8687 A. Ioffe also lists GaInAsP lattice-matched alloy parameters with lattice constant 5.8687 A for Ga0.47In0.53As_yP_1-y at 300 K.
 - UCSB tutorial material frames InP as zincblende III-V material and explicitly associates InGaAsP/InP lattice-matched alloys with 1.31 and 1.55 um.
@@ -51,6 +53,8 @@ Purpose: narrow source pack for enriching `src/pages/components/laser-source.mdx
 - Lattice mismatch creates strain. If strain is not kept under control, defects such as misfit dislocations can form and propagate through active layers.
 - Defects and impurities matter because they can provide non-radiative recombination paths, leakage paths, and early reliability failure sites.
 - Freiberger supports the manufacturing chain: high-purity In and P become polycrystalline InP, then VGF single-crystal InP, then wafering, polishing, cleaning and inspection. It also supports EPD as a surface-intersecting dislocation density metric.
+- Freiberger's InP synthesis description supports a useful manufacturing explanation: phosphorus is sublimated in a lower-temperature zone and transported as gas to molten indium; the elements react to form InP; directional solidification and etching prepare material for later single-crystal growth.
+- VGF should be framed as a low-gradient single-crystal growth route used to improve structural perfection and lower dislocation density, followed by slicing, lapping, polishing, CMP, cleaning and inspection before epi-ready use.
 
 ## Boundaries
 

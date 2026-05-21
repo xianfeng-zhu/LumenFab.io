@@ -72,7 +72,9 @@ CPO 的基本动机是把光引擎放到 <TermNote label="switch ASIC" note="数
 
 ## 1. InP 单晶生长与衬底制备
 
-面向 1310 nm / 1550 nm 通信波段的半导体激光器，常建立在 InP 相关 III-V 材料体系上。这里的起点是一片 epi-ready InP 衬底：它先给后续外延提供连续、有方向的晶体模板，再支撑有源区、波导和接触层逐层长出来。
+面向 1310 nm / 1550 nm 通信波段的半导体激光器，常建立在 InP 相关 III-V 材料体系上。更准确的因果顺序是：目标波长和光增益要求先限定有源区材料，再由有源区材料的晶格、带隙和外延条件反推出需要怎样的衬底平台。
+
+1310 nm / 1550 nm 对应的光子能量大约是 0.95 eV / 0.80 eV。纯 InP 的室温带隙约 1.34 eV，对应更短波长；通信波段激光器的主要光增益通常来自 InGaAsP 或 InAlGaAs 量子阱 / 多量子阱。InP 的必要性来自平台匹配：这些有源区材料可以通过成分设计接近 InP 的晶格常数，同时把带隙调到通信波段。
 
 从晶体物理看，衬底最重要的作用是规定原子排列的“节距”。InP 采用 zincblende 晶体结构，晶格常数约为 5.87 A。外延生长时，新沉积的 III-V 材料会沿着衬底表面的晶格继续排列；如果外延层自然希望拥有的原子间距接近 InP，它就能以较低应变长成连续薄层。
 
@@ -82,13 +84,19 @@ CPO 的基本动机是把光引擎放到 <TermNote label="switch ASIC" note="数
 
 因此，InP 衬底这一层决定的并非单一尺寸参数。它同时规定晶格模板、晶向、缺陷底噪、表面粗糙度、污染水平、翘曲和厚度一致性。后续外延、光刻、解理和测试都会把这些起点条件继续放大。
 
-这一阶段的主线是把高纯 In / P 原料变成可以外延的 InP 晶圆：
+从制造角度看，这一步先要把元素级 In / P 变成化学计量和晶向可控的 InP 单晶。难点在于磷属于高蒸气压 Group V 元素，温度升高后容易挥发；合成时需要高压环境和受控温场，让磷以气相进入液态铟并反应形成多晶 InP，再通过定向凝固和后续蚀刻降低非化学计量成分、夹杂和污染。
+
+多晶 InP 之后进入单晶生长。VGF 等工艺用较小温度梯度推进固液界面，使晶体沿种晶方向生长为单晶晶锭。这里控制的是位错密度、掺杂均匀性、电阻率、晶向和应力。晶锭再经过定向、切片、研磨、抛光、CMP、清洗和检测，才成为后续外延可以使用的 epi-ready InP 衬底。
+
+这一阶段的主线可以写成：
 
 ```text
 high-purity In / P — 高纯铟和磷等原料
-→ polycrystalline InP — 多晶 InP 合成
-→ single-crystal InP ingot — 单晶 InP 晶锭
-→ wafer slicing / lapping / polishing / CMP — 切片、研磨、抛光和平坦化
+→ high-pressure InP synthesis — 高压合成多晶 InP，控制磷挥发和化学计量
+→ VGF / single-crystal growth — 长成统一晶向的 InP 单晶晶锭
+→ orientation / slicing — 定向与切片，把晶锭变成晶圆
+→ lapping / polishing / CMP — 研磨、抛光和平坦化，降低损伤和粗糙度
+→ cleaning / inspection — 清洗并检测 EPD、厚度、TTV、bow、warp 和颗粒
 → epi-ready InP substrate — 通信波段 III-V 外延的晶圆底座
 ```
 
@@ -105,6 +113,13 @@ high-purity In / P — 高纯铟和磷等原料
 | 化学计量 | In 与 P 的比例和 Group V 元素挥发需要受控，避免形成富 In / 富 P 缺陷和夹杂。 |
 | 单晶质量 | 位错密度、夹杂和微裂纹会影响外延连续性，并可能成为器件失效起点。 |
 | 几何一致性 | 晶圆厚度、TTV、bow 和 warp 会影响外延均匀性、光刻焦深、解理方向和后续测试稳定性。 |
+
+| 制造环节 | 需要控制的变量 | 影响 |
+|---|---|---|
+| 高压合成 | 磷蒸气压、In/P 化学计量、反应温度和杂质分离。 | 决定多晶 InP 的纯度和后续单晶生长起点。 |
+| 单晶生长 | 温度梯度、固液界面形状、拉晶 / 凝固速率和掺杂均匀性。 | 决定位错密度、晶向、电阻率和晶圆级均匀性。 |
+| 晶圆加工 | 切片方向、研磨损伤、CMP 平坦度、清洗和颗粒控制。 | 决定外延起始表面质量，并影响后续光刻、解理和器件一致性。 |
+| 检测分级 | EPD、TTV、bow、warp、表面粗糙度、颗粒和电学参数。 | 决定这片衬底是否适合进入激光器外延流程。 |
 
 相关基础页：[High-purity raw materials](../../learn/high-purity-raw-materials/)、[Single-crystal growth](../../learn/single-crystal-growth/)、[Wafer slicing, lapping, polishing, and CMP](../../learn/wafer-slicing-lapping-polishing-and-cmp/)、[InP substrate](../../learn/inp-substrate/)。
 
