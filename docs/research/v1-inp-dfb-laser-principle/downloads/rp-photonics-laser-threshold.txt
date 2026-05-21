@@ -1,0 +1,265 @@
+Laser Threshold
+Note: Javascript is disabled in your browser. On this website, it is required for a lot of the functionality, e.g. for page navigation and equations.
+Encyclo&shy;pedia
+Buyer's Guide
+Software
+Consulting
+Encyclopedia
+&hellip; the photonics community’s trusted resource!
+RP Photonics
+›
+Encyclopedia
+›
+Laser threshold
+Enable Javascript in your browser to get the page navigation fully working!
+Laser Threshold
+Author: the photonics expert
+Dr. Rüdiger Paschotta
+(RP)
+Definition
+: an operation condition of a laser where laser emission just starts to occur
+Category
+:
+laser devices and laser physics
+laser physics
+cooperative lasing
+gain efficiency
+in-band pumping
+gain narrowing
+gain saturation
+Kuizenga–Siegman theory
+laser dynamics
+laser gain media
+laser transitions
+laser threshold
+lasing without inversion
+linewidth enhancement factor
+lower-state lifetime
+McCumber theory
+metastable states
+mode competition
+mode hopping
+modes of laser operation
+multiphonon transitions
+non-radiative transitions
+optical pumping
+output coupling efficiency
+parasitic lasing
+population inversion
+pulse generation
+radiation-balanced lasers
+radiative lifetime
+rate equation modeling
+reciprocity method
+relaxation oscillations
+single-frequency operation
+single-mode operation
+slope efficiency
+spatial hole burning
+spiking
+Stark level manifolds
+stimulated emission
+threshold pump power
+thresholdless lasers
+transition cross-sections
+twisted-mode technique
+ultrafast laser physics
+upconversion
+upper-state lifetime
+wavelength tuning
+(more topics)
+Related:
+threshold pump power
+pump parameter
+slope efficiency
+gain clamping
+lasers
+thresholdless lasers
+Q-switched mode locking
+Laser Operation Far Above Threshold
+Fundamental Limitation for sigma–tau Product, Gain Efficiency, and Laser Threshold
+Page views in 12 months: 1551
+DOI
+:
+10.61835/f7d
+Cite the article
+:
+BibTex
+BibLaTex
+plain text
+HTML
+Link to this page!
+LinkedIn
+Content quality and neutrality are maintained according to our
+editorial policy
+.
+Copy to Clipboard
+Download file
+Contents
+What is a Laser Threshold?
+Frequently Asked Questions
+What is a laser threshold?
+What is the physical origin of the laser threshold?
+How can a low laser threshold be achieved?
+Why are most lasers operated well above their threshold?
+What happens just below the laser threshold?
+Can a laser operate without a threshold?
+What is a Laser Threshold?
+The threshold of a
+laser
+is the state where the
+small-signal gain
+just equals the
+resonator
+losses, so that laser emission can just begin. This is the case for a certain pump power (the
+threshold pump power
+), or (for electrically pumped lasers) a certain threshold current. Significant power output, good power efficiency and stable, low-
+noise
+performance require operation well above the threshold. Typically, one operates a laser between 3 and 10 times above threshold.
+Figure 1:
+Output versus input power for an optically pumped laser. The threshold pump power is 5 W, and the slope efficiency is 50%.
+The &ldquo;edge&rdquo; occurring at the threshold is very slightly rounded due to the influence of
+amplified spontaneous emission
+.
+The
+threshold pump power
+can often be quite easily calculated based on the requirement that the small-signal round-trip gain reaches the level of the round-trip power losses at the laser wavelength. See the article on
+threshold pump power
+for an example.
+A low threshold power requires low resonator losses and a high
+gain efficiency
+, the latter being achieved e.g. by using a small laser mode area in an efficient
+gain medium
+with limited emission
+bandwidth
+. The optimization of the laser output power for a given pump power usually involves a compromise between high
+slope efficiency
+and low laser threshold. However, an overall optimization of laser performance may have to take into account additional aspects, such as the achievable
+pulse duration
+in a
+Q-switched laser
+, avoiding
+Q-switching instabilities
+in a
+mode-locked laser
+, or minimizing thermal effects. The question of which value is most appropriate for the threshold pump power is one of the issues of
+laser design
+.
+Even for operation below the laser threshold, the gain medium emits
+luminescence
+(for
+optically pumped
+lasers, this can be called
+fluorescence
+). Above threshold (in continuous-wave operation), the intensity level of the luminescence is typically clamped to values close to that at the laser threshold (&rarr;
+gain clamping
+). Just below threshold, a laser already emits some power which results from
+amplified spontaneous emission
+and has a
+bandwidth
+which is large compared with the above-threshold laser emission, but small compared with the regular luminescence bandwidth.
+The fundamental origin of the laser threshold is the power loss via luminescence into a large number of spatial modes (propagating in all directions). Under certain circumstances, it is possible to obtain a
+thresholdless laser
+by suppressing the luminescence with a microcavity. That can be realized, for example, based on the principle of photonic band gaps in
+photonic crystals
+.
+Most lasers are operated with a pump power which is just a few times the
+threshold pump power
+, i.e., the
+pump parameter
+is often order of 3–10. This is often a good regime, since a lower threshold could not significantly increase the
+efficiency
+but could introduce problems related to, e.g., too high intracavity intensities.
+Frequently Asked Questions
+This FAQ section was generated with AI based on the article content and has been reviewed by the article’s author (
+RP
+).
+What is a laser threshold?
+The threshold of a laser is the operating point where the optical
+small-signal gain
+just equals the losses of the
+laser resonator
+. Laser emission begins for a pump power above the corresponding
+threshold pump power
+.
+What is the physical origin of the laser threshold?
+The fundamental origin of the laser threshold is the power loss from
+luminescence
+(spontaneous emission) into a large number of spatial modes. Lasing starts only when stimulated emission into the laser mode is strong enough to overcome all resonator losses.
+How can a low laser threshold be achieved?
+A low threshold power requires minimizing resonator losses and maximizing the
+gain efficiency
+. High gain efficiency can be achieved by using an efficient
+gain medium
+with a small laser mode area and a limited emission
+bandwidth
+.
+Why are most lasers operated well above their threshold?
+Lasers are typically operated at 3 to 10 times their threshold power to achieve significant power output, good power efficiency, and stable, low-
+noise
+performance.
+What happens just below the laser threshold?
+Just below threshold, a laser emits some power from
+amplified spontaneous emission
+(ASE). This emission has a
+bandwidth
+which is broader than the laser light above threshold but narrower than the regular
+luminescence
+bandwidth.
+Can a laser operate without a threshold?
+Yes, under certain circumstances, it is possible to build a
+thresholdless laser
+. This is achieved by suppressing spontaneous emission into unwanted modes, for example by using a microcavity based on a
+photonic crystal
+.
+Questions and Comments from Users
+Here you can submit
+questions and comments
+. As far as they get accepted by the author, they will appear above this paragraph together with the author&rsquo;s answer. The
+author
+will decide on acceptance based on certain
+criteria
+. Essentially, the issue must be of sufficiently broad interest.
+Please do not enter personal data here. (See also our
+privacy declaration
+.) If you wish to receive personal feedback or
+consultancy
+from the author, please contact him, e.g. via
+e-mail
+.
+Your question or comment:
+Spam check:
+(Please enter the sum of thirteen and three in the form of digits!)
+By submitting the information, you give your consent to the potential publication of your inputs on our website according to our
+rules
+. (If you later retract your consent, we will delete those inputs.) As your inputs are first reviewed by the author, they may be published with some delay.
+Video on the Software RP Fiber Power
+Our nice video explains in detail how
+computer simulations
+greatly support research and development.
+Some key points:
+Breakthrough in usability: the great
+Power Forms
+cover most cases.
+They combine great flexibility with easy use.
+Learn more on
+RP Fiber Power!
+Company
+About
+Managing director
+Data privacy
+Contact and legal info
+Encyclopedia
+About
+Photonics Spotlight
+Photonics Quiz
+Sponsoring
+Marketing
+LinkedIn
+RP Photonics on LinkedIn
+RP on LinkedIn
+Explore this resource with our tour!
+&copy; RP Photonics AG. All rights reserved.
+Please respect our
+terms of use
+.

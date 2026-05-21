@@ -52,6 +52,7 @@ Saved under:
 | NANOPLUS-DFB | `nanoplus-dfb-laser-concept.pdf` | `nanoplus-dfb-laser-concept.txt` | saved |
 | RP-DFB | `rp-photonics-distributed-feedback-lasers.html` | `rp-photonics-distributed-feedback-lasers.txt` | saved |
 | RP-LASER-DIODES | `rp-photonics-laser-diodes.html` | `rp-photonics-laser-diodes.txt` | saved |
+| RP-LASER-THRESHOLD | `rp-photonics-laser-threshold.html` | `rp-photonics-laser-threshold.txt` | saved |
 | MIT-6.772-DFB | `mit-6-772-lecture21-dfb-dbr-lasers.pdf` | `mit-6-772-lecture21-dfb-dbr-lasers.txt` | saved |
 | MIT-3.46-LASERS | `mit-3-46-lecture11-optical-amplifiers-and-lasers.pdf` | `mit-3-46-lecture11-optical-amplifiers-and-lasers.txt` | saved |
 | UGENT-INP-SI-DFB | `ugent-multisection-inp-on-silicon-dfb-laser-diodes-phd.pdf` | `ugent-multisection-inp-on-silicon-dfb-laser-diodes-phd.txt` | saved |
@@ -124,6 +125,7 @@ Saved images:
 | NANOPLUS-DFB | nanoplus Technical Note: DFB Laser Concept | Vendor technical note | DFB ridge-waveguide / metal-grating concept, CW spectrum, mode-hop-free tuning, p-n junction and quantum-well structure cues. | Medium-high | downloaded |
 | RP-DFB | RP Photonics Encyclopedia: Distributed Feedback Lasers | Professional encyclopedia | Clear DFB definition, phase shift, grating integration, single-frequency behavior, linewidth and optical-feedback sensitivity. | High | downloaded |
 | RP-LASER-DIODES | RP Photonics Encyclopedia: Laser Diodes | Professional encyclopedia | Electrical pumping through p-n / p-i-n junctions, carrier recombination, quantum wells, InGaAsP/InP material system, threshold and reliability concepts. | High | downloaded |
+| RP-LASER-THRESHOLD | RP Photonics Encyclopedia: Laser Threshold | Professional encyclopedia | Laser threshold as the point where optical small-signal gain equals resonator losses; below threshold emission is dominated by spontaneous or amplified spontaneous emission; lasing starts when stimulated emission into the laser mode overcomes losses. | High | downloaded |
 | MIT-6.772-DFB | MIT OCW 6.772 Lecture 21: Compound Semiconductor Devices | University lecture | DFB/DBR boundary, quantum-well active-layer evolution, mode stabilization and quarter-wave shift. | High | downloaded |
 | MIT-3.46-LASERS | MIT OCW 3.46 Lecture 11: Optical Amplifiers and Lasers | University lecture | Stimulated emission, gain, threshold, cavity modes, single-frequency methods and DFB/DBR sketches. | High | downloaded |
 | UGENT-INP-SI-DFB | Multi-Section InP-on-Silicon DFB Laser Diodes: Optimisations and Applications | Doctoral thesis | Detailed overview of laser diode physics, MQW materials, DFB grating, phase shift, III-V-on-Si tradeoffs and EML context. | High | downloaded |
@@ -249,6 +251,32 @@ What it supports:
 Use in page:
 
 - Use as the main source for the first-principles laser-diode chain: injection, recombination, gain, threshold and reliability.
+
+### RP-LASER-THRESHOLD: Laser Threshold
+
+URL: https://www.rp-photonics.com/laser_threshold.html
+
+Type: professional encyclopedia
+
+Publisher / organization: RP Photonics
+
+Date accessed: 2026-05-22
+
+Local files:
+
+- `downloads/rp-photonics-laser-threshold.html`
+- `downloads/rp-photonics-laser-threshold.txt`
+
+What it supports:
+
+- Laser threshold is the operating point where optical small-signal gain just equals resonator losses.
+- Below threshold, the gain medium can still emit light through spontaneous emission or amplified spontaneous emission.
+- Lasing starts when stimulated emission into the selected laser mode becomes strong enough to overcome losses.
+- Practical operation often occurs above threshold to obtain significant output power, better efficiency and stable performance.
+
+Use in page:
+
+- Use for the fourth principle-overview card in `src/pages/components/laser-source.mdx`: explain the transition from weak spontaneous emission to threshold and above-threshold laser oscillation.
 
 ### MIT-6.772-DFB: Lecture 21, Compound Semiconductor Devices
 
