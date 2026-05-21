@@ -183,7 +183,7 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /## 器件评价指标/);
   assert.match(page, /## 总结：一颗 CPO 激光源从哪里来/);
   assert.match(page, /CPO 光引擎需要稳定、足够功率、可长期工作的连续光/);
-  assert.match(page, /系统摆放问题放到一边/);
+  assert.match(page, /将系统摆放问题暂时剥离/);
   assert.match(page, /激光器如何从材料、外延和芯片工艺中形成/);
   assert.match(page, /激光器的最低层原理是电子能量转换/);
   assert.match(page, /器件制造总览/);
@@ -208,12 +208,12 @@ test("light source component page is organized as a focused laser-source page", 
   assert.doesNotMatch(page, /## CPO 里的光源放置方式/);
   assert.doesNotMatch(page, /ELSFP 外置光源模块/);
   assert.match(page, /QW \/ MQW 有源区/);
-  assert.match(page, /材料名称和有源区名称属于其他层级/);
+  assert.match(page, /这对应两个不同层级/);
   assert.match(page, /光学输出/);
   assert.match(page, /噪声与单模性/);
   assert.match(page, /电热效率/);
   assert.match(page, /器件接口/);
-  assert.match(page, /相关参考页会继续保留/);
+  assert.match(page, /进一步阅读/);
   assert.match(page, /\.\.\/\.\.\/learn\/inp-dfb-laser-principle\//);
   assert.match(page, /OIF: External Laser Small Form Factor Pluggable/);
 });

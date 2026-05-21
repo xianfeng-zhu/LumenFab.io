@@ -1,0 +1,665 @@
+6.772/SMA5111 - Compound Semiconductors
+
+Lecture 19 - Laser Diodes, 1 - Outline�
+• Final Waveguide and LED comments (continued from Lect. 18)
+Haus resonant corners - experimental data��
+New LED foils for Lect. 18��
+
+• Stimulated emission and optical gain��
+Absorption, spontaneous emission, stimulated emission
+Threshold for optical gain
+
+• Laser diode basics �
+
+(as far as we get; to be cont. in Lect. 20)
+
+Lasing and condition at threshold��
+Threshold current density��
+Differential quantum efficiency��
+Cavity design (in-plane geometries)��
+
+Vertical structure: �homojunction��
+double heterojunction �
+quantum well��
+Lateral definition: �stripe contact �
+buried heterostructure �
+shallow rib��
+End-mirror design: cleaved facet
+etched facet
+distributed feedback, Bragg reflector�
+
+C. G. Fonstad, 4/03 �
+
+Lecture 19 - Slide 1
+
+Achieving compact rectangular waveguide layouts��
+
+•�Resonator made using new 90˚ corners - example
+fabricated using polysilicon on silicon dioxide
+
+Q of resonance indicates 0.3 dB loss per corner��
+[Unpublished data reported in PhD thesis of Desmond Lim Siong, EECS, MIT, June
+2000; figure taken from LEOS Tutorial "High Density Optical Integration," by
+Hermann A. Haus, presented at LEOS, Glasgow, 2002.
+Lecture 19 - Slide 2
+
+C. G. Fonstad, 4/03�
+Images courtesy of Desmond Lim Siong. Used with permission.
+
+Light emitting diodes: radiative efficiency, cont��
+Calculation of lifetimes for Si and GaAs using some
+representative parameter values:
+Density of non-radiative centers, Nnr =
+Non-radiative center cross-section, snr =
+Thermal velocity, vth =
+Doping level, NAp = po =
+
+1015 cm-3
+10-15 cm2�
+107 cm s-1�
+1017 cm-3�
+
+Quantity
+
+GaAs
+
+B
+
+7.2 x 10-10 cm3 s-1
+
+1.8 x 10-15 cm3 s-1
+
+tr [= 1/Bpo]
+
+1.4 x 10-8 s
+
+5.6 x 10-3 s
+
+tnr [= 1/rnrvthNnr]
+
+1.0 x 10-7 s
+
+1.0 x 10-7 s
+
+hr [= 1/(1+tr/tnr)]
+
+0.88
+
+1.8 x 10-5
+
+C. G. Fonstad, 4/03
+
+Si��
+
+Lecture 19 - Slide 3�
+
+Light emitting diodes: current efficiency, hi
+Evaluating hi for several different diodes:
+1. Long-base homojunction
+2. Long-base heterojunction
+3. Double heterojunction
+
+hi ≡
+
+1. Long-base, n+-p homojunction
+È D
+Dh ˘ qv
+2
+e
+iD = qAn i Í
++
+e
+*
+* ˙(
+Î N Ap w p N Dn w n ˚
+
+A
+J e (0 + ) - J e ( w p )
+iD
+
+[
+
+AB / kT
+
+]
+
+-1)
+
+È D ˘
+If w p >> Le , then AJ e (0 ) ª qAn Í e ˙(e qv AB / kT -1)
+Î N Ap Le ˚
+and AJe ( w p ) ª 0��
++
+
+2
+i
+
+Using these results we find:
+1
+Dh Le N Ap
+hi =
+, where we introduce de ≡
+⋅ *⋅
+1+ de
+De w n N Dn
+C. G. Fonstad, 4/03
+
+Note: we want de small, to make hi near one.
+
+Lecture 19 - Slide 4
+
+Light emitting diodes: current efficiency, hi
+2. �
+Long-base N-p heterojunction �
+Continue with assumption that wp >> L�
+e
+Assume no conduction band spike (i.e., spike graded out) �
+
+In this case: �
+2
+ÈD n 2
+˘
+D
+n
+qv / kT
+e iNBG
+h iWBG
+iD = qAÍ
++
+-1)
+e
+˙
+(
+*
+N Dn w n ˚
+Î N Ap Le
+and
+ÈD n2 ˘
++
+AJe (0 ) ª qAÍ e iNBG ˙(e qv / kT -1), AJe ( w p ) ª 0
+Î N Ap Le ˚
+AB
+
+AB
+
+Thus in this device:��
+2
+Dh Le N Ap n iWBG
+Dh Le N Ap -DE / kT
+de =
+⋅ * ⋅� ⋅ 2� =
+⋅ *⋅
+⋅e
+De w n N Dn n iNBG De w n N Dn
+g
+
+Note: If there is a spike DEg is replaced by DEv.
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 5�
+
+Light emitting diodes: current efficiency, hi
+3. ��
+Double heterojunction, N-p-P
+In the single heterojunction device the current �
+efficiency is already essentially 100%. Adding a
+second heterojunction makes Je(wp) = 0 even if the
+narrow bandgap p-region is narrow, and makes it �
+possible to reach high level injection uniformly
+throughout the p-region.
+With a heterojunction on the p-side of the device �
+the electrons injected into this side will be blocked �
+at the p-P heterojunction, and will "pile-up" in �
+the narrow bandgap p-region.�
+w�
+We can write:
+n'(x)dx
+n'(0)w p
+Ú
+0
+iD = qA
+ª qA
+t�
+t�
+e�
+e
+2
+n
+= qAw p iWBG (e qv / kT -1)
+N Ap t e
+p
+
+AB
+
+C. G. Fonstad, 4/03�
+
+Lecture 19 - Slide 6��
+
+Light emitting diodes: current efficiency, hi
+3. ��
+Double heterojunction, N-p-P, cont. �
+One interesting consequence of using a second �
+heterojunction can be seen by comparing the �
+diode currents in cases 2 and 3: �
+2
+n iWBG
+qv / kT
+qAw p�
+e
+-1)
+(
+w�
+wp
+N Ap t e
+iD,DH
+p Le
+=
+=
+=
+2
+Dn
+iD,SH
+De t e
+L�
+e
+qA e iWBG (e qv / kT -1)�
+N Ap Le�
+We see from this result that the current will be��
+smaller for a given applied bias in the DH diode.��
+Another interesting and useful result we can
+obtain from the double heterojuction analysis, is
+an expression for the excess population in the pregion in terms of the diode current:
+t��
+e
+n' ª p' ª
+iD
+qAw p
+AB
+
+AB
+
+C. G. Fonstad, 4/03�
+
+Lecture 19 - Slide 7�
+
+Light emitting diodes: current efficiency, hi
+3. ��
+Double heterojunction, N-p-P, cont.
+The next step we should take is to recognize that te
+becomes a function of p' at high injection levels, so we
+should write:
+iD
+p' ª
+qV p [ A + B p
+(��
+o + p')]
+(We have introduced Vp, the volume of the p-region(= wpA), to
+avoid confusing the A in the lifetime with the area A.)
+
+Solving for p' we have:
+
+2
+ˆ
+Ê
+Ê A + Bpo ˆ
+iD
+A + Bpo
+p' =�
++Á
+˜ -Á
+˜
+qV p B Ë 2B ¯ Ë 2B ¯
+
+(You might want to check that this result is consistent with our
+LLI result that p' is linearly proportional to iD at LLI. It is. )
+
+Finally, we could use this result to quantify the increase
+in hrad at HLI:
+1
+hrad =
+1+ A [ B( po + p')]
+C. G. Fonstad, 4/03�
+
+Lecture 19 - Slide 8�
+
+Light emitting diodes: fighting total internal reflection��
+Transferred substrate technology
+
+LED heterostructure
+etched free of its GaAs
+substrate, and a GaP.
+
+Comparisons of emission and
+structures of conventional and
+transferred substrate LEDs.
+
+(Images deleted)
+See Kish et al, Appl. Phys. Lett. 64 (1994) 2839-2841.
+
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 9�
+
+Materials for Red LEDs: GaAsP, AlInGaP, and GaP
+Modern AlInGaP
+red LEDs grown
+lattice-matched
+on GaAs, and
+then transferred
+to GaP substrates
+- Kish, et al, APL 64
+(1994) 2838. �
+
+GaP red LEDs�
+grown GaP and�
+based on Zn-O�
+pair transitions�
+Early GaAsP red
+LEDs grown on a
+linearly graded
+buffer on GaAs
+- Holonyak and Bevacqua,
+APL 1 (1962) 82.
+
+C. G. Fonstad, 2/03
+
+Lecture 19 - Slide 10
+
+Laser diodes: comparing LEDs and laser diodes��
+Light emitting diodes vs. Laser diodes��
+LEDs are based on spontaneous emission, and have��
+1. A broad output beam that is hard to capture and focus��
+2. A relatively broad spectral profile
+3. Low to moderate overall efficiency
+4. Moderate to high speed (≈ 1/tmin)
+
+Laser Diodes are based on stimulated emission, and
+have the opposite characteristics
+1. Narrow, highly directed output
+2. Sharp, narrow emission spectrum
+3. High differential and overall efficiency��
+4. High to very high speed
+
+Stimulated emission occurs when a passing photon triggers
+the recombination of an electron and hole, with emission
+of a second photon with the same frequency (energy),
+momentum, and phase.
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 11�
+
+Laser diodes: achieving stimulated gain��
+To understand what is necessary to obtain net optical
+gain, rather than net absorption, we consider optical
+transitions between two levels in a solid (E1 and E2),
+and we look at three transitions occuring with the
+absorption or emission of photons:
+from E1 to E2 due to absorption
+from E2 to E1 due to spontaneous emission
+from E2 to E1 due to stimulated emission
+We model the rate of each process using the Einstein A
+and B coefficients, and then find when the probability
+is higher that a photon passing will stimulate emission
+than be absorbed.
+In a semiconductor we consider one state, E1, to be in the
+valence band, and the other, E2 to be in the conduction
+band.
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 12�
+
+Laser diodes: achieving stimulated gain, cont��
+Absorption rate:
+Rab = B12 ⋅ f1 ⋅ N v (E1 ) ⋅ (1- f 2 ) ⋅ N c (E 2 ) ⋅ r p ( E 2 - E1 )
+where
+B12:
+N v:
+N c:
+rp(E2-E1):
+fi:
+
+transition probability for absorption
+valence band density of states at E1
+conduction band density of states at E2
+density of photons with correct energy
+Fermi function evaluated at Ei
+
+(
+
+E -E fi
+
+fi = 1 e i
+
+)
+
++1
+
+where��
+Efi: quasi-Fermi level for level i��
+
+Spontaneous emission rate:
+Rsp = A21 ⋅ f 2 ⋅ N c (E 2 ) ⋅ (1- f1 ) ⋅ N v (E1 )
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 13�
+
+Laser diodes: achieving stimulated gain, cont��
+In the last equation we introduced: �
+A21: transition probability for spontaneous emission �
+
+Stimulated emission rate:
+Rst = B21 ⋅ f 2 ⋅ N c (E 2 ) ⋅ (1- f1 ) ⋅ N v (E1 ) ⋅ r p ( E 2 - E1)
+where
+B21: transition probability for stimulated emission
+Note, finally, that in these expressions the Fermi function is evaluated
+either in the conduction band (i = 2) or valence band (i =1):
+
+(
+
+E -E fv
+
+f1 = 1 e 1
+
+)
+
++1 ,
+
+(
+
+E -E fc
+
+f2 = 1 e 2
+
+)
+
++1
+
+****************�
+
+The coefficients, A21, B12, and B21, are related, as we can�
+see by looking at thermal equilibrium, where�
+8p ro3 2
+1
+Rab = Rsp + Rst , E fv = E fc , r p (E i ) = 3 3 E i E / kT
+hc
+(e -1)
+i
+
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 14�
+
+Laser diodes: achieving stimulated gain, cont��
+Proceeding in this we we find:
+8p ro3 E i2
+B12 = B21, and A21 =
+B21
+3 3
+hc
+**************��
+
+Now we are ready to find the condition for optical gain,��
+which we take as when the probability of stimulated��
+emission is greater than that for absorption. Looking��
+back at our equations, we find Rst > Rab leads to:��
+B21 ⋅ f 2 N c ⋅ (1- f1 ) N v ⋅ r p ( E 2 - E1 ) > B12 ⋅ f1N v ⋅ (1- f 2 ) N c ⋅ r p ( E 2 - E1 )
+
+Canceling equivalent terms yields:
+f 2 (1- f1 ) > f1 (1- f 2 )
+and substituting the appropriate Fermi functions gives
+us:
+E fc - E fv > ( E 2 - E1 ) = hu ≥ E g
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 15�
+
+Laser diodes: achieving stimulated gain, cont.��
+Our conclusion is that we will have net optical gain, i.e.,��
+more stimulated emission than absorption, when we��
+have the quasi-Fermi levels separated by more than��
+the band gap. This in turn requires high doping and��
+current levels. It is the equivalent of population��
+inversion in a semiconductor: E - E > E��
+fc
+fv
+g
+**************
+
+Next we relate the absorption coefficient, a, to Rab, Rst,
+and Rsp. A bit of thought shows us that we can say:
+Rab (E ) > [ Rst (E ) + Rsp (E )] ª Rst (E ) Æ a (E ) > 0
+Net loss
+Net gain
+Rab (E ) < [ Rst (E ) + Rsp (E )] ª Rst (E ) Æ a (E ) < 0
+Rab (E ) = [ Rst (E ) + Rsp (E )] ª Rst (E ) Æ a (E ) = 0 Æ E = E fc - E fv
+Notes: Spontaneous emission is negligible because it is randomly��
+directed. It starts the lasing process, but it does not sustain it.�
+The point at which a = 0 is called the transparency point.�
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 16�
+
+Laser diodes: optical gain coefficient, g(E)��
+The negative of the absorption coefficient is defined as �
+the gain coefficient:
+g(E) ≡ a (E) �
+Writing the light intensity in terms of g(E) we have:��
+L(E, x) = Lo (E)e-a (E ,)x = Lo (E)e g(E ,)x
+************** �
+
+Stimulated recombination is proportional to the carrier �
+populations, and in a semiconductor one carrier is �
+usually in the minority and its population is the one �
+that changes significantly with increasing current �
+injection. If we assume p-type material, we have: �
+g > 0 Æ n > n tr
+To first order, the gain will be proportional to this �
+population, to the extent that it exceeds the �
+transparency level:
+g @ G(n - n tr ) �
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 17�
+
+Laser diodes: threshold current�
+
+We not look at a laser diode and calculating the threshold�
+current for lasing, and the light-current relationship�
+Lasing will be sustained when the optical gain exceeds the
+optical losses for a round-trip in the cavity.
+The threshold current is the current level above which
+this occurs.
+
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 18
+
+Laser diodes: threshold current, cont.��
+Track the light intensity on a full circuit, beginning with Io�
+just inside the facet at x = 0+, and directed to the right: �
+At x = 0 + , directed to the right, I(0 + ) = Io
+At x = L-, directed to the right, I(L- ) = Ioe( g-a ) L
+At x = L-, directed to the left, I(L- ) = R 2 Ioe( g -a ) L
+At x = 0 + , directed to the left, I(0 + ) = R2 Ioe( g -a ) 2L
+At x = 0 + , directed to the right, I(0 + ) = R1 R2 Ioe( g-a ) 2L
+For sustained lasing we must have the intensity after a full
+circuit be equal to, or greater than, the initial intensity:
+R1 R2 Ioe( g-a ) 2L ≥ Io
+This leads us to identify the threshold gain, gth:
+1 Ê 1 ˆ
+ln Á
+gth ≡ a L +
+˜
+2L Ë R1 R2 ¯
+We next relate gth to the diode current to get the threshold
+current.
+L
+
+L
+
+L
+
+L
+
+L
+
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 19�
+
+Laser diodes: threshold current, cont.��
+To relate this threshold gain to current we recall that the
+gain is proportional to the carrier population in excess of
+the transparency value, and that the population will in
+general be proportional to the current:
+gªG n
+- n tr ) = G'G( n - n tr )
+(��
+n ª KiD�
+where
+G': the portion of G due to material parameters alone
+G: the portion of G due to geometrical factors (i.e., the
+overlap of the optical mode and the active medium)
+K: a proportionality factor that depends on the device��
+structure, which we will determine in specific
+situations later
+
+Writing g in terms of iD, and setting it equal to gth, yields:
+1 Ê 1 ˆ
+ln Á
+gth = G' G (KIth - n tr ) = a L +
+˜
+2L Ë R1 R2 ¯
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 20�
+
+Laser diodes: threshold current, cont.��
+Which we can finally solve for the current to arrive at the
+expression for the threshold current:
+˘�� ˆ
+1�Ê�1� È�� 1 � Ê� 1 ˆ�
+Ith�=� ÁÁ� Ía L +
+ln�
+Á
+˜˙ + n tr�˜˜
+K�G'G��
+2L� Ë�
+R1 R2�¯�
+˚� ¯�
+Ë�� Î
+This will take on more meaning as we look at specific
+laser diode geometries and quantify the various
+parameters.
+***************
+
+Note: Above threshold, all of the additional excitation
+fuels stimulated recombination and n' stays fixed at its
+threshold value. So to does Efn - Efp, which implies that
+the junction voltage is also pinned.
+
+C. G. Fonstad, 4/03
+
+Lecture 19 - Slide 21�
+
+
