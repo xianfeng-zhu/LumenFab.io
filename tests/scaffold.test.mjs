@@ -175,6 +175,7 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /DFB、CW、MWL 等光源器件的关键指标/);
   assert.match(page, /## 本页定位/);
   assert.match(page, /## 为什么 CPO 需要稳定光源/);
+  assert.match(page, /## 原理总览：激光器如何把电流变成稳定光源/);
   assert.match(page, /## 总览：从 InP 衬底到激光器芯片/);
   assert.match(page, /## 1\. InP 单晶生长与衬底制备/);
   assert.match(page, /## 2\. 外延生长/);
@@ -186,7 +187,8 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /## 器件评价指标/);
   assert.match(page, /## 总结：一颗 CPO 激光源从哪里来/);
   assert.match(page, /CPO 光引擎需要稳定、足够功率、可长期工作的连续光/);
-  assert.match(page, /将系统摆放问题暂时剥离/);
+  assert.match(page, /理解激光源可以先沿一条原理链前进/);
+  assert.match(page, /DFB 光栅选择稳定单一波长/);
   assert.match(page, /激光器如何从材料、外延和芯片工艺中形成/);
   assert.match(page, /激光器的最低层原理是电子能量转换/);
   assert.match(page, /器件制造总览/);

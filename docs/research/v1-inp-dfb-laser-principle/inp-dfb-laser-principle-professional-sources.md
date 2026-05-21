@@ -23,6 +23,16 @@ Cover:
 - Why DFB gratings favor stable single-frequency / single-longitudinal-mode output.
 - How DFB laser metrics connect to CPO light-source needs: CW power, wavelength, linewidth, RIN, SMSR, temperature stability, coupling and reliability.
 
+Also use this source pack to support the component-page principle overview in `src/pages/components/laser-source.mdx`. That overview should summarize the laser-source logic before the manufacturing flow:
+
+1. A laser source converts electrical energy into ordered optical output.
+2. InP-related III-V materials matter because direct-bandgap active regions can be engineered for 1310 nm / 1550 nm gain.
+3. Forward-biased p-n / p-i-n heterostructures inject electrons and holes into the active region; quantum wells improve carrier confinement and gain.
+4. Stimulated emission, optical gain and threshold distinguish laser operation from ordinary spontaneous emission.
+5. Waveguides, claddings, cavities and facets confine light and provide feedback.
+6. DFB gratings provide distributed wavelength-selective feedback and help stabilize single-longitudinal-mode output, measured by SMSR, linewidth and wavelength stability.
+7. Real devices are constrained by high-power CW operation, heat, noise, optical feedback, reliability, coupling interfaces and manufacturing consistency.
+
 Keep out:
 
 - Full raw-material and wafer supply-chain detail. Link to `InP substrate` and raw-material pages instead.
