@@ -1,0 +1,215 @@
+Encyclo­pedia
+Buyer's Guide
+Software
+Consulting
+
+Encyclopedia … the photonics community’s trusted resource!
+
+RP Photonics › Encyclopedia › Distributed feedback lasers
+
+Distributed Feedback Lasers
+Author: the photonics expert Dr. Rüdiger Paschotta (RP)
+50 suppliers for distributed feedback lasers
+are found in the RP Photonics Buyer's Guide. Among them:
+
+
+
+
+
+
+
+
+
+
+
+
+
+Find more supplier details at the end of this Encyclopedia article, or go to our
+List of suppliers of
+distributed feedback lasers
+You are a not yet listed supplier? Start with a free entry!
+Using our Advertising Package, you can display your logo, further below your product description, and these will been seen by many photonics professionals.
+Related Application Note from Innolume:
+
+Ask RP Photonics for advice concerning different kinds of single-frequency lasers.
+Acronym: DFB lasers
+Definition: lasers where the whole laser resonator consists of a periodic structure, in which Bragg reflection occurs
+Categories:  optical resonators,  optoelectronics,  laser devices and laser physics
+	•	light sources
+	◦	lasers
+	▪	solid-state lasers
+	▪	diode-pumped lasers
+	▪	lamp-pumped lasers
+	▪	distributed feedback lasers
+	▪	(more topics)
+Related: single-frequency operationsingle-frequency lasersdistributed Bragg reflector lasersfiber Bragg gratingsfiber laserssemiconductor lasers
+Page views in 12 months: 4213
+DOI: 10.61835/gdn   Cite the article: BibTex BibLaTex plain textHTML   Link to this page!   LinkedIn
+Content quality and neutrality are maintained according to our editorial policy.
+📦 For purchasing, use the RP Photonics Buyer's Guide for distributed feedback lasers. It provides an expert-curated supplier directory, buyer-focused technical background information, and structured selection criteria to support professional procurement decisions.
+Contents
+What are Distributed Feedback Lasers?
+Types of DFB Lasers
+Fiber Lasers
+Diode Lasers
+Quantum Cascade DFB Lasers
+Sensitivity to Feedback
+Frequently Asked Questions
+What is a distributed feedback (DFB) laser?
+Why do DFB lasers operate on a single frequency?
+What are the common types of DFB lasers?
+What limits the performance of DFB fiber lasers?
+How are DFB diode lasers constructed?
+What are Distributed Feedback Lasers?
+A distributed-feedback laser (DFB laser) is a laser where the whole resonator consists of a periodic structure in the laser gain medium, which acts as a distributed Bragg reflector in the wavelength range of laser action. Typically, the periodic structure is made with a phase shift in its middle. Essentially, one has a direct concatenation of two Bragg gratings with optical gain within the gratings. The device has multiple axial resonator modes, but there is typically one mode which is favored in terms of losses. (This property is related to the above-mentioned phase shift.) Therefore, single-frequency operation is often easily achieved, despite spatial hole burning due to the standing-wave pattern in the gain medium. Due to the large free spectral range, wavelength tuning without mode hops may be possible over a range of several nanometers. However, the tuning range may not be as large as for a distributed Bragg reflector laser.
+
+Figure 1: DFB fiber laser, containing a fiber Bragg grating with a phase change in the middle, directly written into a rare-earth-doped fiber.
+DFB lasers should not be confused with DBR lasers = distributed Bragg reflector lasers.
+Types of DFB Lasers
+Most distributed-feedback lasers are either fiber lasers or semiconductor lasers, operating on a single resonator mode (→ single-frequency operation).
+Fiber Lasers
+In the case of a fiber laser, the distributed reflection occurs in a fiber Bragg grating, typically with a length of a few millimeters or centimeters. Efficient pump absorption can be achieved only with a high doping concentration of the fiber, and unfortunately it is often not easy to write high contrast Bragg gratings into fibers with a composition (e.g. phosphate glass) which allows for a high doping concentration. Therefore, the output power is usually fairly limited (e.g. to a few tens of milliwatts), and the power conversion efficiency is small. However, this kind of single-frequency fiber laser is very simple and compact. Its compactness and robustness also leads to a low intensity and phase noise level, i.e., also a low linewidth, although the fundamental linewidth limit (the Schawlow–Townes linewidth) is higher than for longer fiber lasers.
+Diode Lasers
+
+Figure 2: A distributed feedback laser in a butterfly package. Image courtesy: Aerodiode
+Semiconductor DFB lasers can be built with an integrated grating structure, e.g. a corrugated waveguide. The grating structure may be produced on top of the active region, which however requires time-consuming regrowth techniques. An alternative is to make laterally coupled structures, where the gratings are on both sides of the active region. Semiconductor DFB lasers are available for emission in different spectral regions at least in the range from 0.8 μm to 2.8 μm.
+Typical output powers are some tens of milliwatts. The linewidth is typically between a few MHz (telecom DFB lasers) and 100 MHz (unoptimized low-cost devices); high-quality low-noise DFB lasers can go substantially below 1 MHz. Wavelength tuning is often possible over several nanometers. Temperature-stabilized devices, as used e.g. in DWDM systems, can exhibit a high wavelength stability.
+Quantum Cascade DFB Lasers
+While traditional semiconductor DFB lasers cover the near-infrared range (e.g., 0.8 μm to 2.8 μm), distributed feedback structures are also commonly applied to quantum cascade lasers (QCLs) to achieve single-frequency emission in the mid-infrared spectral region (e.g., 4 μm to 10 μm and beyond). These devices are particularly important for sensitive gas sensing applications (trace gas analysis) where strong fundamental absorption lines of molecules exist.
+Sensitivity to Feedback
+DFB lasers are generally quite sensitive to optical feedback (back-reflections from fibers or other components). Such feedback can disturb the single-frequency operation, increase the linewidth, or cause instability (“coherence collapse”). Therefore, they are very often operated with an optical isolator, which may be integrated directly into the laser package (e.g., in a butterfly package).
+Frequently Asked Questions
+This FAQ section was generated with AI based on the article content and has been reviewed by the article’s author (RP).
+What is a distributed feedback (DFB) laser?
+A DFB laser is a type of laser where the optical feedback is provided by a periodic structure, such as a Bragg grating, that is integrated along the entire length of the laser gain medium. This structure acts as a distributed reflector.
+Why do DFB lasers operate on a single frequency?
+The integrated periodic structure, often designed with a central phase shift, acts as a highly effective wavelength filter. It creates a resonator that strongly favors one specific axial mode in terms of optical losses, thus ensuring stable single-frequency operation.
+What are the common types of DFB lasers?
+The most common types are semiconductor DFB lasers (diode lasers) and DFB fiber lasers. Both use an integrated Bragg grating for feedback, but they are based on different gain media and fabrication techniques.
+What limits the performance of DFB fiber lasers?
+DFB fiber lasers have a short gain medium, which requires a high doping concentration for efficient pump absorption. However, the optical fibers that allow for high doping are often not ideal for writing the high-quality Bragg gratings needed, which limits output power and efficiency.
+How are DFB diode lasers constructed?
+They are built with an integrated grating structure, often a corrugated waveguide. This grating can be fabricated on top of the active region, which requires complex regrowth techniques, or as laterally coupled structures on the sides of the active region.
+Suppliers
+Sponsored content: The RP Photonics Buyer's Guide contains 50 suppliers for distributed feedback lasers. Among them:
+
+⚙ hardware
+
+Narrow-band distributed feedback diode lasers with free-space beam or fiber coupling at numerous wavelengths: 1030 nm, 1047 nm, 1053 nm and 1064 nm are available from stock. In order to match the gain maximum of popular amplifying media as seed lasers, temperature tuning and wavelength selection are offered for the above standard laser wavelengths.
+
+⚙ hardware
+
+Exail’s single-frequency fiber lasers are based on UV Bragg grating technology applied to active rare-earth photosensitive fibers. The ultra-short cavity and the phase-shifted design permit ultra-narrow linewidth and robust mode-hop-free laser operation, ideal for various sensor applications (1.5 and 2 µm available upon request).
+Benefits and features:
+	•	wavelength range 1530 — 1565 nm and 2 µm
+	•	output power: > 10 mW (> 10 µW for low noise version)
+	•	single longitudinal mode
+	•	narrow linewidth, low phase noise, mode-hop-free
+	•	linear polarization, PM available
+	•	low optical feedback sensitivity
+
+⚙ hardware
+
+Eblana Photonics core product offerings are based on our patented Discrete-Mode manufacturing technology, which delivers industry leading performance with fully scalable, consistent production and integration capability. Eblana’s Discrete-Mode laser diodes are used extensively for trace gas sensing, fibre sensing and LIDAR applications and environmental monitoring in the near- and mid-IR (650 nm – 12 μm).
+
+⚙ hardware
+CSRayzer DFB butterfly package laser modules are widely used for fiber-optic sensing, laser radar, optical communication, and scientific research.
+
+⚙ hardware
+
+TOPTICA EAGLEYARD offers different kinds of laser types as single frequency laser diodes. The portfolio comprises a variety of laser and package designs from TO-package to hermetically sealed butterfly packages suitable for industrial applications. Benefit from space-qualifiable laser diodes and those that are space-qualified or have space heritage. We offer Distributed Feedback lasers (DFB lasers), Distributed Bragg Reflector lasers (DBR lasers), Rich Waveguide Stabilized lasers (RWS), miniECLs and uMOPA.
+
+⚙ hardware
+
+SHIPS TODAY: Fiber-coupled DFB laser diodes (1030 nm DFB, 1064 nm, 1310 nm, 1550 nm or any wavelength between 1250 nm and 1650 nm) are offered as stock items or associated with a CW or pulsed laser diode driver. They are compatible with our high speed nanosecond pulsed drivers or low noise laser diode driver for ultra-narrow linewidth single frequency emission. The single-mode laser diode can reach high powers up to 500 mW in the nanosecond pulse regime. Most turn-key diode & driver solutions are optimized for single-shot to CW performances with pulse durations down to 1 ns. The laser diode precision pulses are generated internally by an on-board pulse generator, or on demand from an external TTL signal.
+See also our tutorial on fiber-coupled laser diodes.
+
+⚙ hardware
+
+Sacher Lasertechnik offers single-mode narrow-linewidth distributed feedback lasers emitting between 760 nm and 2800 nm. Free space and fiber pigtailed versions available.
+
+⚙ hardware
+
+Serving North America, RPMC Lasers offers a broad selection of distributed feedback lasers in NIR, SWIR, and LWIR wavelengths from approximately 750 nm to 16 µm, eliminating wavelength drift and providing exceptionally high spectral purity with multiple output powers available for most wavelengths.
+Our innovative DFB technology delivers narrow linewidth output with stable operation over a broad temperature range, low sensitivity to optical feedback, and high-quality, low-noise performance, enhanced by integrated TEC cooling for efficient thermal management and robust thermal and optical stability.
+Customizable, compact designs come in HHL, OEM, or turnkey packages, with lightweight, robust, hermetically sealed options and optional fiber coupling for long-term reliability and easy integration in sensing and telecom applications.
+Let RPMC help you find the right laser today!
+
+⚙ hardware
+
+Thorlabs’ single-frequency laser portfolio includes a wide variety of distributed feedback (DFB) lasers. We design and manufacture low-noise DFB laser systems in a turnkey platform with a center wavelength of 1310 nm or 1550 nm. Individual DFB laser diodes in butterfly packing are available from stock with center wavelengths of 1320 nm, 1550 nm, 1642 nm, 1646 nm, 1650 nm, or 1654 nm. We also manufacture DFB quantum cascade lasers (QCLs) in either D-Mount, Two-Tab C-Mount, or thermally cooled Horizontal Heat Load packages; with output at key wavelengths in the mid-infrared, these lasers are a popular choice for gas and chemical sensing applications.
+
+⚙ hardware
+
+Koheras single-frequency fiber lasers are longitudinally single-mode and feature extremely low phase and intensity noise levels. These lasers are available in erbium or ytterbium wavelength ranges and can be frequency-converted to various other bands. The all-fiber DFB design ensures robust and reliable operation for thousands of hours, prioritizing reliability. Koheras lasers are highly stable and mode-hop-free, even under changing environmental conditions. We also offer shot-noise-limited lasers for applications requiring exceptionally low-intensity noise.
+
+⚙ hardware
+
+Innolume offers a wide range of Distributed Feedback (DFB) laser diodes with emission from 780 nm to 1330 nm. DFB lasers can be selected from the portfolio with a tolerance of ±1 nm and following assembly options:
+	•	PM or HI fiber
+	•	900 μm loose tube
+	•	built-in optical isolator
+	•	external fiber isolator
+	•	different connectors (FC/APC, SC/APC, APC ferrule, etc.)
+Peak wavelength fine-tuning is possible within 0.1 nm precision through continuous adjustment of chip temperature and current.
+See also our application note titled "Guidelines for QD-DFB Laser Coupling in Optical Subassemblies".
+
+⚙ hardware
+
+TOPTICA’s DLC DFB pro lasers integrate both distributed-feedback (DFB) and distributed Bragg reflector (DBR) lasers. Available wavelengths include 633 nm and the entire range from 760 nm to 3500 nm. Three laser heads accommodate different diode packages. Due to the absence of alignment-sensitive components, the DLC DFB pro lasers exhibit an exceptional stability and reliability.
+
+⚙ hardware
+
+Alpes Lasers offers single-mode, tunable DFB lasers with wavelengths from 4 to 14 μm and powers up to hundreds of milliwatts. These lasers are able to emit a single wavelength at a time. They can be tuned within a range that can reach up to 10 cm−1; there exists a variety of modulation schemes which can be used for different purposes.
+Bibliography
+[1]
+H. Kogelnik and C. V. Shank, “Stimulated emission in a periodic structure”, Appl. Phys. Lett. 18, 152 (1971); doi:10.1063/1.1653605
+[2]
+H. Kogelnik and C. V. Shank, “Coupled-wave theory of distributed feedback lasers”, J. Appl. Phys.43 (5), 2327 (1972); doi:10.1063/1.1661499
+[3]
+A. Yariv, “Coupled-mode theory for guided-wave optics”, IEEE J. Quantum Electron. 9 (9), 919 (1973); doi:10.1109/JQE.1973.1077767
+[4]
+H. W. Yen et al., “Optically pumped GaAs waveguide lasers with a fundamental 0.11 μ corrugated feedback”, Opt. Commun. 9, 35 (1973); doi:10.1016/0030-4018(73)90330-1
+[5]
+K. H. Ylä-Jarkko and A. B. Grudinin, “Performance limitations of high-power DFB fiber lasers”, IEEE Photon. Technol. Lett. 15 (2), 191 (2003); doi:10.1109/LPT.2002.806827
+[6]
+B. K. Das et al., “Distributed feedback-distributed Bragg reflector (DFB-DBR) coupled cavity laser with Ti:(Fe:)Er:LiNbO3 waveguide”, Opt. Lett. 29 (2), 165 (2004); doi:10.1364/OL.29.000165
+[7]
+K. Sato, “Chirp characteristics of 40-Gb/s directly modulated distributed-feedback laser diodes”, IEEE J. Lightwave Technol. 23 (11), 3790 (2005); doi:10.1109/JLT.2005.857753
+[8]
+A. Schülzgen et al., “Distributed feedback fiber laser pumped by multimode laser diodes”, Opt. Lett. 33 (6), 614 (2008); doi:10.1364/OL.33.000614
+[9]
+M. Pollnau and J. D. B. Bradley, “Optically pumped rare-earth-doped Al2O3 distributed-feedback lasers on silicon”, Opt. Express 26 (18), 24164 (2018); doi:10.1364/OE.26.024164
+(Suggest additional literature!)
+Questions and Comments from Users
+Here you can submit questions and comments. As far as they get accepted by the author, they will appear above this paragraph together with the author’s answer. The author will decide on acceptance based on certain criteria. Essentially, the issue must be of sufficiently broad interest.
+Please do not enter personal data here. (See also our privacy declaration.) If you wish to receive personal feedback or consultancy from the author, please contact him, e.g. via e-mail.
+Your question or comment:
+Spam check:
+  (Please enter the sum of thirteen and three in the form of digits!)
+
+By submitting the information, you give your consent to the potential publication of your inputs on our website according to our rules. (If you later retract your consent, we will delete those inputs.) As your inputs are first reviewed by the author, they may be published with some delay.
+Video on the Software RP Fiber Power
+Our nice video explains in detail how computer simulations greatly support research and development.
+
+Some key points:
+	•	Breakthrough in usability: the great Power Forms cover most cases.
+	•	They combine great flexibility with easy use.
+Learn more on
+RP Fiber Power!
+Company
+	•	About
+	•	Managing director
+	•	Data privacy
+	•	Contact and legal info
+Encyclopedia
+	•	About
+	•	Photonics Spotlight
+	•	Photonics Quiz
+	•	Sponsoring
+	•	Marketing
+LinkedIn
+	•	RP Photonics on LinkedIn
+	•	RP on LinkedIn
+ Explore this resource with our tour!
+© RP Photonics AG. All rights reserved. Please respect our terms of use.

@@ -1,0 +1,106 @@
+IM2A.5.pdf
+
+Advanced Photonics Congress (IPR, Networks, NOMA,
+PVLED, SPPCom) © OSA 2019
+
+Monolithic Integration of Widely-Tunable DBR and DFB
+Lasers with One-Step Grating Formation
+Victoria Rosborough1, Fengqiao Sang1, Joseph Fridlander1, Hongwei Zhao1, Bowen Song1, Simone Tommaso
+Šuran Brunelli1, Jeffrey. R. Chen2, Mark A. Stephen2, Larry Coldren1 and Jonathan Klamkin1
+1
+
+Electrical and Computer Engineering Department, University of California, Santa Barbara, CA 93106, USA
+2
+NASA Goddard Space Flight Center, Greenbelt, MD 20771, USA
+rosborough@ucsb.edu
+
+Abstract: We demonstrate the integration of widely-tunable sampled-grating DBR (SGDBR) and
+DFB lasers on indium phosphide. The SGDBR laser exhibits a 36-nm tuning range with ≥36-dB
+h
+o
+r
+(
+s
+)
+SMSR and the DFB laser an SMSR of 51.6 dB. ©2019TheAut
+OCIS codes: (130.3120) Integrated optics devices; (140.5960) Semiconductor lasers; (050.2770) Gratings
+
+1. Introduction
+The complexity of indium phosphide (InP) based photonic integrated circuits (PICs) has increased in the past decade
+both in number of on-chip functions and functional complexity [1]. Multiple active and passive elements such as
+lasers, modulators, couplers, and photodetectors are fabricated in a single PIC for applications such as coherent
+transmitters and receivers, optical downconverters for microwave frequency generation, and LIDAR [1‒3]. These
+PICs employ either sampled-grating distributed Bragg reflector (SGDBR) lasers for their wide tuning range or
+distributed feedback (DFB) lasers for their wavelength stability. In this work, we present a platform for integrating
+both SGDBR and DFB lasers on same substrate using a simplified fabrication process with a single grating lithography
+and etch step.
+(a)
+
+(d)
+
+(b)
+
+(c)
+
+(e)
+
+(f)
+
+Fig. 1. (a) Photoluminescence intensity curves showing a 100 nm blueshift in the quantum well band edge after implantation and annealing. (b)
+Calculated rear and front mirror reflectivity for the SGDBR laser using an 80 nm etch depth into the top waveguide layer for the gratings. (c)
+Schematic of the DFB laser structure showing the vertically etched Bragg grating with a central gap. (d) Grating coupling coefficient (kappa) as a
+function of gap width. (e) Calculated grating response of a 350 μm-long quarter-wave-shifted DFB laser with a 1-μm gap width. (f) Optical
+micrographs of fabricated SGDBR and DFB lasers.
+
+2. Design and Fabrication
+Active/passive integration was achieved with a quantum well intermixing (QWI) process. Ion implantation into a
+sacrificial cap layer created vacancies that diffused into the quantum wells when annealed, resulting in a blueshift of
+the quantum well band edge [4]. Figure 1(a) shows a 100-nm shift in the band edge of implanted sections after
+
+IM2A.5.pdf
+
+Advanced Photonics Congress (IPR, Networks, NOMA,
+PVLED, SPPCom) © OSA 2019
+
+annealing as measured by photoluminescence. The QWI approach was chosen for the ability to integrate DFB lasers
+without the specialized regrowth techniques required for butt-joint regrowth or selective area growth.
+Figure 1(b) shows the calculated reflection of the rear and front SGDBR mirrors for an 80-nm grating etch depth.
+To achieve a lower coupling coefficient, kappa, for the DFB lasers, a central gap was introduced into the vertically
+etched gratings as illustrated in Fig. 1(c). This lower kappa design reduces fabrication time and improves process
+reliability by allowing the use of a single etch depth for both the SGDBR and DFB laser mirror gratings. The grating
+coupling coefficient as a function of the gap width is plotted in Fig. 1(d). Figure 1(e) shows the calculated response
+of a quarter-wave-shifted DFB grating with a 1 μm gap. Optical micrographs of fabricated SGDBR and DFB lasers
+are shown in Fig. 1(f).
+3. Characterization
+Figures 2(a) and (b) show the light-current-voltage (LIV) characteristics of the SGDBR and DFB laser, respectively.
+The optical power was measured by an on-chip detector following each laser. The SGBDR laser outputs 6 mW at 200
+mA and has a threshold current of 30 mA. The jump in output power near 100 mA is due to a cavity mode hop. The
+DFB laser outputs 5 mW from a single end at 150 mA and has a threshold current of 30 mA. As shown in Fig. 2(c),
+the SGDBR laser exhibits a 36 nm tuning range. The side mode suppression ratio (SMSR) was greater than 36 dB
+over the entire tuning range with a maximum SMSR of 46.2 dB at 1580.5 nm. Figure 2(d) shows single-mode
+operation of the DFB laser at 1605 nm with an SMSR of 51.6 dB.
+(a)
+
+(b)
+
+(c)
+
+(d)
+
+Fig. 2. LIV characteristic of (a) an SGDBR laser and (b) a DFB laser. (c) Superimposed output spectra of the SGDBR laser showing 36-nm
+tuning range. (d) DFB lasing spectrum with SMSR of 51.6 dB.
+
+4. Conclusion
+To the best of the authors’ knowledge, we have presented the first monolithic integration of a widely-tunable SGDBR
+laser with a DFB laser on InP. Future PIC designs will take advantage of an SGDBR laser source for wide-tunability
+along with a DFB laser for wavelength stability.
+5. Acknowledgements
+The authors acknowledge NASA for support through the ROSES Advanced Component Technology grant.
+6. References
+[1] S. Arafin and L. A. Coldren, “Advanced InP Photonic Integrated Circuits for Communication and Sensing,” IEEE JSTQE 24(1) (2018).
+[2] F. Kish, et al., “System-on-Chip Photonic Integrated Circuits,” IEEE JSTQE 24(1) (2018).
+[3] B. Isaac, et al., “Indium Phosphide Photonic Integrated Circuit Transmitter with Integrated Linewidth Narrowing for Laser Communications
+and Sensing,” 2018 IEEE International Semiconductor Laser Conference (ISLC).
+[4] E. J. Skogen, et al., “A Quantum-Well-Intermixing Process for Wavelength-Agile Photonic Integrated Circuits,” IEEE JSTQE 8(4) (2002).
+
+

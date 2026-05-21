@@ -1,0 +1,334 @@
+Fabrication techniques for grating-based optical devices
+Michael H. Lim,a) T. E. Murphy, J. Ferrera, J. N. Damask, and Henry I. Smith
+Department of Electrical Engineering and Computer Science, MIT, Cambridge, Massachusetts 02139
+
+共Received 1 June 1999; accepted 24 August 1999兲
+We describe a novel, versatile process for fabricating integrated Bragg-grating devices. Our process
+addresses many of the critical challenges presented by such devices, including period selection,
+alignment, spatial coherence, and nanolithography. Using a combination of e-beam, x-ray, optical,
+and interference lithographies, we have successfully employed this process to construct 244 nm
+period, quarter-wave-shifted Bragg gratings on top of 1-␮ m-tall waveguide structures in InP.
+© 1999 American Vacuum Society. 关S0734-211X共99兲07206-6兴
+
+I. INTRODUCTION
+
+II. FABRICATION CHALLENGES
+
+The term ‘‘Bragg grating’’ refers to an optical device in
+which a periodic index modulation or structural corrugation
+reflects light in a narrow wavelength range. The principle of
+operation is similar to that of a dielectric mirror, in which a
+periodic sequence of films, of alternating index, is used to
+achieve high reflectivity over a narrow bandwidth.
+Because of their ability to selectively reflect certain wavelengths, Bragg gratings find widespread application in the
+rapidly growing field of optical telecommunications, especially in wavelength-division multiplexing 共WDM兲. For example, in distributed-feedback lasers, Bragg gratings are
+used in place of mirrors or facets to provide wavelengthdependent feedback into the lasing medium.1 Fiber Bragg
+gratings, in which a periodic index modulation is induced in
+the core of a photosensitive optical fiber, are now employed
+for a variety of applications, including dispersion compensation and wavelength add/drop filters.2
+Relatively sophisticated optical filters can be constructed
+using Bragg gratings. By changing the pitch and/or modulation depth of the grating across the length of the device, it is
+possible to tailor the spectral response of the device. Also, by
+introducing one or more quarter-wave shifts into the grating,
+it is possible to construct a rich variety of resonator-based
+filters, from simple Lorentzian bandpass filters to higherorder Butterworth filters.3,4
+Despite the flexibility afforded by Bragg gratings, their
+application in integrated-optical devices has been limited to
+relatively simple components, in part because of the technical challenges in fabricating such structures. In this work, we
+call attention to these unique challenges and present a process sequence which solves some of the critical problems.
+The device we are building to demonstrate these techniques is the channel-dropping filter 共CDF兲, depicted in Fig.
+1.5 The function of the CDF is to drop 共or add兲 one wavelength channel from a multichannel bus. The filtering takes
+place in the quarter-wave-shifted Bragg gratings located
+above and below the bus waveguide. Because of the
+wavelength-selective nature of the Bragg gratings, they act
+as narrowband resonators, which are only excited by one
+resonant wavelength channel.
+
+The first challenge presented by the channel-dropping filter depicted in Fig. 1 is that the grating period is ⬃244 nm,
+which is beyond the capability of most conventional lithography techniques. Moreover, the presence of an abrupt
+quarter-wave shift in the grating rules out the use of interference lithography, which otherwise could be used to produce
+such gratings. In order to fabricate grating filters that include
+one or more quarter-wave shifts, a more flexible lithography
+tool, such as electron-beam lithography, must be employed.
+A second requirement of the Bragg grating, which is not
+apparent from Fig. 1, is that the grating must be spatially
+coherent over its entire length; the Bragg grating is several
+hundred microns in extent, and therefore must be written by
+stitching together several e-beam fields. Any appreciable
+field-stitching errors at the boundaries between these adjacent e-beam fields results in a phase error in the Bragg grating. Stochastic modeling has shown that one must hold the
+field-stitching error to ⭐5 nm or else the resulting phase
+errors cause several deleterious effects in filter function.6
+For the channel-dropping filter, and more generally for all
+Bragg-grating-based filters, the operating frequency is determined by the grating period. Therefore, in order to build a
+narrowband filter for a WDM system, we must maintain precise control of the Bragg-grating period. To illustrate this
+requirement, consider two consecutive wavelength channels
+in a dense WDM system, separated in optical frequency by
+100 GHz. If our filter is to operate on one of these channels
+without affecting the other, the period of the Bragg grating
+must be controlled to within 0.1 nm. In the following section,
+we describe a technique for reliably measuring and selecting
+the Bragg period to within 0.1 nm.
+Two levels of lithography are required for fabricating the
+channel-dropping filter shown in Fig. 1: one that defines the
+waveguide features and a second that defines the fine-pitch
+gratings on top of the waveguide. Naturally, these two levels
+of lithography must be aligned relative to one another. In
+addition to the normal requirements of pattern overlay, the
+Bragg grating must be oriented such that its features are precisely perpendicular to the direction of the waveguides, i.e.,
+the k-vector of the grating must be precisely aligned to the
+waveguide axis. Any angular misalignment between the grating and the waveguide axes will cause an effective lengthen-
+
+a兲
+
+Electronic mail: mhl@nano.mit.edu
+
+3208
+
+J. Vac. Sci. Technol. B 17„6…, Nov/Dec 1999
+
+0734-211X/99/17„6…/3208/4/$15.00
+
+©1999 American Vacuum Society
+
+3208
+
+3209
+
+Lim et al.: Techniques for grating-based optical devices
+
+FIG. 1. Schematic of the channel-dropping filter in InP. The quarter-waveshifted Bragg gratings act as wavelength-selective resonators which separate
+one wavelength channel from a multiwavelength bus waveguide. The lower
+portion of this figure illustrates the structure and dimensions of the device. A
+final layer of InP cladding 共not depicted兲 is deposited over the entire structure to complete the device.
+
+ing of the grating period. Thus, in order to precisely control
+the operating frequency of the filter, not only must we precisely control the Bragg period as described above, but we
+must also maintain angular alignment between the grating
+and the underlying waveguide patterns.
+Another challenge presented by the channel-dropping filter is that the fine-period grating structures must be patterned
+on top of relatively tall waveguide structures. Attempting to
+spin a coating of high-resolution photoresist onto a substrate
+with 1.1-␮ m-tall features invariably results in uneven resist
+coverage, which leads in turn to unreliable patterning. In
+order to avoid this topography problem, we have developed a
+technique that we call the dual-layer-hardmask process
+共DLHP兲 which we detail in the following sections.
+Finally, once the structure is fabricated, a final layer of
+InP cladding must be deposited, while maintaining the underlying structure of the device.
+III. MASK FABRICATION
+In constructing the channel-dropping filter, we use a combination of several lithographies. We use optical-contact
+photolithography to print the relatively coarse (⬃1 ␮ m兲
+waveguide features, and we use x-ray nanolithography to
+pattern the fine-period Bragg gratings. The optical photomasks which define the waveguide features were written by a
+commercial mask shop using a MEBES tool, and the x-ray
+masks used for the grating features were written with our
+customized VS2A electron-beam-lithography system.
+In generating the x-ray masks required for the channeldropping filter, we use a technique called spatial-phaselocked e-beam lithography 共SPLEBL兲,4,7,8 which combines
+the long-range spatial coherence of interference lithography
+with the flexibility of electron-beam lithography. In the
+segmented-grid mode of SPLEBL, interference lithography
+is first used to generate a coherent ‘‘fiducial’’ grating pattern
+on the x-ray mask. Electron-beam lithography is then used to
+JVST B - Microelectronics and Nanometer Structures
+
+3209
+
+write the quarter-wave-shifted patterns required by the device. During the e-beam writing, the existing interferometric
+pattern on the mask is sampled in order to determine the
+absolute beam position. This technique allows us to generate
+quarter-wave-shifted gratings that span several e-beam writing fields, yet are free of the interfield stitching errors that
+would otherwise be present.4
+Because of the phase locking method used to write the
+Bragg gratings, the period of the Bragg gratings is proportional to that of the interferometrically generated fiducial
+gratings on the x-ray mask. Therefore, in order to control the
+period of the Bragg gratings, it is necessary to control the
+period of the fiducial gratings to the same relative tolerance,
+typically to better than one part per thousand. For simplicity
+of implementation, we have chosen the period of the e-beam
+grating to be the same as that of the fiducial, although this is
+not a fundamental requirement.
+In interference lithography, the grating period depends
+upon the wavelength of exposure and the angle between the
+two beams that form the standing wave, according to
+p⫽
+
+␭
+,
+2 sin ␪
+
+where ␭ is the wavelength and ␪ is the half-angle between
+the two beams. Although the wavelength is quite accurately
+controlled, the interference angle ␪ can only be adjusted to
+an accuracy of a few milliradians, which is a factor of 5–10
+worse than needed. To overcome this difficulty, we measure
+the period of a test grating using the interferometercontrolled stage of our electron-beam lithography system,
+and we then fine tune the interference lithography setup to
+eliminate any period errors. After the test grating is recorded
+by interference lithography onto a silicon wafer, the sample
+is electroplated with gold to provide contrast for backscattered electron imaging in the e-beam system. The wafer is
+mounted on the e-beam stage and the direction of the grating
+lines with respect to the stage’s axes of translation is measured, to eliminate cosine errors. We measure the distance
+across a large number of periods 共250–500兲 by translating
+the stage. This distance divided by the number of periods
+gives the grating period. Figure 2 is a histogram illustrating
+the high precision achieved with this technique. This gold
+grating on the Si wafer serves as a reference standard which
+we use to set up the interference lithography, ensuring that
+the fiducial grating that we next expose on the x-ray mask
+has an accurately known period.
+When printing gratings onto an x-ray mask using interference lithography, it is not possible to achieve sufficient angular alignment between the standing-wave pattern and a
+reference direction on the mask. To solve this problem, after
+the interference lithography is done, we use e-beam lithography to add alignment marks to the x-ray mask which are
+referenced to the interferometric gratings. After recording the
+interferometric grating on the x-ray mask, the grating is
+cleared in selected areas. The mask is then placed in the
+e-beam lithography tool and the rotation of the grating with
+respect to the stage axes is measured by recording the 共x,y兲
+
+3210
+
+Lim et al.: Techniques for grating-based optical devices
+
+FIG. 2. Histogram demonstrating the precision with which we can measure
+the period of an interferometrically generated grating. The histogram was
+obtained by repeatedly measuring the period of the same grating. The accuracy of the measurement is limited by the wavelength of the laser, which is
+known to 1 part in 108 , and the cosine error due to misalignment of the
+stage’s interferometer optics and its axes of motion, which we estimate to be
+less than 1 part in 106 .
+
+locations of several points along a single grating line, over a
+distance of approximately 1 cm. Once this calibration has
+been done, alignment marks—designed to overlay with those
+from the waveguide photomask—are written in the cleared
+areas. By means of this technique, we guarantee that the
+alignment marks placed on the x-ray mask are aligned to the
+corresponding marks on the waveguide mask to within an
+angle of 10 ␮ rad. When the x-ray mask is aligned to the
+waveguide level, the maximum overlay error 共measured after
+exposure兲 is ⬃500 nm, corresponding to a maximum total
+angular misalignment of under 50 ␮ rad.
+IV. FABRICATION PROCESS
+After the masks are generated, there remains the problem
+of forming submicron grating patterns over relatively tall
+surface topography. To address this problem, we have devel-
+
+3210
+
+oped a technique that we call the DLHP, which is outlined in
+Fig. 3. In this process, the Bragg grating patterns are defined
+first in a thin hard-mask layer on the substrate 关Fig. 3共a兲兴.
+Before the gratings are etched, however, the waveguide features are patterned in a second hard mask on top of the grating hard mask 关Fig. 3共b兲兴. By patterning both hard masks
+before the waveguide or grating features are etched into the
+optical substrate, we ensure that all lithography steps are
+performed over essentially planar surfaces.
+The process begins with an optical substrate of InP with a
+1.1-␮ m-thick layer of InGaAsP quaternary core. Onto the
+substrate we deposit 50 nm of oxide via e-beam evaporation
+to serve as the grating hard mask. Then we spin on a 300 nm
+layer of PMMA and expose it in our x-ray lithography system using the Bragg-grating mask described earlier. We develop the PMMA in a mixture of MIBK:IPA:MEK 21:63:16.
+After development, we transfer the grating patterns into the
+oxide using reactive ion etching in a CHF3 plasma biased to
+300 V. Having patterned the grating hard mask, the PMMA
+is removed.
+Because of the method used to generate the x-ray mask,
+there are auxiliary patterns on the x-ray mask in addition to
+the quarter-wave-shifted Bragg gratings, i.e., the fiducial
+gratings. To prevent these patterns from being printed along
+with the Bragg gratings, we use a second optical lithography
+step to remove the extraneous features.
+Next, we spin on a layer of AZ-5206 photoresist, and
+expose the waveguide patterns using optical contact photolithography. In this step, we reference to the alignment marks
+left by the grating mask to ensure angular alignment between
+the waveguide and Bragg-grating axes. After development,
+we lift off the waveguide pattern in 200 nm of Ni. Figure
+4共a兲 is a scanning electron micrograph depicting the patterned Ni hard mask layer, with the underlying grating in
+oxide. We then use the Ni waveguide layer as an etch mask
+
+FIG. 3. Outline of the dual-layer-hardmask process
+共DLHP兲, which allows us to pattern fine-period gratings
+over relatively tall waveguide structures. By first patterning two hard-mask layers before forming the structure, we ensure that all lithography steps are performed
+over essentially planar surfaces.
+
+J. Vac. Sci. Technol. B, Vol. 17, No. 6, Nov/Dec 1999
+
+3211
+
+Lim et al.: Techniques for grating-based optical devices
+
+FIG. 4. 共a兲 Scanning electron micrograph showing both the grating hard
+mask 共GHM兲 and the waveguide hard mask 共WHM兲 used in the process.
+The waveguide features are patterned with optical photolithography and Ni
+liftoff, and the underlying gratings are patterned in oxide via x-ray nanolithography and reactive-ion etching. 共b兲 After patterning both hard masks,
+the excess grating patterns are removed using the waveguide pattern as a
+mask.
+
+to clear away any residual grating mask, as shown in Fig.
+4共b兲.
+The waveguide features are then etched into the InGaAsP
+core material, using the Ni layer as hard mask. The InGaAsP
+is reactive ion etched in a hydrocarbon plasma of
+O2 /H2 /CH4 at flow rates of 2.5/19/19 sccm. We maintain a
+DC bias of 300 V and chamber pressure of 4 mTorr. This
+etch results in straight sidewalls and smooth etch surfaces, as
+shown in Fig. 5共a兲. Next, the Ni is removed with a selective
+wet chemical etch, revealing the underlying oxide grating
+pattern. Then, the Bragg gratings are etched into the top
+surface of the waveguide using the oxide hard mask. Finally,
+the oxide layer is stripped using a solution of buffered HF,
+completing the process. Figure 5共b兲 depicts the completed
+structure after this etch sequence.
+The final step in the process is to overgrow a top layer of
+InP cladding material, thereby forming a buried-channel
+waveguide structure. Low temperature overgrowth of squaretooth gratings without loss of profile has been demonstrated
+with gas source molecular beam epitaxy 共GSMBE兲 by
+Koontz et al.9
+V. CONCLUSIONS
+Bragg gratings are important components which offer the
+potential for a wide range of filtering functions for optical
+
+JVST B - Microelectronics and Nanometer Structures
+
+3211
+
+FIG. 5. Scanning electron micrographs showing 共a兲 the etched waveguides;
+共b兲 final structure after etching of the gratings and removal of hard masks.
+共The three parallel gratings shown here are portions of a higher-order filter.兲
+
+telecommunications. The fabrication challenges presented by
+Bragg grating devices are quite different from the challenges
+traditionally confronted by the semiconductor industry. We
+have developed a process for constructing integrated Bragg
+gratings which specifically addresses these unique challenges, and demonstrated this process by constructing integrated quarter-wave-shifted Bragg grating devices in InP. Finally, we point out that the techniques described here can
+easily be applied to other material systems, and other grating
+geometries.
+ACKNOWLEDGMENTS
+We wish to acknowledge Mark Mondol who operates the
+MIT electron-beam-lithography facility, and Charles Joyner
+共of Lucent Technologies兲 who generously provided us with
+InGaAsP/InP materials for this work.
+H. Kogelnik and C. V. Shank, J. Appl. Phys. 43, 2327 共1972兲.
+A. Othonos, Rev. Sci. Instrum. 68, 4309 共1997兲.
+3
+H. A. Haus and Y. Lai, IEEE J. Quantum Electron. 28, 205 共1992兲.
+4
+V. V. Wong, J. Ferrera, J. N. Damask, T. E. Murphy, and H. I. Smith, J.
+Vac. Sci. Technol. B 13, 2859 共1995兲.
+5
+H. A. Haus and Y. Lai, J. Lightwave Technol. 10, 57 共1992兲.
+6
+J. Ferrera, J. N. Damask, V. V. Wong, H. I. Smith, and H. A. Haus,
+Optical Fiber Communication Technical Digest 4, 139 共1994兲.
+7
+J. Ferrera, V. V. Wong, S. Rishton, V. Boegli, E. H. Anderson, D. P.
+Kern, and H. I. Smith, J. Vac. Sci. Technol. B 11, 2342 共1993兲.
+8
+V. V. Wong, J. Ferrera, J. Damask, J. Carter, E. Moon, H. A. Haus, H. I.
+Smith, and S. Rishton, J. Vac. Sci. Technol. B 12, 3741 共1994兲.
+9
+E. M. Koontz, M. H. Lim, V. V. Wong, G. S. Petrich, L. A. Kolodziejski,
+H. I. Smith, K. M. Matney, G. D. U’Ren, and M. S. Goorsky, Appl. Phys.
+Lett. 71, 1400 共1997兲.
+1
+2
+
+

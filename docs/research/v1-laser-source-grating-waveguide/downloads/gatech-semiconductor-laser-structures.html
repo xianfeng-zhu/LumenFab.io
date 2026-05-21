@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en-US" class="no-js">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel='preconnect' href='https://fonts.googleapis.com/'>
+	<link rel='preconnect' href='https://fonts.gstatic.com/'>
+	<link rel='preload' href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic' as='style'>
+	<link rel='preload' href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' as='style'>
+	<link rel='preload' href='https://fonts.googleapis.com/css?family=Abel:400' as='style'>
+		<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>Semiconductor Laser Structures &#8211; Benjamin Klein</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//stats.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Benjamin Klein &raquo; Feed" href="https://bklein.ece.gatech.edu/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Benjamin Klein &raquo; Comments Feed" href="https://bklein.ece.gatech.edu/comments/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://bklein.ece.gatech.edu/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbklein.ece.gatech.edu%2Flaser-photonics%2Fsemiconductor-laser-structures%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://bklein.ece.gatech.edu/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbklein.ece.gatech.edu%2Flaser-photonics%2Fsemiconductor-laser-structures%2F&#038;format=xml" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<link rel='stylesheet' id='atomic-blocks-fontawesome-css' href='https://bklein.ece.gatech.edu/wp-content/plugins/atomic-blocks/dist/assets/fontawesome/css/all.min.css?ver=1737818978' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='metaslider-blocks-editor-css-css' href='https://bklein.ece.gatech.edu/wp-content/plugins/ml-slider/admin/assets/dist/css/editor-block.css?ver=3.108.0' type='text/css' media='all' property='stylesheet' />
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='gt3-wpfonts-css' href='https://fonts.googleapis.com/css?family=Merriweather%3A400%2C700%2C900%2C400italic%2C700italic%2C900italic%7CMontserrat%3A400%2C700%7CInconsolata%3A400&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='genericons-css' href='https://bklein.ece.gatech.edu/wp-content/plugins/jetpack/_inc/genericons/genericons/genericons.css?ver=3.1' type='text/css' media='all' />
+<link rel='stylesheet' id='gt3-css-css' href='https://bklein.ece.gatech.edu/wp-content/themes/gt3/gt3theme/css/gt3.5-css.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='gt3-style-css' href='https://bklein.ece.gatech.edu/wp-content/themes/gt3/style.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-pagenavi-css' href='https://bklein.ece.gatech.edu/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.70' type='text/css' media='all' />
+<link rel='stylesheet' id='forget-about-shortcode-buttons-css' href='https://bklein.ece.gatech.edu/wp-content/plugins/forget-about-shortcode-buttons/public/css/button-styles.css?ver=2.1.3' type='text/css' media='all' />
+<script type="text/javascript" id="jquery-core-js-extra">
+/* <![CDATA[ */
+var msreader_featured_posts = {"saving":"Saving...","post_featured":"This post is featured","feature":"Feature","unfeature":"Unfeature"};
+//# sourceURL=jquery-core-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="jquery-js-after">
+/* <![CDATA[ */
+var ajaxurl = 'https://bklein.ece.gatech.edu/wp-admin/admin-ajax.php';
+//# sourceURL=jquery-js-after
+/* ]]> */
+</script>
+<link rel="https://api.w.org/" href="https://bklein.ece.gatech.edu/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://bklein.ece.gatech.edu/wp-json/wp/v2/pages/1336" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://bklein.ece.gatech.edu/xmlrpc.php?rsd" />
+<meta name="generator" content="Sites @ Georgia Tech 6.9.4 - http://sites.gatech.edu/" />
+<link rel="canonical" href="https://bklein.ece.gatech.edu/laser-photonics/semiconductor-laser-structures/" />
+<link rel='shortlink' href='https://wp.me/P8HN8t-ly' />
+	<style>
+		@media screen and (max-width: 782px) {
+			#wpadminbar li#wp-admin-bar-log-in,
+			#wpadminbar li#wp-admin-bar-register {
+				display: block;
+			}
+
+			#wpadminbar li#wp-admin-bar-log-in a,
+			#wpadminbar li#wp-admin-bar-register a {
+				padding: 0 8px;
+			}
+		}
+	</style>
+	<style>img#wpstats{display:none}</style>
+
+        <script type="text/javascript">
+            var jQueryMigrateHelperHasSentDowngrade = false;
+
+			window.onerror = function( msg, url, line, col, error ) {
+				// Break out early, do not processing if a downgrade reqeust was already sent.
+				if ( jQueryMigrateHelperHasSentDowngrade ) {
+					return true;
+                }
+
+				var xhr = new XMLHttpRequest();
+				var nonce = '6b00a51a47';
+				var jQueryFunctions = [
+					'andSelf',
+					'browser',
+					'live',
+					'boxModel',
+					'support.boxModel',
+					'size',
+					'swap',
+					'clean',
+					'sub',
+                ];
+				var match_pattern = /\)\.(.+?) is not a function/;
+                var erroredFunction = msg.match( match_pattern );
+
+                // If there was no matching functions, do not try to downgrade.
+                if ( null === erroredFunction || typeof erroredFunction !== 'object' || typeof erroredFunction[1] === "undefined" || -1 === jQueryFunctions.indexOf( erroredFunction[1] ) ) {
+                    return true;
+                }
+
+                // Set that we've now attempted a downgrade request.
+                jQueryMigrateHelperHasSentDowngrade = true;
+
+				xhr.open( 'POST', 'https://bklein.ece.gatech.edu/wp-admin/admin-ajax.php' );
+				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+				xhr.onload = function () {
+					var response,
+                        reload = false;
+
+					if ( 200 === xhr.status ) {
+                        try {
+	response = JSON.parse( xhr.response );
+
+	reload = response.data.reload;
+                        } catch ( e ) {
+	reload = false;
+                        }
+                    }
+
+					// Automatically reload the page if a deprecation caused an automatic downgrade, ensure visitors get the best possible experience.
+					if ( reload ) {
+						location.reload();
+                    }
+				};
+
+				xhr.send( encodeURI( 'action=jquery-migrate-downgrade-version&_wpnonce=' + nonce ) );
+
+				// Suppress error alerts in older browsers
+				return true;
+			}
+        </script>
+
+							<!-- Google Analytics tracking code output by Beehive Analytics Pro -->
+						<script async src="https://www.googletagmanager.com/gtag/js?id=G-30TT54P0XE&l=beehiveDataLayer"></script>
+		<script>
+						window.beehiveDataLayer = window.beehiveDataLayer || [];
+			function gaplusu() {beehiveDataLayer.push(arguments);}
+			gaplusu('js', new Date())
+						gaplusu('config', 'G-30TT54P0XE', {
+				'anonymize_ip': true,
+				'allow_google_signals': false,
+			})
+					</script>
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Semiconductor Laser Structures" />
+<meta property="og:url" content="https://bklein.ece.gatech.edu/laser-photonics/semiconductor-laser-structures/" />
+<meta property="og:description" content="Most semiconductor lasers can be broadly classified into two basic structures: edge-emitting lasers, or surface-emitting lasers.  Let&#8217;s take a look at the structure of each. A typical edge-em…" />
+<meta property="article:published_time" content="2017-07-25T02:40:50+00:00" />
+<meta property="article:modified_time" content="2017-07-25T15:54:50+00:00" />
+<meta property="og:site_name" content="Benjamin Klein" />
+<meta property="og:image" content="http://sites.gatech.edu/ece-bklein/wp-content/uploads/sites/457/2017/07/edge_emitter-300x184.png" />
+<meta property="og:image:width" content="448" />
+<meta property="og:image:height" content="275" />
+<meta property="og:image:alt" content="" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:text:title" content="Semiconductor Laser Structures" />
+<meta name="twitter:image" content="http://sites.gatech.edu/ece-bklein/wp-content/uploads/sites/457/2017/07/edge_emitter-300x184.png?w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- End Jetpack Open Graph Tags -->
+<style id="sccss"></style>        <link rel="shortcut icon" href="https://bklein.ece.gatech.edu/wp-content/themes/gt3/favicon.ico" type="image/vnd.microsoft.icon">
+<link rel='stylesheet' id='jetpack-swiper-library-css' href='https://bklein.ece.gatech.edu/wp-content/plugins/jetpack/_inc/blocks/swiper.css?ver=15.0.2' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack-carousel-css' href='https://bklein.ece.gatech.edu/wp-content/plugins/jetpack/modules/carousel/jetpack-carousel.css?ver=15.0.2' type='text/css' media='all' />
+
+</head>
+
+<body class="wp-singular page-template-default page page-id-1336 page-child parent-pageid-108 wp-theme-gt3 metaslider-plugin no-sidebar">
+<div id="page" class="site">
+		<a class="skip-link screen-reader-text" href="#gt-page-body">Skip to content</a>
+
+		<header id="gt-header" class="site-header" role="banner">
+			<div class='gt-background-gt-header'>
+
+      <div class="gt-header-background-bars">
+        <div class="gt-header-background-bar-topleft"></div>
+        <div class="gt-header-background-bar-topright"></div>
+      </div>
+
+      <div class="gt-gt-header">
+
+        <div class="gt-header-creatingthenext">
+          <svg class="gt-header-ctn-back-left" height=20 width=211 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M 0 0 L 0 20 L 211 20 L 200 0 Z" fill="#ac9a58" />
+          </svg>
+          <svg class="gt-header-ctn-back-right" height=20 width=1470 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M 3 0 L 14 20 L 1070 20 L 1070 0 Z" fill="#ffffff" />
+            <path d="M 3 0 L 14 20M 7 0 L 18 20M 11 0 L 22 20M 15 0 L 26 20M 19 0 L 30 20M 23 0 L 34 20M 27 0 L 38 20M 31 0 L 42 20M 35 0 L 46 20M 39 0 L 50 20M 43 0 L 54 20M 47 0 L 58 20M 51 0 L 62 20M 55 0 L 66 20M 59 0 L 70 20M 63 0 L 74 20M 67 0 L 78 20M 71 0 L 82 20M 75 0 L 86 20M 79 0 L 90 20M 83 0 L 94 20M 87 0 L 98 20M 91 0 L 102 20M 95 0 L 106 20M 99 0 L 110 20M 103 0 L 114 20M 107 0 L 118 20M 111 0 L 122 20M 115 0 L 126 20M 119 0 L 130 20M 123 0 L 134 20M 127 0 L 138 20M 131 0 L 142 20M 135 0 L 146 20M 139 0 L 150 20M 143 0 L 154 20M 147 0 L 158 20M 151 0 L 162 20M 155 0 L 166 20M 159 0 L 170 20M 163 0 L 174 20M 167 0 L 178 20M 171 0 L 182 20M 175 0 L 186 20M 179 0 L 190 20M 183 0 L 194 20M 187 0 L 198 20M 191 0 L 202 20M 195 0 L 206 20M 199 0 L 210 20M 203 0 L 214 20M 207 0 L 218 20M 211 0 L 222 20M 215 0 L 226 20M 219 0 L 230 20M 223 0 L 234 20M 227 0 L 238 20M 231 0 L 242 20M 235 0 L 246 20M 239 0 L 250 20M 243 0 L 254 20M 247 0 L 258 20M 251 0 L 262 20M 255 0 L 266 20M 259 0 L 270 20M 263 0 L 274 20M 267 0 L 278 20M 271 0 L 282 20M 275 0 L 286 20M 279 0 L 290 20M 283 0 L 294 20M 287 0 L 298 20M 291 0 L 302 20M 295 0 L 306 20M 299 0 L 310 20M 303 0 L 314 20M 307 0 L 318 20M 311 0 L 322 20M 315 0 L 326 20M 319 0 L 330 20M 323 0 L 334 20M 327 0 L 338 20M 331 0 L 342 20M 335 0 L 346 20M 339 0 L 350 20M 343 0 L 354 20M 347 0 L 358 20M 351 0 L 362 20M 355 0 L 366 20M 359 0 L 370 20M 363 0 L 374 20M 367 0 L 378 20M 371 0 L 382 20M 375 0 L 386 20M 379 0 L 390 20M 383 0 L 394 20M 387 0 L 398 20M 391 0 L 402 20M 395 0 L 406 20M 399 0 L 410 20M 403 0 L 414 20M 407 0 L 418 20M 411 0 L 422 20M 415 0 L 426 20M 419 0 L 430 20M 423 0 L 434 20M 427 0 L 438 20M 431 0 L 442 20M 435 0 L 446 20M 439 0 L 450 20M 443 0 L 454 20M 447 0 L 458 20M 451 0 L 462 20M 455 0 L 466 20M 459 0 L 470 20M 463 0 L 474 20M 467 0 L 478 20M 471 0 L 482 20M 475 0 L 486 20M 479 0 L 490 20M 483 0 L 494 20M 487 0 L 498 20M 491 0 L 502 20M 495 0 L 506 20M 499 0 L 510 20M 503 0 L 514 20M 507 0 L 518 20M 511 0 L 522 20M 515 0 L 526 20M 519 0 L 530 20M 523 0 L 534 20M 527 0 L 538 20M 531 0 L 542 20M 535 0 L 546 20M 539 0 L 550 20M 543 0 L 554 20M 547 0 L 558 20M 551 0 L 562 20M 555 0 L 566 20M 559 0 L 570 20M 563 0 L 574 20M 567 0 L 578 20M 571 0 L 582 20M 575 0 L 586 20M 579 0 L 590 20M 583 0 L 594 20M 587 0 L 598 20M 591 0 L 602 20M 595 0 L 606 20M 599 0 L 610 20M 603 0 L 614 20M 607 0 L 618 20M 611 0 L 622 20M 615 0 L 626 20M 619 0 L 630 20M 623 0 L 634 20M 627 0 L 638 20M 631 0 L 642 20M 635 0 L 646 20M 639 0 L 650 20M 643 0 L 654 20M 647 0 L 658 20M 651 0 L 662 20M 655 0 L 666 20M 659 0 L 670 20M 663 0 L 674 20M 667 0 L 678 20M 671 0 L 682 20M 675 0 L 686 20M 679 0 L 690 20M 683 0 L 694 20M 687 0 L 698 20M 691 0 L 702 20M 695 0 L 706 20M 699 0 L 710 20M 703 0 L 714 20M 707 0 L 718 20M 711 0 L 722 20M 715 0 L 726 20M 719 0 L 730 20M 723 0 L 734 20M 727 0 L 738 20M 731 0 L 742 20M 735 0 L 746 20M 739 0 L 750 20M 743 0 L 754 20M 747 0 L 758 20M 751 0 L 762 20M 755 0 L 766 20M 759 0 L 770 20M 763 0 L 774 20M 767 0 L 778 20M 771 0 L 782 20M 775 0 L 786 20M 779 0 L 790 20M 783 0 L 794 20M 787 0 L 798 20M 791 0 L 802 20M 795 0 L 806 20M 799 0 L 810 20M 803 0 L 814 20M 807 0 L 818 20M 811 0 L 822 20M 815 0 L 826 20M 819 0 L 830 20M 823 0 L 834 20M 827 0 L 838 20M 831 0 L 842 20M 835 0 L 846 20M 839 0 L 850 20M 843 0 L 854 20M 847 0 L 858 20M 851 0 L 862 20M 855 0 L 866 20M 859 0 L 870 20M 863 0 L 874 20M 867 0 L 878 20M 871 0 L 882 20M 875 0 L 886 20M 879 0 L 890 20M 883 0 L 894 20M 887 0 L 898 20M 891 0 L 902 20M 895 0 L 906 20M 899 0 L 910 20M 903 0 L 914 20M 907 0 L 918 20M 911 0 L 922 20M 915 0 L 926 20M 919 0 L 930 20M 923 0 L 934 20M 927 0 L 938 20M 931 0 L 942 20M 935 0 L 946 20M 939 0 L 950 20M 943 0 L 954 20M 947 0 L 958 20M 951 0 L 962 20M 955 0 L 966 20M 959 0 L 970 20M 963 0 L 974 20M 967 0 L 978 20M 971 0 L 982 20M 975 0 L 986 20M 979 0 L 990 20M 983 0 L 994 20M 987 0 L 998 20M 991 0 L 1002 20M 995 0 L 1006 20M 999 0 L 1010 20M 1003 0 L 1014 20M 1007 0 L 1018 20M 1011 0 L 1022 20M 1015 0 L 1026 20M 1019 0 L 1030 20M 1023 0 L 1034 20M 1027 0 L 1038 20M 1031 0 L 1042 20M 1035 0 L 1046 20M 1039 0 L 1050 20M 1043 0 L 1054 20M 1047 0 L 1058 20M 1051 0 L 1062 20M 1055 0 L 1066 20M 1059 0 L 1070 20M 1063 0 L 1074 20M 1067 0 L 1078 20M 1071 0 L 1082 20M 1075 0 L 1086 20M 1079 0 L 1090 20M 1083 0 L 1094 20M 1087 0 L 1098 20M 1091 0 L 1102 20M 1095 0 L 1106 20M 1099 0 L 1110 20M 1103 0 L 1114 20M 1107 0 L 1118 20M 1111 0 L 1122 20M 1115 0 L 1126 20M 1119 0 L 1130 20M 1123 0 L 1134 20M 1127 0 L 1138 20M 1131 0 L 1142 20M 1135 0 L 1146 20M 1139 0 L 1150 20M 1143 0 L 1154 20M 1147 0 L 1158 20M 1151 0 L 1162 20M 1155 0 L 1166 20M 1159 0 L 1170 20M 1163 0 L 1174 20M 1167 0 L 1178 20M 1171 0 L 1182 20M 1175 0 L 1186 20M 1179 0 L 1190 20M 1183 0 L 1194 20M 1187 0 L 1198 20M 1191 0 L 1202 20M 1195 0 L 1206 20M 1199 0 L 1210 20M 1203 0 L 1214 20M 1207 0 L 1218 20M 1211 0 L 1222 20M 1215 0 L 1226 20M 1219 0 L 1230 20M 1223 0 L 1234 20M 1227 0 L 1238 20M 1231 0 L 1242 20M 1235 0 L 1246 20M 1239 0 L 1250 20M 1243 0 L 1254 20M 1247 0 L 1258 20M 1251 0 L 1262 20M 1255 0 L 1266 20M 1259 0 L 1270 20M 1263 0 L 1274 20M 1267 0 L 1278 20M 1271 0 L 1282 20M 1275 0 L 1286 20M 1279 0 L 1290 20M 1283 0 L 1294 20M 1287 0 L 1298 20" stroke="#b3a369" />
+          </svg>
+          <!a href="http://www.gatech.edu/creating-the-next"><img alt="Creating the Next" src="https://bklein.ece.gatech.edu/wp-content/themes/gt3/gt3theme/images/creating-the-next-gold.svg" /><!/a>
+        </div>
+
+        <div class="gt-header-logo">
+          <div class="gt-header-logo-background"></div>
+          <a href="http://www.gatech.edu/"><img alt="Georgia Institute of Technology" src="https://bklein.ece.gatech.edu/wp-content/themes/gt3/gt3theme/images/gt-logo.svg"></a>
+        </div>
+
+        <svg class="gt-header-background-divide" height=100 width=67 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M 0 0 L 11 0 L 67 100 L 0 100 Z" fill="#b3a369" />
+        </svg>
+
+        <div class="gt-site-identity">
+          <div class="gt-branding__name">
+            <div class="gt-branding__thisUnit"><a href="https://bklein.ece.gatech.edu" title="Home" rel="home">Benjamin Klein</a></div>
+
+          </div><!-- gt-branding__name -->
+        </div>
+
+      </div><!-- gt-gt-header -->
+
+			</div><!-- gt-background-gt-header -->
+
+
+			<div class='gt-background-menu'><div class='region-primary-menu'>
+			  <div class="gt-menu-flex-wrapper">
+
+			    <div class="gt-main-menu">
+				<button id='gt-mobile-menu-activator' class='gt-mobile-menu-activator' data-menu-id='main'><div class='gt-mobile-icon-wrapper'><i class='svg-menuburger' aria-hidden='true'></i></div> <span class='gt-mobile-text'>Main Menu</span></button>
+
+				<nav class="gt-accessible-menu gt-menu-main" role="navigation" aria-label="Primary Menu">
+	<ul role="menubar" id="gt-menu-main" class="gt-main-menu primary-menu"><li id="menu-item-91" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-91"><a role="menuitem" href="https://bklein.ece.gatech.edu/" data-menu-id="main" data-tray-id="1" id="gt-menu-toplink-main-1" class="gt-menu-link-main">Research</a><span class='gt-menu-spacer'></span></li>
+<li id="menu-item-93" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-93"><a role="menuitem" href="https://bklein.ece.gatech.edu/index_teaching/" data-menu-id="main" data-tray-id="2" id="gt-menu-toplink-main-2" class="gt-menu-link-main">Teaching</a><span class='gt-menu-spacer'></span></li>
+<li id="menu-item-94" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-94"><a role="menuitem" href="https://bklein.ece.gatech.edu/index_people/" data-menu-id="main" data-tray-id="3" id="gt-menu-toplink-main-3" class="gt-menu-link-main">People</a><span class='gt-menu-spacer'></span></li>
+<li id="menu-item-92" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-92"><a role="menuitem" href="https://bklein.ece.gatech.edu/index_pubs/" data-menu-id="main" data-tray-id="4" id="gt-menu-toplink-main-4" class="gt-menu-link-main">Publications</a><span class='gt-menu-spacer'></span></li>
+<li id="menu-item-111" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-111"><a role="menuitem" href="https://bklein.ece.gatech.edu/laser-photonics/" data-menu-id="main" data-tray-id="5" id="gt-menu-toplink-main-5" class="gt-menu-link-main">Laser Photonics</a><span class='gt-menu-spacer'></span></li>
+</ul>				</nav><!-- .main-navigation -->
+			    </div><!-- gt-main-menu-->
+			    <div class="gt-quick-menu">
+			      <nav class="gt-menu-quick" role="navigation" aria-label="Quick Links Menu">
+			        <ul aria-label="Quick Links Menu" id="gt-menu-main-quick" class="gt-main-menu">			          <li role="none" class="gt-menu-item"><a class="" id="gt-search-toggle" href="#">Search <i class="svg-magglass-gold" aria-hidden="true"></i></a></li>
+			        </ul>
+			      </nav>
+			    </div>
+			  </div><!-- gt-menu-flex-wrapper -->
+
+			  <div class="gt-tray-container gt-search-tray" id="gt-search-tray">
+
+<form role="search" method="get" class="search-form" action="https://bklein.ece.gatech.edu/">
+	<label for='gt3-main-search'>
+		<span class="screen-reader-text">Search for:</span>
+	</label>
+	<input id='gt3-main-search' type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+	<button type="submit" class="search-submit"><span class="screen-reader-text">Search</span></button>
+</form>
+			  </div><!-- gt-search-tray -->
+
+			</div><!-- gt-background-menu -->
+
+
+		</header>
+
+		<div class='gt-background-page'>
+			<div id='gt-page-body' class='gt-page-body'>
+
+
+
+<div id="primary" class="content-area">
+	<main id="main" class="site-main" role="main">
+
+<article id="post-1336" class="post-1336 page type-page status-publish hentry">
+	<header class="entry-header">
+		<h1 class="entry-title">Semiconductor Laser Structures</h1>	</header><!-- .entry-header -->
+
+
+	<div class="entry-content">
+		<p>Most semiconductor lasers can be broadly classified into two basic structures: edge-emitting lasers, or surface-emitting lasers.  Let&#8217;s take a look at the structure of each.</p>
+<p>A typical edge-emitting laser will have the longitudinal direction of the optical cavity oriented perpendicular to the direction of electrical current flow in the diode.  A typical structure is diagrammed below.</p>
+<p style="text-align: center;"><img fetchpriority="high" decoding="async" data-attachment-id="1341" data-permalink="https://bklein.ece.gatech.edu/laser-photonics/semiconductor-laser-structures/edge_emitter/" data-orig-file="https://bklein.ece.gatech.edu/files/2017/07/edge_emitter.png" data-orig-size="1261,772" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="edge_emitter" data-image-description="" data-image-caption="" data-medium-file="https://bklein.ece.gatech.edu/files/2017/07/edge_emitter-300x184.png" data-large-file="https://bklein.ece.gatech.edu/files/2017/07/edge_emitter-1024x627.png" class="alignnone wp-image-1341" src="https://bklein.ece.gatech.edu/wp-content/uploads/sites/457/2017/07/edge_emitter-300x184.png" alt="" width="448" height="275" srcset="https://bklein.ece.gatech.edu/files/2017/07/edge_emitter-300x184.png 300w, https://bklein.ece.gatech.edu/files/2017/07/edge_emitter-768x470.png 768w, https://bklein.ece.gatech.edu/files/2017/07/edge_emitter-1024x627.png 1024w, https://bklein.ece.gatech.edu/files/2017/07/edge_emitter.png 1261w" sizes="(max-width: 448px) 85vw, 448px" /></p>
+<p>This is a ridge-waveguide separate confinement heterostructure, and there&#8217;s a lot going on in the design of this device, but let&#8217;s start with the basics.  Current flows from the p-side to the n-side, vertically.  Typically there will be an electrical contact on top and an electrical contact on the bottom (not shown).  The axis of the optical cavity is &#8216;into the screen&#8217; and is labeled with $latex L$.  The front and back faces of the structure are typically just cleaved crystal facets, so the transition from semiconductor to air provides the reflectivity of those mirrors.  This reflectivity is typically fairly low; for example $latex R = (3.6 -1) / (3.6 + 1) = 0.57$.  Therefore, the cavity length $latex L$ must be fairly long in order to have a reasonably low value of the threshold current, typically $latex L \equiv 100 \mu m$.  The vertical dimensions of the structure are much smaller than this.</p>
+<p>The slightly more complicated aspects of this structure are the ridge and the waveguide.  The waveguide is formed by using a semiconductor material with a higher refractive index compared to the outermost semiconductor materials.  This is done to guide the optical mode in the vertical direction.  Similarly, the ridge visible on top of the structure is fabricated in order to guide the optical mode in the horizontal direction.  Combined with the front and back faces, the optical mode is confined in all three dimensions.</p>
+<p>A nicer diagram of an edge-emitting laser structure can be found here:</p>
+<p><a href="https://www.photonics.com/EDU/Handbook.aspx?AID=25099">https://www.photonics.com/EDU/Handbook.aspx?AID=25099</a></p>
+<p>A vertical-cavity surface-emitting laser (VCSEL) is diagrammed below.  In this structure, the current flow and the optical axis are parallel to one another, and both are oriented vertically.  The optical cavity (mirror separation) is typically short, on the order of a wavelength of the light, and the effective length of the gain region is even shorter than that, as it is typically composed of very thin layers that the light is traveling perpendicular to.  Therefore, the mirrors must have very high reflectivity in order to maintain a reasonably low threshold current.  We can&#8217;t use metal for these mirrors, because metal has unacceptably high optical absorption for this purpose, and would short out the doped regions.   Therefore, we use distributed Bragg reflector (DBR) mirrors, which are stacks of periodically repeating quarter-wavelength-thick layers with alternating high and low refractive indecies.  Due to constructive interference between reflected waves from the many interfaces, DBRs can exhibit extremely high reflectivities (&gt; 0.99) over limited wavelength ranges.</p>
+<p style="text-align: center;"><img decoding="async" data-attachment-id="1349" data-permalink="https://bklein.ece.gatech.edu/laser-photonics/semiconductor-laser-structures/vcsel-3/" data-orig-file="https://bklein.ece.gatech.edu/files/2017/07/VCSEL-1.png" data-orig-size="897,725" data-comments-opened="0" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="VCSEL" data-image-description="" data-image-caption="" data-medium-file="https://bklein.ece.gatech.edu/files/2017/07/VCSEL-1-300x242.png" data-large-file="https://bklein.ece.gatech.edu/files/2017/07/VCSEL-1.png" class="alignnone wp-image-1349" src="https://bklein.ece.gatech.edu/wp-content/uploads/sites/457/2017/07/VCSEL-1-300x242.png" alt="" width="412" height="332" srcset="https://bklein.ece.gatech.edu/files/2017/07/VCSEL-1-300x242.png 300w, https://bklein.ece.gatech.edu/files/2017/07/VCSEL-1-768x621.png 768w, https://bklein.ece.gatech.edu/files/2017/07/VCSEL-1.png 897w" sizes="(max-width: 412px) 85vw, 412px" /></p>
+<p>VCSELs are typically only used for low-power applications such as short-distance communications.  They offer several advantages when compared to edge-emitting lasers:</p>
+<ul>
+<li>shorter cavity length means its easier to achieve single-mode operation</li>
+<li>output beam has a more circular cross section due to greater symmetry of the &#8216;waveguide&#8217;</li>
+<li>vertical output makes it easier to integrate with other electronics</li>
+</ul>
+<p>Nicer VCSEL diagrams can be found online, such as:</p>
+<p><a href="https://www.photonics.com/EDU/Handbook.aspx?AID=25102">https://www.photonics.com/EDU/Handbook.aspx?AID=25102</a></p>
+<p>However, edge emitting lasers are still preferable for long-haul fiber communications applications, due to the higher powers and sharper linewidths typically desired.</p>
+<p>&nbsp;</p>
+	</div><!-- .entry-content -->
+
+
+</article><!-- #post-## -->
+
+	</main><!-- .site-main -->
+
+
+</div><!-- .content-area -->
+
+
+
+			</div><!-- gt-page-body -->
+		</div><!-- gt-background-page -->
+
+
+
+		<footer id="gt-footer" class="site-footer" role="contentinfo">
+			<div class='gt-background-site-footer'>
+				<div class='gt-site-footer gt-super-footer'><div class='gt-four-columns'>
+
+
+					<div class='gt-site-footer-column'>
+<ul class="menu">
+            <li><a href="http://www.contact.gatech.edu/">Contact the Institute</a></li>
+            <li><a href="http://directory.gatech.edu/">Directory</a></li>
+          </ul>					</div><!--gt-site-footer-column-->
+					<div class='gt-site-footer-column'>
+<ul class="menu">
+            <li><a href="http://www.gatech.edu/offices-and-departments">Offices</a></li>
+            <li><a href="http://map.gatech.edu/">Campus Map</a></li>
+            <li><a href="http://www.gatech.edu/admissions/">Apply</a></li>
+            <li><a href="http://development.gatech.edu/">Support / Give</a></li>
+          </ul>					</div><!--gt-site-footer-column-->
+					<div class='gt-site-footer-column'>
+					</div><!--gt-site-footer-column-->
+					<div class='gt-site-footer-column'>
+					  <ul class='menu gt-wp-login'>
+					    <li><a href="https://sites.gatech.edu/ece-bklein/wp-login.php?action=shibboleth">Log in</a></li>
+					  </ul>
+
+					</div><!--gt-site-footer-column-->
+				    </div><!-- gt-four-columns -->
+				</div><!-- gt-site-footer -->
+			</div><!-- gt-background-site-footer -->
+
+
+			<div class='gt-background-gt-footer'>
+
+
+      <!-- Color bar that does a reverse of the gradient on the main section of the footer -->
+      <div class="gt-background-gt-footer-alt"></div>
+
+      <div class="gt-gt-footer">
+        <div class="gt-gt-footer-left">
+
+           <div class="gt-gt-footer-farleftcol">
+             <div class="gt-gt-footer-creatingthenext">
+               <a href="http://www.gatech.edu/creating-the-next"><img alt="Creating the Next" src="https://bklein.ece.gatech.edu/wp-content/themes/gt3/gt3theme/images/creating-the-next.svg" /></a>
+             </div>
+             <div class="gt-gt-footer-address">
+               <p><strong>Georgia Institute of Technology</strong><br>North Avenue, Atlanta, GA 30332</p>
+               <p>404-894-2000</p>
+             </div>
+           </div>
+
+           <nav class="gt-gt-footer-legalcolumns" role="navigation" aria-label="Legal Links">
+            <ul class="gt-gt-footer-legallinks">
+            <li><a href="http://www.gatech.edu/emergency/">Emergency Information</a></li>
+            <li><a href="http://www.gatech.edu/legal/">Legal &amp; Privacy Information</a></li>
+            <li><a href="https://gbi.georgia.gov/documents/human-trafficking-notice">Human Trafficking Notice</a></li>
+            </ul>
+            <ul class="gt-gt-footer-legallinks">
+            <li><a href="http://www.gatech.edu/accessibility/">Accessibility</a></li>
+            <li><a href="http://www.gatech.edu/accountability/">Accountability</a></li>
+            <li><a href="https://www.gatech.edu/accreditation/">Accreditation</a></li>
+            <li><a href="http://ohr.gatech.edu/employment/careers">Employment</a></li>
+            </ul>
+
+          </nav>
+        </div>
+
+        <div class="gt-gt-footer-right">
+          <a href="http://www.gatech.edu/"><img alt="Georgia Institute of Technology" src="https://bklein.ece.gatech.edu/wp-content/themes/gt3/gt3theme/images/gt-logo.svg" /></a>
+          <p class="gt-gt-footer-copyright">&copy;2026 Georgia Institute of Technology</p>
+        </div>
+
+      </div><!-- gt-gt-footer -->
+			</div><!-- gt-background-gt-footer -->
+
+		</footer><!-- .site-footer -->
+</div><!-- .site -->
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/files/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/gt3/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+	<script type="text/javascript">
+		function atomicBlocksShare( url, title, w, h ){
+			var left = ( window.innerWidth / 2 )-( w / 2 );
+			var top  = ( window.innerHeight / 2 )-( h / 2 );
+			return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=600, height=600, top='+top+', left='+left);
+		}
+	</script>
+			<div id="jp-carousel-loading-overlay">
+			<div id="jp-carousel-loading-wrapper">
+				<span id="jp-carousel-library-loading">&nbsp;</span>
+			</div>
+		</div>
+		<div class="jp-carousel-overlay" style="display: none;">
+
+		<div class="jp-carousel-container">
+			<!-- The Carousel Swiper -->
+			<div
+				class="jp-carousel-wrap swiper jp-carousel-swiper-container jp-carousel-transitions"
+				itemscope
+				itemtype="https://schema.org/ImageGallery">
+				<div class="jp-carousel swiper-wrapper"></div>
+				<div class="jp-swiper-button-prev swiper-button-prev">
+					<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<mask id="maskPrev" mask-type="alpha" maskUnits="userSpaceOnUse" x="8" y="6" width="9" height="12">
+							<path d="M16.2072 16.59L11.6496 12L16.2072 7.41L14.8041 6L8.8335 12L14.8041 18L16.2072 16.59Z" fill="white"/>
+						</mask>
+						<g mask="url(#maskPrev)">
+							<rect x="0.579102" width="23.8823" height="24" fill="#FFFFFF"/>
+						</g>
+					</svg>
+				</div>
+				<div class="jp-swiper-button-next swiper-button-next">
+					<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<mask id="maskNext" mask-type="alpha" maskUnits="userSpaceOnUse" x="8" y="6" width="8" height="12">
+							<path d="M8.59814 16.59L13.1557 12L8.59814 7.41L10.0012 6L15.9718 12L10.0012 18L8.59814 16.59Z" fill="white"/>
+						</mask>
+						<g mask="url(#maskNext)">
+							<rect x="0.34375" width="23.8822" height="24" fill="#FFFFFF"/>
+						</g>
+					</svg>
+				</div>
+			</div>
+			<!-- The main close buton -->
+			<div class="jp-carousel-close-hint">
+				<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<mask id="maskClose" mask-type="alpha" maskUnits="userSpaceOnUse" x="5" y="5" width="15" height="14">
+						<path d="M19.3166 6.41L17.9135 5L12.3509 10.59L6.78834 5L5.38525 6.41L10.9478 12L5.38525 17.59L6.78834 19L12.3509 13.41L17.9135 19L19.3166 17.59L13.754 12L19.3166 6.41Z" fill="white"/>
+					</mask>
+					<g mask="url(#maskClose)">
+						<rect x="0.409668" width="23.8823" height="24" fill="#FFFFFF"/>
+					</g>
+				</svg>
+			</div>
+			<!-- Image info, comments and meta -->
+			<div class="jp-carousel-info">
+				<div class="jp-carousel-info-footer">
+					<div class="jp-carousel-pagination-container">
+						<div class="jp-swiper-pagination swiper-pagination"></div>
+						<div class="jp-carousel-pagination"></div>
+					</div>
+					<div class="jp-carousel-photo-title-container">
+						<h2 class="jp-carousel-photo-caption"></h2>
+					</div>
+					<div class="jp-carousel-photo-icons-container">
+						<a href="#" class="jp-carousel-icon-btn jp-carousel-icon-info" aria-label="Toggle photo metadata visibility">
+							<span class="jp-carousel-icon">
+								<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<mask id="maskInfo" mask-type="alpha" maskUnits="userSpaceOnUse" x="2" y="2" width="21" height="20">
+										<path fill-rule="evenodd" clip-rule="evenodd" d="M12.7537 2C7.26076 2 2.80273 6.48 2.80273 12C2.80273 17.52 7.26076 22 12.7537 22C18.2466 22 22.7046 17.52 22.7046 12C22.7046 6.48 18.2466 2 12.7537 2ZM11.7586 7V9H13.7488V7H11.7586ZM11.7586 11V17H13.7488V11H11.7586ZM4.79292 12C4.79292 16.41 8.36531 20 12.7537 20C17.142 20 20.7144 16.41 20.7144 12C20.7144 7.59 17.142 4 12.7537 4C8.36531 4 4.79292 7.59 4.79292 12Z" fill="white"/>
+									</mask>
+									<g mask="url(#maskInfo)">
+										<rect x="0.8125" width="23.8823" height="24" fill="#FFFFFF"/>
+									</g>
+								</svg>
+							</span>
+						</a>
+												<a href="#" class="jp-carousel-icon-btn jp-carousel-icon-comments" aria-label="Toggle photo comments visibility">
+							<span class="jp-carousel-icon">
+								<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<mask id="maskComments" mask-type="alpha" maskUnits="userSpaceOnUse" x="2" y="2" width="21" height="20">
+										<path fill-rule="evenodd" clip-rule="evenodd" d="M4.3271 2H20.2486C21.3432 2 22.2388 2.9 22.2388 4V16C22.2388 17.1 21.3432 18 20.2486 18H6.31729L2.33691 22V4C2.33691 2.9 3.2325 2 4.3271 2ZM6.31729 16H20.2486V4H4.3271V18L6.31729 16Z" fill="white"/>
+									</mask>
+									<g mask="url(#maskComments)">
+										<rect x="0.34668" width="23.8823" height="24" fill="#FFFFFF"/>
+									</g>
+								</svg>
+
+								<span class="jp-carousel-has-comments-indicator" aria-label="This image has comments."></span>
+							</span>
+						</a>
+											</div>
+				</div>
+				<div class="jp-carousel-info-extra">
+					<div class="jp-carousel-info-content-wrapper">
+						<div class="jp-carousel-photo-title-container">
+							<h2 class="jp-carousel-photo-title"></h2>
+						</div>
+						<div class="jp-carousel-comments-wrapper">
+															<div id="jp-carousel-comments-loading">
+									<span>Loading Comments...</span>
+								</div>
+								<div class="jp-carousel-comments"></div>
+								<div id="jp-carousel-comment-form-container">
+									<span id="jp-carousel-comment-form-spinner">&nbsp;</span>
+									<div id="jp-carousel-comment-post-results"></div>
+																														<div id="jp-carousel-comment-form-commenting-as">
+												<p id="jp-carousel-commenting-as">
+													You must be <a href="#" class="jp-carousel-comment-login">logged in</a> to post a comment.												</p>
+											</div>
+																											</div>
+													</div>
+						<div class="jp-carousel-image-meta">
+							<div class="jp-carousel-title-and-caption">
+								<div class="jp-carousel-photo-info">
+									<h3 class="jp-carousel-caption" itemprop="caption description"></h3>
+								</div>
+
+								<div class="jp-carousel-photo-description"></div>
+							</div>
+							<ul class="jp-carousel-image-exif" style="display: none;"></ul>
+							<a class="jp-carousel-image-download" href="#" target="_blank" style="display: none;">
+								<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="3" y="3" width="19" height="18">
+										<path fill-rule="evenodd" clip-rule="evenodd" d="M5.84615 5V19H19.7775V12H21.7677V19C21.7677 20.1 20.8721 21 19.7775 21H5.84615C4.74159 21 3.85596 20.1 3.85596 19V5C3.85596 3.9 4.74159 3 5.84615 3H12.8118V5H5.84615ZM14.802 5V3H21.7677V10H19.7775V6.41L9.99569 16.24L8.59261 14.83L18.3744 5H14.802Z" fill="white"/>
+									</mask>
+									<g mask="url(#mask0)">
+										<rect x="0.870605" width="23.8823" height="24" fill="#FFFFFF"/>
+									</g>
+								</svg>
+								<span class="jp-carousel-download-text"></span>
+							</a>
+							<div class="jp-carousel-image-map" style="display: none;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		</div>
+		<script type="text/javascript" id="blog_templates_front-js-extra">
+/* <![CDATA[ */
+var blog_templates_params = {"type":"0"};
+//# sourceURL=blog_templates_front-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-content/plugins/blogtemplates//blogtemplatesfiles/assets/js/front.js?ver=2.6.8.2" id="blog_templates_front-js"></script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-content/plugins/atomic-blocks/dist/assets/js/dismiss.js?ver=1737818978" id="atomic-blocks-dismiss-js-js"></script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-content/themes/gt3/js/skip-link-focus-fix.js?ver=20160816" id="gt3-skip-link-focus-fix-js"></script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-content/themes/gt3/gt3theme/js/gt_menu.js?ver=20140711" id="gt3-gt-menu-js"></script>
+<script type="text/javascript" id="gt3-script-js-extra">
+/* <![CDATA[ */
+var screenReaderText = {"expand":"expand child menu","collapse":"collapse child menu"};
+//# sourceURL=gt3-script-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-content/themes/gt3/js/functions.js?ver=20160816" id="gt3-script-js"></script>
+<script type="text/javascript" id="jetpack-stats-js-before">
+/* <![CDATA[ */
+_stq = window._stq || [];
+_stq.push([ "view", JSON.parse("{\"v\":\"ext\",\"blog\":\"128647673\",\"post\":\"1336\",\"tz\":\"-4\",\"srv\":\"bklein.ece.gatech.edu\",\"j\":\"1:15.0.2\"}") ]);
+_stq.push([ "clickTrackerInit", "128647673", "1336" ]);
+//# sourceURL=jetpack-stats-js-before
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://stats.wp.com/e-202621.js" id="jetpack-stats-js" defer="defer" data-wp-strategy="defer"></script>
+<script type="text/javascript" id="jetpack-carousel-js-extra">
+/* <![CDATA[ */
+var jetpackSwiperLibraryPath = {"url":"https://bklein.ece.gatech.edu/wp-content/plugins/jetpack/_inc/blocks/swiper.js"};
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https://bklein.ece.gatech.edu/wp-admin/admin-ajax.php","nonce":"155bd2af26","display_exif":"1","display_comments":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","image_label":"Open image in full-screen.","download_original":"View full size \u003Cspan class=\"photo-size\"\u003E{0}\u003Cspan class=\"photo-size-times\"\u003E\u00d7\u003C/span\u003E{1}\u003C/span\u003E","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"1","require_name_email":"0","login_url":"https://sites.gatech.edu/ece-bklein/wp-login.php?redirect_to=https%3A%2F%2Fbklein.ece.gatech.edu%2Flaser-photonics%2Fsemiconductor-laser-structures%2F&action=shibboleth","blog_id":"457","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"]};
+//# sourceURL=jetpack-carousel-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://bklein.ece.gatech.edu/wp-content/plugins/jetpack/_inc/build/carousel/jetpack-carousel.min.js?ver=15.0.2" id="jetpack-carousel-js"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://sites.gatech.edu/ece-bklein/wp-includes/js/wp-emoji-release.min.js?ver=6.9.4"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://sites.gatech.edu/ece-bklein/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+</body>
+</html>
