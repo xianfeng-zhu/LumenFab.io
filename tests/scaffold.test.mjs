@@ -182,9 +182,10 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /## 与封装页面的接口/);
   assert.match(page, /## 器件评价指标/);
   assert.match(page, /## 总结：一颗 CPO 激光源从哪里来/);
-  assert.match(page, /本页只聚焦 CPO 所用的激光源器件/);
+  assert.match(page, /CPO 光引擎需要稳定、足够功率、可长期工作的连续光/);
   assert.match(page, /系统摆放问题放到一边/);
-  assert.match(page, /先理解激光器本身如何从材料、外延和芯片工艺中形成/);
+  assert.match(page, /激光器如何从材料、外延和芯片工艺中形成/);
+  assert.match(page, /激光器的最低层原理是电子能量转换/);
   assert.match(page, /器件制造总览/);
   assert.match(page, /封装与系统集成层面的内容/);
   assert.match(page, /MOCVD \/ MBE epitaxy/);

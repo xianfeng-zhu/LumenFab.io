@@ -9,11 +9,11 @@ import TermNote from "../../components/TermNote.astro";
 
 ## 本页定位
 
-本页只聚焦 CPO 所用的激光源器件：光怎样在 InP / III-V 激光器中产生，怎样被 DFB 腔体和波导结构稳定下来，以及器件输出需要满足哪些通信指标。
+CPO 光引擎需要稳定、足够功率、可长期工作的连续光。要理解这束光从哪里来，需要先看激光源器件本身：光怎样在 InP / III-V 半导体里产生，怎样被波导和 DFB 腔体稳定下来，最后怎样表现为输出功率、线宽、RIN、SMSR、PCE 和温度稳定性等指标。
 
-技术路径从材料与有源区开始，经过外延结构、波导、腔体和 DFB 光栅，最后落到 CW 激光器芯片、DFB 激光器、EML、MWL 等光源器件的输出能力。<TermNote label="TOSA" note="Transmitter Optical Sub-Assembly，发射端光学子组件，通常把激光器、耦合光学、监控探测器和封装接口组织在一起。" />、<TermNote label="ELSFP" note="External Laser Small Form-Factor Pluggable，Optical Internetworking Forum 定义的外置光源可插拔形态，用来给光引擎提供连续光。" />、光引擎内部供光结构属于封装和系统集成形态，本页只说明它们对激光源器件提出的输入条件。
+这条路径从材料与有源区开始，经过外延结构、波导、腔体和 DFB 光栅，最后落到 CW 激光器芯片、DFB 激光器、EML、MWL 等光源器件的输出能力。<TermNote label="TOSA" note="Transmitter Optical Sub-Assembly，发射端光学子组件，通常把激光器、耦合光学、监控探测器和封装接口组织在一起。" />、<TermNote label="ELSFP" note="External Laser Small Form-Factor Pluggable，Optical Internetworking Forum 定义的外置光源可插拔形态，用来给光引擎提供连续光。" /> 和光引擎内部供光结构会作为系统接口出现，用来说明封装形态对激光源器件提出的功率、稳定性和可靠性要求。
 
-光源放在光引擎内部、封装边缘或外置 ELSFP 模块中，会影响热环境、反射、耦合损耗和维护方式；这些属于 [Package integration](../packaging/) 的主线。晶圆级筛选和 burn-in 放在 [Manufacturing and test](../manufacturing-test/)，寿命衰减、冗余和现场替换放在 [Reliability and operations](../reliability-operations/)。
+光源放在光引擎内部、封装边缘或外置 ELSFP 模块中，会改变热环境、反射、耦合损耗和维护方式。更完整的封装布局可在 [Package integration](../packaging/) 继续阅读；晶圆级筛选和 burn-in 属于 [Manufacturing and test](../manufacturing-test/)；寿命衰减、冗余和现场替换属于 [Reliability and operations](../reliability-operations/)。
 
 ### CPO 激光源的自底向上器件模型
 
@@ -35,7 +35,7 @@ CPO 的基本动机是把光引擎放到 <TermNote label="switch ASIC" note="数
 - 如果激光器放进封装，光路较短，但封装、良率、返修和 known-good-die 判断更困难。
 - 如果激光器外置，热和可维护性更好，但连接器、光纤走线、功率预算、安全和管理更复杂。
 
-因此，CPO 对激光源的要求高于普通“能发光”的器件。先理解激光器本身如何从材料、外延和芯片工艺中形成，后续才能判断封装页里的内置光源、外置光源和 ELSFP 方案为什么会有不同取舍。
+因此，CPO 对激光源的要求高于普通“能发光”的器件。激光器如何从材料、外延和芯片工艺中形成，决定了封装页里的内置光源、外置光源和 ELSFP 方案会面对哪些取舍。
 
 ## 总览：从 InP 衬底到激光器芯片
 
@@ -68,13 +68,15 @@ CPO 的基本动机是把光引擎放到 <TermNote label="switch ASIC" note="数
   </li>
 </ol>
 
-后续各节沿这六个阶段展开。TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容，本页只说明它们会反向要求激光源具备怎样的输出功率、稳定性和可靠性。
+后续各节沿这六个阶段展开。TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容；在这页里，它们主要用来连接激光源输出功率、稳定性和可靠性要求。
 
 ## 1. InP 单晶生长与衬底制备
 
 面向 1310 nm / 1550 nm 通信波段的半导体激光器，常建立在 InP 相关 <TermNote label="III-V 材料体系" note="由元素周期表 III 族和 V 族元素组成的化合物半导体体系，例如 InP、GaAs、InGaAsP、InAlGaAs。它们常用于高效发光、探测和高速光电子器件。" /> 上。这个选择来自目标波长、<TermNote label="有源区" note="激光器中真正产生光增益的区域。电子和空穴在这里复合，释放光子；通信激光器通常把有源区设计成量子阱或多量子阱。" />所用材料和<TermNote label="外延晶格" note="外延是在晶体衬底表面继续生长晶体薄层的工艺。新生长的材料会沿着衬底的晶格排列，因此外延材料与衬底的晶格匹配会影响缺陷和应变。" />之间的共同约束：有源区需要在通信波段形成光增益，外延层需要在低缺陷晶格模板上连续生长，InP 衬底则提供了承载这些 III-V 结构的起始平台。
 
 ### 为什么需要 InP 衬底
+
+激光器的最低层原理是电子能量转换。半导体里，电子可以被注入或激发到较高能量状态；当电子回到较低能量状态，并与空穴复合时，会释放能量。若这部分能量以光子的形式释放，就产生光；若在受激辐射过程中产生的新光子与已有光子具有相同频率、相位和传播方向，光就可以被放大，形成激光。
 
 通信波段激光器的材料选择，首先受目标光子能量约束。光子能量和波长满足近似关系 `E(eV) = 1.24 / λ(um)`，所以 1310 nm 约对应 0.95 eV，1550 nm 约对应 0.80 eV。激光器的有源区需要具有接近这些能量的 <TermNote label="带隙" note="半导体中价带顶和导带底之间的能量差。电子从导带回到价带并与空穴复合时，释放出的能量大致由带隙决定。" />，并且要能在电注入后高效产生辐射复合和光增益。
 
