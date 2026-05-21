@@ -108,7 +108,7 @@ test("homepage is a CPO knowledge entry rather than a learning-path pitch", asyn
   const layout = await read("src/layouts/BaseLayout.astro");
   const packaging = await read("src/pages/components/packaging.mdx");
   assert.match(home, /CPO 光引擎拆解/);
-  assert.match(home, /CPO 光源系统/);
+  assert.match(home, /CPO 激光源/);
   assert.match(home, /PIC \/ optical circuit/);
   assert.match(home, /Optical I\/O/);
   assert.match(home, /Manufacturing and test/);
@@ -165,11 +165,11 @@ test("component hub pages link to detail pages through relative paths", async ()
   }
 });
 
-test("light source component page is organized as a full source-chain page", async () => {
+test("light source component page is organized as a focused laser-source page", async () => {
   const page = await read("src/pages/components/laser-source.mdx");
-  assert.match(page, /title: CPO 光源系统/);
+  assert.match(page, /title: CPO 激光源/);
   assert.match(page, /chapter: CPO 光引擎组件/);
-  assert.match(page, /内置\/外置光源如何划分系统/);
+  assert.match(page, /DFB、CW、MWL 等光源器件的关键指标/);
   assert.match(page, /## 本页定位/);
   assert.match(page, /## 为什么 CPO 需要稳定光源/);
   assert.match(page, /## 总览：从 InP 衬底到激光器芯片/);
@@ -178,15 +178,15 @@ test("light source component page is organized as a full source-chain page", asy
   assert.match(page, /## 有源区：电流如何变成光增益/);
   assert.match(page, /## 激光器内部微观结构/);
   assert.match(page, /## DFB 如何选择波长/);
-  assert.match(page, /## 从 laser chip 到可用光源/);
-  assert.match(page, /## CPO 里的光源放置方式/);
-  assert.match(page, /## 评价指标/);
-  assert.match(page, /## 总结：一颗光源从哪里来/);
-  assert.match(page, /从 InP \/ III-V 材料为什么能够发光开始/);
-  assert.match(page, /光源放在封装内或封装外/);
+  assert.match(page, /## 从 laser chip 到器件级供光单元/);
+  assert.match(page, /## 与封装页面的接口/);
+  assert.match(page, /## 器件评价指标/);
+  assert.match(page, /## 总结：一颗 CPO 激光源从哪里来/);
+  assert.match(page, /本页只聚焦 CPO 所用的激光源器件/);
+  assert.match(page, /系统摆放问题放到一边/);
   assert.match(page, /先理解激光器本身如何从材料、外延和芯片工艺中形成/);
-  assert.match(page, /制造阶段总览/);
-  assert.match(page, /TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容/);
+  assert.match(page, /器件制造总览/);
+  assert.match(page, /封装与系统集成层面的内容/);
   assert.match(page, /MOCVD \/ MBE epitaxy/);
   assert.match(page, /p-contact \/ metal/);
   assert.match(page, /ridge waveguide/);
@@ -200,15 +200,16 @@ test("light source component page is organized as a full source-chain page", asy
   assert.match(page, /Transmitter Optical Sub-Assembly/);
   assert.match(page, /External Laser Small Form-Factor Pluggable/);
   assert.match(page, /Distributed Feedback/);
-  assert.match(page, /默认讨论网络交换 CPO/);
-  assert.match(page, /与 GPU \/ TPU die 分属不同语境/);
-  assert.match(page, /external laser source/);
+  assert.match(page, /\.\.\/packaging\//);
+  assert.doesNotMatch(page, /Switch ASIC \(Die\)/);
+  assert.doesNotMatch(page, /## CPO 里的光源放置方式/);
+  assert.doesNotMatch(page, /ELSFP 外置光源模块/);
   assert.match(page, /QW \/ MQW 有源区/);
   assert.match(page, /材料名称和有源区名称属于其他层级/);
   assert.match(page, /光学输出/);
   assert.match(page, /噪声与单模性/);
   assert.match(page, /电热效率/);
-  assert.match(page, /系统集成/);
+  assert.match(page, /器件接口/);
   assert.match(page, /相关参考页会继续保留/);
   assert.match(page, /\.\.\/\.\.\/learn\/inp-dfb-laser-principle\//);
   assert.match(page, /OIF: External Laser Small Form Factor Pluggable/);

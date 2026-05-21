@@ -1,32 +1,30 @@
 ---
 layout: ../../layouts/ConceptLayout.astro
-title: CPO 光源系统
+title: CPO 激光源
 chapter: CPO 光引擎组件
-description: 在 CPO 光引擎里，光源系统回答光在哪里产生、激光器放在何处，以及内置/外置光源如何划分系统。
+description: 解释 CPO 所需连续光如何由 InP / III-V 激光器产生，以及 DFB、CW、MWL 等光源器件的关键指标。
 ---
 
 import TermNote from "../../components/TermNote.astro";
 
 ## 本页定位
 
-本页讨论 CPO 光源系统的两层问题：激光器怎样从材料和器件结构中产生稳定连续光；这颗激光器芯片经过封装、耦合和系统管理后，怎样成为光引擎可使用的供光单元。
+本页只聚焦 CPO 所用的激光源器件：光怎样在 InP / III-V 激光器中产生，怎样被 DFB 腔体和波导结构稳定下来，以及器件输出需要满足哪些通信指标。
 
-技术路径从 InP / III-V 材料为什么能够发光开始，经过衬底、外延、有源区、波导、腔体和 DFB 光栅，再延伸到裸激光器芯片如何被组织为 <TermNote label="TOSA" note="Transmitter Optical Sub-Assembly，发射端光学子组件，通常把激光器、耦合光学、监控探测器 and 封装接口组织在一起。" />、<TermNote label="ELSFP" note="External Laser Small Form-Factor Pluggable，OIF 定义的外置光源可插拔形态，用来给光引擎提供连续光。" /> 或光引擎内部供光结构。封装、耦合和测试的细节会在对应页面展开，本页只保留它们与光源选择直接相关的接口关系。
+技术路径从材料与有源区开始，经过外延结构、波导、腔体和 DFB 光栅，最后落到 CW 激光器芯片、DFB 激光器、EML、MWL 等光源器件的输出能力。<TermNote label="TOSA" note="Transmitter Optical Sub-Assembly，发射端光学子组件，通常把激光器、耦合光学、监控探测器和封装接口组织在一起。" />、<TermNote label="ELSFP" note="External Laser Small Form-Factor Pluggable，Optical Internetworking Forum 定义的外置光源可插拔形态，用来给光引擎提供连续光。" />、光引擎内部供光结构属于封装和系统集成形态，本页只说明它们对激光源器件提出的输入条件。
 
-这里的“光源系统”范围比单颗激光器芯片更大。它同时包括材料和器件物理，也包括光源放在封装内或封装外、如何接入光引擎、如何测试以及如何维护。除非特别说明，本文默认讨论网络交换 CPO：光引擎靠近数据中心交换芯片（<TermNote label="switch ASIC" note="数据中心交换机中的网络交换芯片，与 GPU / TPU die 分属不同语境；本页默认指网络交换 CPO。CPO 把光引擎放到它附近，以缩短 switch ASIC 到光引擎之间的高速电信号路径。" />）。GPU / TPU / XPU 封装中的 optical I/O 属于相邻路线，后续需要单独比较。
+光源放在光引擎内部、封装边缘或外置 ELSFP 模块中，会影响热环境、反射、耦合损耗和维护方式；这些属于 [Package integration](../packaging/) 的主线。晶圆级筛选和 burn-in 放在 [Manufacturing and test](../manufacturing-test/)，寿命衰减、冗余和现场替换放在 [Reliability and operations](../reliability-operations/)。
 
-### CPO 光源的自底向上技术栈模型
+### CPO 激光源的自底向上器件模型
 
-理解 CPO 光源需要沿着一条从底层物理原材料到顶层系统级集成架构的路径。我们将这一路径划分为六层硬件技术栈：
+理解激光源时，可以先把系统摆放问题放到一边，只看一颗可用通信光源如何从材料走到器件输出。本页按四层组织：
 
 | 层级 | 阶段名称 | 技术核心与关注点 |
 | :--- | :--- | :--- |
-| **第一层：原材料层** | InP 衬底与材料物理 | 利用 III-V 族直接带隙发光特性，制备 epi-ready 磷化铟衬底作为外延底座。 |
-| **第二层：外延生长** | MQW 有源区与异质结 | 通过 MOCVD 生长多量子阱，形成限制层与载流子限制，实现电光转换。 |
-| **第三层：器件物理** | 波导与 DFB 光栅 | 建立脊波导（Waveguide）或埋入异质结构，依靠分布式反馈实现稳定单模激射。 |
-| **第四层：后道加工** | 芯片测试与解理 | 对整张晶圆进行解理（Cleaving）、端面镀膜与已知合格芯片（KGD）筛选。 |
-| **第五层：封装组件** | TOSA / ELSFP / 耦合 | 完成裸芯片到实用发射组件的组织，解决光纤耦合与热电控制问题。 |
-| **第六层：系统集成** | CPO 架构与链路 | 解决内置与外置光源的选择、光功率预算、走线以及可维护性难题。 |
+| **第一层：材料与衬底** | InP / III-V 平台 | 选择能够覆盖通信波段、支持高效发光和外延生长的材料体系。 |
+| **第二层：外延与有源区** | SCH / QW / MQW | 通过外延形成载流子和光场限制结构，把电注入转化为光增益。 |
+| **第三层：腔体与波长控制** | 波导 / DFB 光栅 | 用波导限制光场，用反馈结构选择稳定单模波长。 |
+| **第四层：器件输出** | CW / DFB / EML / MWL | 评估输出功率、线宽、RIN、SMSR、PCE、温度漂移和反射敏感性。 |
 
 ## 为什么 CPO 需要稳定光源
 
@@ -37,14 +35,11 @@ CPO 的基本动机是把光引擎放到 switch ASIC 附近，缩短高速电信
 - 如果激光器放进封装，光路较短，但封装、良率、返修和 known-good-die 判断更困难。
 - 如果激光器外置，热和可维护性更好，但连接器、光纤走线、功率预算、安全和管理更复杂。
 
-因此，CPO 光源不是单纯的器件选择问题。先理解激光器本身如何从材料、外延和芯片工艺中形成，才能进一步讨论它如何被封装、测试和接入光引擎。
+因此，CPO 对激光源的要求高于普通“能发光”的器件。先理解激光器本身如何从材料、外延和芯片工艺中形成，后续才能判断封装页里的内置光源、外置光源和 ELSFP 方案为什么会有不同取舍。
 
 ## 总览：从 InP 衬底到激光器芯片
 
-下面是一份制造阶段总览：每一阶段既包含工艺动作，也对应形成的关键器件结构。在半导体激光器行业中，制造工艺通常以晶圆前道（Wafer Level）与芯片后道（Die Level）为界线进行划分：
-
-- **前道工艺 (Wafer Level)**：包含阶段 1 至阶段 4，在整张磷化铟晶圆上进行，具有极高的规模化集成效率。
-- **后道与封装集成 (Die Level & Packaging)**：包含阶段 5 至阶段 6，将晶圆分割为独立器件，并完成从裸芯片到系统级光源的封装与接入。
+下面是一份器件制造总览：每一阶段既包含工艺动作，也对应形成的关键激光器结构。本页停在激光器芯片和器件级输出接口，系统级封装位置另在封装页展开。
 
 <ol className="stage-list">
   <li>
@@ -73,7 +68,7 @@ CPO 的基本动机是把光引擎放到 switch ASIC 附近，缩短高速电信
   </li>
 </ol>
 
-后续各节沿这条主线展开。TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容，本页只在必要处说明它们与激光器芯片的关系。
+后续各节沿这条主线展开。TOSA、ELSFP、光引擎输入和 PIC 接入属于封装与系统集成层面的内容，本页只说明它们会反向要求激光源具备怎样的输出功率、稳定性和可靠性。
 
 ## 材料层：为什么是 InP / III-V
 
@@ -145,13 +140,11 @@ high-purity In / P — 高纯铟和磷等原料
 
 在自底向上的光路中，DFB 激光器对微小的外部反射光（Reflection）都极其敏感。微弱的回授光会进入 DFB 谐振腔，破坏布拉格光栅选择的单一波长，导致光谱展宽、激射模式不稳定，并大幅度增加相对强度噪声（RIN）。
 
-在 CPO 系统中：
-- 如果使用**外置光源 (ELSFP)**，光需要通过保偏光纤、盲插光连接器（Blind-mate connector）才能接入封装内的光引擎。连接器接触面、光纤弯曲处的反向反射光会回授至激光器，破坏整个链路的传输指标。
-- 解决这一底层物理问题的方案是在光路中引入**光隔离器 (Optical Isolator)**，允许光单向通过，阻断反射光。这增加了 ELSFP 模块或 TOSA 的组装难度和制造成本。
+在 CPO 场景中，外部连接器、光纤弯曲、PIC 耦合结构和封装内反射面都会把部分光反馈回激光器。器件侧需要关注隔离度、端面镀膜、反馈容忍度和 RIN 变化；封装侧则需要在光路中控制连接器反射、耦合损耗和光隔离器位置。
 
-## 从 laser chip 到可用光源
+## 从 laser chip 到器件级供光单元
 
-裸激光器芯片不能直接等同于系统光源。它还需要经过测试、封装、耦合、热控制和监控，才能成为 CPO 系统可使用的连续光源。
+裸激光器芯片还需要经过器件级筛选、端面处理、基础封装、耦合、热控制和监控，才能作为 TOSA、laser package 或外置光源模块的核心发光单元。
 
 | 环节 | 作用 |
 |---|---|
@@ -161,49 +154,17 @@ high-purity In / P — 高纯铟和磷等原料
 | TEC / thermistor | 控制或监测温度，降低波长漂移和功率漂移。 |
 | fiber / lens coupling | 把芯片输出光耦合到光纤、光波导或 optical engine 输入端。 |
 
-## CPO 里的光源放置方式
+## 与封装页面的接口
 
-| 位置 | 例子 | 优点 | 难点 |
-|---|---|---|---|
-| 光引擎内部 | optical engine with internal laser | 光路短，系统划分直观 | 热、良率、返修、laser aging 压力集中 |
-| 封装内 / 封装边缘 | in-package source / laser tile | 靠近 PIC，集成度高 | 封装设计、散热、测试和 known-good-die 更难 |
-| 外置光源模块 | <TermNote label="external laser source" note="外置光源，把激光器放在光引擎或封装外部，以改善热和可维护性，但会增加连接、功率预算和管理复杂度。" /> / ELSFP | 远离 ASIC 热源，可维护性更好 | 光功率预算、blind-mate connector、fiber routing、safety、management 更复杂 |
-| PIC 上异质集成 | III-V-on-Si / bonded laser | 集成度最高，路径最短 | 工艺整合、可靠性和规模量产难度高 |
+激光源页面只回答“这颗光源需要具备什么器件能力”。至于光源放在光引擎内部、封装边缘、前面板 ELSFP 模块中，属于封装与系统布局问题。对应内容见 [Package integration](../packaging/)。
 
-在 <TermNote label="OIF" note="Optical Internetworking Forum，光通信行业互操作论坛，常发布 CPO、ELSFP 等实现协议、框架和白皮书。" /> 的管理白皮书里，ELS（external light source）是提供光的外部光模块；在 CPO 场景下，它向不带内部光源的 optical engine / optical transceiver 提供光功率。ELSFP 则是 OIF 为这种外置光源定义的一种可插拔实现形态。
+这里保留三条接口关系：
 
-### 内置与外置方案示意
+- 内置光源会提高热耦合和返修压力，反向要求激光器具备更强温度稳定性和筛选一致性。
+- 外置光源会引入光纤、连接器和反射路径，反向要求激光器具备更好的反馈容忍度、功率余量和监控能力。
+- PIC 上异质集成会缩短光路，反向要求 III-V 与 Si / SOI 工艺整合具备足够良率和可靠性。
 
-下面两张图只说明物理位置和连接关系，不代表唯一实现方式。
-
-#### 方案一：内置光源 (Internal Laser)
-
-```mermaid
-graph LR
-    subgraph Substrate_A ["封装基板 Package Substrate Boundary"]
-        direction LR
-        ASIC_A["Switch ASIC (Die)"] <-->|高速电互连-数毫米| OE_A["光引擎 (Optical Engine) <br/> (集成：硅光PIC + Driver/TIA + DFB激光器)"]
-    end
-    
-    style Substrate_A fill:#f4f7f6,stroke:#1d7a6b,stroke-width:2px,stroke-dasharray:5,5
-```
-
-#### 方案二：外置光源 (External Laser / ELSFP)
-
-```mermaid
-graph LR
-    subgraph Substrate_B ["封装基板 Package Substrate Boundary"]
-        direction LR
-        ASIC_B["Switch ASIC (Die)"] <-->|高速电信号| OE_B["光引擎 (Optical Engine) <br/> (仅集成：硅光PIC + Driver/TIA)"]
-    end
-
-    ELS["ELSFP 外置光源模块 <br/> (位于交换机前机箱面板)"] -->|保偏光纤-连续光输入| OE_B
-    
-    style Substrate_B fill:#f4f7f6,stroke:#1d7a6b,stroke-width:2px,stroke-dasharray:5,5
-    style ELS fill:#fffdf9,stroke:#d97706,stroke-width:2px
-```
-
-## 评价指标
+## 器件评价指标
 
 | 指标类别 | 指标 | 说明 |
 |---|---|---|
@@ -212,13 +173,13 @@ graph LR
 | 电热效率 | threshold current / slope efficiency / wall-plug efficiency / PCE | 决定系统功耗和散热压力。 |
 | 温度稳定性 | wavelength drift / output power drift | 决定温度变化下的波长和功率稳定性。 |
 | 可靠性 | lifetime / burn-in / aging / COD | 决定长期运行能力和早期失效筛选方式。 |
-| 系统集成 | coupling loss / serviceability / management | 决定光从光源到 PIC 的损耗、可维护性和管理复杂度。 |
+| 器件接口 | feedback tolerance / coupling-ready output / monitor signal | 决定后续封装、耦合和监控能否稳定使用这颗光源。 |
 
-## 总结：一颗光源从哪里来
+## 总结：一颗 CPO 激光源从哪里来
 
-CPO 光源系统可以从两个方向同时理解：向下看，它依赖 InP / III-V 材料、外延、有源区、波导、腔体和 DFB 反馈结构；向上看，它必须通过封装、耦合、测试、热管理和系统管理，变成 optical engine 能长期使用的连续光输入。
+CPO 激光源可以从四个层级理解：材料平台决定发光能力，外延和有源区决定光增益，波导和 DFB 结构决定模式与波长，器件输出指标决定它能否进入后续封装和光引擎。
 
-相关参考页会继续保留，用于补充已有内容：[InP substrate](../../learn/inp-substrate/)、[Optical gain and threshold current](../../learn/optical-gain-and-threshold-current/)、[Distributed feedback and wavelength selection](../../learn/distributed-feedback-and-wavelength-selection/)、[InP / DFB laser principle](../../learn/inp-dfb-laser-principle/)。
+相关参考页会继续保留，用于补充已有内容：[InP substrate](../../learn/inp-substrate/)、[Optical gain and threshold current](../../learn/optical-gain-and-threshold-current/)、[Distributed feedback and wavelength selection](../../learn/distributed-feedback-and-wavelength-selection/)、[InP / DFB laser principle](../../learn/inp-dfb-laser-principle/)。封装位置、ELSFP、光功率预算和可维护性见 [Package integration](../packaging/)。
 
 ## 资料来源
 

@@ -46,6 +46,50 @@ CPO 把 optical engine 移到 ASIC 附近，目标是缩短高速电信号路径
 - Optical I/O / fiber coupling。
 - Light source / laser supply。
 
+### 光源放置与封装边界
+
+CPO 的光源可以放在光引擎内部、封装边缘，也可以移到外部模块中。这个选择属于封装和系统布局问题，因为它同时改变热路径、光纤走线、连接器、可维修性和光功率预算。
+
+OIF 的 ELS / ELSFP 资料把 external laser source 定义为向 optical engine 或 optical transceiver 提供光功率的外部光模块；ELSFP 是这种外置供光方式的一种可插拔实现形态。
+
+| 放置方式 | 典型形态 | 主要收益 | 主要约束 |
+|---|---|---|---|
+| 光引擎内部 | optical engine with internal laser | 光路短，系统边界直观 | 热、返修、laser aging 和 KGD 压力集中 |
+| 封装内 / 封装边缘 | in-package source / laser tile | 靠近 PIC，集成度高 | 封装设计、散热、测试和良率链更复杂 |
+| 外置光源模块 | external laser source / ELSFP | 远离 ASIC 热源，可维护性更好 | 光功率预算、盲插连接器、光纤走线、安全和管理更复杂 |
+| PIC 上异质集成 | III-V-on-Si / bonded laser | 路径最短，潜在集成度最高 | 工艺整合、可靠性和规模量产难度高 |
+
+#### 方案一：内置光源的物理集成 (In-Package Integration)
+
+内置方案把激光器裸芯片或 laser tile 放在光引擎附近，可能通过混合集成、共晶焊或封装基板实现。这种方案的光路短，连接器少，但热耦合和返修风险更集中。Switch ASIC、Driver/TIA 和激光器共享更紧密的热环境后，激光器的温度漂移、老化和端面可靠性都需要提前纳入封装设计。
+
+```mermaid
+graph LR
+    subgraph Substrate_A ["封装基板 Package Substrate Boundary"]
+        direction LR
+        ASIC_A["Switch ASIC (Die)"] <-->|高速电互连-数毫米| OE_A["光引擎 (Optical Engine) <br/> 集成：硅光 PIC + Driver/TIA + DFB 激光器"]
+    end
+
+    style Substrate_A fill:#f4f7f6,stroke:#1d7a6b,stroke-width:2px,stroke-dasharray:5,5
+```
+
+#### 方案二：外置光源模块的物理集成 (External Laser / ELSFP)
+
+外置方案把激光源移出主封装，做成独立模块，通过保偏光纤和盲插光连接器把连续光送入封装内的光引擎。这种方案降低了光源受到 ASIC 热源影响的程度，也提高了现场更换能力；代价是光路更长，连接器和光纤走线会引入损耗、反射、偏振管理和安全管理问题。
+
+```mermaid
+graph LR
+    subgraph Substrate_B ["封装基板 Package Substrate Boundary"]
+        direction LR
+        ASIC_B["Switch ASIC (Die)"] <-->|高速电信号| OE_B["光引擎 (Optical Engine) <br/> 集成：硅光 PIC + Driver/TIA"]
+    end
+
+    ELS["ELSFP 外置光源模块 <br/> 位于机箱前面板或可维护位置"] -->|保偏光纤与盲插连接器| OE_B
+    
+    style Substrate_B fill:#f4f7f6,stroke:#1d7a6b,stroke-width:2px,stroke-dasharray:5,5
+    style ELS fill:#fffdf9,stroke:#d97706,stroke-width:2px
+```
+
 ## Detail Entrypoints
 
 ### Existing Pages
@@ -63,11 +107,11 @@ CPO 把 optical engine 移到 ASIC 附近，目标是缩短高速电信号路径
 
 ### Later Deep Dives
 
-- Fiber array units.
+- Fiber array units (FAU).
 - Active and passive alignment.
-- Coupling loss.
-- Known-good-die.
-- Thermal management.
+- Coupling loss and tolerance.
+- Known-good-die in package integration.
+- Thermal management and heat-sink design.
 - CPO package stack.
 - EIC / PIC / substrate placement model.
 

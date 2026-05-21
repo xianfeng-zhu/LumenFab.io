@@ -31,13 +31,22 @@ Reliability and operations 关注的是 CPO 能否长期稳定运行。它跨越
 
 ### Later Deep Dives
 
-- Laser lifetime and aging.
-- TEC and thermal control.
-- Package stress and optical alignment drift.
-- Connector handling.
-- Replaceable optical engine.
-- Monitoring and management.
-- Failure analysis.
+- Laser lifetime, aging curves, and failure modes.
+- Micro-TEC and advanced thermal control loop.
+- Package mechanical stress and alignment drift.
+- Optical fiber connector handling and dust mitigation.
+- Field-replaceable units (FRU) for external laser sources.
+- Real-time diagnostic monitoring and telemetry interface.
+
+### 激光器寿命与光源冗余
+
+数据中心交换机对可用性要求很高。光电集成系统里，III-V 半导体激光器会受到温度、电流密度、反射、端面状态和材料缺陷影响，可能出现输出功率衰减、波长漂移、噪声上升或突发失效。
+
+CPO 相关系统通常从三个层面管理这些风险：
+
+- **寿命衰减监控（Degradation Monitoring）**：激光器输出功率可能随运行时间下降，控制电路需要监测 monitor PD、偏置电流、温度和告警阈值。
+- **冷备份与热备份（Redundancy Switching）**：外置光源模块可以配置工作光源和备用光源。热备份强调快速切换，冷备份强调延长备用器件寿命；具体实现取决于模块结构、管理接口和系统可用性目标。
+- **现场可更换单元（FRU）**：ELSFP 等可插拔外置光源把光源维护边界移到模块级，降低封装内激光器失效对主 ASIC 和光引擎的影响，但也引入连接器清洁、光纤管理和安全管理要求。
 
 ## Common Boundaries
 
