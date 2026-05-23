@@ -2,7 +2,7 @@
 
 Date: 2026-05-21
 
-Scope: sources for expanding `src/pages/components/laser-source.mdx`, section `4. 电极、绝缘与电流限制`. The section should explain how an InP laser chip turns an external current into localized carrier injection in the active region, and why contacts, passivation and current confinement affect threshold, heating, modal stability and reliability.
+Scope: sources for expanding `src/pages/components/laser-source.mdx`, section `4. 电流注入、绝缘与电流约束`. The section should explain how an InP laser chip turns an external current into localized carrier injection in the active region, and why contacts, passivation and current confinement affect threshold, heating, modal stability and reliability.
 
 ## Saved Source Files
 
@@ -36,14 +36,14 @@ Scope: sources for expanding `src/pages/components/laser-source.mdx`, section `4
 
 ## Suggested Reader Structure For Section 4
 
-1. **Current injection as the entry point**: external driver, p-contact, n-contact, electron / hole injection and threshold.
+1. **Current path from electrode to QW/MQW active region**: external driver, p-contact, p-cladding, active region, n-contact or back metal; emphasize overlap between injected carriers and the optical mode.
 2. **Ohmic contacts and contact layers**: metal stack, highly doped semiconductor, annealing, contact resistance and local heating.
-3. **Insulation and passivation**: dielectric film, contact window, sidewall protection, leakage suppression and reliability.
-4. **Current confinement**: stripe contact, ridge waveguide current aperture, buried heterostructure and current-blocking layers.
+3. **Insulation, passivation and current window**: dielectric film, contact window, sidewall protection, leakage suppression and reliability. Treat the window as the entry point for current.
+4. **Current confinement structures**: stripe contact, ridge waveguide current aperture, buried heterostructure and current-blocking layers. Treat these as controls over lateral spreading and bypass leakage after current enters.
 5. **How fabrication choices affect laser output**: threshold current, slope efficiency, series resistance, RIN, mode stability, thermal drift and long-term lifetime.
 
 ## Page Use
 
-- Use this pack for section `4. 电极、绝缘与电流限制`.
+- Use this pack for section `4. 电流注入、绝缘与电流约束`.
 - Keep packaging, TOSA wiring and driver circuit design outside this section except as downstream requirements.
 - Use "current confinement" as an electrical / lateral injection concept. Keep it distinct from optical confinement and DFB feedback.

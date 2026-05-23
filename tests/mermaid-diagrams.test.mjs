@@ -34,8 +34,8 @@ test("CPO light-source manufacturing overview uses readable stage cards", () => 
   assert.match(laserSourcePage, /<ol className="stage-list">/);
   assert.match(laserSourcePage, /InP 单晶生长与衬底制备/);
   assert.match(laserSourcePage, /外延生长/);
-  assert.match(laserSourcePage, /光栅与波导加工/);
-  assert.match(laserSourcePage, /电极、绝缘与电流限制/);
+  assert.match(laserSourcePage, /波导、DFB 光栅与工艺容差/);
+  assert.match(laserSourcePage, /电流注入、绝缘与电流约束/);
   assert.match(laserSourcePage, /解理与端面处理/);
   assert.match(laserSourcePage, /芯片测试与筛选/);
 });
