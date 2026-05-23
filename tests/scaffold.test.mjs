@@ -36,12 +36,16 @@ test("concept layout reads MDX frontmatter for title metadata", async () => {
   assert.match(layout, /margin:\s+0 auto/);
 });
 
-test("term notes do not create horizontal page overflow when hidden", async () => {
+test("term notes clamp visible tooltips inside the viewport", async () => {
   const component = await read("src/components/TermNote.astro");
   assert.match(component, /\.term-note__tip/);
   assert.match(component, /\.term-note\s*{\s*position:\s+relative/s);
   assert.match(component, /\.term-note__tip\s*{[^}]*position:\s+absolute/s);
   assert.match(component, /display:\s+none/);
+  assert.match(component, /left:\s+50%/);
+  assert.match(component, /--term-note-shift/);
+  assert.match(component, /getBoundingClientRect/);
+  assert.match(component, /data-term-note-placement/);
   assert.match(component, /\.term-note:hover \.term-note__tip/);
   assert.match(component, /display:\s+block/);
   assert.match(component, /@media \(max-width: 720px\)/);

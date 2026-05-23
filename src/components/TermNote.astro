@@ -14,10 +14,59 @@ const { label, note } = Astro.props;
   <span class="term-note__tip" role="tooltip">{note}</span>
 </span>
 
+<script>
+  const edgeGap = 12;
+  const notes = document.querySelectorAll(".term-note");
+
+  function positionTermNote(note) {
+    const tip = note.querySelector(".term-note__tip");
+    if (!(tip instanceof HTMLElement) || !(note instanceof HTMLElement)) {
+      return;
+    }
+
+    note.style.setProperty("--term-note-shift", "0px");
+    note.removeAttribute("data-term-note-placement");
+
+    requestAnimationFrame(() => {
+      const noteRect = note.getBoundingClientRect();
+      const tipRect = tip.getBoundingClientRect();
+      const viewportWidth = document.documentElement.clientWidth;
+      let shift = 0;
+
+      if (tipRect.left < edgeGap) {
+        shift = edgeGap - tipRect.left;
+      } else if (tipRect.right > viewportWidth - edgeGap) {
+        shift = viewportWidth - edgeGap - tipRect.right;
+      }
+
+      if (tipRect.top < edgeGap && noteRect.bottom + tipRect.height + edgeGap < window.innerHeight) {
+        note.setAttribute("data-term-note-placement", "below");
+      }
+
+      note.style.setProperty("--term-note-shift", `${Math.round(shift)}px`);
+    });
+  }
+
+  for (const note of notes) {
+    note.addEventListener("pointerenter", () => positionTermNote(note));
+    note.addEventListener("focusin", () => positionTermNote(note));
+    note.addEventListener("click", () => positionTermNote(note));
+  }
+
+  window.addEventListener("resize", () => {
+    for (const note of notes) {
+      if (note.matches(":hover, :focus-within")) {
+        positionTermNote(note);
+      }
+    }
+  });
+</script>
+
 <style>
   .term-note {
     position: relative;
     display: inline-block;
+    --term-note-shift: 0px;
     white-space: nowrap;
   }
 
@@ -44,7 +93,7 @@ const { label, note } = Astro.props;
   .term-note__tip {
     position: absolute;
     bottom: calc(100% + 0.45rem);
-    left: 0;
+    left: 50%;
     z-index: 20;
     display: none;
     width: max-content;
@@ -59,7 +108,7 @@ const { label, note } = Astro.props;
     line-height: 1.55;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(0.2rem);
+    transform: translate(calc(-50% + var(--term-note-shift)), 0.2rem);
     transition:
       opacity 140ms ease,
       transform 140ms ease;
@@ -71,16 +120,24 @@ const { label, note } = Astro.props;
   .term-note:focus-within .term-note__tip {
     display: block;
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(calc(-50% + var(--term-note-shift)), 0);
     visibility: visible;
+  }
+
+  .term-note[data-term-note-placement="below"] .term-note__tip {
+    top: calc(100% + 0.45rem);
+    bottom: auto;
   }
 
   @media (max-width: 720px) {
     .term-note__tip {
       bottom: calc(100% + 0.4rem);
-      left: 0;
       width: max-content;
       max-width: min(20rem, calc(100vw - 2rem));
+    }
+
+    .term-note[data-term-note-placement="below"] .term-note__tip {
+      top: calc(100% + 0.4rem);
     }
   }
 </style>
