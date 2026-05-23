@@ -1,0 +1,339 @@
+---
+interface Props {
+  title?: string;
+  caption?: string;
+}
+
+const {
+  title = "InP DFB 激光器结构模型",
+  caption = "可旋转模型显示边发射 DFB 激光器的主要芯片级结构：InP 衬底、包层、SCH / MQW 有源区、ridge、电流窗口、DFB 光栅、端面和连续输出光。"
+} = Astro.props;
+---
+
+<figure class="dfb-model">
+  <div class="dfb-model__viewport" data-dfb-laser-model>
+    <canvas aria-label={title}></canvas>
+    <div class="dfb-model__legend" aria-hidden="true">
+      <span><i style="--swatch: #93c5fd"></i>InP substrate</span>
+      <span><i style="--swatch: #86efac"></i>n / p cladding</span>
+      <span><i style="--swatch: #fbbf24"></i>SCH</span>
+      <span><i style="--swatch: #ec4899"></i>MQW active</span>
+      <span><i style="--swatch: #14b8a6"></i>DFB grating</span>
+      <span><i style="--swatch: #f59e0b"></i>metal</span>
+    </div>
+  </div>
+  <figcaption>
+    <strong>{title}</strong>
+    <span>{caption}</span>
+  </figcaption>
+</figure>
+
+<script>
+  import * as THREE from "three";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+  const roots = document.querySelectorAll("[data-dfb-laser-model]");
+
+  const material = (color, options = {}) =>
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0.68,
+      metalness: 0,
+      ...options
+    });
+
+  const transparent = (color, opacity) =>
+    material(color, {
+      transparent: true,
+      opacity,
+      depthWrite: false
+    });
+
+  function createBox({ size, position, color, opacity = 1, metalness = 0, roughness = 0.68 }) {
+    const mat = material(color, {
+      transparent: opacity < 1,
+      opacity,
+      metalness,
+      roughness
+    });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat);
+    mesh.position.set(...position);
+    return mesh;
+  }
+
+  function createArrow(start, end, color) {
+    const from = new THREE.Vector3(...start);
+    const to = new THREE.Vector3(...end);
+    const direction = to.clone().sub(from);
+    const length = direction.length();
+    return new THREE.ArrowHelper(direction.normalize(), from, length, color, 0.18, 0.09);
+  }
+
+  function buildModel(scene) {
+    const chip = new THREE.Group();
+    scene.add(chip);
+
+    const length = 5.8;
+    const width = 1.65;
+    let y = 0;
+
+    const layers = [
+      { name: "InP substrate", h: 0.46, color: 0x93c5fd, z: width },
+      { name: "n-InP cladding", h: 0.24, color: 0x86efac, z: width },
+      { name: "lower SCH", h: 0.12, color: 0xfbbf24, z: width },
+      { name: "MQW active region", h: 0.055, color: 0xec4899, z: width },
+      { name: "upper SCH", h: 0.12, color: 0xfbbf24, z: width },
+      { name: "p-InP cladding", h: 0.3, color: 0xa78bfa, z: width },
+      { name: "p+ contact cap", h: 0.12, color: 0xfca5a5, z: width }
+    ];
+
+    const layerCenters = {};
+    for (const layer of layers) {
+      const centerY = y + layer.h / 2;
+      const mesh = createBox({
+        size: [length, layer.h, layer.z],
+        position: [0, centerY, 0],
+        color: layer.color,
+        opacity: layer.name === "p-InP cladding" ? 0.84 : 1
+      });
+      chip.add(mesh);
+      layerCenters[layer.name] = centerY;
+      y += layer.h;
+    }
+
+    const topY = y;
+
+    const ridge = createBox({
+      size: [5.15, 0.36, 0.56],
+      position: [0, topY + 0.18, 0],
+      color: 0x38bdf8,
+      opacity: 0.9
+    });
+    chip.add(ridge);
+
+    const dielectricLeft = createBox({
+      size: [5.35, 0.08, 0.38],
+      position: [0, topY + 0.405, -0.55],
+      color: 0xe2e8f0,
+      opacity: 0.72
+    });
+    const dielectricRight = dielectricLeft.clone();
+    dielectricRight.position.z = 0.55;
+    chip.add(dielectricLeft, dielectricRight);
+
+    const metal = createBox({
+      size: [4.25, 0.12, 0.42],
+      position: [0, topY + 0.58, 0],
+      color: 0xf59e0b,
+      metalness: 0.42,
+      roughness: 0.34
+    });
+    chip.add(metal);
+
+    const gratingGroup = new THREE.Group();
+    const gratingY = layerCenters["upper SCH"] + 0.1;
+    const period = 0.22;
+    for (let x = -2.55; x <= 2.55; x += period) {
+      if (Math.abs(x) < 0.13) continue;
+      const tooth = createBox({
+        size: [0.045, 0.045, 1.45],
+        position: [x, gratingY, 0],
+        color: 0x14b8a6
+      });
+      gratingGroup.add(tooth);
+    }
+    chip.add(gratingGroup);
+
+    const phaseShift = createBox({
+      size: [0.11, 0.08, 1.52],
+      position: [0, gratingY + 0.01, 0],
+      color: 0x0f172a,
+      opacity: 0.82
+    });
+    chip.add(phaseShift);
+
+    const facetFront = createBox({
+      size: [0.045, 1.46, width + 0.05],
+      position: [length / 2 + 0.025, 0.78, 0],
+      color: 0x0f172a,
+      opacity: 0.25
+    });
+    const facetBack = facetFront.clone();
+    facetBack.position.x = -length / 2 - 0.025;
+    chip.add(facetFront, facetBack);
+
+    const modeGeometry = new THREE.SphereGeometry(1, 48, 24);
+    const mode = new THREE.Mesh(modeGeometry, transparent(0x22d3ee, 0.26));
+    mode.scale.set(2.45, 0.11, 0.32);
+    mode.position.set(0, layerCenters["MQW active region"], 0);
+    chip.add(mode);
+
+    chip.add(createArrow([-3.0, topY + 1.05, 0], [-3.0, topY + 0.32, 0], 0x047857));
+    chip.add(createArrow([-1.5, topY + 1.05, 0], [-1.5, topY + 0.32, 0], 0x047857));
+    chip.add(createArrow([0, topY + 1.05, 0], [0, topY + 0.32, 0], 0x047857));
+    chip.add(createArrow([1.5, topY + 1.05, 0], [1.5, topY + 0.32, 0], 0x047857));
+    chip.add(createArrow([2.9, layerCenters["MQW active region"], 0], [4.2, layerCenters["MQW active region"], 0], 0x2563eb));
+
+    const beam = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.05, 0.23, 2.5, 32, 1, true),
+      transparent(0x38bdf8, 0.28)
+    );
+    beam.rotation.z = Math.PI / 2;
+    beam.position.set(4.35, layerCenters["MQW active region"], 0);
+    chip.add(beam);
+
+    const outline = new THREE.Box3().setFromObject(chip);
+    const center = outline.getCenter(new THREE.Vector3());
+    chip.position.sub(center);
+    chip.rotation.x = -0.16;
+    chip.rotation.y = -0.55;
+    return chip;
+  }
+
+  for (const root of roots) {
+    const canvas = root.querySelector("canvas");
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf8fafc);
+
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    camera.position.set(4.6, 3.1, 5.2);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: false,
+      preserveDrawingBuffer: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.minDistance = 4.5;
+    controls.maxDistance = 12;
+    controls.target.set(0, 0.15, 0);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.8));
+    const key = new THREE.DirectionalLight(0xffffff, 2.1);
+    key.position.set(3, 5, 4);
+    scene.add(key);
+    const fill = new THREE.DirectionalLight(0xbfdbfe, 1.2);
+    fill.position.set(-4, 2, -3);
+    scene.add(fill);
+
+    const model = buildModel(scene);
+
+    const resize = () => {
+      const { width, height } = root.getBoundingClientRect();
+      const canvasHeight = Math.max(360, Math.min(560, width * 0.58));
+      root.style.setProperty("--model-height", `${canvasHeight}px`);
+      renderer.setSize(width, canvasHeight, false);
+      camera.aspect = width / canvasHeight;
+      camera.updateProjectionMatrix();
+    };
+
+    const observer = new ResizeObserver(resize);
+    observer.observe(root);
+    resize();
+
+    let frame = 0;
+    const animate = () => {
+      frame = requestAnimationFrame(animate);
+      model.rotation.y += 0.0012;
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    document.addEventListener("astro:before-swap", () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      controls.dispose();
+      renderer.dispose();
+    }, { once: true });
+  }
+</script>
+
+<style>
+  .dfb-model {
+    display: grid;
+    gap: 0.75rem;
+    margin: 2rem 0;
+  }
+
+  .dfb-model__viewport {
+    position: relative;
+    min-height: var(--model-height, 420px);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #f8fafc;
+  }
+
+  .dfb-model canvas {
+    display: block;
+    width: 100%;
+    height: var(--model-height, 420px);
+  }
+
+  .dfb-model__legend {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.75rem;
+    max-width: 52rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    border-radius: 8px;
+    background: rgba(248, 250, 252, 0.9);
+    color: #334155;
+    font-size: 0.82rem;
+    line-height: 1.2;
+    backdrop-filter: blur(8px);
+  }
+
+  .dfb-model__legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+  }
+
+  .dfb-model__legend i {
+    width: 0.72rem;
+    height: 0.72rem;
+    border-radius: 999px;
+    background: var(--swatch);
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
+  }
+
+  .dfb-model figcaption {
+    display: grid;
+    gap: 0.25rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .dfb-model figcaption strong {
+    color: var(--text);
+  }
+
+  @media (max-width: 720px) {
+    .dfb-model__viewport {
+      min-height: var(--model-height, 360px);
+    }
+
+    .dfb-model__legend {
+      position: static;
+      border-width: 1px 0 0;
+      border-radius: 0;
+      background: #f8fafc;
+    }
+  }
+</style>

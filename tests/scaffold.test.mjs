@@ -180,9 +180,8 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /title: 激光源/);
   assert.match(page, /chapter: 光引擎组件/);
   assert.match(page, /DFB 光栅，以及 CW、DFB、EML、MWL 等器件能力/);
-  await fileExists("public/figures/dfb-laser-3d-structure.svg");
-  assert.match(page, /dfb-laser-3d-structure\.svg/);
-  assert.match(page, /边发射 InP DFB 激光器结构示意/);
+  await fileExists("src/components/DfbLaserModel.astro");
+  assert.match(page, /DfbLaserModel/);
   assert.match(page, /## 激光源的器件边界/);
   assert.match(page, /## 为什么 CPO 会提高光源要求/);
   assert.match(page, /## 工作原理：电流如何变成稳定光/);
@@ -232,6 +231,15 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /进一步阅读/);
   assert.match(page, /\.\.\/\.\.\/learn\/inp-dfb-laser-principle\//);
   assert.match(page, /OIF: External Laser Small Form Factor Pluggable/);
+
+  const model = await read("src/components/DfbLaserModel.astro");
+  const pkg = await read("package.json");
+  assert.match(pkg, /"three": "\^0\.182\.0"/);
+  assert.match(model, /import \* as THREE from "three"/);
+  assert.match(model, /OrbitControls/);
+  assert.match(model, /WebGLRenderer/);
+  assert.match(model, /MQW active/);
+  assert.match(model, /DFB grating/);
 });
 
 test("InP DFB laser principle deep page ties physics to CPO light source needs", async () => {

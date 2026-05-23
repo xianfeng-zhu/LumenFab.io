@@ -517,7 +517,7 @@ For the first reader-facing version, organize the page as a vertical explanation
 7. 器件评价指标：用 `Ith`、`Pout`、slope efficiency、PCE/WPE、center wavelength、SMSR、RIN、linewidth、wavelength drift、rollover、beam divergence、burn-in drift and failure modes 收束前面的工艺结果。
 8. 从芯片到封装：只说明 die 交付给封装设计的光学、电学、热学和可靠性接口，不展开 TOSA、ELSFP、connector、isolator 或 full package layout。
 9. 完整链条：从外延片、波导/DFB 光栅、电流注入、解理/端面、测试/筛选到封装前 known-good-die 的 recap。
-10. 3D structure diagram: `public/figures/dfb-laser-3d-structure.svg` should show the chip-level internal structure only: InP substrate, n/p InP cladding, SCH, MQW active region, DFB grating, ridge/current aperture, p-metal, optical mode and cleaved facets. Keep submount, fiber/PIC coupling and package layout outside this page except as interface context.
+10. Three.js 3D model: `src/components/DfbLaserModel.astro` should show a chip-level, rotatable internal structure only: InP substrate, n/p InP cladding, SCH, MQW active region, DFB grating, ridge/current aperture, p-metal, optical mode and cleaved facets. Keep submount, fiber/PIC coupling and package layout outside this page except as interface context.
 
 ## Open Questions For Later
 
