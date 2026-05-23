@@ -179,8 +179,8 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /DFB 光栅，以及 CW、DFB、EML、MWL 等器件能力/);
   assert.match(page, /## 激光源的器件边界/);
   assert.match(page, /## 为什么 CPO 会提高光源要求/);
-  assert.match(page, /## 原理总览：激光器如何把电流变成稳定光源/);
-  assert.match(page, /## 总览：从 InP 衬底到激光器芯片/);
+  assert.match(page, /## 工作原理：电流如何变成稳定光/);
+  assert.match(page, /## 制造路径：从 InP 衬底到激光器芯片/);
   assert.match(page, /## 1\. InP 单晶生长与衬底制备/);
   assert.match(page, /## 2\. 外延生长/);
   assert.match(page, /## 3\. 光栅与波导加工/);
