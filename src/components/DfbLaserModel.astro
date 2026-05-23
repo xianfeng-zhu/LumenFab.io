@@ -6,25 +6,63 @@ interface Props {
 
 const {
   title = "InP DFB 激光器结构模型",
-  caption = "可旋转模型显示边发射 DFB 激光器的主要芯片级结构：InP 衬底、包层、SCH / MQW 有源区、ridge、电流窗口、DFB 光栅、端面和连续输出光。"
+  caption = "可旋转模型显示边发射 ridge DFB 激光器的主要芯片级结构。为便于观察，垂直层厚、MQW、DFB 光栅、端面镀膜和电流窗口均经过示意化放大，属于 not to scale 教学模型。"
 } = Astro.props;
+
+const legendItems = [
+  ["substrate", "#2563eb", "InP 衬底"],
+  ["nCladding", "#16a34a", "n-InP 包层"],
+  ["sch", "#eab308", "SCH"],
+  ["mqw", "#db2777", "MQW 有源区 (MQW active region)"],
+  ["pCladding", "#7c3aed", "p-InP 包层"],
+  ["contactCap", "#ef4444", "p+ 接触层"],
+  ["grating", "#0d9488", "DFB 光栅 (DFB grating)"],
+  ["ridge", "#0891b2", "ridge"],
+  ["dielectric", "#64748b", "绝缘 / 钝化"],
+  ["pMetal", "#f97316", "p-contact"],
+  ["nContact", "#475569", "n-contact"],
+  ["facet", "#334155", "端面 / 镀膜"]
+];
+
+const indexItems = [
+  ["substrate", "#2563eb", "InP 衬底"],
+  ["nCladding", "#16a34a", "n-InP 包层"],
+  ["sch", "#eab308", "SCH 限制层"],
+  ["mqw", "#db2777", "MQW 有源区"],
+  ["pCladding", "#7c3aed", "p-InP 包层"],
+  ["contactCap", "#ef4444", "p+ 接触层"],
+  ["ridge", "#0891b2", "Ridge 波导"],
+  ["grating", "#0d9488", "DFB 光栅"],
+  ["phase", "#1e293b", "相移区"],
+  ["dielectric", "#64748b", "绝缘钝化"],
+  ["currentWindow", "#22c55e", "电流窗口"],
+  ["pMetal", "#f97316", "顶部 p-contact"],
+  ["nContact", "#475569", "背面 n-contact"],
+  ["facet", "#334155", "解理端面"],
+  ["coating", "#a855f7", "AR / HR coating"],
+  ["mode", "#67e8f9", "腔内光学模式"],
+  ["current", "#22c55e", "电流路径"],
+  ["output", "#60a5fa", "边发射输出光"]
+];
 ---
 
 <figure class="dfb-model">
   <div class="dfb-model__viewport" data-dfb-laser-model>
     <canvas aria-label={title}></canvas>
     <div class="dfb-model__legend" aria-hidden="true">
-      <span><i style="--swatch: #2563eb"></i>InP substrate</span>
-      <span><i style="--swatch: #16a34a"></i>n / p cladding</span>
-      <span><i style="--swatch: #eab308"></i>SCH</span>
-      <span><i style="--swatch: #db2777"></i>MQW active</span>
-      <span><i style="--swatch: #0d9488"></i>DFB grating</span>
-      <span><i style="--swatch: #f97316"></i>metal</span>
+      {legendItems.map(([key, color, label]) => (
+        <span data-key={key}><i style={`--swatch: ${color}`}></i>{label}</span>
+      ))}
     </div>
+  </div>
+  <div class="dfb-model__index" aria-label="3D 模型结构索引">
+    {indexItems.map(([key, color, label]) => (
+      <button type="button" data-dfb-part-index={key} style={`--part-color: ${color}`}>{label}</button>
+    ))}
   </div>
   <div class="dfb-model__info" data-dfb-part-info aria-live="polite">
     <strong data-dfb-part-title>结构说明</strong>
-    <span data-dfb-part-body>选择模型中的结构后，这里会显示它在激光器中的作用。</span>
+    <span data-dfb-part-body>选择模型中的结构，或点击下方结构索引，这里会显示它在激光器中的作用。</span>
   </div>
   <figcaption>
     <strong>{title}</strong>
@@ -40,58 +78,99 @@ const {
 
   const partInfo = {
     substrate: {
+      color: "#2563eb",
       title: "InP 衬底",
-      body: "InP 衬底提供晶格模板和机械支撑。外延层需要在它上面连续生长，衬底质量会影响缺陷密度、晶圆翘曲和后续解理质量。"
+      body: "InP 衬底提供晶格模板、机械支撑和下侧导电路径。通信波段 InGaAsP / InAlGaAs 有源区需要在接近 InP 晶格常数的模板上外延生长，衬底缺陷、翘曲和表面质量会继续影响外延、解理和长期可靠性。"
     },
-    cladding: {
-      title: "n / p InP 包层",
-      body: "包层位于有源区上下方，折射率低于波导核心层，用来帮助限制光场；掺杂后的包层也承担把电流送入 PN 结附近的任务。"
+    nCladding: {
+      color: "#16a34a",
+      title: "n-InP 包层 / 缓冲层",
+      body: "n-InP 层位于衬底和有源区之间，既是外延过渡层，也承担下侧电流注入路径。它的折射率低于波导核心区域，帮助把光场限制在有源区附近。"
     },
     sch: {
+      color: "#eab308",
       title: "SCH 光限制层",
-      body: "SCH 层把量子阱夹在中间，使光学模式与增益区更好重合，同时平滑包层和有源区之间的能带与折射率过渡。"
+      body: "SCH 是 separate confinement heterostructure。它夹住 MQW 有源区，使光学模式与增益区有足够重叠，同时缓和包层和量子阱之间的折射率与能带变化。"
     },
     mqw: {
+      color: "#db2777",
       title: "MQW 有源区",
-      body: "多量子阱是主要发光和提供光增益的位置。电子和空穴在这里复合，受激辐射把与器件模式匹配的光场继续放大。"
+      body: "MQW 由多层量子阱和 barrier 组成，是电子空穴复合并提供光增益的核心区域。模型把纳米级量子阱放大成可见条纹，用来显示多阱堆叠和光学模式重叠关系。"
+    },
+    pCladding: {
+      color: "#7c3aed",
+      title: "p-InP 包层",
+      body: "p-InP 包层位于有源区上方，提供上侧光场限制和 p 侧电流路径。真实 ridge 器件会刻蚀 p-side 外延层，保留中间脊形区域来形成横向波导。"
+    },
+    contactCap: {
+      color: "#ef4444",
+      title: "p+ 接触层",
+      body: "p+ contact cap 是高掺杂接触层，用来降低金属和半导体之间的接触电阻。它属于接触层，和负责光场限制的包层分工不同；接触电阻会影响电压损耗、发热和效率。"
     },
     ridge: {
+      color: "#0891b2",
       title: "Ridge 波导",
-      body: "脊形结构通过横向折射率差和电流窗口定义光场与电流通道，使光场、载流子和有源区在空间上重合。"
+      body: "ridge 是刻蚀后保留下来的脊形几何，表示 p-side 外延层中被保留的窄条区域。它通过横向等效折射率差和电流窗口，把光场和电流约束在有源区附近。"
     },
     dielectric: {
+      color: "#64748b",
       title: "绝缘 / 钝化层",
-      body: "绝缘层覆盖不希望导电的位置，并通过开窗限定电流入口；钝化还可降低侧壁表面态和漏电风险。"
+      body: "SiN、SiO2 等介质层覆盖 ridge 两侧和刻蚀侧壁，降低漏电和表面复合。它还定义金属只能通过开窗区域把电流注入脊顶部。"
     },
-    metal: {
-      title: "金属电极",
-      body: "金属电极与重掺杂接触层形成低电阻接触，把驱动电流注入器件。接触电阻过高会增加电压损耗和焦耳热。"
+    currentWindow: {
+      color: "#22c55e",
+      title: "电流窗口",
+      body: "电流窗口是绝缘层中的开口，决定电流从哪里进入 p+ 接触层。窗口宽度和 ridge 中心对准会影响电流扩散、局部热点、阈值和可靠性。"
+    },
+    pMetal: {
+      color: "#f97316",
+      title: "顶部 p-contact / 金属电极",
+      body: "顶部金属与 p+ 接触层形成低阻 p-contact，把驱动电流送入 ridge 区域。金属宽度、厚度和接触质量会影响串联电阻和热分布。"
+    },
+    nContact: {
+      color: "#475569",
+      title: "backside n-contact / cathode",
+      body: "背面 n-contact 是电流回路的下侧电极。典型 p-up InP 边发射激光器中，电流从顶部 p-contact 垂直穿过外延层和有源区，最终到达背面 n-contact。"
     },
     grating: {
+      color: "#0d9488",
       title: "DFB 光栅",
-      body: "DFB 光栅沿腔长方向周期性扰动有效折射率，把前向光和后向光耦合起来，使接近 Bragg 条件的纵模更容易振荡。它决定中心波长、单模稳定性和边模抑制能力。"
+      body: "DFB 光栅沿腔长方向周期性扰动有效折射率，把前向光和后向光耦合起来，为接近 Bragg 条件的模式提供分布式反馈。模型为了可视化把光栅外露；实际光栅可能位于有源区上方、下方、埋入再生长层或侧向耦合区域。"
     },
     phase: {
-      title: "相移区",
-      body: "相移区相当于在 DFB 光栅中引入受控相位变化，常用于把目标模式放在最低阈值位置，提高单模工作稳定性。"
+      color: "#1e293b",
+      title: "四分之一波相移区",
+      body: "相移区是在 DFB 光栅中引入受控相位变化的区域，常用于让目标纵模获得最低阈值优势。它是常见设计选项，具体位置和实现方式会随器件路线变化。"
     },
     facet: {
+      color: "#334155",
       title: "解理端面",
-      body: "端面是边发射激光器的出光边界。端面质量、反射率和镀膜会影响输出功率、残余反馈、SMSR 和长期可靠性。"
+      body: "边发射激光器沿晶体解理面形成端面。端面质量、解理位置和反射边界会影响输出功率、残余 Fabry-Perot 效应、SMSR 和长期可靠性。"
+    },
+    coating: {
+      color: "#a855f7",
+      title: "AR / HR coating",
+      body: "端面镀膜调节端面反射率。AR coating 降低残余反射和外部反馈敏感性；HR coating 提高一侧反射，让更多光从另一端输出。模型用薄膜示意这种端面工程。"
     },
     mode: {
+      color: "#67e8f9",
       title: "腔内光学模式",
-      body: "光学模式表示被波导和腔体支持的场分布。激光输出来自获得足够增益并能补偿损耗的模式。"
+      body: "光学模式表示被波导、包层和腔体支持的场分布。模式需要与 MQW 有源区充分重叠，才能在受激辐射中获得有效增益。"
     },
     current: {
+      color: "#22c55e",
       title: "电流注入路径",
-      body: "电流从上方电极进入，通过电流窗口和包层流向量子阱有源区。电流分布是否与光学模式重合，会影响阈值和效率。"
+      body: "电流从顶部 p-contact 进入，通过电流窗口、p-InP 包层和 MQW 有源区，到达 n-InP 层和背面 n-contact。电流路径与光学模式越匹配，无效复合和局部发热越少。"
     },
     output: {
+      color: "#60a5fa",
       title: "边发射输出光",
-      body: "激光从芯片端面沿波导方向射出，后续封装会根据发散角、功率、偏振和反馈敏感性设计准直与耦合光路。"
+      body: "激光沿芯片长度方向传播并从解理端面射出。后续封装会围绕发散角、偏振、端面反馈、准直和耦合效率设计光路。"
     }
   };
+
+  const partOrder = Object.keys(partInfo);
+  const partColor = (key) => Number.parseInt(partInfo[key].color.slice(1), 16);
 
   const material = (color, options = {}) =>
     new THREE.MeshStandardMaterial({
@@ -120,12 +199,21 @@ const {
     return mesh;
   }
 
-  function createArrow(start, end, color) {
+  function createCylinder({ radiusTop, radiusBottom, height, position, color, opacity = 1 }) {
+    const mesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(radiusTop, radiusBottom, height, 32, 1, true),
+      transparent(color, opacity)
+    );
+    mesh.position.set(...position);
+    return mesh;
+  }
+
+  function createArrow(start, end, color, headLength = 0.18, headWidth = 0.09) {
     const from = new THREE.Vector3(...start);
     const to = new THREE.Vector3(...end);
     const direction = to.clone().sub(from);
     const length = direction.length();
-    return new THREE.ArrowHelper(direction.normalize(), from, length, color, 0.18, 0.09);
+    return new THREE.ArrowHelper(direction.normalize(), from, length, color, headLength, headWidth);
   }
 
   function createHitBox({ size, position, key, priority = 2 }) {
@@ -157,159 +245,221 @@ const {
     const chip = new THREE.Group();
     scene.add(chip);
 
-    const length = 5.8;
-    const width = 1.65;
+    const length = 6.25;
+    const fullWidth = 2.04;
+    const cutawayWidth = 1.36;
+    const ridgeWidth = 0.58;
+    const cutawayOffset = 0.18;
     let y = 0;
 
     const layers = [
-      { name: "InP substrate", h: 0.46, color: 0x2563eb, z: width },
-      { name: "n-InP cladding", h: 0.24, color: 0x16a34a, z: width },
-      { name: "lower SCH", h: 0.12, color: 0xeab308, z: width },
-      { name: "MQW active region", h: 0.055, color: 0xdb2777, z: width },
-      { name: "upper SCH", h: 0.12, color: 0xeab308, z: width },
-      { name: "p-InP cladding", h: 0.3, color: 0x7c3aed, z: width },
-      { name: "p+ contact cap", h: 0.12, color: 0xef4444, z: width }
+      { name: "InP substrate", key: "substrate", h: 0.44, color: 0x2563eb, width: fullWidth },
+      { name: "n-InP buffer / cladding", key: "nCladding", h: 0.22, color: 0x16a34a, width: fullWidth },
+      { name: "lower SCH", key: "sch", h: 0.105, color: 0xeab308, width: cutawayWidth },
+      { name: "upper SCH", key: "sch", h: 0.105, color: 0xeab308, width: cutawayWidth },
+      { name: "p-InP cladding", key: "pCladding", h: 0.3, color: 0x7c3aed, width: cutawayWidth },
+      { name: "p+ contact cap", key: "contactCap", h: 0.1, color: 0xef4444, width: ridgeWidth }
     ];
 
     const layerCenters = {};
-    for (const layer of layers) {
+
+    for (const layer of layers.slice(0, 3)) {
       const centerY = y + layer.h / 2;
       const mesh = createBox({
-        size: [length, layer.h, layer.z],
-        position: [0, centerY, 0],
+        size: [length, layer.h, layer.width],
+        position: [0, centerY, layer.width === fullWidth ? 0 : cutawayOffset],
         color: layer.color,
-        opacity: layer.name === "p-InP cladding" ? 0.84 : 1
+        opacity: layer.key === "sch" ? 0.9 : 1
       });
-      const key = layer.name.includes("substrate")
-        ? "substrate"
-        : layer.name.includes("cladding") || layer.name.includes("contact cap")
-          ? "cladding"
-          : layer.name.includes("SCH")
-            ? "sch"
-            : "mqw";
-      chip.add(tagPart(mesh, key));
+      chip.add(tagPart(mesh, layer.key));
       layerCenters[layer.name] = centerY;
       y += layer.h;
     }
 
-    const topY = y;
+    const mqwCenter = y + 0.055;
+    const quantumWellCount = 5;
+    const barrierCount = quantumWellCount + 1;
+    const barrierH = 0.012;
+    const wellH = 0.01;
+    for (let i = 0; i < barrierCount + quantumWellCount; i += 1) {
+      const isWell = i % 2 === 1;
+      const h = isWell ? wellH : barrierH;
+      const centerY = y + h / 2;
+      const mesh = createBox({
+        size: [length, h, 0.92],
+        position: [0, centerY, cutawayOffset],
+        color: isWell ? 0xdb2777 : 0xf9a8d4,
+        opacity: isWell ? 1 : 0.75
+      });
+      chip.add(tagPart(mesh, "mqw", false, isWell ? 2 : 1));
+      y += h;
+    }
+    layerCenters["MQW active region"] = mqwCenter;
 
+    for (const layer of layers.slice(3, 5)) {
+      const centerY = y + layer.h / 2;
+      const mesh = createBox({
+        size: [length, layer.h, layer.width],
+        position: [0, centerY, cutawayOffset],
+        color: layer.color,
+        opacity: layer.key === "pCladding" ? 0.86 : 0.9
+      });
+      chip.add(tagPart(mesh, layer.key));
+      layerCenters[layer.name] = centerY;
+      y += layer.h;
+    }
+
+    const ridgeBaseY = y;
     const ridge = createBox({
-      size: [5.15, 0.36, 0.56],
-      position: [0, topY + 0.18, 0],
+      size: [5.35, 0.24, ridgeWidth],
+      position: [0, ridgeBaseY + 0.12, cutawayOffset],
       color: 0x0891b2,
-      opacity: 0.94
+      opacity: 0.9
     });
     chip.add(tagPart(ridge, "ridge"));
 
+    const contactCap = createBox({
+      size: [5.2, 0.1, 0.42],
+      position: [0, ridgeBaseY + 0.29, cutawayOffset],
+      color: 0xef4444,
+      opacity: 0.96
+    });
+    chip.add(tagPart(contactCap, "contactCap"));
+
+    const topY = ridgeBaseY + 0.34;
+
     const dielectricLeft = createBox({
-      size: [5.35, 0.08, 0.38],
-      position: [0, topY + 0.405, -0.55],
+      size: [5.55, 0.09, 0.42],
+      position: [0, topY + 0.045, cutawayOffset - 0.54],
       color: 0x94a3b8,
       opacity: 0.48
     });
     const dielectricRight = dielectricLeft.clone();
-    dielectricRight.position.z = 0.55;
+    dielectricRight.position.z = cutawayOffset + 0.54;
     chip.add(tagPart(dielectricLeft, "dielectric"), tagPart(dielectricRight, "dielectric"));
 
-    const metal = createBox({
-      size: [4.25, 0.12, 0.42],
-      position: [0, topY + 0.58, 0],
+    const currentWindow = createBox({
+      size: [5.1, 0.06, 0.31],
+      position: [0, topY + 0.08, cutawayOffset],
+      color: 0x22c55e,
+      opacity: 0.36
+    });
+    chip.add(tagPart(currentWindow, "currentWindow", false, 3));
+
+    const pMetal = createBox({
+      size: [4.55, 0.13, 0.36],
+      position: [0, topY + 0.18, cutawayOffset],
       color: 0xf97316,
-      metalness: 0.42,
+      metalness: 0.45,
+      roughness: 0.32
+    });
+    chip.add(tagPart(pMetal, "pMetal"));
+
+    const nContact = createBox({
+      size: [5.9, 0.08, fullWidth + 0.05],
+      position: [0, -0.08, 0],
+      color: 0x475569,
+      metalness: 0.4,
       roughness: 0.34
     });
-    chip.add(tagPart(metal, "metal"));
+    chip.add(tagPart(nContact, "nContact"));
 
     const gratingGroup = new THREE.Group();
-    const gratingY = layerCenters["upper SCH"] + 0.1;
+    const gratingY = layerCenters["upper SCH"] + 0.065;
     const period = 0.22;
-    for (let x = -2.55; x <= 2.55; x += period) {
-      if (Math.abs(x) < 0.13) continue;
+    for (let x = -2.65; x <= 2.65; x += period) {
+      if (Math.abs(x) < 0.14) continue;
       const tooth = createBox({
-        size: [0.045, 0.045, 1.45],
-        position: [x, gratingY, 0],
+        size: [0.042, 0.048, 0.42],
+        position: [x, gratingY, cutawayOffset],
         color: 0x0d9488
       });
-      gratingGroup.add(tagPart(tooth, "grating"));
+      gratingGroup.add(tagPart(tooth, "grating", false, 3));
     }
     chip.add(tagPart(gratingGroup, "grating"));
-    chip.add(createHitBox({
-      size: [5.25, 0.42, 0.3],
-      position: [0, gratingY, -0.88],
-      key: "grating"
-    }));
-    chip.add(createHitBox({
-      size: [5.25, 0.42, 0.3],
-      position: [0, gratingY, 0.88],
-      key: "grating"
-    }));
 
     const phaseShift = createBox({
-      size: [0.11, 0.08, 1.52],
-      position: [0, gratingY + 0.01, 0],
+      size: [0.12, 0.07, 0.48],
+      position: [0, gratingY + 0.012, cutawayOffset],
       color: 0x1e293b,
-      opacity: 0.78
+      opacity: 0.86
     });
-    chip.add(tagPart(phaseShift, "phase"));
-    chip.add(createHitBox({
-      size: [0.42, 0.44, 0.34],
-      position: [0, gratingY + 0.02, -0.88],
-      key: "phase",
-      priority: 3
-    }));
-    chip.add(createHitBox({
-      size: [0.42, 0.44, 0.34],
-      position: [0, gratingY + 0.02, 0.88],
-      key: "phase",
-      priority: 3
-    }));
+    chip.add(tagPart(phaseShift, "phase", false, 4));
 
     const facetFront = createBox({
-      size: [0.045, 1.46, width + 0.05],
-      position: [length / 2 + 0.025, 0.78, 0],
+      size: [0.045, topY + 0.35, fullWidth + 0.08],
+      position: [length / 2 + 0.025, (topY + 0.25) / 2, 0],
       color: 0x334155,
-      opacity: 0.22
+      opacity: 0.2
     });
     const facetBack = facetFront.clone();
     facetBack.position.x = -length / 2 - 0.025;
     chip.add(tagPart(facetFront, "facet"), tagPart(facetBack, "facet"));
 
+    const arCoating = createBox({
+      size: [0.035, topY + 0.2, 0.86],
+      position: [length / 2 + 0.07, (topY + 0.2) / 2, cutawayOffset],
+      color: 0xa855f7,
+      opacity: 0.44
+    });
+    const hrCoating = createBox({
+      size: [0.035, topY + 0.2, 0.86],
+      position: [-length / 2 - 0.07, (topY + 0.2) / 2, cutawayOffset],
+      color: 0x7e22ce,
+      opacity: 0.55
+    });
+    chip.add(tagPart(arCoating, "coating", false, 3), tagPart(hrCoating, "coating", false, 3));
+
     const modeGeometry = new THREE.SphereGeometry(1, 48, 24);
-    const mode = new THREE.Mesh(modeGeometry, transparent(0x67e8f9, 0.3));
-    mode.scale.set(2.45, 0.11, 0.32);
-    mode.position.set(0, layerCenters["MQW active region"], 0);
+    const mode = new THREE.Mesh(modeGeometry, transparent(0x67e8f9, 0.28));
+    mode.scale.set(2.65, 0.12, 0.28);
+    mode.position.set(0, layerCenters["MQW active region"], cutawayOffset);
     chip.add(tagPart(mode, "mode"));
-    chip.add(createHitBox({
-      size: [5.25, 0.2, 0.24],
-      position: [0, layerCenters["MQW active region"], -0.88],
-      key: "mqw"
-    }));
-    chip.add(createHitBox({
-      size: [5.25, 0.2, 0.24],
-      position: [0, layerCenters["MQW active region"], 0.88],
-      key: "mqw"
-    }));
 
-    chip.add(tagPart(createArrow([-3.0, topY + 1.05, 0], [-3.0, topY + 0.32, 0], 0x22c55e), "current"));
-    chip.add(tagPart(createArrow([-1.5, topY + 1.05, 0], [-1.5, topY + 0.32, 0], 0x22c55e), "current"));
-    chip.add(tagPart(createArrow([0, topY + 1.05, 0], [0, topY + 0.32, 0], 0x22c55e), "current"));
-    chip.add(tagPart(createArrow([1.5, topY + 1.05, 0], [1.5, topY + 0.32, 0], 0x22c55e), "current"));
-    chip.add(tagPart(createArrow([2.9, layerCenters["MQW active region"], 0], [4.2, layerCenters["MQW active region"], 0], 0x60a5fa), "output"));
+    const cutawayPlane = createBox({
+      size: [length + 0.1, topY + 0.18, 0.018],
+      position: [0, (topY + 0.05) / 2, cutawayOffset - 0.7],
+      color: 0x0f766e,
+      opacity: 0.12
+    });
+    cutawayPlane.name = "cutaway plane";
+    chip.add(tagPart(cutawayPlane, "mode", false, 0));
 
-    const beam = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.05, 0.23, 2.5, 32, 1, true),
-      transparent(0x67e8f9, 0.32)
-    );
+    chip.add(tagPart(createArrow([-2.2, topY + 0.58, cutawayOffset], [-2.2, topY + 0.22, cutawayOffset], 0x22c55e), "current"));
+    chip.add(tagPart(createArrow([0, topY + 0.58, cutawayOffset], [0, topY + 0.22, cutawayOffset], 0x22c55e), "current"));
+    chip.add(tagPart(createArrow([2.2, topY + 0.58, cutawayOffset], [2.2, topY + 0.22, cutawayOffset], 0x22c55e), "current"));
+    chip.add(tagPart(createArrow([0, layerCenters["MQW active region"] + 0.18, cutawayOffset], [0, -0.08, cutawayOffset], 0x22c55e, 0.14, 0.07), "current"));
+    chip.add(tagPart(createArrow([length / 2 + 0.05, layerCenters["MQW active region"], cutawayOffset], [length / 2 + 1.35, layerCenters["MQW active region"], cutawayOffset], 0x60a5fa), "output"));
+
+    const beam = createCylinder({
+      radiusTop: 0.05,
+      radiusBottom: 0.25,
+      height: 2.45,
+      position: [length / 2 + 1.4, layerCenters["MQW active region"], cutawayOffset],
+      color: 0x67e8f9,
+      opacity: 0.3
+    });
     beam.rotation.z = Math.PI / 2;
-    beam.position.set(4.35, layerCenters["MQW active region"], 0);
     chip.add(tagPart(beam, "output"));
+
+    const largeHitTargets = [
+      { key: "mqw", size: [5.6, 0.24, 0.42], position: [0, layerCenters["MQW active region"], cutawayOffset], priority: 4 },
+      { key: "sch", size: [5.7, 0.42, 0.5], position: [0, layerCenters["MQW active region"], cutawayOffset + 0.42], priority: 3 },
+      { key: "grating", size: [5.45, 0.42, 0.38], position: [0, gratingY, cutawayOffset - 0.45], priority: 4 },
+      { key: "phase", size: [0.5, 0.44, 0.5], position: [0, gratingY, cutawayOffset - 0.45], priority: 5 },
+      { key: "currentWindow", size: [5.25, 0.24, 0.45], position: [0, topY + 0.08, cutawayOffset - 0.45], priority: 4 },
+      { key: "coating", size: [0.22, topY + 0.28, 0.9], position: [length / 2 + 0.1, (topY + 0.2) / 2, cutawayOffset], priority: 4 },
+      { key: "nContact", size: [5.95, 0.24, fullWidth + 0.12], position: [0, -0.08, 0], priority: 3 }
+    ];
+    for (const target of largeHitTargets) {
+      chip.add(createHitBox(target));
+    }
 
     const outline = new THREE.Box3().setFromObject(chip);
     const center = outline.getCenter(new THREE.Vector3());
     chip.position.sub(center);
-    chip.rotation.x = -0.16;
-    chip.rotation.y = -0.55;
+    chip.rotation.x = -0.18;
+    chip.rotation.y = -0.58;
     return chip;
   }
 
@@ -318,11 +468,12 @@ const {
     const figure = root.closest(".dfb-model");
     const infoTitle = figure?.querySelector("[data-dfb-part-title]");
     const infoBody = figure?.querySelector("[data-dfb-part-body]");
+    const indexButtons = figure?.querySelectorAll("[data-dfb-part-index]") || [];
     const scene = new THREE.Scene();
     scene.background = null;
 
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(4.6, 3.1, 5.2);
+    camera.position.set(4.8, 3.4, 5.4);
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -340,7 +491,7 @@ const {
     controls.dampingFactor = 0.08;
     controls.minDistance = 0.35;
     controls.maxDistance = 80;
-    controls.target.set(0, 0.15, 0);
+    controls.target.set(0, 0.18, 0);
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.45));
     const key = new THREE.DirectionalLight(0xffffff, 2.25);
@@ -354,20 +505,121 @@ const {
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
     let selectedPart = "";
+    let pointerDownState = null;
+    const dragSelectionThreshold = 5;
+    const referenceOpacity = 0.18;
 
     const setSelectedPart = (partKey) => {
       if (!partKey || !partInfo[partKey] || !infoTitle || !infoBody) return;
+      if (selectedPart === partKey) {
+        clearSelectedPart();
+        return;
+      }
       selectedPart = partKey;
       infoTitle.textContent = partInfo[partKey].title;
+      infoTitle.style.setProperty("--part-title-color", partInfo[partKey].color);
       infoBody.textContent = partInfo[partKey].body;
 
+      for (const button of indexButtons) {
+        const buttonPart = button.getAttribute("data-dfb-part-index");
+        button.style.setProperty("--part-color", partInfo[buttonPart]?.color || "var(--border)");
+        button.setAttribute("aria-pressed", String(buttonPart === partKey));
+      }
+
+      dimNonSelectedParts(partKey);
+    };
+
+    const storeBaseMaterial = (object) => {
+      if (!object.material) return;
+      const material = object.material;
+      if (object.userData.baseMaterialStored) return;
+      object.userData.baseMaterialStored = true;
+      object.userData.baseOpacity = material.opacity ?? 1;
+      object.userData.baseTransparent = !!material.transparent;
+      object.userData.baseDepthWrite = material.depthWrite;
+      object.userData.baseColor = material.color?.getHex();
+      object.userData.baseEmissive = material.emissive?.getHex();
+    };
+
+    const requestMaterialUpdate = (material) => {
+      material.needsUpdate = true;
+    };
+
+    const dimNonSelectedParts = (partKey) => {
       model.traverse((object) => {
-        if (!object.isMesh || !object.material || !object.material.emissive) return;
-        if (!object.userData.baseEmissive) {
-          object.userData.baseEmissive = object.material.emissive.getHex();
+        if (!object.material || !object.userData.partKey) return;
+        storeBaseMaterial(object);
+        if (object.userData.hitProxy) {
+          object.material.opacity = 0;
+          object.material.transparent = true;
+          requestMaterialUpdate(object.material);
+          return;
         }
-        object.material.emissive.setHex(object.userData.partKey === partKey ? 0x1d4ed8 : object.userData.baseEmissive);
-        object.material.emissiveIntensity = object.userData.partKey === partKey ? 0.22 : 0;
+
+        const isSelectedObject = object.userData.partKey === partKey;
+        const targetOpacity = isSelectedObject
+          ? Math.min(1, Math.max(object.userData.baseOpacity ?? 1, 0.82))
+          : Math.min(object.userData.baseOpacity ?? 1, referenceOpacity);
+
+        if (isSelectedObject) {
+          if (object.material.color) {
+            object.material.color.set(partColor(partKey));
+            object.material.color.multiplyScalar(0.72);
+          }
+          object.material.opacity = targetOpacity;
+          object.material.transparent = object.userData.baseTransparent || object.material.opacity < 1;
+          if (typeof object.userData.baseDepthWrite === "boolean") {
+            object.material.depthWrite = object.userData.baseDepthWrite;
+          }
+          if (object.material.emissive) {
+            object.material.emissive.setHex(partColor(partKey));
+            object.material.emissiveIntensity = 0.08;
+          }
+          requestMaterialUpdate(object.material);
+        } else {
+          if (object.material.color && object.userData.baseColor !== undefined) {
+            object.material.color.setHex(object.userData.baseColor);
+          }
+          object.material.opacity = targetOpacity;
+          object.material.transparent = true;
+          object.material.depthWrite = false;
+          if (object.material.emissive) {
+            object.material.emissive.setHex(object.userData.baseEmissive ?? 0x000000);
+            object.material.emissiveIntensity = 0;
+          }
+          requestMaterialUpdate(object.material);
+        }
+      });
+    };
+
+    const clearSelectedPart = () => {
+      selectedPart = "";
+      infoTitle.textContent = "结构说明";
+      infoTitle.style.removeProperty("--part-title-color");
+      infoBody.textContent = "选择模型中的结构，或点击下方结构索引，这里会显示它在激光器中的作用。";
+
+      for (const button of indexButtons) {
+        const buttonPart = button.getAttribute("data-dfb-part-index");
+        button.style.setProperty("--part-color", partInfo[buttonPart]?.color || "var(--border)");
+        button.setAttribute("aria-pressed", "false");
+      }
+
+      model.traverse((object) => {
+        if (!object.material || !object.userData.partKey) return;
+        storeBaseMaterial(object);
+        object.material.opacity = object.userData.hitProxy ? 0 : (object.userData.baseOpacity ?? 1);
+        object.material.transparent = object.userData.hitProxy ? true : object.userData.baseTransparent;
+        if (typeof object.userData.baseDepthWrite === "boolean") {
+          object.material.depthWrite = object.userData.baseDepthWrite;
+        }
+        if (object.material.color && object.userData.baseColor !== undefined) {
+          object.material.color.setHex(object.userData.baseColor);
+        }
+        if (object.material.emissive && object.userData.baseEmissive !== undefined) {
+          object.material.emissive.setHex(object.userData.baseEmissive);
+          object.material.emissiveIntensity = 0;
+        }
+        requestMaterialUpdate(object.material);
       });
     };
 
@@ -389,6 +641,29 @@ const {
       if (hit) setSelectedPart(hit.object.userData.partKey);
     };
 
+    const handlePointerDown = (event) => {
+      if (event.button !== 0) return;
+      pointerDownState = {
+        x: event.clientX,
+        y: event.clientY
+      };
+    };
+
+    const handlePointerUp = (event) => {
+      if (!pointerDownState) return;
+      const distance = Math.hypot(
+        event.clientX - pointerDownState.x,
+        event.clientY - pointerDownState.y
+      );
+      pointerDownState = null;
+      if (distance > dragSelectionThreshold) return;
+      pickPart(event);
+    };
+
+    const clearPointerDownState = () => {
+      pointerDownState = null;
+    };
+
     const updateCursor = (event) => {
       const bounds = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
@@ -398,12 +673,24 @@ const {
       renderer.domElement.style.cursor = hit ? "pointer" : "grab";
     };
 
-    renderer.domElement.addEventListener("click", pickPart);
+    renderer.domElement.addEventListener("pointerdown", handlePointerDown);
+    renderer.domElement.addEventListener("pointerup", handlePointerUp);
+    renderer.domElement.addEventListener("pointercancel", clearPointerDownState);
+    renderer.domElement.addEventListener("pointerleave", clearPointerDownState);
     renderer.domElement.addEventListener("pointermove", updateCursor);
 
+    const indexClickHandlers = [];
+    for (const button of indexButtons) {
+      const buttonPart = button.getAttribute("data-dfb-part-index");
+      button.style.setProperty("--part-color", partInfo[buttonPart]?.color || "var(--border)");
+      const handler = () => setSelectedPart(button.getAttribute("data-dfb-part-index"));
+      button.addEventListener("click", handler);
+      indexClickHandlers.push([button, handler]);
+    }
+
     const resize = () => {
-      const { width, height } = root.getBoundingClientRect();
-      const canvasHeight = Math.max(360, Math.min(560, width * 0.58));
+      const { width } = root.getBoundingClientRect();
+      const canvasHeight = Math.max(380, Math.min(600, width * 0.6));
       root.style.setProperty("--model-height", `${canvasHeight}px`);
       renderer.setSize(width, canvasHeight, false);
       camera.aspect = width / canvasHeight;
@@ -425,8 +712,14 @@ const {
     document.addEventListener("astro:before-swap", () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
-      renderer.domElement.removeEventListener("click", pickPart);
+      renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
+      renderer.domElement.removeEventListener("pointerup", handlePointerUp);
+      renderer.domElement.removeEventListener("pointercancel", clearPointerDownState);
+      renderer.domElement.removeEventListener("pointerleave", clearPointerDownState);
       renderer.domElement.removeEventListener("pointermove", updateCursor);
+      for (const [button, handler] of indexClickHandlers) {
+        button.removeEventListener("click", handler);
+      }
       controls.dispose();
       renderer.dispose();
     }, { once: true });
@@ -464,7 +757,7 @@ const {
     display: flex;
     flex-wrap: wrap;
     gap: 0.45rem 0.75rem;
-    max-width: 52rem;
+    max-width: 58rem;
     padding: 0.7rem 0.8rem;
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -476,19 +769,50 @@ const {
     backdrop-filter: blur(8px);
   }
 
-  .dfb-model__legend span {
+  .dfb-model__legend span,
+  .dfb-model__index button {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+  }
+
+  .dfb-model__legend span {
     white-space: nowrap;
   }
 
   .dfb-model__legend i {
     width: 0.72rem;
     height: 0.72rem;
+    flex: 0 0 auto;
     border-radius: 999px;
     background: var(--swatch);
     box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
+  }
+
+  .dfb-model__index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .dfb-model__index button {
+    border: 1px solid color-mix(in srgb, var(--part-color, var(--border)) 62%, var(--border));
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+    background: color-mix(in srgb, var(--part-color, var(--surface)) 7%, var(--surface));
+    color: var(--part-color, var(--text));
+    font: inherit;
+    font-size: 0.86rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+  }
+
+  .dfb-model__index button[aria-pressed="true"] {
+    border-color: var(--part-color, #0f766e);
+    background: color-mix(in srgb, var(--part-color, #0f766e) 18%, var(--surface));
+    color: var(--part-color, var(--text));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--part-color, #0f766e) 35%, transparent);
   }
 
   .dfb-model__info {
@@ -504,8 +828,9 @@ const {
   }
 
   .dfb-model__info strong {
-    color: var(--text);
+    color: var(--part-title-color, var(--text));
     font-size: 1rem;
+    transition: color 140ms ease;
   }
 
   .dfb-model figcaption {
@@ -522,7 +847,7 @@ const {
 
   @media (max-width: 720px) {
     .dfb-model__viewport {
-      min-height: var(--model-height, 360px);
+      min-height: var(--model-height, 380px);
     }
 
     .dfb-model__legend {
@@ -530,6 +855,15 @@ const {
       border-width: 1px 0 0;
       border-radius: 0;
       background: var(--surface);
+    }
+
+    .dfb-model__index {
+      gap: 0.4rem;
+    }
+
+    .dfb-model__index button {
+      padding: 0.34rem 0.55rem;
+      font-size: 0.8rem;
     }
   }
 </style>
