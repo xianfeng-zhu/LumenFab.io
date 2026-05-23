@@ -240,6 +240,12 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(model, /WebGLRenderer/);
   assert.match(model, /MQW active/);
   assert.match(model, /DFB grating/);
+  assert.match(model, /partInfo/);
+  assert.match(model, /Raycaster/);
+  assert.match(model, /setSelectedPart/);
+  assert.match(model, /controls\.minDistance = 0\.35/);
+  assert.match(model, /controls\.maxDistance = 80/);
+  assert.doesNotMatch(model, /model\.rotation\.y \+=/);
 });
 
 test("InP DFB laser principle deep page ties physics to CPO light source needs", async () => {

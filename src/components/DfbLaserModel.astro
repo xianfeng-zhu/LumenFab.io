@@ -22,6 +22,10 @@ const {
       <span><i style="--swatch: #f97316"></i>metal</span>
     </div>
   </div>
+  <div class="dfb-model__info" data-dfb-part-info aria-live="polite">
+    <strong data-dfb-part-title>结构说明</strong>
+    <span data-dfb-part-body>选择模型中的结构后，这里会显示它在激光器中的作用。</span>
+  </div>
   <figcaption>
     <strong>{title}</strong>
     <span>{caption}</span>
@@ -33,6 +37,61 @@ const {
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
   const roots = document.querySelectorAll("[data-dfb-laser-model]");
+
+  const partInfo = {
+    substrate: {
+      title: "InP 衬底",
+      body: "InP 衬底提供晶格模板和机械支撑。外延层需要在它上面连续生长，衬底质量会影响缺陷密度、晶圆翘曲和后续解理质量。"
+    },
+    cladding: {
+      title: "n / p InP 包层",
+      body: "包层位于有源区上下方，折射率低于波导核心层，用来帮助限制光场；掺杂后的包层也承担把电流送入 PN 结附近的任务。"
+    },
+    sch: {
+      title: "SCH 光限制层",
+      body: "SCH 层把量子阱夹在中间，使光学模式与增益区更好重合，同时平滑包层和有源区之间的能带与折射率过渡。"
+    },
+    mqw: {
+      title: "MQW 有源区",
+      body: "多量子阱是主要发光和提供光增益的位置。电子和空穴在这里复合，受激辐射把与器件模式匹配的光场继续放大。"
+    },
+    ridge: {
+      title: "Ridge 波导",
+      body: "脊形结构通过横向折射率差和电流窗口定义光场与电流通道，使光场、载流子和有源区在空间上重合。"
+    },
+    dielectric: {
+      title: "绝缘 / 钝化层",
+      body: "绝缘层覆盖不希望导电的位置，并通过开窗限定电流入口；钝化还可降低侧壁表面态和漏电风险。"
+    },
+    metal: {
+      title: "金属电极",
+      body: "金属电极与重掺杂接触层形成低电阻接触，把驱动电流注入器件。接触电阻过高会增加电压损耗和焦耳热。"
+    },
+    grating: {
+      title: "DFB 光栅",
+      body: "DFB 光栅沿腔长方向周期性扰动有效折射率，把前向光和后向光耦合起来，使接近 Bragg 条件的纵模更容易振荡。它决定中心波长、单模稳定性和边模抑制能力。"
+    },
+    phase: {
+      title: "相移区",
+      body: "相移区相当于在 DFB 光栅中引入受控相位变化，常用于把目标模式放在最低阈值位置，提高单模工作稳定性。"
+    },
+    facet: {
+      title: "解理端面",
+      body: "端面是边发射激光器的出光边界。端面质量、反射率和镀膜会影响输出功率、残余反馈、SMSR 和长期可靠性。"
+    },
+    mode: {
+      title: "腔内光学模式",
+      body: "光学模式表示被波导和腔体支持的场分布。激光输出来自获得足够增益并能补偿损耗的模式。"
+    },
+    current: {
+      title: "电流注入路径",
+      body: "电流从上方电极进入，通过电流窗口和包层流向量子阱有源区。电流分布是否与光学模式重合，会影响阈值和效率。"
+    },
+    output: {
+      title: "边发射输出光",
+      body: "激光从芯片端面沿波导方向射出，后续封装会根据发散角、功率、偏振和反馈敏感性设计准直与耦合光路。"
+    }
+  };
 
   const material = (color, options = {}) =>
     new THREE.MeshStandardMaterial({
@@ -69,6 +128,31 @@ const {
     return new THREE.ArrowHelper(direction.normalize(), from, length, color, 0.18, 0.09);
   }
 
+  function createHitBox({ size, position, key, priority = 2 }) {
+    const mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(...size),
+      new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0,
+        depthWrite: false
+      })
+    );
+    mesh.position.set(...position);
+    return tagPart(mesh, key, true, priority);
+  }
+
+  function tagPart(object, key, isHitProxy = false, priority = 0) {
+    object.userData.partKey = key;
+    object.userData.hitProxy = isHitProxy;
+    object.userData.selectionPriority = priority;
+    object.traverse((child) => {
+      child.userData.partKey = key;
+      child.userData.hitProxy = isHitProxy;
+      child.userData.selectionPriority = priority;
+    });
+    return object;
+  }
+
   function buildModel(scene) {
     const chip = new THREE.Group();
     scene.add(chip);
@@ -96,7 +180,14 @@ const {
         color: layer.color,
         opacity: layer.name === "p-InP cladding" ? 0.84 : 1
       });
-      chip.add(mesh);
+      const key = layer.name.includes("substrate")
+        ? "substrate"
+        : layer.name.includes("cladding") || layer.name.includes("contact cap")
+          ? "cladding"
+          : layer.name.includes("SCH")
+            ? "sch"
+            : "mqw";
+      chip.add(tagPart(mesh, key));
       layerCenters[layer.name] = centerY;
       y += layer.h;
     }
@@ -109,7 +200,7 @@ const {
       color: 0x0891b2,
       opacity: 0.94
     });
-    chip.add(ridge);
+    chip.add(tagPart(ridge, "ridge"));
 
     const dielectricLeft = createBox({
       size: [5.35, 0.08, 0.38],
@@ -119,7 +210,7 @@ const {
     });
     const dielectricRight = dielectricLeft.clone();
     dielectricRight.position.z = 0.55;
-    chip.add(dielectricLeft, dielectricRight);
+    chip.add(tagPart(dielectricLeft, "dielectric"), tagPart(dielectricRight, "dielectric"));
 
     const metal = createBox({
       size: [4.25, 0.12, 0.42],
@@ -128,7 +219,7 @@ const {
       metalness: 0.42,
       roughness: 0.34
     });
-    chip.add(metal);
+    chip.add(tagPart(metal, "metal"));
 
     const gratingGroup = new THREE.Group();
     const gratingY = layerCenters["upper SCH"] + 0.1;
@@ -140,9 +231,19 @@ const {
         position: [x, gratingY, 0],
         color: 0x0d9488
       });
-      gratingGroup.add(tooth);
+      gratingGroup.add(tagPart(tooth, "grating"));
     }
-    chip.add(gratingGroup);
+    chip.add(tagPart(gratingGroup, "grating"));
+    chip.add(createHitBox({
+      size: [5.25, 0.42, 0.3],
+      position: [0, gratingY, -0.88],
+      key: "grating"
+    }));
+    chip.add(createHitBox({
+      size: [5.25, 0.42, 0.3],
+      position: [0, gratingY, 0.88],
+      key: "grating"
+    }));
 
     const phaseShift = createBox({
       size: [0.11, 0.08, 1.52],
@@ -150,7 +251,19 @@ const {
       color: 0x1e293b,
       opacity: 0.78
     });
-    chip.add(phaseShift);
+    chip.add(tagPart(phaseShift, "phase"));
+    chip.add(createHitBox({
+      size: [0.42, 0.44, 0.34],
+      position: [0, gratingY + 0.02, -0.88],
+      key: "phase",
+      priority: 3
+    }));
+    chip.add(createHitBox({
+      size: [0.42, 0.44, 0.34],
+      position: [0, gratingY + 0.02, 0.88],
+      key: "phase",
+      priority: 3
+    }));
 
     const facetFront = createBox({
       size: [0.045, 1.46, width + 0.05],
@@ -160,19 +273,29 @@ const {
     });
     const facetBack = facetFront.clone();
     facetBack.position.x = -length / 2 - 0.025;
-    chip.add(facetFront, facetBack);
+    chip.add(tagPart(facetFront, "facet"), tagPart(facetBack, "facet"));
 
     const modeGeometry = new THREE.SphereGeometry(1, 48, 24);
     const mode = new THREE.Mesh(modeGeometry, transparent(0x67e8f9, 0.3));
     mode.scale.set(2.45, 0.11, 0.32);
     mode.position.set(0, layerCenters["MQW active region"], 0);
-    chip.add(mode);
+    chip.add(tagPart(mode, "mode"));
+    chip.add(createHitBox({
+      size: [5.25, 0.2, 0.24],
+      position: [0, layerCenters["MQW active region"], -0.88],
+      key: "mqw"
+    }));
+    chip.add(createHitBox({
+      size: [5.25, 0.2, 0.24],
+      position: [0, layerCenters["MQW active region"], 0.88],
+      key: "mqw"
+    }));
 
-    chip.add(createArrow([-3.0, topY + 1.05, 0], [-3.0, topY + 0.32, 0], 0x22c55e));
-    chip.add(createArrow([-1.5, topY + 1.05, 0], [-1.5, topY + 0.32, 0], 0x22c55e));
-    chip.add(createArrow([0, topY + 1.05, 0], [0, topY + 0.32, 0], 0x22c55e));
-    chip.add(createArrow([1.5, topY + 1.05, 0], [1.5, topY + 0.32, 0], 0x22c55e));
-    chip.add(createArrow([2.9, layerCenters["MQW active region"], 0], [4.2, layerCenters["MQW active region"], 0], 0x60a5fa));
+    chip.add(tagPart(createArrow([-3.0, topY + 1.05, 0], [-3.0, topY + 0.32, 0], 0x22c55e), "current"));
+    chip.add(tagPart(createArrow([-1.5, topY + 1.05, 0], [-1.5, topY + 0.32, 0], 0x22c55e), "current"));
+    chip.add(tagPart(createArrow([0, topY + 1.05, 0], [0, topY + 0.32, 0], 0x22c55e), "current"));
+    chip.add(tagPart(createArrow([1.5, topY + 1.05, 0], [1.5, topY + 0.32, 0], 0x22c55e), "current"));
+    chip.add(tagPart(createArrow([2.9, layerCenters["MQW active region"], 0], [4.2, layerCenters["MQW active region"], 0], 0x60a5fa), "output"));
 
     const beam = new THREE.Mesh(
       new THREE.CylinderGeometry(0.05, 0.23, 2.5, 32, 1, true),
@@ -180,7 +303,7 @@ const {
     );
     beam.rotation.z = Math.PI / 2;
     beam.position.set(4.35, layerCenters["MQW active region"], 0);
-    chip.add(beam);
+    chip.add(tagPart(beam, "output"));
 
     const outline = new THREE.Box3().setFromObject(chip);
     const center = outline.getCenter(new THREE.Vector3());
@@ -192,6 +315,9 @@ const {
 
   for (const root of roots) {
     const canvas = root.querySelector("canvas");
+    const figure = root.closest(".dfb-model");
+    const infoTitle = figure?.querySelector("[data-dfb-part-title]");
+    const infoBody = figure?.querySelector("[data-dfb-part-body]");
     const scene = new THREE.Scene();
     scene.background = null;
 
@@ -212,8 +338,8 @@ const {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.minDistance = 4.5;
-    controls.maxDistance = 12;
+    controls.minDistance = 0.35;
+    controls.maxDistance = 80;
     controls.target.set(0, 0.15, 0);
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.45));
@@ -225,6 +351,55 @@ const {
     scene.add(fill);
 
     const model = buildModel(scene);
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    let selectedPart = "";
+
+    const setSelectedPart = (partKey) => {
+      if (!partKey || !partInfo[partKey] || !infoTitle || !infoBody) return;
+      selectedPart = partKey;
+      infoTitle.textContent = partInfo[partKey].title;
+      infoBody.textContent = partInfo[partKey].body;
+
+      model.traverse((object) => {
+        if (!object.isMesh || !object.material || !object.material.emissive) return;
+        if (!object.userData.baseEmissive) {
+          object.userData.baseEmissive = object.material.emissive.getHex();
+        }
+        object.material.emissive.setHex(object.userData.partKey === partKey ? 0x1d4ed8 : object.userData.baseEmissive);
+        object.material.emissiveIntensity = object.userData.partKey === partKey ? 0.22 : 0;
+      });
+    };
+
+    const findPartHit = (hits) =>
+      hits
+        .filter((item) => item.object.userData.partKey)
+        .sort((a, b) => {
+          const priorityDelta = (b.object.userData.selectionPriority || 0) - (a.object.userData.selectionPriority || 0);
+          return priorityDelta || a.distance - b.distance;
+        })[0];
+
+    const pickPart = (event) => {
+      const bounds = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hits = raycaster.intersectObject(model, true);
+      const hit = findPartHit(hits);
+      if (hit) setSelectedPart(hit.object.userData.partKey);
+    };
+
+    const updateCursor = (event) => {
+      const bounds = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hit = findPartHit(raycaster.intersectObject(model, true));
+      renderer.domElement.style.cursor = hit ? "pointer" : "grab";
+    };
+
+    renderer.domElement.addEventListener("click", pickPart);
+    renderer.domElement.addEventListener("pointermove", updateCursor);
 
     const resize = () => {
       const { width, height } = root.getBoundingClientRect();
@@ -242,7 +417,6 @@ const {
     let frame = 0;
     const animate = () => {
       frame = requestAnimationFrame(animate);
-      model.rotation.y += 0.0012;
       controls.update();
       renderer.render(scene, camera);
     };
@@ -251,6 +425,8 @@ const {
     document.addEventListener("astro:before-swap", () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
+      renderer.domElement.removeEventListener("click", pickPart);
+      renderer.domElement.removeEventListener("pointermove", updateCursor);
       controls.dispose();
       renderer.dispose();
     }, { once: true });
@@ -313,6 +489,23 @@ const {
     border-radius: 999px;
     background: var(--swatch);
     box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
+  }
+
+  .dfb-model__info {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.65;
+  }
+
+  .dfb-model__info strong {
+    color: var(--text);
+    font-size: 1rem;
   }
 
   .dfb-model figcaption {
