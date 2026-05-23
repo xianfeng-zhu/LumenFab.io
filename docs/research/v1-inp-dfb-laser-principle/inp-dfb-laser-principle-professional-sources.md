@@ -61,6 +61,9 @@ Saved under:
 | COHERENT-10G-PAGE | `coherent-10gbps-fp-dfb-laser-diode-chips-page.html` | `coherent-10gbps-fp-dfb-laser-diode-chips-page.txt` | saved |
 | LUMENTUM-CW-PAGE | `lumentum-cw-lasers-page-web-extract.md` | n/a | web extract saved |
 | LUMENTUM-SIPHO-PAGE | `lumentum-cw-lasers-sipho-transceivers-page-web-extract.md` | n/a | web extract saved |
+| OIF-CPO-FD | `oif-co-packaging-framework-thermal-data-web-extract.md` | n/a | web extract saved |
+| ERICSSON-CPO-ELS | `ericsson-cpo-els-thermal-stress-web-extract.md` | n/a | web extract saved |
+| LUMENTUM-UHP-CPO | `lumentum-uhp-lasers-cpo-web-extract.md` | n/a | web extract saved |
 | THORLABS-SF-WEB | `thorlabs-single-frequency-lasers-tutorial-web-extract.md` | n/a | web extract saved |
 
 Notes:
@@ -113,6 +116,7 @@ Saved images:
 | `MIT photonic materials devices optical amplifiers lasers DFB DBR PDF` | University lecture | MIT 3.46 Lecture 11 | Strong laser/gain/threshold/single-frequency overview. |
 | `Multi-Section InP-on-Silicon DFB Laser Diodes PDF` | Doctoral thesis | UGent PhD thesis | Strong overview chapter for laser physics, QW materials, DFB operation, phase shift and III-V-on-Si context. |
 | `High Power CW Laser for Co-Packaged Optics Lumentum PDF` | Conference paper / vendor R&D | Lumentum + Facebook CLEO 2022 paper | Practical CPO external laser source example with MQW InGaAsP/InP DFB and power/PCE/SMSR/RIN data. |
+| `CPO laser source thermal margin reliability external laser source` | Standards / professional / vendor | OIF framework, Ericsson CPO RAN article, Lumentum UHP CPO page | Supports replacing vague “器件余量被放大” wording with thermal margin, power budget and reliability constraints. |
 | `Coherent DFB laser diode chip datasheet 1270 1330 PDF` | Vendor datasheet | Coherent DFB15 datasheet | Practical O-band DFB chip metrics and chip geometry. |
 | `Thorlabs DFB laser diode tutorial 1310 1550` | Vendor tutorial | Thorlabs pages | Public page found, but local extract is low-use. |
 | `Newport laser diode technology DFB tutorial` | Vendor tutorial | Newport page | Public page found, but local extract is low-use. |
@@ -133,6 +137,9 @@ Saved images:
 | COHERENT-DFB15 | Coherent 10 Gbps DFB Laser Diode Chip datasheet | Vendor datasheet | Practical DFB chip metrics: O-band wavelengths, threshold current, SMSR, wavelength temperature coefficient, chip dimensions. | Medium | downloaded |
 | LUMENTUM-CW-PAGE | Lumentum CW Lasers product page | Vendor product page | Current industry framing: InP CW lasers for SiPh/CPO, DFB core, low RIN, narrow linewidth, GR-468 endurance. | Medium | web extract |
 | LUMENTUM-SIPHO-PAGE | Lumentum CW Lasers for Silicon Photonics Transceivers | Vendor product page | Current industry framing: 1311 nm/CWDM4 examples, uncooled operation, SiPh transceiver applications up to 1.6T. | Medium | web extract |
+| OIF-CPO-FD | OIF Co-Packaging Framework Document | Standards / framework document | CPO thermal monitoring, laser case/base temperature, temperature or thermal margin, high optical-engine power density and reliability framework. | High | web extract |
+| ERICSSON-CPO-ELS | Ericsson Technology Review: Co-packaged optics in 6G RAN | Professional technology review | External laser sources improve reliability by addressing serviceability and thermal stress; lasers benefit from placement away from hot spots. | Medium-high | web extract |
+| LUMENTUM-UHP-CPO | Lumentum UHP Laser Sources for CPO | Vendor product page | CPO light sources require optical power, spectral purity, stability and reliability in thermally demanding environments. | Medium | web extract |
 | COHERENT-10G-PAGE | Coherent 10 GHz FP and DFB Laser Diode Chips page | Vendor product page | Current product framing: O-band InP FP/DFB chips for datacom, CWDM wavelength channels and operating temperature. | Medium | downloaded |
 | THORLABS-SF-WEB | Thorlabs Single-Frequency Lasers Tutorial | Vendor tutorial | Practical DFB/DBR/ECL/VHG comparison, DFB grating placement and phase-shift explanation. | Medium | web extract |
 | THORLABS-LD | Thorlabs Laser Diode Tutorial | Vendor tutorial | Potential future reference for packaged laser-diode handling and practical terms. Direct local app-shell extract was not retained. | Medium | link only |
