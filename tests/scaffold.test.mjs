@@ -260,6 +260,7 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(model, /button\.style\.setProperty\("--part-color"/);
   assert.match(model, /object\.userData\.partKey === partKey/);
   assert.match(model, /object\.material\.opacity = targetOpacity/);
+  assert.match(model, /const indexItems = \[\s*\["nContact"[\s\S]*\["substrate"[\s\S]*\["nCladding"[\s\S]*\["sch"[\s\S]*\["mqw"[\s\S]*\["pCladding"[\s\S]*\["ridge"[\s\S]*\["contactCap"[\s\S]*\["dielectric"[\s\S]*\["currentWindow"[\s\S]*\["pMetal"/);
   assert.match(model, /referenceOpacity/);
   assert.match(model, /dragSelectionThreshold/);
   assert.match(model, /pointerDownState/);
