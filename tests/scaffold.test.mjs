@@ -180,6 +180,9 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /title: 激光源/);
   assert.match(page, /chapter: 光引擎组件/);
   assert.match(page, /DFB 光栅，以及 CW、DFB、EML、MWL 等器件能力/);
+  await fileExists("public/figures/dfb-laser-3d-structure.svg");
+  assert.match(page, /dfb-laser-3d-structure\.svg/);
+  assert.match(page, /边发射 InP DFB 激光器结构示意/);
   assert.match(page, /## 激光源的器件边界/);
   assert.match(page, /## 为什么 CPO 会提高光源要求/);
   assert.match(page, /## 工作原理：电流如何变成稳定光/);

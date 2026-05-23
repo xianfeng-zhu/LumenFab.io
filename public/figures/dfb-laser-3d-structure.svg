@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">InP DFB laser chip 3D cutaway structure</title>
+  <desc id="desc">A simplified three-dimensional cutaway of an edge-emitting InP DFB laser showing substrate, cladding layers, SCH layers, MQW active region, DFB grating, ridge, dielectric opening, metal contact, optical mode, current path, cleaved facets, and output light.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#334155"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#047857"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/>
+    </marker>
+    <linearGradient id="beam" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.18"/>
+    </filter>
+    <style>
+      .label { font-family: Arial, "Noto Sans SC", sans-serif; }
+      .small { font-size: 18px; }
+      .tiny { font-size: 15px; fill: #475569; }
+      .callout { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .callout-blue { stroke: #2563eb; stroke-width: 2.5; fill: none; marker-end: url(#arrowBlue); }
+      .callout-green { stroke: #047857; stroke-width: 2.5; fill: none; marker-end: url(#arrowGreen); }
+      .edge { stroke: #334155; stroke-width: 1.5; }
+      .soft-edge { stroke: #64748b; stroke-width: 1.2; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="900" fill="#f8fafc"/>
+  <text x="70" y="66" class="label" font-size="34" font-weight="700">InP DFB 激光器芯片：立体剖面示意</text>
+  <text x="70" y="102" class="label" font-size="18" fill="#475569">简化展示边发射 DFB 激光器内部结构；尺寸和层厚不按比例。</text>
+
+  <g filter="url(#shadow)">
+    <!-- Layer stack: x0=190, x1=960, depth dx=150, dy=70 -->
+    <!-- InP substrate -->
+    <polygon points="190,660 960,660 1110,590 340,590" fill="#b7d7f7" class="edge"/>
+    <polygon points="190,660 960,660 960,765 190,765" fill="#8fc0ef" class="edge"/>
+    <polygon points="960,660 1110,590 1110,695 960,765" fill="#74a9dc" class="edge"/>
+
+    <!-- n-InP cladding / buffer -->
+    <polygon points="190,615 960,615 1110,545 340,545" fill="#d4f7df" class="edge"/>
+    <polygon points="190,615 960,615 960,660 190,660" fill="#a7e8bd" class="edge"/>
+    <polygon points="960,615 1110,545 1110,590 960,660" fill="#85d39e" class="edge"/>
+
+    <!-- lower SCH -->
+    <polygon points="190,585 960,585 1110,515 340,515" fill="#fde9b9" class="edge"/>
+    <polygon points="190,585 960,585 960,615 190,615" fill="#fbdc87" class="edge"/>
+    <polygon points="960,585 1110,515 1110,545 960,615" fill="#e9c766" class="edge"/>
+
+    <!-- MQW active region -->
+    <polygon points="190,565 960,565 1110,495 340,495" fill="#f9a8d4" class="edge"/>
+    <polygon points="190,565 960,565 960,585 190,585" fill="#ec4899" fill-opacity="0.82" class="edge"/>
+    <polygon points="960,565 1110,495 1110,515 960,585" fill="#db2777" fill-opacity="0.82" class="edge"/>
+
+    <!-- upper SCH / grating carrier -->
+    <polygon points="190,535 960,535 1110,465 340,465" fill="#fde9b9" class="edge"/>
+    <polygon points="190,535 960,535 960,565 190,565" fill="#fbdc87" class="edge"/>
+    <polygon points="960,535 1110,465 1110,495 960,565" fill="#e9c766" class="edge"/>
+
+    <!-- DFB grating stripes, near upper waveguide -->
+    <g stroke="#0f766e" stroke-width="4" stroke-linecap="round" opacity="0.95">
+      <line x1="315" y1="528" x2="465" y2="458"/>
+      <line x1="345" y1="528" x2="495" y2="458"/>
+      <line x1="375" y1="528" x2="525" y2="458"/>
+      <line x1="405" y1="528" x2="555" y2="458"/>
+      <line x1="435" y1="528" x2="585" y2="458"/>
+      <line x1="465" y1="528" x2="615" y2="458"/>
+      <line x1="495" y1="528" x2="645" y2="458"/>
+      <line x1="525" y1="528" x2="675" y2="458"/>
+      <line x1="555" y1="528" x2="705" y2="458"/>
+      <line x1="585" y1="528" x2="735" y2="458"/>
+      <line x1="615" y1="528" x2="765" y2="458"/>
+      <line x1="645" y1="528" x2="795" y2="458"/>
+      <line x1="675" y1="528" x2="825" y2="458"/>
+      <line x1="705" y1="528" x2="855" y2="458"/>
+      <line x1="735" y1="528" x2="885" y2="458"/>
+      <line x1="765" y1="528" x2="915" y2="458"/>
+      <line x1="795" y1="528" x2="945" y2="458"/>
+      <line x1="825" y1="528" x2="975" y2="458"/>
+      <line x1="855" y1="528" x2="1005" y2="458"/>
+    </g>
+    <path d="M590 528 L740 458" stroke="#0f172a" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+    <text x="666" y="477" text-anchor="middle" class="label" font-size="15" font-weight="700" fill="#f8fafc">λ/4 phase shift</text>
+
+    <!-- p-InP cladding -->
+    <polygon points="190,455 960,455 1110,385 340,385" fill="#c4b5fd" class="edge" opacity="0.94"/>
+    <polygon points="190,455 960,455 960,535 190,535" fill="#a78bfa" class="edge" opacity="0.94"/>
+    <polygon points="960,455 1110,385 1110,465 960,535" fill="#8b5cf6" class="edge" opacity="0.94"/>
+
+    <!-- p+ contact cap -->
+    <polygon points="190,425 960,425 1110,355 340,355" fill="#fecaca" class="edge"/>
+    <polygon points="190,425 960,425 960,455 190,455" fill="#fca5a5" class="edge"/>
+    <polygon points="960,425 1110,355 1110,385 960,455" fill="#ef7979" class="edge"/>
+
+    <!-- dielectric passivation on side and top -->
+    <polygon points="265,398 895,398 1045,328 415,328 340,357 970,357" fill="#e2e8f0" stroke="#64748b" stroke-width="1.4" opacity="0.92"/>
+    <polygon points="190,425 265,398 340,357 340,385 190,455" fill="#cbd5e1" stroke="#64748b" stroke-width="1.2" opacity="0.86"/>
+    <polygon points="895,398 960,425 1110,355 1045,328" fill="#cbd5e1" stroke="#64748b" stroke-width="1.2" opacity="0.86"/>
+
+    <!-- ridge and current window -->
+    <polygon points="390,385 760,385 910,315 540,315" fill="#7dd3fc" class="edge"/>
+    <polygon points="390,385 760,385 760,425 390,425" fill="#38bdf8" class="edge"/>
+    <polygon points="760,385 910,315 910,355 760,425" fill="#0ea5e9" class="edge"/>
+
+    <!-- p metal stripe -->
+    <polygon points="430,335 735,335 885,265 580,265" fill="#f59e0b" stroke="#92400e" stroke-width="2"/>
+    <polygon points="430,335 735,335 735,362 430,362" fill="#d97706" stroke="#92400e" stroke-width="2"/>
+    <polygon points="735,335 885,265 885,292 735,362" fill="#b45309" stroke="#92400e" stroke-width="2"/>
+  </g>
+
+  <!-- Optical mode, output and current path -->
+  <ellipse cx="585" cy="575" rx="330" ry="27" fill="#22d3ee" opacity="0.22" stroke="#0891b2" stroke-width="2"/>
+  <ellipse cx="585" cy="575" rx="190" ry="14" fill="#22d3ee" opacity="0.24"/>
+  <path d="M960 575 C1050 545 1160 540 1280 548" stroke="url(#beam)" stroke-width="42" fill="none" stroke-linecap="round"/>
+  <path d="M960 575 C1060 548 1168 544 1280 548" stroke="#0891b2" stroke-width="4" fill="none" marker-end="url(#arrowBlue)"/>
+
+  <g stroke="#047857" stroke-width="3" marker-end="url(#arrowGreen)" fill="none">
+    <path d="M565 250 C560 300 560 345 565 420"/>
+    <path d="M640 245 C635 300 635 345 640 420"/>
+    <path d="M715 250 C710 300 710 345 715 420"/>
+  </g>
+
+  <!-- Facet coatings -->
+  <rect x="948" y="428" width="16" height="158" fill="#0f172a" opacity="0.42"/>
+  <path d="M962 427 L1112 357 L1112 515 L962 586 Z" fill="#0f172a" opacity="0.16" stroke="#334155" stroke-width="1.5"/>
+  <rect x="186" y="425" width="10" height="160" fill="#334155" opacity="0.25"/>
+
+  <!-- Callouts -->
+  <g class="label">
+    <path class="callout" d="M500 250 L570 278"/>
+    <text x="275" y="238" font-size="21" font-weight="700">p-metal / p 接触</text>
+    <text x="275" y="264" class="tiny">把外部电流送入 p 侧接触层</text>
+
+    <path class="callout-green" d="M770 240 C790 270 800 300 800 335"/>
+    <text x="825" y="220" font-size="21" font-weight="700">电流注入窗口</text>
+    <text x="825" y="246" class="tiny">介质层开窗定义电流入口</text>
+
+    <path class="callout" d="M1160 350 L945 398"/>
+    <text x="1168" y="345" font-size="21" font-weight="700">ridge / mesa</text>
+    <text x="1168" y="371" class="tiny">横向约束光场和电流</text>
+
+    <path class="callout-green" d="M1170 450 L865 493"/>
+    <text x="1168" y="442" font-size="21" font-weight="700">DFB 光栅</text>
+    <text x="1168" y="468" class="tiny">周期 Λ 决定 Bragg 波长</text>
+
+    <path class="callout-blue" d="M1170 560 L875 573"/>
+    <text x="1168" y="552" font-size="21" font-weight="700">光学模式</text>
+    <text x="1168" y="578" class="tiny">与 MQW 有源区重叠并被放大</text>
+
+    <path class="callout" d="M1045 655 L960 572"/>
+    <text x="1058" y="650" font-size="21" font-weight="700">解理端面 / 镀膜</text>
+    <text x="1058" y="676" class="tiny">控制反射、出光和端面可靠性</text>
+
+    <path class="callout" d="M300 745 L440 700"/>
+    <text x="70" y="738" font-size="21" font-weight="700">InP 衬底</text>
+    <text x="70" y="764" class="tiny">承载低缺陷 III-V 外延层</text>
+
+    <path class="callout" d="M320 622 L455 590"/>
+    <text x="70" y="610" font-size="21" font-weight="700">n-InP 包层</text>
+    <text x="70" y="636" class="tiny">下侧光学限制和电流回路</text>
+
+    <path class="callout" d="M280 575 L426 575"/>
+    <text x="70" y="540" font-size="21" font-weight="700">SCH + MQW 有源区</text>
+    <text x="70" y="566" class="tiny">量子阱提供光增益</text>
+
+    <path class="callout" d="M300 475 L420 465"/>
+    <text x="70" y="455" font-size="21" font-weight="700">p-InP 包层</text>
+    <text x="70" y="481" class="tiny">上侧光学限制和 p 侧导电路径</text>
+
+    <path class="callout-blue" d="M1128 708 L1245 590"/>
+    <text x="1135" y="720" font-size="21" font-weight="700">连续输出光</text>
+    <text x="1135" y="746" class="tiny">CW-DFB 提供稳定单模光源</text>
+  </g>
+
+  <!-- Compact legend -->
+  <g transform="translate(70,810)" class="label">
+    <rect x="0" y="-34" width="1260" height="54" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+    <text x="18" y="0" font-size="17" fill="#334155">结构链条：</text>
+    <text x="110" y="0" font-size="17" fill="#334155">InP 衬底 → n/p 包层与 SCH → MQW 有源区 → DFB 光栅选择纵模 → ridge 与电流窗口约束电流 → 解理端面输出连续光。</text>
+  </g>
+</svg>
