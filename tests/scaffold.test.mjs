@@ -190,9 +190,9 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /## 4\. 电流注入、绝缘与电流约束/);
   assert.match(page, /## 5\. 解理、腔长与端面工程/);
   assert.match(page, /## 6\. 芯片测试、分档与可靠性筛选/);
-  assert.match(page, /## 器件指标如何传给封装页面/);
-  assert.match(page, /## 器件评价指标/);
-  assert.match(page, /## 总结：一颗激光源从哪里来/);
+  assert.match(page, /## 7\. 器件评价指标：怎样判断一颗激光器是否合格/);
+  assert.match(page, /## 8\. 从芯片到封装：哪些指标会传给封装设计/);
+  assert.match(page, /## 9\. 总结：一颗 InP 激光源从哪里来/);
   assert.match(page, /AI 数据中心光互连需要稳定、足够功率、可长期工作的连续光/);
   assert.match(page, /激光源的原理链由几层机制组成/);
   assert.match(page, /DFB 光栅选择稳定单一波长/);
@@ -221,10 +221,11 @@ test("light source component page is organized as a focused laser-source page", 
   assert.doesNotMatch(page, /ELSFP 外置光源模块/);
   assert.match(page, /QW \/ MQW 有源区/);
   assert.match(page, /这对应两个不同层级/);
-  assert.match(page, /光学输出/);
-  assert.match(page, /噪声与单模性/);
-  assert.match(page, /电热效率/);
-  assert.match(page, /器件接口/);
+  assert.match(page, /发光能力/);
+  assert.match(page, /波长、噪声与模式/);
+  assert.match(page, /电学与热学/);
+  assert.match(page, /光束与耦合/);
+  assert.match(page, /从芯片到封装/);
   assert.match(page, /进一步阅读/);
   assert.match(page, /\.\.\/\.\.\/learn\/inp-dfb-laser-principle\//);
   assert.match(page, /OIF: External Laser Small Form Factor Pluggable/);

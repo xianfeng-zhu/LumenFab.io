@@ -514,9 +514,10 @@ For the first reader-facing version, organize the page as a vertical explanation
 4. 受激辐射：为什么它不是 LED。
 5. 波导与谐振腔：限制光场、提供反馈、达到阈值。
 6. DFB 光栅：分布式反馈和波长选择。
-7. 指标和应用：CW power、wavelength、SMSR、linewidth、RIN、温漂、耦合和可靠性。
-8. 完整链条：从材料到 CPO 光源的 recap。
-9. 3D 模型 brief：后续模型应该展示 substrate、MQW、SCH、ridge、grating、optical mode、facet、submount 和 fiber/PIC coupling 的位置关系。
+7. 器件评价指标：用 `Ith`、`Pout`、slope efficiency、PCE/WPE、center wavelength、SMSR、RIN、linewidth、wavelength drift、rollover、beam divergence、burn-in drift and failure modes 收束前面的工艺结果。
+8. 从芯片到封装：只说明 die 交付给封装设计的光学、电学、热学和可靠性接口，不展开 TOSA、ELSFP、connector、isolator 或 full package layout。
+9. 完整链条：从外延片、波导/DFB 光栅、电流注入、解理/端面、测试/筛选到封装前 known-good-die 的 recap。
+10. 3D 模型 brief：后续模型应该展示 substrate、MQW、SCH、ridge、grating、optical mode、facet、submount 和 fiber/PIC coupling 的位置关系。
 
 ## Open Questions For Later
 
