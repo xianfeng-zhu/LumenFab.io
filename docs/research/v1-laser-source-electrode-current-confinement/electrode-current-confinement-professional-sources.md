@@ -33,6 +33,7 @@ Scope: sources for expanding `src/pages/components/laser-source.mdx`, section `4
 5. Buried heterostructure lasers use regrown blocking layers or semi-insulating / p-n-n structures to confine current laterally. Leakage current can become important at high temperature and depends on device width, blocking-layer dimensions and doping.
 6. Process errors map directly to optical performance: high contact resistance raises voltage and heat; poor current confinement raises threshold and creates filamentation; leakage lowers efficiency; sidewall damage increases non-radiative recombination; weak passivation accelerates reliability failures.
 7. Section 4 should connect electrical geometry to the optical mode without repeating section 3. Section 3 defines the waveguide and DFB feedback; section 4 explains how carriers are injected into that structure in a controlled way.
+8. The process barrier for section 4 is not a single contact recipe, but a combined window: contact resistance, dielectric aperture alignment, sidewall passivation, current-blocking leakage, metal diffusion, thermal drift and long-term stability need to be controlled together and correlated with L-I-V and aging data.
 
 ## Suggested Reader Structure For Section 4
 
@@ -47,3 +48,4 @@ Scope: sources for expanding `src/pages/components/laser-source.mdx`, section `4
 - Use this pack for section `4. 电流注入、绝缘与电流约束`.
 - Keep packaging, TOSA wiring and driver circuit design outside this section except as downstream requirements.
 - Use "current confinement" as an electrical / lateral injection concept. Keep it distinct from optical confinement and DFB feedback.
+- A reader-facing barrier summary can emphasize stable low-resistance contacts, aperture alignment, passivation integrity, blocking-layer design and process-test feedback as likely sources of durable manufacturing advantage.
