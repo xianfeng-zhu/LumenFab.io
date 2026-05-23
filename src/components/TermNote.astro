@@ -16,6 +16,8 @@ const { label, note } = Astro.props;
 
 <script>
   const edgeGap = 12;
+  const verticalGap = 8;
+  const mobileQuery = window.matchMedia("(max-width: 720px)");
   const notes = document.querySelectorAll(".term-note");
 
   function positionTermNote(note) {
@@ -27,10 +29,37 @@ const { label, note } = Astro.props;
     note.style.setProperty("--term-note-shift", "0px");
     note.removeAttribute("data-term-note-placement");
 
+    if (mobileQuery.matches) {
+      note.style.setProperty("--term-note-fixed-left", `${edgeGap}px`);
+      note.style.setProperty("--term-note-fixed-top", `${edgeGap}px`);
+    }
+
     requestAnimationFrame(() => {
       const noteRect = note.getBoundingClientRect();
       const tipRect = tip.getBoundingClientRect();
       const viewportWidth = document.documentElement.clientWidth;
+      const viewportHeight = window.innerHeight;
+
+      if (mobileQuery.matches) {
+        const maxLeft = Math.max(edgeGap, viewportWidth - edgeGap - tipRect.width);
+        const left = Math.min(
+          Math.max(noteRect.left + noteRect.width / 2 - tipRect.width / 2, edgeGap),
+          maxLeft,
+        );
+        let top = noteRect.top - tipRect.height - verticalGap;
+
+        if (top < edgeGap && noteRect.bottom + tipRect.height + verticalGap < viewportHeight - edgeGap) {
+          top = noteRect.bottom + verticalGap;
+        } else {
+          const maxTop = Math.max(edgeGap, viewportHeight - edgeGap - tipRect.height);
+          top = Math.min(Math.max(top, edgeGap), maxTop);
+        }
+
+        note.style.setProperty("--term-note-fixed-left", `${Math.round(left)}px`);
+        note.style.setProperty("--term-note-fixed-top", `${Math.round(top)}px`);
+        return;
+      }
+
       let shift = 0;
 
       if (tipRect.left < edgeGap) {
@@ -67,6 +96,8 @@ const { label, note } = Astro.props;
     position: relative;
     display: inline-block;
     --term-note-shift: 0px;
+    --term-note-fixed-left: 12px;
+    --term-note-fixed-top: 12px;
     white-space: nowrap;
   }
 
@@ -131,13 +162,18 @@ const { label, note } = Astro.props;
 
   @media (max-width: 720px) {
     .term-note__tip {
-      bottom: calc(100% + 0.4rem);
-      width: max-content;
-      max-width: min(20rem, calc(100vw - 2rem));
+      position: fixed;
+      top: var(--term-note-fixed-top);
+      bottom: auto;
+      left: var(--term-note-fixed-left);
+      width: min(20rem, calc(100vw - 2rem));
+      max-width: calc(100vw - 2rem);
+      transform: translateY(0.2rem);
     }
 
-    .term-note[data-term-note-placement="below"] .term-note__tip {
-      top: calc(100% + 0.4rem);
+    .term-note:hover .term-note__tip,
+    .term-note:focus-within .term-note__tip {
+      transform: translateY(0);
     }
   }
 </style>

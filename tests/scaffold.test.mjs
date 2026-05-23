@@ -49,8 +49,11 @@ test("term notes clamp visible tooltips inside the viewport", async () => {
   assert.match(component, /\.term-note:hover \.term-note__tip/);
   assert.match(component, /display:\s+block/);
   assert.match(component, /@media \(max-width: 720px\)/);
-  assert.doesNotMatch(component, /position:\s+fixed/);
-  assert.match(component, /max-width:\s+min\(20rem,\s+calc\(100vw - 2rem\)\)/);
+  assert.match(component, /--term-note-fixed-left/);
+  assert.match(component, /--term-note-fixed-top/);
+  assert.match(component, /mobileQuery\.matches/);
+  assert.match(component, /position:\s+fixed/);
+  assert.match(component, /width:\s+min\(20rem,\s+calc\(100vw - 2rem\)\)/);
 });
 
 test("base layout provides a floating section menu for long pages", async () => {
