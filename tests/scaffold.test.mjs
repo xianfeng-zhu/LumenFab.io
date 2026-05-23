@@ -115,7 +115,7 @@ test("homepage is a CPO knowledge entry rather than a learning-path pitch", asyn
   const layout = await read("src/layouts/BaseLayout.astro");
   const packaging = await read("src/pages/components/packaging.mdx");
   assert.match(home, /CPO 光引擎拆解/);
-  assert.match(home, /CPO 激光源/);
+  assert.match(home, /激光源/);
   assert.match(home, /PIC \/ optical circuit/);
   assert.match(home, /Optical I\/O/);
   assert.match(home, /Manufacturing and test/);
@@ -174,11 +174,11 @@ test("component hub pages link to detail pages through relative paths", async ()
 
 test("light source component page is organized as a focused laser-source page", async () => {
   const page = await read("src/pages/components/laser-source.mdx");
-  assert.match(page, /title: CPO 激光源/);
-  assert.match(page, /chapter: CPO 光引擎组件/);
-  assert.match(page, /DFB、CW、MWL 等光源器件的关键指标/);
-  assert.match(page, /## CPO 光源的器件边界/);
-  assert.match(page, /## 为什么 CPO 需要稳定光源/);
+  assert.match(page, /title: 激光源/);
+  assert.match(page, /chapter: 光引擎组件/);
+  assert.match(page, /DFB 光栅，以及 CW、DFB、EML、MWL 等器件能力/);
+  assert.match(page, /## 激光源的器件边界/);
+  assert.match(page, /## 为什么 CPO 会提高光源要求/);
   assert.match(page, /## 原理总览：激光器如何把电流变成稳定光源/);
   assert.match(page, /## 总览：从 InP 衬底到激光器芯片/);
   assert.match(page, /## 1\. InP 单晶生长与衬底制备/);
@@ -189,10 +189,11 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /## 6\. 芯片测试与筛选/);
   assert.match(page, /## 器件指标如何传给封装页面/);
   assert.match(page, /## 器件评价指标/);
-  assert.match(page, /## 总结：一颗 CPO 激光源从哪里来/);
-  assert.match(page, /CPO 光引擎需要稳定、足够功率、可长期工作的连续光/);
+  assert.match(page, /## 总结：一颗激光源从哪里来/);
+  assert.match(page, /AI 数据中心光互连需要稳定、足够功率、可长期工作的连续光/);
   assert.match(page, /激光源的原理链由几层机制组成/);
   assert.match(page, /DFB 光栅选择稳定单一波长/);
+  assert.match(page, /CPO 的基本动机是把光引擎放到/);
   assert.match(page, /激光器如何从材料、外延和芯片工艺中形成/);
   assert.match(page, /激光器的最低层原理是电子能量转换/);
   assert.match(page, /器件制造可以沿六个阶段理解/);
