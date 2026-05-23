@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+<meta name="license" content="https://www.rp-photonics.com/terms_of_use.html">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self' 'nonce-oR+ChsrFftcmRMNA0XeiAg=='; style-src 'self' 'unsafe-inline'; form-action 'self'; base-uri 'self'; frame-src 'self'; object-src 'none'">
+<title>Modes – waveguide, propagation modes, optical fiber, resonator, resonator, field distribution</title>
+<link rel="stylesheet" type="text/css" href="/fonts.css?v5">
+<link rel="preload" href="/fonts/open-sans-v15-latin_greek-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/img/mesh1.webp" as="image" type="image/webp">
+<link rel="stylesheet" type="text/css" href="/jquery-ui-1.14.0.custom/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="/encyclopedia.css?v348">
+<link rel="canonical" href="https://www.rp-photonics.com/modes.html">
+<link rel="alternate" type="application/rss+xml" title="The Photonics Spotlight" href="https://www.rp-photonics.com/spotlight.rss?v114">
+<link rel="alternate" type="application/rss+xml" title="The RP Photonics Software News" href="https://www.rp-photonics.com/software_news.rss?v65">
+<link rel="alternate" type="application/rss+xml" title="The RP Photonics Marketing News" href="https://www.rp-photonics.com/marketing_news.rss?v58">
+<link rel="alternate" type="application/rss+xml" title="New encyclopedia articles" href="https://www.rp-photonics.com/new_articles.rss?v183">
+<link rel="alternate" type="text/markdown" title="Site summary for LLMs" href="/llms.txt">
+<meta name="date" content="2025-12-30T16:58:11Z">
+<meta name="description" content="Modes are self-consistent electric field distributions in waveguides, optical resonators, or free space. This concept is crucial in fiber optics and laser physics.">
+<meta name="copyright" content="2026 RP Photonics AG">
+<meta name="author" content="Dr. Rüdiger Paschotta">
+<meta name="publisher" content="RP Photonics AG">
+<meta name="citation_title" content="Modes">
+<meta name="citation_author" content="Dr. R&uuml;diger Paschotta">
+<meta name="citation_journal_title" content="RP Photonics Encyclopedia">
+<meta name="citation_public_url" content="https://www.rp-photonics.com/modes.html">
+<meta name="citation_publication_date" content="2021-07-21">
+<meta name="citation_doi" content="10.61835/tiz">
+<meta name="keywords" content="waveguide, propagation modes, optical fiber, resonator, resonator, field distribution">
+<meta property="og:type" content="article">
+<meta property="og:title" content="modes">
+<meta property="og:site_name" content="RP Photonics">
+<meta property="og:locale" content="en_US">
+<meta property="og:description" content="Modes are self-consistent electric field distributions in waveguides, optical resonators, or free space. This concept is crucial in fiber optics and laser physics.">
+<meta property="og:url" content="https://www.rp-photonics.com/modes.html">
+<meta property="og:image" content="https://www.rp-photonics.com/previews/modes.png">
+<meta property="og:image:type" content="image/png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Modes are self-consistent electric field distributions in waveguides, optical resonators, or free space. This concept is crucial in fiber optics and laser physics.">
+<meta name="twitter:title" content="modes">
+<meta name="twitter:image" content="https://www.rp-photonics.com/previews/modes.png">
+<script src="/jquery-3.7.1.min.js?v1"></script>
+<script defer src="/jquery-ui-1.14.0.custom/jquery-ui.min.js"></script>
+<script defer src="/general.js?v405"></script>
+<script defer src="/articles.js?v293"></script>
+<script src="/purify-3.2.4.min.js?v2"></script>
+<script nonce="oR+ChsrFftcmRMNA0XeiAg==">
+function formatTable(e){let t=e.getAttribute("data-s").split(",");if(!t)return;let l=t[0],r=parseInt(getComputedStyle(e.parentNode).width),n=1;for(;n<t.length&&r<t[n];)l=t[n+1],n+=2;let o=e.getElementsByTagName("tbody")[0],a=o.children.length,d=e.rows[0].cells.length,s=Math.ceil(a*d/l),g=o.getElementsByTagName("td").length;if(s===a)return;let h=0,i=0,m=0;for(let t=0;t<s;t++){let t=document.createElement("tr");for(let r=1;r<=l&&h<g;r++)h++,t.appendChild(e.rows[i].cells[0]),e.rows[i].cells.length||(i++,m=0);o.appendChild(t)}for(let t=0;t<a;t++)e.rows[0].remove()}
+let localserver=false;
+let page="modes.html"; let pagecat="E"; let shownbanner=""; let referrer=""; shownsponsors = ""; internal_user = false;
+</script>
+<script nonce="oR+ChsrFftcmRMNA0XeiAg==">
+MathJax = {
+  tex: { inlineMath: [['($', '$)']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script id="MathJax-script" async src="tex-svg.js"></script>
+</head>
+<body>
+<noscript>
+Note: Javascript is disabled in your browser. On this website, it is required for a lot of the functionality, e.g. for page navigation and equations.
+</noscript>
+<script nonce="oR+ChsrFftcmRMNA0XeiAg==">let nonce = 'oR+ChsrFftcmRMNA0XeiAg=='; </script>
+<header><div id="logohead" style="background-image:url('/img/mesh1.webp');">
+<nav id="areas">
+<div class="areadiv">
+<table id="areatable" data-s="2,600,1">
+<tr><td>
+<div class="areadiv"><table class="areasubtable">
+<tr><td id="enc" class="selected"><a href="/encyclopedia.html" title="This is the famous encyclopedia with over 1000 high-quality articles. New: AI-based semantic search!">Encyclo&shy;pedia</a></td>
+<td id="bg"><a href="/buyersguide.html" title="Here you find the RP Photonics Buyer's Guide and Virtual Exhibition. Find suppliers for photonics products, or advertise your products. New: AI-based features for users and advertisers!">Buyer's Guide</a></td></tr>
+</table>
+</div>
+</td>
+<td>
+<div class="areadiv"><table class="areasubtable">
+<tr>
+<td id="software"><a href="/software.html" title="We offer high quality simulation &amp; design software, e.g. for laser design, fiber optics and thin-film optics. Boost the quality and efficiency of your development!">Software</a></td>
+<td id="consulting"><a href="/consulting.html" title="We offer technical consulting services, including tailored training courses!">Consulting</a></td>
+</tr>
+</table>
+</div>
+</td></tr></table>
+</div>
+</nav>
+<script nonce="oR+ChsrFftcmRMNA0XeiAg==">formatTable(document.getElementById('areatable'));</script>
+<a href="/company.html"><picture><source srcset="/img/rp_photonics_logo.webp?p=modes.html" type="image/webp"><img src="/img/rp_photonics_logo.png?p=modes.html" width="248" height="41" alt="RP Photonics" id="rplogo" title="click to learn on the company RP Photonics"></picture></a>
+<p id="title"><span id="title2">Encyclopedia</span> <span id="slogan">&hellip; the photonics community’s trusted resource!</span></p>
+</div></header>
+<div id="sponsorsbox" class="hide-on-print"><div class="sponsor-inner"></div></div>
+<script nonce="oR+ChsrFftcmRMNA0XeiAg==">
+const sponsors = [{"name":"DataRay","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/dataray.html\" title=\"Visit the profile of DataRay\"><picture><source srcset=\"/bg/logos/dataray.webp\"><img src=\"/bg/logos/dataray.png\" alt=\"DataRay\" class=\"supplierlogo\"></picture></a>"},{"name":"Diamond SA","level":2,"prob":0.060999999999999998667732370449812151491641998291015625,"imglink":"<a href=\"/bg/profiles/diamond_sa.html\" title=\"Visit the profile of Diamond SA\"><picture><source srcset=\"/bg/logos/diamond_sa.webp\"><img src=\"/bg/logos/diamond_sa.png\" alt=\"Diamond SA\" class=\"supplierlogo\"></picture></a>"},{"name":"DK Photonics","level":2,"prob":0.060999999999999998667732370449812151491641998291015625,"imglink":"<a href=\"/bg/profiles/dk_photonics.html\" title=\"Visit the profile of DK Photonics\"><picture><source srcset=\"/bg/logos/dk_photonics.webp\"><img src=\"/bg/logos/dk_photonics.png\" alt=\"DK Photonics\" class=\"supplierlogo\"></picture></a>"},{"name":"Gentec Electro-Optics","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/gentec_electro_optics.html\" title=\"Visit the profile of Gentec Electro-Optics\"><picture><source srcset=\"/bg/logos/gentec_electro_optics.webp\"><img src=\"/bg/logos/gentec_electro_optics.png\" alt=\"Gentec Electro-Optics\" class=\"supplierlogo\"></picture></a>"},{"name":"Knight Optical","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/knight_optical.html\" title=\"Visit the profile of Knight Optical\"><picture><source srcset=\"/bg/logos/knight_optical.webp?v2\"><img src=\"/bg/logos/knight_optical.png?v2\" alt=\"Knight Optical\" class=\"supplierlogo\"></picture></a>"},{"name":"Menlo Systems","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/menlo_systems.html\" title=\"Visit the profile of Menlo Systems\"><picture><source srcset=\"/bg/logos/menlo_systems.webp\"><img src=\"/bg/logos/menlo_systems.png\" alt=\"Menlo Systems\" class=\"supplierlogo\"></picture></a>"},{"name":"M-Labs","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/m_labs.html\" title=\"Visit the profile of M-Labs\"><picture><source srcset=\"/bg/logos/m_labs.webp?v2\"><img src=\"/bg/logos/m_labs.png?v2\" alt=\"M-Labs\" class=\"supplierlogo\"></picture></a>"},{"name":"PowerPhotonic","level":2,"prob":0.060999999999999998667732370449812151491641998291015625,"imglink":"<a href=\"/bg/profiles/powerphotonic.html\" title=\"Visit the profile of PowerPhotonic\"><picture><source srcset=\"/bg/logos/powerphotonic.webp?v3\"><img src=\"/bg/logos/powerphotonic.png?v3\" alt=\"PowerPhotonic\" class=\"supplierlogo\"></picture></a>"},{"name":"RPMC Lasers","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/rpmc_lasers.html\" title=\"Visit the profile of RPMC Lasers\"><picture><source srcset=\"/bg/logos/rpmc_lasers.webp?v4\"><img src=\"/bg/logos/rpmc_lasers.png?v4\" alt=\"RPMC Lasers\" class=\"supplierlogo\"></picture></a>"},{"name":"Schäfter + Kirchhoff","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/schaefter_kirchhoff.html\" title=\"Visit the profile of Schäfter + Kirchhoff\"><picture><source srcset=\"/bg/logos/schaefter_kirchhoff.webp\"><img src=\"/bg/logos/schaefter_kirchhoff.png\" alt=\"Schäfter + Kirchhoff\" class=\"supplierlogo\"></picture></a>"},{"name":"Sinoptix","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/sinoptix.html\" title=\"Visit the profile of Sinoptix\"><picture><source srcset=\"/bg/logos/sinoptix.webp\"><img src=\"/bg/logos/sinoptix.png\" alt=\"Sinoptix\" class=\"supplierlogo\"></picture></a>"},{"name":"SmarAct","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/smaract.html\" title=\"Visit the profile of SmarAct\"><picture><source srcset=\"/bg/logos/smaract.webp\"><img src=\"/bg/logos/smaract.png\" alt=\"SmarAct\" class=\"supplierlogo\"></picture></a>"},{"name":"Stuttgart Instruments","level":1,"prob":0.0299999999999999988897769753748434595763683319091796875,"imglink":"<a href=\"/bg/profiles/stuttgart_instruments.html\" title=\"Visit the profile of Stuttgart Instruments\"><picture><source srcset=\"/bg/logos/stuttgart_instruments.webp?v4\"><img src=\"/bg/logos/stuttgart_instruments.png?v4\" alt=\"Stuttgart Instruments\" class=\"supplierlogo\"></picture></a>"},{"name":"TOPTICA Photonics","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/toptica_photonics.html\" title=\"Visit the profile of TOPTICA Photonics\"><picture><source srcset=\"/bg/logos/toptica_photonics.webp?v2\"><img src=\"/bg/logos/toptica_photonics.png?v2\" alt=\"TOPTICA Photonics\" class=\"supplierlogo\"></picture></a>"},{"name":"Vescent","level":3,"prob":0.120999999999999996447286321199499070644378662109375,"imglink":"<a href=\"/bg/profiles/vescent.html\" title=\"Visit the profile of Vescent\"><picture><source srcset=\"/bg/logos/vescent.webp?v3\"><img src=\"/bg/logos/vescent.png?v3\" alt=\"Vescent\" class=\"supplierlogo\"></picture></a>"}];
+</script>
+<div id="main"><main><article>
+<nav id="breadcrumbs"><img src="img/compass.svg" width="40" height="40" id="navigator" title="Search or browse articles" alt="navigation"><span><a href="company.html">RP Photonics</a> › <a href="encyclopedia.html">Encyclopedia</a> › <span aria-current="page">Modes</span></span><div id="hamburger"><img src="/img/hamburger.svg" alt="menu"></div></nav>
+<noscript>Enable Javascript in your browser to get the page navigation fully working!</noscript>
+<h1>Modes</h1>
+<p>Author: the photonics expert <a href="paschotta.html" rel="author">Dr. Rüdiger Paschotta</a> (RP)</p>
+<aside class="floatbox">
+<aside class="bg_vendorbox">
+<h2 class="bg_bgheading"><a href="bg/buy_fiber_simulation_software.html?s=vbox">Eight suppliers for fiber simulation software</a></h2>
+<p>are found in the RP Photonics Buyer's Guide.
+ Among them:</p>
+<aside class="bg_vendoritem center"><a href="https://www.rp-photonics.com/rp_fiber_power.html" data-supplier="RP Photonics" data-location="product-enc" data-keyword="fiber simulation software" rel="sponsored" class="bg externallink"><picture><source srcset="/bg/logos/rp_photonics.webp?v2"><img src="/bg/logos/rp_photonics.png?v2" alt="RP Photonics – supplier of fiber simulation software" class="supplierlogo"></picture></a></aside>
+<p>Find more supplier details at the <a href="#supplier_section">end of this Encyclopedia article</a>, or go to our</p>
+<div class="button action" style="display:block; margin-left:10px; width:250px; font-size:110%;"><a href="bg/buy_fiber_simulation_software.html?s=vbox">List of suppliers of<br>fiber simulation software</a></div>
+<p style="font-size:75%;">You are a not yet listed supplier?<br><a href="bg_free_listing.html">Start with a free entry!</a></p>
+<p style="font-size:75%;">Using our <a href="bg_ad_package.html">Advertising Package</a>, you can display your logo, further below your product description, and these will been seen by many photonics professionals.</p>
+</aside>
+<script nonce="oR+ChsrFftcmRMNA0XeiAg==">advertisers = 'RPPH';</script><aside class="boxadvertisement"><h2>Calculation of Fiber Modes</h2>
+<p>The software <strong><a href="rp_fiber_power.html">RP Fiber Power</a></strong> has an efficient mode solver for fibers. The images in the article are made with it.</p>
+<p>For simpler purposes, there is also the free fiber optics software <strong><a href="rp_fiber_calculator.html">RP Fiber Calculator</a></strong>.</p></aside>
+</aside>
+<div id="articletext" class="mr">
+<header class="articleheader" data-lim="Article header">
+<p><a href="glossary.html" title="go to the glossary">Definition</a>: self-consistent electric field distributions in waveguides, optical resonators or in free space</p>
+<p id="categories"><a href="encyclopedia.html" title="Articles grouped by categories">Categories</a>: <a href="encyclopedia.html#general_optics"><picture><source srcset="img/cat_optics_tr.webp"><img src="img/cat_optics_tr.png?v2" width="124" height="95" alt="article belongs to category general optics">
+</picture>general optics</a>, <a href="encyclopedia.html#fiber_optics_and_waveguides"><picture><source srcset="img/cat_fiber_optics_tr.webp"><img src="img/cat_fiber_optics_tr.png?v2" width="92" height="97" alt="article belongs to category fiber optics and waveguides">
+</picture>fiber optics and waveguides</a>, <a href="encyclopedia.html#optical_resonators"><picture><source srcset="img/cat_resonators_tr.webp"><img src="img/cat_resonators_tr.png?v2" width="103" height="81" alt="article belongs to category optical resonators">
+</picture>optical resonators</a></p>
+<section class="mini-trees" aria-label="Concept trees">
+<section class="concept-tree"><ul class="tree" role="tree"><li role="treeitem" aria-current="page"><span class="node current">modes</span><ul role="group"><li role="treeitem"><span class="node"><a href="guided_waves.html">guided</a> modes</span></li><li role="treeitem"><span class="node"><a href="cladding_modes.html">cladding modes</a></span></li><li role="treeitem"><span class="node">tunelling modes = <a href="leaky_modes.html">leaky modes</a></span></li><li role="treeitem"><span class="node"><a href="resonator_modes.html">resonator modes</a></span></li><li role="treeitem"><span class="node"><a href="hermite_gaussian_modes.html">Hermite–Gaussian modes</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="laguerre_gaussian_modes.html">Laguerre-Gaussian modes</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="lp_modes.html">LP modes</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="higher_order_modes.html">higher-order modes</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="mode_competition.html">mode competition</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="mode_coupling.html">mode coupling</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="mode_hopping.html">mode hopping</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="mode_matching.html">mode matching</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="mode_radius.html">mode radius</a></span></li><li role="treeitem" style="display:none"><span class="node"><a href="v_number.html">V-number</a></span></li><li role="treeitem"><span class="node"><a class="more">(more topics)</a></span></li></ul></li></ul></section>
+</section>
+<p><span class="part">Related: <span style="margin-left:10px;font-size:0.7rem"><span class="node"><a href="tutorial_passive_fiber_optics2.html">Tutorial on Passive Fiber Optics<br>Part 2: Fiber Modes</a></span><span class="node"><a href="case_study_multimode_fibers.html">Mode Structure of a Multimode Fiber</a></span><span class="node"><a href="case_study_parabolic_index_fiber.html">Telecom Fiber With Parabolic Index Profile</a></span><span class="node"><a href="mode_radius.html">mode radius</a></span><span class="node"><a href="effective_mode_area.html">effective mode area</a></span><span class="node"><a href="effective_refractive_index.html">effective refractive index</a></span><span class="node"><a href="mode_matching.html">mode matching</a></span><span class="node"><a href="mode_coupling.html">mode coupling</a></span><span class="node"><a href="resonator_modes.html">resonator modes</a></span><span class="node"><a href="lp_modes.html">LP modes</a></span><span class="node"><a href="higher_order_modes.html">higher-order modes</a></span><span class="node"><a href="mode_locking.html">mode locking</a></span><span class="node"><a href="spotlight_2006_12_03.html">Diffraction in Optical Fibers</a></span><span class="node"><a href="spotlight_2007_10_11.html">Understanding Fourier Spectra</a></span><span class="node"><a href="spotlight_2008_04_15.html">Abused Photonics Terms: Modes</a></span></span></span></p>
+<p>Page views in 12 months: 7790
+</p>
+<p><a href="doi_links.html">DOI</a>: <a href="https://doi.org/10.61835/tiz" title="This link will reload the current page.">10.61835/tiz</a>&nbsp;&nbsp; <a href="encyclopedia_cite.html?article=modes&doi=10.61835/tiz" rel="nofollow">Cite the article</a>: <a href="cite_bibtex.php?v3&a=modes.html" rel="nofollow" data-filename="modes.bib" class="encbox-button">BibTex</a> <a href="cite_biblatex.php?v3&a=modes.html" rel="nofollow" data-filename="modes.bib" class="encbox-button">BibLaTex</a> <a href="cite_plain_text.php?v2&a=modes.html" rel="nofollow" data-filename="modes.txt" class="encbox-button">plain text</a><a href="cite_html.php?v2&a=modes.html" rel="nofollow" data-filename="modes.txt" class="encbox-button">HTML</a>&nbsp;&nbsp; <a href="encyclopedia_link.html" class="encbox-button orange">Link to this page!</a>&nbsp;&nbsp; <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.rp-photonics.com%2Fmodes.html" class="encbox-button linkedin">LinkedIn</a></p>
+<p>Content quality and neutrality are maintained according to our <a href="encyclopedia_policy.html">editorial policy</a>.</p></header>
+<div id="citation_dialog" style="display:none">
+<pre id="citationCode"></pre>
+<button id="copyButton">Copy to Clipboard</button>
+<button id="downloadButton">Download file</button>
+</div>
+<header class="bg_hint">📦 For purchasing, <a href="/bg/buy_fiber_simulation_software.html">use the RP Photonics Buyer's Guide for fiber simulation software</a>. It provides an expert-curated supplier directory, buyer-focused technical background information, and structured selection criteria to support professional procurement decisions.</header>
+<nav aria-label="Table of Contents" class="hide-on-print">
+<details>
+<summary>
+<h2 id="toc">Contents</h2>
+</summary>
+<div id="toclist">
+<p class="h2"><a href="#The-Concept-of-Modes">The Concept of Modes</a></p>
+<p class="h2"><a href="#Free-space-Modes">Free-space Modes</a></p>
+<p class="h3"><a href="#Plane-Waves">Plane Waves</a></p>
+<p class="h3"><a href="#Gaussian-Hermite–Gaussian-and-Laguerre-Gaussian-Modes">Gaussian, Hermite–Gaussian and Laguerre-Gaussian Modes</a></p>
+<p class="h2"><a href="#Waveguide-Modes">Waveguide Modes</a></p>
+<p class="h2"><a href="#Resonator-Modes">Resonator Modes</a></p>
+<p class="h2"><a href="#Applications-of-the-Mode-Concept">Applications of the Mode Concept</a></p>
+<p class="h2"><a href="#Frequently-Asked-Questions">Frequently Asked Questions</a></p>
+<p class="h3"><a href="#faq_Q1">What is a propagation mode of light?</a></p>
+<p class="h3"><a href="#faq_Q2">What is the difference between free-space modes and waveguide modes?</a></p>
+<p class="h3"><a href="#faq_Q3">What are Hermite–Gaussian modes?</a></p>
+<p class="h3"><a href="#faq_Q4">What are LP modes in an optical fiber?</a></p>
+<p class="h3"><a href="#faq_Q5">What defines a mode in an optical resonator?</a></p>
+<p class="h3"><a href="#faq_Q6">Why is the mode concept useful for simulations?</a></p>
+</div></details>
+</nav>
+<details open="open">
+<summary>
+<h2 id="The-Concept-of-Modes">The Concept of Modes</h2>
+</summary>
+<p>This article discusses propagation modes of light in different situations: in free space, in a <a href="transparency.html">transparent</a> homogeneous medium, in a <a href="waveguides.html">waveguide</a> structure, or in an <a href="optical_resonators.html">optical resonator</a>. Alternatively, the term &ldquo;mode&rdquo; can also mean a mode of operation, e.g. continuous-wave <a href="mode_locking.html">mode locking</a>, <a href="q_switching.html">Q-switching</a>, or <a href="single_frequency_operation.html">single-frequency operation</a>; for such information, see the article on <a href="modes_of_laser_operation.html">modes of laser operation</a>.</p>
+<aside class="callout blue">Self-consistency during propagation is the key aspect of modes.</aside>
+<p>When some light beam propagates in free space or in a transparent homogeneous medium, its transverse intensity profile generally changes during propagation (see Figure 1). There are, however, certain electric field distributions which are self-consistent during propagation; these are called <em>modes</em>. The meaning of&ldquo;self-consistent&rdquo; in the mentioned definition depends on the situation. Different situations are discussed in the following sections.</p>
+<figure style="max-width:100%; height:auto;">
+<picture><source srcset="img/beam_evolution.webp"><img src="img/beam_evolution.png" width="700" height="200" alt="evolution of a beam intensity profile">
+</picture>
+<figcaption><span class="start">Figure&nbsp;1:</span> Simulated evolution of the intensity profile of a laser beam. The shape of the profile changes during propagation. This would not be the case for a mode.</figcaption>
+</figure>
+</details>
+<details open="open">
+<summary>
+<h2 id="Free-space-Modes">Free-space Modes</h2>
+</summary>
+<details open="open">
+<summary>
+<h3 id="Plane-Waves">Plane Waves</h3>
+</summary>
+<p>The mathematically simplest kinds of modes in free space (or in an optically homogeneous medium) are <em><a href="plane_waves.html">plane waves</a></em>. A plane wave satisfies the wave equation, provided only that the wavelength times the <a href="optical_frequency.html">optical frequency</a> matches the <a href="phase_velocity.html">phase velocity</a> of light in the medium. During propagation in a direction, a plane wave only changes its oscillation <a href="optical_phase.html">phase</a>, and possibly its amplitude if there is optical loss or <a href="gain.html">gain</a> in a medium.</p>
+<p>For a given <a href="optical_frequency.html">optical frequency</a> and a given optical medium, the <a href="wavenumber.html">wavenumber</a> ($k$) of a plane wave is fixed, but different propagation directions are still possible. The continuum of plane waves with different propagation directions can be taken as a mathematical basis, which means that an arbitrary <a href="monochromatic_light.html">monochromatic</a> field distribution can be regarded as a superposition of plane waves. Fourier transforms can be used for calculating such superpositions. As the plane waves are modes of free space, they are convenient for calculating the field propagation; this is a basis of <a href="fourier_optics.html">Fourier optics</a>.</p>
+</details>
+<details open="open">
+<summary>
+<h3 id="Gaussian-Hermite–Gaussian-and-Laguerre-Gaussian-Modes">Gaussian, Hermite–Gaussian and Laguerre-Gaussian Modes</h3>
+</summary>
+<p>Although plane waves are mathematically very simple, they cannot resemble any wave occurring in reality, since they have an infinite transverse extent. Therefore, other kinds of modes, which are limited in the transverse spatial dimension, are often of higher interest. The simplest kind of such modes are <em>Gaussian modes</em>. A <a href="gaussian_beams.html">Gaussian beam</a> expands or contracts during propagation, but is self-consistent in the sense that the amplitude profile is only scaled in the transverse dimension, but has a constant (in that case Gaussian) shape.</p>
+<p>Each Gaussian mode is only the simplest member of a whole family of modes, which contains an infinite number of modes. The most frequently used mode families (mode systems) are those of <em><a href="hermite_gaussian_modes.html">Hermite–Gaussian</a></em> and <em><a href="laguerre_gaussian_modes.html">Laguerre–Gaussian modes</a></em>. Within such a mode family, the Gaussian mode is the <em>fundamental mode</em>, while all other modes are called <em><a href="higher_order_modes.html">higher-order modes</a></em> and have more complicated intensity profiles (see Figure 2). During propagation, the transverse extent of each higher-order mode changes in proportion to that of the fundamental mode.</p>
+<figure style="max-width:100%; height:auto;">
+<picture><source srcset="img/tem_modes.webp"><img src="img/tem_modes.png" width="800" height="800" alt="intensity distributions of TEM modes">
+</picture>
+<figcaption><span class="start">Figure&nbsp;2:</span> Intensity profiles of the lowest-order <a href="hermite_gaussian_modes.html">Hermite–Gaussian modes</a>, starting with TEM<sub>00</sub> (lower left-hand side) and going up to TEM<sub>33</sub> (upper right-hand side).</figcaption>
+</figure>
+<p>The two mode indices indicate the number of zero crossings of the intensity distributions in horizontal and vertical directions, respectively.</p>
+<p>Note that for each combination of an optical frequency, a beam axis, a <a href="focus.html">focus</a> position, and some <a href="beam_radius.html">beam radius</a> of the Gaussian mode in the focus, a whole family e.g. of Hermite–Gaussian modes arises.</p>
+</details>
+</details>
+<details open="open">
+<summary>
+<h2 id="Waveguide-Modes">Waveguide Modes</h2>
+</summary>
+<p><a href="waveguides.html">Waveguide</a> structures are spatially inhomogeneous structures which can guide waves.
+For light propagating in a waveguide, the self-consistency condition for a mode is more strict than for free-space modes: the shape of the complex amplitude profile in the transverse dimensions must remain exactly constant: any re-scaling is not allowed, only an overall <a href="optical_phase.html">phase</a> change and a loss or gain of total <a href="optical_power.html">optical power</a>, which are both described by the <em><a href="propagation_constant.html">propagation constant</a></em>.</p>
+<p>For a given optical frequency, a waveguide has only a finite number of <em>guided propagation modes</em>, the intensity distributions of which have a finite extent around the waveguide core. The number of guided modes, their transverse amplitude profiles and their propagation constants depend on the details of the waveguide structure and on the optical frequency. A single-mode waveguide (e.g. a <a href="single_mode_fibers.html">single-mode fiber</a>) has only a single guided mode per polarization direction. As an example of a multimode waveguide, Figure 3 shows the transverse profiles of all the <a href="lp_modes.html">LP modes</a> of a <a href="multimode_fibers.html">multimode fiber</a>.</p>
+<figure style="max-width:100%; height:auto;">
+<picture><source srcset="img/fiber_modes.webp"><img src="img/fiber_modes.png" width="650" height="1260" alt="modes of a fiber">
+</picture>
+<figcaption><span class="start">Figure&nbsp;3:</span> Electric field amplitude profiles for all the guided modes of a <a href="fibers.html">fiber</a> (disregarding the distinction between versions with ($\cos l\varphi$) and ($\sin l\varphi$)) with a top-hat refractive index profile (&rarr; <i><a href="step_index_fibers.html">step index fiber</a></i>) and the <a href="v_number.html">V-number</a> being 11.4.</figcaption>
+</figure>
+<p>The two colors indicate different signs of electric field values. The diagram has been generated with the <strong><a href="rp_fiber_power.html">RP Fiber Power</a></strong> software.</p>
+<div class="featurebox tutorial insert">
+<p><a href="tutorials.html">Tutorials</a></p>
+<picture><source srcset="img/tutorial_passive_fiber_optics.webp"><img src="img/tutorial_passive_fiber_optics.png" width="194" height="59" alt="Tutorial Passive Fiber Optics, Part 2: Fiber Modes">
+</picture>
+<h2><a href="tutorial_passive_fiber_optics2.html">Passive Fiber Optics<br>Part 2: Fiber Modes</a></h2>
+<p>We explain the basics of fiber modes, having self-reproducing amplitude profiles.</p></div>
+<div class="featurebox case_study insert">
+<a href="case_study_multimode_fibers.html"><picture><source srcset="img/case_study_multimode_fibers.webp"><img src="img/case_study_multimode_fibers.png" width="250" height="130" alt="Case study: Mode Structure of a Multimode Fiber">
+</picture></a><p><a href="tutorials.html#case_studies">Case Studies</a></p>
+<h2><a href="case_study_multimode_fibers.html">Mode Structure of a Multimode Fiber</a></h2>
+<p>We explore various properties of guided modes of multimode fibers. We also test how the mode structure of such a fiber reacts to certain changes in the index profile, e.g. to smoothing of the index step.</p>
+</div>
+<p>A waveguide also has <em><a href="cladding_modes.html">cladding modes</a></em>, the intensity distributions of which essentially fill the whole cladding (and core) region. Optical fibers (even <a href="single_mode_fibers.html">single-mode fibers</a>) have a large number of cladding modes, which often exhibit substantial <a href="propagation_losses.html">propagation losses</a> at the outer interface of the cladding.</p>
+<p>Optical <a href="fibers.html">fibers</a> (except for <a href="photonic_crystal_fibers.html">photonic crystal fibers</a>) usually have a radially symmetric refractive index profile and also a relatively small refractive index contrast between core and cladding. In that case, one can quite accurately describe the mode as <a href="lp_modes.html">LP modes</a>, which are mathematically simpler to describe and are therefore usually used in practice.</p>
+<p>For radially symmetric refractive index profiles, there is also the interesting phenomenon of <em>orbital angular momentum modes</em> [<a href="#ref6" title="L. Allen et al., Orbital angular momentum of light and the transformation of Laguerre–Gaussian laser modes, Phys. Rev. A 45 (11), 8185 (1992)">6</a>, <a href="#ref8" title="M. J. Padgett, Orbital angular momentum 25 years on, Opt. Express 25 (10), 11265 (2017)">8</a>]. Those carry an angular momentum which is <em>not</em> related to the photon spin, nor to a rotating <a href="polarization_of_light.html">polarization</a> direction. The <a href="wavefronts.html">wavefronts</a> exhibit a helical structure. This is possible only for modes having zero intensity at the beam center — for example, <a href="lp_modes.html">LP modes</a> with non-zero ($l$).</p>
+<p>While for a <a href="plane_waves.html">plane wave</a> propagating in a homogeneous medium the electric and magnetic fields are always both perpendicular to the propagation direction, this is not necessarily the case for waveguide modes. One distinguishes several situations:</p>
+<ul>
+<li>Transverse electromagnetic (TEM) modes have both electric and magnetic field perpendicular to the propagation direction. In other words, they have zero longitudinal field components in the direction of propagation, which is determined by the waveguide.</li>
+<li>Transverse electric (TE) modes have the electric field, but not the magnetic field perpendicular to the propagation direction. That means there is some longitudinal component of the magnetic field. They may also be called <em>H modes</em>.</li>
+<li>Transverse magnetic (TM) modes have the magnetic field, but not the electric field perpendicular to the propagation direction. That means there is some longitudinal component of the electric field. They may also be called <em>E modes</em>.</li>
+<li>Hybrid modes have non-zero electric and magnetic longitudinal field components.</li>
+</ul>
+<p>Modes of fibers and other waveguides can be numerically calculated with so-called <em><a href="mode_solvers.html">mode solvers</a></em>, which can be part of a <a href="fiber_simulation_software.html">fiber simulation software</a>. Depending on whether the waveguides have radially symmetric profiles and are weakly guiding, mode solver algorithms with a different level of complexity and quite different computation times are required. A mode solver for optical fibers, when restricted to pure <a href="lp_modes.html">LP modes</a>, can be numerically much simpler and faster than a general 2D mode solver.</p>
+</details>
+<details open="open">
+<summary>
+<h2 id="Resonator-Modes">Resonator Modes</h2>
+</summary>
+<p>For light in <a href="optical_resonators.html">optical resonators</a> (made of bulk-optical elements, not with <a href="waveguides.html">waveguides</a>), the self-consistency condition for a mode is again different: a mode must reproduce its exact transverse amplitude profile (without any re-scaling) only after a full resonator round trip; during the round trip, the mode profile may change in size and even in shape. On the other hand, the <a href="optical_phase.html">optical phase</a> must also be reproduced after one round trip, i.e., the total experienced phase change must be an integer multiple of ($2\pi$). The overall optical power may decrease or increase if there are optical losses or <a href="gain.html">gain</a> in the resonator.</p>
+<p>Due to the phase condition, <a href="resonator_modes.html">resonator modes</a> can exist only for certain optical frequencies (the resonance frequencies). In general, the round-trip phase shift depends on the intensity pattern of a mode. Therefore, different higher-order modes can have different sets of mode frequencies. In the simpler case of a geometrically stable resonator, there are fundamental (axial) modes with Gaussian shape and higher-order transverse modes e.g. of <a href="hermite_gaussian_modes.html">Hermite–Gaussian</a> shape. Unstable resonators also have modes, but with much more complicated mode properties.</p>
+<p>The article on <a href="resonator_modes.html">resonator modes</a> gives more details.</p>
+</details>
+<details open="open">
+<summary>
+<h2 id="Applications-of-the-Mode-Concept">Applications of the Mode Concept</h2>
+</summary>
+<p>In many photonic devices, light propagates only in a single mode. For example, <a href="single_mode_operation.html">single-mode operation</a> of a <a href="lasers.html">laser</a> means that only a single mode of its <a href="laser_resonators.html">laser resonator</a> is excited (i.e., carries a significant optical power). If it is truly a single mode, rather than a superposition of multiple axial modes, this also implies <a href="single_frequency_operation.html">single-frequency operation</a>. If the lasing mode is a Gaussian mode, the output is close to <a href="diffraction_limited_beams.html">diffraction-limited</a>, i.e. it has an ideal <a href="beam_quality.html">beam quality</a>.</p>
+<p>As another example, a <a href="single_mode_fibers.html">single-mode fiber</a> guarantees a fixed intensity profile at its output, assuming that all light launched into cladding modes (unguided modes) is lost before the fiber end is reached. The mode of a single-mode fiber normally has a shape which is similar to that of a Gaussian.</p>
+<p>In other cases, it is often convenient to decompose all the propagating light into different modes. That decomposition means that for each mode some <em>mode amplitude</em> (a complex number, called a <em>phasor</em>) is calculated for the given light field, usually using some overlap integral. The basic advantage of such a procedure is that it is known how all the modes propagate: for each mode, there is only a phase change which can be calculated from its <a href="propagation_constant.html">propagation constant</a>, and possibly some change in optical power. The total intensity and phase profile can then be calculated for any position simply by adding up the contributions of different modes. This procedure can greatly simplify numerical simulations: a large number of amplitudes, resembling e.g. a two-dimensional optical field distribution with many samples on a fine grid, can be replaced by a relatively small number of mode amplitudes (excitation coefficients). That mode-based concept often strongly reduces the demands both in terms of required computer memory and computation time. Computation times are generally independent of the propagation distance.</p>
+<p>The mode concept is useful even if the propagation conditions somewhat deviate from those for which the modes have been calculated. In such cases, <a href="mode_coupling.html">mode coupling</a> can occur, i.e., light from some mode can be coupled to one or several other modes. This is usually described with coupled differential equations for the mode amplitudes. Such mode coupling can be caused, e.g., by <a href="nonlinear_optical_effects.html">nonlinear interactions</a> at high optical intensities or by external disturbances which act on a waveguide.</p>
+</details>
+<details open>
+<summary>
+<h2 id="Frequently-Asked-Questions">Frequently Asked Questions</h2>
+</summary>
+<div>
+<p class="AI_disclosure">This FAQ section was generated with AI based on the article content and has been reviewed by the article’s author (<a href="/paschotta.html">RP</a>).</p>
+<details>
+<summary>
+<h3 id="faq_Q1" class="faq">What is a propagation mode of light?</h3>
+</summary>
+<div><p id="faq_A1">A propagation mode is an electric field distribution that remains self-consistent as it propagates. What 'self-consistent' means depends on the context, for example, propagation in free space, within a waveguide, or in an optical resonator.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q2" class="faq">What is the difference between free-space modes and waveguide modes?</h3>
+</summary>
+<div><p id="faq_A2">For a free-space mode, like a Gaussian beam, the transverse profile is only scaled during propagation. For a waveguide mode, the transverse profile must remain exactly constant; only an overall phase change and change in power are allowed.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q3" class="faq">What are Hermite–Gaussian modes?</h3>
+</summary>
+<div><p id="faq_A3">They are a common family of free-space modes. The family consists of a fundamental Gaussian mode and an infinite number of higher-order modes, which have more complex transverse intensity profiles.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q4" class="faq">What are LP modes in an optical fiber?</h3>
+</summary>
+<div><p id="faq_A4">LP modes, or linearly polarized modes, are an accurate and mathematically simple description for the modes in optical fibers which have a radially symmetric refractive index profile and a small core-cladding index contrast.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q5" class="faq">What defines a mode in an optical resonator?</h3>
+</summary>
+<div><p id="faq_A5">A resonator mode is a light field that reproduces its exact transverse amplitude profile after one complete resonator round trip. Its phase must also be reproduced (within a multiple of 2π), limiting its existence to certain resonance frequencies.</p></div></details>
+<details>
+<summary>
+<h3 id="faq_Q6" class="faq">Why is the mode concept useful for simulations?</h3>
+</summary>
+<div><p id="faq_A6">Decomposing a complex light field into modes simplifies analysis, as the propagation of each mode is simple to describe. This can greatly reduce the complexity and computation time for numerical simulations of light propagation.</p></div></details>
+</div></details>
+<a name="supplier_section"></a>
+<div class="bg_vendorbox2">
+<details open><summary>
+<h2 style="display:inline-block" id="Suppliers">Suppliers</h2>
+</summary>
+<p><a href="encyclopedia_policy.html">Sponsored content</a>: The <a href="buyersguide.html"><b>RP Photonics Buyer's Guide</b></a> contains <a href="bg/buy_fiber_simulation_software.html?s=vbox">eight suppliers for fiber simulation software</a>. Among them:</p>
+<div class="supplier_in_enc"><a href="/bg/profiles/rp_photonics.html"><picture><source srcset="/bg/logos/rp_photonics.webp?v2"><img loading="lazy" src="/bg/logos/rp_photonics.png?v2" alt="RP Photonics, supplier of fiber simulation software" class="supplierlogo"></picture></a><div class="ot"><span class="ot S">&#x1F4BB; software</span></div><div class="media"><div class="media-item"><div class="video-box"><img src="/bg/products/rp_photonics/simulation_preview.jpg" alt="video preview" data-v="/bg/products/rp_photonics/simulation.mp4"><span class="play-overlay"></span></div></div><div class="media-item" style="display:none"><div class="video-box"><img src="/bg/products/rp_photonics/rp_fiber_power_preview.jpg" alt="video preview" data-v="/bg/products/rp_photonics/rp_fiber_power.mp4"><span class="play-overlay"></span></div></div><div class="media-item" style="display:none"><a href="https://www.rp-photonics.com/rp_fiber_power.html" data-supplier="RP Photonics" data-location="profile" data-keyword="fiber simulation software" rel="sponsored noopener" class="bg externallink" title="Visit the website of RP Photonics" target="_blank"><picture><source srcset="/bg/products/rp_photonics/cs_multimode_fibers_form_geo2.webp"><img loading="lazy" src="/bg/products/rp_photonics/cs_multimode_fibers_form_geo2.png" alt="fiber simulation software from RP Photonics" width="400" height="242" class="product"></picture></a></div><div class="media-item" style="display:none"><a href="https://www.rp-photonics.com/rp_fiber_power.html" data-supplier="RP Photonics" data-location="profile" data-keyword="fiber simulation software" rel="sponsored noopener" class="bg externallink" title="Visit the website of RP Photonics" target="_blank"><picture><source srcset="/bg/products/rp_photonics/mode_solver.webp"><img loading="lazy" src="/bg/products/rp_photonics/mode_solver.png" alt="fiber simulation software from RP Photonics" width="200" height="100" class="product"></picture></a></div><div class="media-item" style="display:none"><a href="https://www.rp-photonics.com/rp_fiber_power.html" data-supplier="RP Photonics" data-location="profile" data-keyword="fiber simulation software" rel="sponsored noopener" class="bg externallink" title="Visit the website of RP Photonics" target="_blank"><picture><source srcset="/bg/products/rp_photonics/pf_gesi_fiber_mode_areas.webp"><img loading="lazy" src="/bg/products/rp_photonics/pf_gesi_fiber_mode_areas.png" alt="fiber simulation software from RP Photonics" width="1445" height="891" class="product"></picture></a></div><div class="media-thumbs"><div class="media-thumb active"><img src="/bg/products/rp_photonics/simulation_preview.jpg" alt="video preview"></div><div class="media-thumb"><img src="/bg/products/rp_photonics/rp_fiber_power_preview.jpg" alt="video preview"></div><div class="media-thumb"><img src="/bg/products/rp_photonics/cs_multimode_fibers_form_geo2.png" alt="video preview"></div><div class="media-thumb"><img src="/bg/products/rp_photonics/mode_solver.png" alt="video preview"></div><div class="media-thumb"><img src="/bg/products/rp_photonics/pf_gesi_fiber_mode_areas.png" alt="video preview"></div></div></div>
+<p><a href="https://www.rp-photonics.com/rp_fiber_power.html" data-supplier="RP Photonics" data-location="product-enc" data-keyword="fiber simulation software" class="externallink bg" rel="sponsored">RP Fiber Power simulation software</a> is designed for creating and analyzing fiber devices including:</p>
+<ul>
+<li>Fiber amplifiers</li>
+<li>Fiber lasers</li>
+<li>ASE sources</li>
+<li>Fiber-optic data links</li>
+<li>Passive devices such as multi-core fibers, tapered fibers, and fiber couplers</li>
+</ul>
+<p>For simpler applications, the free <a href="https://www.rp-photonics.com/rp_fiber_calculator.html" data-supplier="RP Photonics" data-location="product-enc" data-keyword="fiber simulation software" class="externallink bg" rel="sponsored">RP Fiber Calculator</a> software is available.</p>
+</div>
+</details>
+</div>
+<h2 class="biblio">Bibliography</h2>
+<table class="reftable"><tbody>
+<tr><td id="ref1">[1]</td><td>E. Snitzer, &ldquo;Cylindrical dielectric waveguide modes&rdquo;, J. Opt. Soc. Am. 51 (5), 491 (1961); <a href="https://doi.org/10.1364/JOSA.51.000491" target="_blank" rel="noopener">doi:10.1364/JOSA.51.000491</a></td></tr>
+<tr><td id="ref2">[2]</td><td>D. Gloge, &ldquo;Weakly guiding fibers&rdquo;, Appl. Opt. 10 (10), 2252 (1971); <a href="https://doi.org/10.1364/ao.10.002252" target="_blank" rel="noopener">doi:10.1364/ao.10.002252</a></td></tr>
+<tr><td id="ref3">[3]</td><td>A. Yariv, &ldquo;Coupled-mode theory for guided-wave optics&rdquo;, IEEE J. Quantum Electron. 9 (9), 919 (1973); <a href="https://doi.org/10.1109/JQE.1973.1077767" target="_blank" rel="noopener">doi:10.1109/JQE.1973.1077767</a></td></tr>
+<tr><td id="ref4">[4]</td><td>L. W. Casperson, &ldquo;Mode stability of lasers and periodic optical systems&rdquo;, IEEE J. Quantum Electron. 10 (9), 629 (1974); <a href="https://doi.org/10.1109/JQE.1974.1068485" target="_blank" rel="noopener">doi:10.1109/JQE.1974.1068485</a></td></tr>
+<tr><td id="ref5">[5]</td><td>A. W. Snyder and W. R. Young, &ldquo;Modes of optical waveguides&rdquo;, J. Opt. Soc. Am. 68 (3), 297 (1978); <a href="https://doi.org/10.1364/josa.68.000297" target="_blank" rel="noopener">doi:10.1364/josa.68.000297</a></td></tr>
+<tr><td id="ref6">[6]</td><td>L. Allen et al., &ldquo;Orbital angular momentum of light and the transformation of Laguerre–Gaussian laser modes&rdquo;, Phys. Rev. A 45 (11), 8185 (1992); <a href="https://doi.org/10.1103/PhysRevA.45.8185" target="_blank" rel="noopener">doi:10.1103/PhysRevA.45.8185</a></td></tr>
+<tr><td id="ref7">[7]</td><td>A. B. Fallahkhair, K. S. Li and T. E. Murphy, &ldquo;Vector finite difference modesolver for anisotropic dielectric waveguides&rdquo;, J. Lightwave Technol. 26 (11), 1423 (2008)</td></tr>
+<tr><td id="ref8">[8]</td><td>M. J. Padgett, &ldquo;Orbital angular momentum 25 years on&rdquo;, Opt. Express 25 (10), 11265 (2017); <a href="https://doi.org/10.1364/OE.25.011265" target="_blank" rel="noopener">doi:10.1364/OE.25.011265</a></td></tr>
+<tr><td id="ref9">[9]</td><td>P. T. Kristensen et al., &ldquo;Modeling electromagnetic resonators using quasinormal modes&rdquo;, Advances in Optics and Photonics 12 (3), 612 (2020); <a href="https://doi.org/10.1364/AOP.377940" target="_blank" rel="noopener">doi:10.1364/AOP.377940</a></td></tr>
+<tr><td id="ref10">[10]</td><td>R. Paschotta, tutorial on &quot;<a href="tutorial_passive_fiber_optics.html">Passive Fiber Optics</a>&quot;, <a href="tutorial_passive_fiber_optics2.html">Part 2: Fiber Modes</a></td></tr>
+<tr><td id="ref11">[11]</td><td>R. Paschotta, <a href="case_study_multimode_fibers.html">case study on fiber modes</a></td></tr>
+</tbody></table>
+<p><a href="encyclopedia_literature.html" style="font-size:80%;">(Suggest additional literature!)</a></p>
+<div id="cited_by_dialog" style="display:none"></div>
+<h2 class="questions">Questions and Comments from Users</h2>
+<div>
+<div class="comment">
+<p class="comment_details">2020-05-12</p><p>What is the relation between Laguerre–Gaussian and LP modes, having similar intensity patterns?</p>
+<p class="comment_details">The <a href="paschotta.html" style="font-weight:bold">author&apos;s</a> answer:</p>
+<p><a href="lp_modes.html">LP modes</a> are modes of <a href="fibers.html">optical fibers</a> with a radially symmetric refractive index profile (and a week index contrast).</p>
+<p><a href="laguerre_gaussian_modes.html">Laguerre–Gaussian modes</a> are modes which are calculated for propagation in a homogeneous medium (for example free space).</p>
+<p>Because the latter are based on calculations with polar coordinates, they look somewhat similar to LP modes.</p>
+</div>
+<div class="comment">
+<p class="comment_details">2020-09-09</p><p>What do TEM and LP stand for?</p>
+<p class="comment_details">The <a href="paschotta.html" style="font-weight:bold">author&apos;s</a> answer:</p>
+<p>TEM = transverse electromagnetic: electric and magnetic fields are perpendicular to the propagation direction.</p>
+<p>LP = linearly polarized. That term is common for modes of optical <a href="fibers.html">fibers</a> which are calculated under the assumption of a low <a href="refractive_index.html">refractive index</a> contrast and a radially symmetric index profile.</p>
+</div>
+<div class="comment">
+<p class="comment_details">2021-05-19</p><p>How to decompose a multi-mode fiber laser (or VCSELs) beam into modes, and get the amplitude weight of each?</p>
+<p class="comment_details">The <a href="paschotta.html" style="font-weight:bold">author&apos;s</a> answer:</p>
+<p>The first step is to determine an appropriate mode set. For example, it might be the guided modes of an <a href="fibers.html">optical fiber</a>, and you apply the decomposition to the light which you focus onto the fiber input end.</p>
+<p>The mode decomposition can numerically be done with overlap integrals, but for that you need the complex amplitude distribution of the input light — which is of course not easy to measure.</p>
+</div>
+<div class="comment">
+<p class="comment_details">2022-11-08</p><p>Will RP Fiber Power solve the inverse problem: given a desired mode profile, calculate the index profile that will support it? If not, does any such software exist?</p>
+<p class="comment_details">The <a href="paschotta.html" style="font-weight:bold">author&apos;s</a> answer:</p>
+<p>This is not directly offered by RP Fiber Power, but using the script language one could implement an automatic optimization: vary the index profile to minimize the deviation from the desired mode profile.</p>
+<p>But it could also be done in a simpler and more direct way: take the radial equation for <a href="lp_modes.html">LP modes</a>; with a known mode profile and its derivatives, you can directly calculate ($n(r)$). That could of course also be implemented easily with our script language.</p>
+</div>
+<div class="comment">
+<p class="comment_details">2023-03-26</p><p>As I understand it, when a single mode CW laser TEM<sub>00</sub> mode is launched into a SMF fiber, it gets converted to LP<sub>01</sub> mode. If that is the case, then how does this mode conversation work?</p>
+<p class="comment_details">The <a href="paschotta.html" style="font-weight:bold">author&apos;s</a> answer:</p>
+<p>Usually, the shape of the L<sub>01</sub> mode is relatively similar to the Gaussian shape of such a laser beam. Therefore, you can efficiently couple the TEM<sub>00</sub> mode output to the LP<sub>01</sub> mode of the fiber. Some small part of the input optical power will get into the <a href="fiber_cladding.html">fiber cladding</a> and will thus get lost. If you like, this is a kind of mode conversion by filtering.</p>
+</div>
+<div class="comment">
+<p class="comment_details">2023-06-27</p><p>Is TEM mode the same as Hermite–Gaussian mode?</p>
+<p class="comment_details">The <a href="paschotta.html" style="font-weight:bold">author&apos;s</a> answer:</p>
+<p>No, not quite. A TEM mode is a mode having both electric and magnetic field perpendicular to the propagation direction. It could also be a waveguide mode which is not of Hermite–Gaussian form.</p>
+</div>
+<div class="hide-on-print">
+<div>
+<p style="font-size:85%;">Here you can submit <a href="/questions.html">questions and comments</a>. As far as they get accepted by the author, they will appear above this paragraph together with the author&rsquo;s answer. The <a href="paschotta.html">author</a> will decide on acceptance based on certain <a href="questions.html">criteria</a>. Essentially, the issue must be of sufficiently broad interest.</p>
+<p style="font-size:85%;">Please do not enter personal data here. (See also our <a href="privacy.html">privacy declaration</a>.) If you wish to receive personal feedback or <a href="consulting.html">consultancy</a> from the author, please contact him, e.g. via <a href="contact.html">e-mail</a>.</p>
+</div>
+<form name="enter_questions" action="submit_questions.html" method="post" title="Input of question or comment">
+<p style="margin-bottom:3px;">
+<label>
+Your question or comment:
+<textarea name="question" rows="5" style="width:98%;"></textarea>
+</label>
+</p>
+<p style="margin-bottom:3px;">Spam check:</p>
+<p><label><input type="text" name="spamprotection" size="5"> &nbsp; (Please enter the sum of thirteen and three in the form of digits!)</label><input type="hidden" name="page" value="modes.html"></p>
+<div style="margin-top:0.5em;"><input type="submit" name="form_submitted" value="Submit" style="font-size:100%;"></div>
+</form>
+<p style="margin-top:10px; font-size:85%;">By submitting the information, you give your consent to the potential publication of your inputs on our website according to our <a href="questions.html">rules</a>. (If you later retract your consent, we will delete those inputs.) As your inputs are first reviewed by the author, they may be published with some delay.</p>
+</div>
+</div>
+</div></article>
+<!--googleoff: index-->
+<aside id="bannerbox"><div class="bannercontent">
+<h2>Recent Articles of the Photonics Spotlight:</h2>
+<ul><li>2026-05-20: <a href="/spotlight_2026_05_20.html">Why Are Lasers Still So Expensive? The Volume–Cost Trap and Other Challenges in Photonics and Automation</a></li>
+<li>2026-05-08: <a href="/spotlight_2026_05_08.html">Photonics is Gaining Traction — Pushed by AI Infrastructure and Other Factors</a></li>
+<li>2026-01-07: <a href="/spotlight_2026_01_07.html">The Best Tools for Purchasing of Photonics Products</a></li>
+<li>2025-12-04: <a href="/spotlight_2025_12_04.html">AI Versus Expert-curated Supplier Directories: How to Reliably Find Photonics Suppliers?</a></li>
+<li>2025-11-03: <a href="/spotlight_2025_11_03.html">Lost factors of 2 around Gaussian beams, peak intensities, damage thresholds, and effective mode areas</a></li>
+</ul>
+<div class="button action" style="margin-bottom:0"><a href="/newsletters.html?banner=Recent_Spotlight_articles"><b>Get it as an<br>e-mail  newsletter!</b></a></div>
+</div>
+</aside>
+<script type="text/javascript" nonce="oR+ChsrFftcmRMNA0XeiAg==">shownbanner = "Recent Spotlight articles";</script><!--googleon: index--></main></div>
+<footer>
+<div id="cols">
+<div>
+<p><a href="/company.html"><b>Company</b></a></p>
+<ul>
+<li><a href="/company.html">About</a></li>
+<li><a href="/paschotta.html">Managing director</a></li>
+<li><a href="/privacy.html">Data privacy</a></li>
+<li><a href="/contact.html">Contact and legal info</a></li>
+</ul>
+</div>
+<div>
+<p><a href="/encyclopedia.html" style="color:#B20B28"><b>Encyclopedia</b></a></p>
+<ul>
+<li><a href="/encyclopedia_about.html">About</a></li>
+<li><a href="/spotlight.html">Photonics Spotlight</a></li>
+<li><a href="/quiz.html">Photonics Quiz</a></li>
+<li><a href="/encyclopedia_sponsoring.html">Sponsoring</a></li>
+<li><a href="/marketing.html">Marketing</a></li>
+</ul>
+</div>
+<div>
+<p><b>LinkedIn</b></p>
+<ul>
+<li><a href="https://www.linkedin.com/company/rp-photonics" target="_blank" rel="noopener">RP Photonics on LinkedIn</a></li>
+<li><a href="https://www.linkedin.com/in/rpaschotta/" target="_blank" rel="noopener">RP on LinkedIn</a></li>
+</ul>
+</div>
+</div>
+<div id="right">
+<div class="button action tour">
+<a href="encyclopedia.html?tour=Encyclopedia" title="After clicking this, find the tour navigation on the right side."><img src="/img/tour_bus.png" alt="&nbsp;"></a>
+<a href="encyclopedia.html?tour=Encyclopedia" title="After clicking this, find the tour navigation on the right side.">Explore this resource with our tour!</a>
+</div>
+<p>&copy; RP Photonics AG. All rights reserved.<br>Please respect our <a href="/terms_of_use.html">terms of use</a>.</p>
+</div>
+</footer>
+<script type="application/ld+json" nonce="oR+ChsrFftcmRMNA0XeiAg==">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.rp-photonics.com/#website","url":"https://www.rp-photonics.com/","name":"RP Photonics"},{"@type":"WebPage","@id":"https://www.rp-photonics.com/modes.html","url":"https://www.rp-photonics.com/modes.html","name":"Modes","description":"An authoritative and educational overview of modes, clearly explained by photonics expert Dr. Paschotta in the RP Photonics Encyclopedia.","inLanguage":"en","isAccessibleForFree":true,"audience":{"@type":"PeopleAudience","audienceType":"Scientists and industry professionals in photonics","description":"Researchers, development engineers, application engineers and technical leads working with photonics, optics and laser technology."},"datePublished":"2021-07-21T12:51:17Z","dateModified":"2025-12-30T16:58:11Z","primaryImageOfPage":{"@type":"ImageObject","url":"https://www.rp-photonics.com/previews/modes.png","width":800,"height":426},"isPartOf":{"@id":"https://www.rp-photonics.com/#website"},"license":"https://www.rp-photonics.com/terms_of_use.html","usageInfo":"https://www.rp-photonics.com/terms_of_use_ai.html","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"RP Photonics","item":"https://www.rp-photonics.com/"},{"@type":"ListItem","position":2,"name":"Encyclopedia","item":"https://www.rp-photonics.com/encyclopedia.html"},{"@type":"ListItem","position":3,"name":"Modes","item":"https://www.rp-photonics.com/modes.html"}]},"mainEntity":{"@id":"https://www.rp-photonics.com/modes.html#main_page_content"}},{"@type":"Organization","@id":"https://www.rp-photonics.com/company.html#start","name":"RP Photonics AG","url":"https://www.rp-photonics.com/company.html","logo":{"@type":"ImageObject","url":"https://www.rp-photonics.com/img/rp_photonics_logo.png","width":885,"height":146},"description":"RP Photonics is a leading source of trusted and helpful photonics expertise. Its highly popular website offers a huge range of in-depth encyclopedia articles, other high quality scholarly articles, and a curated supplier directory with a purchasing advisor for laser and optics professionals. The core offers of RP Photonics are technical/scientific consultancy, advanced simulation software in photonics, and digital product marketing on its website.","areaServed":["Worldwide"],"founder":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"foundingDate":"2004","employee":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"sameAs":["https://www.linkedin.com/company/rp-photonics"]},{"@type":"Person","@id":"https://www.rp-photonics.com/paschotta.html#start","name":"Dr. Rüdiger Paschotta","affiliation":{"@id":"https://www.rp-photonics.com/company.html#start"},"jobTitle":"Founder and Managing Director","description":"Dr. Paschotta is a renowned expert in photonics, author of numerous scientific publications including the RP Photonics Encyclopedia, founder of RP Photonics, and widely trusted by the photonics community. He is known as highly competent in areas like laser physics and technology, fiber optics, nonlinear optics and physical simulation, apart from being an industry expert and thought leader.","url":"https://www.rp-photonics.com/paschotta.html","sameAs":["https://scholar.google.com/citations?user=WF6Z2DoAAAAJ","https://www.linkedin.com/in/rpaschotta/","https://www.researchgate.net/profile/Ruediger-Paschotta"],"image":{"@type":"ImageObject","url":"https://www.rp-photonics.com/img/paschotta12.jpg","width":130,"height":186}},{"@type":"CreativeWorkSeries","@id":"https://www.rp-photonics.com/encyclopedia.html#start","name":"RP Photonics Encyclopedia","headline":"The RP Photonics Encyclopedia","description":"The RP Photonics Encyclopedia is a comprehensive, scientifically robust open access educational reference source in the fields of optics and photonics, trusted by photonics experts worldwide for its reliable knowledge. Its articles are clearly written and well understandable, providing accessible introductions to many areas of photonics.","genre":["Educational","Scientific reference","Photonics encyclopedia"],"author":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"publisher":{"@id":"https://www.rp-photonics.com/company.html#start"},"url":"https://www.rp-photonics.com/encyclopedia.html","mainEntityOfPage":{"@id":"https://www.rp-photonics.com/encyclopedia.html"},"audience":{"@type":"PeopleAudience","audienceType":"Scientists and industry professionals in photonics","description":"Researchers, development engineers, application engineers and technical leads working with photonics, optics and laser technology."},"isAccessibleForFree":true,"inLanguage":"en","accessMode":["textual"],"about":["photonics","technology","science","optoelectronics","physics","optics","fiber optics","nonlinear optics","instrumentation","lasers","light sources","optical amplifiers","photonics components","light","light pulses","material processing","communications","spectroscopy","quantum optics","quantum photonics","photovoltaics","noise"]},{"@type":["Article","TechArticle","FAQpage"],"@id":"https://www.rp-photonics.com/modes.html#main_page_content","name":"Modes","headline":"Modes","description":"Modes are self-consistent electric field distributions in waveguides, optical resonators, or free space. This concept is crucial in fiber optics and laser physics.","inLanguage":"en","isPartOf":{"@id":"https://www.rp-photonics.com/encyclopedia.html#start"},"image":{"@type":"ImageObject","url":"https://www.rp-photonics.com/previews/modes.png","width":800,"height":426},"datePublished":"2021-07-21T12:51:17Z","dateModified":"2025-12-30T16:58:11Z","author":{"@id":"https://www.rp-photonics.com/paschotta.html#start"},"publisher":{"@id":"https://www.rp-photonics.com/company.html#start"},"mainEntityOfPage":{"@id":"https://www.rp-photonics.com/modes.html"},"audience":{"@type":"PeopleAudience","audienceType":"Scientists and industry professionals in photonics","description":"Researchers, development engineers, application engineers and technical leads working with photonics, optics and laser technology."},"accessMode":["textual"],"license":"https://www.rp-photonics.com/terms_of_use.html","usageInfo":"https://www.rp-photonics.com/terms_of_use_ai.html","isAccessibleForFree":true,"articleSection":["General optics","Fiber optics and waveguides","Optical resonators","RP Photonics Encyclopedia"],"keywords":["waveguide","propagation modes","optical fiber","resonator","resonator","field distribution"],"about":{"@type":"Thing","name":"Modes","sameAs":["https://en.wikipedia.org/wiki/Mode_(electromagnetism)"]},"mainEntity":[{"@type":"Question","name":"What is a propagation mode of light?","acceptedAnswer":{"@type":"Answer","text":"A propagation mode is an electric field distribution that remains self-consistent as it propagates. What 'self-consistent' means depends on the context, for example, propagation in free space, within a waveguide, or in an optical resonator."}},{"@type":"Question","name":"What is the difference between free-space modes and waveguide modes?","acceptedAnswer":{"@type":"Answer","text":"For a free-space mode, like a Gaussian beam, the transverse profile is only scaled during propagation. For a waveguide mode, the transverse profile must remain exactly constant; only an overall phase change and change in power are allowed."}},{"@type":"Question","name":"What are Hermite–Gaussian modes?","acceptedAnswer":{"@type":"Answer","text":"They are a common family of free-space modes. The family consists of a fundamental Gaussian mode and an infinite number of higher-order modes, which have more complex transverse intensity profiles."}},{"@type":"Question","name":"What are LP modes in an optical fiber?","acceptedAnswer":{"@type":"Answer","text":"LP modes, or linearly polarized modes, are an accurate and mathematically simple description for the modes in optical fibers which have a radially symmetric refractive index profile and a small core-cladding index contrast."}},{"@type":"Question","name":"What defines a mode in an optical resonator?","acceptedAnswer":{"@type":"Answer","text":"A resonator mode is a light field that reproduces its exact transverse amplitude profile after one complete resonator round trip. Its phase must also be reproduced (within a multiple of 2π), limiting its existence to certain resonance frequencies."}},{"@type":"Question","name":"Why is the mode concept useful for simulations?","acceptedAnswer":{"@type":"Answer","text":"Decomposing a complex light field into modes simplifies analysis, as the propagation of each mode is simple to describe. This can greatly reduce the complexity and computation time for numerical simulations of light propagation."}}]}]}
+</script>
+</body>
+</html>
