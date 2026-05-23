@@ -11,7 +11,9 @@ import TermNote from "../../components/TermNote.astro";
 
 AI 数据中心光互连需要稳定、足够功率、可长期工作的连续光。理解这束光的来源，需要回到激光源器件本身：光怎样在 InP / III-V 半导体里产生，怎样被波导、腔体和 DFB 光栅稳定下来，最后怎样表现为输出功率、线宽、RIN、SMSR、PCE 和温度稳定性等指标。
 
-这条路径从材料与有源区开始，经过外延结构、波导、腔体和 DFB 光栅，最后落到 CW 激光器芯片、DFB 激光器、EML、MWL 等光源器件的输出能力。当这些光源进入 CPO、硅光引擎或高密度可插拔模块时，封装形态、光源摆放位置和外置供光方式会进一步影响功率、稳定性、反馈容忍度和长期可靠性要求。
+本页以 InP / III-V 边发射 DFB 激光器为主线，尤其关注面向硅光和 CPO 供光的 CW-DFB 连续光源。DFB 指 distributed feedback，也就是用分布式光栅提供波长选择和反馈的器件结构；CW 指 continuous-wave，也就是连续工作方式。CW-DFB 指采用 DFB 结构、并作为稳定连续光源工作的激光器。
+
+这条路径从材料与有源区开始，经过外延结构、波导、腔体和 DFB 光栅，最后落到 CW-DFB 激光器芯片、DFB 激光器、EML、MWL 等光源器件的输出能力。当这些光源进入 CPO、硅光引擎或高密度可插拔模块时，封装形态、光源摆放位置和外置供光方式会进一步影响功率、稳定性、反馈容忍度和长期可靠性要求。
 
 光源封装布局可在 [Package integration](../packaging/) 阅读；晶圆级筛选、known-good-die 和 burn-in 属于 [Manufacturing and test](../manufacturing-test/)；寿命衰减、冗余和现场替换属于 [Reliability and operations](../reliability-operations/)。
 

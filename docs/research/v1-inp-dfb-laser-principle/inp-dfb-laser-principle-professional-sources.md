@@ -32,6 +32,7 @@ Also use this source pack to support the component-page principle overview in `s
 5. Waveguides, claddings, cavities and facets confine light and provide feedback.
 6. DFB gratings provide distributed wavelength-selective feedback and help stabilize single-longitudinal-mode output, measured by SMSR, linewidth and wavelength stability.
 7. Real devices are constrained by high-power CW operation, heat, noise, optical feedback, reliability, coupling interfaces and manufacturing consistency.
+8. For the component page, distinguish device structure from operating mode: DFB refers to the distributed-feedback laser structure and wavelength-selection mechanism; CW refers to continuous-wave operation. CW-DFB is a DFB laser designed and used as a stable continuous optical source, with emphasis on output power, low RIN, spectral purity, thermal stability and reliability.
 
 Keep out:
 
