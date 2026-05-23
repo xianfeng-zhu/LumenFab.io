@@ -33,7 +33,7 @@
 2. 波导限制光的基本机制来自折射率差和边界条件。高折射率区域可以承载传播模式，低折射率包层或周围材料把模式限制在目标区域附近。真实光场以模式形式分布，部分能量会延伸到周围材料中，因此有效折射率 `n_eff` 会同时受到外延层、ridge 尺寸、刻蚀深度和侧壁形貌影响。
 3. Ridge waveguide 主要通过光刻、硬掩膜、刻蚀、绝缘 / 钝化和金属化定义横向波导和电流通道。它工艺相对直接，但侧壁粗糙、刻蚀深度和横向电流扩散会影响散射损耗、模式稳定性、阈值和可靠性。
 4. Buried heterostructure 把有源条带或波导条带埋入再生长材料、半绝缘层或电流阻挡层中。它可以带来更强的光学和电流限制，代价是再生长界面、污染、缺陷、应力和良率控制更难。
-5. DFB 光栅属于沿传播方向的反馈结构。周期性折射率扰动会把前向传播模式耦合到后向传播模式；当相位满足 Bragg 条件时，分布式反馈最强。对一阶 DFB，可用 `lambda_B = 2 n_eff Lambda` 作为基本关系，其中 `Lambda` 是光栅周期，`n_eff` 是波导模式有效折射率。
+5. DFB 光栅属于沿传播方向的反馈结构。周期性折射率扰动会把前向传播模式耦合到后向传播模式；当相位满足 Bragg 条件时，分布式反馈最强。UGent thesis gives the Bragg relation as `m lambda_B = 2 n_eff Lambda`, where `m` is the diffraction order. For first-order DFB this reduces to `lambda_B = 2 n_eff Lambda`.
 6. 耦合系数 `kappa` 表示光栅把前向光耦合成后向光的强度。它受折射率扰动、光栅深度、占空比、光栅长度、光栅与光学模式的重叠程度影响。耦合太弱会降低反馈和边模抑制；耦合过强会增加损耗、空间烧孔和模式不稳定风险。
 7. 均匀 DFB 光栅常会在 stopband 两侧形成竞争模式。四分之一波相移或等效相位设计可以让中心模式成为最低阈值模式，从而提高单模稳定性和 SMSR。
 8. 工艺误差会直接变成器件误差。光栅周期误差会移动波长；有效折射率偏差会移动 Bragg 波长；刻蚀深度和占空比会改变耦合系数；电子束拼接、相位误差或端部相位控制不良会降低 SMSR；侧壁粗糙和刻蚀损伤会增加散射损耗、阈值和长期退化风险。
@@ -80,8 +80,10 @@
 可写入页面的核心关系：
 
 ```text
-lambda_B = 2 n_eff Lambda
+lambda_B = 2 n_eff Lambda / m
 ```
+
+For reader intuition, a 1550 nm DFB with `n_eff` around 3.4 has a first-order grating period on the order of 0.23 um; a second-order grating period is approximately twice that. Treat this as an order-of-magnitude example, not a fixed design rule.
 
 解释顺序建议：
 

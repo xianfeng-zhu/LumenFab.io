@@ -186,7 +186,7 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /## 制造路径：从 InP 衬底到激光器芯片/);
   assert.match(page, /## 1\. InP 单晶生长与衬底制备/);
   assert.match(page, /## 2\. 外延生长/);
-  assert.match(page, /## 3\. 光栅与波导加工/);
+  assert.match(page, /## 3\. 波导、DFB 光栅与工艺容差/);
   assert.match(page, /## 4\. 电极、绝缘与电流限制/);
   assert.match(page, /## 5\. 解理与端面处理/);
   assert.match(page, /## 6\. 芯片测试与筛选/);
