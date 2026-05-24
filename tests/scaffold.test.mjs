@@ -195,12 +195,12 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(page, /## 7\. 器件评价指标：怎样判断一颗激光器是否合格/);
   assert.match(page, /## 8\. 从芯片到封装：哪些指标会传给封装设计/);
   assert.match(page, /## 9\. 总结：一颗 InP 激光源从哪里来/);
-  assert.match(page, /AI 数据中心光互连需要稳定、足够功率、可长期工作的连续光/);
-  assert.match(page, /激光源的原理链由几层机制组成/);
+  assert.match(page, /AI 数据中心光互连需要稳定、足够输出功率、可长期工作的连续光/);
+  assert.match(page, /激光源的原理链由三层机制组成/);
   assert.match(page, /DFB 光栅选择稳定单一波长/);
-  assert.match(page, /CPO 的基本动机是把光引擎放到/);
+  assert.match(page, /CPO 的设计目标是把光引擎放到/);
   assert.match(page, /激光器如何从材料、外延和芯片工艺中形成/);
-  assert.match(page, /激光器的最低层原理是电子能量转换/);
+  assert.match(page, /激光器最基本的物理原理是电子能量转换/);
   assert.match(page, /器件制造可以沿六个阶段理解/);
   assert.match(page, /光引擎输入和 PIC 接入留在封装与系统集成层面/);
   assert.match(page, /MOCVD \/ MBE epitaxy/);
