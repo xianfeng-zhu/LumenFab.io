@@ -13,10 +13,31 @@
 - Write pages as reader-facing educational content, not author notes, implementation plans, or editorial scaffolding.
 - Avoid process phrases such as “这里先回答”, “本页只说明”, “后续再展开”, or similar wording that sounds like the page is documenting its own construction.
 - Avoid corrective paired negative phrasing. Prefer direct positive statements.
+  - *例如*：禁止使用“光不会在整片硅里自由扩散，而是以光学模式形式传播”或“高速器件不能只看 DC 连接”。一律改为正面的物理性质或工程事实陈述，如：“光束在波导内依靠高折射率差被强烈约束，并以特定的光学模式向前传播”或“高速有源器件的封装设计需重点考虑射频阻抗匹配与寄生参数等射频完整性约束”。
 - Use standard, bookish Chinese for explanations. Keep sentences precise and natural; avoid overly casual wording.
+  - 严禁“翻译腔”与“欧化中文”，避免定语过长、成分残缺或逻辑散乱。
+  - 杜绝口语化中英混杂。凡是国内学术界及产业界有成熟译名的名词（如 *waveguide* -> 波导，*cladding* -> 包层，*heater* -> 微加热器，*die* -> 芯片裸片，*photocurrent* -> 光电流），正文必须使用标准中文译名。
+  - **首秀双语规则**：技术术语在页面中首次出现时，必须使用“标准中文译名（英文原词/英文缩写）”的格式（如“阵列波导光栅（AWG）”、“质量图（Wafer Map）”）；后续直接使用中文译名或标准英文缩写，严禁再次中英混用。
 - When introducing technical terms, explain them in the flow of the argument. Prefer short inline explanations or `TermNote` annotations over separate glossary-like blocks.
 - Use `TermNote` for compact term explanations when a concept is likely unfamiliar to readers. Keep the term label in normal text color and let the component provide the underline annotation.
 - Distinguish concept levels carefully. For example, QW / MQW is an active-region concept; InP / GaAs / Si / SOI / TFLN are material or platform concepts; DFB / EML / PD are device concepts; MZM / MRM are modulator structures; LPO / CPO are system architecture or module-boundary concepts.
+- 禁止生硬字面直译或随意自造词汇，必须遵循国内光电与半导体集成电路（IC）产业的通用学术语境，严格执行以下映射表：
+  
+  | 英文术语 | 严禁使用的直译/造词 | 必须使用的产业标准译名 |
+  | :--- | :--- | :--- |
+  | **passive devices** | 被动器件、消极器件 | **无源器件**（或无源光器件） |
+  | **active devices** | 主动器件、积极器件 | **有源器件**（或有源光器件） |
+  | **lane leakage / crosstalk** | 通道泄漏、路泄漏 | **信道间串扰**（或信道串光） |
+  | **test access** | 测试访问、测试接入 | **测试通路**（或测试引出、测试导通性） |
+  | **grating / edge coupler** | 光栅/边缘耦合器 | **光栅耦合器** / **边缘（端面）耦合器** |
+  | **laser tile** | 瓦片激光器、激光瓦片 | **同封装集成激光器微模块（Laser Tile）** |
+  | **die** | die、小片 | **芯片裸片**（或裸芯片） |
+  | **spot-size converter (SSC)** | 斑点尺寸转换器 | **模场限制转换器**（或**斑点尺寸变换器**） |
+  | **loopback / cutback** | 回环 / 剪切 | **回环测试结构** / **剪切测试结构** |
+
+- 严格落实“接口级交接”原则，根除引导跳转的自指废话。
+  - 任何页面在连接外部页面时，严禁使用大纲跳转式引导词（如“关于 X 见 Y”、“详细物理留给 Z 页面”）。
+  - 必须将跳转转化为接口级的物理参数交接或物理约束。例如，在 PIC 页面中不应提示读者去激光器页面，而应陈述“光子集成芯片（PIC）的设计必须在物理边界上与外部激光源实现模式匹配与 RIN 噪声约束”。
 
 ## Page Structure And Explanation Method
 
