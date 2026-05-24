@@ -1,0 +1,26 @@
+Source: https://europractice-ic.com/technologies/photonics/imec/ and https://europractice-ic.proyectanda.com/technologies/photonics/imec/
+Date: 2026-05-25
+
+--- iSiPP50G Platform — Process Modules ---
+
+The platform is a fixed 130nm CMOS process technology with 3 silicon patterning steps at three etch depths in a 220nm Si device layer:
+
+  - 70nm etch (shallow) — rib waveguides, grating couplers
+  - 160nm etch (partial) — strip waveguides, tapers
+  - 220nm etch (full, 193nm litho) — deep etch, full Si thickness, strip waveguides
+
+Additional modules:
+  - Gate oxide + Poly-Silicon: single etch at 160nm (193nm litho). Enables advanced grating couplers, poly-Si waveguide.
+  - Ion implantation in Si: 8 implant levels (4x n-type, 4x p-type). Enables Si carrier depletion/injection/accumulation devices, Ge photodetectors, doped Si resistors.
+  - Ge module: 100% Ge(Si) RPCVD selective epitaxial growth & 2 implant levels. Enables Ge photodetectors, Ge(Si) EA modulator.
+  - Silicide tungsten contact: ohmic contacts to doped Si, standard CMOS contact plugs.
+  - Metal heater: dedicated metal layer for heaters.
+  - Two-level metal interconnect: Cu-based two-level metallization.
+  - Aluminium passivation: Al finish metallization.
+  - Deep trench: etched to expose edge coupler facets.
+
+Waveguide types: strip and rib waveguides (from three etch depths), poly-Si waveguides. Exposed waveguide option available (oxide removed from top).
+
+SOI substrate: 220nm top Si / 2000nm buried oxide (BOX) on Si handle wafer. Optional high-resistive Si substrate.
+
+Metal stack: dedicated heater metal layer + 2-level Cu BEOL + Al passivation top metal.

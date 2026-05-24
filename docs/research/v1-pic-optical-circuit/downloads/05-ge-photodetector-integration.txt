@@ -1,0 +1,30 @@
+Source: Tsuchizawa et al., IEEE JSTQE 2011; Nature Photonics 2021 (Ge-fin PD); Materials Science in Semiconductor Processing 2024
+Date: 2026-05-25
+
+--- Germanium Photodetector Integration ---
+
+Process Flow (Tsuchizawa et al.):
+  1. Si waveguide core formation on SOI
+  2. Dielectric window opening (SiO2 hard mask)
+  3. Selective epitaxial growth of Ge on exposed Si waveguide core
+  4. Annealing to reduce threading dislocation density (TDD)
+  5. Doping (in situ or ion implantation) to form p-i-n junction
+  6. Contact formation (NiSi, W contacts)
+  7. Cladding deposition and metallization
+
+Key: Ge is selectively grown only in detector regions where the Si surface is exposed through oxide windows. The Ge sits on top of (or recessed into) the Si waveguide layer.
+
+--- Ge-Fin Photodetector (Nature Photonics 2021) ---
+  - Selective growth of Ge body on SOI waveguide
+  - SiO2 hard mask deposition and patterning
+  - Dry etch of Ge
+  - In-situ p-doped Si epitaxy and planarization (one side)
+  - Repeat with in-situ n-doped Si epitaxy (opposite side)
+  - Forms lateral Si-Ge-Si p-i-n diode without ion implantation
+  - Ge fin sandwiched between complementary doped Si layers
+  - 3-dB bandwidth up to 265 GHz
+
+--- imec Ge Module ---
+  - 100% Ge(Si) RPCVD selective epitaxial growth (RPCVD = Reduced Pressure CVD)
+  - 2 implant levels for Ge photodetectors and Ge(Si) EA modulators
+  - Waveguide-based Ge-on-Si detectors (light couples evanescently from Si waveguide into Ge)

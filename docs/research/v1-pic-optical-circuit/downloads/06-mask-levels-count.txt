@@ -1,0 +1,27 @@
+Source: imec IC-link / Europractice documentation, consolidated
+Date: 2026-05-25
+
+--- Typical Mask Levels in Silicon Photonics (imec iSiPP50G) ---
+
+Silicon patterning:  3 mask levels (70nm, 160nm, 220nm etch)
+Poly-Si layer:       1 mask level
+Si implants:         8 mask levels (4x n-type, 4x p-type)
+Ge module:           2 mask levels (Ge epitaxy + implants)
+Contacts:            1 mask level (W plugs)
+Heater metal:        1 mask level
+Metal 1 (M1):        1 mask level
+Metal 2 (M2):        1 mask level
+Passivation:         1 mask level
+Deep trench:         1 mask level (edge coupler facets)
+
+Estimated total:     ~20 mask levels for full active platform
+
+For Passives+ (no implants, no Ge):
+  ~8-10 mask levels
+
+Note: The exact count depends on whether you count each implant as a separate mask, and on the specific integration of optional modules (SiN waveguides, TSV, UCUT, etc.). The imec PDK under NDA will have the exact GDS layer mapping.
+
+Reference numbers from literature:
+  - Full active/passive silicon photonics: typically 12-20 mask levels
+  - Passive-only: typically 8-10 mask levels
+  - imec iSiPP50G full stack: approximately 17-20 layers including all implants

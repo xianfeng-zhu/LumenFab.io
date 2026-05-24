@@ -1,0 +1,34 @@
+Source: PMC3601732 (NIH), Luceda Photonics Academy, Parra et al. Advanced Photonics Nexus 2024
+Date: 2026-05-25
+
+--- Metal Heater Placement ---
+
+Conventional design: metal heater (Ti, TiN, Ni, Pt, W) placed on top of the Si waveguide, separated by ~1um SiO2 cladding to prevent optical absorption.
+
+Example cross-section parameters:
+  - Si waveguide: 500 nm wide x 220 nm thick (on SOI with 2-3 um BOX)
+  - Heater: 2 um wide x 100 nm thick Ti (or 2.5 um x 200 nm Ni)
+  - Cladding gap: 1 um (conventional) to 100 nm (advanced PT-symmetric)
+  - Typical P_pi = 10-50 mW, switching time = 1-100 us
+
+Large gap (~1um) -> slow thermal response (SiO2 k ~1.4 W/mK). Small gap (<600nm) -> faster but risk of optical loss.
+
+Alternative heater placements:
+  - Transparent conductive oxide (ITO) directly on waveguide (gap ~100nm)
+  - Doped Si heater within the waveguide itself (higher optical loss)
+  - Free-standing/etched structures to remove top cladding and BOX for thermal isolation
+
+In imec iSiPP platform: dedicated metal heater layer. In the Luceda SiFab PDK: drawn on HT layer, heater_offset ~1.0um from center, heater_width ~0.6um, sheet resistance R_sh = 0.5 Ohm/sq. Metal vias connect heater to M1 contact pads.
+
+--- RF Electrode Placement (Traveling-Wave Modulator) ---
+
+Standard TWE modulator cross-section:
+  - Substrate: low-resistivity Si (often with grooves for RF isolation)
+  - BOX: SiO2, ~2um thick
+  - Optical waveguide layer: etched Si rib waveguide with p-n junction at center
+  - Doped transition areas: P++ and N++ regions on either side for ohmic contacts
+  - ILD: SiO2 cover layer for insulation
+  - Electrode structure: coplanar waveguide (GSG or GS) with signal/ground electrodes
+  - Conductive vias: W/Al vias connecting metal electrodes to doped Si regions
+
+Design targets: 50 Ohm characteristic impedance, velocity matching between RF (n_microwave ~4-5) and optical (n_group ~3.5-4.5) modes.

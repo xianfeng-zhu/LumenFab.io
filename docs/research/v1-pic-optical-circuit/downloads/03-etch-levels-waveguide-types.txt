@@ -1,0 +1,19 @@
+Source: Consolidated from europractice-ic.com, imec IC-link documentation, and SPIE literature
+Date: 2026-05-25
+
+--- Silicon Photonics Waveguide Etch Levels ---
+
+Industry-standard imec platform (iSiPP50G / iSiPP25G) uses 3 silicon patterning steps in a 220nm SOI device layer:
+
+Etch Type        | Etch Depth | Remaining Si (slab) | Waveguide Type
+Full etch        | 220 nm     | 0 nm (down to BOX)  | Strip waveguide
+Deep partial     | 150-160 nm | 60-70 nm slab left   | Rib waveguide (high confinement)  
+Shallow partial  | 70 nm      | 150 nm slab left     | Rib waveguide (low confinement)
+
+Full etch (220nm): Silicon etched completely through to BOX. High optical confinement -> tight bends (few um radius). Higher propagation loss from sidewall scattering.
+
+Deep partial etch (150-160nm, 70nm slab): Moderate confinement, reduced sidewall roughness losses. Used for grating couplers, MMIs, some modulators.
+
+Shallow partial etch (70nm, 150nm slab): Lowest optical confinement -> higher bending loss but lowest propagation loss. Losses as low as 0.27 dB/cm demonstrated. Used for long routing, delay lines.
+
+All etch levels use 193nm deep-UV lithography with RIE etching. Minimum feature sizes down to 150nm.

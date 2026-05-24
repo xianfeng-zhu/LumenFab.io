@@ -1,0 +1,30 @@
+Source: https://www.imeciclink.com/en/asic-fabrication/silicon-photonics-foundry-services/isipp300
+Date: 2026-05-25
+
+--- iSiPP300 Platform (300mm) ---
+
+Wafer: 300mm wafers. Lithography: 193nm immersion lithography.
+
+Waveguides: High-precision waveguides via immersion lithography. PECVD and LPCVD silicon nitride (SiN) waveguides. SiN used as optical interposers.
+
+Passive components: SMF grating couplers, broadband directional couplers (100nm bandwidth), sub-dB-loss grating couplers, edge couplers with undercut.
+
+Active devices: Si ring modulators (uniform resonance over wafer), GeSi electro-absorption modulators, Si Mach-Zehnder modulators, Ge photodetectors.
+
+3D/BEOL features: Up to 4 metal layers, Cu-Ni-Sn under-bump metallization (UBM), through-silicon vias (TSVs), microbumps.
+
+Speed: Supports 200Gbps per lane.
+
+--- iSiPP200 Platform (200mm) ---
+
+SOI wafer: 220nm silicon / 2000nm buried oxide (BOX). Optional high-resistive substrate.
+
+Under-bump metallic (UBM): optimized processes for 10um-20um UBM for die stacking.
+
+Thermal modules: Local undercut (UCUT) module for thermal insulation. Laser flipchip and fiber attach optional modules.
+
+iSiPP200N (SiN-enhanced): LPCVD SiN waveguide integration. Within-wafer thickness control 1-s<0.5%. Refractive index control 1-s<5E-4.
+
+Device portfolio: Traveling-wave MZ p-n modulators, Ge(Si) EA modulators, micro-ring p-n modulators, waveguide-based Ge-on-Si detectors, vertical raised gratings, v-band edge couplers, integrated heaters.
+
+Access: Dedicated runs min. 15 full wafers. MPW via iSiPP50G / iSiPP50G Passives (typically 20 dies).
