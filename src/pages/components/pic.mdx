@@ -7,6 +7,7 @@ description: 沿着一束光在硅光 PIC 里的路径，解释 SOI 材料栈、
 
 import TermNote from "../../components/TermNote.astro";
 import PicCircuitMap from "../../components/PicCircuitMap.astro";
+import PicChipModel from "../../components/PicChipModel.astro";
 
 ## 0. 什么是硅光 PIC
 
@@ -121,6 +122,8 @@ PIC 的接口可以还原为几组物理量：[波导与光学模式](../../lear
 **可选层：SiN 波导层**——部分平台（如 imec iSiPP300 和 AIM Photonics Low-Loss）在硅器件层和上包层之间集成了 PECVD 或 LPCVD SiN 波导（约 0.4 μm 厚），作为第二层低损耗波导材料，与硅波导共同构成多层光路。
 
 将以上层次汇总，一颗完整有源硅光 PIC 芯片的工艺制造需要约 15–20 道光罩（mask levels）——其中硅图形化 3 道、离子注入 6–8 道、Ge 模块 2–3 道、接触孔 1 道、加热器金属 1 道、M1/M2 互连 2 道、钝化焊盘 1 道、深沟槽 1 道。仅含无源器件的简化平台约需 8–10 道光罩。这些光罩的具体内容和顺序在 Section 8.4 的工艺流程中展开。
+
+<PicChipModel />
 
 ## 3. 波导与模式：片上光怎样被约束
 
