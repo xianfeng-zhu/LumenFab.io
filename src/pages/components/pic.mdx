@@ -1,136 +1,357 @@
 ---
 layout: ../../layouts/ConceptLayout.astro
-title: PIC / optical circuit
+title: 硅光 PIC / silicon photonics circuit
 chapter: 光引擎组件
-description: 解释 AI 数据中心光互连中的 PIC：片上光路怎样在架构、平台、器件库、PDK、测试和封装接口之间闭合。
+description: 沿着一束光在硅光 PIC 里的旅程，解释 SOI 材料栈、波导、耦合器、被动器件、调制器、Ge PD、PDK、封装、测试和典型应用。
 ---
 
 import TermNote from "../../components/TermNote.astro";
 import PicCircuitMap from "../../components/PicCircuitMap.astro";
 
-## PIC 是光引擎的片上光路
+## 0. 什么是硅光 PIC
 
-<TermNote label="PIC" note="photonic integrated circuit，光子集成电路。它把波导、分光器、调制器、滤波器、耦合器和探测器等光学功能做成芯片级电路。" /> 是光引擎里的 optical circuit。连续光进入 PIC 后，会被分配到多条 lane，被调制器写入数据，再通过 MUX / DEMUX、monitor tap、coupler 或 photodetector 形成可接入光纤和 EIC 的链路。
+<TermNote label="PIC" note="photonic integrated circuit，光子集成电路。它把多个光学功能做在芯片或芯片级平台上，例如波导、分光器、调制器、滤波器、耦合器和探测器。" /> 是把光路集成到芯片上的方法。硅光 PIC 则是在 silicon photonics 平台上，把波导、耦合器、调制器、滤波器、探测器、heater、金属走线和测试结构做成一套片上光路系统。
 
-PIC 页面关注的是“光怎样在芯片里被组织成电路”。激光源负责产生连续光，见 [激光源](../laser-source/)；driver、TIA 和控制电路属于 [EIC / driver and receiver](../eic/)；edge coupler、fiber array 和 connector 属于 [Optical I/O / fiber coupling](../optical-io/)；die 摆放、散热、返修和封装级良率属于 [Package integration](../packaging/)。
-
-<PicCircuitMap />
-
-相关基础页：[Electrical signal to optical signal](../../learn/electrical-signal-to-optical-signal/)、[Waveguides and optical modes](../../learn/waveguides-and-optical-modes/)、[SOI and Photonics-SOI](../../learn/soi-and-photonics-soi/)、[Why no single material wins everything](../../learn/why-no-single-material-wins-everything/)。
-
-## 先看架构：Tx、Rx、PSM 与 WDM
-
-PIC 的架构先回答三件事：光从哪里进来，数据在哪里写入，多少条 lane 通过多少根光纤离开。Tx PIC 通常从 CW laser input 开始，经过 splitter / power distribution、modulator、WDM MUX 或 parallel routing，再到输出 coupler。Rx PIC 则从 fiber input 开始，经过 coupler、DEMUX 或 parallel routing，最后到 photodetector 和 TIA。
+它可以沿一束光的旅程来读：
 
 ```text
-Tx: CW light -> splitter -> modulator array -> MUX or parallel routing -> optical I/O
-Rx: optical I/O -> DEMUX or parallel routing -> photodetector array -> EIC TIA
+laser source
+→ fiber / coupler
+→ silicon photonics PIC
+→ waveguide / splitter / filter / modulator / photodetector
+→ EIC / package / system
 ```
 
-PSM / parallel optics 把多条 lane 分别送入多根光纤，光学复用压力较小，fiber count 和 connector density 压力较大。WDM 把不同波长合到一根光纤，提高单纤带宽密度，同时把 laser wavelength、filter center wavelength、thermal drift 和 channel crosstalk 放进同一个预算。
+把光路做进芯片，是为了把分立光学系统里的透镜、分束器、滤波器、调制器和探测器压缩到微纳加工平台上，提高集成度、稳定性和可制造性。硅光的吸引力来自成熟半导体工艺：它能做高密度波导、复杂版图、Ge 探测器、金属互连和 wafer-level test，也更容易进入电子封装和电测试流程。
 
-| 架构选择 | 收益 | 主要约束 |
+硅光 PIC 需要先说明一个限制：silicon 是间接带隙材料，在 1310 nm / 1550 nm 通信波段不适合直接做高效率激光源。实际系统里的连续光通常来自外部激光器、InP 激光器、封装内 laser tile、III-V heterogeneous integration 或 laser array。激光源的器件物理见 [激光源](../laser-source/)；driver、TIA 和控制电路见 [EIC / driver and receiver](../eic/)；光纤接口见 [Optical I/O / fiber coupling](../optical-io/)；封装集成见 [Package integration](../packaging/)。
+
+<PicCircuitMap title="一束光在硅光 PIC 里的旅程" caption="这张俯视图把光输入、分光、调制、滤波、探测、电热控制和封装接口放在同一张地图上。向下阅读时，图中相关区域会随章节高亮。" />
+
+相关基础页：[Waveguides and optical modes](../../learn/waveguides-and-optical-modes/)、[SOI and Photonics-SOI](../../learn/soi-and-photonics-soi/)、[Electrical signal to optical signal](../../learn/electrical-signal-to-optical-signal/)、[Why no single material wins everything](../../learn/why-no-single-material-wins-everything/)。
+
+## 1. 一颗硅光 PIC 里有什么
+
+硅光 PIC 容易讲散，因为器件名很多。更好的入口是先把芯片看成几类 building blocks：
+
+| 类别 | 常见结构 | 在光路里的作用 |
 |---|---|---|
-| PSM / parallel optics | 光路直观，滤波压力小，调试路径清楚 | fiber 数量、connector 体积、fiber escape 和多通道装配 |
-| WDM | 单纤带宽密度高，适合高 lane count | 波长管理、AWG / ring 漂移、串扰、heater power 和监控 |
-| Tx-heavy PIC | 调制、复用、monitor 和输出耦合为中心 | laser power budget、driver-to-modulator 路径和热调谐 |
-| Rx-heavy PIC | DEMUX、photodetector 和 monitor 为中心 | PD responsivity、PD-to-TIA 寄生、接收灵敏度和噪声 |
+| 光输入输出接口 | grating coupler、edge coupler、spot-size converter、fiber array interface | 把光纤或封装光路里的模式接入片上波导，也把片上光送出芯片 |
+| 波导和互连 | strip waveguide、rib waveguide、bend、crossing、taper | 把光从一个器件送到另一个器件 |
+| 被动器件 | splitter、MMI、directional coupler、ring resonator、AWG、filter | 分束、合束、滤波、选择波长、构成干涉结构 |
+| 主动器件 | MZM、ring modulator、phase shifter、thermal tuner、optical switch、VOA | 用电信号或温度改变相位、强度、路径或损耗 |
+| 探测器 | Ge photodiode、monitor photodiode | 把光变成电流，或给控制环路提供反馈 |
+| 电控制结构 | metal routing、RF electrode、pad、microbump、heater driver、monitor readout | 让 PIC 被高速驱动、低速控制、测试和封装 |
+| 封装接口 | optical coupler pitch、RF path、thermal path、interposer、flip-chip | 把芯片光路变成系统里的可用部件 |
 
-这种架构视角比单独列器件更重要。splitter、MZM、MRM、AWG、PD 和 coupler 的指标都要回到同一个问题：这张片上光路能否在目标 lane rate、目标 fiber 数量、目标功耗和目标封装窗口内闭合。
+这一张地图让后面的章节有了落点：材料栈解释光为什么能被限制；波导解释光怎样传播；coupler 解释光怎样进出；被动和主动器件解释光怎样被处理；探测、电路、PDK、封装和测试解释它怎样成为产品。
 
-## 平台决定器件库边界
+## 2. 材料栈：硅、二氧化硅、氮化硅、锗和金属层
 
-SiPh、InP、SiN、TFLN / LNOI 是材料或平台路线；MZM、MRM、EAM、AWG、coupler、PD 是器件或结构。理解 PIC 时要把这两个层级分开。平台决定哪些器件容易做，器件库决定设计者能用哪些 building blocks 组成电路。
+硅光 PIC 的材料栈决定了哪些器件容易做，哪些功能需要其他材料协同。
 
-| 平台 | 适合承担的功能 | 需要协同的边界 |
+### 2.1 SOI：硅光最常见的基础平台
+
+<TermNote label="SOI" note="silicon-on-insulator，绝缘体上硅。硅光中常见的 SOI 包含顶层 silicon、buried oxide 和支撑硅衬底，顶层 silicon 与 oxide 的折射率差可形成紧凑波导。" /> 常用作硅光波导的起点。上层硅是高折射率 core，下方 buried oxide 是低折射率 cladding，光被限制在硅波导附近传播。
+
+这里的关键词是高折射率差。Silicon 与 silicon dioxide 的折射率差很大，波导可以做得很紧凑，弯曲半径也可以较小。这个优势也带来敏感性：侧壁粗糙会更容易造成散射损耗，波导尺寸误差会改变有效折射率，TE / TM 偏振差异也会更明显。
+
+### 2.2 SiN、SiO2 和多层光路
+
+部分硅光平台会引入 silicon nitride waveguide。SiN 损耗低、功率承载能力好、温度敏感性通常低于 silicon，适合低损耗 routing、宽带光路、延迟线、filter、AWG 或外腔结构。
+
+| 材料层 | 典型用途 | 工程意义 |
 |---|---|---|
-| Si / SOI / SiPh | 紧凑波导、splitter、MZM / MRM、Ge PD、monitor、heater、复杂 PDK | 高性能通信光源通常需要 III-V 光源或异质集成 |
-| InP | laser、SOA、EAM、部分 MZM、PD、有源 PIC | 无源复杂电路、低成本大规模版图和 silicon ecosystem |
-| SiN | 低损耗 routing、filter、AWG、external cavity、interposer | 原生增益、高速有源调制和探测 |
-| TFLN / LNOI | 高速、低损耗、线性电光调制 | 光源、探测、复杂封装和大规模集成生态 |
+| Silicon | 高密度波导、紧凑调制器、Ge PD 集成、heater 周边光路 | 面积小，适合复杂集成；尺寸和温度敏感 |
+| SiO2 | cladding、buried oxide、隔离层 | 提供折射率差和电/热隔离 |
+| SiN | 低损耗 waveguide、filter、interposer-like routing | 降低长路径损耗，改善部分被动光路 |
+| Metal | RF electrode、heater、pad、power / ground、monitor routing | 把光路接到 EIC、测试设备和控制系统 |
 
-平台选择会改变后续所有设计问题。SiPh 的优势来自紧凑集成、foundry / PDK 和复杂版图；InP 的优势来自直接带隙和有源器件；SiN 适合低损耗路径和滤波；TFLN 的 Pockels 效应适合高性能调制。真实光引擎常把这些能力组合起来，让不同平台分别承担擅长的功能。
+多层平台的价值在于分工：silicon 层处理高密度和有源硅光器件，SiN 层处理低损耗或相位稳定路径，metal 和 doped regions 处理电驱动、热调谐和读出。
 
-## 片上光路怎样分配损耗、相位和波长
+### 2.3 锗探测器：为什么探测常用 Ge
 
-PIC 的主预算是整张光路的损耗、相位和波长分配。输入光进入芯片后，会经历输入耦合、分光、波导传播、调制器插损、MUX / DEMUX、tap monitor 和输出耦合。每一处损耗都会反向抬高 laser power、热负载和可靠性压力。
+Silicon 在通信常用波段吸收较弱，很多硅光芯片会集成 germanium photodiode。Ge 能吸收近红外光，产生电子-空穴对，并在电场下形成 photocurrent。它让硅光平台可以在片上完成接收端探测和 monitor tap 读出。
 
-| 光路单元 | 控制变量 | 下游后果 |
+### 2.4 金属、掺杂区和加热器
+
+硅光 PIC 是电-光混合系统。调制器需要 PN / PIN junction，heater 需要金属或掺杂电阻，Ge PD 需要电极，高速信号需要 RF 走线，控制和测试需要 pad、microbump、ESD 和 monitor readout。一个 PIC 的版图看起来像光路，其实同时包含光学、电学和热学结构。
+
+## 3. 波导与模式：芯片上的光路导线
+
+波导是芯片上的光路导线。光不会在整片硅里自由扩散，而是以 <TermNote label="光学模式" note="optical mode，满足波导或光纤边界条件的稳定光场分布。模式决定光场大小、形状、偏振和传播常数。" /> 的形式被限制在特定几何结构附近传播。
+
+### 3.1 波导怎样限制光
+
+波导的 core 折射率高于 cladding，光场在横向和垂直方向被约束。工程上常用 effective index 来描述一个模式在波导中的传播速度和相位积累。单模波导只支持一个主要模式，器件行为更容易预测；多模结构可以利用干涉形成 MMI 等器件，也需要更谨慎的几何控制。
+
+### 3.2 波导宽度、高度和偏振
+
+同一个波导，对 TE 和 TM 偏振会有不同有效折射率和不同损耗。许多硅光器件会指定工作偏振，尤其是 grating coupler、ring、AWG 和紧凑 splitter。封装和光纤耦合也要把偏振方向纳入接口条件。
+
+### 3.3 损耗、弯曲和串扰
+
+| 工程问题 | 来源 | 对 PIC 的影响 |
 |---|---|---|
-| waveguide / bend | propagation loss、bend radius、sidewall roughness、polarization behavior | 影响总插损、面积、串扰和版图密度 |
-| splitter / MMI / directional coupler | splitting ratio、excess loss、bandwidth | 影响 lane-to-lane power balance 和 laser power margin |
-| AWG / ring / Echelle | passband、center wavelength、channel spacing、crosstalk | 决定 WDM channel 是否对齐以及温控范围 |
-| tap monitor | tap ratio、monitor linearity、layout location | 决定控制环路看到的是主光路真实状态还是局部代理信号 |
-| coupler interface | mode size、pitch、PDL、return loss | 交给 optical I/O 和 package 的装配条件 |
+| propagation loss | 侧壁粗糙、材料吸收、工艺缺陷、包层污染 | 光功率随路径变长下降，压缩 link budget |
+| bend loss | 转弯半径过小，模式向外泄漏 | 影响版图密度和 routing freedom |
+| crosstalk | 相邻波导距离太近，evanescent field 互相耦合 | 造成 lane leakage、filter leakage 或 switch isolation 下降 |
+| polarization sensitivity | 波导截面和应力造成 TE / TM 差异 | 影响耦合、滤波和封装偏振要求 |
 
-相位和波长同样是预算。MZM 依靠两臂相位差形成强度调制，ring filter 依靠 resonance 选择波长，AWG 依靠波导阵列的相位差分离通道。温度、工艺偏差和封装应力都会改变有效折射率，进而改变这些相位关系。CPO 把 PIC 放到 ASIC 附近后，heater power、thermal crosstalk 和 monitor loop 会从辅助功能变成架构约束。
+### 3.4 工艺误差如何改变光路
 
-## 调制、探测与控制闭环
+硅光对尺寸误差敏感。波导宽度、刻蚀深度、侧壁角度和 cladding 厚度变化，都会改变 effective index。effective index 变化后，ring、MZI、AWG 这类相位敏感器件会出现波长漂移。后面的 thermal tuner、monitor PD、wafer-level test 和校准流程，都是为了管理这类偏差。
 
-调制器是 Tx PIC 与 EIC 的交界面。常见结构包括 Mach-Zehnder modulator、microring modulator、electro-absorption modulator 和 TFLN MZM。
+## 4. 光输入输出：从光纤到片上波导
 
-| 调制结构 | 机制 | 工程关注点 |
-|---|---|---|
-| MZM | 两臂相位差经干涉转换成强度变化 | 光学带宽、Vpi / VpiL、行波电极、长度、RF 损耗 |
-| MRM | 谐振器 resonance 改变透过光强 | 面积小、能效潜力高，温度和工艺敏感，需要锁定 |
-| EAM | 电场改变吸收 | 结构紧凑，偏置窗口、chirp、插损和光功率承受重要 |
-| TFLN MZM | Pockels 效应改变折射率 | 高速、低损耗、线性好，平台和封装协同要求高 |
+硅光 PIC 的一个核心难点是模式尺寸差异。片上波导模式很小，单模光纤的 <TermNote label="MFD" note="mode-field diameter，模场直径。它描述单模光纤中主模式光场的有效直径，比几何芯径更能反映耦合时看到的光场大小。" /> 通常在 9-10 um 量级。两者需要通过 coupler、taper、spot-size converter 或 lens 逐渐过渡。
 
-接收端 photodetector 把光功率转成电流，交给 TIA。高速 data PD 关注 responsivity、dark current、bandwidth、capacitance 和 saturation power；monitor PD 关注稳定性、线性和长期漂移。两类 PD 都属于 PIC / EIC 协同边界：PD 面积和 pad 会影响 TIA 噪声，monitor 的位置会影响控制环路判断。
+```text
+large fiber mode
+→ taper / grating / lens transition
+→ small silicon waveguide mode
+```
 
-控制闭环让 PIC 在温度和老化中维持工作点。heater、temperature sensor、monitor PD、bias DAC 和 firmware 会共同调 MZM bias、MRM resonance、AWG passband、WDM channel 和 optical power balance。控制余量也会成为运营信号：若同样输出需要更高 heater power 或更极端 bias，说明物理余量正在被消耗。
+### 4.1 Grating coupler：从芯片表面耦合
 
-## PDK 设计流：从 building block 到版图
+Grating coupler 用周期结构把片上导模衍射到芯片表面外，也可以把上方光纤的光耦合进波导。它的优势是测试友好：光纤可以从上方访问 die 或 wafer，适合 wafer-level test、阵列化 probing 和早期 PDK 表征。挑战集中在带宽、偏振、入射角、插入损耗、反射和封装稳定性。
 
-PIC 的 PDK 把可制造的光学单元、仿真模型、版图规则和测试结构提供给设计者。它的价值在于把“光学器件”变成可复用、可验证、可量产的 circuit building blocks。
+### 4.2 Edge coupler：从芯片边缘耦合
 
-| PDK 内容 | 对设计的意义 |
+Edge coupler 沿芯片平面方向把光送入或送出 PIC。常见结构包括 inverse taper、spot-size converter、SiN / polymer 辅助层和 lensed fiber。它通常有较宽带宽和较低耦合损耗潜力，更适合高性能封装和外置供光路径。代价是需要芯片端面质量、精密对准、FAU、胶水和封装设备配合。
+
+### 4.3 耦合损耗为什么重要
+
+光从激光器进入 PIC 会损失一次，从 PIC 出来也会损失一次。coupling loss 过高，会增加 laser power 需求、提高热负载、压缩接收端 OMA，并让老化余量变小。CPO 中通道数多，coupler loss 的平均值和长尾分布都会影响封装良率。
+
+## 5. 被动光路器件：分束、合束、滤波和路由
+
+被动器件不需要高速电驱动，也能改变光的路径、相位关系、功率分配和波长选择。它们是硅光 PIC 的组件库。
+
+### 5.1 Splitter / combiner：分光和合光
+
+Splitter 把一路光分成多路，combiner 把多路光合成一路。Y-branch、MMI 和 directional coupler 都可以承担这类功能。它们还会构成 MZI、switch、modulator 和 monitor tap 的基础单元。关键指标包括 splitting ratio、excess loss、bandwidth、phase balance 和 polarization dependence。
+
+### 5.2 Directional coupler：靠相邻波导交换能量
+
+当两条波导靠得足够近时，evanescent field 会让光功率在两条波导之间交换。耦合强度取决于波导间距、耦合长度、波导尺寸、波长和偏振。directional coupler 可以做分束器、tap、ring bus coupling 和 MZI 的耦合区。它对工艺误差和波长变化较敏感，版图中常需要留出测试和 trimming 余量。
+
+### 5.3 MMI：多模干涉器
+
+MMI 利用多模区域内不同模式的干涉，在输出端形成可预测的功率分布。它常用于 1x2、2x2、1xN 分束与合束。MMI 的优势是相对稳定、带宽较宽、工艺容差通常好于很紧凑的 directional coupler；代价是面积较大，并且仍要控制多模区域尺寸和输入输出位置。
+
+### 5.4 Ring resonator：用微环选择波长
+
+Ring resonator 是硅光里的关键器件。只有满足共振条件的波长会在环中增强，并通过 bus waveguide 表现为 through / drop 端口的强弱变化。Ring 可以用于滤波、调制、开关、monitor 和 sensing。它非常紧凑，也非常温度敏感。
+
+| Ring 指标 | 含义 |
 |---|---|
-| waveguide templates | 规定层次、宽度、高度、弯曲半径、支持模式和 DRC 规则 |
-| passive components | splitter、MMI、directional coupler、taper、grating、edge coupler、ring、AWG |
-| active components | modulator、phase shifter、heater、photodetector、monitor tap 和电极 |
-| compact models | 提供 S-parameter、transfer function、loss、phase、thermal tuning 和 bandwidth 模型 |
-| layout / DFM rules | 管理 waveguide spacing、metal keepout、bump / pad、heater distance 和 test cells |
+| FSR | 相邻共振峰之间的波长间隔 |
+| Q factor | 共振峰的尖锐程度，影响选择性和带宽 |
+| insertion loss | 非目标损耗和耦合损耗 |
+| extinction ratio | on / off 或 pass / reject 的强度差 |
+| thermal tuning range | heater 能把共振波长拉动多远 |
 
-设计流要同时处理光学、电学、热学和封装几何。波导间距影响光串扰，电极影响 RF 损耗，heater 影响热串扰，microbump map 影响 EIC 摆放，coupler pitch 影响 FAU 和 fiber routing。PDK 的成熟度体现在模型、规则和测试数据能否持续互相校准。
+### 5.5 AWG / Echelle grating：多波长复用和解复用
 
-## 测试与良率：PIC 必须可测
+WDM 系统中，不同波长可以在同一根光纤或同一条波导里传输。AWG 通过不同长度的波导阵列形成波长相关相位差，把多个波长合到一起或分开。Echelle grating 用片上自由传播区和反射光栅完成类似功能。它们把 fiber bandwidth density 提高，同时引入中心波长误差、通带形状、串扰、插损和温漂管理。
 
-PIC 的良率由很多单元共同决定。一个 ring 偏移、一个 coupler 插损偏高、一个 heater 开路或一个 PD 暗电流异常，都可能让某条 lane 失效。设计阶段就要把 test structure、loopback、reference waveguide、monitor tap 和 KGD 策略放进版图。
+## 6. 主动光器件：用电信号控制光
 
-| 测试层级 | 看到的内容 | 主要用途 |
-|---|---|---|
-| wafer-level optical test | coupler loss、waveguide loss、ring / AWG spectrum、splitter balance | 建立 wafer map，筛出工艺漂移和明显坏片 |
-| wafer-level electrical / RF test | heater resistance、PD dark current、phase shifter IV、modulator S-parameter | 判断电极、pad、掺杂和高速结构是否在窗口内 |
-| die sort / KGD | insertion-loss bin、wavelength bin、bandwidth bin、PD responsivity bin | 决定哪些 die 进入昂贵封装 |
-| package-level link test | optical power、OMA、eye、TDECQ、BER、temperature sweep | 验证 laser、PIC、EIC、fiber 和热路径结合后的真实链路 |
+主动器件把电信号、热信号或控制状态转成光学变化。调制器、phase shifter、thermal tuner、switch 和 VOA 都属于这一层。
 
-PIC 的测试数据应能回到设计规则。若 wafer map 显示某个 reticle 区域的 AWG 中心波长偏移，问题可能来自线宽、厚度或应力；若 package test 显示某组 fiber attach 后插损长尾，问题可能在 optical I/O 和封装装配。成熟的 PIC 团队会把这些反馈变成版图 margin、工艺窗口和分档规则。
+### 6.1 相位调制：改变折射率就是改变相位
 
-## PIC 交给封装和系统哪些条件
+光在波导中传播时会积累相位。改变有效折射率，就会改变相位。硅光里常见的相位控制方式包括载流子调制和热光调谐；混合集成平台还可能引入更强的电光材料。相位变化可以通过干涉转换为强度变化，也可以用来调滤波器、switch matrix 或 beam steering。
 
-PIC 向相邻团队交付一组接口条件。
+### 6.2 Mach-Zehnder modulator，MZM
 
-| PIC 侧条件 | 传给封装 / 系统的影响 |
+MZM 把一路光分成两臂，两臂积累不同相位，再合束。相位差改变后，相长或相消干涉会改变输出光强。EIC driver 送来的高速电信号可以调其中一臂或两臂的相位，形成高速强度调制。
+
+| MZM 指标 | 工程含义 |
 |---|---|
-| input optical power requirement | 决定 laser output、splitter plan、ELS path 和老化余量 |
-| total insertion loss | 决定 Tx OMA、Rx sensitivity、laser heat 和 FEC margin |
-| coupler type / pitch | 决定 FAU、lens、edge attach、grating access 和测试夹具 |
-| pad / microbump map | 决定 EIC placement、RF path、PD-to-TIA parasitics 和 power delivery |
-| heater power / thermal sensitivity | 决定散热设计、温控策略、启动校准和运行控制 |
-| monitor signals | 决定 optical power、bias drift、wavelength drift 和 lane health 能否被追踪 |
-| test coverage | 决定 KGD 可信度、package failure localization 和良率反馈 |
+| VpiL | 达到 π 相移所需电压与长度的乘积 |
+| insertion loss | 调制器本身消耗多少光功率 |
+| extinction ratio | 高低光电平之间的差 |
+| bandwidth | 电极和相位调制能跟上多高速 |
+| chirp | 调制时相位与强度耦合程度 |
+| energy per bit | 每 bit 调制消耗多少电能 |
 
-这些条件会互相牵制。缩短 EIC 到 modulator 的路径，会压缩 die placement；降低 coupler loss，会提高光学装配要求；提高 WDM 密度，会增加波长控制和 heater power；保留更多 monitor，会增加面积、光功率抽取和控制复杂度。PIC 的架构价值就在于把这些约束组织成可制造、可测试、可封装的光路。
+### 6.3 Ring modulator
 
-## 总结：怎样读懂一张 PIC
+Ring modulator 利用微环共振位置的移动来改变输出光强。它面积小、驱动电容小、能耗潜力好，也天然适合高密度 WDM。它的挑战同样鲜明：温度敏感、工艺漂移敏感，需要 thermal tuning、monitor 和闭环控制，光学带宽和 extinction ratio 也要与目标调制格式共同设计。
 
-读 PIC 时，先看架构，再看平台和器件库。架构回答 Tx / Rx、PSM / WDM、光功率和控制闭环怎样安排；平台回答哪些 building blocks 可用；PDK 和测试回答这张电路能否被制造和筛选；封装接口回答它能否进入真实 optical engine。
+### 6.4 Thermal tuner 和 phase shifter
+
+Silicon 的折射率会随温度变化，heater 可以调节相位或共振波长。heater 常用于校准工艺误差、锁定 ring、调 MZI bias、修正 AWG passband 或控制 switch matrix。它带来两项系统成本：tuning power 和 thermal crosstalk。高 lane count PIC 中，heater 的总功耗和热串扰会进入封装与运营预算。
+
+### 6.5 Optical switch 和 VOA
+
+Optical switch 改变光走哪条路径，VOA 调节某一路光的衰减。它们可以由 MZI、ring、thermal phase shifter 或 carrier-based phase shifter 构成。可重构光网络、片上互连、测试矩阵、相控阵和功率均衡结构都会用到这类器件。
+
+## 7. 从光到电，再从电控制光
+
+硅光 PIC 不是纯光学芯片。它把 optical path、photodetector、monitor、heater、driver、TIA 和 control loop 放在同一个系统里。
+
+### 7.1 Ge photodiode：把光变成电流
+
+Ge photodiode 吸收通信波段的光子，产生电子-空穴对，并在电场下形成 photocurrent。后续 TIA 把这个电流转换成电压。关键指标包括 responsivity、dark current、bandwidth、saturation power、capacitance、noise 和 linear range。
+
+### 7.2 Monitor photodiode：给控制系统提供反馈
+
+复杂 PIC 通常需要内部 monitor：监控输入光功率，辅助 ring 锁定，检查 coupler 状态，校准 MZI bias，平衡 WDM lane。monitor photodiode 的目标是稳定、线性和低漂移，它的读数会进入 firmware 和控制环路。
+
+### 7.3 激光源策略
+
+硅光 PIC 擅长低损耗光路、调制、滤波、探测和大规模集成；高性能 laser power 通常需要 III-V 材料或外部光源配合。常见策略包括：
+
+| 光源策略 | 说明 |
+|---|---|
+| 外置激光器 | 通过光纤或 ELSFP 向 PIC 输入 CW light |
+| 封装内 InP laser | laser die / laser array 与 PIC 同封装或近封装耦合 |
+| III-V heterogeneous integration | 通过 bonding、flip-chip 或其他异质集成把增益材料放到硅光平台附近 |
+| laser array / comb source | 多波长系统为 WDM PIC 提供多个 wavelength channel |
+
+这部分的详细器件物理留给 [激光源](../laser-source/)，PIC 页面只保留接口含义：PIC 需要稳定、足够功率、波长合适的连续光。
+
+### 7.4 Driver、TIA 和控制电路
+
+Modulator 需要 driver，photodiode 需要 TIA，heater 需要 DAC 或 current driver，monitor loop 需要 ADC 和控制算法，高速接口需要 RF 设计。PIC 与 EIC 的距离、pad map、microbump、ground return、ESD 和 test access，会决定实验室里的器件指标能否在封装后保持。
+
+## 8. 设计与制造：从光路图到真实芯片
+
+硅光 PIC 的设计不是任意画波导。它必须在 PDK、版图规则、工艺窗口、测试结构和封装接口中闭合。
+
+### 8.1 PDK：硅光设计为什么依赖工艺库
+
+<TermNote label="PDK" note="process design kit，工艺设计套件。它把 foundry 支持的器件、模型、版图规则、层定义和验证规则提供给设计者，使版图能进入可制造流程。" /> 通常包含标准 waveguide、bend、taper、coupler、MMI、ring、modulator、PD、heater、pad、DRC / LVS 规则、compact model 和 test cell 建议。PDK 的作用是把物理器件变成可复用 building blocks。
+
+### 8.2 仿真：光学、电学、热学一起看
+
+硅光设计需要多物理场协同：
+
+- 光学仿真看 mode、loss、coupling、filter response 和 crosstalk。
+- 电学仿真看 PN junction、contact resistance、capacitance、RF electrode 和 driver load。
+- 热仿真看 heater efficiency、temperature drift 和 thermal crosstalk。
+- 系统仿真看 link budget、modulation format、receiver sensitivity、BER 和 FEC margin。
+
+### 8.3 版图：光路、电路和测试 pad 的共同布局
+
+波导不能随意交叉，bend radius 要满足规则，directional coupler 需要准确长度和间距，ring 需要热隔离，高速电极需要阻抗控制，heater 要避免过强热串扰，pad 要能 probing，测试结构要能分解损耗。硅光版图是光路、电路、热路径和测试访问的共同布局。
+
+### 8.4 工艺流程
+
+一个简化 SOI 硅光流程可以这样理解：
+
+```text
+SOI wafer
+→ lithography for waveguides
+→ etch strip / rib waveguides
+→ ion implantation for PN / PIN regions
+→ Ge selective growth or integration for photodiodes
+→ dielectric deposition and planarization
+→ metal interconnect and heaters
+→ passivation
+→ wafer test, dicing, packaging and final test
+```
+
+### 8.5 工艺误差如何影响 PIC
+
+| 工艺变化 | 物理影响 | 器件后果 |
+|---|---|---|
+| waveguide width error | effective index 变化 | ring / MZI / AWG 波长漂移 |
+| etch depth error | mode distribution 变化 | coupling loss、bend loss、filter response 改变 |
+| sidewall roughness | scattering loss 增加 | propagation loss 和 Q factor 变差 |
+| doping variation | carrier effect、resistance、capacitance 变化 | modulation efficiency、loss、bandwidth 变化 |
+| heater / metal variation | thermal resistance 和 current path 变化 | tuning efficiency、thermal crosstalk、reliability 变化 |
+| Ge PD process variation | absorption、dark current、电容变化 | responsivity、noise、bandwidth 和 saturation 改变 |
+
+## 9. 封装与系统集成：光、电、热一起对准
+
+硅光 PIC 的封装同时处理光接口、电接口和热接口。封装细节见 [Package integration](../packaging/)，这里关注 PIC 需要交出的条件。
+
+### 9.1 光纤耦合和对准
+
+光纤耦合需要定义 coupler type、fiber pitch、active / passive alignment、insertion loss、return loss、PDL、temperature drift、胶水、材料老化和量产一致性。Edge coupling 常给出较好带宽和低损耗潜力；grating coupling 常给出更好的 wafer test 便利性。
+
+### 9.2 高速电封装
+
+高速 modulator 和 PD 不能只看 DC 连接。RF 走线、阻抗匹配、wire bond / flip-chip、寄生电容电感、ground return、driver 距离、TIA 距离和高速测试接口都会影响 eye、TDECQ、BER 和接收灵敏度。
+
+### 9.3 热设计
+
+Silicon PIC 对温度敏感，尤其是 ring、MZI、AWG 和 heater-intensive circuit。热设计要考虑 heat sink、cold plate、TEC、heater power、thermal crosstalk、ambient temperature、startup calibration 和 control algorithm。
+
+### 9.4 与电子芯片集成
+
+PIC 和 EIC 可以并排放在同一基板上，也可以通过 flip-chip、2.5D interposer、co-packaged optics 或更深度的 electronic-photonic integration 结合。集成越紧，寄生越低，热、良率、测试和返修压力也越集中。
+
+## 10. 测试指标：怎样判断 PIC 是否工作正常
+
+测试指标要按链路功能分组，单个最佳值无法代表一颗 PIC 的产品状态。
+
+### 10.1 光学指标
+
+| 指标 | 说明 |
+|---|---|
+| insertion loss / propagation loss | 光在 coupler、waveguide、splitter、filter 和 path 中损失多少 |
+| return loss | 接口或周期结构把多少光反射回去 |
+| coupling loss | 光纤或封装光路与 PIC 的模式转换损耗 |
+| crosstalk | 相邻 waveguide、filter channel 或 lane 的串扰 |
+| FSR / Q factor | ring 或滤波器的通道间隔与选择性 |
+| passband / stopband | AWG、ring filter 或 grating 的通带和阻带 |
+| PDL | 偏振相关损耗 |
+
+### 10.2 调制器指标
+
+MZM 和 ring modulator 常看 VpiL、extinction ratio、insertion loss、3 dB bandwidth、energy per bit、chirp、linearity、OMA、eye quality 和 TDECQ。指标要与 EIC driver、package RF path 和目标 modulation format 一起解释。
+
+### 10.3 探测器指标
+
+Ge PD 常看 responsivity、dark current、bandwidth、saturation input power、noise、capacitance 和 linear range。它们会进入 TIA noise、receiver sensitivity 和 package parasitic budget。
+
+### 10.4 系统指标
+
+系统侧会看 link budget、SNR、BER、pre-FEC BER、OMA、TDECQ、power consumption、temperature range、reliability 和 yield。PIC 的局部指标最终要在这些系统指标中闭合。
+
+### 10.5 Wafer-level test 和封装后测试
+
+Wafer-level test 可以通过 grating coupler、test loopback、cutback structure、ring monitor 和 electrical pad 提前建立 wafer map。封装后测试再验证真实 fiber coupling、thermal stability、high-speed eye、BER 和 control loop。测试数据会反向反馈给 PDK、layout rule、process window 和 binning strategy。
+
+## 11. 应用场景：从数据通信到传感和计算互连
+
+硅光 PIC 的应用不局限于一种模块形态，但数据中心互连是理解它的主入口。
+
+| 应用 | PIC 承担的功能 |
+|---|---|
+| 数据中心光互连 | 把电信号调制到光上，通过光纤传输，再由 PD / TIA 读回 |
+| Co-packaged optics | 把 optical engine 靠近 switch ASIC 或计算芯片，缩短高速电互连 |
+| AI / HPC 互连 | 在高带宽和低能耗压力下提供短距到中距光连接 |
+| LiDAR / optical phased array | 利用相位控制和片上光路实现 beam steering |
+| 传感 | 用 ring、MZI 或光谱滤波器感知折射率、温度、生物化学或气体变化 |
+| 量子光子学 | 集成干涉器、相位控制器、分束器和探测接口，构建部分量子光路 |
+
+这些应用共享同一套底层语言：材料栈、波导模式、coupler、被动器件、主动调制、探测、电控制、封装和测试。
+
+## 12. 总结：一束光在硅光 PIC 里的旅程
+
+一束光通常先由外部或异质集成的激光源产生。它通过 grating coupler 或 edge coupler 进入硅光芯片。进入芯片后，waveguide 负责传输，splitter 和 coupler 负责分光合光，ring、MZI 和 AWG 负责滤波、干涉和波长选择。Modulator 把电信号写到光上，heater 和 monitor photodiode 负责校准和稳定工作点。Ge photodiode 可以把光信号重新变成电信号。封装把光纤、电极、热沉、driver、TIA 和控制系统连接起来，让 PIC 成为真正可用的光电系统。
+
+```text
+Laser
+→ Coupler
+→ Waveguide
+→ Splitter / Filter / Modulator
+→ Detector or output coupler
+→ Driver / TIA / control
+→ Package
+→ System
+```
 
 进一步阅读：
 
 - [imec: Silicon photonics foundry services](https://www.imec-int.com/en/what-we-offer/development/photonics)
 - [imec IC-Link: iSiPP300 integrated photonics platform](https://www.imeciclink.com/en/asic-fabrication/silicon-photonics-foundry-services/isipp300)
 - [PhotonHub: Silicon and Silicon Nitride PICs](https://photonhub.eu/technology-platform/silicon-and-silicon-nitride-pics/)
-- [PhotonHub: Indium Phosphide PICs](https://photonhub.eu/technology-platform/indium-phosphide-pics/)
+- [AIM Photonics: Active PIC features](https://www.aimphotonics.com/base-active-pic)
 - [Luceda Academy: Working with AWG Designer](https://academy.lucedaphotonics.com/tutorials/working_with_awg_designer)

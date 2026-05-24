@@ -187,6 +187,7 @@ const partInfo = {
     const title = figure?.querySelector("[data-pic-title]");
     const body = figure?.querySelector("[data-pic-body]");
     let active = "";
+    let manualSelection = false;
 
     const clear = () => {
       active = "";
@@ -202,9 +203,13 @@ const partInfo = {
       }
     };
 
-    const select = (key) => {
+    const select = (key, options = {}) => {
       if (!key || !partInfo[key]) return;
-      if (active === key) {
+      const { toggle = true, manual = false } = options;
+      if (manual) {
+        manualSelection = true;
+      }
+      if (active === key && toggle) {
         clear();
         return;
       }
@@ -225,18 +230,89 @@ const partInfo = {
     };
 
     for (const button of buttons) {
-      button.addEventListener("click", () => select(button.getAttribute("data-pic-part")));
+      button.addEventListener("click", () => select(button.getAttribute("data-pic-part"), { manual: true }));
     }
 
     for (const node of nodes) {
-      node.addEventListener("click", () => select(node.getAttribute("data-pic-node")));
+      node.addEventListener("click", () => select(node.getAttribute("data-pic-node"), { manual: true }));
       node.setAttribute("tabindex", "0");
       node.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          select(node.getAttribute("data-pic-node"));
+          select(node.getAttribute("data-pic-node"), { manual: true });
         }
       });
+    }
+
+    const sectionRules = [
+      [/什么是硅光|总结：一束光/, "lightIn"],
+      [/一颗硅光 PIC|波导与模式/, "splitter"],
+      [/材料栈|设计与制造/, "metal"],
+      [/光输入输出|封装与系统/, "coupler"],
+      [/被动光路器件/, "wavelength"],
+      [/主动光器件/, "modulator"],
+      [/从光到电|测试指标/, "detector"],
+      [/应用场景/, "lightIn"]
+    ];
+
+    const sectionKey = (heading) => {
+      const text = heading.textContent || "";
+      for (const [pattern, key] of sectionRules) {
+        if (pattern.test(text)) return key;
+      }
+      return "";
+    };
+
+    const setupSectionObserver = () => {
+      const headings = Array.from(document.querySelectorAll(".concept-page h2")).filter(sectionKey);
+      if (headings.length === 0) return;
+
+      let raf = 0;
+      const updateFromScroll = () => {
+        raf = 0;
+        if (manualSelection) return;
+
+        const readingLine = window.innerHeight * 0.32;
+        let current = headings[0];
+        for (const heading of headings) {
+          if (heading.getBoundingClientRect().top <= readingLine) {
+            current = heading;
+          }
+        }
+
+        const key = sectionKey(current);
+        if (key) {
+          select(key, { toggle: false });
+        }
+      };
+
+      const requestUpdate = () => {
+        if (!raf) {
+          raf = window.requestAnimationFrame(updateFromScroll);
+        }
+      };
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (manualSelection) {
+            window.clearTimeout(map._picManualTimer);
+            map._picManualTimer = window.setTimeout(() => {
+              manualSelection = false;
+            }, 900);
+          }
+          requestUpdate();
+        },
+        { passive: true }
+      );
+      window.addEventListener("resize", requestUpdate, { passive: true });
+      requestUpdate();
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setupSectionObserver, { once: true });
+    } else {
+      window.requestAnimationFrame(setupSectionObserver);
     }
   }
 </script>

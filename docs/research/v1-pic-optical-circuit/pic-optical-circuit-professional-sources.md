@@ -87,19 +87,20 @@ This lets the reader see why laser source, PIC, EIC, optical I/O, package, and t
 
 Recommended component page sections:
 
-1. `PIC 的器件边界`
-2. `为什么 CPO 会提高 PIC 要求`
-3. `工作原理：光怎样在芯片里被组织成链路`
-4. `制造路径：从平台晶圆到可测试 PIC`
-5. `1. 平台选择：SiPh、InP、SiN 与 TFLN`
-6. `2. 波导、分光与片上路由`
-7. `3. 调制器：把电信号写到光上`
-8. `4. MUX / DEMUX 与 WDM 光路`
-9. `5. 探测、监控与热调谐`
-10. `6. 版图、PDK、测试与良率`
-11. `7. 器件评价指标：怎样判断一颗 PIC 是否合格`
-12. `8. 从 PIC 到封装：哪些指标会传给光引擎设计`
-13. `9. 总结：PIC 在光引擎里承担什么`
+The page should be organized as one signal journey through a silicon photonics PIC. Give the reader a map first, then expand the device families in the order a light signal encounters them:
 
-The page should be long enough to match the laser-source page's depth, but it should avoid opening full sub-device chapters for every modulator or coupler. Those can become later deep dives.
+1. `0. 什么是硅光 PIC`
+2. `1. 一颗硅光 PIC 里有什么`
+3. `2. 材料栈：硅、二氧化硅、氮化硅、锗和金属层`
+4. `3. 波导与模式：芯片上的光路导线`
+5. `4. 光输入输出：从光纤到片上波导`
+6. `5. 被动光路器件：分束、合束、滤波和路由`
+7. `6. 主动光器件：用电信号控制光`
+8. `7. 从光到电，再从电控制光`
+9. `8. 设计与制造：从光路图到真实芯片`
+10. `9. 封装与系统集成：光、电、热一起对准`
+11. `10. 测试指标：怎样判断 PIC 是否工作正常`
+12. `11. 应用场景：从数据通信到传感和计算互连`
+13. `12. 总结：一束光在硅光 PIC 里的旅程`
 
+The visual structure should act as a map, not a decorative figure. The page should use a PIC top-view diagram to keep the signal path visible while the reader moves from platform to waveguide, devices, control, manufacturing, packaging, test, and applications.
