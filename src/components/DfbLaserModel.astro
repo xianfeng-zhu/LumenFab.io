@@ -457,7 +457,9 @@ const indexItems = [
 
     const outline = new THREE.Box3().setFromObject(chip);
     const center = outline.getCenter(new THREE.Vector3());
-    chip.position.sub(center);
+    for (const child of chip.children) {
+      child.position.sub(center);
+    }
     chip.rotation.x = -0.18;
     chip.rotation.y = -0.58;
     return chip;

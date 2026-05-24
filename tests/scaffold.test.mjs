@@ -276,6 +276,8 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(model, /startRotationY/);
   assert.match(model, /model\.rotation\.x = pointerDownState\.startRotationX/);
   assert.match(model, /model\.rotation\.y = pointerDownState\.startRotationY/);
+  assert.match(model, /child\.position\.sub\(center\)/);
+  assert.doesNotMatch(model, /chip\.position\.sub\(center\)/);
 });
 
 test("InP DFB laser principle deep page ties physics to CPO light source needs", async () => {
