@@ -30,7 +30,7 @@ const indexItems = [
   ["nCladding", "#16a34a", "n-InP 包层"],
   ["sch", "#eab308", "SCH 限制层"],
   ["mqw", "#db2777", "MQW 有源区"],
-  ["mode", "#67e8f9", "腔内光学模式"],
+  ["mode", "#67e8f9", "腔内光场分布"],
   ["grating", "#0d9488", "DFB 光栅"],
   ["phase", "#1e293b", "相移区"],
   ["pCladding", "#7c3aed", "p-InP 包层"],
@@ -154,8 +154,8 @@ const indexItems = [
     },
     mode: {
       color: "#67e8f9",
-      title: "腔内光学模式",
-      body: "光学模式表示被波导、包层和腔体支持的场分布。模式需要与 MQW 有源区充分重叠，才能在受激辐射中获得有效增益。"
+      title: "腔内光场分布",
+      body: "腔内光场分布表示激光在芯片内部的空间强度分布。这个示意体沿腔长方向延伸，垂直方向被压得很薄，用来表达光主要被 SCH、包层和 ridge 波导限制在 MQW 有源区附近。它表示光场，不对应独立材料层。"
     },
     current: {
       color: "#22c55e",
@@ -412,7 +412,7 @@ const indexItems = [
 
     const modeGeometry = new THREE.SphereGeometry(1, 48, 24);
     const mode = new THREE.Mesh(modeGeometry, transparent(0x67e8f9, 0.28));
-    mode.scale.set(2.65, 0.12, 0.28);
+    mode.scale.set(2.65, 0.07, 0.28);
     mode.position.set(0, layerCenters["MQW active region"], cutawayOffset);
     chip.add(tagPart(mode, "mode"));
 
@@ -423,7 +423,7 @@ const indexItems = [
       opacity: 0.12
     });
     cutawayPlane.name = "cutaway plane";
-    chip.add(tagPart(cutawayPlane, "mode", false, 0));
+    chip.add(cutawayPlane);
 
     chip.add(tagPart(createArrow([-2.2, topY + 0.58, cutawayOffset], [-2.2, topY + 0.22, cutawayOffset], 0x22c55e), "current"));
     chip.add(tagPart(createArrow([0, topY + 0.58, cutawayOffset], [0, topY + 0.22, cutawayOffset], 0x22c55e), "current"));

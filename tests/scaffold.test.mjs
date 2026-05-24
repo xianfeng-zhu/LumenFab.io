@@ -253,6 +253,10 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(model, /cutaway/i);
   assert.match(model, /AR coating/);
   assert.match(model, /HR coating/);
+  assert.match(model, /腔内光场分布/);
+  assert.match(model, /激光在芯片内部的空间强度分布/);
+  assert.match(model, /mode\.scale\.set\(2\.65,\s*0\.07,\s*0\.28\)/);
+  assert.doesNotMatch(model, /tagPart\(cutawayPlane,\s*"mode"/);
   assert.match(model, /priority:\s*4/);
   assert.match(model, /clearSelectedPart/);
   assert.match(model, /dimNonSelectedParts/);
