@@ -1,45 +1,310 @@
 ---
 layout: ../../layouts/ConceptLayout.astro
 title: EIC / driver and receiver electronics
-chapter: CPO Components
+chapter: 光引擎组件
 description: EIC 把高速电信号送进光器件或从探测器读出，决定 driver、TIA、DSP 和封装电路径的边界。
 ---
 
-## What This Component Does
+import TermNote from "../../components/TermNote.astro";
 
-EIC, electronic integrated circuit, 是光引擎里的电子侧。它连接 switch ASIC、driver、TIA、retimer/DSP、控制电路和电源网络。
+## EIC 的器件边界
 
-在 CPO 中，EIC 和 PIC 的距离更近，电互连长度更短，但这也把热、封装、电源完整性和测试问题推到更高难度。
+<TermNote label="EIC" note="electrical integrated circuit，电子集成电路。CPO 光引擎语境下，它通常指靠近 PIC 的高速电子芯片或电子功能区，负责 driver、TIA、时钟、均衡、控制和部分电源管理。" /> 是光引擎里的电子侧。它把 switch ASIC 或 host SerDes 送来的高速电信号整理成调制器可以使用的波形，也把 photodetector 产生的微弱电流读出、放大并交回电域链路。
 
-## Detail Entrypoints
+这个边界可以分成三层。第一层是高速模拟前端：Tx 侧的 modulator driver、laser driver 或 bias driver，Rx 侧的 <TermNote label="TIA" note="transimpedance amplifier，跨阻放大器。它把 photodiode 输出的电流转换成电压，并在带宽、噪声、增益和饱和之间取舍。" />、post amplifier、limiting amplifier 或 linear receiver front end。第二层是信号恢复与补偿：CDR、retimer、DSP、FFE / DFE / CTLE、ADC / DAC 或 clock phase interpolation 等电路，是否存在取决于系统采用 retimed、linear 或 direct-drive 边界。第三层是把光引擎真正带起来的辅助电路：PLL、reference clock 分配、电源调节、ESD、温度传感器、ADC / DAC、I2C / SPI / management interface、heater / bias control 和测试访问。
 
-### Link-Level Basics
+EIC 与 [PIC / optical circuit](../pic/) 紧密相连，但两者承担的物理任务不同。PIC 负责波导、分光、调制、复用、耦合、监控和探测等光学功能；EIC 负责让这些光学功能获得正确的电压、电流、时序、增益和控制状态。driver 与 modulator 分属电子与光子两侧；TIA 与 photodiode 分属电子读出与光电转换两侧。两侧靠 pad、microbump、wirebond、interposer、package substrate 和共同的热环境耦合在一起。
 
-- [Electrical signal to optical signal](../../learn/electrical-signal-to-optical-signal/)
-- [Tx path and Rx path](../../learn/tx-rx-path/)
-- [Lane, channel, and wavelength](../../learn/lane-channel-and-wavelength/)
-- [Inside a transceiver](../../learn/inside-a-transceiver/)
+激光怎样产生可在 [激光源](../laser-source/) 阅读；PIC 怎样组织光路可在 [PIC / optical circuit](../pic/) 阅读；fiber array、edge coupler 和连接器属于 [Optical I/O / fiber coupling](../optical-io/)；EIC、PIC、laser 与 fiber 的物理摆放和散热边界属于 [Package integration](../packaging/)；KGD、封装后测试和可靠性筛选属于 [Manufacturing and test](../manufacturing-test/)。
 
-### Physics Interfaces
+相关基础页：[Electrical signal to optical signal](../../learn/electrical-signal-to-optical-signal/)、[Tx path and Rx path](../../learn/tx-rx-path/)、[Inside a transceiver](../../learn/inside-a-transceiver/)、[Bandwidth density and power per bit](../../learn/bandwidth-density-and-power-per-bit/)。
 
-- [Photon, wavelength, frequency, and energy](../../learn/photon-wavelength-frequency-and-energy/)
-- [Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)
+## 为什么 CPO 会提高 EIC 要求
 
-### Later Deep Dives
+CPO 把光引擎放到 switch ASIC 附近，核心收益来自缩短高速电路径。传统可插拔模块中，ASIC 到前面板模块之间要经过较长 PCB 走线、连接器和模块内部电路径；CPO 把 EIC / PIC 放近后，高速通道损耗和阻抗不连续有机会降低，ASIC 侧 I/O driver 的能耗和 reach 压力也有机会下降。
 
-- Driver.
-- TIA.
-- CDR / retimer / DSP.
-- Switch ASIC electrical interface.
-- Power delivery and thermal coupling.
-- Signal integrity inside package.
+这个系统位置也把 EIC 放进更严格的约束中：
 
-## Common Boundaries
+- 光引擎靠近高功耗 ASIC 后，driver、TIA、DSP、PLL 和电源调节电路会承受更高局部温度与更强热耦合。
+- 高速电路径变短后，剩下的 pad、microbump、RDL、interposer、package trace 和 PIC 电极寄生会变得更显眼，需要在版图和封装模型里共同优化。
+- 若采用 linear interface，光引擎里的 DSP / CDR 功能减少，host SerDes 需要承担更完整的电链路、E/O、光纤、O/E 和回传电路径补偿，driver / TIA 线性度与噪声裕量会变得关键。
+- 若采用 retimed 或 DSP-based interface，EIC 功能更完整，engine 内功耗、散热、时钟、测试和固件状态管理会增加。
+- CPO 封装级返修成本高，EIC die、PIC die 和 laser die 都需要更严格的 known-good-die 筛选，以及能在封装后定位问题的测试结构。
 
-- LPO/CPO are architecture and system-boundary questions, not modulator structures.
-- Driver is not the same thing as modulator.
-- TIA belongs to receiver electronics, not optical detection material.
+因此，CPO 对 EIC 的要求已经超出“更靠近 PIC”这一点。它要求 driver、TIA、SerDes、DSP、时钟、电源、热、封装寄生和测试覆盖共同收敛。
 
-## Short Version
+## 工作原理：电信号怎样驱动光路，又怎样从光路读回
 
-EIC is the electrical control and readout side of the optical engine. It is where high-speed electrical loss, driver swing, receiver noise, power and heat meet the optical components.
+EIC 的工作可以沿一条双向链路理解。Tx 侧从 switch ASIC 的 SerDes 输出开始，把数字数据变成高速电波形，再把这个电波形送到 PIC 调制器；Rx 侧从 PIC photodetector 输出的电流开始，把微弱电流变成电压，再恢复成可由 SerDes 或上层逻辑处理的数据。
+
+<ol className="stage-list">
+  <li>
+    <strong>SerDes 把并行数据变成高速 lane</strong>
+    <span>Switch ASIC 或 companion PHY 中的 SerDes 负责序列化、均衡和接收判决。进入光引擎前，信号可能已经经过 Tx FFE、pre-emphasis、CTLE、DFE、CDR 或 DSP 处理。CPO 的一个目标，是让这段电路径足够短，使 SerDes 不必为很长的板级通道付出过高功耗。</span>
+  </li>
+  <li>
+    <strong>Driver 把电信号变成调制器需要的电压或电流</strong>
+    <span>Driver 面向具体调制器工作。MZM 可能需要差分摆幅、推挽驱动、行波电极或分段驱动；MRM 更像驱动一个紧凑、热敏感、非线性的谐振器；EAM 需要处理吸收调制、偏置和电场相关非线性。PAM4 链路尤其关注电平线性、带宽、抖动和过冲。</span>
+  </li>
+  <li>
+    <strong>Modulator 把电波形写入光</strong>
+    <span>PIC 调制器把 driver 输出转换成光强、相位或吸收变化。这个转换由调制器材料、结构、电极和偏置共同决定。EIC 需要理解调制器的电容、阻抗、Vpi、带宽、插损、温度漂移和光学非线性，否则电波形即使在探针上干净，进入光路后也可能形成失真的 optical eye。</span>
+  </li>
+  <li>
+    <strong>Photodetector 把光信号变成电流</strong>
+    <span>Rx 侧的 photodetector 按光功率产生 photocurrent。这个电流很小，并叠加 shot noise、dark current、带宽限制和饱和效应。PD 的结电容、串联电阻和到 TIA 的互连寄生会直接影响接收端带宽和噪声。</span>
+  </li>
+  <li>
+    <strong>TIA 把电流变成可处理的电压</strong>
+    <span>TIA 是接收端第一级关键电子电路。它用跨阻增益把 photocurrent 转换成电压，同时要保持足够带宽和低输入等效噪声。增益太低会损失灵敏度，增益太高又可能牺牲带宽或更早饱和。</span>
+  </li>
+  <li>
+    <strong>CDR、DSP 或 linear receiver 完成后续恢复</strong>
+    <span>接收电压可以进入 limiting amplifier、VGA、CTLE、ADC / DSP、CDR 或直接回到 host SerDes。Retimed 架构在光引擎内重新恢复时钟和数据；linear 架构保留更连续的模拟链路，由 host SerDes 承担更多补偿责任。</span>
+  </li>
+  <li>
+    <strong>控制环路维持光电工作点</strong>
+    <span>EIC 还要驱动 heater、bias、monitor PD 读出、temperature sensor、ADC / DAC 和管理接口。CPO 的 PIC 通常需要持续校准调制器偏置、ring resonance、WDM channel、光功率均衡和告警阈值，这些都需要电子控制闭环。</span>
+  </li>
+</ol>
+
+一条典型 Tx 电路径可以写成：
+
+```text
+switch ASIC SerDes
+→ short-reach electrical interface
+→ EIC Tx equalizer / CDR / DSP, depending on architecture
+→ modulator driver
+→ PIC modulator electrode
+→ modulated optical lane
+```
+
+对应的 Rx 电路径则是：
+
+```text
+optical lane on PIC
+→ photodetector
+→ EIC TIA
+→ post amplifier / CTLE / ADC / DSP / CDR, depending on architecture
+→ short-reach electrical interface
+→ switch ASIC SerDes
+```
+
+## 接口边界：retimed、linear、half-retimed 与 direct drive
+
+EIC 的功能多少，取决于系统把时钟恢复、均衡和判决放在哪一侧。OIF CPO 框架把几类接口边界放在同一张地图里讨论，适合用来理解 EIC 的职责分配。
+
+| 边界类型 | Engine 内 EIC 功能 | 系统含义 |
+|---|---|---|
+| Retimed | Engine 内有 CDR / retimer，可能还有 DSP、ADC / DAC 或较完整的 PHY 功能 | 光引擎对 host 呈现更清晰的电接口，代价是 EIC 功耗、面积、热和测试复杂度增加。 |
+| Linear amplified | Engine 内保留 driver、TIA 和必要模拟放大，去掉 CDR / DSP regeneration | 功耗和延迟有机会下降，host SerDes 需要补偿从 host 到光引擎、E/O、光传输、O/E 到回传电路径的完整模拟链路。 |
+| Half-retimed | 一个方向 retimed，另一个方向 linear amplified | 适合 Tx / Rx 难度不对称的系统分配，把补偿责任按方向拆开。 |
+| Direct drive | Engine 功能进一步简化，ASIC 或 host 侧直接面向光电器件驱动 / 读出 | 对距离、封装寄生、线性度、调试和测试访问要求很高，适合极短路径和强协同设计场景。 |
+
+这些边界没有固定优劣顺序。Retimed 方案用更多电路换取更清晰的接口和更强局部补偿；linear 方案用更短、更线性的模拟链路换取低功耗潜力；direct-drive 方案把 PIC / EIC / ASIC / 封装推向更紧密的共同设计。CPO、LPO 和 NPO 都属于系统边界选择，driver、TIA、CDR 和 DSP 是这些边界中被重新分配的电路功能。
+
+## 1. Driver：把 SerDes 输出变成调制器能使用的波形
+
+Driver 的任务，是在目标 baud rate 下给 PIC 调制器提供足够快、足够准、足够稳定的电波形。它既要面对电学负载，也要面对光学转换曲线。
+
+### Driver 先看调制器类型
+
+不同调制器给 driver 的负载和目标不同：
+
+| 调制器或负载 | Driver 关注点 | 典型风险 |
+|---|---|---|
+| Silicon MZM | 差分摆幅、行波电极阻抗、速度匹配、VpiL、RF 损耗、分段驱动 | 摆幅不足导致 OMA 不够，电极损耗和速度失配导致高频眼图闭合。 |
+| Microring modulator | 小电容、谐振工作点、PAM4 线性、动态热效应、bias / heater 协同 | 温度和工艺漂移改变 resonance，非线性造成 PAM4 电平不均。 |
+| EAM / EML | 反向偏置、电吸收曲线、chirp、光功率承受、单端或差分驱动 | 偏置窗口和吸收非线性影响 extinction ratio、TDECQ 和可靠性。 |
+| TFLN MZM | 较高速电极、较低光损耗、较长器件或封装走线、驱动摆幅 | 电极与封装损耗限制带宽，驱动功耗和热路径仍需控制。 |
+| Directly modulated laser | 激光二极管电流、调制带宽、RIN、chirp、热和寿命 | 激光器本身被高速调制，光源页中的 CW 供光边界会改变。 |
+
+在 CPO 硅光引擎中，常见路径是由外部或封装内 CW 激光供光，EIC driver 驱动 PIC 上的 modulator。此时 laser driver 更多承担光源 bias、监控和保护，Tx 高速数据主要进入 modulator driver。若系统采用 EML 或直接调制激光，driver 与光源器件的边界会相应变化。
+
+### PAM4 让 driver 线性度变得重要
+
+PAM4 用四个电平表示两比特信息。电平之间的间距、上升下降时间、过冲、ISI 和随机噪声都会进入接收端判决裕量。Driver 在 PAM4 链路中需要控制几类失真：
+
+- **带宽限制**：电极、电容、走线和封装寄生会削弱高频成分，使眼图闭合。
+- **电平非线性**：driver 输出电平、调制器转换曲线和光功率响应不完全线性，PAM4 三个 eye 可能高度不一致。
+- **抖动与相位误差**：CDR、PLL、clock distribution 和分段驱动同步会影响采样窗口。
+- **反射与阻抗失配**：driver output、microbump、interposer trace、PIC electrode 之间的阻抗变化会形成反射和过冲。
+- **温度漂移**：EIC 温度改变晶体管速度和输出摆幅，PIC 温度改变调制器工作点。
+
+因此，高速 driver 常结合 peaking、pre-emphasis、feed-forward equalization、segmented driver、thermometer coding、bias DAC、calibration loop 或数字辅助预失真。它的目标是让光端形成可被接收端恢复的 OMA、ER、TDECQ 和 BER。
+
+## 2. TIA：把 photodiode 电流变成可判决电压
+
+Photodetector 输出的是电流。TIA 的基本任务是把这个电流转换成电压，并在高速下保持低噪声、足够增益和足够动态范围。可以用一个简单关系理解：
+
+```text
+Vout ≈ Ipd × transimpedance gain
+```
+
+真实 TIA 的难点在于这个关系必须在几十 GHz 带宽、很小输入电流、PD 电容、封装寄生和工艺温度变化下成立。
+
+### TIA 的核心取舍
+
+| 取舍 | 含义 | 对链路的影响 |
+|---|---|---|
+| 跨阻增益 vs. 带宽 | 更高反馈阻抗或等效增益有利于灵敏度，但会更容易受电容和稳定性限制 | 影响 receiver sensitivity、eye opening 和可达 baud rate。 |
+| 输入等效噪声 vs. 功耗 | 低噪声常需要更强输入级和更高电流 | 影响接收灵敏度，同时进入 engine 热预算。 |
+| 线性范围 vs. 灵敏度 | 高增益前端容易在大光功率下饱和，低增益前端小信号噪声压力更大 | 影响 optical modulation amplitude 范围和链路 margin。 |
+| 输入电容 vs. 带宽 | PD 结电容、pad、电感、电阻和互连寄生共同进入输入极点 | 影响高频响应和 TIA 稳定性。 |
+| Linear TIA vs. limiting receiver | Linear path 保留幅度信息，limiting path 更早判决 | 影响是否适合 PAM4、LPO / linear interface 和 host-side DSP 补偿。 |
+
+接收端的第一厘米非常关键。PD 与 TIA 之间的互连越长，寄生电容、电感和反射越容易恶化带宽与噪声；这正是 CPO 把 TIA 靠近 PIC 的重要原因之一。许多高性能 receiver 会把 PD、TIA、post amplifier、CTLE / VGA 和 CDR / DSP 作为一个共同链路建模，避免只单独优化某一颗芯片。
+
+### Monitor PD 与高速 data PD 的读出不同
+
+PIC 上还常有 monitor photodiode，用来监控激光输入、splitter 后功率、modulator bias、ring resonance 或 WDM channel 状态。Monitor PD 的读出通常追求稳定、线性和低漂移，带宽需求远低于高速 data PD。EIC 因此可能同时包含高速 TIA 和低速监控 ADC / transimpedance readout。两者共享电源、地、温度和控制接口，但目标指标不同。
+
+## 3. CDR、DSP 与 SerDes 边界
+
+CDR 和 DSP 决定光引擎是否在本地恢复数据和时钟。
+
+<TermNote label="CDR" note="clock and data recovery，时钟数据恢复。它从接收数据中恢复采样时钟，并把数据重新定时，降低积累抖动对后级的影响。" /> 解决的是时序问题。高速信号经过走线、封装、调制器、光链路、PD 和 TIA 后，边沿和采样相位会发生变化。CDR 通过相位检测、环路滤波、PLL / PI 和判决电路重新对齐采样时刻。
+
+<TermNote label="DSP" note="digital signal processor，数字信号处理器。光互连里常用于均衡、预失真、判决反馈、FEC 辅助、非线性补偿和链路诊断。" /> 解决的是波形和通道损伤问题。DSP 可以用 Tx FFE、Rx FFE、DFE、MLSE、ADC / DAC、nonlinear equalization 或 adaptive algorithms 处理电通道损耗、器件带宽不足、PAM4 电平非线性、色散、噪声和串扰。它带来强补偿能力，也带来面积、功耗、延迟、固件和测试复杂度。
+
+SerDes 边界则决定这些补偿由谁承担：
+
+| 边界 | Host / switch ASIC 侧 | 光引擎 EIC 侧 |
+|---|---|---|
+| DSP-based optical PHY | 负责系统侧 SerDes 和协议接口 | 集成光侧 DSP、driver、TIA、CDR、diagnostics，向 host 呈现较清晰接口。 |
+| Short-reach / VSR CPO interface | 负责短距离高速电互连，可能保留 DSP margin 和 diagnostics | 负责靠近 PIC 的 driver / TIA 和必要 retiming。 |
+| Linear interface | Host SerDes 承担更完整的均衡与判决 | 保留高线性 driver、TIA 和必要模拟增益，减少本地 regeneration。 |
+| Direct-drive co-design | ASIC I/O 直接面向光电器件条件优化 | Engine EIC 可极简，也可能与 PIC 形成专用 analog front end。 |
+
+这也是 CPO 架构讨论中最容易混淆的一点：减少光引擎里的 DSP，不会让信道损伤消失。均衡、判决和 margin 仍然存在，只是从 engine 侧迁移到 host SerDes、封装通道、PIC / EIC co-design 和系统校准中。
+
+## 4. 电源、时钟、控制与监控
+
+EIC 的高速前端之外，还有一整套低速但关键的基础设施。
+
+### 电源完整性
+
+Driver 需要提供高速摆幅，TIA 需要低噪声输入级，PLL / CDR 需要干净时钟，ADC / DAC 和控制环路需要稳定参考。CPO 光引擎面积小、通道多、靠近高功耗 ASIC，电源网络必须同时处理 IR drop、ground bounce、supply noise、decoupling、电源时序和局部热点。
+
+常见电源相关设计包括：
+
+- 多路 rail：analog、digital、driver output、TIA、PLL、heater、control 分开供电或局部隔离。
+- on-die / in-package decap：降低高速电流瞬态造成的电源扰动。
+- LDO / DC-DC 边界：在封装外转换效率和封装内噪声隔离之间取舍。
+- power sequencing：保证 laser bias、modulator bias、heater、driver、TIA 和 DSP 按安全顺序启动。
+- telemetry：报告电压、电流、温度、alarm 和 lane health。
+
+### 时钟与抖动
+
+高速 optical lane 对 jitter 很敏感。Reference clock、PLL、CDR、clock tree、phase interpolator 和 lane deskew 会共同决定采样窗口。EIC 靠近 PIC 后，电路径更短，但温度梯度、supply noise 和多 lane 串扰仍可能把抖动传给 driver 或 receiver。
+
+### 控制与诊断
+
+PIC 的 heater、bias、monitor PD、ring locking、WDM alignment 和 optical power leveling 需要控制回路。EIC 常提供：
+
+- DAC：设置 modulator bias、heater current、laser bias 或 threshold。
+- ADC：读取 monitor PD、电压、电流、温度和告警信号。
+- state machine / firmware hooks：执行启动校准、lane bring-up、故障隔离和运行中重调。
+- scan / BIST / PRBS：支持 wafer-level、die-level 和 package-level 测试。
+- management interface：把状态暴露给 host、baseboard management controller 或模块管理系统。
+
+这些控制功能的价值在长期运行中才会完全显现。CPO 光引擎失效后难以像前面板模块那样直接替换，EIC 的监控颗粒度和可诊断性会影响现场维护成本。
+
+## 制造与集成路径
+
+EIC 的制造路线通常建立在 CMOS、FinFET、RF SOI 或 SiGe BiCMOS 等电子工艺上。选择哪条路线，取决于模拟带宽、输出摆幅、噪声、功耗、数字集成度、成本和封装能力。
+
+<ol className="stage-list">
+  <li>
+    <strong>电路工艺选择</strong>
+    <span>先进 CMOS / FinFET 适合高密度 DSP、SerDes、CDR 和数字控制；SiGe BiCMOS 常用于高带宽、较高摆幅、低噪声模拟前端；RF SOI 或专用 CMOS 路线也可用于驱动和高速模拟电路。</span>
+  </li>
+  <li>
+    <strong>Tx / Rx 前端设计</strong>
+    <span>Driver、TIA、post amplifier、VGA、CTLE、ADC / DAC、PLL 和 CDR 按目标 lane rate、PAM4 质量、功耗和 PIC 负载共同设计。设计阶段需要引入 modulator、PD 和封装寄生模型。</span>
+  </li>
+  <li>
+    <strong>与 PIC 的电光协同仿真</strong>
+    <span>Driver 到 modulator 的路径、PD 到 TIA 的路径、heater 控制、温度漂移和 package parasitics 需要在同一链路里仿真。只看 SPICE 电路或只看 PIC optical model 都难以预测封装后的真实眼图。</span>
+  </li>
+  <li>
+    <strong>die 级制造与测试</strong>
+    <span>EIC wafer 完成后，需要测试 DC、leakage、scan、PLL lock、PRBS、driver swing、TIA gain / bandwidth、ADC / DAC、温度传感器和高速通道可用性，并形成 known-good-die 分档。</span>
+  </li>
+  <li>
+    <strong>封装集成</strong>
+    <span>EIC 可以作为独立裸 die 靠近 PIC，也可以通过 flip-chip、microbump、2.5D interposer、organic substrate、silicon interposer 或 3D stacking 与 PIC / ASIC 集成。互连越短，寄生越低；集成越深，热、良率和返修边界越复杂。</span>
+  </li>
+  <li>
+    <strong>封装后联合验证</strong>
+    <span>完成 CPO optical engine 后，需要验证 eye diagram、BER、TDECQ、receiver sensitivity、lane-to-lane skew、jitter、power integrity、thermal drift、startup calibration 和故障告警。</span>
+  </li>
+</ol>
+
+几种集成路径可以这样比较：
+
+| 路线 | 形态 | 优势 | 约束 |
+|---|---|---|---|
+| 分立 driver / TIA die 靠近 PIC | 多颗 EIC 裸 die 与 PIC 并排或上下邻近 | 工艺选择灵活，便于分别筛选和替换设计 | die 间互连寄生、装配复杂度和测试覆盖需要控制。 |
+| Flip-chip EIC on PIC / interposer | EIC 通过 microbump 贴近 PIC 电极 | 路径短，适合高 lane density 和低寄生 | bump map、热膨胀、可探测性和返修难度上升。 |
+| 2.5D silicon / organic interposer | EIC、PIC、ASIC 或 chiplet 通过中介层互连 | 高密度 routing 和较好阻抗控制 | 成本、良率、热路径和系统级封装复杂。 |
+| Monolithic CMOS photonics / EPIC | 电子和光子在同一工艺或同一 die 上形成 | 寄生最低，面积和能耗潜力高 | 工艺折中明显，光学器件和先进电子器件需共享制造窗口。 |
+| 3D electronic-photonic integration | 电子 die 与 photonic die 垂直集成 | 电路径极短，适合大规模并行光 I/O | 热堆叠、测试、良率和供应链协同难度高。 |
+
+量产时，EIC 的难点还包括电路指标之外的良率与可诊断性。CPO 把多个高价值 die 放入一个封装，单颗 EIC 的潜在缺陷会放大成封装级良率问题。KGD、wafer map、burn-in、封装前高速抽测、封装后联合测试和可观测 telemetry，都是 EIC 成为产品的一部分。
+
+## 关键指标：怎样判断一颗 EIC 是否合格
+
+EIC 指标要按功能分组。单独看最大 lane rate 或工艺节点，无法判断它是否适合某个 CPO 光引擎。
+
+| 指标类别 | 典型参数 | 说明 |
+|---|---|---|
+| Tx driver 能力 | output swing、bandwidth、rise / fall time、jitter、linearity、pre-emphasis、output impedance | 决定调制器能否形成足够 OMA、ER 和低 TDECQ 的光眼图。 |
+| Tx 光电协同 | modulator load、Vpi / VpiL、capacitance、traveling-wave loss、segmentation、bias range | 决定 driver 与 PIC 调制器是否匹配。 |
+| Rx TIA 能力 | transimpedance gain、input-referred noise、bandwidth、saturation current、linearity、return loss | 决定 receiver sensitivity、dynamic range 和 PAM4 线性接收能力。 |
+| SerDes / DSP / CDR | supported lane rate、FFE / DFE / CTLE taps、ADC / DAC resolution、CDR jitter tolerance、BER margin | 决定系统把多少补偿留在光引擎内。 |
+| 电源与热 | pJ/bit、rail count、peak current、supply noise tolerance、junction temperature、thermal sensors | 决定 CPO engine 的功耗密度、散热路径和长期稳定性。 |
+| 封装接口 | bump pitch、pad map、ESD、channel impedance、trace length、PD-to-TIA parasitics、driver-to-modulator parasitics | 决定电路指标能否在封装后保持。 |
+| 控制与监控 | ADC / DAC resolution、monitor range、calibration time、alarm coverage、PRBS / BIST、management access | 决定 bring-up、调试、现场诊断和可靠性管理。 |
+| 量产能力 | wafer-level test coverage、KGD yield、process variation、temperature corners、burn-in result | 决定封装良率和长期供货稳定性。 |
+
+这些指标会相互牵制。提高 driver swing 可能增加功耗和热；提高 TIA gain 可能压缩带宽和动态范围；减少 DSP 可能降低 engine 功耗，却要求更好的 analog linearity 和 host SerDes；缩短 EIC / PIC 互连可降低寄生，却可能提高封装良率和热管理难度。
+
+## 从 EIC 到 PIC / 封装的接口条件
+
+EIC 交给 PIC 和封装团队的是一组接口条件。
+
+| EIC 侧条件 | 传给 PIC / 封装的影响 |
+|---|---|
+| Driver output swing 与阻抗 | 决定 modulator electrode 设计、termination、microbump 数量和 RF routing。 |
+| Driver-to-modulator 路径长度 | 决定 interposer / substrate 走线、return path、反射、损耗和通道间 skew。 |
+| TIA 输入电容预算 | 决定 photodetector 面积、pad、bump、互连长度和 ESD 方案。 |
+| PD-to-TIA placement | 决定接收端噪声、带宽、封装布局和可测试性。 |
+| 电源 rail 与电流峰值 | 决定 package power delivery、decap、VRM 位置和热热点。 |
+| 时钟输入与 lane deskew | 决定 reference clock routing、jitter isolation 和多 lane 同步策略。 |
+| 控制 ADC / DAC 数量 | 决定 PIC heater、bias、monitor tap、ring locking 和 WDM control 的可实现性。 |
+| 温度传感器位置 | 决定 thermal model、告警阈值、校准策略和长期漂移补偿。 |
+| 测试访问 | 决定 wafer probe、package probe、loopback、PRBS、scan 和 failure analysis 能否覆盖关键路径。 |
+
+这些条件会反过来影响 PIC。若 modulator 电容较大，driver 需要更强输出级或更短互连；若 PD 电容较大，TIA 带宽和噪声会承压；若 ring modulator 对温度敏感，EIC 需要更多 heater DAC、monitor ADC 和控制状态；若 package substrate 无法提供足够干净的电源地，driver 和 TIA 的实验室指标会在系统中下降。
+
+因此，EIC 不能被当作放在 PIC 旁边的一颗通用高速芯片。它需要按具体 PIC、封装、ASIC SerDes、光功率预算和测试边界共同定义。
+
+## 总结：EIC 在光引擎里承担什么
+
+EIC 是 CPO 光引擎的电子接口层。它在 Tx 侧把 SerDes 信号变成可驱动调制器的高速波形，在 Rx 侧把 photodetector 电流变成可恢复的数据电压，并通过 CDR、DSP、clock、power、control 和 telemetry 维持光引擎的工作状态。
+
+理解 EIC 时，需要同时看到两条边界。第一条是 PIC / EIC 边界：driver、TIA 和控制电路属于电子侧，modulator、photodetector、waveguide、MUX / DEMUX 和 coupler 属于光子侧。第二条是系统接口边界：retimed、linear、half-retimed 和 direct-drive 方案把信号补偿、时钟恢复和功耗放在不同位置。CPO 的工程价值来自缩短电路径和提高带宽密度；EIC 的工程难度来自把高速模拟、数字补偿、热、电源、封装寄生和测试良率一起做成稳定产品。
+
+进一步阅读：
+
+- [OIF: Implementation Agreements](https://www.oiforum.com/technical-work/implementation-agreements-ias/)
+- [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
+- [Frontiers: Co-packaged optics (CPO): status, challenges, and solutions](https://pmc.ncbi.nlm.nih.gov/articles/PMC10027985/)
+- [OIF / Eoptolink: Linear Drive Optics demo](https://www.oiforum.com/wp-content/uploads/OIF_PLL_Demo_Eoptolink_ECOC2023.pdf)
+- [MACOM: PURE DRIVE Linear Drive Optical Solutions](https://www.macom.com/pure-drive-linear-architecture)
+- [Cadence: 112G-VSR PAM4 SerDes PHY](https://www.cadence.com/en_US/home/tools/silicon-solutions/design-ip/high-speed-ethernet/112g-vsr-pam4-serdes-phy.html)
+- [Broadcom: BCM85812 optical PAM4 DSP PHY with integrated TIA and laser driver](https://www.broadcom.com/products/ethernet-connectivity/phy-and-poe/optical/bcm85812)
+- [IEEE JSSC: 50-Gb/s PAM4 silicon-photonic transmitter with CMOS driver and CDR](https://doi.org/10.1109/jssc.2021.3134874)
+- [CaltechAUTHORS: 100-Gb/s PAM4 3D-integrated SiPh-CMOS transmitter](https://authors.library.caltech.edu/records/40smm-8cd68)
+- [Optica: 100 Gbit/s co-designed optical receiver with hybrid integration](https://opg.optica.org/abstract.cfm?uri=oe-29-10-14304)

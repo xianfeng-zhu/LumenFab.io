@@ -1,0 +1,351 @@
+TECHNOLOGY SOLUTIONS
+
+Copper Pillar
+Copper pillar bump is widely used for many types of flip chip
+interconnect which offers advantages in many designs while
+meeting current and future ROHS requirements. It is an excellent
+interconnect choice for applications such as transceivers, embedded
+processors, application processors, power management, baseband,
+ASICs and SOCs where some combination of fine pitch, ROHS/Green
+compliance, low cost and electromigration performance are required.
+
+BENEFITS OF COPPER PILLAR
+f
+
+Fine pitch capable down to 30 µm
+in-line and 30/60 µm staggered
+
+f
+
+Cost reduction achievable in many
+designs by reducing substrate layer
+counts
+
+f
+
+Superior electromigration
+performance for high-current carrying
+capacity applications
+
+f
+
+Electrical test at wafer level prior to
+copper pillar bump
+
+f
+
+Compatible with bond pad opening/
+pitch and pad metallization of die
+designed for wirebond which enables
+quick time-to-market for conversion
+to flip chip
+
+f
+
+Lower cost fine pitch flip chip (FPFC)
+interconnect versus Au stud bump for
+high bump density designs
+
+f
+
+Lead-free bump cap on copper pillar
+for green solutions
+
+f
+
+Various Cu pillar structures available
+from Cu bar type, standard Cu pillar,
+fine pitch Cu pillar and micro-bumps.
+Also, available in different stackups from Cu+Ni+Pb-free, Cu+Ni+Cu
++Pb-free depending upon application
+requirements
+
+f
+
+Available with and without
+repassivation
+
+f
+
+Qualified for advanced silicon node
+Low-k devices
+
+f
+
+Small fillet requirement for
+underfill enables more aggressive
+die‑to‑package design rule/smaller
+package footprint
+
+f
+
+Extreme fine pitch on silicon package
+down to 30 µm for TSV and CoC
+
+f
+
+Large installed capacity for turnkey
+FPFC copper pillar bump, assembly
+and test
+
+Peripheral Cu pillar bump
+
+Full array Cu pillar bump
+
+FCBGA chip to chip bonding with Cu pillar
+
+Copper Pillar Bump Design Rules
+A
+
+B
+
+Feature
+
+Dimensions
+
+A
+
+Cu Pillar Diameter
+
+20-65 µm
+
+B
+
+Total Height
+
+20-75 µm
+
+I
+
+J
+
+K
+
+L
+
+C
+A
+B
+D
+
+E
+C
+
+Pitch
+
+General Design
+Rules
+
+60
+
+50
+
+45/90
+
+40/80
+
+30/60
+
+C
+
+Row to Row Pitch
+
+N/A
+
+N/A
+
+90
+
+80
+
+60
+
+D
+
+Bond Pad Width
+
+30
+
+25
+
+22
+
+20
+
+TBD
+
+E
+
+Trace Pitch
+
+60
+
+50
+
+45
+
+40
+
+30
+
+F
+
+Solder mask
+
+J
+
+Si Wafer
+
+G
+
+Bond pad
+
+K
+
+UBM
+
+H
+
+Die pad opening
+
+L
+
+Al pad
+
+I
+
+Passivation
+
+Soldermask
+F
+
+H
+
+G
+
+Bond Pad
+
+Die Pad Opening
+
+Cross Sections
+
+Bare die PoP
+
+Molded PoP
+
+TMV® PoP
+
+fcCSP
+
+FlipStack® CSP
+
+F2F FlipStack® CSP
+
+FCBGA
+
+Copper Pillar
+Electromigration Reliability Comparison of Cu Pillar With SnAg Bump
+
+Cumulative % failed
+
+Actual failure
+distribution for
+SnAg bump
+
+50
+
+Improvement of
+Cu pillar over standard
+SnAg bump
+
+10
+5
+
+1
+
+10
+
+100
+
+1000
+
+10000
+
+100000
+
+Failure time (hours)
+The above plot shows improvement in life for Cu pillar over SnAg bump for the same current/temperature condition
+and similar bump/UBM geometry. No failure was observed in Cu pillar bump even after 8000 hours of testing at the
+same condition.
+
+SQB Results
+Test
+
+Test Conditions
+
+Read Point
+
+SS
+
+Results
+
+MSL3
+
+30/60-192
+
+260°C 3x
+
+77 x 12 Lots
+
+Pass
+
+T/C B
+
+-55°C/+125°C
+
+1000x
+
+77 x 3 Lots
+
+Pass
+
+HAST
+
+130°C/85% RH
+
+96 Hrs
+
+77 x 3 Lots
+
+Pass
+
+T&H
+
+85°C/85% RH
+
+1000 Hrs
+
+77 x 3 Lots
+
+Pass
+
+HTS
+
+150°C
+
+1000 Hrs
+
+77 x 3 Lots
+
+Pass
+
+Visit amkor.com or email sales@amkor.com for more information.
+With respect to the information in this document, Amkor makes no guarantee or warranty of its accuracy or that the use of such
+information will not infringe upon the intellectual rights of third parties. Amkor shall not be responsible for any loss or damage of
+whatever nature resulting from the use of, or reliance upon it and no patent or other license is implied hereby. This document does not
+in any way extend or modify Amkor’s warranty on any product beyond that set forth in its standard terms and conditions of sale. Amkor
+reserves the right to make changes in its product and specifications at any time and without notice. The Amkor name and logo are
+registered trademarks of Amkor Technology, Inc. All other trademarks mentioned are property of their respective companies.
+© 2019 Amkor Technology, Incorporated. All Rights Reserved. TS106D-EN Rev Date: 02/19
+
+

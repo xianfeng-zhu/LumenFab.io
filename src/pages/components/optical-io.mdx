@@ -1,46 +1,298 @@
 ---
 layout: ../../layouts/ConceptLayout.astro
-title: Optical I/O / fiber coupling
-chapter: CPO Components
-description: Optical I/O 解释 PIC 与 fiber array、connector、edge coupling、grating coupling 和光路插损之间的关系。
+title: Optical I/O / 光纤耦合
+chapter: 光引擎组件
+description: 解释 PIC 与 fiber array、edge coupler、grating coupler、lens、connector 和封装光路之间的接口：模式匹配、插损、反射、偏振、对准与可制造性。
 ---
 
-## What This Component Does
+import TermNote from "../../components/TermNote.astro";
 
-Optical I/O 把芯片里的光接到芯片外。它通常包括 edge coupler、grating coupler、fiber array、lens、connector、光纤走线和相关的对准结构。
+## Optical I/O 的器件边界
 
-它值得单独作为入口，因为 CPO 的难点不只是把芯片放近，还包括让大量光通道稳定、低损耗、可装配、可测试地离开封装。
+Optical I/O 是 PIC 与封装外部光路之间的接口层。它把芯片里的光学模式变成 fiber array、connector、package optical waveguide 或外部光纤能够承载的模式，也把外部连续光或接收光稳定地送回 PIC。这个边界通常包含 edge coupler、grating coupler、spot-size converter、fiber array unit、lens、ferrule、connector、胶水、对准标记、测试结构和封装内的光纤走线。
 
-## Detail Entrypoints
+<TermNote label="Optical I/O" note="optical input/output，光输入输出接口。在光引擎中，它指芯片光路与封装、光纤、连接器之间的光学接口，覆盖 coupler、FAU、lens、connector 和相关测试边界。" /> 的核心问题是模式转换。PIC 波导里的模式通常很小，并且由高折射率差和矩形截面强烈约束；单模光纤里的模式更大，更接近圆形，并且由玻璃芯包结构弱约束。两者直接相接会产生较大的模式失配、反射和装配敏感性。Optical I/O 的任务，就是用可制造、可测试、可长期稳定的方式把这两个世界接起来。
 
-### Physics
+这层接口与 [PIC / optical circuit](../pic/) 相邻，但它的关注点不同。PIC 负责在芯片内路由、分光、调制、复用、监控和探测；optical I/O 负责把片上光路交给 fiber array、封装光路和系统连接器。光源怎样产生可用连续光见 [激光源](../laser-source/)；die 放置、散热、应力和返修边界见 [Package integration](../packaging/)；光耦合测试、KGD 和封装后验证见 [Manufacturing and test](../manufacturing-test/)。
 
-- [Refractive index and total internal reflection](../../learn/refractive-index-and-total-internal-reflection/)
-- [Waveguides and optical modes](../../learn/waveguides-and-optical-modes/)
-- [Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)
-- [Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)
+一个实用的 optical I/O 边界可以写成：
 
-### Related Structures
+```text
+PIC waveguide
+→ spot-size converter / edge coupler 或 grating coupler
+→ lens、fiber array 或 package optical waveguide
+→ ferrule / connector / pigtail
+→ system fiber path
+```
 
-- [SOI and Photonics-SOI](../../learn/soi-and-photonics-soi/)
-- [Inside a transceiver](../../learn/inside-a-transceiver/)
+反向接收路径按相同边界回到 PIC。对于外置激光源架构，连续光还会从 ELSFP、保偏光纤和盲插连接器进入 optical engine，再经 optical I/O 送入 PIC 的输入 coupler。
 
-### Later Deep Dives
+## 为什么 CPO 会提高 optical I/O 要求
 
-- Edge coupler.
-- Grating coupler.
-- Fiber array unit.
-- Active and passive alignment.
-- Coupling loss budget.
-- Detachable fiber connector.
-- Fiber routing inside a CPO system.
+CPO 把 optical engine 放到 switch ASIC 附近，主要收益来自缩短高速电路径。这个系统位置会把 optical I/O 推向更高密度、更低损耗和更强装配约束：
 
-## Common Boundaries
+- 高 lane count 会带来大量 Tx / Rx 光通道和可能的外部供光通道，fiber pitch、fiber escape、connector size 和装配吞吐量会进入系统设计。
+- 光引擎靠近高功耗 ASIC 后，局部温度、封装应力和热循环会影响 coupler、胶水、FAU 和 lens 的长期对准。
+- 外置激光源把连续光从可维护位置送入 optical engine，增加了 PM fiber、MT ferrule、盲插连接器、清洁度、反射和功率安全要求。
+- CPO 封装价值高，封装后返修困难；optical I/O 的插损、通道一致性和可测试性会直接影响 known-good-die、封装良率和现场维护。
+- 光功率预算更紧。coupler、connector、fiber bend、lens、MUX / DEMUX 和 monitor tap 的每一处损耗，都会反向抬高激光功率、热负载和可靠性要求。
 
-- Optical I/O is not just packaging glue.
-- Coupling loss is not only a PIC design issue.
-- Fiber connector and fiber routing can dominate manufacturability and serviceability.
+因此，CPO 语境下的 optical I/O 是光学、电学、机械和量产边界的共同接口。它既要让光低损耗通过，又要让多通道装配可重复、可检查、可清洁、可测试，并在温度和时间变化中保持稳定。
 
-## Short Version
+## 工作原理：片上模式怎样进入光纤
 
-Optical I/O is the boundary where chip-scale optical modes become system-level fiber links. It belongs near packaging, but it deserves its own entrance.
+光耦合可以从一束光离开 PIC 波导的过程理解。光场是一种满足边界条件的 <TermNote label="光学模式" note="optical mode，满足波导或光纤边界条件的稳定光场分布。模式决定光场大小、形状、偏振和传播常数。" />，需要按场分布和相位关系来处理。良好的 optical I/O 设计会让输入模式逐渐变成输出模式，减少被散射、反射或耦合到高阶模式的光。
+
+<ol className="stage-list">
+  <li>
+    <strong>Mode matching 决定耦合效率</strong>
+    <span>PIC 波导模式与光纤模式的重叠越大，耦合效率越高。标准通信单模光纤的 mode-field diameter 通常在 9-10 um 量级，而硅光纳米波导的模式尺寸小得多，因此需要 taper、spot-size converter、SiN 层、polymer waveguide 或 lens 把模式逐步扩大并调到合适位置。</span>
+  </li>
+  <li>
+    <strong>Edge coupler 从芯片边缘做横向耦合</strong>
+    <span>edge coupler 把光沿芯片平面方向送出。典型结构会把 silicon 或 SiN waveguide 逐渐 taper，让模式从强约束小模式扩展成更接近光纤的模式。它通常适合宽光谱、低插损和较低偏振相关损耗的路径，但需要芯片边缘、端面加工、FAU 或 lens 与封装夹具配合。</span>
+  </li>
+  <li>
+    <strong>Grating coupler 从芯片表面做垂直或斜向耦合</strong>
+    <span>grating coupler 利用周期结构把片上导模衍射到芯片表面外，或把外部光衍射进波导。它便于 wafer-level probing 和芯片表面任意位置测试，也能简化早期 PIC 验证；代价是带宽、偏振、反射、向上/向下辐射和工艺敏感性需要仔细设计。</span>
+  </li>
+  <li>
+    <strong>FAU 把多根光纤固定成可装配接口</strong>
+    <span><TermNote label="FAU" note="fiber array unit，光纤阵列单元。它把多根光纤以规定 pitch 固定在玻璃、硅 V-groove 或 ferrule 结构中，使多通道光纤能一起与 PIC 或封装光路对准。" /> 决定光纤 pitch、端面角度、光纤高度、平面度和通道一致性。多通道 CPO 光引擎依赖 FAU 把单个 coupler 的光学设计转化成批量装配能力。</span>
+  </li>
+  <li>
+    <strong>Lens 与 package optical path 放大对准窗口</strong>
+    <span>lensed fiber、microlens、collimating lens、polymer optical waveguide 或 glass interposer 可以调整光束大小、发散角和传播距离。它们能提高装配窗口，也会引入新的表面反射、焦距误差、胶水收缩和热漂移变量。</span>
+  </li>
+  <li>
+    <strong>Reflection 会沿光路返回系统</strong>
+    <span>端面、grating、fiber end、lens、ferrule 和 connector 都可能产生返回光。返回光会扰动激光器、改变 RIN / SMSR，或影响 ring、MZM bias、PD 和监控路径。端面角度、AR coating、index-matching、隔离器、倾斜入射和低反射 connector 都是控制反射的常见手段。</span>
+  </li>
+  <li>
+    <strong>Polarization 决定光是否进入正确模式</strong>
+    <span>硅光波导和很多 coupler 对 TE / TM 模式敏感。外置连续光进入 PIC 时，偏振方向需要与 coupler 和片上器件匹配；PM fiber、ferrule 中的旋转角、PER 和装配标记都会成为接口条件。偏振误差会表现为插损、lane 不一致或调制器工作点异常。</span>
+  </li>
+</ol>
+
+用链路语言表示，一条封装内 Tx 出光路径常像这样：
+
+```text
+modulated PIC output
+→ edge coupler 或 grating coupler
+→ FAU / lens / package optical waveguide
+→ connector 或 pigtail
+→ front-panel fiber path
+```
+
+外置供光路径则常像这样：
+
+```text
+ELSFP / external laser source
+→ PM fiber / MT ferrule / blind-mate connector
+→ package optical path
+→ PIC input coupler
+→ splitter and modulator array
+```
+
+## 制造与装配路径：从 coupler 版图到封装光路
+
+Optical I/O 的制造不止发生在晶圆厂。coupler 和 spot-size converter 属于 PIC 工艺，FAU、lens、胶水、ferrule、连接器和光纤走线属于封装与装配工艺，测试又贯穿两边。
+
+<ol className="stage-list">
+  <li>
+    <strong>定义 PIC 侧 coupler 与测试结构</strong>
+    <span>PDK 或版图中先确定 edge coupler、grating coupler、spot-size converter、test loopback、reference waveguide 和 monitor tap。这里决定了模式大小、coupler pitch、支持的偏振、目标波段和可测方式。</span>
+  </li>
+  <li>
+    <strong>制造波导、taper、光栅和 cladding</strong>
+    <span>通过光刻、刻蚀、沉积、CMP 或后端 SiN / polymer 工艺形成模式转换结构。edge coupler 可能需要 inverse taper、SiN 层、substrate removal 或端面结构；grating coupler 需要控制周期、刻蚀深度、填充因子、反射层或方向性设计。</span>
+  </li>
+  <li>
+    <strong>准备芯片边缘或表面耦合区域</strong>
+    <span>edge coupling 需要 dicing、cleaving、polishing、facet inspection 和可能的 AR coating；grating coupling 需要表面开窗、保护层厚度控制和可接近的垂直光路。两类方案都会受颗粒、污染、划伤和膜厚误差影响。</span>
+  </li>
+  <li>
+    <strong>组装 FAU、lens 与 package optical path</strong>
+    <span>装配会用主动对准或被动对准方式寻找最大耦合位置，再点胶、UV 固化或热固化。多通道接口还要控制 pitch、roll / pitch / yaw、端面角、Z 高度、胶水收缩和热膨胀。</span>
+  </li>
+  <li>
+    <strong>连接 ferrule、pigtail 或 blind-mate optical connector</strong>
+    <span>系统级光路可能采用 pigtail、MPO / MT 类多芯连接器、ELSFP 盲插接口或板上 / 封装内光路。连接器给系统带来可维护性，也会增加插损、反射、清洁度和可追溯性要求。</span>
+  </li>
+  <li>
+    <strong>执行 wafer、die、package 和 link 级测试</strong>
+    <span>测试会测量 coupler loss、fiber-to-fiber loss、channel uniformity、PDL、return loss、alignment tolerance、thermal cycling 后漂移和 link-level eye / BER。CPO 中，封装前筛选和封装后定位同样重要。</span>
+  </li>
+</ol>
+
+这条路径的关键在于：好的 coupler 设计需要被可重复的装配路径承接。若装配窗口太窄，单颗器件在实验室可以低损耗耦合，量产中仍会表现为吞吐量低、通道离散性大和返修成本高。
+
+## 1. Mode matching：耦合效率的核心
+
+耦合效率可以从模式重叠理解。输入光场与目标波导或光纤的本征模式越相似，进入目标模式的功率比例越高；不匹配的部分会变成反射、散射、辐射模式、包层模式或高阶模式。
+
+片上波导与光纤之间的差异主要来自四个方面：
+
+| 差异 | PIC 波导 | 单模光纤 | 对 optical I/O 的影响 |
+|---|---|---|---|
+| 模式尺寸 | 高折射率差、强约束，模式常在微米以下到少数微米 | 弱约束，mode-field diameter 约 9-10 um 量级 | 需要 spot-size converter、taper、SiN / polymer waveguide 或 lens。 |
+| 模式形状 | 常为椭圆或矩形近似，TE / TM 差异明显 | 更接近圆形高斯分布 | 需要优化横向、纵向和偏振匹配。 |
+| 有效折射率 | 受 silicon、SiN、oxide、polymer 等材料影响 | 由玻璃芯包折射率差决定 | 折射率突变会带来 Fresnel reflection 和模式散射。 |
+| 装配坐标 | coupler 在 die 边缘或表面，受 dicing / passivation / cladding 影响 | 光纤由 FAU、ferrule 或 lens 固定 | 需要定义 pitch、角度、Z 高度和对准容差。 |
+
+<TermNote label="MFD" note="mode-field diameter，模场直径。它描述单模光纤中主模式光场的有效直径，比几何芯径更能反映耦合时看到的光场大小。" /> 是理解尺度差异的好入口。通信单模光纤虽然玻璃包层直径通常为 125 um，但耦合关心的是中心模式的有效直径。PIC 设计会把芯片端模式扩大到与光纤 MFD 更接近的尺度，并通过 taper 让模式变化足够缓慢，使光保持在基模中传播。
+
+模式匹配也决定装配容差。模式越小，横向偏移、角度误差和间隙变化造成的损耗越大；模式越大，对准窗口通常更宽，但器件面积、串扰、基底泄漏和封装空间会增加。optical I/O 的设计经常是在低损耗、宽带宽、低 PDL、短长度、宽装配窗口和高通道密度之间取平衡。
+
+## 2. Edge coupler：从芯片边缘出光
+
+Edge coupler 通过芯片边缘让光沿片上波导方向进入或离开 PIC。它适合把 PIC 与 fiber array、lensed fiber、polymer waveguide 或光学 interposer 连接起来。
+
+典型 edge coupler 的结构思想是让模式逐渐变化：
+
+```text
+small Si / SiN waveguide mode
+→ inverse taper / multi-layer taper
+→ expanded mode near chip facet
+→ fiber, lens, polymer waveguide or FAU mode
+```
+
+这种方式的优势主要体现在光谱和偏振窗口。edge coupler 依靠渐变模式转换工作，通常可获得较宽工作带宽，适合多波长、外置供光和高光功率路径；通过 SiN、polymer 或特殊 taper 设计，也可以让 TE / TM 差异变小。它的工程约束集中在芯片边缘：需要端面质量、边缘 keepout、dicing / polishing 流程、FAU 对准空间、胶水工艺和机械保护。
+
+Edge coupler 的常见变量包括：
+
+| 变量 | 作用 |
+|---|---|
+| taper tip width / taper length | 控制模式从小波导到大模式的变化速度；变化太快会产生辐射损耗或高阶模式。 |
+| SiN / polymer 辅助层 | 把光场从 silicon nano-waveguide 拉到更大、更低折射率的模式中，提高与光纤或封装光路的重叠。 |
+| facet angle / AR coating | 降低返回反射，并改善外部光路稳定性。 |
+| substrate removal / undercut | 防止扩大的模式泄漏到 silicon substrate。 |
+| FAU pitch 与 chip edge pitch | 决定多通道能否一次性对准和固定。 |
+
+Edge coupler 的量产难点来自“需要从边缘装配”。晶圆级测试可以借助 grating coupler 或特殊边缘探针完成，但最终产品需要在切割后的 die 或封装中完成边缘光路装配。对 CPO 高通道数方案来说，edge coupler 的吸引力很强，但它必须与 FAU、package edge、optical RDL 和自动化装配设备一起设计。
+
+## 3. Grating coupler：从芯片表面出光
+
+Grating coupler 把片上导模通过周期结构衍射到芯片表面外，也可以把外部光衍射进波导。它的最大工程价值是表面可访问性：测试光纤可以从上方接触 wafer 或 die，方便 wafer-level test、早期 PDK 表征、loopback 结构和多位置 probing。
+
+一个简化的 grating coupler 可以理解为：
+
+```text
+fiber beam from above
+→ grating region diffracts light
+→ tapered waveguide collects selected mode
+→ PIC waveguide
+```
+
+Grating coupler 的设计变量包括 period、duty cycle、etch depth、fiber tilt angle、apodization、bottom reflector、taper angle、cladding thickness 和支持的偏振。它通过相位匹配和方向性控制，把自由空间或光纤中的光耦合到片上波导。
+
+它的优势与约束可以并列看：
+
+| 方面 | Grating coupler 的特点 |
+|---|---|
+| 测试便利性 | 支持从芯片表面耦合，适合 wafer-level optical test 和快速筛选。 |
+| 布局自由度 | coupler 可以放在芯片内部位置，不需要所有光口都位于 die 边缘。 |
+| 光谱带宽 | 受衍射结构和相位匹配限制，通常比宽带 edge coupler 更敏感。 |
+| 偏振 | 1D grating 常对 TE / TM 有明显选择性；2D grating 或 polarization-diversity 设计可改善。 |
+| 反射 | 垂直或近垂直结构可能把部分光反射回输入路径，需要倾斜耦合或结构优化。 |
+| 封装高度 | 表面入射需要给光纤、lens 或 mirror 留出空间，可能影响上方散热和机械结构。 |
+
+在产品中，grating coupler 常用于测试和某些垂直耦合封装；edge coupler 常用于追求更低插损、更宽带宽或高功率输入的路径。真实方案会根据 wafer test、封装形式、光纤数量、散热空间和光功率预算选择。
+
+## 4. FAU、lens 与 package optical path
+
+Coupler 设计只解决芯片端模式转换，封装还需要把多根光纤或封装光路以稳定几何关系固定下来。FAU、lens、ferrule 和 optical RDL 是这层工程的核心。
+
+FAU 通常把多根光纤固定在玻璃块、硅 V-groove 或精密 ferrule 中。设计时要关注：
+
+| 项目 | 为什么重要 |
+|---|---|
+| fiber pitch | 必须匹配 PIC coupler pitch、package optical waveguide pitch 或 connector pitch。 |
+| end-face angle | 影响反射、有效光路长度和光束指向。 |
+| fiber height / planarity | 影响所有通道能否同时对准；单通道最佳位置不能牺牲其他通道。 |
+| epoxy / adhesive | 固化收缩、吸湿、热膨胀和老化会引起长期漂移。 |
+| polish quality / cleanliness | 颗粒和划伤会增加插损、反射，甚至在高功率路径中造成损伤。 |
+| mechanical strain relief | 光纤弯曲、拉力和热循环会把应力传回 coupler 区域。 |
+
+Lens 可以位于光纤端、芯片附近或封装光路中。lensed fiber 把光纤端做成微透镜，提高与小模式或远距离自由空间路径的耦合；microlens array 可以同时处理多通道；collimating lens 可以把光束变成近似平行光，再由另一颗 lens 或 coupler 接收。Lens 提高了设计自由度，也带来焦距、倾角、表面反射、胶水定位和热漂移问题。
+
+Package optical path 还可能引入 polymer optical waveguide、glass waveguide、optical interposer 或 optical redistribution layer。它们把 PIC 边缘的高密度光口重新分配到封装边缘或更适合连接器的位置。这个思路对 CPO 很重要，因为 ASIC 周围空间紧、光纤弯曲半径有限、散热器占据上方区域，直接让所有光纤靠近 PIC 装配往往会压缩机械和热设计空间。
+
+## 5. Reflection 与 polarization
+
+Reflection 和 polarization 经常在插损之后才被注意到，但它们会直接影响光源稳定性、PIC 工作点和系统可维护性。
+
+返回反射来自折射率突变和周期结构。fiber-air、fiber-glue、glue-facet、lens-air、grating、connector end-face 和 PIC facet 都可能产生反射。对连续光源路径来说，返回光可能进入 DFB 激光器或外部激光源，增加强度噪声、扰动单模稳定性，或让控制环路读数变差。对接收路径来说，反射会形成多径干涉、相干串扰或监控误差。
+
+常见反射控制手段包括：
+
+- 端面角度抛光，例如多芯 ferrule 或 fiber array 使用倾斜端面降低正向回反。
+- AR coating 或低反射表面设计，降低 Fresnel reflection。
+- index-matching material，减小空气间隙和折射率突变。
+- grating coupler 采用倾斜入射、方向性结构或反射层优化。
+- laser path 根据系统需求加入 isolator 或反射容忍设计。
+
+Polarization 的核心问题是 PIC 器件往往区分 TE 和 TM。硅光高折射率差波导、grating coupler、ring、MZM 和 splitter 都可能对偏振有不同损耗和相位响应。外置激光源向 PIC 供光时，PM fiber 会把偏振保持在指定方向；MT ferrule 或 FAU 中的旋转角需要与 PIC coupler 的 TE/TM 方向匹配。若旋转误差、应力双折射或 fiber routing 改变偏振，系统会看到输入功率下降、lane 间功率不均、调制器偏置变化或 PER 下降。
+
+PM fiber 的意义可以这样理解：普通单模光纤能保持单个空间模式，但偏振态会随应力、弯曲和温度变化；保偏光纤通过应力结构引入双折射，让指定偏振轴更稳定。CPO 外置供光路径常重视 PM fiber 和 ferrule 方向，因为 PIC 输入 coupler 与片上波导通常期待明确的偏振方向。
+
+## 6. 关键指标：怎样判断 optical I/O 是否合格
+
+Optical I/O 的指标要同时覆盖单个接口和多通道封装。只看最佳通道的最低插损，无法判断产品是否可量产。
+
+| 指标类别 | 代表参数 | 主要反映什么 |
+|---|---|---|
+| 插损 | coupling loss、fiber-to-fiber insertion loss、connector loss、lens loss | 光功率预算是否足够，laser power 和 Rx sensitivity 是否被过度消耗。 |
+| 通道一致性 | channel-to-channel variation、skew、pitch error | 多 lane 输出功率是否均衡，装配是否可重复。 |
+| 对准窗口 | 1 dB / 3 dB alignment tolerance、x/y/z、pitch/yaw/roll tolerance | 主动对准难度、被动对准可行性和量产吞吐量。 |
+| 光谱与偏振 | bandwidth、PDL、PER、TE/TM coupling ratio | 是否支持目标 O-band / C-band、WDM 波段和偏振敏感 PIC。 |
+| 反射 | optical return loss、back reflection、facet reflection | 对激光源、resonator、monitor 和接收链路的扰动风险。 |
+| 可靠性 | thermal cycling drift、humidity、adhesive aging、mechanical shock、fiber pull | 长期对准、胶水、端面和光纤应力是否稳定。 |
+| 可制造性 | assembly time、active/passive alignment yield、rework rate、cleaning access | 是否能从实验室耦合进入规模生产。 |
+| 可测试性 | wafer-level probing、package-level loopback、reference coupler、monitor tap | 能否在封装前后定位损耗和失效。 |
+
+这些指标会相互牵制。扩大模式可放宽对准容差，却可能增加 coupler 长度、基底泄漏和通道间距；增加 connector 可提高可维护性，却引入额外插损和清洁风险；选择 grating coupler 可改善 wafer test，却可能牺牲带宽或 PDL；选择 edge coupler 可改善功率和带宽，却对芯片边缘和装配设备提出更高要求。
+
+## 7. 从 optical I/O 到 PIC / 封装的接口条件
+
+Optical I/O 向 PIC 和封装交付的是一组接口条件。它们需要在版图、封装、测试和系统预算中同时成立。
+
+| 接口条件 | 传给 PIC 的影响 | 传给封装 / 系统的影响 |
+|---|---|---|
+| coupler 类型 | 决定 edge / grating 版图、测试结构、偏振、波段和 PDK 模型。 | 决定从边缘还是表面装配，影响散热器、FAU 和测试夹具。 |
+| coupler pitch 与通道数 | 决定 PIC 光口布局、splitter / MUX / DEMUX 排布和 keepout。 | 决定 FAU、ferrule、connector、fiber routing 和 front-panel density。 |
+| 模式尺寸与数值孔径 | 决定 spot-size converter、taper 和模式仿真。 | 决定 lensed fiber、microlens、polymer waveguide 或直接 butt coupling 方案。 |
+| 插损预算 | 决定 PIC 内部 splitter、modulator、MUX 和 monitor 的功率分配。 | 决定 laser output、ELS path、connector 数量和 link margin。 |
+| PDL / PER | 决定 TE/TM 设计、polarization diversity 或 PM input 需求。 | 决定 PM fiber、ferrule 方向、装配标记和 fiber routing 控制。 |
+| return loss | 决定 laser feedback tolerance、ring / monitor 稳定性和模型边界。 | 决定端面角度、AR coating、connector 类型、清洁和隔离策略。 |
+| 对准容差 | 决定 coupler 长度、模式大小和 wafer test 方法。 | 决定主动/被动对准、设备精度、胶水工艺和良率模型。 |
+| 测试结构 | 决定 reference coupler、loopback、tap 和 wafer map 数据。 | 决定封装后 loss 分解、返修定位和出厂测试覆盖。 |
+
+在 CPO 中，optical I/O 常常会反向改变架构。若 coupler pitch 太大，PIC 边缘放不下足够通道；若 surface coupling 占用上方空间，散热器和机械压合会受影响；若 connector 插损过高，激光源功率和热设计会被抬高；若 PM fiber 走线不稳定，PIC 输入功率可能随应力和温度变化。这个接口层因此需要在 PIC 设计早期就与封装团队共同定义。
+
+## 8. 总结：Optical I/O 在光引擎里承担什么
+
+Optical I/O 是芯片光路通向系统光路的转换层。它把 PIC 的小模式、高密度、高偏振敏感光口，转换成 fiber array、lens、connector、package optical waveguide 和系统光纤能够稳定承载的接口。
+
+理解 optical I/O 时，先看模式匹配，再看装配路径。edge coupler、grating coupler、FAU、lens、MT ferrule 和 PM fiber 都是围绕同一个目标服务：让每一条光通道以可制造、可测试、低损耗、低反射、偏振可控的方式离开或进入光引擎。CPO 提高了这层接口的重要性，因为大量光通道需要在更紧的封装空间、更高的功率密度和更低的返修余量中长期工作。
+
+进一步阅读：[Waveguides and optical modes](../../learn/waveguides-and-optical-modes/)、[Refractive index and total internal reflection](../../learn/refractive-index-and-total-internal-reflection/)、[Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)、[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)、[Inside a transceiver](../../learn/inside-a-transceiver/)。
+
+## 资料来源
+
+**CPO optical interface 与封装边界**
+
+- [imec: Interfacing silicon photonics for high-density co-packaged optics](https://www.imec-int.com/en/articles/interfacing-silicon-photonics-high-density-co-packaged-optics)
+- [imec: Silicon photonics technology for next-generation datacenter interconnects](https://www.imec-int.com/en/imec-magazine/imec-magazine-december-2019/silicon-photonics-technology-for-next-generation-datacenter-interconnect)
+- [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
+- [OIF: External Laser Small Form Factor Pluggable Implementation Agreement](https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf)
+- [OIF: Management of External Light Sources and Co-Packaged Optical Engines](https://www.oiforum.com/wp-content/uploads/OIF-MGT-Co-Packaging-ELSFP-01.0.pdf)
+
+**耦合器、装配与光纤接口**
+
+- [Fraunhofer IZM: Fiber coupling and attachment to integrated waveguides](https://www.izm.fraunhofer.de/en/abteilungen/system_integrationinterconnectiontechnologies/arbeitsgruppen/wg-optical-interconnection-technology/waveguide-coupler.html)
+- [Ansys Optics: Edge coupler](https://optics.ansys.com/hc/en-us/articles/360042305354-Edge-coupler)
+- [Applied Sciences: Edge Couplers in Silicon Photonic Integrated Circuits: A Review](https://www.mdpi.com/2076-3417/10/4/1538)
+- [Photonics: Grating Couplers on Silicon Photonics](https://pmc.ncbi.nlm.nih.gov/articles/PMC7407772/)
+- [Molex: ELSFP Interconnect System](https://www.molex.com/en-us/products/optical-solutions/elsfp-interconnect-system)
+- [Corning: SMF-28 Contour Fit Optical Fiber](https://www.corning.com/media/worldwide/coc/documents/Fiber/PI-1501.pdf)

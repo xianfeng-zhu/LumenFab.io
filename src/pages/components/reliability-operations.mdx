@@ -1,59 +1,296 @@
 ---
 layout: ../../layouts/ConceptLayout.astro
-title: Reliability and operations
-chapter: CPO Components
-description: Reliability and operations 解释 CPO 在温度、老化、可维护性、失效定位和长期运行中的工程约束。
+title: 可靠性与运营
+chapter: 光引擎组件
+description: 解释 CPO 光引擎长期运行中的老化、温漂、冗余、现场维护、运行监控和失效定位。
 ---
 
-## What This Flow Does
+import TermNote from "../../components/TermNote.astro";
 
-Reliability and operations 关注的是 CPO 能否长期稳定运行。它跨越 laser、PIC、EIC、optical I/O、package、thermal design 和 system management。
+## 可靠性与运营的流程边界
 
-典型问题包括：
+可靠性与运营关注光引擎离开实验室之后的状态：它能否在数据中心长期保持链路质量，能否在温度、老化、灰尘、振动、热循环和器件漂移中维持可用性，能否在出现异常时被快速定位并恢复服务。<TermNote label="telemetry" note="运行遥测数据。光引擎会持续上报温度、电流、光功率、误码、告警、控制环路状态等指标，系统用这些数据判断健康状态和维护时机。" /> 是可靠性运营的基本输入。
 
-- laser aging and burn-in。
-- wavelength drift。
-- thermal cycling。
-- mechanical stress。
-- connector and fiber handling。
-- field replacement。
-- fault isolation。
-- link flap and system-level availability。
+这个页面讨论的对象是 CPO 光引擎和外置光源在系统里的长期运行边界。它横跨 [激光源](../laser-source/)、[PIC / optical circuit](../pic/)、[EIC / driver and receiver](../eic/)、[Optical I/O / fiber coupling](../optical-io/)、[Package integration](../packaging/) 和 [Manufacturing and test](../manufacturing-test/)。前几页分别解释器件怎样工作、怎样封装和怎样出厂筛选；本页把这些层级放回运行现场，看性能余量怎样随时间消耗，以及系统怎样提前发现、隔离和处理故障。
 
-## Detail Entrypoints
+相关基础页可先读 [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)、[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)、[Interference, resonance, and loss](../../learn/interference-resonance-and-loss/) 和 [Inside a transceiver](../../learn/inside-a-transceiver/)。
 
-### Existing Pages
+可靠性可以分成三层：
 
-- [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)
-- [Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)
-- [Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)
-- [Inside a transceiver](../../learn/inside-a-transceiver/)
+- **器件可靠性**：laser、modulator、photodetector、heater、driver、TIA、microbump、fiber attach 等单元能否在应力下维持规格。
+- **封装可靠性**：多颗 die、光纤阵列、散热结构、底填料、焊点、连接器和外壳能否在热循环、机械应力和湿热环境中保持对准、电连接和热路径。
+- **运营可靠性**：系统能否利用 telemetry、告警阈值、冗余、维护流程和流量调度，把局部退化控制在可服务范围内。
 
-### Later Deep Dives
+因此，本页的核心问题是长期运行中的可用余量。一个光引擎出厂时可能具有足够低的 BER 和足够高的 OMA；几年运行后，激光器输出功率下降、PIC 工作点移动、EIC 温度上升、连接器插损变大或控制环路接近饱和，都会把这份余量逐步吃掉。
 
-- Laser lifetime, aging curves, and failure modes.
-- Micro-TEC and advanced thermal control loop.
-- Package mechanical stress and alignment drift.
-- Optical fiber connector handling and dust mitigation.
-- Field-replaceable units (FRU) for external laser sources.
-- Real-time diagnostic monitoring and telemetry interface.
+## 为什么 CPO 会提高可靠性与运营要求
 
-### 激光器寿命与光源冗余
+CPO 把 optical engine 放到 switch ASIC 附近，缩短高速电路径，降低 SerDes 到光引擎之间的电损耗和封装寄生。这个架构收益会同时改变可靠性边界：
 
-数据中心交换机对可用性要求很高。光电集成系统里，III-V 半导体激光器会受到温度、电流密度、反射、端面状态和材料缺陷影响，可能出现输出功率衰减、波长漂移、噪声上升或突发失效。
+- 光引擎靠近高功耗 ASIC，局部温度场、热梯度和热循环更复杂，PIC 和 EIC 的工作点更容易互相影响。
+- 光学接口从可插拔模块前面板移向封装内或板内路径，返修难度提高，现场维护流程需要提前设计。
+- 多个光引擎围绕同一颗昂贵 ASIC 工作，单个光通道的故障会进入系统可用性、流量调度和集群吞吐预算。
+- 激光源可以内置在光引擎中，也可以通过 ELS / ELSFP 外置供光。外置光源改善热分离和可替换性，同时引入更长光路、更多连接界面、连接器污染和功率安全管理。
+- CPO 端口数量很高，connector、fiber、lane、laser 和 control loop 的数量增加后，尾部分布会变得重要。少数高插损连接器或少数漂移很快的 lane，足以成为现场问题。
 
-CPO 相关系统通常从三个层面管理这些风险：
+OIF 的 CPO 框架把 co-packaged engine 视为比前面板可插拔模块更难现场服务的对象，并要求在组件和系统层面建立可靠性框架。对于 AI / ML 网络，链路故障对集群有效带宽和连通性的影响更明显，所以可靠性设计需要同时考虑早期失效筛选、随机失效目标、老化预警、冗余和降级运行。
 
-- **寿命衰减监控（Degradation Monitoring）**：激光器输出功率可能随运行时间下降，控制电路需要监测 monitor PD、偏置电流、温度和告警阈值。
-- **冷备份与热备份（Redundancy Switching）**：外置光源模块可以配置工作光源和备用光源。热备份强调快速切换，冷备份强调延长备用器件寿命；具体实现取决于模块结构、管理接口和系统可用性目标。
-- **现场可更换单元（FRU）**：ELSFP 等可插拔外置光源把光源维护边界移到模块级，降低封装内激光器失效对主 ASIC 和光引擎的影响，但也引入连接器清洁、光纤管理和安全管理要求。
+## 工作原理：失效怎样沿链路传播
 
-## Common Boundaries
+CPO 光链路的失效常表现为一串相互关联的参数变化。一个物理变化先消耗局部余量，再被控制环路补偿，最后在功率、温度、BER 或告警中表现出来。
 
-- Reliability is not the same as initial performance.
-- A lower-loss optical path can still be operationally fragile.
-- CPO improves electrical reach but creates tighter packaging and maintenance constraints.
+<ol className="stage-list">
+  <li>
+    <strong>激光器老化改变光功率和电流余量</strong>
+    <span>半导体激光器长期工作后，阈值电流、斜率效率、输出功率、RIN、波长和温度敏感性都可能变化。系统为了维持目标光功率，会提高偏置电流或调整温控；当电流、温度或输出功率接近限制，链路余量就开始减少。</span>
+  </li>
+  <li>
+    <strong>PIC 漂移改变调制、滤波和耦合工作点</strong>
+    <span>硅光 ring、AWG、MZM bias、phase shifter、tap ratio 和 coupler 对温度、应力和工艺偏差敏感。漂移会让 MRM resonance、WDM passband、MZM quadrature point 或光功率分配偏离最佳点，需要 heater 和 monitor loop 持续修正。</span>
+  </li>
+  <li>
+    <strong>EIC 热量改变相邻光子器件的环境</strong>
+    <span>driver、TIA、SerDes 和电源网络会产生热量。温度上升会改变 PIC 折射率、PD 暗电流、TIA 噪声、laser temperature margin 和封装材料应力，也会改变控制环路需要施加的 heater / bias 修正量。</span>
+  </li>
+  <li>
+    <strong>光纤污染和连接器状态改变插损与反射</strong>
+    <span>灰尘、冷凝、残留清洗液、划痕、端面压伤和插拔磨损会提高 insertion loss 或 return loss。高功率外置光源路径里，污染物还可能被光功率加热并造成端面永久损伤。</span>
+  </li>
+  <li>
+    <strong>封装应力把机械变化转成光学变化</strong>
+    <span>不同材料的热膨胀系数不同，底填料、焊点、粘接剂、fiber attach、interposer 和 heat spreader 在热循环中会释放或积累应力。微小对准变化会出现在 edge coupler loss、fiber array loss、polarization behavior 和通道均匀性中。</span>
+  </li>
+  <li>
+    <strong>控制环路把漂移变成可观测的运营信号</strong>
+    <span>激光 APC、TEC、PIC heater、ring lock、bias control、DSP equalization 和 FEC 会尽量补偿漂移。补偿量本身就是重要 telemetry：若为了维持同样 OMA 需要更高 laser current、更高 heater power 或更强均衡，说明底层物理余量正在减少。</span>
+  </li>
+</ol>
 
-## Short Version
+可以把一条典型 Tx 链路的运营链路写成：
 
-Reliability and operations explains what happens after the device leaves the lab. For CPO, this is central because optical, electrical and mechanical failures are harder to isolate once the system is densely integrated.
+```text
+laser output
+→ optical delivery path
+→ PIC splitter / modulator / MUX
+→ fiber coupling
+→ link partner receiver
+→ BER / FEC / telemetry
+→ control loop correction
+```
+
+Rx 侧的链路则关注：
+
+```text
+fiber input
+→ connector / coupler / DEMUX
+→ photodetector
+→ TIA / receiver EIC
+→ equalization / CDR
+→ BER / FEC / alarms
+```
+
+## 1. 激光器老化：从输出功率到电流余量
+
+激光器是 CPO 可靠性讨论中最敏感的器件之一。它需要在高光功率、受控温度和长时间连续工作下保持稳定输出；同时，它的退化会直接进入每条 lane 的光功率预算。
+
+半导体激光器的老化可以表现为几类信号：
+
+| 运行变化 | 可能含义 | 对链路的影响 |
+|---|---|---|
+| 同样输出功率需要更高偏置电流 | 阈值电流上升或斜率效率下降 | 电流余量减少，结温升高，长期寿命压力增加 |
+| monitor PD 读数下降 | laser 输出下降、耦合变化或 monitor 路径漂移 | Tx OMA 下降，系统可能提高 laser current 或触发告警 |
+| 中心波长移动 | 结温变化、DFB / cavity 漂移或温控偏移 | WDM passband 对齐变差，串扰或插损上升 |
+| RIN 或光谱指标变差 | 器件噪声、反射扰动或工作点异常 | PAM4 eye margin 和 receiver sensitivity 受影响 |
+| 突发掉光 | COD、ESD、驱动异常、端面损伤或连接器高功率损伤 | 链路中断，需要冗余或现场更换 |
+
+RP Photonics 对 laser diode lifetime 的总结显示，高温、电流或电压尖峰、ESD、驱动设计问题、端面氧化、晶体位错增长、电极金属扩散和散热结构退化都可能缩短寿命。对 CPO 来说，这些失效机制还会被系统位置放大：激光器若内置在光引擎中，返修成本更高；若外置为 ELS / ELSFP，光路更长、连接器更多，光功率和清洁流程会成为新的运营约束。
+
+激光器可靠性因此需要看三类余量：
+
+- **光功率余量**：扣除分光、耦合、调制、MUX、connector 和老化之后，接收端仍要得到足够 OMA。
+- **电流与热余量**：偏置电流、结温、case / base temperature、TEC 能力和热路径需要留下长期退化空间。
+- **波长与噪声余量**：WDM 系统要保持 laser wavelength、PIC filter passband 和温度控制之间的对齐。
+
+## 2. PIC 漂移：热、应力和工作点
+
+PIC 的失效不一定表现为器件断路。很多 PIC 问题是“仍然可调，但越来越难调”。硅光的 thermo-optic effect 使 heater 能有效调谐 ring、phase shifter 和 filter，同时也使它们对温度漂移敏感。InP、SiN、TFLN 等平台也各有热、应力和材料稳定性约束。
+
+几个常见漂移入口如下：
+
+| PIC 单元 | 漂移入口 | 运营信号 |
+|---|---|---|
+| MRM / ring filter | resonance 随温度、工艺和应力移动 | heater power 增加、lock range 变窄、OMA 波动 |
+| MZM | bias point 随温度、电极状态和光路相位漂移 | bias DAC 移动、extinction ratio 下降、PAM4 level 不均 |
+| AWG / DEMUX | 中心波长和通带随温度与应力移动 | 通道串扰上升、相邻 lane BER 同时恶化 |
+| splitter / coupler | 分光比、耦合效率、偏振相关损耗变化 | lane power imbalance、monitor tap 与主光路不一致 |
+| photodetector | responsivity、dark current、capacitance 随温度和老化变化 | Rx sensitivity 下降、TIA 噪声压力增加 |
+| heater / monitor | heater 开路、短路、效率下降，monitor PD 偏移 | 控制环路饱和或读数与链路表现不一致 |
+
+Frontiers 的 CPO 综述把 MRM、MRR 和 MRPD 的闭环热调谐列为重要问题：resonance 需要补偿工艺变化、热波动和输入 laser 波长变化。这个结论对运营有直接意义：控制环路需要在真实温度场中让光路工作点持续留在可用区域。
+
+## 3. EIC 热量：电路问题怎样变成光路问题
+
+EIC 在 CPO 中承担高速 driver、TIA、CDR、SerDes 辅助、monitor ADC / DAC、控制接口和电源管理等功能。EIC 的高速电性能属于 [EIC / driver and receiver](../eic/)；在可靠性页里，重点是它怎样改变光引擎的热和运营状态。
+
+EIC 对光学可靠性的影响主要来自四条路径：
+
+- **局部热源**：driver 和 TIA 的功耗通过 substrate、interposer、microbump、underfill 和 heat spreader 传到 PIC，改变光学器件的温度。
+- **电源与噪声**：电源纹波、地弹、串扰和偏置漂移会进入 modulator drive、PD bias、TIA gain 和 control DAC，表现为眼图劣化或误码上升。
+- **长期电应力**：高温下的 electromigration、bias temperature instability、ESD 损伤和封装互连退化会改变电路余量。
+- **管理路径**：若 monitor ADC、I2C / TWI / CMIS 管理路径或 firmware 状态机异常，系统可能失去对光功率、温度和告警的可信判断。
+
+CPO 的难点在于电路和光路共享很近的物理空间。某个 lane 的 BER 上升，可能来自 receiver 眼图余量，也可能来自 PD 暗电流升高、PIC DEMUX 偏移、fiber 插损增加或 laser power 下降。失效定位需要同时读取电学和光学 telemetry。
+
+## 4. 光纤污染与连接器损伤
+
+光纤连接器是运营现场最容易被低估的可靠性入口。CPO 使用外置光源或板内光路后，光纤、盲插连接器、MT ferrule、MPO 类接口和 front-panel / mid-board connector 的清洁状态，会直接进入 optical budget。
+
+IEC 61300-3-35 关注 fibre optic connector 端面的 debris、scratches 和 defects 的检查分类，并说明视觉检查需要与 attenuation、return loss 等光学测量配合使用。OIF ELSFP IA 进一步把高功率外置光源的风险说得很具体：ELSFP 在高功率输出时，光路中的颗粒、灰尘、冷凝物或其他异物可能造成端面材料或 ferrule 的永久损伤；系统应先在低安全功率下验证路径损耗，再允许高功率输出。
+
+在运营流程中，连接器相关问题通常有几种表现：
+
+| 现场现象 | 可能原因 | 处理方向 |
+|---|---|---|
+| 新插入 ELSFP 后某些 fiber path 插损偏高 | 端面污染、未完全插合、ferrule 问题或路径弯折 | 检查两侧端面，清洁后复测低功率路径损耗 |
+| 多条相邻 lane 同时掉 margin | 共用 fiber array、connector、MUX 或外置光源路径异常 | 按共享路径分组排查，比较同模块内相对损耗 |
+| return loss 或反射敏感告警 | 端面污染、划伤、连接器几何或光路反射 | 检查端面与连接器，评估 laser 反馈容忍度 |
+| 高功率开启后永久损伤 | 污染物处在高光功率路径中 | 停止高功率输出，按厂商流程处理，必要时更换模块或返厂 |
+
+这一段运营流程的关键是顺序：先检查和清洁，再低功率验证路径损耗，最后进入工作功率。对高功率 ELS 来说，直接以满功率点亮未知清洁状态的连接器，会把一个可维护问题变成永久损伤。
+
+## 5. 封装应力与慢漂移
+
+封装可靠性把材料、热、机械和光学对准绑在一起。CPO 光引擎里可能同时有 ASIC、EIC、PIC、laser tile、interposer、organic substrate、silicon bridge、microbump、underfill、fiber array、lid、heat spreader 和 TIM。它们的热膨胀系数、弹性模量、吸湿性和老化行为不同，热循环后会产生相对位移和应力变化。
+
+慢漂移常见于这些位置：
+
+- fiber attach 或 edge coupler 对准位置发生微小变化，导致 coupling loss 上升。
+- underfill、epoxy 或 solder 在温度循环中释放应力，改变 PIC 局部应变和波导有效折射率。
+- heat spreader、lid 或 TIM 压力分布变化，改变器件温度和热阻。
+- microbump 或 wirebond 退化，表现为某些 lane 电阻、噪声或高速损耗变化。
+- 光纤在机箱内受到弯曲、拉力或热环境影响，长期产生损耗或可靠性风险。
+
+Corning 关于 CPO 光纤基础设施的材料强调，CPO box 内的 fiber layout 需要同时考虑 fiber stress limit 和 fiber coating thermal environment。这个提醒很适合 CPO：光纤并非只在封装外部承担连接功能，它在系统内部也有应力、温度和布线约束。
+
+## 6. 控制环路：补偿、告警和误判
+
+CPO 光引擎通常依靠多个控制环路保持运行：
+
+- laser APC / ACC：按目标光功率或目标电流控制激光器。
+- laser temperature control：通过 TEC、heater 或系统散热路径管理 laser temperature margin。
+- PIC thermal tuning：调节 ring、AWG、MZM bias 或 phase shifter 的 heater。
+- monitor feedback：用 monitor PD、tap coupler 和 ADC 追踪片上光功率。
+- receiver adaptation：用 TIA gain、equalization、CDR 和 DSP 参数维持电眼和误码余量。
+- system management：通过 CMIS、TWI / I2C、firmware 和 host controller 管理状态、告警和低功率启动流程。
+
+控制环路让系统有能力抵抗漂移，也会遮住早期退化。比如 laser 输出衰减后，APC 提高偏置电流，短期内链路仍然正常；PIC ring 漂移后，heater 增加功率，BER 仍然很低；connector 插损上升后，FEC 暂时吸收误码。若只看业务是否中断，就会错过可维护窗口。
+
+因此，运营监控需要同时看绝对值、趋势和饱和程度：
+
+- 绝对值说明当前是否越界。
+- 趋势说明余量消耗速度。
+- 饱和程度说明控制环路还能补偿多久。
+
+## 可靠性验证路径
+
+可靠性验证从器件开始，经过封装，最后进入系统级运行模型。出厂验证属于 [Manufacturing and test](../manufacturing-test/)；本节关注哪些验证结果会变成运营假设。
+
+| 验证层级 | 典型项目 | 目的 |
+|---|---|---|
+| Laser / PD / active device | burn-in、accelerated aging、HTOL、光功率与光谱测试、RIN、SMSR、ESD、端面检查 | 筛掉早期失效，建立老化模型和寿命余量 |
+| PIC die | wafer-level optical test、电学连续性、heater / monitor 测试、温度扫描、调制带宽、PD responsivity、dark current | 找到可封装 die，建立漂移与调谐范围 |
+| EIC die | HTOL、temperature cycling、ESD、latch-up、电源完整性、SerDes / analog margin | 验证高速电路和管理电路在热与电应力下的稳定性 |
+| Package / optical engine | thermal cycling、mechanical shock / vibration、湿热或环境应力、fiber attach stability、coupling loss over temperature、BER over temperature | 验证多 die、光纤、封装和散热结构组合后的稳定性 |
+| ELS / ELSFP | module case temperature、critical component thermal margin、CMIS 管理、connector durability、低功率路径损耗验证、高功率安全流程 | 验证可插拔外置光源的热、管理、连接器和现场服务边界 |
+| System | 长时间 traffic run、FEC counter 趋势、故障注入、冗余切换、degraded mode、现场更换流程 | 验证系统在退化、失效和维护动作中的可用性 |
+
+Telcordia GR-468-CORE 常被行业用于 optoelectronic devices 的可靠性保证；公开资料通常把它和 damp heat、temperature cycling、mechanical shock / vibration、accelerated aging 等项目联系在一起。电子芯片侧常使用 JEDEC 类 HTOL 和 temperature cycling 方法。具体应力条件和合格准则需要以目标产品、客户规范和正式标准为准，页面只把它们作为验证路径的层级语言。
+
+## 运行监控指标
+
+CPO 的运营监控需要把物理层 telemetry 变成可排障、可预警、可维护的状态。单个指标很少能直接给出根因，组合趋势更有价值。
+
+| 指标组 | 关键指标 | 说明 |
+|---|---|---|
+| 激光源 | bias current、monitor PD power、laser case / base temperature、TEC current、wavelength、RIN / power alarm | 判断光源是否在用电流和热余量换取目标输出 |
+| PIC | heater power、ring / filter lock position、MZM bias、tap monitor power、lane power imbalance、PD dark current | 判断片上光路是否漂移、调谐是否接近边界 |
+| EIC | driver swing、TIA gain、CDR lock、receiver equalization、EIC temperature、电源电流 | 判断电路余量、热状态和接收端补偿压力 |
+| Optical I/O | estimated path loss、return loss、connector mated state、relative fiber-path loss、插拔记录 | 判断连接器、fiber 和耦合路径是否异常 |
+| Link | pre-FEC BER、post-FEC BER、FEC corrected codewords、uncorrected errors、link flap、LOS / LOL | 判断业务层可用性和误码趋势 |
+| System | airflow、cold plate / liquid cooling 状态、fan speed、ambient temperature、维护事件、firmware version | 判断系统热环境和管理状态是否改变 |
+
+很多指标需要成组解释。若某条 lane 的 pre-FEC BER 上升，同时 tap monitor power 下降、laser current 上升、heater power 稳定，问题可能在光源或外部光路；若 BER 上升同时 ring heater 接近上限、其他 lane 正常，问题可能是局部 PIC 热漂移；若多条 lane 同时劣化且 EIC 温度升高，热路径或系统散热需要优先检查。
+
+## 可维护性与冗余
+
+CPO 的维护策略要把“更换什么”提前定义清楚。前面板可插拔光模块把 laser、PIC、EIC 和连接器放在一个可替换模块内；CPO 把 optical engine 靠近 ASIC 后，现场可更换边界发生变化。
+
+常见冗余和维护层级如下：
+
+| 层级 | 实现方式 | 优点 | 代价 |
+|---|---|---|---|
+| 外置光源模块 | ELS / ELSFP 可在 faceplate 更换 | 激光器远离 ASIC 热源，现场更换路径清晰 | 光路更长，连接器插损、清洁和安全流程更复杂 |
+| 模块内备用激光 | cold spare 或 hot spare laser | 可在不更换模块时恢复供光 | 增加成本、控制复杂度和功率 / 热预算 |
+| Lane sparing | 保留备用 lane 或允许 lane reduction | 局部失效后维持降级吞吐 | 需要系统协议、路由和容量规划配合 |
+| Link rerouting | 网络层绕开坏链路 | 改善集群可用性 | 增加拓扑和运维复杂度 |
+| 预防性更换 | 根据 telemetry 趋势提前更换 ELS 或板卡 | 避免突发中断 | 需要寿命模型、阈值策略和备件管理 |
+
+OIF CPO 框架提到，系统级可靠性可能需要组件或子系统冗余，也可能需要 multi-lane interconnect 的 lane reduction 来提升整体 availability。对数据中心运营来说，CPO 可靠性由器件寿命、模块可换性、链路冗余和网络调度共同决定。
+
+## 失效定位：从告警到根因
+
+失效定位的目标是尽快判断问题位于光源、PIC、EIC、fiber / connector、package、散热系统还是管理环路。一个实用排查顺序可以按共享边界收敛：
+
+<ol className="stage-list">
+  <li>
+    <strong>先确认故障范围</strong>
+    <span>判断是单 lane、同一光引擎内多 lane、同一 ELS 供光路径、多颗光引擎、整板还是整机架异常。范围越大，越应优先检查共享光源、散热、电源、firmware 和连接器状态。</span>
+  </li>
+  <li>
+    <strong>再比较光功率与误码</strong>
+    <span>同时读取 monitor PD、estimated path loss、pre-FEC BER、post-FEC BER、LOS / LOL 和 FEC corrected counters。光功率下降并伴随误码上升，通常优先排查 laser、connector 和 coupler；光功率稳定但误码上升，则需要关注调制、接收和电路。</span>
+  </li>
+  <li>
+    <strong>查看控制环路是否接近边界</strong>
+    <span>检查 laser current、TEC current、heater power、ring lock position、MZM bias、TIA gain 和 equalization 是否明显偏离历史值。补偿量增加常常比告警更早暴露退化。</span>
+  </li>
+  <li>
+    <strong>按共享物理路径分组</strong>
+    <span>若同一 connector、fiber ribbon、ELS output、AWG bank 或 EIC macro 下的 lane 同时异常，应优先检查共享组件。若异常随机分散，器件级早期失效或局部封装问题概率更高。</span>
+  </li>
+  <li>
+    <strong>把维护动作限制在安全状态</strong>
+    <span>涉及 ELSFP 或高功率光源时，按照低功率启动、端面检查、清洁、路径损耗验证和安全互锁流程操作。对封装内光引擎，现场动作通常应停在模块或板级更换边界。</span>
+  </li>
+</ol>
+
+几个典型定位模式如下：
+
+| 组合现象 | 优先怀疑 | 下一步 |
+|---|---|---|
+| laser current 上升，monitor power 维持，laser temperature margin 下降 | laser aging 或热路径压力 | 查历史趋势、散热状态和 ELS / laser module 告警 |
+| 多条 WDM lane 按波长相邻劣化 | AWG / filter 温漂或 laser wavelength 对齐问题 | 查 heater、温度、wavelength 和通道串扰 |
+| 单条 lane BER 上升，tap power 正常，receiver equalization 增加 | EIC receiver、PD 或高速电路径问题 | 查 TIA gain、PD bias、EIC 温度和电源噪声 |
+| 更换或插拔后路径损耗突然偏高 | connector 污染、未完全插合或端面损伤 | 端面检查、清洁、低功率路径损耗复测 |
+| 冷启动后正常，升温后多 lane 劣化 | thermal crosstalk、package stress 或散热不足 | 做温度相关性分析，检查 fan / liquid cooling / TIM 状态 |
+| firmware 更新后告警逻辑变化 | 管理阈值或状态机变化 | 对比版本、寄存器解释和 telemetry 标定 |
+
+## 总结
+
+可靠性与运营把 CPO 光引擎从“能跑通链路”推进到“能长期留在可服务状态”。CPO 缩短高速电路径，同时把光源、PIC、EIC、封装、光纤和管理环路放进更紧的热与维护边界。长期运行中，激光器老化、PIC 漂移、EIC 热量、连接器污染、封装应力和控制环路补偿会共同消耗链路余量。
+
+一个成熟的 CPO 系统需要三类能力：出厂前用可靠性验证和 burn-in 降低早期失效；运行中用 telemetry 和趋势分析识别余量消耗；维护时用冗余、外置光源、更换边界和安全流程把故障控制在可恢复范围内。可靠性是 CPO 架构进入数据中心长期运营的核心条件。
+
+## 资料来源
+
+- OIF, [Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
+- OIF, [External Laser Small Form-Factor Pluggable Implementation Agreement](https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf)
+- OIF, [Management of External Light Sources and Co-Packaged Optical Engines](https://www.oiforum.com/wp-content/uploads/OIF-MGT-Co-Packaging-ELSFP-01.0.pdf)
+- IEC, [IEC 61300-3-35:2022](https://webstore.iec.ch/en/publication/64254)
+- RP Photonics, [Laser Diodes](https://www.rp-photonics.com/laser_diodes.html)
+- Frontiers of Optoelectronics, [Co-packaged optics: status, challenges, and solutions](https://link.springer.com/article/10.1007/s12200-022-00055-y)
+- PhotonHub, [Silicon and Silicon Nitride PICs](https://photonhub.eu/technology-platform/silicon-and-silicon-nitride-pics/)
+- PhotonHub, [Indium Phosphide PICs](https://photonhub.eu/technology-platform/indium-phosphide-pics/)
+- Ericsson Technology Review, [Co-packaged optics in radio-access networks](https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/co-packaged-optics-in-6g-ran)
+- Texas Instruments, [Reliability testing](https://www.ti.com/quality-reliability/reliability/testing.html)
+- Corning, [Co-Packaged Optics optical fiber infrastructure design](https://www.corning.com/optical-communications/worldwide/en/home/the-signal-network-blog/corning-and-broadcom-co-packaged-optics.html)

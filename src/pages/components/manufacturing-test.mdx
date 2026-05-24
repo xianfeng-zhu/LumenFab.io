@@ -1,60 +1,238 @@
 ---
 layout: ../../layouts/ConceptLayout.astro
 title: Manufacturing and test
-chapter: CPO Components
-description: Manufacturing and test 连接晶圆、裸 die、封装、光耦合、链路测试和量产良率。
+chapter: 光引擎组件
+description: 解释 CPO 光引擎从 wafer-level test、known-good-die、die sort、assembly test 到 package-level BER / aging 的制造验证链路。
 ---
 
-## What This Flow Does
+import TermNote from "../../components/TermNote.astro";
 
-Manufacturing and test 不是一个物理组件。它是把 CPO 从 demo 变成可交付产品的验证链路。
+## Manufacturing and test 的流程边界
 
-测试贯穿：
+Manufacturing and test 是 CPO 光引擎的验证链路。它跨越 laser、PIC、EIC、optical I/O、package 和链路级行为，判断哪些 die 可以进入封装，哪些组装结果可以继续流转，哪些 package 可以成为可交付产品。
 
-- substrate and epi inspection。
-- wafer-level optical/electrical test。
-- known-good-die。
-- die attach and assembly inspection。
-- optical coupling test。
-- package-level test。
-- link-level BER / eye / TDECQ。
-- yield analysis。
+这条链路覆盖多个测试插入点：
 
-## Detail Entrypoints
+```text
+incoming wafer / material inspection
+→ wafer-level optical / electrical test
+→ die sort and known-good-die
+→ die attach / flip-chip / fiber attach inspection
+→ assembly optical / electrical test
+→ package-level electro-optic test
+→ link-level eye / TDECQ / BER / FEC margin
+→ aging, burn-in, stress screen
+→ yield analysis and process feedback
+```
 
-### Existing Pages
+每个插入点回答的问题不同。wafer-level test 关注工艺是否在整片晶圆上形成可用器件；die sort 关注哪些裸 die 值得投入昂贵封装；assembly test 关注贴装、键合、光纤对准和散热路径是否仍在窗口内；package-level test 关注多 die、多 lane、多温度条件下的真实链路表现；aging / burn-in 关注早期失效和参数漂移；良率分析则把这些数据反馈给外延、光刻、刻蚀、金属、封装、清洁、对准和设计规则。
 
-- [Epi-ready substrates](../../learn/epi-ready-substrates/)
-- [Wafer slicing, lapping, polishing, and CMP](../../learn/wafer-slicing-lapping-polishing-and-cmp/)
-- [Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)
-- [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)
+激光源的外延、DFB、端面和芯片级测试可在 [激光源](../laser-source/) 阅读；片上光路、调制器、MUX / DEMUX 和 PD 属于 [PIC / optical circuit](../pic/)；driver、TIA、SerDes 和控制电路属于 [EIC / driver and receiver](../eic/)；fiber array、edge coupler、connector 和光耦合属于 [Optical I/O / fiber coupling](../optical-io/)；多 die 布局、散热和返修边界属于 [Package integration](../packaging/)。
 
-### Later Deep Dives
+相关基础页可先读 [Inside a transceiver](../../learn/inside-a-transceiver/)、[Tx path and Rx path](../../learn/tx-rx-path/)、[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/) 和 [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)。
 
-- Wafer-level optical test (KGD screening).
-- Laser burn-in and wafer-scale aging.
-- Package-level electro-optic test.
-- Eye diagram, OMA, and TDECQ parameters.
-- Co-packaged optics yield model.
+## 为什么 CPO 会提高测试要求
 
-### 晶圆级测试与已知合格芯片 (KGD)
+CPO 把光引擎放到 switch ASIC 附近，缩短高速电路径，也把测试和良率问题推向更高密度、更高代价的边界。传统可插拔模块可以在模块级完成大量最终测试，失效模块也有比较清晰的更换边界。CPO 中的光引擎与高价值 ASIC、封装基板、散热结构和大量光纤接口更紧密地结合，单个裸 die、单条 lane 或单个耦合界面的异常，可能在封装后才暴露，并放大成整机级返修问题。
 
-在可插拔模块中，光源、PIC 和电芯片通常被封装在可替换模块内，失效后的更换边界比较清晰。CPO 把多个光引擎与高价值 switch ASIC 放到更紧密的封装生态中，单个裸 die 的早期失效会被放大成封装级良率和返修问题。
+测试要求提高，主要来自五类压力：
 
-这使 **KGD (Known-Good-Die，已知合格芯片)** 筛选成为 CPO 量产中的关键质量门：
+- **多 die 集成良率**：laser、PIC、EIC、interposer、fiber attach 和封装基板组合后，系统良率会受到每一层通过率的共同影响。
+- **高 lane count**：CPO 光引擎包含大量 Tx / Rx lane，单 lane 的插损、带宽、偏置、噪声或耦合异常都会进入 package-level 分布。
+- **光电联合测量**：PIC 和 optical I/O 需要同时测光功率、光谱、RF 带宽、DC 漏电、S-parameter、BER 和热漂移；测试夹具本身也会贡献误差。
+- **封装后返修代价**：die attach、flip-chip、fiber attach、underfill、lid、heat spreader 和 connector 一旦完成，拆解和返修窗口会明显缩小。
+- **长期可靠性**：CPO 靠近高功耗 ASIC，温度场更复杂；laser aging、PIC bias drift、fiber coupling drift、焊点疲劳和封装应力都需要在量产前被筛选和建模。
 
-- **晶圆级测试（Wafer-Level Test）**：在解理、贴装和封装之前，尽量通过电探针、自动对准光纤和光谱测试识别不合格发光单元，并建立 wafer map。
-- **老化与筛选（Burn-in & Screening）**：激光器裸芯片需要经历高温、高电流或高功率条件下的加速筛选，提前暴露早期失效风险。
-- **良率计算模型（Yield Model）**：
-  如果一个 CPO 系统集成了 `N` 颗激光源，单颗激光器的 KGD 良率为 `Y_laser`，那么仅由激光器引起的系统制造良率 `Y_sys` 可以粗略写成 `Y_sys = (Y_laser)^N`。
-  当 `N = 16` 且 `Y_laser = 95%` 时，仅由这 16 颗光源贡献的良率约为 `44%`；当 `Y_laser = 99.9%` 时，对应良率约为 `98.4%`。这个简单模型说明，多 die 集成会显著放大单颗器件良率差异。
+因此，CPO 的测试需要从早期制造阶段开始建立质量门，而 package-level BER 只是后段验证的一部分。测试链路在每一个成本阶梯之前收敛风险，把尽可能多的问题提前暴露，把只能在系统条件下观察的问题留给 package-level 和 aging 阶段验证。
 
-## Common Boundaries
+## 工作原理：测试链路怎样把风险逐层收敛
 
-- Test is not only module final test.
-- Wafer-level test is harder in photonics because optical coupling itself is part of the measurement.
-- Known-good-die becomes more valuable as package integration gets more expensive.
+测试链路的工作原理可以按“越早越便宜，越晚越真实”来理解。早期测试靠近制造源头，成本低、吞吐高、适合做 wafer map 和 die sort；后期测试更接近真实系统，能观察封装、热、光耦合、电源完整性和控制环路共同作用后的结果。
 
-## Short Version
+<ol className="stage-list">
+  <li>
+    <strong>晶圆级测试先建立工艺分布</strong>
+    <span>探针台、光纤阵列、grating coupler、edge-coupling fixture、RF probe 和 DC probe 会把每个 die 的电学、光学和高速指标映射到 wafer map 上。这个阶段以工艺分布识别为主，尽早暴露坏区、边缘效应、工艺漂移和片内均匀性问题。</span>
+  </li>
+  <li>
+    <strong>die sort 把连续分布变成筛选决策</strong>
+    <span>测试结果很少只分成好和坏。激光器可以按波长、输出功率、PCE、SMSR 和 burn-in drift 分档；PIC 可以按插损、中心波长、modulator bandwidth、PD responsivity 和 heater tuning range 分档；EIC 可以按速度、电源、温度和接口裕量分档。die sort 决定哪些 die 进入哪些封装配置。</span>
+  </li>
+  <li>
+    <strong>KGD 降低昂贵封装的输入风险</strong>
+    <span><TermNote label="KGD" note="Known-Good-Die，已知合格芯片。它表示裸 die 在进入更高层级组装前已经通过约定测试和筛选；KGD 是基于可测项目的置信状态，后续封装仍可能引入新的失效。" /> 的价值在于减少坏 die 被贴进多 die package 的概率。对 CPO 来说，KGD 还要覆盖光学和高速电学条件，因为一个 die 的电学连通正常，只能证明 pad 和基本电路可达，还需要继续确认光学耦合、调制带宽和热漂移。</span>
+  </li>
+  <li>
+    <strong>组装测试确认封装动作没有破坏窗口</strong>
+    <span>die attach、flip-chip、wire bond、fiber attach、lens attach、underfill 和 lid attach 都可能改变热阻、应力、光轴、返回损耗和高速寄生参数。assembly test 会在关键工序后检查光功率、耦合损耗、连通性、alignment drift、bond integrity 和局部热行为，避免把已偏离窗口的半成品继续推进。</span>
+  </li>
+  <li>
+    <strong>package-level test 验证真实链路</strong>
+    <span>当 laser、PIC、EIC、fiber 和散热路径结合后，测试对象从单个器件变成光电链路。此时需要测 optical power budget、OMA、eye diagram、TDECQ、BER、FEC margin、lane-to-lane skew、crosstalk、calibration loop、温度扫描和功耗分布。</span>
+  </li>
+  <li>
+    <strong>aging 和应力筛选暴露早期失效</strong>
+    <span>某些缺陷在初始测试中表现正常，却会在高温、高电流、高光功率、湿热、温度循环或机械应力下加速显现。burn-in、high-temperature operating life、thermal cycling 和 bias stress 的作用，是在交付前观察漂移速度和早期失效模式。</span>
+  </li>
+  <li>
+    <strong>良率反馈把测试变成制造能力</strong>
+    <span>测试数据需要回到工艺和设计中：wafer map 对应曝光、刻蚀、掺杂、外延或 CMP 均匀性；assembly log 对应贴装力、回流曲线、胶量、清洁度和对准误差；package BER 对应光功率预算、EIC 均衡、热路径、crosstalk 和控制策略。能够快速闭环，才是制造测试的核心能力。</span>
+  </li>
+</ol>
 
-Manufacturing and test is the quality gate across every layer. It belongs on the homepage, but as an engineering flow, not as a physical CPO block.
+## 制造测试路径：从 wafer 到 package-level BER
+
+可以把 CPO 光引擎的制造测试路径分成六个质量门。每一道门都在更高成本之前收敛一部分风险：
+
+| 阶段 | 主要对象 | 典型测试 | 主要输出 |
+|---|---|---|---|
+| Incoming / process metrology | 衬底、外延片、SOI / SiPh wafer、金属和封装材料 | 厚度、应力、表面缺陷、颗粒、片阻、反射谱、显微 / SEM / X-ray / IR | 工艺批次是否可进入后续加工。 |
+| Wafer-level test | laser wafer、PIC wafer、EIC wafer、interposer | DC / RF / optical probe、L-I-V、插损、光谱、S-parameter、leakage、BIST | wafer map、die map、初筛、工艺均匀性。 |
+| Die sort / KGD | 裸 laser、PIC、EIC、optical I/O 相关 die | pass / fail、binning、温度点、早期可靠性筛选、外观检查 | 可进入封装的 KGD 清单和分档规则。 |
+| Assembly test | 贴装后的 die、submount、fiber attach、bond / bump | 连通性、bond inspection、coupling loss、alignment drift、thermal path、AOI / X-ray | 组装工序是否保持光电窗口。 |
+| Package-level electro-optic test | 完整 optical engine 或 co-packaged module | 光功率预算、eye、TDECQ、BER、FEC margin、串扰、功耗、温扫 | package 是否满足链路和热条件。 |
+| Aging / reliability screen | package、optical engine、ELS / connector | burn-in、HTOL、thermal cycling、humidity、vibration、shock、ESD | 早期失效、漂移模型、批次风险和放行标准。 |
+
+这条路径的关键点在于，前后阶段的指标需要可以关联。若 wafer-level PIC 插损略高，package-level 可能表现为 laser power margin 下降；若 fiber attach 后耦合分布出现长尾，BER 分布可能在高温或低光功率条件下明显变差；若 laser burn-in 漂移偏快，系统需要在分档、冗余或寿命模型中给出处理方式。
+
+## 1. Wafer-level test：把工艺离散性变成 wafer map
+
+Wafer-level test 在切割之前完成。电子 IC 的 wafer probing 主要通过电探针接触 pad；光子芯片还需要把光送进片上结构，并从另一个端口取出。这使测试夹具成为测量的一部分：光纤位置、入射角、偏振、耦合器类型、测试温度、探针接触电阻、参考光源和校准路径都会影响结果。
+
+对 PIC 来说，常见 wafer-level 测试包括：
+
+- passive optical：input / output coupler loss、waveguide propagation loss、splitter excess loss、MUX / DEMUX loss、ring / AWG spectrum、crosstalk。
+- active optoelectronic：modulator Vpi 或 drive voltage、modulation bandwidth、S-parameter、PD responsivity、dark current、bandwidth、heater resistance、tuning efficiency。
+- DC / RF：pad continuity、phase shifter IV、leakage、ESD 相关结构、RF electrode loss、return loss、impedance。
+- process monitors：test waveguide、ring resonator、cutback structure、van der Pauw / sheet resistance、critical dimension monitor。
+
+对 laser wafer 或 laser bar 来说，晶圆级和条级测试边界要分清。部分电学和几何项目可以在 wafer 上完成；完整光输出、端面相关测试、bar-level coating 后的 L-I-V、光谱、SMSR、RIN 和 burn-in，常常需要在解理、bar、chip、COS 或封装阶段完成。把所有激光器指标都压到 wafer-level test，会低估端面、镀膜、装夹和散热条件对测量的影响。
+
+Wafer-level test 的主要产物是 wafer map。它把每个 die 的位置和参数绑定起来，显示异常是否集中在晶圆边缘、局部曝光场、某个 reticle 区域、某条波导方向、某个 grating coupler 版图或某个金属批次。对光子器件来说，wafer map 还可以显示中心波长、ring resonance、AWG passband、coupler efficiency 和 heater power 的空间漂移。
+
+晶圆测试的量产壁垒在于吞吐和可重复性。实验室可以花很长时间对准一颗器件；量产需要在大量 die 上稳定复现耦合条件、温控条件和 probe 接触条件，并把测试时间控制到可接受范围。测试结构、自动对准算法、校准件、数据格式和 fail-bin 规则，都会直接影响 KGD 的可信度。
+
+## 2. KGD 与 die sort：决定哪些 die 值得进入封装
+
+KGD 的基本思想很直接：在裸 die 进入高价值封装前，尽可能证明它符合约定规格。CPO 中的 KGD 更复杂，因为裸 die 的“合格”需要跨越光学、电学、热学和可靠性维度。
+
+一个可用的 KGD 判定通常包含三层信息：
+
+| 层级 | 目的 | 例子 |
+|---|---|---|
+| 基本可用性 | 排除明显坏片 | open / short、leakage、pad damage、光路断裂、PD 暗电流异常、laser 无法达到目标功率。 |
+| 参数分档 | 把连续参数分到可用窗口 | laser wavelength bin、PIC insertion-loss bin、modulator bandwidth bin、EIC speed / power bin、PD responsivity bin。 |
+| 风险标记 | 给后续封装和可靠性使用 | burn-in drift、wafer edge、异常批次、温度窗口偏窄、alignment margin 偏小、test uncertainty 偏高。 |
+
+对多 die CPO package，KGD 的经济意义可以用一个简单模型理解。若一个 assembly 需要 `N` 个关键 die，每个 die 进入封装后的有效通过率为 `Y_i`，且先忽略相关性，assembly 仅由这些 die 贡献的通过率近似为：
+
+```text
+Y_package ≈ Y_1 × Y_2 × ... × Y_N
+```
+
+当 `N` 很大时，单颗 die 的小幅良率差异会被乘法放大。真实制造中，各 die 失效并不完全独立，测试覆盖率也不会完美；这个模型的作用，是说明为什么封装前筛选、分档和批次控制会成为 CPO 的核心质量门。
+
+KGD 也有边界。裸 die 可以通过 wafer-level 或 die-level 测试证明自身满足某些条件，却无法完全覆盖封装后才出现的应力、热耦合、光纤对准、underfill、socket、connector、供电噪声和系统级串扰。因此，KGD 的定位是进入下一道更昂贵工序前的输入风险控制，最终质量仍要由封装后测试和可靠性筛选确认。
+
+## 3. Assembly test：确认贴装、互连和光耦合没有破坏窗口
+
+Assembly test 发生在封装过程中。它关注贴装动作是否改变了原本合格的器件窗口，例如光轴、热阻、应力、互连寄生和清洁度。
+
+典型组装动作包括 die attach、flip-chip、thermo-compression bonding、wire bonding、underfill、submount attach、lens attach、fiber array attach、connector attach、lid attach 和 heat spreader attach。每一步都可能引入新的变量：
+
+- die attach 影响平整度、空洞、热阻、应力和 die tilt。
+- flip-chip / bump 影响高速寄生、电源完整性、接触电阻、open / short 和热机械疲劳。
+- fiber attach 影响耦合损耗、回波损耗、偏振、胶水收缩、固化漂移和清洁度。
+- lens 或 FAU attach 影响 mode matching、working distance、角度容差和热漂移。
+- underfill 和 lid attach 影响应力、湿气阻挡、热路径、翘曲和返修可能性。
+
+因此，assembly test 常用分段式质量门：贴装后先做 AOI、X-ray、shear / pull、continuity、低速电学和局部热检查；光学路径形成后测 coupling loss、return loss、monitor PD response 和 lane balance；关键封装动作后再做快速 eye 或 loopback，以防早期偏差进入最终封装。
+
+光耦合是 CPO assembly test 的高风险部分。PIC 上的模式尺寸通常远小于光纤模式，edge coupler、spot-size converter、grating coupler、lens 和 fiber array 需要在微米级位置、角度和高度窗口内保持稳定。装配时达到低损耗，只说明当时位置正确；胶水固化、热循环、机械应力和连接器插拔仍可能让耦合点漂移。因此，assembly test 要同时看初始损耗、对准窗口、漂移趋势和环境应力后的残余裕量。
+
+## 4. 各层测试项：laser、PIC、EIC、optical I/O 与 package
+
+CPO 测试需要按层级拆开，再在 package-level 合起来。把所有指标混在一起，会掩盖失效定位路径。
+
+| 层级 | 主要测试项 | 指标含义 | 典型失效指向 |
+|---|---|---|---|
+| Laser | L-I-V、threshold current、slope efficiency、Pout、PCE / WPE、center wavelength、SMSR、RIN、linewidth、temperature sweep、burn-in drift | 光源能否在目标电流和温度下提供足够、稳定、低噪声连续光。 | 外延、有源区、DFB 光栅、端面镀膜、接触电阻、散热、早期退化。 |
+| PIC | insertion loss、propagation loss、splitter imbalance、MUX / DEMUX spectrum、modulator bandwidth、Vpi / drive voltage、PD responsivity、dark current、heater tuning、S-parameter | 片上光路能否低损耗、可调谐、高速地完成路由、调制、复用和探测。 | 波导尺寸、侧壁粗糙、耦合器偏差、ring / AWG 漂移、Ge PD、heater、RF electrode。 |
+| EIC | DC parametric、scan / BIST、driver swing、TIA gain / noise、SerDes margin、jitter、equalization、power integrity、thermal map、control ADC / DAC | 电子侧能否驱动调制器、读出 PD，并在功耗和温度窗口内保持高速信号质量。 | 设计裕量、供电噪声、封装寄生、bump / pad、时钟、ESD、热耦合。 |
+| Optical I/O | coupling loss、return loss、polarization dependent loss、alignment tolerance、fiber attach drift、connector loss、contamination inspection、thermal cycling | 片上模式能否稳定进入光纤、连接器或外部光路。 | FAU 对准、胶水固化、端面污染、connector 长尾、反射、偏振和机械应力。 |
+| Package | continuity、substrate SI / PI、thermal resistance、lane crosstalk、optical power budget、eye、TDECQ、BER、FEC margin、calibration stability | 多 die、多光路、多电源和热路径组合后是否满足链路规格。 | 系统预算、封装寄生、热设计、对准、串扰、控制算法、批次组合。 |
+
+这些测试项之间有明确的因果关系。laser PCE 偏低会增加热负载；PIC insertion loss 偏高会压缩 OMA；EIC driver swing 或 TIA noise 偏离窗口会影响 eye opening；optical I/O return loss 可能扰动激光器或增加链路噪声；package thermal resistance 偏高会让 laser wavelength、ring resonance 和 EIC jitter 同时变差。
+
+## 5. Package-level link test：eye、TDECQ、BER 与 FEC margin
+
+Package-level test 把光引擎当作链路来测。此时关注点从单个器件参数转向“接收端能否稳定恢复数据”，所以需要同时观察发射光质量、接收灵敏度、误码、均衡、串扰、温度和控制状态。
+
+几个常见指标需要分清：
+
+| 指标 | 测什么 | 主要用途 |
+|---|---|---|
+| Optical power / OMA | 平均光功率和调制幅度，OMA 表示光调制电平之间的有效幅度。 | 判断链路预算、laser margin 和 Tx 输出是否够用。 |
+| Eye diagram | 在示波器上叠加大量符号后形成的眼图。 | 直观看噪声、抖动、ISI、带宽不足和电平压缩。 |
+| TDECQ | PAM4 optical transmitter quality metric，估计真实发射机相对理想参考发射机需要增加多少功率裕量。 | 衡量 PAM4 Tx 光信号质量，适合制造测试和合规测试语境。 |
+| BER / pre-FEC BER | bit error rate，接收端错误 bit 占总 bit 的比例；pre-FEC BER 是纠错前误码水平。 | 判断链路在指定条件下是否有足够误码裕量。 |
+| FEC margin | forward error correction 纠错前后的错误分布和裕量。 | 判断真实系统在应力、串扰和温漂下能否被 FEC 稳定纠正。 |
+| Crosstalk / lane skew | 相邻 lane 干扰和不同 lane 的时延差。 | 验证高 lane count package 的电光隔离和时序预算。 |
+
+TDECQ 和 BER 描述不同层面的链路质量。TDECQ 主要评估 PAM4 发射机造成的眼闭合和功率代价；BER 直接观察接收后错误；FEC margin 则把错误分布放进纠错能力中评估。量产时常需要把这些指标组合起来：TDECQ 用于快速判断 Tx 质量，BER / pre-FEC BER 用于验证链路是否能稳定工作，FEC error distribution 用于观察边界条件下的系统裕量。
+
+Package-level test 还需要覆盖温度和控制状态。CPO 光引擎通常包含 laser current control、PIC heater tuning、modulator bias、monitor PD、EIC equalization 和 host management。初始室温 BER 合格，只能说明一个点通过；真正的放行需要检查启动校准、温度扫描、功耗上限、lane-to-lane variation、控制环路稳定性和老化后的余量。
+
+## 6. Aging、burn-in 与应力筛选
+
+制造测试的后半段关注时间。许多失效会在第一次点亮后继续发展，并在热、电、光、湿气和机械应力共同作用后逐渐显现。
+
+常见应力项目包括：
+
+| 项目 | 施加的应力 | 观察对象 |
+|---|---|---|
+| Laser burn-in | 高温、高电流或高光功率工作 | 输出功率衰减、阈值漂移、电压漂移、SMSR / RIN 变化、端面退化和早期失效。 |
+| HTOL / bias stress | 高温工作和偏置条件 | EIC、PD、heater、modulator、bump 和封装互连的参数漂移。 |
+| Thermal cycling | 反复高低温循环 | 焊点、胶水、fiber attach、lens attach、lid、CTE mismatch 和光轴漂移。 |
+| Damp heat / humidity | 湿热环境 | 腐蚀、污染迁移、封装密封、connector 和光学端面稳定性。 |
+| Shock / vibration | 机械冲击和振动 | 光纤阵列、连接器、焊点、贴装材料和机械支撑。 |
+| ESD / latch-up | 静电和异常电气条件 | EIC、laser diode、PD、control interface 和保护结构。 |
+
+Aging / burn-in 的作用是筛选和建模。它可以提前暴露早期失效，也可以提供漂移斜率和参数余量，用于判断产品是否还有足够寿命窗口。它不能替代设计裕量和材料可靠性，也不能把所有长期问题完全加速出来。不同失效机理对温度、电流、光功率、湿气和应力的响应不同，测试条件需要与真实使用边界建立合理关系。
+
+在 CPO 中，aging 数据还要回到系统策略：laser 是否需要冗余，PIC heater 需要预留多少 tuning range，EIC equalization 是否会随温度和老化重新训练，monitor PD 是否能追踪 lane health，现场能否隔离失效位置。这些内容与 [Reliability and operations](../reliability-operations/) 的运行期策略相连。
+
+## 7. 良率反馈：从 test data 回到工艺窗口
+
+测试只有变成反馈，才会成为制造能力。单次 pass / fail 可以放行产品；长期数据可以告诉工程团队哪里需要收敛。
+
+良率反馈通常要把多种数据对齐：
+
+| 数据 | 能回答的问题 |
+|---|---|
+| Wafer map | 异常是否与晶圆位置、曝光场、刻蚀区域、外延均匀性、金属片阻或 coupler 版图相关。 |
+| Die sort bin | 哪些参数在连续漂移，哪些 die 只是适合较低规格，哪些必须报废。 |
+| Assembly log | 异常是否与贴装设备、批次、胶量、固化曲线、清洁度、对准工位或操作窗口相关。 |
+| Package test | package BER、TDECQ、功耗、热图和 lane balance 是否能追溯到上游 die 或 assembly 记录。 |
+| Aging result | 漂移和早期失效是否集中在某个 wafer、bar、批次、封装材料、连接器或温度区间。 |
+| Failure analysis | 失效位置是否来自端面、波导、PD、bump、underfill、fiber attach、污染、ESD 或热应力。 |
+
+这些数据会形成三类改进动作。第一类是筛选规则调整，例如收紧某个 wavelength bin、提高 insertion-loss 余量、增加 burn-in 前置条件。第二类是工艺窗口调整，例如修改光刻偏置、刻蚀条件、端面镀膜、fiber attach 固化曲线或清洁流程。第三类是设计改进，例如增加 monitor tap、扩大 heater tuning range、改变 coupler pitch、增加冗余 lane 或调整 package thermal path。
+
+对 CPO 来说，良率反馈还有一个系统级含义：单个器件的良率只能说明局部输入质量，产品良率还取决于多个 die、多条光路、多组 connector 和多种控制环路之间的相关性。若同一片 PIC 上多个 lane 的插损同时偏高，独立事件乘法模型会过于乐观；若某个 assembly 工位造成整组 fiber attach 漂移，也会形成批次相关失效。成熟的测试体系需要识别这些相关性，并同时统计单点通过率和相关失效模式。
+
+## 8. 总结：测试链路在 CPO 里承担什么
+
+Manufacturing and test 是 CPO 光引擎从 demo 走向量产的工程闭环。它先在 wafer-level 把工艺离散性看见，再通过 die sort 和 KGD 控制封装输入风险；随后用 assembly test 保护贴装、互连和光耦合窗口；最后在 package-level 以 eye、TDECQ、BER、FEC margin、温度和 aging 验证真实链路。
+
+这条链路的价值大于淘汰坏品本身。它把 laser、PIC、EIC、optical I/O 和 package 的差异转化为可追溯的数据，让设计、工艺、封装和可靠性团队知道该收紧哪一个窗口、放宽哪一个分档、修改哪一个测试结构。CPO 的量产能力，很大程度上取决于这种数据闭环能否稳定、快速、低成本地运行。
+
+进一步阅读：
+
+- [AIM Photonics: Test, Assembly and Packaging](https://www.aimphotonics.com/tap)
+- [Teradyne: Photon 100 silicon photonics and CPO test platform](https://www.teradyne.com/products/photon-100/)
+- [NIST: Optical probe for nondestructive wafer-scale characterization of photonic elements](https://www.nist.gov/publications/optical-probe-nondestructive-wafer-scale-characterization-photonic-elements)
+- [JEDEC JESD49B.01: Procurement Standard for Semiconductor Die Products Including Known Good Die](https://www.jedec.org/standards-documents/docs/jesd49b01)
+- [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
+- [Keysight / Electronic Design: TDECQ for PAM4 optical transmitters](https://www.electronicdesign.com/technologies/test-measurement/article/21283812/keysight-technologies-tdecq-understanding-the-theory-behind-the-key-metric-for-pam4-optical-transmitters)
+- [Ethernet Alliance: Improving 400/800GE optics and FEC compliance testing](https://ethernetalliance.org/blog/2021/07/06/improving-400-800ge-optics-is-your-layer-1-fec-compliance-testing-enough/)
