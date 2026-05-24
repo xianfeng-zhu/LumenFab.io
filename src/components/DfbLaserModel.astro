@@ -30,7 +30,7 @@ const indexItems = [
   ["nCladding", "#16a34a", "n-InP 包层"],
   ["sch", "#eab308", "SCH 限制层"],
   ["mqw", "#db2777", "MQW 有源区"],
-  ["mode", "#67e8f9", "腔内光场分布"],
+  ["mode", "#0891b2", "腔内光场分布"],
   ["grating", "#0d9488", "DFB 光栅"],
   ["phase", "#1e293b", "相移区"],
   ["pCladding", "#7c3aed", "p-InP 包层"],
@@ -153,7 +153,7 @@ const indexItems = [
       body: "端面镀膜调节端面反射率。AR coating 降低残余反射和外部反馈敏感性；HR coating 提高一侧反射，让更多光从另一端输出。模型用薄膜示意这种端面工程。"
     },
     mode: {
-      color: "#67e8f9",
+      color: "#0891b2",
       title: "腔内光场分布",
       body: "腔内光场分布表示激光在芯片内部的空间强度分布。这个示意体沿腔长方向延伸，垂直方向被压得很薄，用来表达光主要被 SCH、包层和 ridge 波导限制在 MQW 有源区附近。它表示光场，不对应独立材料层。"
     },
@@ -411,7 +411,7 @@ const indexItems = [
     chip.add(tagPart(arCoating, "coating", false, 3), tagPart(hrCoating, "coating", false, 3));
 
     const modeGeometry = new THREE.SphereGeometry(1, 48, 24);
-    const mode = new THREE.Mesh(modeGeometry, transparent(0x67e8f9, 0.28));
+    const mode = new THREE.Mesh(modeGeometry, transparent(0x0891b2, 0.46));
     mode.scale.set(2.65, 0.07, 0.28);
     mode.position.set(0, layerCenters["MQW active region"], cutawayOffset);
     chip.add(tagPart(mode, "mode"));
@@ -490,11 +490,14 @@ const indexItems = [
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.enableRotate = false;
+    controls.enableRotate = true;
     controls.dampingFactor = 0.08;
+    controls.rotateSpeed = 0.75;
     controls.minDistance = 0.35;
     controls.maxDistance = 80;
-    controls.target.set(0, 0.18, 0);
+    controls.minPolarAngle = 0.01;
+    controls.maxPolarAngle = Math.PI - 0.01;
+    controls.target.set(0, 0, 0);
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.45));
     const key = new THREE.DirectionalLight(0xffffff, 2.25);
@@ -509,8 +512,6 @@ const indexItems = [
     const pointer = new THREE.Vector2();
     let selectedPart = "";
     let pointerDownState = null;
-    let isDraggingModel = false;
-    const freeRotationSpeed = 0.01;
     const dragSelectionThreshold = 5;
     const referenceOpacity = 0.18;
 
@@ -651,32 +652,9 @@ const indexItems = [
       pointerDownState = {
         pointerId: event.pointerId,
         x: event.clientX,
-        y: event.clientY,
-        startRotationX: model.rotation.x,
-        startRotationY: model.rotation.y
+        y: event.clientY
       };
-      isDraggingModel = false;
-      renderer.domElement.setPointerCapture?.(event.pointerId);
       renderer.domElement.style.cursor = "grabbing";
-    };
-
-    const rotateModelFromPointer = (event) => {
-      if (!pointerDownState) return false;
-      if (event.buttons !== undefined && (event.buttons & 1) !== 1) {
-        clearPointerDownState(event);
-        return false;
-      }
-
-      const deltaX = event.clientX - pointerDownState.x;
-      const deltaY = event.clientY - pointerDownState.y;
-      const distance = Math.hypot(deltaX, deltaY);
-      if (!isDraggingModel && distance <= dragSelectionThreshold) return false;
-
-      isDraggingModel = true;
-      model.rotation.x = pointerDownState.startRotationX + deltaY * freeRotationSpeed;
-      model.rotation.y = pointerDownState.startRotationY + deltaX * freeRotationSpeed;
-      renderer.domElement.style.cursor = "grabbing";
-      return true;
     };
 
     const handlePointerUp = (event) => {
@@ -685,10 +663,8 @@ const indexItems = [
         event.clientX - pointerDownState.x,
         event.clientY - pointerDownState.y
       );
-      const wasDraggingModel = isDraggingModel || distance > dragSelectionThreshold;
-      renderer.domElement.releasePointerCapture?.(pointerDownState.pointerId);
+      const wasDraggingModel = distance > dragSelectionThreshold;
       pointerDownState = null;
-      isDraggingModel = false;
       if (wasDraggingModel) {
         updateCursor(event);
         return;
@@ -696,17 +672,21 @@ const indexItems = [
       pickPart(event);
     };
 
-    const clearPointerDownState = (event) => {
-      if (pointerDownState) {
-        const pointerId = event?.pointerId ?? pointerDownState.pointerId;
-        renderer.domElement.releasePointerCapture?.(pointerId);
-      }
+    const clearPointerDownState = () => {
       pointerDownState = null;
-      isDraggingModel = false;
     };
 
     const updateCursor = (event) => {
-      if (rotateModelFromPointer(event)) return;
+      if (pointerDownState) {
+        const distance = Math.hypot(
+          event.clientX - pointerDownState.x,
+          event.clientY - pointerDownState.y
+        );
+        if (distance > dragSelectionThreshold) {
+          renderer.domElement.style.cursor = "grabbing";
+          return;
+        }
+      }
 
       const bounds = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
