@@ -269,7 +269,13 @@ test("light source component page is organized as a focused laser-source page", 
   assert.match(model, /setSelectedPart/);
   assert.match(model, /controls\.minDistance = 0\.35/);
   assert.match(model, /controls\.maxDistance = 80/);
-  assert.doesNotMatch(model, /model\.rotation\.y \+=/);
+  assert.match(model, /controls\.enableRotate = false/);
+  assert.match(model, /freeRotationSpeed/);
+  assert.match(model, /isDraggingModel/);
+  assert.match(model, /startRotationX/);
+  assert.match(model, /startRotationY/);
+  assert.match(model, /model\.rotation\.x = pointerDownState\.startRotationX/);
+  assert.match(model, /model\.rotation\.y = pointerDownState\.startRotationY/);
 });
 
 test("InP DFB laser principle deep page ties physics to CPO light source needs", async () => {

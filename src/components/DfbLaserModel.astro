@@ -488,6 +488,7 @@ const indexItems = [
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.enableRotate = false;
     controls.dampingFactor = 0.08;
     controls.minDistance = 0.35;
     controls.maxDistance = 80;
@@ -506,6 +507,8 @@ const indexItems = [
     const pointer = new THREE.Vector2();
     let selectedPart = "";
     let pointerDownState = null;
+    let isDraggingModel = false;
+    const freeRotationSpeed = 0.01;
     const dragSelectionThreshold = 5;
     const referenceOpacity = 0.18;
 
@@ -644,9 +647,34 @@ const indexItems = [
     const handlePointerDown = (event) => {
       if (event.button !== 0) return;
       pointerDownState = {
+        pointerId: event.pointerId,
         x: event.clientX,
-        y: event.clientY
+        y: event.clientY,
+        startRotationX: model.rotation.x,
+        startRotationY: model.rotation.y
       };
+      isDraggingModel = false;
+      renderer.domElement.setPointerCapture?.(event.pointerId);
+      renderer.domElement.style.cursor = "grabbing";
+    };
+
+    const rotateModelFromPointer = (event) => {
+      if (!pointerDownState) return false;
+      if (event.buttons !== undefined && (event.buttons & 1) !== 1) {
+        clearPointerDownState(event);
+        return false;
+      }
+
+      const deltaX = event.clientX - pointerDownState.x;
+      const deltaY = event.clientY - pointerDownState.y;
+      const distance = Math.hypot(deltaX, deltaY);
+      if (!isDraggingModel && distance <= dragSelectionThreshold) return false;
+
+      isDraggingModel = true;
+      model.rotation.x = pointerDownState.startRotationX + deltaY * freeRotationSpeed;
+      model.rotation.y = pointerDownState.startRotationY + deltaX * freeRotationSpeed;
+      renderer.domElement.style.cursor = "grabbing";
+      return true;
     };
 
     const handlePointerUp = (event) => {
@@ -655,16 +683,29 @@ const indexItems = [
         event.clientX - pointerDownState.x,
         event.clientY - pointerDownState.y
       );
+      const wasDraggingModel = isDraggingModel || distance > dragSelectionThreshold;
+      renderer.domElement.releasePointerCapture?.(pointerDownState.pointerId);
       pointerDownState = null;
-      if (distance > dragSelectionThreshold) return;
+      isDraggingModel = false;
+      if (wasDraggingModel) {
+        updateCursor(event);
+        return;
+      }
       pickPart(event);
     };
 
-    const clearPointerDownState = () => {
+    const clearPointerDownState = (event) => {
+      if (pointerDownState) {
+        const pointerId = event?.pointerId ?? pointerDownState.pointerId;
+        renderer.domElement.releasePointerCapture?.(pointerId);
+      }
       pointerDownState = null;
+      isDraggingModel = false;
     };
 
     const updateCursor = (event) => {
+      if (rotateModelFromPointer(event)) return;
+
       const bounds = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
