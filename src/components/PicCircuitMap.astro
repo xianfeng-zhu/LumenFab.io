@@ -6,17 +6,16 @@ interface Props {
 
 const {
   title = "硅光光子集成芯片（PIC）俯视器件地图",
-  caption = "示意图按芯片裸片的俯视关系组织常见器件。波导长度、版图比例、通道数量和金属层级经过简化，重点呈现光接口、片上光路、有源器件、无源器件、探测器和电热控制结构之间的空间关系。"
+  caption = "示意图按芯片裸片的俯视关系组织常见器件。波导长度、版图比例、通道数量和金属层级经过简化，重点呈现光接口、片上光路、有源器件、无源器件、探测器和金属互连之间的空间关系。"
 } = Astro.props;
 
 const parts = [
   ["lightIn", "#2563eb", "连续光输入"],
   ["coupler", "#f97316", "光输入输出耦合"],
-  ["splitter", "#0d9488", "分光与监测抽头"],
+  ["splitter", "#0d9488", "输入分配 / 功率监测"],
   ["modulator", "#7c3aed", "调制器区"],
   ["wavelength", "#db2777", "波长选择区"],
   ["detector", "#16a34a", "锗探测器"],
-  ["heater", "#d97706", "热调谐结构"],
   ["metal", "#475569", "金属互连与焊盘"]
 ];
 
@@ -26,8 +25,8 @@ const partInfo = {
     body: "连续光通常由外置激光器、磷化铟（InP）光源、异质集成光源或同封装集成激光器微模块（Laser Tile）提供。PIC 在物理边界上接收这束光，并把输入功率、波长、偏振和噪声约束传递给片上光路。"
   },
   splitter: {
-    title: "分光与监测抽头",
-    body: "多模干涉耦合器（MMI）、方向耦合器和抽头耦合器把输入光分配到多条信道，并抽取少量光功率供监测探测器使用。分光比、插入损耗和通道均匀性会决定后级调制器可用的光功率余量。"
+    title: "输入分配 / 功率监测",
+    body: "多 lane 发射型 PIC 常用 MMI、方向耦合器或 splitter 把输入光分配到多条片上路径；tap coupler 会从主光路取出很小一部分光送到监测探测器。分光结构取决于具体架构，功率监测则用于判断耦合状态、通道均匀性和控制环路工作点。"
   },
   modulator: {
     title: "调制器区",
@@ -39,19 +38,15 @@ const partInfo = {
   },
   coupler: {
     title: "光输入输出耦合",
-    body: "边缘（端面）耦合器通过芯片侧壁与光纤阵列对接，光栅耦合器从芯片表面完成测试或封装耦合。耦合效率、偏振相关损耗、回波反射和对准容差会直接进入链路预算与封装设计。"
+    body: "边缘（端面）耦合器通过芯片侧壁与光纤阵列对接，是图中主光路的输入和输出接口。光栅耦合器通常作为晶圆级测试口，从芯片表面与测试光纤探针对准，用于制造测试或校准。耦合效率、偏振相关损耗、回波反射和对准容差会直接进入链路预算与封装设计。"
   },
   detector: {
     title: "锗探测器",
     body: "锗光电探测器（Ge PD）吸收近红外光并产生光电流，既可用于接收端，也可作为监测探测器追踪片上光功率。探测器电容、暗电流、响应度和饱和功率会影响跨阻放大器（TIA）与控制环路设计。"
   },
-  heater: {
-    title: "热调谐结构",
-    body: "微加热器利用硅材料的热光效应调节相位或共振波长，用于补偿制造误差和环境温漂。微环、AWG、MZM 偏置点和开关矩阵常需要热调谐，调谐功耗与热串扰会影响芯片工作点稳定性。"
-  },
   metal: {
     title: "金属互连与焊盘",
-    body: "金属层把高速地-信号-地（GSG）电极、微加热器供电、探测器读出、静电防护结构、焊盘和微凸点连接到电芯片与测试设备。金属布局会影响射频损耗、寄生参数、热分布和测试通路。"
+    body: "金属层把高速地-信号-地（GSG）电极、探测器读出、静电防护结构、焊盘和微凸点连接到电芯片与测试设备。金属布局会影响射频损耗、寄生参数、热分布和测试通路。"
   }
 } satisfies Record<string, { title: string; body: string }>;
 ---
@@ -80,128 +75,83 @@ const partInfo = {
       <text class="pic-map__corner" x="92" y="62">硅光 PIC 芯片裸片俯视示意（非比例）</text>
 
       <g data-pic-node="lightIn">
-        <path class="pic-map__fiber" d="M 12 202 H 88 M 12 242 H 88 M 12 282 H 88 M 12 322 H 88"></path>
-        <rect class="pic-map__fiber-array" x="18" y="182" width="64" height="160" rx="8"></rect>
-        <path class="pic-map__wg pic-map__wg--blue" d="M 162 202 H 244"></path>
-        <path class="pic-map__wg pic-map__wg--blue" d="M 162 242 H 244"></path>
-        <path class="pic-map__wg pic-map__wg--blue" d="M 162 282 H 244"></path>
-        <path class="pic-map__wg pic-map__wg--blue" d="M 162 322 H 244"></path>
-        <path class="pic-map__wg pic-map__wg--blue pic-map__wg--thin" d="M 190 146 C 222 146, 238 162, 244 190"></path>
-        <text class="pic-map__label" x="72" y="172" text-anchor="middle">光纤阵列</text>
-        <text class="pic-map__label" x="222" y="178" text-anchor="middle">连续光输入</text>
+        <path class="pic-map__fiber" d="M 14 264 H 96"></path>
+        <rect class="pic-map__fiber-array" x="22" y="238" width="66" height="52" rx="8"></rect>
+        <path class="pic-map__wg pic-map__wg--blue" d="M 4 264 H 22"></path>
+        <path class="pic-map__wg pic-map__wg--teal pic-map__wg--thin" d="M 138 264 H 252"></path>
+        <text class="pic-map__label" x="42" y="212" text-anchor="middle">光纤阵列</text>
+        <text class="pic-map__sub pic-map__sub--dark" x="8" y="224" text-anchor="start">外部 CW 光</text>
       </g>
 
       <g data-pic-node="coupler">
-        <rect class="pic-map__facet" x="88" y="180" width="38" height="164" rx="5"></rect>
-        <path class="pic-map__taper" d="M 126 202 L 166 192 L 166 212 Z M 126 242 L 166 232 L 166 252 Z M 126 282 L 166 272 L 166 292 Z M 126 322 L 166 312 L 166 332 Z"></path>
+        <rect class="pic-map__facet" x="96" y="232" width="42" height="64" rx="5"></rect>
+        <path class="pic-map__taper" d="M 138 264 L 176 252 L 176 276 Z"></path>
         <g class="pic-map__gratings">
-          <ellipse cx="182" cy="138" rx="42" ry="18"></ellipse>
-          <path d="M 150 138 h 64 M 156 130 h 52 M 156 146 h 52"></path>
-          <ellipse cx="270" cy="138" rx="42" ry="18"></ellipse>
-          <path d="M 238 138 h 64 M 244 130 h 52 M 244 146 h 52"></path>
+          <ellipse cx="196" cy="130" rx="44" ry="18"></ellipse>
+          <path d="M 164 130 h 64 M 170 122 h 52 M 170 138 h 52"></path>
+          <ellipse cx="292" cy="130" rx="44" ry="18"></ellipse>
+          <path d="M 260 130 h 64 M 266 122 h 52 M 266 138 h 52"></path>
         </g>
-        <rect class="pic-map__facet" x="914" y="196" width="38" height="116" rx="5"></rect>
-        <path class="pic-map__taper" d="M 914 222 L 874 212 L 874 232 Z M 914 264 L 874 254 L 874 274 Z"></path>
-        <path class="pic-map__fiber" d="M 952 222 H 1066 M 952 264 H 1066"></path>
-        <text class="pic-map__label" x="126" y="368" text-anchor="middle">边缘（端面）耦合器</text>
-        <text class="pic-map__label" x="226" y="112" text-anchor="middle">光栅测试口</text>
-        <text class="pic-map__label" x="914" y="340" text-anchor="middle">输出耦合</text>
-      </g>
-
-      <g data-pic-node="modulator">
-        <path class="pic-map__wg pic-map__wg--violet" d="M 344 202 C 370 202, 378 178, 402 178 H 520 C 548 178, 558 202, 586 202"></path>
-        <path class="pic-map__wg pic-map__wg--violet" d="M 344 202 C 370 202, 378 226, 402 226 H 520 C 548 226, 558 202, 586 202"></path>
-        <path class="pic-map__wg pic-map__wg--violet" d="M 344 242 C 370 242, 378 260, 402 260 H 520 C 548 260, 558 242, 586 242"></path>
-        <path class="pic-map__wg pic-map__wg--violet" d="M 344 242 C 370 242, 378 224, 402 224 H 520 C 548 224, 558 242, 586 242"></path>
-        <path class="pic-map__wg pic-map__wg--violet" d="M 344 282 H 414 M 480 282 H 586 M 344 322 H 414 M 480 322 H 586"></path>
-        <circle class="pic-map__ring pic-map__ring--violet" cx="448" cy="282" r="28"></circle>
-        <circle class="pic-map__ring pic-map__ring--violet" cx="448" cy="322" r="28"></circle>
-        <rect class="pic-map__device-outline pic-map__device-outline--violet" x="386" y="160" width="160" height="86" rx="7"></rect>
-        <rect class="pic-map__device-outline pic-map__device-outline--violet" x="416" y="252" width="64" height="96" rx="7"></rect>
-        <text class="pic-map__label" x="468" y="150" text-anchor="middle">MZM 行波调制器</text>
-        <text class="pic-map__label" x="448" y="365" text-anchor="middle">微环调制器</text>
-      </g>
-
-      <g data-pic-node="wavelength">
-        <path class="pic-map__wg pic-map__wg--pink" d="M 586 202 C 622 202, 632 218, 666 222"></path>
-        <path class="pic-map__wg pic-map__wg--pink" d="M 586 242 C 620 242, 632 236, 666 228"></path>
-        <path class="pic-map__wg pic-map__wg--pink" d="M 586 282 C 620 282, 646 250, 674 238"></path>
-        <path class="pic-map__wg pic-map__wg--pink" d="M 586 322 C 622 322, 654 262, 680 244"></path>
-        <path class="pic-map__awg-body" d="M 682 154 C 774 176, 810 254, 760 338 C 724 320, 678 284, 650 246 C 656 210, 666 178, 682 154 Z"></path>
-        <path class="pic-map__awg-lines" d="M 686 174 C 748 190, 776 252, 740 318 M 704 168 C 770 194, 792 250, 756 326 M 722 172 C 788 202, 798 252, 768 316 M 672 214 C 724 226, 758 258, 784 296"></path>
-        <path class="pic-map__wg pic-map__wg--pink" d="M 760 230 C 806 230, 828 222, 874 222"></path>
-        <path class="pic-map__wg pic-map__wg--pink pic-map__wg--thin" d="M 620 356 H 694 M 760 356 H 832"></path>
-        <circle class="pic-map__ring pic-map__ring--pink" cx="726" cy="356" r="30"></circle>
-        <text class="pic-map__label" x="724" y="146" text-anchor="middle">AWG 合波器</text>
-        <text class="pic-map__label" x="726" y="410" text-anchor="middle">微环滤波器</text>
+        <rect class="pic-map__facet" x="908" y="228" width="42" height="64" rx="5"></rect>
+        <path class="pic-map__taper" d="M 908 260 L 866 244 L 866 276 Z"></path>
+        <path class="pic-map__fiber" d="M 950 260 H 1066"></path>
+        <text class="pic-map__label" x="118" y="334" text-anchor="middle">输入端面耦合 / SSC</text>
+        <text class="pic-map__sub" x="244" y="104" text-anchor="middle">晶圆级光栅测试口</text>
+        <text class="pic-map__label" x="910" y="334" text-anchor="middle">输出端面耦合</text>
       </g>
 
       <g data-pic-node="splitter">
-        <rect class="pic-map__mmi" x="250" y="210" width="82" height="126" rx="7"></rect>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 244 202 C 258 202, 258 232, 250 232"></path>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 244 242 H 250"></path>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 244 282 H 250"></path>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 244 322 C 258 322, 258 310, 250 310"></path>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 332 232 C 338 218, 338 202, 344 202"></path>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 332 252 C 338 248, 338 242, 344 242"></path>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 332 292 C 338 288, 338 282, 344 282"></path>
-        <path class="pic-map__wg pic-map__wg--teal" d="M 332 314 C 338 324, 338 322, 344 322"></path>
-        <path class="pic-map__wg pic-map__wg--teal pic-map__wg--thin" d="M 302 336 C 316 374, 340 392, 382 392"></path>
-        <circle class="pic-map__tap-dot" cx="302" cy="336" r="6"></circle>
-        <text class="pic-map__label" x="291" y="203" text-anchor="middle">MMI 分束器</text>
-        <text class="pic-map__sub" x="332" y="374" text-anchor="middle">监测抽头</text>
+        <rect class="pic-map__mmi" x="252" y="224" width="86" height="88" rx="7"></rect>
+        <path class="pic-map__wg pic-map__wg--teal" d="M 252 264 H 338"></path>
+        <path class="pic-map__wg pic-map__wg--teal" d="M 338 236 H 382"></path>
+        <path class="pic-map__wg pic-map__wg--teal" d="M 338 280 H 382"></path>
+        <path class="pic-map__wg pic-map__wg--teal pic-map__wg--thin" d="M 302 312 C 302 338, 302 352, 302 366"></path>
+        <circle class="pic-map__tap-dot" cx="302" cy="312" r="6"></circle>
+        <text class="pic-map__label" x="294" y="212" text-anchor="middle">输入分配器</text>
+        <text class="pic-map__sub" x="340" y="352" text-anchor="middle">功率监测 tap</text>
+      </g>
+
+      <g data-pic-node="modulator">
+        <rect class="pic-map__device-outline pic-map__device-outline--violet" x="382" y="198" width="230" height="148" rx="8"></rect>
+        <path class="pic-map__wg pic-map__wg--violet" d="M 382 236 C 408 236, 414 216, 440 216 H 554 C 580 216, 586 236, 612 236"></path>
+        <path class="pic-map__wg pic-map__wg--violet" d="M 382 236 C 408 236, 414 256, 440 256 H 554 C 580 256, 586 236, 612 236"></path>
+        <path class="pic-map__wg pic-map__wg--violet" d="M 382 280 C 408 280, 414 260, 440 260 H 554 C 580 260, 586 280, 612 280"></path>
+        <path class="pic-map__wg pic-map__wg--violet" d="M 382 280 C 408 280, 414 300, 440 300 H 554 C 580 300, 586 280, 612 280"></path>
+        <text class="pic-map__label" x="497" y="186" text-anchor="middle">MZM 调制器阵列</text>
+      </g>
+
+      <g data-pic-node="wavelength">
+        <path class="pic-map__wg pic-map__wg--pink" d="M 612 236 C 642 236, 650 220, 682 220"></path>
+        <path class="pic-map__wg pic-map__wg--pink" d="M 612 280 C 642 280, 650 300, 682 300"></path>
+        <path class="pic-map__awg-body" d="M 682 184 H 782 C 810 184, 828 214, 828 260 C 828 306, 810 336, 782 336 H 682 C 702 300, 702 220, 682 184 Z"></path>
+        <path class="pic-map__awg-lines" d="M 704 216 C 742 216, 760 238, 792 238 M 700 246 C 740 246, 764 258, 798 258 M 704 296 C 742 296, 760 278, 792 278"></path>
+        <path class="pic-map__wg pic-map__wg--pink" d="M 828 260 H 866"></path>
+        <text class="pic-map__label" x="750" y="164" text-anchor="middle">AWG 合波器</text>
+        <text class="pic-map__sub" x="756" y="356" text-anchor="middle">不同长度的阵列波导</text>
       </g>
 
       <g data-pic-node="detector">
-        <path class="pic-map__wg pic-map__wg--green" d="M 382 392 H 438"></path>
-        <rect class="pic-map__pd" x="438" y="366" width="92" height="52" rx="7"></rect>
-        <path class="pic-map__wg pic-map__wg--green" d="M 832 356 C 862 356, 874 334, 890 306"></path>
-        <rect class="pic-map__pd" x="806" y="386" width="92" height="52" rx="7"></rect>
-        <path class="pic-map__wg pic-map__wg--green pic-map__wg--thin" d="M 820 356 C 830 380, 836 386, 852 386"></path>
-        <text class="pic-map__label" x="484" y="398" text-anchor="middle">监测 Ge PD</text>
-        <text class="pic-map__label" x="852" y="418" text-anchor="middle">接收 Ge PD</text>
-      </g>
-
-      <g data-pic-node="heater">
-        <path class="pic-map__heater" d="M 402 172 h 128 M 402 214 h 128 M 424 282 c 8 -14, 18 -14, 26 0 c 8 14, 18 14, 26 0 M 424 322 c 8 -14, 18 -14, 26 0 c 8 14, 18 14, 26 0"></path>
-        <path class="pic-map__heater" d="M 686 190 c 22 16, 40 42, 48 74 M 708 356 c 8 -14, 18 -14, 26 0 c 8 14, 18 14, 26 0"></path>
-        <text class="pic-map__label" x="548" y="124" text-anchor="middle">氮化钛（TiN）微加热器</text>
-        <text class="pic-map__sub pic-map__sub--dark" x="786" y="374" text-anchor="middle">波长微调</text>
+        <rect class="pic-map__pd" x="256" y="366" width="92" height="52" rx="7"></rect>
+        <text class="pic-map__label" x="302" y="398" text-anchor="middle">监测 Ge PD</text>
       </g>
 
       <g data-pic-node="metal">
         <g class="pic-map__pad-row">
-          <rect x="342" y="88" width="34" height="24" rx="4"></rect>
-          <rect x="390" y="88" width="34" height="24" rx="4"></rect>
-          <rect x="438" y="88" width="34" height="24" rx="4"></rect>
-          <rect x="486" y="88" width="34" height="24" rx="4"></rect>
-          <rect x="534" y="88" width="34" height="24" rx="4"></rect>
-          <rect x="582" y="88" width="34" height="24" rx="4"></rect>
-          <rect x="630" y="88" width="34" height="24" rx="4"></rect>
-          <rect x="678" y="88" width="34" height="24" rx="4"></rect>
+          <rect x="396" y="88" width="34" height="24" rx="4"></rect>
+          <rect x="444" y="88" width="34" height="24" rx="4"></rect>
+          <rect x="492" y="88" width="34" height="24" rx="4"></rect>
+          <rect x="540" y="88" width="34" height="24" rx="4"></rect>
+          <rect x="588" y="88" width="34" height="24" rx="4"></rect>
         </g>
-        <g class="pic-map__pad-row">
-          <rect x="400" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="448" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="496" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="544" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="592" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="640" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="688" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="736" y="478" width="34" height="24" rx="4"></rect>
-          <rect x="784" y="478" width="34" height="24" rx="4"></rect>
-        </g>
-        <path class="pic-map__metal" d="M 406 178 V 112 M 442 178 V 112 M 488 178 V 112 M 524 178 V 112"></path>
-        <path class="pic-map__metal pic-map__metal--wide" d="M 394 192 H 538 M 394 236 H 538"></path>
-        <path class="pic-map__metal" d="M 448 254 V 478 M 484 392 V 478 M 852 386 V 478 M 726 326 V 478"></path>
-        <path class="pic-map__metal" d="M 548 124 V 94 M 734 264 V 94"></path>
-        <text class="pic-map__label" x="528" y="68" text-anchor="middle">射频 GSG 与控制焊盘</text>
-        <text class="pic-map__label" x="620" y="536" text-anchor="middle">探测器读出、微加热器与测试通路</text>
+        <path class="pic-map__metal" d="M 414 198 V 112 M 462 198 V 112 M 510 198 V 112 M 558 198 V 112"></path>
+        <path class="pic-map__metal" d="M 302 418 V 430"></path>
+        <text class="pic-map__label" x="510" y="68" text-anchor="middle">射频 GSG 与控制焊盘</text>
+        <text class="pic-map__sub pic-map__sub--dark" x="620" y="458" text-anchor="middle">短距离读出与控制线</text>
       </g>
 
       <g class="pic-map__legend">
         <line x1="116" y1="582" x2="166" y2="582"></line>
-        <text x="178" y="587">硅波导光路</text>
+        <text x="178" y="587">主光路</text>
         <rect x="346" y="566" width="42" height="28" rx="5"></rect>
         <text x="398" y="587">功能器件区</text>
         <path d="M 550 580 h 72"></path>
@@ -218,7 +168,7 @@ const partInfo = {
 
   <div class="pic-map__info" data-pic-info aria-live="polite">
     <strong data-pic-title>结构说明</strong>
-    <span data-pic-body>光子集成芯片（PIC）把片上光路、调制器、耦合器、探测器和电热控制组织成可制造、可测试的光学电路。</span>
+    <span data-pic-body>光子集成芯片（PIC）把片上光路、调制器、耦合器、探测器和金属互连组织成可制造、可测试的光学电路。</span>
   </div>
 
   <figcaption>
@@ -243,7 +193,7 @@ const partInfo = {
       active = "";
       title.textContent = "结构说明";
       title.style.removeProperty("--part-title-color");
-      body.textContent = "光子集成芯片（PIC）把片上光路、调制器、耦合器、探测器和电热控制组织成可制造、可测试的光学电路。";
+      body.textContent = "光子集成芯片（PIC）把片上光路、调制器、耦合器、探测器和金属互连组织成可制造、可测试的光学电路。";
       for (const node of nodes) {
         node.removeAttribute("data-active");
         node.removeAttribute("data-muted");
@@ -380,7 +330,6 @@ const partInfo = {
     --pic-wavelength: #db2777;
     --pic-coupler: #f97316;
     --pic-detector: #16a34a;
-    --pic-heater: #d97706;
     --pic-metal: #475569;
     margin: 2rem 0 2.5rem;
   }
@@ -496,6 +445,11 @@ const partInfo = {
     stroke-width: 2;
   }
 
+  .pic-map__test-link {
+    stroke-dasharray: 6 6;
+    opacity: 0.65;
+  }
+
   .pic-map__mmi {
     fill: #ccfbf1;
     stroke: var(--pic-splitter);
@@ -541,14 +495,6 @@ const partInfo = {
     stroke: var(--pic-detector);
   }
 
-  .pic-map__heater {
-    fill: none;
-    stroke: var(--pic-heater);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 4;
-  }
-
   .pic-map__metal {
     fill: none;
     stroke: var(--pic-metal);
@@ -559,6 +505,11 @@ const partInfo = {
 
   .pic-map__metal--wide {
     stroke-width: 6;
+  }
+
+  .pic-map__wg--optional,
+  .pic-map__optional-device {
+    opacity: 0.62;
   }
 
   .pic-map__pad-row rect {
@@ -627,6 +578,11 @@ const partInfo = {
     cursor: pointer;
     outline: none;
     transition: opacity 140ms ease;
+  }
+
+  g[data-pic-node="detector"],
+  g[data-pic-node="metal"] {
+    opacity: 0.72;
   }
 
   [data-pic-node][data-muted] {
