@@ -121,13 +121,16 @@ const partInfo = {
       </g>
 
       <g data-pic-node="wavelength">
-        <path class="pic-map__wg pic-map__wg--pink" d="M 612 236 C 642 236, 650 220, 682 220"></path>
-        <path class="pic-map__wg pic-map__wg--pink" d="M 612 280 C 642 280, 650 300, 682 300"></path>
-        <path class="pic-map__awg-body" d="M 682 184 H 782 C 810 184, 828 214, 828 260 C 828 306, 810 336, 782 336 H 682 C 702 300, 702 220, 682 184 Z"></path>
-        <path class="pic-map__awg-lines" d="M 704 216 C 742 216, 760 238, 792 238 M 700 246 C 740 246, 764 258, 798 258 M 704 296 C 742 296, 760 278, 792 278"></path>
-        <path class="pic-map__wg pic-map__wg--pink" d="M 828 260 H 866"></path>
-        <text class="pic-map__label" x="750" y="164" text-anchor="middle">AWG 合波器</text>
-        <text class="pic-map__sub" x="756" y="356" text-anchor="middle">不同长度的阵列波导</text>
+        <path class="pic-map__wg pic-map__wg--pink" d="M 612 236 C 642 236, 652 236, 684 236"></path>
+        <path class="pic-map__wg pic-map__wg--pink" d="M 612 280 C 642 280, 652 280, 684 280"></path>
+        <rect class="pic-map__awg-body" x="684" y="198" width="150" height="124" rx="10"></rect>
+        <path class="pic-map__awg-lines" d="M 684 236 C 732 236, 768 248, 834 260 M 684 280 C 732 280, 768 272, 834 260"></path>
+        <path class="pic-map__wg pic-map__wg--pink" d="M 834 260 H 866"></path>
+        <text class="pic-map__sub" x="658" y="226" text-anchor="middle">λ1</text>
+        <text class="pic-map__sub" x="658" y="306" text-anchor="middle">λ2</text>
+        <text class="pic-map__label" x="759" y="184" text-anchor="middle">AWG 合波器</text>
+        <text class="pic-map__sub" x="850" y="292" text-anchor="start">λ1 + λ2</text>
+        <text class="pic-map__sub" x="850" y="310" text-anchor="start">WDM 输出</text>
       </g>
 
       <g data-pic-node="detector">

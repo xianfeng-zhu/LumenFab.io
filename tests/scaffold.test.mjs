@@ -165,11 +165,16 @@ test("PIC circuit map keeps the overview diagram focused on main optical path", 
   assert.match(component, /输入分配 \/ 功率监测/);
   assert.match(component, /监测 Ge PD/);
   assert.match(component, /金属互连/);
+  assert.match(component, /λ1/);
+  assert.match(component, /λ2/);
+  assert.match(component, /λ1 \+ λ2/);
+  assert.match(component, /WDM 输出/);
   assert.doesNotMatch(component, /热调谐结构/);
   assert.doesNotMatch(component, /data-pic-node="heater"/);
   assert.doesNotMatch(component, /pic-map__heater/);
   assert.doesNotMatch(component, /pic-map__electrode/);
   assert.doesNotMatch(component, /电热控制线/);
+  assert.doesNotMatch(component, /不同长度的阵列波导/);
 });
 
 test("component hub pages link to detail pages through relative paths", async () => {
