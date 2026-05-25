@@ -175,6 +175,11 @@ test("PIC circuit map keeps the overview diagram focused on main optical path", 
   assert.doesNotMatch(component, /pic-map__electrode/);
   assert.doesNotMatch(component, /电热控制线/);
   assert.doesNotMatch(component, /不同长度的阵列波导/);
+  assert.doesNotMatch(component, /短距离读出与控制线/);
+  assert.doesNotMatch(component, /sectionRules/);
+  assert.doesNotMatch(component, /setupSectionObserver/);
+  assert.doesNotMatch(component, /manualSelection/);
+  assert.doesNotMatch(component, /addEventListener\(\s*"scroll"/);
 });
 
 test("component hub pages link to detail pages through relative paths", async () => {
