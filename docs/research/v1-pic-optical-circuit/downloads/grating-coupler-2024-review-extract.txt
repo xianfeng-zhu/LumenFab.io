@@ -1,0 +1,34 @@
+Source: npj Nanophotonics (Nature), "Silicon photonics for high-speed communications and photonic signal processing"
+Published: July 17, 2024
+URL: https://www.nature.com/articles/s44310-024-00024-7
+
+Key grating coupler findings for 2024:
+
+- Foundry-manufactured chips demonstrated fiber-chip coupling losses under 1 dB using shifted-polysilicon overlay gratings
+- 1-dB bandwidths over 100 nm achieved using mirror symmetry and resonant cavity enhancement
+- Wafer-scale testing is a key advantage of grating couplers over edge couplers
+- Discusses multimode waveguide grating couplers (MWGC) for mode-division multiplexing
+
+Additional 2024 results:
+- 2D double-layer grating (220 nm SOI, 193-nm DUV-only): -2.54 dB coupling loss, <0.3 dB PDL, 23.4 nm 3-dB bandwidth
+- Hybrid α-Si/SiN grating (simulated): -1.0 dB coupling loss, ~37 nm 1-dB bandwidth
+- Standard SOI grating (uniform): -3 to -5 dB typical
+- Apodized grating: -3 dB typical
+- Back-reflection: standard uniform grating >5%; optimized <1% (<-20 dB)
+
+Grating coupler coupling angle:
+- Standard shallow-etched: ~8°-15° from vertical
+- Perfect vertical coupling with blazed anti-back-reflection: 0° (normal incidence)
+- SWG coupler for TE: ~39°, for TM: ~16°
+
+Performance comparison:
+                  | Grating Coupler        | Edge Coupler
+Insertion Loss    | -3 to -6 dB typical   | -0.5 to -2.2 dB typical
+                  | Best: -1.0 dB (hybrid) | Best: -0.2 dB (SiN)
+1-dB/3-dB BW      | 30-60 nm typical      | >100 nm typical
+                  | Best: >100 nm          | Best: >600 nm
+Polarization      | High (TE-dominant)    | Low (polarization-diverse)
+Alignment         | ±20 μm (1 dB)         | ±1-2.5 μm (1 dB)
+Back-reflection   | >5% (uniform)         | <1% (with ARC)
+                  | <1% (optimized)
+Wafer-level test  | Yes (top surface)     | No (needs facet)

@@ -1,0 +1,38 @@
+Sources: GIGALIGHT 400G DR4 Linear CPO Silicon Optical Engine (2024)
+URL: https://www.gigalight.com/news-events/news-7938.html
+And ABPTEL optical reach calculation resource.
+
+CPO SILICON OPTICAL ENGINE SPECIFICATIONS:
+- TX output power: 0 to +3 dBm
+- Extinction ratio: 4-5 dB
+- TDECQ: <2.5 dB (typically 1-2 dB)
+- Wavelength: 1304.5-1317.5 nm
+- RX OMA sensitivity: <-5.5 dBm
+
+RAW OMA BUDGET:
+- TX (0 dBm) - RX sensitivity (-5.5 dBm) = 5.5 dB
+- This budget is consumed by: fiber loss, connector loss, dispersion penalty, aging/temp margin, and coupling loss
+
+CPO LINK BUDGET TYPICAL ALLOCATION:
+- TX OMA output: 0 to +3 dBm
+- Fiber loss (500 m): ~0.15 dB
+- Connector/patch panel loss: ~0.5-1.0 dB
+- Dispersion penalty: ~0.5-1.0 dB (longer links)
+- Aging & temp margin: ~1.0-2.0 dB
+- RX OMA sensitivity: -5.5 to -10 dBm
+- Net margin required: >=1-3 dB
+
+COUPLING LOSS IMPACT:
+- Each 1 dB of coupling loss directly reduces OMA budget 1:1
+- For a 5.5 dB OMA budget, a 3 dB coupling loss per direction consumes over half the budget
+- For CPO with fiber-to-PIC coupling at both TX and RX: 2 × coupling loss
+- Typical edge coupler loss (0.5-1.5 dB/facet) + FAU loss (0.5-1 dB) = 1-2.5 dB per direction
+- Typical grating coupler loss (3-5 dB) is often prohibitive for CPO final assembly
+
+PAM4 PENALTY:
+- PAM4 imposes ~9.5 dB penalty relative to NRZ at same symbol rate
+- Requires FEC with pre-FEC BER 10^-4 to 10^-5
+
+POWER REDUCTION:
+- Pluggable 30W -> CPO ~9W (70% reduction)
+- Energy per bit: 15-20 pJ/bit (pluggable) -> 5-10 pJ/bit (CPO)

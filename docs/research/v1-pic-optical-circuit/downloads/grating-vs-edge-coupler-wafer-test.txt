@@ -1,0 +1,45 @@
+Sources:
+- Polster et al., "Wafer-scale High-Density Edge Coupling for High Throughput Testing of Silicon Photonics", OFC 2018 (Lipson/Bergman group, Columbia)
+- Bhandari & Lee, "Highly Efficient Edge and Grating Coupler Hybrid for Full-scale Wafer-level and Chip-level Testing", CLEO 2022
+- IEEE 2024, "Coupling structure for enabling both wafer- and chip-level characterization of silicon photonic integrated circuits"
+
+KEY CHALLENGE:
+Edge couplers are superior for final packaging (lower loss, higher bandwidth, lower polarization dependence) but are inaccessible before wafer dicing. Grating couplers sit on top surface and can be probed at wafer-scale but have higher loss.
+
+COMMON STRATEGIES:
+
+1. DEDICATED GC TEST STRUCTURES (SACRIFICIAL):
+   - GC placed alongside EC path
+   - Splitter (95:5 or 99:1) taps small fraction to GC for testing
+   - After wafer test, GC unused or removed
+   - Pro: Simple, widely used
+   - Con: Burns ~1-5% of signal power to GC tap; extra footprint
+
+2. HYBRID GC+EC COUPLER (Bhandari & Lee, CLEO 2022):
+   - Single structure operates as both GC and EC
+   - Tested at wafer-level via GC, later used as EC after dicing
+   - Insertion loss <1.2 dB
+   - Extinction ratio >17 dB
+   - Pro: No splitter loss penalty; same device tested both ways
+
+3. PLC-BASED PROBE FOR WAFER-SCALE EDGE COUPLING:
+   - PLC inserted vertically into dicing trenches
+   - 45° polished facet deflects light into edge coupler
+   - Pro: Uses low-loss EC directly
+   - Con: Specialized probe hardware; excess loss ~2.2 dB demonstrated
+
+4. STUB FIBER ARRAY (TRENCH-BASED):
+   - Long protrusion fiber array extends into micro-trench
+   - Direct butt-coupling to EC before dicing
+   - Pro: Direct EC measurement
+   - Con: Precise alignment into narrow trenches
+
+INDUSTRY PRACTICE:
+- GC for rapid wafer-level probing (screen gross failures, process monitoring)
+- EC for final packaged device (lowest loss, WDM-compatible, polarization-diverse)
+- Trend: hybrid structures and advanced edge-probing techniques to reduce wafer-test loss penalty
+
+WAFFER-LEVEL TEST ADVANCES (2024):
+- Parallel fiber-array probes with fast SOP calibration (3 sec) for multi-device simultaneous IL/PDL measurement
+- Hybrid GC+SSC structures allow wafer-level test while preserving low EC loss for chip-level
+- GlobalFoundries + Ayar Labs: wafer-level optical edge-coupling IL measurement prior to fiber attach

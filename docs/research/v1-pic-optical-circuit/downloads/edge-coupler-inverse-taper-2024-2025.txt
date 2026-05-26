@@ -1,0 +1,55 @@
+Sources compiled from multiple IEEE research papers (2024-2025) on edge coupler performance.
+
+SINGLE-TIP INVERSE TAPER (Standard 220 nm SOI):
+- Coupling loss TE: ~1.9 dB (SMF-28)
+- Coupling loss TM: ~4.0 dB (SMF-28)
+- Key limitation: mode mismatch + substrate leakage
+
+DOUBLE-TIP INVERSE TAPER (Wang et al., 2016):
+- Coupling loss TE: 1.10 dB, TM: 1.52 dB
+- Bandwidth: 1480-1630 nm
+- 3-dB alignment tolerance: X ±1.25 μm, Y ±0.95 μm
+
+MULTI-TIP (10-TIP, 2021):
+- Coupling efficiency: -0.72 dB at 1310 nm, -1.12 dB at 1550 nm
+- 1-dB bandwidth: >400 nm for both TE and TM
+- PDL: <0.4 dB
+- 1-dB horizontal misalignment tolerance: 2.35 μm
+
+SiN-Si DUAL-STAGE WITH SWG (Jiang et al., 2024):
+- TE coupling loss: 0.61 dB (simulated), TM: 0.95 dB
+- PDL: <0.4 dB across 1500-1600 nm, <0.2 dB in C-band
+- Bandwidth: 100 nm (1500-1600 nm)
+- Device length: 315.8 μm
+- No suspended structures, CUMEC-compatible foundry
+
+SiN-ASSISTED EDGE COUPLER (Cheng, 2019):
+- Coupling loss: 0.35 dB at 1570 nm (with index-matching oil, high-NA fiber)
+- 1-dB bandwidth: 95 nm
+- 1-dB alignment tolerance: ±2.5 μm horizontal, ±1.0 μm vertical, >25 μm axial
+
+O-BAND BI-LEVEL TAPER (Yi et al., 2025, Opt. Lett. Vol 50 No 5):
+- Coupling loss TE: 0.53-0.57 dB, TM: 0.45-0.55 dB (1260-1360 nm)
+- Minimum measured loss: ~0.54 dB
+- PDL: ~0.18 dB
+- For 4 μm MFD fiber
+
+SiN SPOT-SIZE CONVERTER (Brunetti, 2023):
+- Coupling loss: 0.18 dB (lowest reported in C-band for SiN)
+- Taper length: 600 μm
+- Tip aspect ratio: 8:1 to 28:1
+
+TRIPLE-TIP SSC (2020, Si3N4):
+- Coupling loss: <1 dB over 600 nm window around 1550 nm
+- Low PDL, polarization-insensitive
+
+EDGE COUPLER ALIGNMENT TOLERANCE (from FAU research):
+- Best reported 1-dB tolerance: ±3.1 μm
+- Expanded beam 1-dB lateral tolerance: 6 μm
+- Expanded beam 1-dB axial tolerance: >100 μm
+- Rotational tolerance: 1.1°
+- Direct coupling tolerance: 2.6-2.8 μm
+
+FACET QUALITY:
+- Adhesive in optical path reduces loss from ~3 dB to ~2.13 dB/coupler
+- High-index lens materials preferred for turning mirrors (TIR preservation)

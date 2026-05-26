@@ -1,0 +1,39 @@
+Source: imec, "Interfacing silicon photonics for high-density co-packaged optics"
+URL: https://www.imec-int.com/en/articles/interfacing-silicon-photonics-high-density-co-packaged-optics
+Date accessed: 2026-05-26
+
+Key points on CPO optical coupling:
+
+1. Optical coupling requirements for CPO add assembly yield and scalability to low-loss (sub-1 dB), broadband, and polarization-independent requirements.
+
+2. SiN Edge Couplers (Hybrid Platform):
+   - Inverse SiN taper transitions large mode from SMF to tightly-confined Si nano-waveguide mode
+   - Typical coupling efficiency to SMF: -1.5 dB/fiber for both TE and TM in O- and C-bands
+   - Substrate removal below BOX required to prevent mode leakage
+   
+3. Polymer Optical Redistribution Layer (ORDL):
+   - SiN edge coupler + polymer waveguide provides mode conversion + optical redistribution
+   - SiN taper: 400 nm height, width 710nm to 130nm at tip
+   - EpoCore/EpoClad polymer: ~95% overlap efficiency with SMF
+   - Coupler loss well below 1 dB for both polarizations across O-band
+   - 1 dB lateral misalignment tolerance: ±1.8 μm
+
+4. Fabrication Results (1310 nm):
+   - Polymer waveguide propagation loss: <0.5 dB/cm
+   - Fiber-to-ORDL butt coupling: 1 dB per facet
+   - SiN waveguide propagation: <1 dB/cm (PECVD)
+   - Adiabatic SiN-to-ORDL transition: 0.5 dB per transition
+   - Total fiber-to-fiber insertion loss: 4 dB
+
+5. Wafer-Level Optical Interconnects:
+   - LPCVD SiN waveguides: <0.2 dB/cm loss, <10 μm pitch, <100 μm bend radius
+   - Reticle stitching: 12 nm max misalignment
+   - Stitching loss: 0.01 dB/interface
+   - Propagation loss: 0.165 dB/cm with 0.007 dB/bend (50 μm radius 90 deg)
+
+6. Evanescent Couplers (EVC) for Die-to-Wafer Bonding:
+   - SiN taper 710nm to 130nm using FAQUAD method
+   - 0.5mm EVC: mean 0.32 dB, yield 57%
+   - 1mm EVC: mean 0.37 dB, yield 68%
+   - 1.5mm EVC: mean 0.36 dB, yield 75.5%
+   - 1.5mm EVC tolerates up to 1.5 μm lateral misalignment
