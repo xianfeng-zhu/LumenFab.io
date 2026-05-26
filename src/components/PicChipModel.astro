@@ -513,26 +513,31 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(edgeCoupler, "edgeCoupler", false, 5));
 
-    // Optical path (RX input: fiber → grating coupler surface)
+    // Optical path (RX: fiber → GC → waveguide → Ge detector)
     const pathGroup = new THREE.Group();
+    const pathY = siSlabTop - siSlabH / 2 + siRibH / 2;
+    const gcTopY = siSlabTop + ribRidgeH;
     const pathPoints = [
-      new THREE.Vector3(fiberCenterX, fiberBottomY + 0.15, 1.45),
-      new THREE.Vector3(fiberCenterX, fiberBottomY, 1.45),
-      new THREE.Vector3(fiberCenterX, siSlabTop + ribRidgeH, 1.45),
+      new THREE.Vector3(fiberCenterX, fiberBottomY + 0.2, 1.45), // 光纤内
+      new THREE.Vector3(fiberCenterX, fiberBottomY, 1.45),        // 光纤端面
+      new THREE.Vector3(fiberCenterX, gcTopY, 1.45),              // GC表面
+      new THREE.Vector3(-0.5, pathY, 1.45),                       // 波导（转折后）
+      new THREE.Vector3(0.5, pathY, 1.45),                        // 波导
+      new THREE.Vector3(geX, pathY, 1.45),                        // Ge探测器
     ];
     const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
-    const pathGeometry = new THREE.TubeGeometry(pathCurve, 40, 0.02, 8, false);
-    const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.45));
+    const pathGeometry = new THREE.TubeGeometry(pathCurve, 64, 0.025, 8, false);
+    const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.55));
     pathGroup.add(tagPart(pathMesh, "opticalPath"));
 
     // Animated glow spheres along the path
     const pathGlowSpheres = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 10; i++) {
       const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.032, 10, 6),
+        new THREE.SphereGeometry(0.038, 10, 6),
         new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
       );
-      pathGlowSpheres.push({ mesh: glow, offset: i / 6 });
+      pathGlowSpheres.push({ mesh: glow, offset: i / 10 });
       pathGroup.add(glow);
     }
     chip.add(tagPart(pathGroup, "opticalPath"));
