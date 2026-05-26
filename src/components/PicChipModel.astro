@@ -405,27 +405,41 @@ const indexItems = [
     const siTopY = siSlabTop + stripRidgeH;
     yBase = siBase + siSlabH;
 
-    // Microring resonator — add-drop ring on RX path
-    const ringRadius = 0.32;
+    // WDM demux — three microrings on RX bus, each with drop port + Ge PD
+    const ringR = [0.22, 0.25, 0.28]; // slightly different radii → different λ
+    const ringXs = [-0.5, 0.7, 1.9];
     const ringGap = 0.05;
-    const ringX = 0.25;
-    // ring outer surface = bus right edge (rxZ + 0.16) + gap + minor radius
-    const ringZ = rxZ + 0.16 + ringGap + ringRadius + 0.035;
     const ringY = siSlabTop + ribRidgeH / 2;
-    const ringGeom = new THREE.TorusGeometry(ringRadius, 0.035, 16, 48);
-    const ringMesh = new THREE.Mesh(ringGeom, material(0x14b8a6, { roughness: 0.38, metalness: 0.12 }));
-    ringMesh.position.set(ringX, ringY, ringZ);
-    ringMesh.rotation.x = Math.PI / 2; // lay flat in XZ plane
-    lSiDevice.add(tagPart(ringMesh, "stripWaveguide", false, 5));
-    // Drop-port waveguide on the far side of the ring
-    const dropWG = createBox({
-      size: [1.6, ribRidgeH, 0.28],
-      position: [ringX + ringRadius + 0.6, siSlabTop + ribRidgeH / 2, ringZ],
-      color: 0x0f766e,
-      roughness: 0.42,
-      metalness: 0.12
-    });
-    lSiDevice.add(tagPart(dropWG, "ribWaveguide", false, 4));
+    const ringTag = ["ring1", "ring2", "ring3"];
+    const dropLen = 0.42;
+    const dropGeH = 0.12;
+    for (let i = 0; i < 3; i++) {
+      const rr = ringR[i];
+      const rx = ringXs[i];
+      const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+      // ring torus
+      const geom = new THREE.TorusGeometry(rr, 0.032, 16, 48);
+      const mesh = new THREE.Mesh(geom, material(0x14b8a6, { roughness: 0.38, metalness: 0.12 }));
+      mesh.position.set(rx, ringY, rz);
+      mesh.rotation.x = Math.PI / 2;
+      lSiDevice.add(tagPart(mesh, "stripWaveguide", false, 5));
+      // drop waveguide (Z direction from ring far side upward)
+      const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
+      const dwg = createBox({
+        size: [0.24, ribRidgeH, dropLen],
+        position: [rx, siSlabTop + ribRidgeH / 2, dropZ],
+        color: 0x0f766e, roughness: 0.42, metalness: 0.12
+      });
+      lSiDevice.add(tagPart(dwg, "ribWaveguide", false, 4));
+      // Ge PD at drop waveguide end
+      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      const pd = createBox({
+        size: [0.45, dropGeH, 0.22],
+        position: [rx, siSlabTop + dropGeH / 2, geZ],
+        color: 0x16a34a, roughness: 0.38, metalness: 0.08
+      });
+      lGeDetector.add(tagPart(pd, "geDetector", false, 5));
+    }
 
     // === Layer 4: Ge photodetector ===
     const geH = 0.18;
@@ -1202,8 +1216,17 @@ const indexItems = [
     // Directional coupler
     lSiDevice.add(createFaceLabel("定向耦合器", new THREE.Vector3(dcX, wgTopY, 0.4), faceTop, { scale: 0.08 }));
 
-    // Microring resonator
-    lSiDevice.add(createFaceLabel("微环谐振器", new THREE.Vector3(ringX, wgTopY, ringZ + ringRadius + 0.06), faceTop, { scale: 0.08 }));
+    // Microring resonators
+    for (let i = 0; i < 3; i++) {
+      const rr = ringR[i];
+      const rx = ringXs[i];
+      const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+      lSiDevice.add(createFaceLabel("λ" + (i + 1) + " 微环", new THREE.Vector3(rx, wgTopY, rz + rr + 0.06), faceTop, { scale: 0.07 }));
+      // Ge PD label on each drop
+      const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
+      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      lGeDetector.add(createFaceLabel("Ge PD", new THREE.Vector3(rx, siSlabTop + dropGeH + eps, geZ), faceTop, { scale: 0.06 }));
+    }
 
     // Ge detector — top face
     const geTopY = siSlabTop + geH + eps;
@@ -1264,7 +1287,18 @@ const indexItems = [
       { key: "ribWaveguide", size: [1.0, ribRidgeH + 0.14, 1.0], position: [2.2, siSlabTop + ribRidgeH / 2, -0.2], priority: 5 },
       { key: "heater", size: [2.0, heaterH + 0.12, 1.2], position: [0.5, cladTopY + heaterH / 2 + 0.02, 0.4], priority: 6 },
       { key: "stripWaveguide", size: [dcLen + 0.14, ribRidgeH + 0.12, 0.4], position: [dcX, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
-      { key: "stripWaveguide", size: [0.8, ribRidgeH + 0.12, 0.8], position: [ringX, siSlabTop + ribRidgeH / 2, ringZ], priority: 5 },
+      ...ringXs.map((rx, i) => {
+        const rr = ringR[i];
+        const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+        return { key: "stripWaveguide", size: [0.7, ribRidgeH + 0.12, 0.7], position: [rx, siSlabTop + ribRidgeH / 2, rz], priority: 5 };
+      }),
+      ...ringXs.map((rx, i) => {
+        const rr = ringR[i];
+        const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+        const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
+        const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+        return { key: "geDetector", size: [0.55, dropGeH + 0.08, 0.32], position: [rx, siSlabTop + dropGeH / 2, geZ], priority: 6 };
+      }),
     ];
 
     const hitTargetLayerMap = {
