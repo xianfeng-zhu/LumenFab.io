@@ -555,29 +555,6 @@ const indexItems = [
     }
     lSiDevice.add(tagPart(pathGroup, "opticalPath"));
 
-    // Incident light path (fiber tip → grating coupler surface)
-    const incidentPathGroup = new THREE.Group();
-    const incidentPoints = [
-      new THREE.Vector3(fiberCenterX, fiberBottomY + 0.15, 1.45),
-      new THREE.Vector3(fiberCenterX, fiberBottomY, 1.45),
-      new THREE.Vector3(fiberCenterX, siSlabTop + ribRidgeH, 1.45),
-    ];
-    const incidentCurve = new THREE.CatmullRomCurve3(incidentPoints);
-    const incidentTube = new THREE.TubeGeometry(incidentCurve, 40, 0.02, 8, false);
-    const incidentMesh = new THREE.Mesh(incidentTube, transparent(0x0891b2, 0.45));
-    incidentPathGroup.add(tagPart(incidentMesh, "opticalPath"));
-
-    const incidentGlowSpheres = [];
-    for (let i = 0; i < 6; i++) {
-      const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.032, 10, 6),
-        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
-      );
-      incidentGlowSpheres.push({ mesh: glow, offset: i / 6 });
-      incidentPathGroup.add(glow);
-    }
-    chip.add(incidentPathGroup);
-
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
       { key: "substrate", size: [chipLen - 0.3, substrateH + 0.08, chipWidth - 0.3], position: [0, substrateH / 2, 0], priority: 2 },
@@ -622,7 +599,7 @@ const indexItems = [
     chip.rotation.x = -0.22;
     chip.rotation.y = -0.45;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, incidentCurve, incidentGlowSpheres };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres };
   }
 
   for (const root of roots) {
@@ -678,7 +655,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, incidentCurve, incidentGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres } = buildModel(scene);
 
     // ---- Section / clipping plane ----
     const clippingPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
@@ -960,19 +937,6 @@ const indexItems = [
         for (const item of pathGlowSpheres) {
           const t = (item.offset + time * 0.12) % 1;
           const pt = pathCurve.getPointAt(t);
-          item.mesh.position.copy(pt);
-          const fade = Math.sin(t * Math.PI);
-          item.mesh.material.opacity = 0.25 + 0.55 * fade;
-          const s = 0.7 + 0.45 * fade;
-          item.mesh.scale.setScalar(s);
-        }
-      }
-
-      // Incident path glow animation (vertical: fiber → GC surface)
-      if (incidentGlowSpheres) {
-        for (const item of incidentGlowSpheres) {
-          const t = (item.offset + time * 0.18) % 1;
-          const pt = incidentCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
           item.mesh.material.opacity = 0.25 + 0.55 * fade;
