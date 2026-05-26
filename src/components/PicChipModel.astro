@@ -1274,9 +1274,11 @@ const indexItems = [
         }
 
         const isSelected = object.userData.partKey === partKey;
+        const isCladding = object.userData.partKey === "cladding";
+        const baseOpacity = isCladding && isCladdingHidden ? 0 : (object.userData.baseOpacity ?? 1);
         const targetOpacity = isSelected
-          ? Math.min(1, Math.max(object.userData.baseOpacity ?? 1, 0.82))
-          : Math.min(object.userData.baseOpacity ?? 1, referenceOpacity);
+          ? Math.min(1, Math.max(baseOpacity, 0.82))
+          : (isCladding && isCladdingHidden ? 0 : Math.min(baseOpacity, referenceOpacity));
 
         if (isSelected) {
           if (object.material.color) {
@@ -1324,8 +1326,10 @@ const indexItems = [
       chip.traverse((object) => {
         if (!object.material || !object.userData.partKey) return;
         storeBaseMaterial(object);
-        object.material.opacity = object.userData.hitProxy ? 0 : (object.userData.baseOpacity ?? 1);
-        object.material.transparent = object.userData.hitProxy ? true : object.userData.baseTransparent;
+        const isCladding = object.userData.partKey === "cladding";
+        const baseOpacity = isCladding && isCladdingHidden ? 0 : (object.userData.baseOpacity ?? 1);
+        object.material.opacity = object.userData.hitProxy ? 0 : baseOpacity;
+        object.material.transparent = object.userData.hitProxy ? true : (isCladding && isCladdingHidden ? true : object.userData.baseTransparent);
         if (typeof object.userData.baseDepthWrite === "boolean") {
           object.material.depthWrite = object.userData.baseDepthWrite;
         }
