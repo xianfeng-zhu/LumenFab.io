@@ -461,30 +461,9 @@ const indexItems = [
       lTop.add(tagPart(pad, "bondPad"));
     }
 
-    // === External fiber & incoming beam (RX input) ===
-    const fiberGroup = new THREE.Group();
-    const fiberH = 1.6;
-    const fiberRadius = 0.07;
-    const fiberBottomY = padBaseY + padH + 0.05;
-
-    // Fiber cladding
-    const fiber = new THREE.Mesh(
-      new THREE.CylinderGeometry(fiberRadius, fiberRadius, fiberH, 16),
-      new THREE.MeshStandardMaterial({
-        color: 0xe0f2fe,
-        roughness: 0.25,
-        metalness: 0,
-        transparent: true,
-        opacity: 0.75
-      })
-    );
-    // Shift fiber center to compensate for tilt so beam hits GC center
+    // Reference point for incoming optical path (fiber tip above GC)
     const fiberCenterX = -2.32;
-    fiber.position.set(fiberCenterX, fiberBottomY + fiberH / 2, 1.45);
-    fiber.rotation.z = -0.12; // ~7° tilt toward chip center (avoids back-reflection)
-    fiberGroup.add(fiber);
-
-    chip.add(fiberGroup);
+    const fiberBottomY = padBaseY + padH + 0.05;
 
     // Grating coupler — 与 rib 波导同高度的周期性刻蚀结构
     const gcGroup = new THREE.Group();
