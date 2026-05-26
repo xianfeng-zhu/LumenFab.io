@@ -236,7 +236,7 @@ const indexItems = [
     return object;
   }
 
-  function createFaceLabel(text, position, normal, { color = "#334155", scale = 0.09 } = {}) {
+  function createFaceLabel(text, position, normal, { color = "#334155", scale = 0.09, depthTest = true } = {}) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     const fontSize = 64;
@@ -284,7 +284,7 @@ const indexItems = [
       transparent: true,
       depthWrite: false,
       side: THREE.DoubleSide,
-      depthTest: true
+      depthTest
     });
     const plane = new THREE.Mesh(geom, mat);
     plane.position.copy(position);
@@ -1163,11 +1163,11 @@ const indexItems = [
 
     // Heaters — above heater top surface (heater strip too narrow for face label)
     const heaterTopY = cladTopY + heaterH + eps;
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.15), faceTop, { scale: 0.09 }));
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.65), faceTop, { scale: 0.09 }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.15), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.65), faceTop, { scale: 0.09, depthTest: false }));
     // M1 interconnect — above M1 top surface
     const m1TopY = cladTopY + heaterH + m1H + eps;
-    lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, 1.45), faceTop, { scale: 0.10 }));
+    lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, 1.45), faceTop, { scale: 0.10, depthTest: false }));
 
     // RF electrodes — on ILD top surface (electrode too narrow)
     const ildTopSurf = rfBaseY + rfH + eps;
