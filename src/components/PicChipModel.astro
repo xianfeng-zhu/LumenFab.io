@@ -14,7 +14,7 @@ const legendItems = [
   ["box", "#94a3b8", "BOX 埋氧层"],
   ["siDevice", "#0d9488", "Si 器件层 / 波导"],
   ["geDetector", "#16a34a", "Ge 光电探测器"],
-  ["cladding", "#cbd5e1", "SiO₂ 上包层"],
+  ["cladding", "#94a3b8", "SiO₂ 上包层"],
   ["heater", "#eab308", "TiN 加热器"],
   ["m1Interconnect", "#f97316", "M1 Cu 互连"],
   ["rfElectrode", "#ef4444", "RF 电极 (GSG)"],
@@ -31,7 +31,7 @@ const indexItems = [
   ["stripWaveguide", "#14b8a6", "条形波导 (全刻蚀)"],
   ["ribWaveguide", "#0f766e", "脊形波导 (浅刻蚀)"],
   ["geDetector", "#16a34a", "Ge 光电探测器"],
-  ["cladding", "#cbd5e1", "SiO₂ 上包层"],
+  ["cladding", "#94a3b8", "SiO₂ 上包层"],
   ["heater", "#eab308", "TiN 微加热器"],
   ["m1Interconnect", "#f97316", "M1 互连"],
   ["rfElectrode", "#ef4444", "GSG 行波电极"],
@@ -49,6 +49,28 @@ const indexItems = [
       {legendItems.map(([key, color, label]) => (
         <span data-key={key}><i style={`--swatch: ${color}`}></i>{label}</span>
       ))}
+    </div>
+    <div class="pic-model__controls">
+      <div class="pic-model__controls-row">
+        <button type="button" class="pic-model__control-btn" data-pic-explode-toggle aria-pressed="false">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 5.5L7 1.5L11 5.5"/>
+            <path d="M3 8.5L7 12.5L11 8.5"/>
+          </svg>
+          <span>分层展开</span>
+        </button>
+        <button type="button" class="pic-model__control-btn" data-pic-section-toggle aria-pressed="false">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <rect x="1" y="1" width="12" height="12" rx="1"/>
+            <line x1="7" y1="1" x2="7" y2="13"/>
+          </svg>
+          <span>剖面视图</span>
+        </button>
+      </div>
+      <div class="pic-model__slider" data-pic-section-slider-wrap hidden>
+        <input type="range" data-pic-section-slider min="-3.8" max="3.8" step="0.05" value="0">
+        <span>切面位置</span>
+      </div>
     </div>
   </div>
   <div class="pic-model__index" aria-label="3D 模型结构索引">
@@ -104,7 +126,7 @@ const indexItems = [
       body: "在指定区域通过 RPCVD 选择性外延生长约 200–500 nm 的单晶锗。光从下方硅波导倏逝耦合进入 Ge 层被吸收，产生电子-空穴对并在偏置电场下形成光电流。Ge 只生长在暴露的硅窗口上，氧化层区域不生长。"
     },
     cladding: {
-      color: "#cbd5e1",
+      color: "#94a3b8",
       title: "SiO₂ 上包层 (ILD)",
       body: "约 1–2 μm 的 PECVD 沉积 SiO₂，覆盖整个芯片表面。它同时承担波导上包层 (光场约束) 和电学隔离层 (防止金属电极吸收光) 的双重角色。加热器的热量也通过此层向下传导至波导。"
     },
@@ -206,55 +228,73 @@ const indexItems = [
 
     const chipLen = 7.5;
     const chipWidth = 5.0;
-    const cutawayLen = 4.8;
-    const cutawayWidth = 2.0;
-    const cutawayX = 1.1;
-    const cutawayZ = 0.6;
+
+    // ---- Layer groups for explode view ----
+    const layerGroups = [];
+    function addLayer(key) {
+      const group = new THREE.Group();
+      group.userData.layerKey = key;
+      group.userData.layerIndex = layerGroups.length;
+      layerGroups.push(group);
+      chip.add(group);
+      return group;
+    }
+
+    const lSubstrate = addLayer("substrate");
+    const lBox = addLayer("box");
+    const lSiDevice = addLayer("siDevice");
+    const lGeDetector = addLayer("geDetector");
+    const lCladding = addLayer("cladding");
+    const lHeater = addLayer("heater");
+    const lM1 = addLayer("m1Interconnect");
+    const lRf = addLayer("rfElectrode");
+    const lTop = addLayer("topLayer");
 
     let yBase = 0;
 
-    // Layer 1: Si substrate
+    // === Layer 1: Si substrate ===
     const substrateH = 1.2;
     const substrate = createBox({
       size: [chipLen, substrateH, chipWidth],
       position: [0, yBase + substrateH / 2, 0],
       color: 0x2563eb,
-      roughness: 0.72
+      roughness: 0.78,
+      metalness: 0
     });
-    chip.add(tagPart(substrate, "substrate"));
+    lSubstrate.add(tagPart(substrate, "substrate"));
     yBase += substrateH;
 
-    // Layer 2: BOX
+    // === Layer 2: BOX ===
     const boxH = 0.25;
     const box = createBox({
       size: [chipLen, boxH, chipWidth],
       position: [0, yBase + boxH / 2, 0],
       color: 0x94a3b8,
-      roughness: 0.6
+      roughness: 0.5,
+      metalness: 0
     });
-    chip.add(tagPart(box, "box"));
-    const boxTop = yBase + boxH;
+    lBox.add(tagPart(box, "box"));
     yBase += boxH;
 
-    // Layer 3: Si device layer (exaggerated thickess to show waveguide relief)
+    // === Layer 3: Si device layer ===
     const siBase = yBase;
     const siFullH = 0.34;
     const siSlabH = 0.19;
     const siRibH = 0.26;
 
-    // Si slab base (covers full chip area)
     const siSlab = createBox({
       size: [chipLen, siSlabH, chipWidth],
       position: [0, yBase + siSlabH / 2, 0],
       color: 0x0d9488,
-      opacity: 0.8
+      roughness: 0.48,
+      metalness: 0.08,
+      opacity: 0.85
     });
-    chip.add(tagPart(siSlab, "siDevice"));
-    const siSlabTop = yBase + siSlabH;
-    yBase += siSlabH;
+    lSiDevice.add(tagPart(siSlab, "siDevice"));
 
-    // Strip waveguides (full height ridges on top of slab)
-    const stripWGgroup = new THREE.Group();
+    const siSlabTop = yBase + siSlabH;
+
+    // Strip waveguides
     const stripRidgeH = siFullH - siSlabH;
     const stripWidth = 0.06;
     for (let z = -1.5; z <= 1.5; z += 0.55) {
@@ -262,112 +302,152 @@ const indexItems = [
         size: [chipLen - 0.4, stripRidgeH, stripWidth],
         position: [0, siSlabTop + stripRidgeH / 2, z],
         color: 0x14b8a6,
-        roughness: 0.5
+        roughness: 0.42,
+        metalness: 0.12
       });
-      stripWGgroup.add(tagPart(stripWG, "stripWaveguide", false, 4));
+      lSiDevice.add(tagPart(stripWG, "stripWaveguide", false, 4));
     }
-    chip.add(tagPart(stripWGgroup, "stripWaveguide"));
 
-    // Rib waveguide (partial etch ridge)
+    // Rib waveguide — right segment (does not pass through grating coupler region)
     const ribRidgeH = siRibH - siSlabH;
+    const gcRightEdge = -2.4 + 6 * 0.16 + 0.05 / 2; // ~-1.415
+    const ribStartX = -0.9;
+    const ribEndX = chipLen / 2 - 0.3;
+    const ribRightLen = ribEndX - ribStartX;
+    const ribRightCenter = (ribStartX + ribEndX) / 2;
+
     const ribWG = createBox({
-      size: [chipLen - 0.6, ribRidgeH, 0.32],
-      position: [0, siSlabTop + ribRidgeH / 2, 1.45],
+      size: [ribRightLen, ribRidgeH, 0.32],
+      position: [ribRightCenter, siSlabTop + ribRidgeH / 2, 1.45],
       color: 0x0f766e,
-      roughness: 0.5
+      roughness: 0.42,
+      metalness: 0.12
     });
-    chip.add(tagPart(ribWG, "ribWaveguide", false, 4));
+    lSiDevice.add(tagPart(ribWG, "ribWaveguide", false, 4));
+
+    // Connector from grating coupler to rib waveguide
+    const connLen = ribStartX - gcRightEdge;
+    const connCenterX = (gcRightEdge + ribStartX) / 2;
+    const conn = createBox({
+      size: [connLen, ribRidgeH, 0.32],
+      position: [connCenterX, siSlabTop + ribRidgeH / 2, 1.45],
+      color: 0x0f766e,
+      roughness: 0.42,
+      metalness: 0.12
+    });
+    lSiDevice.add(tagPart(conn, "ribWaveguide", false, 4));
 
     const siTopY = siSlabTop + stripRidgeH;
+    yBase = siBase + siSlabH;
 
-    // Layer 4: Ge photodetector (selective island)
+    // === Layer 4: Ge photodetector ===
     const geH = 0.18;
+    const geX = 1.0;
     const geDetector = createBox({
       size: [1.2, geH, 0.5],
-      position: [-1.8, siSlabTop + geH / 2, 1.8],
+      position: [geX, siSlabTop + geH / 2, 1.45],
       color: 0x16a34a,
-      roughness: 0.45
+      roughness: 0.38,
+      metalness: 0.08
     });
-    chip.add(tagPart(geDetector, "geDetector", false, 5));
+    lGeDetector.add(tagPart(geDetector, "geDetector", false, 5));
 
-    // Layer 5: Cladding (semi-transparent, with cutaway region)
+    // === Layer 5: Cladding ===
     const cladH = 0.65;
     const claddingFull = createBox({
       size: [chipLen, cladH, chipWidth],
       position: [0, siTopY + cladH / 2, 0],
-      color: 0xcbd5e1,
-      opacity: 0.32
+      color: 0x94a3b8,
+      roughness: 0.6,
+      metalness: 0,
+      opacity: 0.58
     });
-    chip.add(tagPart(claddingFull, "cladding"));
+    claddingFull.material.depthWrite = false;
+    lCladding.add(tagPart(claddingFull, "cladding"));
 
     const cladTopY = siTopY + cladH;
 
-    // Layer 6: Heater (TiN strip)
+    // === Layer 6: Heater ===
     const heaterH = 0.06;
     const heater = createBox({
       size: [2.8, heaterH, 0.1],
-      position: [0.6, cladTopY + heaterH / 2 + 0.02, 1.45],
+      position: [0.6, cladTopY + heaterH / 2, 1.45],
       color: 0xeab308,
-      metalness: 0.3,
-      roughness: 0.35
+      metalness: 0.5,
+      roughness: 0.3
     });
-    chip.add(tagPart(heater, "heater", false, 5));
+    lHeater.add(tagPart(heater, "heater", false, 5));
 
-    // Layer 7: M1 interconnect
+    // === Layer 7: M1 interconnect ===
     const m1H = 0.09;
     const m1Line = createBox({
       size: [1.6, m1H, 0.12],
-      position: [-1.8, cladTopY + heaterH + m1H / 2 + 0.04, 1.8],
+      position: [geX, cladTopY + heaterH + m1H / 2, 1.45],
       color: 0xf97316,
-      metalness: 0.55,
-      roughness: 0.28
+      metalness: 0.65,
+      roughness: 0.22
     });
-    chip.add(tagPart(m1Line, "m1Interconnect", false, 4));
+    lM1.add(tagPart(m1Line, "m1Interconnect", false, 4));
 
-    // M1 heater connection
     const m1HeaterConn = createBox({
       size: [0.4, m1H, 0.08],
-      position: [0.6, cladTopY + heaterH + m1H / 2 + 0.04, 1.15],
+      position: [0.6, cladTopY + heaterH + m1H / 2, 1.15],
       color: 0xf97316,
-      metalness: 0.55,
-      roughness: 0.28
+      metalness: 0.65,
+      roughness: 0.22
     });
-    chip.add(tagPart(m1HeaterConn, "m1Interconnect", false, 4));
+    lM1.add(tagPart(m1HeaterConn, "m1Interconnect", false, 4));
 
-    // Layer 8: RF electrodes (GSG coplanar waveguide)
+    // === Layer 8: RF electrodes ===
     const rfH = 0.18;
-    const rfBaseY = cladTopY + heaterH + m1H + 0.12;
-    // Signal line
+    const rfBaseY = cladTopY + heaterH + m1H;
+
     const rfSignal = createBox({
       size: [3.2, rfH, 0.12],
       position: [0.6, rfBaseY + rfH / 2, 0.4],
       color: 0xef4444,
-      metalness: 0.6,
-      roughness: 0.22
+      metalness: 0.7,
+      roughness: 0.18
     });
-    chip.add(tagPart(rfSignal, "rfElectrode", false, 4));
-    // Ground lines
+    lRf.add(tagPart(rfSignal, "rfElectrode", false, 4));
+
     const rfGnd1 = createBox({
       size: [3.2, rfH, 0.12],
       position: [0.6, rfBaseY + rfH / 2, -0.4],
       color: 0xdc2626,
-      metalness: 0.6,
-      roughness: 0.22
+      metalness: 0.7,
+      roughness: 0.18
     });
     const rfGnd2 = createBox({
       size: [3.2, rfH, 0.12],
       position: [0.6, rfBaseY + rfH / 2, 1.2],
       color: 0xdc2626,
-      metalness: 0.6,
-      roughness: 0.22
+      metalness: 0.7,
+      roughness: 0.18
     });
-    chip.add(tagPart(rfGnd1, "rfElectrode"), tagPart(rfGnd2, "rfElectrode"));
+    lRf.add(tagPart(rfGnd1, "rfElectrode"), tagPart(rfGnd2, "rfElectrode"));
 
-    // Layer 9: Bond pads
+    // === ILD cover over metal structures ===
+    // In a real PIC, heater / M1 / RF electrodes are embedded in SiO₂ ILD,
+    // not exposed to air. A semi-transparent cover layer eliminates the
+    // "floating" visual artefacts above the cladding.
+    const ildCoverH = 0.38;
+    const ildCover = createBox({
+      size: [chipLen - 0.08, ildCoverH, chipWidth - 0.08],
+      position: [0, cladTopY + ildCoverH / 2, 0],
+      color: 0x94a3b8,
+      roughness: 0.6,
+      metalness: 0,
+      opacity: 0.58
+    });
+    ildCover.material.depthWrite = false;
+    lTop.add(tagPart(ildCover, "cladding"));
+
+    // === Layer 9: Bond pads ===
     const padH = 0.1;
-    const padBaseY = rfBaseY + rfH + 0.06;
+    const padBaseY = rfBaseY + rfH;
     const padPositions = [
-      [-2.4, 1.8], [-2.4, 0.8], [-2.4, -0.2],
+      [-3.0, 1.8], [-3.0, 0.8], [-3.0, -0.2],
       [2.8, 1.8], [2.8, 0.8]
     ];
     for (const [px, pz] of padPositions) {
@@ -375,85 +455,156 @@ const indexItems = [
         size: [0.35, padH, 0.35],
         position: [px, padBaseY + padH / 2, pz],
         color: 0x475569,
-        metalness: 0.5,
-        roughness: 0.3
+        metalness: 0.55,
+        roughness: 0.28
       });
-      chip.add(tagPart(pad, "bondPad"));
+      lTop.add(tagPart(pad, "bondPad"));
     }
 
-    // Grating coupler (etched pattern on top surface)
+    // === External fiber & incoming beam (RX input) ===
+    const fiberGroup = new THREE.Group();
+    const fiberH = 1.6;
+    const fiberRadius = 0.07;
+    const fiberBottomY = padBaseY + padH + 0.05;
+
+    // Fiber cladding
+    const fiber = new THREE.Mesh(
+      new THREE.CylinderGeometry(fiberRadius, fiberRadius, fiberH, 16),
+      new THREE.MeshStandardMaterial({
+        color: 0xe0f2fe,
+        roughness: 0.25,
+        metalness: 0,
+        transparent: true,
+        opacity: 0.75
+      })
+    );
+    // Shift fiber center to compensate for tilt so beam hits GC center
+    const fiberCenterX = -2.32;
+    fiber.position.set(fiberCenterX, fiberBottomY + fiberH / 2, 1.45);
+    fiber.rotation.z = -0.12; // ~7° tilt toward chip center (avoids back-reflection)
+    fiberGroup.add(fiber);
+
+    // Incoming light beam from fiber tip down to GC surface
+    const beamTopY = fiberBottomY;
+    const beamBottomY = siSlabTop + ribRidgeH;
+    const beamH = beamTopY - beamBottomY;
+    const beam = new THREE.Mesh(
+      new THREE.CylinderGeometry(fiberRadius, 0.28, beamH, 16),
+      new THREE.MeshBasicMaterial({
+        color: 0x67e8f9,
+        transparent: true,
+        opacity: 0.32
+      })
+    );
+    beam.position.set(fiberCenterX, beamBottomY + beamH / 2, 1.45);
+    beam.rotation.z = -0.12;
+    fiberGroup.add(beam);
+
+    chip.add(fiberGroup);
+
+    // Grating coupler — 与 rib 波导同高度的周期性刻蚀结构
     const gcGroup = new THREE.Group();
     const gcPeriod = 0.16;
-    const gcBaseY = padBaseY + padH + 0.04;
+    const gcY = siSlabTop + ribRidgeH / 2;
     for (let i = -6; i <= 6; i++) {
       const gcTooth = createBox({
-        size: [0.05, 0.04, 0.55],
-        position: [-2.4 + i * gcPeriod, gcBaseY, 2.05],
+        size: [0.05, ribRidgeH, 0.55],
+        position: [-2.4 + i * gcPeriod, gcY, 1.45],
         color: 0x7c3aed,
-        roughness: 0.4
+        roughness: 0.35,
+        metalness: 0.25
       });
       gcGroup.add(tagPart(gcTooth, "gratingCoupler", false, 5));
     }
-    chip.add(tagPart(gcGroup, "gratingCoupler"));
+    lSiDevice.add(tagPart(gcGroup, "gratingCoupler"));
 
-    // Edge coupler facet (on +x side)
+    // Edge coupler facet
     const edgeCoupler = createBox({
       size: [0.08, siRibH + 0.06, 0.6],
       position: [chipLen / 2 - 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, 1.8],
       color: 0xa855f7,
+      roughness: 0.4,
+      metalness: 0.15,
       opacity: 0.7
     });
-    chip.add(tagPart(edgeCoupler, "edgeCoupler", false, 5));
+    lSiDevice.add(tagPart(edgeCoupler, "edgeCoupler", false, 5));
 
-    // Optical path (glowing line through the chip)
+    // Optical path (RX链路：光栅耦合器 → 波导 → Ge探测器)
     const pathGroup = new THREE.Group();
+    const pathY = siSlabTop - siSlabH / 2 + siRibH / 2;
     const pathPoints = [
-      new THREE.Vector3(0, siSlabTop - siSlabH / 2 + siRibH / 2, 1.8),
-      new THREE.Vector3(1.2, siSlabTop - siSlabH / 2 + siRibH / 2, 1.45),
-      new THREE.Vector3(2.6, siSlabTop - siSlabH / 2 + siRibH / 2, 0.4),
-      new THREE.Vector3(3.4, siSlabTop - siSlabH / 2 + siRibH / 2, 0.4),
+      new THREE.Vector3(-2.4, pathY, 1.45), // 从光栅耦合器开始
+      new THREE.Vector3(-0.5, pathY, 1.45), // 沿波导传播
+      new THREE.Vector3(0.5, pathY, 1.45),  // 继续传播
+      new THREE.Vector3(geX, pathY, 1.45),  // 到达 Ge 探测器被吸收
     ];
     const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
     const pathGeometry = new THREE.TubeGeometry(pathCurve, 60, 0.025, 8, false);
     const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.55));
     pathGroup.add(tagPart(pathMesh, "opticalPath"));
 
-    // Add glow spheres along the path to represent light
-    for (let t = 0; t <= 1; t += 0.12) {
-      const pt = pathCurve.getPointAt(t);
+    // Animated glow spheres along the path
+    const pathGlowSpheres = [];
+    for (let i = 0; i < 10; i++) {
       const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.04, 8, 4),
-        transparent(0x67e8f9, 0.5)
+        new THREE.SphereGeometry(0.038, 10, 6),
+        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
       );
-      glow.position.copy(pt);
+      pathGlowSpheres.push({ mesh: glow, offset: i / 10 });
       pathGroup.add(glow);
     }
-    chip.add(tagPart(pathGroup, "opticalPath"));
+    lSiDevice.add(tagPart(pathGroup, "opticalPath"));
 
-    // Cutaway indicator plane (semi-transparent diagonal slice plane markers)
-    const cutawayMarker = createBox({
-      size: [0.02, siTopY + cladH + padH + 0.2, cutawayWidth],
-      position: [cutawayX, (siTopY + cladH + padH + 0.2) / 2 - 0.3, cutawayZ],
-      color: 0x0f766e,
-      opacity: 0.1
-    });
-    chip.add(cutawayMarker);
+    // Incident light path (fiber tip → grating coupler surface)
+    const incidentPathGroup = new THREE.Group();
+    const incidentPoints = [
+      new THREE.Vector3(fiberCenterX, fiberBottomY + 0.15, 1.45),
+      new THREE.Vector3(fiberCenterX, fiberBottomY, 1.45),
+      new THREE.Vector3(fiberCenterX, siSlabTop + ribRidgeH, 1.45),
+    ];
+    const incidentCurve = new THREE.CatmullRomCurve3(incidentPoints);
+    const incidentTube = new THREE.TubeGeometry(incidentCurve, 40, 0.02, 8, false);
+    const incidentMesh = new THREE.Mesh(incidentTube, transparent(0x0891b2, 0.45));
+    incidentPathGroup.add(tagPart(incidentMesh, "opticalPath"));
 
-    // Build hit targets for small parts
+    const incidentGlowSpheres = [];
+    for (let i = 0; i < 6; i++) {
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(0.032, 10, 6),
+        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
+      );
+      incidentGlowSpheres.push({ mesh: glow, offset: i / 6 });
+      incidentPathGroup.add(glow);
+    }
+    chip.add(incidentPathGroup);
+
+    // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
-      { key: "siDevice", size: [chipLen - 0.3, siSlabH + 0.08, chipWidth - 0.3], position: [0, siSlabTop - siSlabH / 2, 0], priority: 2 },
+      { key: "substrate", size: [chipLen - 0.3, substrateH + 0.08, chipWidth - 0.3], position: [0, substrateH / 2, 0], priority: 2 },
+      { key: "box", size: [chipLen - 0.3, boxH + 0.08, chipWidth - 0.3], position: [0, substrateH + boxH / 2, 0], priority: 2 },
+      { key: "siDevice", size: [chipLen - 0.3, siSlabH + 0.08, chipWidth - 0.3], position: [0, siBase + siSlabH / 2, 0], priority: 2 },
       { key: "stripWaveguide", size: [chipLen - 0.2, stripRidgeH + 0.14, 0.4], position: [0, siSlabTop + stripRidgeH / 2 + 0.02, 0], priority: 5 },
-      { key: "ribWaveguide", size: [chipLen - 0.3, ribRidgeH + 0.14, 0.5], position: [0, siSlabTop + ribRidgeH / 2, 1.45], priority: 5 },
-      { key: "geDetector", size: [1.5, geH + 0.1, 0.7], position: [-1.8, siSlabTop + geH / 2, 1.8], priority: 6 },
+      { key: "ribWaveguide", size: [5.0, ribRidgeH + 0.14, 0.5], position: [1.0, siSlabTop + ribRidgeH / 2, 1.45], priority: 5 },
+      { key: "geDetector", size: [1.5, geH + 0.1, 0.7], position: [geX, siSlabTop + geH / 2, 1.45], priority: 6 },
       { key: "heater", size: [3.0, heaterH + 0.12, 0.3], position: [0.6, cladTopY + heaterH / 2 + 0.02, 1.45], priority: 6 },
-      { key: "m1Interconnect", size: [1.8, m1H + 0.12, 0.4], position: [-1.8, cladTopY + heaterH + m1H / 2 + 0.04, 1.8], priority: 5 },
+      { key: "m1Interconnect", size: [1.8, m1H + 0.12, 0.4], position: [geX, cladTopY + heaterH + m1H / 2 + 0.04, 1.45], priority: 5 },
       { key: "rfElectrode", size: [3.4, rfH + 0.14, 1.6], position: [0.6, rfBaseY + rfH / 2, 0.4], priority: 5 },
-      { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [-2.4, gcBaseY, 2.05], priority: 6 },
+      { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [-2.4, siSlabTop + ribRidgeH / 2, 1.45], priority: 6 },
       { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [chipLen / 2 - 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, 1.8], priority: 6 },
       { key: "cladding", size: [chipLen - 0.3, cladH + 0.04, chipWidth - 0.3], position: [0, siTopY + cladH / 2, 0], priority: 1 },
     ];
+
+    const hitTargetLayerMap = {
+      substrate: lSubstrate, box: lBox, siDevice: lSiDevice,
+      stripWaveguide: lSiDevice, ribWaveguide: lSiDevice,
+      geDetector: lGeDetector, cladding: lCladding,
+      heater: lHeater, m1Interconnect: lM1,
+      rfElectrode: lRf, gratingCoupler: lSiDevice, edgeCoupler: lSiDevice
+    };
+
     for (const target of largeHitTargets) {
-      chip.add(createHitBox(target));
+      const layer = hitTargetLayerMap[target.key] || lTop;
+      layer.add(createHitBox(target));
     }
 
     // Center the model
@@ -462,9 +613,16 @@ const indexItems = [
     for (const child of chip.children) {
       child.position.sub(center);
     }
+
+    // Record base Y for each layer group (after centering)
+    for (const group of layerGroups) {
+      group.userData.baseY = group.position.y;
+    }
+
     chip.rotation.x = -0.22;
     chip.rotation.y = -0.45;
-    return chip;
+
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, incidentCurve, incidentGlowSpheres };
   }
 
   for (const root of roots) {
@@ -473,6 +631,13 @@ const indexItems = [
     const infoTitle = figure?.querySelector("[data-pic-part-title]");
     const infoBody = figure?.querySelector("[data-pic-part-body]");
     const indexButtons = figure?.querySelectorAll("[data-pic-part-index]") || [];
+
+    // Controls
+    const explodeBtn = figure?.querySelector("[data-pic-explode-toggle]");
+    const sectionBtn = figure?.querySelector("[data-pic-section-toggle]");
+    const sectionSliderWrap = figure?.querySelector("[data-pic-section-slider-wrap]");
+    const sectionSlider = figure?.querySelector("[data-pic-section-slider]");
+
     const scene = new THREE.Scene();
     scene.background = null;
 
@@ -508,14 +673,32 @@ const indexItems = [
     const fill = new THREE.DirectionalLight(0xbfdbfe, 1.1);
     fill.position.set(-4, 2, -3);
     scene.add(fill);
+    // Rim light for layer-edge definition
+    const rim = new THREE.DirectionalLight(0xa5f3fc, 0.6);
+    rim.position.set(0, -3, 5);
+    scene.add(rim);
 
-    const model = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, incidentCurve, incidentGlowSpheres } = buildModel(scene);
+
+    // ---- Section / clipping plane ----
+    const clippingPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
+    const sectionNormal = new THREE.Vector3(1, 0, 0);
+    sectionNormal.applyEuler(chip.rotation);
+    clippingPlane.normal.copy(sectionNormal);
+    renderer.localClippingEnabled = true;
+
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
     let selectedPart = "";
     let pointerDownState = null;
     const dragSelectionThreshold = 5;
     const referenceOpacity = 0.16;
+
+    // Explode & section state
+    let isExploded = false;
+    let isSectionView = false;
+    const explodeGap = 0.6;
+    const sectionSpeed = 0.08;
 
     const setSelectedPart = (partKey) => {
       if (!partKey || !partInfo[partKey] || !infoTitle || !infoBody) return;
@@ -552,7 +735,7 @@ const indexItems = [
     const requestMaterialUpdate = (mat) => { mat.needsUpdate = true; };
 
     const dimNonSelectedParts = (partKey) => {
-      model.traverse((object) => {
+      chip.traverse((object) => {
         if (!object.material || !object.userData.partKey) return;
         storeBaseMaterial(object);
         if (object.userData.hitProxy) {
@@ -610,7 +793,7 @@ const indexItems = [
         button.setAttribute("aria-pressed", "false");
       }
 
-      model.traverse((object) => {
+      chip.traverse((object) => {
         if (!object.material || !object.userData.partKey) return;
         storeBaseMaterial(object);
         object.material.opacity = object.userData.hitProxy ? 0 : (object.userData.baseOpacity ?? 1);
@@ -642,7 +825,7 @@ const indexItems = [
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
       raycaster.setFromCamera(pointer, camera);
-      const hits = raycaster.intersectObject(model, true);
+      const hits = raycaster.intersectObject(chip, true);
       const hit = findPartHit(hits);
       if (hit) setSelectedPart(hit.object.userData.partKey);
     };
@@ -690,7 +873,7 @@ const indexItems = [
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
       raycaster.setFromCamera(pointer, camera);
-      const hit = findPartHit(raycaster.intersectObject(model, true));
+      const hit = findPartHit(raycaster.intersectObject(chip, true));
       renderer.domElement.style.cursor = hit ? "pointer" : "grab";
     };
 
@@ -709,6 +892,33 @@ const indexItems = [
       indexClickHandlers.push([button, handler]);
     }
 
+    // ---- Explode toggle ----
+    const handleExplodeToggle = () => {
+      isExploded = !isExploded;
+      if (explodeBtn) {
+        explodeBtn.setAttribute("aria-pressed", String(isExploded));
+      }
+    };
+    explodeBtn?.addEventListener("click", handleExplodeToggle);
+
+    // ---- Section toggle ----
+    const handleSectionToggle = () => {
+      isSectionView = !isSectionView;
+      if (sectionBtn) {
+        sectionBtn.setAttribute("aria-pressed", String(isSectionView));
+      }
+      if (sectionSliderWrap) {
+        sectionSliderWrap.hidden = !isSectionView;
+      }
+    };
+    sectionBtn?.addEventListener("click", handleSectionToggle);
+
+    let sectionSliderValue = 0;
+    const handleSectionSlider = () => {
+      sectionSliderValue = parseFloat(sectionSlider?.value ?? 0);
+    };
+    sectionSlider?.addEventListener("input", handleSectionSlider);
+
     const resize = () => {
       const { width } = root.getBoundingClientRect();
       const canvasHeight = Math.max(400, Math.min(640, width * 0.64));
@@ -725,6 +935,52 @@ const indexItems = [
     let frame = 0;
     const animate = () => {
       frame = requestAnimationFrame(animate);
+      const time = performance.now() * 0.001;
+
+      // Explode animation (smooth lerp)
+      const explodeTarget = isExploded ? explodeGap : 0;
+      for (let i = 0; i < layerGroups.length; i++) {
+        const current = layerGroups[i].userData.explodeY || 0;
+        const target = i * explodeTarget;
+        const newVal = current + (target - current) * sectionSpeed;
+        layerGroups[i].userData.explodeY = newVal;
+        layerGroups[i].position.y = (layerGroups[i].userData.baseY || 0) + newVal;
+      }
+
+      // Section clipping plane
+      if (isSectionView) {
+        renderer.clippingPlanes = [clippingPlane];
+        clippingPlane.constant = -sectionSliderValue;
+      } else {
+        renderer.clippingPlanes = [];
+      }
+
+      // Optical path glow animation (horizontal: GC → Ge)
+      if (pathGlowSpheres) {
+        for (const item of pathGlowSpheres) {
+          const t = (item.offset + time * 0.12) % 1;
+          const pt = pathCurve.getPointAt(t);
+          item.mesh.position.copy(pt);
+          const fade = Math.sin(t * Math.PI);
+          item.mesh.material.opacity = 0.25 + 0.55 * fade;
+          const s = 0.7 + 0.45 * fade;
+          item.mesh.scale.setScalar(s);
+        }
+      }
+
+      // Incident path glow animation (vertical: fiber → GC surface)
+      if (incidentGlowSpheres) {
+        for (const item of incidentGlowSpheres) {
+          const t = (item.offset + time * 0.18) % 1;
+          const pt = incidentCurve.getPointAt(t);
+          item.mesh.position.copy(pt);
+          const fade = Math.sin(t * Math.PI);
+          item.mesh.material.opacity = 0.25 + 0.55 * fade;
+          const s = 0.7 + 0.45 * fade;
+          item.mesh.scale.setScalar(s);
+        }
+      }
+
       controls.update();
       renderer.render(scene, camera);
     };
@@ -741,6 +997,9 @@ const indexItems = [
       for (const [button, handler] of indexClickHandlers) {
         button.removeEventListener("click", handler);
       }
+      explodeBtn?.removeEventListener("click", handleExplodeToggle);
+      sectionBtn?.removeEventListener("click", handleSectionToggle);
+      sectionSlider?.removeEventListener("input", handleSectionSlider);
       controls.dispose();
       renderer.dispose();
     }, { once: true });
@@ -760,7 +1019,6 @@ const indexItems = [
     overflow: hidden;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: #eef5f1;
     background: linear-gradient(180deg, var(--surface-2), var(--surface));
   }
 
@@ -782,7 +1040,6 @@ const indexItems = [
     padding: 0.7rem 0.8rem;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: #ffffff;
     background: color-mix(in srgb, var(--surface) 92%, transparent);
     color: var(--text);
     font-size: 0.82rem;
@@ -808,6 +1065,84 @@ const indexItems = [
     border-radius: 999px;
     background: var(--swatch);
     box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
+  }
+
+  /* ---- Controls panel ---- */
+  .pic-model__controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(8px);
+    font-size: 0.8rem;
+    min-width: 8.5rem;
+  }
+
+  .pic-model__controls-row {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .pic-model__control-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    flex: 1;
+    padding: 0.38rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.78rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+  }
+
+  .pic-model__control-btn:hover {
+    background: var(--surface-2);
+  }
+
+  .pic-model__control-btn[aria-pressed="true"] {
+    border-color: #0d9488;
+    background: color-mix(in srgb, #0d9488 12%, var(--surface));
+    color: #0d9488;
+  }
+
+  .pic-model__control-btn svg {
+    flex-shrink: 0;
+  }
+
+  .pic-model__slider {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .pic-model__slider[hidden] {
+    display: none;
+  }
+
+  .pic-model__slider input[type="range"] {
+    flex: 1;
+    min-width: 60px;
+    cursor: pointer;
+  }
+
+  .pic-model__slider span {
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
   }
 
   .pic-model__index {
@@ -876,6 +1211,25 @@ const indexItems = [
       border-width: 1px 0 0;
       border-radius: 0;
       background: var(--surface);
+    }
+
+    .pic-model__controls {
+      top: 0.5rem;
+      right: 0.5rem;
+      min-width: 7rem;
+      padding: 0.4rem;
+    }
+
+    .pic-model__control-btn span {
+      display: none;
+    }
+
+    .pic-model__control-btn {
+      padding: 0.35rem;
+    }
+
+    .pic-model__slider span {
+      display: none;
     }
 
     .pic-model__index {
