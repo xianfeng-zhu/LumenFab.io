@@ -1153,10 +1153,15 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(-2.4, wgTopY, -0.4), faceTop, { scale: 0.09 }));
     lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(2.2, wgTopY, -0.4), faceTop, { scale: 0.09 }));
 
-    // Edge couplers — on cladding top surface (coupler face too thin)
-    lCladding.add(createFaceLabel("RX 边缘耦合器", new THREE.Vector3(chipLen / 2 - 0.2, cladTopSurf, 1.8), faceTop, { scale: 0.09 }));
-    lCladding.add(createFaceLabel("TX 输入边缘耦合器", new THREE.Vector3(-chipLen / 2 + 0.2, cladTopSurf, 0.4), faceTop, { scale: 0.08 }));
-    lCladding.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(chipLen / 2 - 0.2, cladTopSurf, 0.4), faceTop, { scale: 0.08 }));
+    // Edge couplers — on ±X end faces
+    const facePX = new THREE.Vector3(1, 0, 0);
+    const faceNX = new THREE.Vector3(-1, 0, 0);
+    const ecY = siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04;
+    const ecRX = chipLen / 2 + 0.02 + eps;
+    const ecLX = -chipLen / 2 - 0.02 - eps;
+    lSiDevice.add(createFaceLabel("RX 边缘耦合器", new THREE.Vector3(ecRX, ecY, 1.8), facePX, { scale: 0.07 }));
+    lSiDevice.add(createFaceLabel("TX 输入边缘耦合器", new THREE.Vector3(ecLX, ecY, 0.4), faceNX, { scale: 0.07 }));
+    lSiDevice.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(ecRX, ecY, 0.4), facePX, { scale: 0.07 }));
 
     // Heaters — on cladding top surface (heater strip too narrow)
     lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.15), faceTop, { scale: 0.08 }));
