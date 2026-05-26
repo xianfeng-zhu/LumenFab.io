@@ -1125,7 +1125,6 @@ const indexItems = [
     const eps = 0.025; // slight offset above surface
     const sideZ = chipWidth / 2 + eps;
     const wgTopY = siSlabTop + ribRidgeH + eps;
-    const cladTopSurf = cladTopY + eps;
 
     // Vertical layer stack — +Z side face
     lSubstrate.add(createFaceLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), faceZ, { scale: 0.12 }));
@@ -1162,11 +1161,13 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("TX 输入边缘耦合器", new THREE.Vector3(ecLX, ecY, 0.4), faceNX, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(ecRX, ecY, 0.4), facePX, { scale: 0.08 }));
 
-    // Heaters — on cladding top surface (heater strip too narrow)
-    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.15), faceTop, { scale: 0.09 }));
-    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.65), faceTop, { scale: 0.09 }));
-    // M1 interconnect — on cladding top surface
-    lCladding.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, cladTopSurf, 1.45), faceTop, { scale: 0.10 }));
+    // Heaters — above heater top surface (heater strip too narrow for face label)
+    const heaterTopY = cladTopY + heaterH + eps;
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.15), faceTop, { scale: 0.09 }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.65), faceTop, { scale: 0.09 }));
+    // M1 interconnect — above M1 top surface
+    const m1TopY = cladTopY + heaterH + m1H + eps;
+    lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, 1.45), faceTop, { scale: 0.10 }));
 
     // RF electrodes — on ILD top surface (electrode too narrow)
     const ildTopSurf = rfBaseY + rfH + eps;
