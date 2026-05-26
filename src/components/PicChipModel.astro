@@ -425,8 +425,6 @@ const indexItems = [
       metalness: 0.12
     });
     lSiDevice.add(tagPart(dropWG, "ribWaveguide", false, 4));
-    // Microring label
-    lSiDevice.add(createFaceLabel("微环谐振器", new THREE.Vector3(ringX, wgTopY, ringZ + ringRadius + 0.06), faceTop, { scale: 0.08 }));
 
     // === Layer 4: Ge photodetector ===
     const geH = 0.18;
@@ -683,8 +681,6 @@ const indexItems = [
       metalness: 0.12
     });
     lSiDevice.add(tagPart(dcCoupledWG, "stripWaveguide", false, 5));
-    // DC label
-    lSiDevice.add(createFaceLabel("定向耦合器", new THREE.Vector3(dcX, wgTopY, 0.4), faceTop, { scale: 0.08 }));
 
     // TX waveguide from DC to MMI splitter
     const txWaveguideDC = createBox({
@@ -1201,6 +1197,12 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(1.7, wgTopY, 0.4), faceTop, { scale: 0.10 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.15), faceTop, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.65), faceTop, { scale: 0.08 }));
+
+    // Directional coupler
+    lSiDevice.add(createFaceLabel("定向耦合器", new THREE.Vector3(dcX, wgTopY, 0.4), faceTop, { scale: 0.08 }));
+
+    // Microring resonator
+    lSiDevice.add(createFaceLabel("微环谐振器", new THREE.Vector3(ringX, wgTopY, ringZ + ringRadius + 0.06), faceTop, { scale: 0.08 }));
 
     // Ge detector — top face
     const geTopY = siSlabTop + geH + eps;
