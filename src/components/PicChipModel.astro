@@ -484,22 +484,6 @@ const indexItems = [
     fiber.rotation.z = -0.12; // ~7° tilt toward chip center (avoids back-reflection)
     fiberGroup.add(fiber);
 
-    // Incoming light beam from fiber tip down to GC surface
-    const beamTopY = fiberBottomY;
-    const beamBottomY = siSlabTop + ribRidgeH;
-    const beamH = beamTopY - beamBottomY;
-    const beam = new THREE.Mesh(
-      new THREE.CylinderGeometry(fiberRadius, 0.28, beamH, 16),
-      new THREE.MeshBasicMaterial({
-        color: 0x67e8f9,
-        transparent: true,
-        opacity: 0.32
-      })
-    );
-    beam.position.set(fiberCenterX, beamBottomY + beamH / 2, 1.45);
-    beam.rotation.z = -0.12;
-    fiberGroup.add(beam);
-
     chip.add(fiberGroup);
 
     // Grating coupler — 与 rib 波导同高度的周期性刻蚀结构
