@@ -168,10 +168,25 @@ const {
           }
         });
 
-        toc.addEventListener("mouseenter", () => {
+        let leaveTimer = null;
+
+        tocButton.addEventListener("mouseenter", () => {
+          clearTimeout(leaveTimer);
           if (toc.getAttribute("data-open") !== "true") {
             openToc();
           }
+        });
+
+        toc.addEventListener("mouseleave", () => {
+          leaveTimer = setTimeout(() => {
+            if (!toc.matches(":hover")) {
+              closeToc();
+            }
+          }, 250);
+        });
+
+        toc.addEventListener("mouseenter", () => {
+          clearTimeout(leaveTimer);
         });
 
         document.addEventListener("click", (event) => {
@@ -495,16 +510,6 @@ const {
     display: none;
   }
 
-  .floating-toc::before {
-    position: absolute;
-    right: 0;
-    bottom: 2.85rem;
-    display: block;
-    width: min(22rem, calc(100vw - 2.5rem));
-    height: 1.05rem;
-    content: "";
-  }
-
   .floating-toc__button {
     display: grid;
     width: 3rem;
@@ -556,14 +561,6 @@ const {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .floating-toc:hover .floating-toc__panel {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
   }
 
   .floating-toc__title {
