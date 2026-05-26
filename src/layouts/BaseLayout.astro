@@ -97,9 +97,23 @@ const {
       };
 
       if (toc && tocButton && tocList && headings.length > 2) {
+        let activeId = null;
+
         const closeToc = () => {
           toc.removeAttribute("data-open");
           tocButton.setAttribute("aria-expanded", "false");
+        };
+
+        const openToc = () => {
+          toc.setAttribute("data-open", "true");
+          tocButton.setAttribute("aria-expanded", "true");
+
+          if (activeId) {
+            const activeItem = tocList.querySelector(`[data-toc-id="${CSS.escape(activeId)}"]`);
+            if (activeItem) {
+              activeItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
+            }
+          }
         };
 
         for (const heading of headings) {
@@ -109,6 +123,7 @@ const {
 
           const item = document.createElement("li");
           item.className = `floating-toc__item floating-toc__item--${heading.tagName.toLowerCase()}`;
+          item.setAttribute("data-toc-id", heading.id);
 
           const link = document.createElement("a");
           link.href = `#${heading.id}`;
@@ -119,6 +134,29 @@ const {
           tocList.append(item);
         }
 
+        /* 2. 当前阅读位置跟踪 —— 用 IntersectionObserver 判断哪个标题在视野中 */
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                const id = entry.target.id;
+                if (id !== activeId) {
+                  if (activeId) {
+                    tocList.querySelector(`[data-toc-id="${CSS.escape(activeId)}"]`)?.classList.remove("active");
+                  }
+                  activeId = id;
+                  tocList.querySelector(`[data-toc-id="${CSS.escape(id)}"]`)?.classList.add("active");
+                }
+              }
+            }
+          },
+          { rootMargin: "-20% 0px -70% 0px" },
+        );
+
+        for (const heading of headings) {
+          observer.observe(heading);
+        }
+
         toc.hidden = false;
         tocButton.addEventListener("click", (event) => {
           event.stopPropagation();
@@ -126,8 +164,13 @@ const {
           if (isOpen) {
             closeToc();
           } else {
-            toc.setAttribute("data-open", "true");
-            tocButton.setAttribute("aria-expanded", "true");
+            openToc();
+          }
+        });
+
+        toc.addEventListener("mouseenter", () => {
+          if (toc.getAttribute("data-open") !== "true") {
+            openToc();
           }
         });
 
@@ -539,6 +582,7 @@ const {
   }
 
   .floating-toc__item a {
+    position: relative;
     display: block;
     padding: 0.45rem 0.5rem;
     color: var(--text);
@@ -552,6 +596,25 @@ const {
     padding-left: 1.25rem;
     color: var(--muted);
     font-size: 0.86rem;
+  }
+
+  .floating-toc__item.active a {
+    color: var(--accent-strong);
+    background: var(--surface-2);
+    font-weight: 600;
+  }
+
+  .floating-toc__item.active a::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    display: block;
+    width: 3px;
+    height: 1.1em;
+    background: var(--accent-strong);
+    border-radius: 3px;
+    transform: translateY(-50%);
+    content: "";
   }
 
   .floating-toc__item a:hover,
