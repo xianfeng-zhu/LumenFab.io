@@ -529,31 +529,29 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(edgeCoupler, "edgeCoupler", false, 5));
 
-    // Optical path (RX链路：光栅耦合器 → 波导 → Ge探测器)
+    // Optical path (RX input: fiber → grating coupler surface)
     const pathGroup = new THREE.Group();
-    const pathY = siSlabTop - siSlabH / 2 + siRibH / 2;
     const pathPoints = [
-      new THREE.Vector3(-2.4, pathY, 1.45), // 从光栅耦合器开始
-      new THREE.Vector3(-0.5, pathY, 1.45), // 沿波导传播
-      new THREE.Vector3(0.5, pathY, 1.45),  // 继续传播
-      new THREE.Vector3(geX, pathY, 1.45),  // 到达 Ge 探测器被吸收
+      new THREE.Vector3(fiberCenterX, fiberBottomY + 0.15, 1.45),
+      new THREE.Vector3(fiberCenterX, fiberBottomY, 1.45),
+      new THREE.Vector3(fiberCenterX, siSlabTop + ribRidgeH, 1.45),
     ];
     const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
-    const pathGeometry = new THREE.TubeGeometry(pathCurve, 60, 0.025, 8, false);
-    const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.55));
+    const pathGeometry = new THREE.TubeGeometry(pathCurve, 40, 0.02, 8, false);
+    const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.45));
     pathGroup.add(tagPart(pathMesh, "opticalPath"));
 
     // Animated glow spheres along the path
     const pathGlowSpheres = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 6; i++) {
       const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.038, 10, 6),
+        new THREE.SphereGeometry(0.032, 10, 6),
         new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
       );
-      pathGlowSpheres.push({ mesh: glow, offset: i / 10 });
+      pathGlowSpheres.push({ mesh: glow, offset: i / 6 });
       pathGroup.add(glow);
     }
-    lSiDevice.add(tagPart(pathGroup, "opticalPath"));
+    chip.add(tagPart(pathGroup, "opticalPath"));
 
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
@@ -932,10 +930,10 @@ const indexItems = [
         renderer.clippingPlanes = [];
       }
 
-      // Optical path glow animation (horizontal: GC → Ge)
+      // Optical path glow animation (vertical: fiber → GC surface)
       if (pathGlowSpheres) {
         for (const item of pathGlowSpheres) {
-          const t = (item.offset + time * 0.12) % 1;
+          const t = (item.offset + time * 0.18) % 1;
           const pt = pathCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
