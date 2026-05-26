@@ -236,7 +236,7 @@ const indexItems = [
     return object;
   }
 
-  function createSpriteLabel(text, position, { color = "#334155", scale = 0.13 } = {}) {
+  function createFaceLabel(text, position, normal, { color = "#334155", scale = 0.09 } = {}) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     const fontSize = 64;
@@ -275,10 +275,25 @@ const indexItems = [
     const texture = new THREE.CanvasTexture(canvas);
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
-    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, depthTest: true, depthWrite: false }));
-    sprite.position.set(position.x, position.y, position.z);
-    sprite.scale.set(scale * (w / h), scale, 1);
-    return sprite;
+    const aspect = w / h;
+    const planeW = scale * aspect;
+    const planeH = scale;
+    const geom = new THREE.PlaneGeometry(planeW, planeH);
+    const mat = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+      depthTest: true
+    });
+    const plane = new THREE.Mesh(geom, mat);
+    plane.position.copy(position);
+    const q = new THREE.Quaternion().setFromUnitVectors(
+      new THREE.Vector3(0, 0, 1),
+      normal.clone().normalize()
+    );
+    plane.setRotationFromQuaternion(q);
+    return plane;
   }
 
   function buildModel(scene) {
@@ -1104,53 +1119,59 @@ const indexItems = [
 
     chip.add(tagPart(txPathGroup, "opticalPath"));
 
-    // === Labels ===
-    const sideZ = chipWidth / 2 + 0.14;
-    const wgLabelY = siSlabTop + ribRidgeH + 0.08;
-    const s = 0.10; // default label scale
+    // === Labels (face-attached planes) ===
+    const faceZ = new THREE.Vector3(0, 0, 1);   // +Z side face
+    const faceTop = new THREE.Vector3(0, 1, 0); // top face
+    const eps = 0.025; // slight offset above surface
+    const sideZ = chipWidth / 2 + eps;
+    const wgTopY = siSlabTop + ribRidgeH + eps;
+    const cladTopSurf = cladTopY + eps;
+    const sc = 0.09;  // default scale
 
-    // Vertical layer stack — side-face labels
-    lSubstrate.add(createSpriteLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), { scale: 0.11 }));
-    lBox.add(createSpriteLabel("BOX 埋氧层", new THREE.Vector3(0, substrateH + boxH / 2, sideZ), { scale: 0.10 }));
-    lSiDevice.add(createSpriteLabel("Si 器件层", new THREE.Vector3(0, substrateH + boxH + siSlabH / 2, sideZ), { scale: 0.10 }));
-    lCladding.add(createSpriteLabel("SiO₂ 上包层", new THREE.Vector3(0, siTopY + cladH / 2, sideZ), { scale: 0.10 }));
+    // Vertical layer stack — +Z side face
+    lSubstrate.add(createFaceLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), faceZ, { scale: 0.10 }));
+    lBox.add(createFaceLabel("BOX 埋氧层", new THREE.Vector3(0, substrateH + boxH / 2, sideZ), faceZ, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("Si 器件层", new THREE.Vector3(0, substrateH + boxH + siSlabH / 2, sideZ), faceZ, { scale: 0.08 }));
+    lCladding.add(createFaceLabel("SiO₂ 上包层", new THREE.Vector3(0, siTopY + cladH / 2, sideZ), faceZ, { scale: sc }));
 
-    // Waveguides
-    lSiDevice.add(createSpriteLabel("TX 脊形波导", new THREE.Vector3(-1.0, wgLabelY, 0.4), { scale: s }));
-    lSiDevice.add(createSpriteLabel("RX 脊形波导", new THREE.Vector3(1.8, wgLabelY, 1.45), { scale: s }));
+    // Waveguides — top face
+    lSiDevice.add(createFaceLabel("TX 脊形波导", new THREE.Vector3(-1.0, wgTopY, 0.4), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("RX 脊形波导", new THREE.Vector3(1.8, wgTopY, 1.45), faceTop, { scale: 0.09 }));
 
-    // MMI & MZM
-    lSiDevice.add(createSpriteLabel("MMI 分束器", new THREE.Vector3(-0.7, wgLabelY + 0.04, 0.4), { scale: s }));
-    lSiDevice.add(createSpriteLabel("MMI 合束器", new THREE.Vector3(1.7, wgLabelY + 0.04, 0.4), { scale: s }));
-    lSiDevice.add(createSpriteLabel("MZM 相位臂", new THREE.Vector3(0.5, wgLabelY, 0.15), { scale: 0.09 }));
-    lSiDevice.add(createSpriteLabel("MZM 相位臂", new THREE.Vector3(0.5, wgLabelY, 0.65), { scale: 0.09 }));
+    // MMI & MZM — top face
+    lSiDevice.add(createFaceLabel("MMI 分束器", new THREE.Vector3(-0.7, wgTopY, 0.4), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(1.7, wgTopY, 0.4), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.15), faceTop, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.65), faceTop, { scale: 0.08 }));
 
-    // Ge detector
-    lGeDetector.add(createSpriteLabel("Ge 光电探测器", new THREE.Vector3(geX, siSlabTop + geH + 0.08, 1.45), { scale: 0.10 }));
+    // Ge detector — top face
+    const geTopY = siSlabTop + geH + eps;
+    lGeDetector.add(createFaceLabel("Ge 光电探测器", new THREE.Vector3(geX, geTopY, 1.45), faceTop, { scale: 0.09 }));
 
-    // Grating couplers
-    lSiDevice.add(createSpriteLabel("RX 光栅耦合器", new THREE.Vector3(-2.4, wgLabelY + 0.06, 1.45), { scale: s }));
-    lSiDevice.add(createSpriteLabel("TX 光栅耦合器", new THREE.Vector3(-2.4, wgLabelY + 0.06, -0.4), { scale: s }));
-    lSiDevice.add(createSpriteLabel("TX 光栅耦合器", new THREE.Vector3(2.2, wgLabelY + 0.06, -0.4), { scale: s }));
+    // Grating couplers — top face
+    lSiDevice.add(createFaceLabel("RX 光栅耦合器", new THREE.Vector3(-2.4, wgTopY, 1.45), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(-2.4, wgTopY, -0.4), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(2.2, wgTopY, -0.4), faceTop, { scale: 0.09 }));
 
-    // Edge couplers
-    lSiDevice.add(createSpriteLabel("RX 边缘耦合器", new THREE.Vector3(chipLen / 2 + 0.3, wgLabelY, 1.8), { scale: s }));
-    lSiDevice.add(createSpriteLabel("TX 输入边缘耦合器", new THREE.Vector3(-chipLen / 2 - 0.3, wgLabelY, 0.4), { scale: 0.09 }));
-    lSiDevice.add(createSpriteLabel("TX 输出边缘耦合器", new THREE.Vector3(chipLen / 2 + 0.3, wgLabelY, 0.4), { scale: 0.09 }));
+    // Edge couplers — on cladding top surface (coupler face too thin)
+    lCladding.add(createFaceLabel("RX 边缘耦合器", new THREE.Vector3(chipLen / 2 - 0.2, cladTopSurf, 1.8), faceTop, { scale: 0.09 }));
+    lCladding.add(createFaceLabel("TX 输入边缘耦合器", new THREE.Vector3(-chipLen / 2 + 0.2, cladTopSurf, 0.4), faceTop, { scale: 0.08 }));
+    lCladding.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(chipLen / 2 - 0.2, cladTopSurf, 0.4), faceTop, { scale: 0.08 }));
 
-    // Heater
-    lHeater.add(createSpriteLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopY + heaterH + 0.08, 0.15), { scale: s }));
-    lHeater.add(createSpriteLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopY + heaterH + 0.08, 0.65), { scale: 0.09 }));
+    // Heaters — on cladding top surface (heater strip too narrow)
+    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.15), faceTop, { scale: 0.08 }));
+    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.65), faceTop, { scale: 0.08 }));
+    // M1 interconnect — on cladding top surface
+    lCladding.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, cladTopSurf, 1.45), faceTop, { scale: 0.09 }));
 
-    // M1 interconnect
-    lM1.add(createSpriteLabel("M1 互连", new THREE.Vector3(geX, cladTopY + heaterH + m1H + 0.06, 1.45), { scale: s }));
+    // RF electrodes — on ILD top surface (electrode too narrow)
+    const ildTopSurf = rfBaseY + rfH + eps;
+    lTop.add(createFaceLabel("RF 电极 (GSG)", new THREE.Vector3(0.6, ildTopSurf, 0.4), faceTop, { scale: 0.09 }));
 
-    // RF electrodes
-    lRf.add(createSpriteLabel("RF 电极 (GSG)", new THREE.Vector3(0.6, rfBaseY + rfH + 0.08, 0.4), { scale: s }));
-
-    // Bond pads
-    lTop.add(createSpriteLabel("Al 焊盘", new THREE.Vector3(2.8, padBaseY + padH + 0.08, 1.8), { scale: s }));
-    lTop.add(createSpriteLabel("Al 焊盘", new THREE.Vector3(-3.0, padBaseY + padH + 0.08, 1.8), { scale: 0.09 }));
+    // Bond pads — top face
+    const padTopY = padBaseY + padH + eps;
+    lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(2.8, padTopY, 1.8), faceTop, { scale: 0.08 }));
+    lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(-3.0, padTopY, 1.8), faceTop, { scale: 0.08 }));
 
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
