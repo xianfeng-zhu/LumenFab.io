@@ -1126,32 +1126,31 @@ const indexItems = [
     const sideZ = chipWidth / 2 + eps;
     const wgTopY = siSlabTop + ribRidgeH + eps;
     const cladTopSurf = cladTopY + eps;
-    const sc = 0.09;  // default scale
 
     // Vertical layer stack — +Z side face
-    lSubstrate.add(createFaceLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), faceZ, { scale: 0.10 }));
+    lSubstrate.add(createFaceLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), faceZ, { scale: 0.12 }));
     lBox.add(createFaceLabel("BOX 埋氧层", new THREE.Vector3(0, substrateH + boxH / 2, sideZ), faceZ, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("Si 器件层", new THREE.Vector3(0, substrateH + boxH + siSlabH / 2, sideZ), faceZ, { scale: 0.08 }));
-    lCladding.add(createFaceLabel("SiO₂ 上包层", new THREE.Vector3(0, siTopY + cladH / 2, sideZ), faceZ, { scale: sc }));
+    lCladding.add(createFaceLabel("SiO₂ 上包层", new THREE.Vector3(0, siTopY + cladH / 2, sideZ), faceZ, { scale: 0.11 }));
 
     // Waveguides — top face
-    lSiDevice.add(createFaceLabel("TX 脊形波导", new THREE.Vector3(-1.0, wgTopY, 0.4), faceTop, { scale: 0.09 }));
-    lSiDevice.add(createFaceLabel("RX 脊形波导", new THREE.Vector3(1.8, wgTopY, 1.45), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("TX 脊形波导", new THREE.Vector3(-1.0, wgTopY, 0.4), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("RX 脊形波导", new THREE.Vector3(1.8, wgTopY, 1.45), faceTop, { scale: 0.10 }));
 
     // MMI & MZM — top face
-    lSiDevice.add(createFaceLabel("MMI 分束器", new THREE.Vector3(-0.7, wgTopY, 0.4), faceTop, { scale: 0.09 }));
-    lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(1.7, wgTopY, 0.4), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("MMI 分束器", new THREE.Vector3(-0.7, wgTopY, 0.4), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(1.7, wgTopY, 0.4), faceTop, { scale: 0.10 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.15), faceTop, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.65), faceTop, { scale: 0.08 }));
 
     // Ge detector — top face
     const geTopY = siSlabTop + geH + eps;
-    lGeDetector.add(createFaceLabel("Ge 光电探测器", new THREE.Vector3(geX, geTopY, 1.45), faceTop, { scale: 0.09 }));
+    lGeDetector.add(createFaceLabel("Ge 光电探测器", new THREE.Vector3(geX, geTopY, 1.45), faceTop, { scale: 0.11 }));
 
     // Grating couplers — top face
-    lSiDevice.add(createFaceLabel("RX 光栅耦合器", new THREE.Vector3(-2.4, wgTopY, 1.45), faceTop, { scale: 0.09 }));
-    lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(-2.4, wgTopY, -0.4), faceTop, { scale: 0.09 }));
-    lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(2.2, wgTopY, -0.4), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("RX 光栅耦合器", new THREE.Vector3(-2.4, wgTopY, 1.45), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(-2.4, wgTopY, -0.4), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("TX 光栅耦合器", new THREE.Vector3(2.2, wgTopY, -0.4), faceTop, { scale: 0.10 }));
 
     // Edge couplers — on ±X end faces
     const facePX = new THREE.Vector3(1, 0, 0);
@@ -1159,24 +1158,24 @@ const indexItems = [
     const ecY = siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04;
     const ecRX = chipLen / 2 + 0.02 + eps;
     const ecLX = -chipLen / 2 - 0.02 - eps;
-    lSiDevice.add(createFaceLabel("RX 边缘耦合器", new THREE.Vector3(ecRX, ecY, 1.8), facePX, { scale: 0.07 }));
-    lSiDevice.add(createFaceLabel("TX 输入边缘耦合器", new THREE.Vector3(ecLX, ecY, 0.4), faceNX, { scale: 0.07 }));
-    lSiDevice.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(ecRX, ecY, 0.4), facePX, { scale: 0.07 }));
+    lSiDevice.add(createFaceLabel("RX 边缘耦合器", new THREE.Vector3(ecRX, ecY, 1.8), facePX, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("TX 输入边缘耦合器", new THREE.Vector3(ecLX, ecY, 0.4), faceNX, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(ecRX, ecY, 0.4), facePX, { scale: 0.08 }));
 
     // Heaters — on cladding top surface (heater strip too narrow)
-    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.15), faceTop, { scale: 0.08 }));
-    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.65), faceTop, { scale: 0.08 }));
+    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.15), faceTop, { scale: 0.09 }));
+    lCladding.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopSurf, 0.65), faceTop, { scale: 0.09 }));
     // M1 interconnect — on cladding top surface
-    lCladding.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, cladTopSurf, 1.45), faceTop, { scale: 0.09 }));
+    lCladding.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, cladTopSurf, 1.45), faceTop, { scale: 0.10 }));
 
     // RF electrodes — on ILD top surface (electrode too narrow)
     const ildTopSurf = rfBaseY + rfH + eps;
-    lTop.add(createFaceLabel("RF 电极 (GSG)", new THREE.Vector3(0.6, ildTopSurf, 0.4), faceTop, { scale: 0.09 }));
+    lTop.add(createFaceLabel("RF 电极 (GSG)", new THREE.Vector3(0.6, ildTopSurf, 0.4), faceTop, { scale: 0.10 }));
 
     // Bond pads — top face
     const padTopY = padBaseY + padH + eps;
-    lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(2.8, padTopY, 1.8), faceTop, { scale: 0.08 }));
-    lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(-3.0, padTopY, 1.8), faceTop, { scale: 0.08 }));
+    lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(2.8, padTopY, 1.8), faceTop, { scale: 0.09 }));
+    lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(-3.0, padTopY, 1.8), faceTop, { scale: 0.09 }));
 
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
