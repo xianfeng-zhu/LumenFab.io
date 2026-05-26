@@ -236,6 +236,51 @@ const indexItems = [
     return object;
   }
 
+  function createSpriteLabel(text, position, { color = "#334155", scale = 0.13 } = {}) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const fontSize = 64;
+    ctx.font = `${fontSize}px "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif`;
+    const metrics = ctx.measureText(text);
+    const pad = 20;
+    const w = Math.ceil(metrics.width + pad * 2);
+    const h = Math.ceil(fontSize * 1.5);
+    canvas.width = w;
+    canvas.height = h;
+    // pill background
+    const rx = pad - 8, ry = Math.round((h - fontSize) / 2) - 6, rw = Math.ceil(metrics.width) + 16, rh = fontSize + 12;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.88)";
+    ctx.beginPath();
+    const r = 10;
+    ctx.moveTo(rx + r, ry);
+    ctx.lineTo(rx + rw - r, ry);
+    ctx.quadraticCurveTo(rx + rw, ry, rx + rw, ry + r);
+    ctx.lineTo(rx + rw, ry + rh - r);
+    ctx.quadraticCurveTo(rx + rw, ry + rh, rx + rw - r, ry + rh);
+    ctx.lineTo(rx + r, ry + rh);
+    ctx.quadraticCurveTo(rx, ry + rh, rx, ry + rh - r);
+    ctx.lineTo(rx, ry + r);
+    ctx.quadraticCurveTo(rx, ry, rx + r, ry);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "rgba(148, 163, 184, 0.45)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // text
+    ctx.fillStyle = color;
+    ctx.font = `${fontSize}px "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, w / 2, h / 2);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, depthTest: true, depthWrite: false }));
+    sprite.position.set(position.x, position.y, position.z);
+    sprite.scale.set(scale * (w / h), scale, 1);
+    return sprite;
+  }
+
   function buildModel(scene) {
     const chip = new THREE.Group();
     scene.add(chip);
@@ -1058,6 +1103,54 @@ const indexItems = [
     }
 
     chip.add(tagPart(txPathGroup, "opticalPath"));
+
+    // === Labels ===
+    const sideZ = chipWidth / 2 + 0.14;
+    const wgLabelY = siSlabTop + ribRidgeH + 0.08;
+    const s = 0.10; // default label scale
+
+    // Vertical layer stack — side-face labels
+    lSubstrate.add(createSpriteLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), { scale: 0.11 }));
+    lBox.add(createSpriteLabel("BOX 埋氧层", new THREE.Vector3(0, substrateH + boxH / 2, sideZ), { scale: 0.10 }));
+    lSiDevice.add(createSpriteLabel("Si 器件层", new THREE.Vector3(0, substrateH + boxH + siSlabH / 2, sideZ), { scale: 0.10 }));
+    lCladding.add(createSpriteLabel("SiO₂ 上包层", new THREE.Vector3(0, siTopY + cladH / 2, sideZ), { scale: 0.10 }));
+
+    // Waveguides
+    lSiDevice.add(createSpriteLabel("TX 脊形波导", new THREE.Vector3(-1.0, wgLabelY, 0.4), { scale: s }));
+    lSiDevice.add(createSpriteLabel("RX 脊形波导", new THREE.Vector3(1.8, wgLabelY, 1.45), { scale: s }));
+
+    // MMI & MZM
+    lSiDevice.add(createSpriteLabel("MMI 分束器", new THREE.Vector3(-0.7, wgLabelY + 0.04, 0.4), { scale: s }));
+    lSiDevice.add(createSpriteLabel("MMI 合束器", new THREE.Vector3(1.7, wgLabelY + 0.04, 0.4), { scale: s }));
+    lSiDevice.add(createSpriteLabel("MZM 相位臂", new THREE.Vector3(0.5, wgLabelY, 0.15), { scale: 0.09 }));
+    lSiDevice.add(createSpriteLabel("MZM 相位臂", new THREE.Vector3(0.5, wgLabelY, 0.65), { scale: 0.09 }));
+
+    // Ge detector
+    lGeDetector.add(createSpriteLabel("Ge 光电探测器", new THREE.Vector3(geX, siSlabTop + geH + 0.08, 1.45), { scale: 0.10 }));
+
+    // Grating couplers
+    lSiDevice.add(createSpriteLabel("RX 光栅耦合器", new THREE.Vector3(-2.4, wgLabelY + 0.06, 1.45), { scale: s }));
+    lSiDevice.add(createSpriteLabel("TX 光栅耦合器", new THREE.Vector3(-2.4, wgLabelY + 0.06, -0.4), { scale: s }));
+    lSiDevice.add(createSpriteLabel("TX 光栅耦合器", new THREE.Vector3(2.2, wgLabelY + 0.06, -0.4), { scale: s }));
+
+    // Edge couplers
+    lSiDevice.add(createSpriteLabel("RX 边缘耦合器", new THREE.Vector3(chipLen / 2 + 0.3, wgLabelY, 1.8), { scale: s }));
+    lSiDevice.add(createSpriteLabel("TX 输入边缘耦合器", new THREE.Vector3(-chipLen / 2 - 0.3, wgLabelY, 0.4), { scale: 0.09 }));
+    lSiDevice.add(createSpriteLabel("TX 输出边缘耦合器", new THREE.Vector3(chipLen / 2 + 0.3, wgLabelY, 0.4), { scale: 0.09 }));
+
+    // Heater
+    lHeater.add(createSpriteLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopY + heaterH + 0.08, 0.15), { scale: s }));
+    lHeater.add(createSpriteLabel("TiN 加热器", new THREE.Vector3(0.5, cladTopY + heaterH + 0.08, 0.65), { scale: 0.09 }));
+
+    // M1 interconnect
+    lM1.add(createSpriteLabel("M1 互连", new THREE.Vector3(geX, cladTopY + heaterH + m1H + 0.06, 1.45), { scale: s }));
+
+    // RF electrodes
+    lRf.add(createSpriteLabel("RF 电极 (GSG)", new THREE.Vector3(0.6, rfBaseY + rfH + 0.08, 0.4), { scale: s }));
+
+    // Bond pads
+    lTop.add(createSpriteLabel("Al 焊盘", new THREE.Vector3(2.8, padBaseY + padH + 0.08, 1.8), { scale: s }));
+    lTop.add(createSpriteLabel("Al 焊盘", new THREE.Vector3(-3.0, padBaseY + padH + 0.08, 1.8), { scale: 0.09 }));
 
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
