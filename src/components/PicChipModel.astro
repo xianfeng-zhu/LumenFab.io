@@ -558,20 +558,6 @@ const indexItems = [
       }), "m1Interconnect", false, 4));
     }
 
-    // Monitor PD W via + M1 stub (deferred — needs cladTopY)
-    const mpdGeTopY = siSlabTop + mpdH;
-    const mpdViaH = cladTopY + heaterH - mpdGeTopY;
-    lM1.add(tagPart(createBox({
-      size: [0.05, mpdViaH, 0.05],
-      position: [mpdX, mpdGeTopY + mpdViaH / 2, mpdZ],
-      color: 0x78716c, metalness: 0.75, roughness: 0.25
-    }), "m1Interconnect", false, 4));
-    lM1.add(tagPart(createBox({
-      size: [0.2, m1H, 0.06],
-      position: [mpdX, cladTopY + heaterH + m1H / 2, mpdZ],
-      color: 0xf97316, metalness: 0.65, roughness: 0.22
-    }), "m1Interconnect", false, 4));
-
     // === Layer 9: Bond pads ===
     const padPositions = [
       [2.8, rxPadZ], [2.8, 0.8],
