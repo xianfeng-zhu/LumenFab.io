@@ -413,6 +413,7 @@ const indexItems = [
     const ringTag = ["ring1", "ring2", "ring3"];
     const dropLen = 0.42;
     const dropGeH = 0.12;
+    const dropGeData = [];
     for (let i = 0; i < 3; i++) {
       const rr = ringR[i];
       const rx = ringXs[i];
@@ -439,23 +440,8 @@ const indexItems = [
         color: 0x16a34a, roughness: 0.38, metalness: 0.08
       });
       lGeDetector.add(tagPart(pd, "geDetector", false, 5));
-      // W via from Ge top to M1 level
-      const geTopY = siSlabTop + dropGeH;
-      const viaH_drop = cladTopY + heaterH - geTopY;
-      const via_drop = createBox({
-        size: [0.06, viaH_drop, 0.06],
-        position: [rx, geTopY + viaH_drop / 2, geZ],
-        color: 0x78716c, metalness: 0.75, roughness: 0.25
-      });
-      lM1.add(tagPart(via_drop, "m1Interconnect", false, 4));
-      // Short M1 stub above via
-      const m1StubY = cladTopY + heaterH + m1H / 2;
-      const m1Stub = createBox({
-        size: [0.3, m1H, 0.08],
-        position: [rx, m1StubY, geZ],
-        color: 0xf97316, metalness: 0.65, roughness: 0.22
-      });
-      lM1.add(tagPart(m1Stub, "m1Interconnect", false, 4));
+      // W via + M1 stub deferred to after cladding (needs cladTopY)
+      dropGeData.push({ rx, geZ });
     }
 
     // === Layer 4: Ge photodetector ===
@@ -543,6 +529,25 @@ const indexItems = [
     });
     ildCover.material.depthWrite = false;
     lTop.add(tagPart(ildCover, "cladding"));
+
+    // Drop Ge PD W vias + M1 stubs (deferred — needs cladTopY)
+    for (const d of dropGeData) {
+      const geTopY = siSlabTop + dropGeH;
+      const viaH_drop = cladTopY + heaterH - geTopY;
+      const via_drop = createBox({
+        size: [0.06, viaH_drop, 0.06],
+        position: [d.rx, geTopY + viaH_drop / 2, d.geZ],
+        color: 0x78716c, metalness: 0.75, roughness: 0.25
+      });
+      lM1.add(tagPart(via_drop, "m1Interconnect", false, 4));
+      const m1StubY = cladTopY + heaterH + m1H / 2;
+      const m1Stub = createBox({
+        size: [0.3, m1H, 0.08],
+        position: [d.rx, m1StubY, d.geZ],
+        color: 0xf97316, metalness: 0.65, roughness: 0.22
+      });
+      lM1.add(tagPart(m1Stub, "m1Interconnect", false, 4));
+    }
 
     // === Layer 9: Bond pads ===
     const padH = 0.1;
