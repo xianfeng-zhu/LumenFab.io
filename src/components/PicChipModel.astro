@@ -530,31 +530,38 @@ const indexItems = [
     ildCover.material.depthWrite = false;
     lTop.add(tagPart(ildCover, "cladding"));
 
-    // Drop Ge PD W vias + M1 stubs (deferred — needs cladTopY)
+    // Drop Ge PD W vias + M1 stubs + top vias (deferred — needs cladTopY)
+    const padH = 0.1;
+    const padBaseY = rfBaseY + rfH;
     for (const d of dropGeData) {
       const geTopY = siSlabTop + dropGeH;
+      // W via: Ge → M1
       const viaH_drop = cladTopY + heaterH - geTopY;
-      const via_drop = createBox({
+      lM1.add(tagPart(createBox({
         size: [0.06, viaH_drop, 0.06],
         position: [d.rx, geTopY + viaH_drop / 2, d.geZ],
         color: 0x78716c, metalness: 0.75, roughness: 0.25
-      });
-      lM1.add(tagPart(via_drop, "m1Interconnect", false, 4));
+      }), "m1Interconnect", false, 4));
+      // M1 stub
       const m1StubY = cladTopY + heaterH + m1H / 2;
-      const m1Stub = createBox({
+      lM1.add(tagPart(createBox({
         size: [0.3, m1H, 0.08],
         position: [d.rx, m1StubY, d.geZ],
         color: 0xf97316, metalness: 0.65, roughness: 0.22
-      });
-      lM1.add(tagPart(m1Stub, "m1Interconnect", false, 4));
+      }), "m1Interconnect", false, 4));
+      // Top via: M1 → bond pad
+      const topViaH = padBaseY - (cladTopY + heaterH + m1H);
+      lM1.add(tagPart(createBox({
+        size: [0.06, topViaH, 0.06],
+        position: [d.rx, cladTopY + heaterH + m1H + topViaH / 2, d.geZ],
+        color: 0x78716c, metalness: 0.75, roughness: 0.25
+      }), "m1Interconnect", false, 4));
     }
 
     // === Layer 9: Bond pads ===
-    const padH = 0.1;
-    const padBaseY = rfBaseY + rfH;
     const padPositions = [
-      [-3.0, rxPadZ], [-3.0, 0.8], [-3.0, -0.2],
-      [2.8, rxPadZ], [2.8, 0.8]
+      [2.8, rxPadZ], [2.8, 0.8],
+      ...dropGeData.map(d => [d.rx, d.geZ])
     ];
     for (const [px, pz] of padPositions) {
       const pad = createBox({
@@ -1284,7 +1291,9 @@ const indexItems = [
     // Bond pads — top face
     const padTopY = padBaseY + padH + eps;
     lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(2.8, padTopY, rxPadZ), faceTop, { scale: 0.09 }));
-    lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(-3.0, padTopY, rxPadZ), faceTop, { scale: 0.09 }));
+    for (const d of dropGeData) {
+      lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(d.rx, padTopY, d.geZ), faceTop, { scale: 0.08 }));
+    }
 
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
