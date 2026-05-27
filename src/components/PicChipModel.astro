@@ -1304,19 +1304,19 @@ const indexItems = [
       { key: "ribWaveguide", size: [1.0, ribRidgeH + 0.14, 1.0], position: [2.2, siSlabTop + ribRidgeH / 2, -0.2], priority: 5 },
       { key: "heater", size: [2.0, heaterH + 0.12, 1.2], position: [0.5, cladTopY + heaterH / 2 + 0.02, 0.4], priority: 6 },
       { key: "stripWaveguide", size: [dcLen + 0.14, ribRidgeH + 0.12, 0.4], position: [dcX, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
-      ...ringXs.map((rx, i) => {
-        const rr = ringR[i];
-        const rz = rxZ + 0.16 + ringGap + rr + 0.035;
-        return { key: "stripWaveguide", size: [0.7, ribRidgeH + 0.12, 0.7], position: [rx, siSlabTop + ribRidgeH / 2, rz], priority: 5 };
-      }),
-      ...ringXs.map((rx, i) => {
-        const rr = ringR[i];
-        const rz = rxZ + 0.16 + ringGap + rr + 0.035;
-        const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
-        const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
-        return { key: "geDetector", size: [0.55, dropGeH + 0.08, 0.32], position: [rx, siSlabTop + dropGeH / 2, geZ], priority: 6 };
-      }),
     ];
+    for (let i = 0; i < 3; i++) {
+      const rr = ringR[i], rx = ringXs[i];
+      const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+      largeHitTargets.push({ key: "stripWaveguide", size: [0.7, ribRidgeH + 0.12, 0.7], position: [rx, siSlabTop + ribRidgeH / 2, rz], priority: 5 });
+    }
+    for (let i = 0; i < 3; i++) {
+      const rr = ringR[i], rx = ringXs[i];
+      const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+      const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
+      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      largeHitTargets.push({ key: "geDetector", size: [0.55, dropGeH + 0.08, 0.32], position: [rx, siSlabTop + dropGeH / 2, geZ], priority: 6 });
+    }
 
     const hitTargetLayerMap = {
       substrate: lSubstrate, box: lBox, siDevice: lSiDevice,
