@@ -1071,11 +1071,11 @@ const indexItems = [
       new THREE.Vector3(fiberCenterX, fiberBottomY, rxZ),        // 光纤端面
       new THREE.Vector3(fiberCenterX, gcTopY, rxZ),              // GC表面
       new THREE.Vector3(-0.5, pathY, rxZ),                       // 波导（转折后）
-      new THREE.Vector3(ringXs[0], pathY, rxZ + 0.04),           // 经过环1 — 微弯
+      new THREE.Vector3(ringXs[0], pathY, rxZ + 0.15),           // 经过环1
       new THREE.Vector3(0.3, pathY, rxZ),                        // 环间直段
-      new THREE.Vector3(ringXs[1], pathY, rxZ + 0.04),           // 经过环2 — 微弯
+      new THREE.Vector3(ringXs[1], pathY, rxZ + 0.15),           // 经过环2
       new THREE.Vector3(1.3, pathY, rxZ),                        // 环间直段
-      new THREE.Vector3(ringXs[2], pathY, rxZ + 0.04),           // 经过环3 — 微弯
+      new THREE.Vector3(ringXs[2], pathY, rxZ + 0.15),           // 经过环3
       new THREE.Vector3(geX, pathY, rxZ),                        // Ge探测器（吞吐端）
     ];
     const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
