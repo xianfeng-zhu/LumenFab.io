@@ -407,7 +407,7 @@ const indexItems = [
 
     // WDM demux — three microrings on RX bus, each with drop port + Ge PD
     const ringR = [0.22, 0.25, 0.28]; // slightly different radii → different λ
-    const ringXs = [-0.5, 0.7, 1.9];
+    const ringXs = [-0.3, 0.8, 1.9];
     const ringGap = 0.05;
     const ringY = siSlabTop + ribRidgeH / 2;
     const ringTag = ["ring1", "ring2", "ring3"];
@@ -446,7 +446,7 @@ const indexItems = [
 
     // === Layer 4: Ge photodetector ===
     const geH = 0.18;
-    const geX = 1.0;
+    const geX = 3.0; // after all 3 rings: through-port monitor
     const geDetector = createBox({
       size: [1.2, geH, 0.5],
       position: [geX, siSlabTop + geH / 2, rxZ],
@@ -585,21 +585,21 @@ const indexItems = [
     });
     lM1.add(tagPart(wVia, "m1Interconnect", false, 4));
 
-    // M1 branch: from Ge area toward bond pad [2.8, 1.8]
+    // M1 branch: from Ge area toward bond pad [2.8, rxPadZ]
     const m1BranchZLen = rxPadZ - rxZ;
     const m1BranchZ = createBox({
       size: [0.12, m1H, m1BranchZLen],
-      position: [1.4, cladTopY + heaterH + m1H / 2, rxZ + m1BranchZLen / 2],
+      position: [geX, cladTopY + heaterH + m1H / 2, rxZ + m1BranchZLen / 2],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
     });
     lM1.add(tagPart(m1BranchZ, "m1Interconnect", false, 4));
 
-    const m1BranchXLen = 2.8 - 1.4;
+    const m1BranchXLen = geX - 2.8;
     const m1BranchX = createBox({
       size: [m1BranchXLen, m1H, 0.12],
-      position: [1.4 + m1BranchXLen / 2, cladTopY + heaterH + m1H / 2, rxPadZ],
+      position: [2.8 + m1BranchXLen / 2, cladTopY + heaterH + m1H / 2, rxPadZ],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
@@ -1016,7 +1016,8 @@ const indexItems = [
       new THREE.Vector3(fiberCenterX, gcTopY, rxZ),              // GC表面
       new THREE.Vector3(-0.5, pathY, rxZ),                       // 波导（转折后）
       new THREE.Vector3(0.5, pathY, rxZ),                        // 波导
-      new THREE.Vector3(geX, pathY, rxZ),                        // Ge探测器
+      new THREE.Vector3(1.5, pathY, rxZ),                        // 波导（经过环2、环3）
+      new THREE.Vector3(geX, pathY, rxZ),                        // Ge探测器（吞吐端）
     ];
     const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
     const pathGeometry = new THREE.TubeGeometry(pathCurve, 64, 0.025, 8, false);
@@ -1043,9 +1044,8 @@ const indexItems = [
       new THREE.Vector3(geX, siSlabTop + geH, rxZ),          // Ge top (start)
       new THREE.Vector3(geX, cladTopY + heaterH, rxZ),       // W via bottom
       new THREE.Vector3(geX, m1CenterY, rxZ),                // M1 over Ge
-      new THREE.Vector3(1.4, m1CenterY, rxZ),                // M1 branch turn
-      new THREE.Vector3(1.4, m1CenterY, rxPadZ),             // M1 branch (Z)
-      new THREE.Vector3(2.8, m1CenterY, rxPadZ),             // M1 branch at pad
+      new THREE.Vector3(geX, m1CenterY, rxPadZ),             // M1 Z-branch
+      new THREE.Vector3(2.8, m1CenterY, rxPadZ),             // M1 X-branch to pad
       new THREE.Vector3(2.8, padCenterY, rxPadZ),            // Bond pad (end)
       new THREE.Vector3(2.8, padCenterY + 0.25, rxPadZ),     // External wire direction
     ];
