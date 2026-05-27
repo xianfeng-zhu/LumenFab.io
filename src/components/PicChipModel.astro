@@ -559,14 +559,17 @@ const indexItems = [
     }
 
     // Monitor PD W via + M1 stub (deferred — needs cladTopY)
+    // All values hardcoded — DO NOT reference geometry-section consts
+    // (minifier reorders, causing TDZ when deferred code accesses them)
+    const mpdViaH2 = cladTopY + heaterH - (siSlabTop + 0.1);
     lM1.add(tagPart(createBox({
-      size: [0.05, cladTopY + heaterH - (siSlabTop + mpdH), 0.05],
-      position: [mpdX, siSlabTop + mpdH + (cladTopY + heaterH - (siSlabTop + mpdH)) / 2, mpdZ],
+      size: [0.05, mpdViaH2, 0.05],
+      position: [-2.15, siSlabTop + 0.1 + mpdViaH2 / 2, 0.86],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4));
     lM1.add(tagPart(createBox({
       size: [0.2, m1H, 0.06],
-      position: [mpdX, cladTopY + heaterH + m1H / 2, mpdZ],
+      position: [-2.15, cladTopY + heaterH + m1H / 2, 0.86],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     }), "m1Interconnect", false, 4));
 
