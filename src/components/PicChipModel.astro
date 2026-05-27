@@ -1091,8 +1091,6 @@ const indexItems = [
 
     // WDM drop optical paths — light from bus → ring → drop WG → Ge PD
     const wdmPathGroup = new THREE.Group();
-    const wdmCurves = [];
-    const wdmGlowSpheres = [];
     for (let i = 0; i < 3; i++) {
       const rr = ringR[i];
       const rx = ringXs[i];
@@ -1107,16 +1105,15 @@ const indexItems = [
         new THREE.Vector3(rx, pathY, geZ),
       ];
       const curve = new THREE.CatmullRomCurve3(pts);
-      wdmCurves.push(curve);
       const geom = new THREE.TubeGeometry(curve, 40, 0.018, 6, false);
       const mesh = new THREE.Mesh(geom, transparent(0x67e8f9, 0.45));
       wdmPathGroup.add(tagPart(mesh, "opticalPath"));
-      for (let j = 0; j < 6; j++) {
+      for (let j = 0; j < 5; j++) {
         const glow = new THREE.Mesh(
           new THREE.SphereGeometry(0.026, 8, 4),
           new THREE.MeshBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.45 })
         );
-        wdmGlowSpheres.push({ mesh: glow, curve, offset: j / 6 });
+        glow.position.copy(curve.getPointAt(j / 4));
         wdmPathGroup.add(glow);
       }
     }
@@ -1133,15 +1130,6 @@ const indexItems = [
     const mpdCurve = new THREE.CatmullRomCurve3(mpdPts);
     const mpdGeom = new THREE.TubeGeometry(mpdCurve, 20, 0.015, 6, false);
     mpdPathGroup.add(tagPart(new THREE.Mesh(mpdGeom, transparent(0x67e8f9, 0.4)), "opticalPath"));
-    const mpdGlowSpheres = [];
-    for (let j = 0; j < 4; j++) {
-      const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.022, 8, 4),
-        new THREE.MeshBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.4 })
-      );
-      mpdGlowSpheres.push({ mesh: glow, curve: mpdCurve, offset: j / 4 });
-      mpdPathGroup.add(glow);
-    }
     chip.add(tagPart(mpdPathGroup, "opticalPath"));
 
     // Electrical path (Ge → W via → M1 → bond pad → external)
@@ -1474,7 +1462,7 @@ const indexItems = [
     chip.rotation.x = -0.22;
     chip.rotation.y = -0.45;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, wdmGlowSpheres, mpdGlowSpheres, mpdCurve };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1531,7 +1519,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, wdmGlowSpheres, mpdGlowSpheres, mpdCurve } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -1946,31 +1934,6 @@ const indexItems = [
           const fade = Math.sin(t * Math.PI);
           item.mesh.material.opacity = 0.25 + 0.55 * fade;
           const s = 0.7 + 0.45 * fade;
-          item.mesh.scale.setScalar(s);
-        }
-      }
-
-      // WDM drop optical path glow animation
-      if (wdmGlowSpheres) {
-        for (const item of wdmGlowSpheres) {
-          const t = (item.offset + time * 0.13) % 1;
-          const pt = item.curve.getPointAt(t);
-          item.mesh.position.copy(pt);
-          const fade = Math.sin(t * Math.PI);
-          item.mesh.material.opacity = 0.2 + 0.5 * fade;
-          const s = 0.65 + 0.4 * fade;
-          item.mesh.scale.setScalar(s);
-        }
-      }
-      // Monitor PD tap optical path glow animation
-      if (mpdGlowSpheres && mpdCurve) {
-        for (const item of mpdGlowSpheres) {
-          const t = (item.offset + time * 0.1) % 1;
-          const pt = item.curve.getPointAt(t);
-          item.mesh.position.copy(pt);
-          const fade = Math.sin(t * Math.PI);
-          item.mesh.material.opacity = 0.2 + 0.45 * fade;
-          const s = 0.6 + 0.35 * fade;
           item.mesh.scale.setScalar(s);
         }
       }
