@@ -1036,6 +1036,37 @@ const indexItems = [
     }
     chip.add(tagPart(pathGroup, "opticalPath"));
 
+    // WDM drop optical paths — light from bus → ring → drop WG → Ge PD
+    const wdmPathGroup = new THREE.Group();
+    for (let i = 0; i < 3; i++) {
+      const rr = ringR[i];
+      const rx = ringXs[i];
+      const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+      const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
+      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      const pts = [
+        new THREE.Vector3(rx, pathY, rxZ),         // bus waveguide
+        new THREE.Vector3(rx, pathY, (rxZ + rz - rr) / 2), // mid to ring
+        new THREE.Vector3(rx, pathY, rz),           // ring center
+        new THREE.Vector3(rx, pathY, dropZ),        // drop waveguide
+        new THREE.Vector3(rx, pathY, geZ),           // Ge detector
+      ];
+      const curve = new THREE.CatmullRomCurve3(pts);
+      const geom = new THREE.TubeGeometry(curve, 40, 0.018, 6, false);
+      const mesh = new THREE.Mesh(geom, transparent(0x67e8f9, 0.45));
+      wdmPathGroup.add(tagPart(mesh, "opticalPath"));
+      // glow spheres
+      for (let j = 0; j < 5; j++) {
+        const glow = new THREE.Mesh(
+          new THREE.SphereGeometry(0.028, 8, 4),
+          new THREE.MeshBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.45 })
+        );
+        glow.position.copy(curve.getPointAt(j / 4));
+        wdmPathGroup.add(glow);
+      }
+    }
+    chip.add(tagPart(wdmPathGroup, "opticalPath"));
+
     // Electrical path (Ge → W via → M1 → bond pad → external)
     const elecGroup = new THREE.Group();
     const m1CenterY = cladTopY + heaterH + m1H / 2;
