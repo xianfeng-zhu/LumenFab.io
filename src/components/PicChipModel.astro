@@ -1062,38 +1062,7 @@ const indexItems = [
     });
     lRf.add(tagPart(sigBar2, "rfElectrode", false, 4));
 
-    // Optical path (RX: fiber → GC → waveguide → Ge detector)
-    const pathGroup = new THREE.Group();
     const pathY = siSlabTop - siSlabH / 2 + siRibH / 2;
-    const gcTopY = siSlabTop + ribRidgeH;
-    const pathPoints = [
-      new THREE.Vector3(fiberCenterX, fiberBottomY + 0.2, rxZ), // 光纤内
-      new THREE.Vector3(fiberCenterX, fiberBottomY, rxZ),        // 光纤端面
-      new THREE.Vector3(fiberCenterX, gcTopY, rxZ),              // GC表面
-      new THREE.Vector3(-0.5, pathY, rxZ),                       // 波导（转折后）
-      new THREE.Vector3(ringXs[0], pathY, rxZ + 0.15),           // 经过环1
-      new THREE.Vector3(0.3, pathY, rxZ),                        // 环间直段
-      new THREE.Vector3(ringXs[1], pathY, rxZ + 0.15),           // 经过环2
-      new THREE.Vector3(1.3, pathY, rxZ),                        // 环间直段
-      new THREE.Vector3(ringXs[2], pathY, rxZ + 0.15),           // 经过环3
-      new THREE.Vector3(geX, pathY, rxZ),                        // Ge探测器（吞吐端）
-    ];
-    const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
-    const pathGeometry = new THREE.TubeGeometry(pathCurve, 64, 0.025, 8, false);
-    const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.55));
-    pathGroup.add(tagPart(pathMesh, "opticalPath"));
-
-    // Animated glow spheres along the path
-    const pathGlowSpheres = [];
-    for (let i = 0; i < 10; i++) {
-      const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.038, 10, 6),
-        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
-      );
-      pathGlowSpheres.push({ mesh: glow, offset: i / 10 });
-      pathGroup.add(glow);
-    }
-    chip.add(tagPart(pathGroup, "opticalPath"));
 
     // WDM drop optical paths — light from bus → ring → drop WG → Ge PD
     const wdmPathGroup = new THREE.Group();
@@ -1468,7 +1437,7 @@ const indexItems = [
     chip.rotation.x = -0.22;
     chip.rotation.y = -0.45;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
+    return { chip, layerGroups, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1525,7 +1494,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -1842,19 +1811,6 @@ const indexItems = [
         clippingPlane.constant = -sectionSliderValue;
       } else {
         renderer.clippingPlanes = [];
-      }
-
-      // Optical path glow animation (vertical: fiber → GC surface)
-      if (pathGlowSpheres) {
-        for (const item of pathGlowSpheres) {
-          const t = (item.offset + time * 0.18) % 1;
-          const pt = pathCurve.getPointAt(t);
-          item.mesh.position.copy(pt);
-          const fade = Math.sin(t * Math.PI);
-          item.mesh.material.opacity = 0.25 + 0.55 * fade;
-          const s = 0.7 + 0.45 * fade;
-          item.mesh.scale.setScalar(s);
-        }
       }
 
       // Electrical path glow animation (Ge → M1 → bond pad)
