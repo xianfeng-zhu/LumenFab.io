@@ -13,16 +13,48 @@ const {
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title} | LumenFab.io</title>
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const theme =
+          stored ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href={sitePath("/")}>LumenFab.io</a>
+      <button
+        class="theme-toggle"
+        type="button"
+        aria-label="切换深色/浅色模式"
+        data-theme-toggle
+      >
+        <svg class="theme-toggle__sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
     </header>
     <main>
       <slot />
@@ -46,6 +78,15 @@ const {
       </nav>
     </div>
 
+    <script>
+      const toggle = document.querySelector("[data-theme-toggle]");
+      toggle?.addEventListener("click", () => {
+        const html = document.documentElement;
+        const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+      });
+    </script>
     <script>
       import mermaid from "mermaid";
       mermaid.initialize({
@@ -207,6 +248,13 @@ const {
 
 <style is:global>
   :root {
+    --max: 1120px;
+    font-family:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "Noto Sans SC", sans-serif;
+  }
+
+  [data-theme="light"] {
     color-scheme: light;
     --bg: #f8faf7;
     --surface: #ffffff;
@@ -216,10 +264,18 @@ const {
     --border: #d7e1db;
     --accent: #1d7a6b;
     --accent-strong: #0f4f49;
-    --max: 1120px;
-    font-family:
-      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      "Noto Sans SC", sans-serif;
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0f1714;
+    --surface: #1a2621;
+    --surface-2: #1f2e28;
+    --text: #d9e8e1;
+    --muted: #7e9b8f;
+    --border: #283831;
+    --accent: #3db89e;
+    --accent-strong: #5dd4be;
   }
 
   * {
@@ -256,6 +312,32 @@ const {
     font-weight: 800;
     text-decoration: none;
   }
+
+  .theme-toggle {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    cursor: pointer;
+    transition:
+      color 160ms ease,
+      border-color 160ms ease,
+      background 160ms ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    background: var(--surface-2);
+  }
+
+  [data-theme="light"] .theme-toggle__moon { display: none; }
+  [data-theme="dark"] .theme-toggle__sun { display: none; }
 
   main {
     max-width: var(--max);
