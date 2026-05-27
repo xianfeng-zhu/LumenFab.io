@@ -179,6 +179,27 @@ package yield
 | package ↔ mechanical system | warpage、CTE match、shock / vibration、strain relief、socket force | mechanical / reliability |
 | package ↔ test / operations | KGD coverage、monitor telemetry、fault isolation、rework path、field replaceability | Manufacturing/Test 与 Reliability |
 
+## 代工厂的端到端封装：TSMC COUPE 案例
+
+前面讨论的基板、中介层、微凸点、底填——这些封装步骤传统上由 OSAT（委外封装测试厂，如 ASE、Amkor）完成。但近年硅光领域出现了一个新的趋势：**代工厂自己把 PIC 制造、EIC 制造和先进封装放在同一个厂里完成，向客户提供端到端的"设计到封装"交付。**
+
+**TSMC COUPE（Compact Universal Photonic Engine）** 是这一趋势的代表性平台——也是目前唯一将硅光 PIC 制造、EIC 制造和 3D 先进封装垂直整合在同一厂内的纯代工方案。核心参数：
+
+| 参数 | 说明 |
+|------|------|
+| PIC 工艺 | 65nm CMOS SOI，300mm 晶圆 |
+| EIC 工艺 | N7 / N6 等先进节点 |
+| BEOL 金属层 | 6 层（其他硅光代工厂通常 2 层） |
+| PIC-EIC 键合 | SoIC 混合键合（Cu-Cu 直接键接）——在晶圆级完成，不需要微凸点，寄生电感和电容远低于传统倒装 |
+| 与计算芯片集成 | CoWoS（Chip-on-Wafer-on-Substrate）封装 |
+| 光耦合 | 光栅耦合器（~1.2 dB 损耗）+ iFAU（集成光纤阵列单元）或边缘耦合器 |
+
+**SoIC 混合键合** 是目前最先进的芯片堆叠技术——PIC 和 EIC 的 Cu 焊盘在晶圆级直接对压键合，界面没有微凸点和底填。这意味着互连长度从微凸点的数十微米缩短到亚微米级，寄生电感降低约两个数量级。对于 100+ Gbaud 的调制器驱动和 PD-TIA 链路，这个差异直接转化为可用带宽。
+
+**COUPE 对封装供应链的改变。** 传统流程是：代工厂制造 PIC → OSAT 做引线键合或倒装 + 光纤对准 → 交付模块。COUPE 把 PIC 和 EIC 在晶圆级贴合、再通过 CoWoS 与计算 ASIC 集成——整个封装过程在台积电内部闭环，不经过第三方封装厂。这对传统 OSAT 和光模块供应链是结构性的冲击。
+
+**Fabless 客户案例：Ayar Labs。** Ayar Labs 是 fabless 硅光设计公司——不拥有任何产线。它的 TeraPHY 光 I/O 芯片走两条代工路线——GF 45nm 硅光平台制造 PIC，同时也在 TSMC COUPE 平台上设计 PIC（基于 COUPE PDK），由 TSMC 制造 PIC 和 EIC、完成 SoIC 键合和 CoWoS 封装，最终交付一个预封装好的光电引擎。Ayar Labs 的核心能力不在制造，而在光 I/O 架构设计、多波长链路方案和系统级集成——这正是 §8.6 所述"围绕 PIC 的系统设计"的典型体现。
+
 ## 总结：Package integration 的判断标准
 
 Package integration 是 CPO 光引擎的空间、互连、散热、机械、良率和可维护性层。判断封装方案时，应看它能否在目标速率、光功率预算、热路径、机械稳定、KGD、返修和现场服务之间留下工程余量。
