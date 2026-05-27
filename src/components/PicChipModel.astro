@@ -739,7 +739,7 @@ const indexItems = [
       color: 0x16a34a, roughness: 0.38, metalness: 0.08
     });
     lGeDetector.add(tagPart(mpd, "geDetector", false, 5));
-    // W via + M1 stub for monitor PD (deferred — needs cladTopY)
+    dropGeData.push({ rx: mpdX, geZ: mpdZ });
 
     // Directional coupler — two parallel waveguides with narrow gap
     const dcLen = 0.55;
