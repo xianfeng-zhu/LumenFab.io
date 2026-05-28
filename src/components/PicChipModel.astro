@@ -359,9 +359,9 @@ const indexItems = [
 
     // === Layer 3: Si device layer ===
     const siBase = yBase;
-    const siFullH = 0.34;
-    const siSlabH = 0.19;
-    const siRibH = 0.26;
+    const siFullH = 0.24;
+    const siSlabH = 0.14;
+    const siRibH = 0.19;
 
     const siSlab = createBox({
       size: [chipLen, siSlabH, chipWidth],
@@ -412,7 +412,7 @@ const indexItems = [
     const ringR = [0.22, 0.25, 0.28]; // slightly different radii → different λ
     const ringXs = [-0.3, 0.8, 1.9];
     const ringGap = 0.05;
-    const ringY = siSlabTop + ribRidgeH / 2;
+    const ringY = siSlabTop + stripRidgeH / 2;
     const ringTag = ["ring1", "ring2", "ring3"];
     const dropLen = 0.42;
     const dropGeH = 0.12;
@@ -422,7 +422,7 @@ const indexItems = [
       const rx = ringXs[i];
       const rz = rxZ + 0.16 + ringGap + rr + 0.035;
       // ring torus
-      const geom = new THREE.TorusGeometry(rr, 0.032, 16, 48);
+      const geom = new THREE.TorusGeometry(rr, 0.04, 16, 48);
       const mesh = new THREE.Mesh(geom, material(0x14b8a6, { roughness: 0.38, metalness: 0.12 }));
       mesh.position.set(rx, ringY, rz);
       mesh.rotation.x = Math.PI / 2;
@@ -730,8 +730,8 @@ const indexItems = [
     // Coupled waveguide: S-bend approach → parallel gap → S-bend exit → monitor PD
     // Only ~1–5% of light couples across the narrow gap via evanescent coupling
     const dcBusWG = createBox({
-      size: [dcEndX - dcApproachStartX, ribRidgeH, 0.12],
-      position: [(dcApproachStartX + dcEndX) / 2, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [dcEndX - dcApproachStartX, stripRidgeH, 0.12],
+      position: [(dcApproachStartX + dcEndX) / 2, siSlabTop + stripRidgeH / 2, 0.4],
       color: 0x14b8a6,
       roughness: 0.42,
       metalness: 0.12
@@ -740,17 +740,18 @@ const indexItems = [
     const dcCoupledZ = 0.4 + 0.06 + 0.06 + 0.06; // 0.58 — bus centre + bus half + gap + coupled half
     const dcCoupledW = 0.12;
 
+    const dcCoupledY = siSlabTop + stripRidgeH / 2 + 0.001;
     const dcCoupledPathPts = [
-      new THREE.Vector3(dcApproachStartX, siSlabTop + ribRidgeH / 2 + 0.001, dcCoupledZ),
-      new THREE.Vector3(dcEndX, siSlabTop + ribRidgeH / 2 + 0.001, dcCoupledZ),
-      new THREE.Vector3(dcEndX + 0.5, siSlabTop + ribRidgeH / 2 + 0.001, 0.88),
-      new THREE.Vector3(dcEndX + 0.72, siSlabTop + ribRidgeH / 2 + 0.001, 1.42),
+      new THREE.Vector3(dcApproachStartX, dcCoupledY, dcCoupledZ),
+      new THREE.Vector3(dcEndX, dcCoupledY, dcCoupledZ),
+      new THREE.Vector3(dcEndX + 0.5, dcCoupledY, 0.88),
+      new THREE.Vector3(dcEndX + 0.72, dcCoupledY, 1.42),
     ];
     const dcCoupledCurve = new THREE.CatmullRomCurve3(dcCoupledPathPts);
     // Extrude rectangular cross-section along the S-bend path
     const dcShape = new THREE.Shape();
     const hw = dcCoupledW / 2;
-    const hh = ribRidgeH / 2;
+    const hh = stripRidgeH / 2;
     dcShape.moveTo(-hw, -hh);
     dcShape.lineTo( hw, -hh);
     dcShape.lineTo( hw,  hh);
@@ -779,8 +780,8 @@ const indexItems = [
 
     // TX waveguide from DC to MMI splitter
     const txWaveguideDC = createBox({
-      size: [0.43, ribRidgeH, 0.32],
-      position: [-1.16, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [0.075, ribRidgeH, 0.32],
+      position: [-1.338, siSlabTop + ribRidgeH / 2, 0.4],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
@@ -788,9 +789,17 @@ const indexItems = [
     lSiDevice.add(tagPart(txWaveguideDC, "ribWaveguide", false, 4));
 
     // TX MMI splitter + MZM phase arms
+    const mmiLen = 1.2;
+    const mmiWidth = 0.50;
+    const mmiSplitterCx = -0.7;
+    const mmiCombinerCx = 2.05;
+    const armZ1 = 0.275;
+    const armZ2 = 0.525;
+    const armWidth = 0.20;
+
     const txMmiSplitter = createBox({
-      size: [0.5, ribRidgeH, 0.6],
-      position: [-0.7, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [mmiLen, stripRidgeH, mmiWidth],
+      position: [mmiSplitterCx, siSlabTop + stripRidgeH / 2, 0.4],
       color: 0x14b8a6,
       roughness: 0.42,
       metalness: 0.12
@@ -798,8 +807,8 @@ const indexItems = [
     lSiDevice.add(tagPart(txMmiSplitter, "stripWaveguide", false, 4, "mzm"));
 
     const txArm1 = createBox({
-      size: [1.9, ribRidgeH, 0.32],
-      position: [0.5, siSlabTop + ribRidgeH / 2, 0.15],
+      size: [1.9, ribRidgeH, armWidth],
+      position: [0.5, siSlabTop + ribRidgeH / 2, armZ1],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
@@ -807,8 +816,8 @@ const indexItems = [
     lSiDevice.add(tagPart(txArm1, "ribWaveguide", false, 4, "mzm"));
 
     const txArm2 = createBox({
-      size: [1.9, ribRidgeH, 0.32],
-      position: [0.5, siSlabTop + ribRidgeH / 2, 0.65],
+      size: [1.9, ribRidgeH, armWidth],
+      position: [0.5, siSlabTop + ribRidgeH / 2, armZ2],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
@@ -817,18 +826,46 @@ const indexItems = [
 
     // TX MMI combiner (output end of MZM)
     const txMmiCombiner = createBox({
-      size: [0.5, ribRidgeH, 0.6],
-      position: [1.7, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [mmiLen, stripRidgeH, mmiWidth],
+      position: [mmiCombinerCx, siSlabTop + stripRidgeH / 2, 0.4],
       color: 0x14b8a6,
       roughness: 0.42,
       metalness: 0.12
     });
     lSiDevice.add(tagPart(txMmiCombiner, "stripWaveguide", false, 4, "mzm"));
 
+    // === Tapers: MMI ↔ phase arms ===
+    const taperH = (stripRidgeH + ribRidgeH) / 2;
+    const taperLen = 0.15;
+
+    const addTaper = (cx, cz, wideW, narrowW) => {
+      const hwW = wideW / 2, hwN = narrowW / 2;
+      const shape = new THREE.Shape();
+      shape.moveTo(-taperLen / 2, -hwW);
+      shape.lineTo( taperLen / 2, -hwN);
+      shape.lineTo( taperLen / 2,  hwN);
+      shape.lineTo(-taperLen / 2,  hwW);
+      shape.closePath();
+      const geom = new THREE.ExtrudeGeometry(shape, { steps: 1, depth: taperH, bevelEnabled: false });
+      const mesh = new THREE.Mesh(geom, material(0x14b8a6, { roughness: 0.42, metalness: 0.10 }));
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.position.set(cx, siSlabTop + taperH / 2, cz);
+      lSiDevice.add(tagPart(mesh, "ribWaveguide", false, 4));
+    };
+
+    // MMI splitter → phase arm 1
+    addTaper(-0.275, (0.4 + armZ1) / 2, mmiWidth, armWidth);
+    // MMI splitter → phase arm 2
+    addTaper(-0.275, (0.4 + armZ2) / 2, mmiWidth, armWidth);
+    // Phase arm 1 → MMI combiner
+    addTaper(1.45, (0.4 + armZ1) / 2, armWidth, mmiWidth);
+    // Phase arm 2 → MMI combiner
+    addTaper(1.45, (0.4 + armZ2) / 2, armWidth, mmiWidth);
+
     // TX output waveguide (from combiner toward output coupler)
     const txOutputWaveguide = createBox({
-      size: [1.6, ribRidgeH, 0.32],
-      position: [2.75, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [0.9, ribRidgeH, 0.32],
+      position: [3.1, siSlabTop + ribRidgeH / 2, 0.4],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
@@ -886,7 +923,7 @@ const indexItems = [
     // Offset slightly outward in Z to remain visible under GND electrodes
     const txHeater1 = createBox({
       size: [1.6, heaterH, 0.1],
-      position: [0.5, cladTopY + heaterH / 2, 0.12],
+      position: [0.5, cladTopY + heaterH / 2, armZ1 - 0.03],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -895,7 +932,7 @@ const indexItems = [
 
     const txHeater2 = createBox({
       size: [1.6, heaterH, 0.1],
-      position: [0.5, cladTopY + heaterH / 2, 0.68],
+      position: [0.5, cladTopY + heaterH / 2, armZ2 + 0.03],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -903,10 +940,12 @@ const indexItems = [
     lHeater.add(tagPart(txHeater2, "heater", false, 5, "mzm"));
 
     // Heater W vias up to M1 level
+    const heaterZ1 = armZ1 - 0.03;
+    const heaterZ2 = armZ2 + 0.03;
     const viaToM1H = heaterH + m1H;
     const heaterVia1 = createBox({
       size: [0.06, viaToM1H, 0.06],
-      position: [0.5, cladTopY + viaToM1H / 2, 0.12],
+      position: [0.5, cladTopY + viaToM1H / 2, heaterZ1],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
@@ -914,7 +953,7 @@ const indexItems = [
     lHeater.add(tagPart(heaterVia1, "heater", false, 5, "mzm"));
     const heaterVia2 = createBox({
       size: [0.06, viaToM1H, 0.06],
-      position: [0.5, cladTopY + viaToM1H / 2, 0.68],
+      position: [0.5, cladTopY + viaToM1H / 2, heaterZ2],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
@@ -928,7 +967,7 @@ const indexItems = [
     const heaterTraceCx = (0.5 + heaterPadX) / 2;
     const heaterM1Trace1 = createBox({
       size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, heaterM1Y, 0.12],
+      position: [heaterTraceCx, heaterM1Y, heaterZ1],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
@@ -936,7 +975,7 @@ const indexItems = [
     lM1.add(tagPart(heaterM1Trace1, "m1Interconnect", false, 4, "mzm"));
     const heaterM1Trace2 = createBox({
       size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, heaterM1Y, 0.68],
+      position: [heaterTraceCx, heaterM1Y, heaterZ2],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
@@ -947,24 +986,24 @@ const indexItems = [
     const heaterTopViaH = padBaseY - (cladTopY + heaterH + m1H);
     lM1.add(tagPart(createBox({
       size: [0.06, heaterTopViaH, 0.06],
-      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, 0.12],
+      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, heaterZ1],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4, "mzm"));
     lM1.add(tagPart(createBox({
       size: [0.06, heaterTopViaH, 0.06],
-      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, 0.68],
+      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, heaterZ2],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4, "mzm"));
 
     // Heater bond pads
     lTop.add(tagPart(createBox({
       size: [0.18, padH, 0.18],
-      position: [heaterPadX, padBaseY + padH / 2, 0.12],
+      position: [heaterPadX, padBaseY + padH / 2, heaterZ1],
       color: 0x475569, metalness: 0.55, roughness: 0.28
     }), "bondPad", false, 0, "mzm"));
     lTop.add(tagPart(createBox({
       size: [0.18, padH, 0.18],
-      position: [heaterPadX, padBaseY + padH / 2, 0.68],
+      position: [heaterPadX, padBaseY + padH / 2, heaterZ2],
       color: 0x475569, metalness: 0.55, roughness: 0.28
     }), "bondPad", false, 0, "mzm"));
 
@@ -977,12 +1016,12 @@ const indexItems = [
     const dopingY = siBase + siSlabH / 2;
     const slabTopY = siSlabTop;
 
-    // Arm1 (Z=0.15, edges at Z=-0.01 and 0.31)
-    const arm1nZ = -0.01 - dopingW / 2;  // n++ strip, lower side
-    const arm1pZ = 0.31 + dopingW / 2;   // p++ strip, upper side
-    // Arm2 (Z=0.65, edges at Z=0.49 and 0.81)
-    const arm2nZ = 0.49 - dopingW / 2;   // n++ strip, lower side
-    const arm2pZ = 0.81 + dopingW / 2;   // p++ strip, upper side
+    // Arm1 (doping strips on both sides of the rib)
+    // Arm edges at Z=armZ±armWidth/2, doping strips just outside
+    const arm1nZ = armZ1 - armWidth / 2 - dopingW / 2; // n++ strip, lower side
+    const arm1pZ = armZ1 + armWidth / 2 + dopingW / 2; // p++ strip, upper side
+    const arm2nZ = armZ2 - armWidth / 2 - dopingW / 2; // n++ strip, lower side
+    const arm2pZ = armZ2 + armWidth / 2 + dopingW / 2; // p++ strip, upper side
 
     const addDoping = (z, colorHex) => {
       const strip = createBox({
@@ -1060,8 +1099,8 @@ const indexItems = [
         lRf.add(tagPart(trace, "rfElectrode", false, 4, "mzm"));
       }
     };
-    addGndBridge(-0.07, 0.20); // arm1 n++ → GND1
-    addGndBridge(0.87, 0.60);  // arm2 p++ → GND2
+    addGndBridge(armZ1 - armWidth / 2 - dopingW / 2, 0.20); // arm1 n++ → GND1
+    addGndBridge(armZ2 + armWidth / 2 + dopingW / 2, 0.60);  // arm2 p++ → GND2
 
     // Signal-side M1 traces directly under RF signal electrode
     const addSigTrace = (z) => {
@@ -1076,8 +1115,8 @@ const indexItems = [
         lRf.add(tagPart(trace, "rfElectrode", false, 4, "mzm"));
       }
     };
-    addSigTrace(0.37); // arm1 p++
-    addSigTrace(0.43); // arm2 n++
+    addSigTrace(armZ1 + armWidth / 2 + dopingW / 2); // arm1 p++
+    addSigTrace(armZ2 - armWidth / 2 - dopingW / 2); // arm2 n++
 
     // Optical path (RX: fiber → GC → waveguide → rings → Ge detector)
     const pathGroup = new THREE.Group();
@@ -1264,7 +1303,7 @@ const indexItems = [
     // Heater DC electrical paths (bond pad → M1 trace → W via → TiN heater)
     const heaterElecCurves = [];
     const heaterElecGlowSpheres = [];
-    const heaterZs = [0.12, 0.68];
+    const heaterZs = [heaterZ1, heaterZ2];
     for (const hz of heaterZs) {
       const hGroup = new THREE.Group();
       const hPoints = [
@@ -1296,62 +1335,31 @@ const indexItems = [
     const txPathY = siSlabTop + ribRidgeH / 2;
     const txPathTopY = siSlabTop + ribRidgeH;
 
-    // Two paths through the MZM — one per phase arm (from GC at Z=-0.4)
-    const txPathPoints1 = [
-      new THREE.Vector3(-2.4, fiberBottomY + 0.2, -0.4), // above TX GC
-      new THREE.Vector3(-2.4, fiberBottomY, -0.4),        // fiber end
-      new THREE.Vector3(-2.4, txPathTopY, -0.4),          // GC surface
-      new THREE.Vector3(-2.4, txPathTopY, 0),             // Z-branch midpoint
-      new THREE.Vector3(-2.4, txPathTopY, 0.4),           // bus waveguide entry
-      new THREE.Vector3(dcX, txPathTopY, 0.4),            // DC bus centre
-      new THREE.Vector3(-0.5, txPathTopY, 0.4),           // TX waveguide past DC
-      new THREE.Vector3(0.5, txPathTopY, 0.15),           // phase arm 1
-      new THREE.Vector3(1.7, txPathTopY, 0.4),            // MMI combiner
-      new THREE.Vector3(2.75, txPathTopY, 0.4),           // output waveguide
-      new THREE.Vector3(3.73, txPathTopY, 0.4),           // output edge coupler
-    ];
-    const txPathPoints2 = [
+    // GC input path — stops before entering MZM splitter
+    const txGcInPathPoints = [
       new THREE.Vector3(-2.4, fiberBottomY + 0.2, -0.4),
       new THREE.Vector3(-2.4, fiberBottomY, -0.4),
       new THREE.Vector3(-2.4, txPathTopY, -0.4),
-      new THREE.Vector3(-2.4, txPathTopY, 0),             // Z-branch midpoint
-      new THREE.Vector3(-2.4, txPathTopY, 0.4),           // bus waveguide entry
-      new THREE.Vector3(dcX, txPathTopY, 0.4),            // DC bus centre
-      new THREE.Vector3(-0.5, txPathTopY, 0.4),           // TX waveguide past DC
-      new THREE.Vector3(0.5, txPathTopY, 0.65),           // phase arm 2
-      new THREE.Vector3(1.7, txPathTopY, 0.4),
-      new THREE.Vector3(2.75, txPathTopY, 0.4),
-      new THREE.Vector3(3.73, txPathTopY, 0.4),
+      new THREE.Vector3(-2.4, txPathTopY, 0),
+      new THREE.Vector3(-2.4, txPathTopY, 0.4),
+      new THREE.Vector3(dcX, txPathTopY, 0.4),
+      new THREE.Vector3(-0.5, txPathTopY, 0.4),
     ];
-
-    const txPathCurve1 = new THREE.CatmullRomCurve3(txPathPoints1);
-    const txPathCurve2 = new THREE.CatmullRomCurve3(txPathPoints2);
-    const txPathGeom1 = new THREE.TubeGeometry(txPathCurve1, 64, 0.022, 8, false);
-    const txPathGeom2 = new THREE.TubeGeometry(txPathCurve2, 64, 0.022, 8, false);
+    const txGcInCurve = new THREE.CatmullRomCurve3(txGcInPathPoints);
+    const txGcInGeom = new THREE.TubeGeometry(txGcInCurve, 40, 0.022, 8, false);
     const txPathMat = transparent(0x0891b2, 0.45);
-    txPathGroup.add(tagPart(new THREE.Mesh(txPathGeom1, txPathMat.clone()), "opticalPath"));
-    txPathGroup.add(tagPart(new THREE.Mesh(txPathGeom2, txPathMat.clone()), "opticalPath"));
-
-    // GC-based glow spheres
-    const txGlowSpheres1 = [];
-    const txGlowSpheres2 = [];
-    for (let i = 0; i < 8; i++) {
-      const glow1 = new THREE.Mesh(
+    txPathGroup.add(tagPart(new THREE.Mesh(txGcInGeom, txPathMat.clone()), "opticalPath"));
+    const txGcInGlowSpheres = [];
+    for (let i = 0; i < 5; i++) {
+      const glow = new THREE.Mesh(
         new THREE.SphereGeometry(0.034, 10, 6),
         new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
       );
-      txGlowSpheres1.push({ mesh: glow1, offset: i / 8 });
-      txPathGroup.add(glow1);
-
-      const glow2 = new THREE.Mesh(
-        new THREE.SphereGeometry(0.034, 10, 6),
-        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
-      );
-      txGlowSpheres2.push({ mesh: glow2, offset: i / 8 });
-      txPathGroup.add(glow2);
+      txGcInGlowSpheres.push({ mesh: glow, offset: i / 5 });
+      txPathGroup.add(glow);
     }
 
-    // Edge-coupler-based paths (TX input edge coupler → waveguide → MZM → output)
+    // Two paths through the MZM — one per phase arm (edge coupler input)
     const txEdgePathPoints1 = [
       new THREE.Vector3(-3.73, fiberBottomY + 0.2, 0.4), // outside left edge coupler
       new THREE.Vector3(-3.73, fiberBottomY, 0.4),        // fiber end face (in)
@@ -1359,9 +1367,9 @@ const indexItems = [
       new THREE.Vector3(-3.0, txPathTopY, 0.4),           // TX waveguide
       new THREE.Vector3(dcX, txPathTopY, 0.4),            // DC bus centre
       new THREE.Vector3(-0.5, txPathTopY, 0.4),           // TX waveguide past DC
-      new THREE.Vector3(0.5, txPathTopY, 0.15),           // phase arm 1
-      new THREE.Vector3(1.7, txPathTopY, 0.4),            // MMI combiner
-      new THREE.Vector3(2.75, txPathTopY, 0.4),           // output waveguide
+      new THREE.Vector3(0.5, txPathTopY, armZ1),          // phase arm 1
+      new THREE.Vector3(mmiCombinerCx, txPathTopY, 0.4),  // MMI combiner
+      new THREE.Vector3(3.1, txPathTopY, 0.4),            // output waveguide
       new THREE.Vector3(3.73, txPathTopY, 0.4),           // output edge coupler face
       new THREE.Vector3(3.73, fiberBottomY, 0.4),         // fiber end face (out)
       new THREE.Vector3(3.73, fiberBottomY + 0.2, 0.4),   // outside right edge coupler
@@ -1373,9 +1381,9 @@ const indexItems = [
       new THREE.Vector3(-3.0, txPathTopY, 0.4),           // TX waveguide
       new THREE.Vector3(dcX, txPathTopY, 0.4),            // DC bus centre
       new THREE.Vector3(-0.5, txPathTopY, 0.4),           // TX waveguide past DC
-      new THREE.Vector3(0.5, txPathTopY, 0.65),           // phase arm 2
-      new THREE.Vector3(1.7, txPathTopY, 0.4),
-      new THREE.Vector3(2.75, txPathTopY, 0.4),
+      new THREE.Vector3(0.5, txPathTopY, armZ2),          // phase arm 2
+      new THREE.Vector3(mmiCombinerCx, txPathTopY, 0.4),
+      new THREE.Vector3(3.1, txPathTopY, 0.4),
       new THREE.Vector3(3.73, txPathTopY, 0.4),
       new THREE.Vector3(3.73, fiberBottomY, 0.4),
       new THREE.Vector3(3.73, fiberBottomY + 0.2, 0.4),
@@ -1437,6 +1445,7 @@ const indexItems = [
     const eps = 0.025; // slight offset above surface
     const sideZ = chipWidth / 2 + eps;
     const wgTopY = siSlabTop + ribRidgeH + eps;
+    const stripTopY = siSlabTop + stripRidgeH + eps;
 
     // Vertical layer stack — +Z side face
     lSubstrate.add(createFaceLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), faceZ, { scale: 0.12 }));
@@ -1449,13 +1458,13 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("RX 脊形波导", new THREE.Vector3(1.8, wgTopY, rxZ), faceTop, { scale: 0.10 }));
 
     // MMI & MZM — top face
-    lSiDevice.add(createFaceLabel("MMI 分束器", new THREE.Vector3(-0.7, wgTopY, 0.4), faceTop, { scale: 0.10 }));
-    lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(1.7, wgTopY, 0.4), faceTop, { scale: 0.10 }));
-    lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.15), faceTop, { scale: 0.08 }));
-    lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.65), faceTop, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("MMI 分束器", new THREE.Vector3(mmiSplitterCx, stripTopY, 0.4), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(mmiCombinerCx, stripTopY, 0.4), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, armZ1), faceTop, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, armZ2), faceTop, { scale: 0.08 }));
 
     // Directional coupler
-    lSiDevice.add(createFaceLabel("定向耦合器", new THREE.Vector3(dcX, wgTopY, 0.4), faceTop, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("定向耦合器", new THREE.Vector3(dcX, stripTopY, 0.4), faceTop, { scale: 0.08 }));
     // Monitor PD (at DC coupled port output)
     lGeDetector.add(createFaceLabel("监测 PD", new THREE.Vector3(mpdX, siSlabTop + mpdH + eps, mpdZ), faceTop, { scale: 0.07 }));
 
@@ -1464,7 +1473,7 @@ const indexItems = [
       const rr = ringR[i];
       const rx = ringXs[i];
       const rz = rxZ + 0.16 + ringGap + rr + 0.035;
-      lSiDevice.add(createFaceLabel("λ" + (i + 1) + " 微环谐振器", new THREE.Vector3(rx, wgTopY, rz + rr + 0.06), faceTop, { scale: 0.07 }));
+      lSiDevice.add(createFaceLabel("λ" + (i + 1) + " 微环谐振器", new THREE.Vector3(rx, stripTopY, rz + rr + 0.06), faceTop, { scale: 0.07 }));
       // Ge PD label on each drop
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
       const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
@@ -1492,8 +1501,8 @@ const indexItems = [
 
     // Heaters — above heater top surface (heater strip too narrow for face label)
     const heaterTopY = cladTopY + heaterH + eps;
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, 0.12), faceTop, { scale: 0.09, depthTest: false }));
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, 0.68), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, heaterZ1), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, heaterZ2), faceTop, { scale: 0.09, depthTest: false }));
     // M1 interconnect — above M1 top surface
     const m1TopY = cladTopY + heaterH + m1H + eps;
     lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, rxZ), faceTop, { scale: 0.10, depthTest: false }));
@@ -1509,8 +1518,8 @@ const indexItems = [
       lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(d.rx, padTopY, d.geZ), faceTop, { scale: 0.08 }));
     }
     // Heater bond pad labels
-    lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, 0.12), faceTop, { scale: 0.08 }));
-    lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, 0.68), faceTop, { scale: 0.08 }));
+    lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, heaterZ1), faceTop, { scale: 0.08 }));
+    lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, heaterZ2), faceTop, { scale: 0.08 }));
 
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
@@ -1528,18 +1537,18 @@ const indexItems = [
       { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [chipLen / 2 - 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, 0.4], priority: 6 },
       { key: "cladding", size: [chipLen - 0.3, cladH + 0.04, chipWidth - 0.3], position: [0, siTopY + cladH / 2, 0], priority: 1 },
       { key: "electricalPath", size: [0.6, 1.2, 0.4], position: [geX, cladTopY + 0.3, rxZ], priority: 3 },
-      { key: "stripWaveguide", size: [0.7, ribRidgeH + 0.14, 1.2], position: [-0.7, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
-      { key: "stripWaveguide", size: [0.7, ribRidgeH + 0.14, 1.2], position: [1.7, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
-      { key: "ribWaveguide", size: [1.8, ribRidgeH + 0.14, 0.5], position: [2.75, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
+      { key: "stripWaveguide", size: [mmiLen + 0.2, stripRidgeH + 0.14, mmiWidth + 0.2], position: [mmiSplitterCx, siSlabTop + stripRidgeH / 2, 0.4], priority: 5 },
+      { key: "stripWaveguide", size: [mmiLen + 0.2, stripRidgeH + 0.14, mmiWidth + 0.2], position: [mmiCombinerCx, siSlabTop + stripRidgeH / 2, 0.4], priority: 5 },
+      { key: "ribWaveguide", size: [1.1, ribRidgeH + 0.14, 0.5], position: [3.1, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [2.2, siSlabTop + ribRidgeH / 2, -0.4], priority: 6 },
       { key: "ribWaveguide", size: [1.0, ribRidgeH + 0.14, 1.0], position: [2.2, siSlabTop + ribRidgeH / 2, -0.2], priority: 5 },
       { key: "heater", size: [2.0, heaterH + 0.12, 0.8], position: [0.5, cladTopY + heaterH / 2 + 0.02, 0.4], priority: 6 },
-      { key: "stripWaveguide", size: [dcLen + 0.14, ribRidgeH + 0.12, 0.4], position: [dcX, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
+      { key: "stripWaveguide", size: [dcLen + 0.14, stripRidgeH + 0.12, 0.4], position: [dcX, siSlabTop + stripRidgeH / 2, 0.4], priority: 5 },
     ];
     for (let i = 0; i < 3; i++) {
       const rr = ringR[i], rx = ringXs[i];
       const rz = rxZ + 0.16 + ringGap + rr + 0.035;
-      largeHitTargets.push({ key: "stripWaveguide", size: [0.7, ribRidgeH + 0.12, 0.7], position: [rx, siSlabTop + ribRidgeH / 2, rz], priority: 5 });
+      largeHitTargets.push({ key: "stripWaveguide", size: [0.7, stripRidgeH + 0.12, 0.7], position: [rx, siSlabTop + stripRidgeH / 2, rz], priority: 5 });
     }
     for (let i = 0; i < 3; i++) {
       const rr = ringR[i], rx = ringXs[i];
@@ -1578,7 +1587,7 @@ const indexItems = [
     chip.rotation.x = 0;
     chip.rotation.y = 0;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1636,7 +1645,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -2089,22 +2098,11 @@ const indexItems = [
         }
       }
 
-      // TX optical path glow animation (input → MZM → output)
-      if (txGlowSpheres1 && txPathCurve1) {
-        for (const item of txGlowSpheres1) {
-          const t = (item.offset + time * 0.15) % 1;
-          const pt = txPathCurve1.getPointAt(t);
-          item.mesh.position.copy(pt);
-          const fade = Math.sin(t * Math.PI);
-          item.mesh.material.opacity = 0.25 + 0.55 * fade;
-          const s = 0.7 + 0.45 * fade;
-          item.mesh.scale.setScalar(s);
-        }
-      }
-      if (txGlowSpheres2 && txPathCurve2) {
-        for (const item of txGlowSpheres2) {
-          const t = (item.offset + time * 0.15) % 1;
-          const pt = txPathCurve2.getPointAt(t);
+      // TX GC input path glow animation (GC → waveguide → stops before MZM)
+      if (txGcInGlowSpheres && txGcInCurve) {
+        for (const item of txGcInGlowSpheres) {
+          const t = (item.offset + time * 0.12) % 1;
+          const pt = txGcInCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
           item.mesh.material.opacity = 0.25 + 0.55 * fade;
