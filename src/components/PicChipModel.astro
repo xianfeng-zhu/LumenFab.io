@@ -1062,37 +1062,36 @@ const indexItems = [
     });
     lRf.add(tagPart(sigBar2, "rfElectrode", false, 4));
 
+    // Optical path (RX: fiber → GC → waveguide → rings → Ge detector)
+    const pathGroup = new THREE.Group();
     const pathY = siSlabTop - siSlabH / 2 + siRibH / 2;
-
-    // WDM drop optical paths — light from bus → ring → drop WG → Ge PD
-    const wdmPathGroup = new THREE.Group();
-    for (let i = 0; i < 3; i++) {
-      const rr = ringR[i];
-      const rx = ringXs[i];
-      const rz = rxZ + 0.16 + ringGap + rr + 0.035;
-      const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
-      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
-      const pts = [
-        new THREE.Vector3(rx, pathY, rxZ),
-        new THREE.Vector3(rx, pathY, (rxZ + rz - rr) / 2),
-        new THREE.Vector3(rx, pathY, rz),
-        new THREE.Vector3(rx, pathY, dropZ),
-        new THREE.Vector3(rx, pathY, geZ),
-      ];
-      const curve = new THREE.CatmullRomCurve3(pts);
-      const geom = new THREE.TubeGeometry(curve, 40, 0.018, 6, false);
-      const mesh = new THREE.Mesh(geom, transparent(0x67e8f9, 0.45));
-      wdmPathGroup.add(tagPart(mesh, "opticalPath"));
-      for (let j = 0; j < 5; j++) {
-        const glow = new THREE.Mesh(
-          new THREE.SphereGeometry(0.026, 8, 4),
-          new THREE.MeshBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.45 })
-        );
-        glow.position.copy(curve.getPointAt(j / 4));
-        wdmPathGroup.add(glow);
-      }
+    const gcTopY = siSlabTop + ribRidgeH;
+    const pathPoints = [
+      new THREE.Vector3(fiberCenterX, fiberBottomY + 0.2, rxZ),
+      new THREE.Vector3(fiberCenterX, fiberBottomY, rxZ),
+      new THREE.Vector3(fiberCenterX, gcTopY, rxZ),
+      new THREE.Vector3(-0.5, pathY, rxZ),
+      new THREE.Vector3(ringXs[0], pathY, rxZ + 0.15),
+      new THREE.Vector3(0.3, pathY, rxZ),
+      new THREE.Vector3(ringXs[1], pathY, rxZ + 0.15),
+      new THREE.Vector3(1.3, pathY, rxZ),
+      new THREE.Vector3(ringXs[2], pathY, rxZ + 0.15),
+      new THREE.Vector3(geX, pathY, rxZ),
+    ];
+    const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
+    const pathGeometry = new THREE.TubeGeometry(pathCurve, 64, 0.025, 8, false);
+    const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.55));
+    pathGroup.add(tagPart(pathMesh, "opticalPath"));
+    const pathGlowSpheres = [];
+    for (let i = 0; i < 10; i++) {
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(0.038, 10, 6),
+        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
+      );
+      pathGlowSpheres.push({ mesh: glow, offset: i / 10 });
+      pathGroup.add(glow);
     }
-    chip.add(tagPart(wdmPathGroup, "opticalPath"));
+    chip.add(tagPart(pathGroup, "opticalPath"));
 
     // Monitor PD tap optical path
     const mpdPathGroup = new THREE.Group();
