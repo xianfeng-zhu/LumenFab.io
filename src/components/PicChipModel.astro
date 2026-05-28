@@ -1076,6 +1076,27 @@ const indexItems = [
     }
     chip.add(tagPart(pathGroup, "opticalPath"));
 
+    // RX edge coupler optical path (fiber from left → edge coupler → waveguide → join main path)
+    const rxEcPathGroup = new THREE.Group();
+    const rxEcPathPoints = [
+      new THREE.Vector3(-chipLen / 2 - 0.25, fiberBottomY, rxZ),
+      new THREE.Vector3(-chipLen / 2 + 0.02, pathY, rxZ),
+      new THREE.Vector3(-0.5, pathY, rxZ),
+    ];
+    const rxEcPathCurve = new THREE.CatmullRomCurve3(rxEcPathPoints);
+    const rxEcPathGeom = new THREE.TubeGeometry(rxEcPathCurve, 40, 0.022, 8, false);
+    rxEcPathGroup.add(tagPart(new THREE.Mesh(rxEcPathGeom, transparent(0x0891b2, 0.45)), "opticalPath"));
+    const rxEcGlowSpheres = [];
+    for (let i = 0; i < 6; i++) {
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(0.034, 10, 6),
+        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
+      );
+      rxEcGlowSpheres.push({ mesh: glow, offset: i / 6 });
+      rxEcPathGroup.add(glow);
+    }
+    chip.add(tagPart(rxEcPathGroup, "opticalPath"));
+
     // Monitor PD optical path (DC coupled waveguide → monitor PD)
     const mpdPathGroup = new THREE.Group();
     const mpdPathY = siSlabTop + ribRidgeH / 2;
@@ -1117,6 +1138,36 @@ const indexItems = [
       elecGroup.add(glow);
     }
     chip.add(tagPart(elecGroup, "electricalPath"));
+
+    // Drop PD electrical paths (Ge → W via → M1 → bond pad → external)
+    const dropElecCurves = [];
+    const dropElecGlowSpheres = [];
+    for (const d of dropGeData) {
+      const dGroup = new THREE.Group();
+      const dGeTopY = siSlabTop + dropGeH;
+      const dPoints = [
+        new THREE.Vector3(d.rx, dGeTopY, d.geZ),
+        new THREE.Vector3(d.rx, cladTopY + heaterH, d.geZ),
+        new THREE.Vector3(d.rx, m1CenterY, d.geZ),
+        new THREE.Vector3(d.rx, padCenterY, d.geZ),
+        new THREE.Vector3(d.rx, padCenterY + 0.12, d.geZ),
+      ];
+      const dCurve = new THREE.CatmullRomCurve3(dPoints);
+      dropElecCurves.push(dCurve);
+      const dGeom = new THREE.TubeGeometry(dCurve, 32, 0.018, 8, false);
+      dGroup.add(tagPart(new THREE.Mesh(dGeom, transparent(0xf59e0b, 0.5)), "electricalPath"));
+      const dSpheres = [];
+      for (let i = 0; i < 5; i++) {
+        const glow = new THREE.Mesh(
+          new THREE.SphereGeometry(0.028, 10, 6),
+          new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.5 })
+        );
+        dSpheres.push({ mesh: glow, offset: i / 5 });
+        dGroup.add(glow);
+      }
+      dropElecGlowSpheres.push(dSpheres);
+      chip.add(tagPart(dGroup, "electricalPath"));
+    }
 
     // TX RF electrical path (bond pad → RF signal electrode → over MZM phase arms)
     const txeGroup = new THREE.Group();
@@ -1416,7 +1467,7 @@ const indexItems = [
     chip.rotation.x = -0.22;
     chip.rotation.y = -0.45;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1473,7 +1524,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -1805,6 +1856,19 @@ const indexItems = [
         }
       }
 
+      // RX edge coupler optical path glow animation
+      if (rxEcGlowSpheres && rxEcPathCurve) {
+        for (const item of rxEcGlowSpheres) {
+          const t = (item.offset + time * 0.15) % 1;
+          const pt = rxEcPathCurve.getPointAt(t);
+          item.mesh.position.copy(pt);
+          const fade = Math.sin(t * Math.PI);
+          item.mesh.material.opacity = 0.25 + 0.55 * fade;
+          const s = 0.7 + 0.45 * fade;
+          item.mesh.scale.setScalar(s);
+        }
+      }
+
       // Electrical path glow animation (Ge → M1 → bond pad)
       if (elecGlowSpheres) {
         for (const item of elecGlowSpheres) {
@@ -1815,6 +1879,23 @@ const indexItems = [
           item.mesh.material.opacity = 0.25 + 0.55 * fade;
           const s = 0.7 + 0.45 * fade;
           item.mesh.scale.setScalar(s);
+        }
+      }
+
+      // Drop PD electrical paths glow animation
+      if (dropElecGlowSpheres && dropElecCurves) {
+        for (let i = 0; i < dropElecGlowSpheres.length; i++) {
+          const spheres = dropElecGlowSpheres[i];
+          const curve = dropElecCurves[i];
+          for (const item of spheres) {
+            const t = (item.offset + time * 0.10) % 1;
+            const pt = curve.getPointAt(t);
+            item.mesh.position.copy(pt);
+            const fade = Math.sin(t * Math.PI);
+            item.mesh.material.opacity = 0.25 + 0.55 * fade;
+            const s = 0.7 + 0.45 * fade;
+            item.mesh.scale.setScalar(s);
+          }
         }
       }
 
