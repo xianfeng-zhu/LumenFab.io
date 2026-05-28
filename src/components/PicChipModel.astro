@@ -874,9 +874,10 @@ const indexItems = [
     lSiDevice.add(tagPart(txOutputGcGroup, "gratingCoupler"));
 
     // TX heaters above phase arms (thermal tuning / bias)
+    // Offset slightly outward in Z to remain visible under GND electrodes
     const txHeater1 = createBox({
       size: [1.6, heaterH, 0.1],
-      position: [0.5, cladTopY + heaterH / 2, 0.15],
+      position: [0.5, cladTopY + heaterH / 2, 0.12],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -885,7 +886,7 @@ const indexItems = [
 
     const txHeater2 = createBox({
       size: [1.6, heaterH, 0.1],
-      position: [0.5, cladTopY + heaterH / 2, 0.65],
+      position: [0.5, cladTopY + heaterH / 2, 0.68],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -896,7 +897,7 @@ const indexItems = [
     const viaToM1H = heaterH + m1H;
     const heaterVia1 = createBox({
       size: [0.06, viaToM1H, 0.06],
-      position: [0.5, cladTopY + viaToM1H / 2, 0.15],
+      position: [0.5, cladTopY + viaToM1H / 2, 0.12],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
@@ -904,30 +905,59 @@ const indexItems = [
     lHeater.add(tagPart(heaterVia1, "heater", false, 5));
     const heaterVia2 = createBox({
       size: [0.06, viaToM1H, 0.06],
-      position: [0.5, cladTopY + viaToM1H / 2, 0.65],
+      position: [0.5, cladTopY + viaToM1H / 2, 0.68],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
     });
     lHeater.add(tagPart(heaterVia2, "heater", false, 5));
 
-    // Short M1 traces from heater vias toward bond pads
+    // M1 traces from heater vias to bond pad vias
+    const heaterM1Y = cladTopY + heaterH + m1H / 2;
+    const heaterPadX = 1.3;
+    const heaterTraceLen = heaterPadX - 0.5;
+    const heaterTraceCx = (0.5 + heaterPadX) / 2;
     const heaterM1Trace1 = createBox({
-      size: [0.5, m1H, 0.08],
-      position: [0.75, cladTopY + heaterH + m1H / 2, 0.15],
+      size: [heaterTraceLen, m1H, 0.08],
+      position: [heaterTraceCx, heaterM1Y, 0.12],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
     });
     lM1.add(tagPart(heaterM1Trace1, "m1Interconnect", false, 4));
     const heaterM1Trace2 = createBox({
-      size: [0.5, m1H, 0.08],
-      position: [0.75, cladTopY + heaterH + m1H / 2, 0.65],
+      size: [heaterTraceLen, m1H, 0.08],
+      position: [heaterTraceCx, heaterM1Y, 0.68],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
     });
     lM1.add(tagPart(heaterM1Trace2, "m1Interconnect", false, 4));
+
+    // Top vias: M1 → bond pad (deferred — needs padBaseY)
+    const heaterTopViaH = padBaseY - (cladTopY + heaterH + m1H);
+    lM1.add(tagPart(createBox({
+      size: [0.06, heaterTopViaH, 0.06],
+      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, 0.12],
+      color: 0x78716c, metalness: 0.75, roughness: 0.25
+    }), "m1Interconnect", false, 4));
+    lM1.add(tagPart(createBox({
+      size: [0.06, heaterTopViaH, 0.06],
+      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, 0.68],
+      color: 0x78716c, metalness: 0.75, roughness: 0.25
+    }), "m1Interconnect", false, 4));
+
+    // Heater bond pads
+    lTop.add(tagPart(createBox({
+      size: [0.35, padH, 0.35],
+      position: [heaterPadX, padBaseY + padH / 2, 0.12],
+      color: 0x475569, metalness: 0.55, roughness: 0.28
+    }), "bondPad"));
+    lTop.add(tagPart(createBox({
+      size: [0.35, padH, 0.35],
+      position: [heaterPadX, padBaseY + padH / 2, 0.68],
+      color: 0x475569, metalness: 0.55, roughness: 0.28
+    }), "bondPad"));
 
     // === p-n junction doping for MZM phase arms ===
     // Each arm has n++ on one side, p++ on the other, forming a lateral p-n junction
@@ -1195,6 +1225,36 @@ const indexItems = [
     }
     chip.add(tagPart(txeGroup, "electricalPath"));
 
+    // Heater DC electrical paths (bond pad → M1 trace → W via → TiN heater)
+    const heaterElecCurves = [];
+    const heaterElecGlowSpheres = [];
+    const heaterZs = [0.12, 0.68];
+    for (const hz of heaterZs) {
+      const hGroup = new THREE.Group();
+      const hPoints = [
+        new THREE.Vector3(heaterPadX, padCenterY + 0.12, hz),
+        new THREE.Vector3(heaterPadX, padCenterY, hz),
+        new THREE.Vector3(heaterPadX, m1CenterY, hz),
+        new THREE.Vector3(0.5, m1CenterY, hz),
+        new THREE.Vector3(0.5, cladTopY + heaterH, hz),
+      ];
+      const hCurve = new THREE.CatmullRomCurve3(hPoints);
+      heaterElecCurves.push(hCurve);
+      const hGeom = new THREE.TubeGeometry(hCurve, 32, 0.016, 8, false);
+      hGroup.add(tagPart(new THREE.Mesh(hGeom, transparent(0xf59e0b, 0.45)), "electricalPath"));
+      const hSpheres = [];
+      for (let i = 0; i < 5; i++) {
+        const glow = new THREE.Mesh(
+          new THREE.SphereGeometry(0.026, 10, 6),
+          new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.5 })
+        );
+        hSpheres.push({ mesh: glow, offset: i / 5 });
+        hGroup.add(glow);
+      }
+      heaterElecGlowSpheres.push(hSpheres);
+      chip.add(tagPart(hGroup, "electricalPath"));
+    }
+
     // TX optical path (CW laser → input coupler → waveguide → MMI splitter → phase arms → MMI combiner → output waveguide → output coupler)
     const txPathGroup = new THREE.Group();
     const txPathY = siSlabTop + ribRidgeH / 2;
@@ -1384,8 +1444,8 @@ const indexItems = [
 
     // Heaters — above heater top surface (heater strip too narrow for face label)
     const heaterTopY = cladTopY + heaterH + eps;
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.15), faceTop, { scale: 0.09, depthTest: false }));
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.65), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.12), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.5, heaterTopY, 0.68), faceTop, { scale: 0.09, depthTest: false }));
     // M1 interconnect — above M1 top surface
     const m1TopY = cladTopY + heaterH + m1H + eps;
     lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, rxZ), faceTop, { scale: 0.10, depthTest: false }));
@@ -1400,6 +1460,9 @@ const indexItems = [
     for (const d of dropGeData) {
       lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(d.rx, padTopY, d.geZ), faceTop, { scale: 0.08 }));
     }
+    // Heater bond pad labels
+    lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, 0.12), faceTop, { scale: 0.08 }));
+    lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, 0.68), faceTop, { scale: 0.08 }));
 
     // Hit targets — organised by layer so they move with explode view
     const largeHitTargets = [
@@ -1422,7 +1485,7 @@ const indexItems = [
       { key: "ribWaveguide", size: [1.8, ribRidgeH + 0.14, 0.5], position: [2.75, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [2.2, siSlabTop + ribRidgeH / 2, -0.4], priority: 6 },
       { key: "ribWaveguide", size: [1.0, ribRidgeH + 0.14, 1.0], position: [2.2, siSlabTop + ribRidgeH / 2, -0.2], priority: 5 },
-      { key: "heater", size: [2.0, heaterH + 0.12, 1.2], position: [0.5, cladTopY + heaterH / 2 + 0.02, 0.4], priority: 6 },
+      { key: "heater", size: [2.0, heaterH + 0.12, 0.8], position: [0.5, cladTopY + heaterH / 2 + 0.02, 0.4], priority: 6 },
       { key: "stripWaveguide", size: [dcLen + 0.14, ribRidgeH + 0.12, 0.4], position: [dcX, siSlabTop + ribRidgeH / 2, 0.4], priority: 5 },
     ];
     for (let i = 0; i < 3; i++) {
@@ -1467,7 +1530,7 @@ const indexItems = [
     chip.rotation.x = -0.22;
     chip.rotation.y = -0.45;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1524,7 +1587,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -1909,6 +1972,23 @@ const indexItems = [
           item.mesh.material.opacity = 0.25 + 0.55 * fade;
           const s = 0.7 + 0.45 * fade;
           item.mesh.scale.setScalar(s);
+        }
+      }
+
+      // Heater DC electrical paths glow animation
+      if (heaterElecGlowSpheres && heaterElecCurves) {
+        for (let i = 0; i < heaterElecGlowSpheres.length; i++) {
+          const spheres = heaterElecGlowSpheres[i];
+          const curve = heaterElecCurves[i];
+          for (const item of spheres) {
+            const t = (item.offset + time * 0.08) % 1;
+            const pt = curve.getPointAt(t);
+            item.mesh.position.copy(pt);
+            const fade = Math.sin(t * Math.PI);
+            item.mesh.material.opacity = 0.25 + 0.55 * fade;
+            const s = 0.7 + 0.45 * fade;
+            item.mesh.scale.setScalar(s);
+          }
         }
       }
 
