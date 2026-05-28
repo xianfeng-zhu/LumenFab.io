@@ -652,23 +652,34 @@ const indexItems = [
     }
     lSiDevice.add(tagPart(gcGroup, "gratingCoupler"));
 
-    // RX edge coupler (left facet — alternative input, fiber from chip edge)
+    // RX edge coupler (left facet — alternative input, bypasses GC via separate Z track)
+    const rxEcZ = rxZ + 0.35; // 2.55 — separate track, does not pass through GC
+    const rxEcJunctionX = -1.0; // where edge coupler waveguide joins main RX path (after GC)
     const rxInputEdgeCoupler = createBox({
       size: [0.08, siRibH + 0.06, 0.6],
-      position: [-chipLen / 2 + 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, rxZ],
+      position: [-chipLen / 2 + 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, rxEcZ],
       color: 0xa855f7,
       roughness: 0.4,
       metalness: 0.15,
       opacity: 0.7
     });
     lSiDevice.add(tagPart(rxInputEdgeCoupler, "edgeCoupler", false, 5));
-    // Waveguide from RX edge coupler to grating coupler region (shares bus with GC path)
-    const rxEcToGC = createBox({
-      size: [2.28, ribRidgeH, 0.32],
-      position: [-2.55, siSlabTop + ribRidgeH / 2, rxZ],
+    // Waveguide from RX edge coupler along separate Z track to junction point
+    const rxEcWgLen = rxEcJunctionX - (-chipLen / 2 + 0.02);
+    const rxEcWgCx = (-chipLen / 2 + 0.02 + rxEcJunctionX) / 2;
+    const rxEcWg = createBox({
+      size: [rxEcWgLen + 0.04, ribRidgeH, 0.32],
+      position: [rxEcWgCx, siSlabTop + ribRidgeH / 2, rxEcZ],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
-    lSiDevice.add(tagPart(rxEcToGC, "ribWaveguide", false, 4));
+    lSiDevice.add(tagPart(rxEcWg, "ribWaveguide", false, 4));
+    // Z-branch: connects edge-coupler track (rxEcZ) to main RX track (rxZ) after GC
+    const rxEcZbranch = createBox({
+      size: [0.32, ribRidgeH, rxEcZ - rxZ],
+      position: [rxEcJunctionX, siSlabTop + ribRidgeH / 2, (rxEcZ + rxZ) / 2],
+      color: 0x0f766e, roughness: 0.42, metalness: 0.12
+    });
+    lSiDevice.add(tagPart(rxEcZbranch, "ribWaveguide", false, 4));
 
     // TX input edge coupler (left facet — CW laser input)
     const txInputEdgeCoupler = createBox({
@@ -1102,11 +1113,13 @@ const indexItems = [
     }
     chip.add(tagPart(pathGroup, "opticalPath"));
 
-    // RX edge coupler optical path (fiber from left → edge coupler → waveguide → join main path)
+    // RX edge coupler optical path (fiber from left → edge coupler → separate track → Z-branch → join main RX path)
     const rxEcPathGroup = new THREE.Group();
     const rxEcPathPoints = [
-      new THREE.Vector3(-chipLen / 2 - 0.25, fiberBottomY, rxZ),
-      new THREE.Vector3(-chipLen / 2 + 0.02, pathY, rxZ),
+      new THREE.Vector3(-chipLen / 2 - 0.25, fiberBottomY, rxEcZ),
+      new THREE.Vector3(-chipLen / 2 + 0.02, pathY, rxEcZ),
+      new THREE.Vector3(rxEcJunctionX, pathY, rxEcZ),
+      new THREE.Vector3(rxEcJunctionX, pathY, rxZ),
       new THREE.Vector3(-0.5, pathY, rxZ),
     ];
     const rxEcPathCurve = new THREE.CatmullRomCurve3(rxEcPathPoints);
@@ -1438,7 +1451,7 @@ const indexItems = [
     const ecY = siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04;
     const ecRX = chipLen / 2 + 0.02 + eps;
     const ecLX = -chipLen / 2 - 0.02 - eps;
-    lSiDevice.add(createFaceLabel("RX 边缘耦合器", new THREE.Vector3(ecLX, ecY, rxZ), faceNX, { scale: 0.08 }));
+    lSiDevice.add(createFaceLabel("RX 边缘耦合器", new THREE.Vector3(ecLX, ecY, rxEcZ), faceNX, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("TX 输入边缘耦合器", new THREE.Vector3(ecLX, ecY, 0.4), faceNX, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(ecRX, ecY, 0.4), facePX, { scale: 0.08 }));
 
@@ -1476,7 +1489,7 @@ const indexItems = [
       { key: "rfElectrode", size: [2.2, rfH + 0.14, 0.7], position: [0.5, rfBaseY + rfH / 2, 0.4], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [-2.4, siSlabTop + ribRidgeH / 2, rxZ], priority: 6 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [-2.4, siSlabTop + ribRidgeH / 2, -0.4], priority: 6 },
-      { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [-chipLen / 2 + 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, rxZ], priority: 6 },
+      { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [-chipLen / 2 + 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, rxEcZ], priority: 6 },
       { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [chipLen / 2 - 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, 0.4], priority: 6 },
       { key: "cladding", size: [chipLen - 0.3, cladH + 0.04, chipWidth - 0.3], position: [0, siTopY + cladH / 2, 0], priority: 1 },
       { key: "electricalPath", size: [3.0, 1.2, 1.2], position: [1.9, cladTopY + 0.3, 1.6], priority: 3 },
