@@ -1728,7 +1728,7 @@ const indexItems = [
     let selectedDevice = "";
     let pointerDownState = null;
     const dragSelectionThreshold = 5;
-    const referenceOpacity = 0.16;
+    const referenceOpacity = 0.06;
 
     // Explode & section state
     let isExploded = false;
@@ -1792,10 +1792,12 @@ const indexItems = [
           ? object.userData.deviceGroup === partKey
           : object.userData.partKey === partKey;
         const isCladding = object.userData.partKey === "cladding";
+        const isPath = object.userData.partKey === "opticalPath" || object.userData.partKey === "electricalPath";
         const baseOpacity = isCladding && isCladdingHidden ? 0 : (object.userData.baseOpacity ?? 1);
+        const dimLimit = isPath ? 0.02 : referenceOpacity;
         const targetOpacity = isSelected
           ? Math.min(1, Math.max(baseOpacity, 0.82))
-          : (isCladding && isCladdingHidden ? 0 : Math.min(baseOpacity, referenceOpacity));
+          : (isCladding && isCladdingHidden ? 0 : Math.min(baseOpacity, dimLimit));
 
         if (isSelected) {
           if (object.material.color) {
