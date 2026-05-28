@@ -723,9 +723,10 @@ const indexItems = [
     const dcX = -1.65;
     const dcStartX = dcX - dcLen / 2; // -1.925
     const dcEndX = dcX + dcLen / 2;   // -1.375
+    const dcApproachStartX = dcStartX - 0.38; // -2.305 — S-bend approach begins
     const txWaveguide = createBox({
-      size: [1.77, ribRidgeH, 0.32],
-      position: [-2.81, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [1.39, ribRidgeH, 0.32],
+      position: [-3.0, siSlabTop + ribRidgeH / 2, 0.4],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
@@ -733,12 +734,12 @@ const indexItems = [
     lSiDevice.add(tagPart(txWaveguide, "ribWaveguide", false, 4));
 
     // Directional coupler — S-bend tap coupler
-    // Bus waveguide: straight strip on TX path centreline (Z=0.4)
+    // Bus waveguide: extends to match S-bend approach start on both ends
     // Coupled waveguide: S-bend approach → parallel gap → S-bend exit → monitor PD
     // Only ~1–5% of light couples across the narrow gap via evanescent coupling
     const dcBusWG = createBox({
-      size: [dcLen, ribRidgeH, 0.12],
-      position: [dcX, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [dcEndX - dcApproachStartX, ribRidgeH, 0.12],
+      position: [(dcApproachStartX + dcEndX) / 2, siSlabTop + ribRidgeH / 2, 0.4],
       color: 0x14b8a6,
       roughness: 0.42,
       metalness: 0.12
@@ -746,7 +747,7 @@ const indexItems = [
     lSiDevice.add(tagPart(dcBusWG, "stripWaveguide", false, 5));
     const dcCoupledZ = 0.4 + 0.06 + 0.06; // 0.58 — bus edge (0.46) + gap (0.06) + half-width (0.06)
     const dcCoupledPathPts = [
-      new THREE.Vector3(dcStartX - 0.38, siSlabTop + ribRidgeH / 2, 0.70),
+      new THREE.Vector3(dcApproachStartX, siSlabTop + ribRidgeH / 2, 0.70),
       new THREE.Vector3(dcStartX, siSlabTop + ribRidgeH / 2, dcCoupledZ),
       new THREE.Vector3(dcEndX, siSlabTop + ribRidgeH / 2, dcCoupledZ),
       new THREE.Vector3(dcEndX + 0.5, siSlabTop + ribRidgeH / 2, 0.88),
