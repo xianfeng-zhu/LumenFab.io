@@ -9,22 +9,6 @@ const {
   caption = "可旋转模型以透视剖面方式显示硅光 PIC 芯片的纵向层叠结构与关键组件。为便于观察，垂直层厚均经过示意化放大，属于 not to scale 教学模型。"
 } = Astro.props;
 
-const legendItems = [
-  ["substrate", "#2563eb", "Si 衬底"],
-  ["box", "#94a3b8", "BOX 埋氧层"],
-  ["siDevice", "#0d9488", "Si 器件层 / 波导"],
-  ["geDetector", "#16a34a", "Ge 光电探测器"],
-  ["cladding", "#94a3b8", "SiO₂ 上包层"],
-  ["heater", "#eab308", "TiN 加热器"],
-  ["m1Interconnect", "#f97316", "M1 Cu 互连"],
-  ["rfElectrode", "#ef4444", "RF 电极 (GSG)"],
-  ["bondPad", "#475569", "Al 焊盘"],
-  ["gratingCoupler", "#7c3aed", "光栅耦合器"],
-  ["edgeCoupler", "#a855f7", "边缘耦合器"],
-  ["opticalPath", "#0891b2", "光信号路径"],
-  ["electricalPath", "#f59e0b", "电信号路径"]
-];
-
 const indexItems = [
   ["substrate", "#2563eb", "Si 衬底"],
   ["box", "#94a3b8", "BOX 埋氧层"],
@@ -47,11 +31,6 @@ const indexItems = [
 <figure class="pic-model">
   <div class="pic-model__viewport" data-pic-chip-model>
     <canvas aria-label={title}></canvas>
-    <div class="pic-model__legend" aria-hidden="true">
-      {legendItems.map(([key, color, label]) => (
-        <span data-key={key}><i style={`--swatch: ${color}`}></i>{label}</span>
-      ))}
-    </div>
     <div class="pic-model__controls">
       <div class="pic-model__controls-row">
         <button type="button" class="pic-model__control-btn" data-pic-explode-toggle aria-pressed="false">
@@ -572,6 +551,12 @@ const indexItems = [
       position: [-0.63, cladTopY + heaterH + m1H / 2, 1.48],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     }), "m1Interconnect", false, 4));
+    // Top via: monitor PD M1 → bond pad
+    lM1.add(tagPart(createBox({
+      size: [0.06, padBaseY - (cladTopY + heaterH + m1H), 0.06],
+      position: [-0.63, cladTopY + heaterH + m1H + (padBaseY - (cladTopY + heaterH + m1H)) / 2, 1.48],
+      color: 0x78716c, metalness: 0.75, roughness: 0.25
+    }), "m1Interconnect", false, 4));
 
     // === Layer 9: Bond pads ===
     const padPositions = [
@@ -789,6 +774,12 @@ const indexItems = [
       color: 0x16a34a, roughness: 0.38, metalness: 0.08
     });
     lGeDetector.add(tagPart(mpd, "geDetector", false, 5));
+    // Monitor PD Al bond pad
+    lTop.add(tagPart(createBox({
+      size: [0.35, padH, 0.35],
+      position: [mpdX, padBaseY + padH / 2, mpdZ],
+      color: 0x475569, metalness: 0.55, roughness: 0.28
+    }), "bondPad"));
 
     // TX waveguide from DC to MMI splitter
     const txWaveguideDC = createBox({
@@ -1157,6 +1148,15 @@ const indexItems = [
     const mpdCurve = new THREE.CatmullRomCurve3(mpdPts);
     const mpdGeom = new THREE.TubeGeometry(mpdCurve, 20, 0.015, 6, false);
     mpdPathGroup.add(tagPart(new THREE.Mesh(mpdGeom, transparent(0x67e8f9, 0.4)), "opticalPath"));
+    const mpdGlowSpheres = [];
+    for (let i = 0; i < 4; i++) {
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(0.028, 10, 6),
+        new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
+      );
+      mpdGlowSpheres.push({ mesh: glow, offset: i / 4 });
+      mpdPathGroup.add(glow);
+    }
     chip.add(tagPart(mpdPathGroup, "opticalPath"));
 
     // Electrical path (Ge → W via → M1 → bond pad → external)
@@ -1187,6 +1187,29 @@ const indexItems = [
       elecGroup.add(glow);
     }
     chip.add(tagPart(elecGroup, "electricalPath"));
+
+    // Monitor PD electrical path (Ge → W via → M1 → bond pad → external)
+    const mpdElecGroup = new THREE.Group();
+    const mpdElecPoints = [
+      new THREE.Vector3(mpdX, siSlabTop + mpdH, mpdZ),        // PD top
+      new THREE.Vector3(mpdX, cladTopY + heaterH, mpdZ),      // W via top
+      new THREE.Vector3(mpdX, m1CenterY, mpdZ),               // M1 stub
+      new THREE.Vector3(mpdX, padCenterY, mpdZ),              // Al bond pad
+      new THREE.Vector3(mpdX, padCenterY + 0.5, mpdZ),        // external circuit
+    ];
+    const mpdElecCurve = new THREE.CatmullRomCurve3(mpdElecPoints);
+    const mpdElecGeom = new THREE.TubeGeometry(mpdElecCurve, 32, 0.018, 8, false);
+    mpdElecGroup.add(tagPart(new THREE.Mesh(mpdElecGeom, transparent(0xf59e0b, 0.5)), "electricalPath"));
+    const mpdElecGlowSpheres = [];
+    for (let i = 0; i < 5; i++) {
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(0.026, 10, 6),
+        new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.5 })
+      );
+      mpdElecGlowSpheres.push({ mesh: glow, offset: i / 5 });
+      mpdElecGroup.add(glow);
+    }
+    chip.add(tagPart(mpdElecGroup, "electricalPath"));
 
     // Drop PD electrical paths (Ge → W via → M1 → bond pad → external)
     const dropElecCurves = [];
@@ -1558,10 +1581,10 @@ const indexItems = [
       group.userData.baseY = group.position.y;
     }
 
-    chip.rotation.x = -0.22;
-    chip.rotation.y = -0.45;
+    chip.rotation.x = 0;
+    chip.rotation.y = 0;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1618,7 +1641,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -1963,11 +1986,37 @@ const indexItems = [
         }
       }
 
+      // Monitor PD optical path glow animation
+      if (mpdGlowSpheres && mpdCurve) {
+        for (const item of mpdGlowSpheres) {
+          const t = (item.offset + time * 0.10) % 1;
+          const pt = mpdCurve.getPointAt(t);
+          item.mesh.position.copy(pt);
+          const fade = Math.sin(t * Math.PI);
+          item.mesh.material.opacity = 0.25 + 0.55 * fade;
+          const s = 0.7 + 0.45 * fade;
+          item.mesh.scale.setScalar(s);
+        }
+      }
+
       // Electrical path glow animation (Ge → M1 → bond pad)
       if (elecGlowSpheres) {
         for (const item of elecGlowSpheres) {
           const t = (item.offset + time * 0.12) % 1;
           const pt = elecCurve.getPointAt(t);
+          item.mesh.position.copy(pt);
+          const fade = Math.sin(t * Math.PI);
+          item.mesh.material.opacity = 0.25 + 0.55 * fade;
+          const s = 0.7 + 0.45 * fade;
+          item.mesh.scale.setScalar(s);
+        }
+      }
+
+      // Monitor PD electrical path glow animation
+      if (mpdElecGlowSpheres && mpdElecCurve) {
+        for (const item of mpdElecGlowSpheres) {
+          const t = (item.offset + time * 0.08) % 1;
+          const pt = mpdElecCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
           item.mesh.material.opacity = 0.25 + 0.55 * fade;
@@ -2132,43 +2181,10 @@ const indexItems = [
     height: var(--model-height, 440px);
   }
 
-  .pic-model__legend {
-    position: absolute;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem 0.75rem;
-    max-width: 62rem;
-    padding: 0.7rem 0.8rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
-    color: var(--text);
-    font-size: 0.82rem;
-    line-height: 1.2;
-    backdrop-filter: blur(8px);
-  }
-
-  .pic-model__legend span,
   .pic-model__index button {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-  }
-
-  .pic-model__legend span {
-    white-space: nowrap;
-  }
-
-  .pic-model__legend i {
-    width: 0.72rem;
-    height: 0.72rem;
-    flex: 0 0 auto;
-    border-radius: 999px;
-    background: var(--swatch);
-    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
   }
 
   /* ---- Controls panel ---- */
@@ -2308,13 +2324,6 @@ const indexItems = [
   @media (max-width: 720px) {
     .pic-model__viewport {
       min-height: var(--model-height, 380px);
-    }
-
-    .pic-model__legend {
-      position: static;
-      border-width: 1px 0 0;
-      border-radius: 0;
-      background: var(--surface);
     }
 
     .pic-model__controls {
