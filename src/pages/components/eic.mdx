@@ -2,144 +2,1551 @@
 layout: ../../layouts/ConceptLayout.astro
 title: EIC / driver and receiver electronics
 chapter: 光引擎组件
-description: EIC 把高速电信号送进光器件或从探测器读出，决定 driver、TIA、DSP、控制环路和封装电路径的边界。
+description: EIC 是 CPO 光引擎中的电子集成电路，负责 driver、TIA、CDR、DSP、电源管理、时钟分配和 PIC 控制。本页从系统分工决策出发，逐层解释 Tx driver、Rx TIA、时钟恢复、均衡补偿、电源控制、联合设计、制造集成和指标体系。
 ---
 
 import TermNote from "../../components/TermNote.astro";
 
-## EIC 是光引擎的电子边界
 
-<TermNote label="EIC" note="electrical integrated circuit，电子集成电路。CPO 光引擎中，它通常指靠近 PIC 的高速电子芯片或电子功能区，负责 driver、TIA、时钟、均衡、控制和部分电源管理。" /> 把 switch ASIC 或 host SerDes 的高速电信号送到 PIC，也把 photodetector 产生的微弱电流读回电域。它的核心问题是系统分工：哪些补偿和判决留在 host，哪些放进光引擎，哪些由 PIC / EIC / package 共同决定。
+## 0. 什么是 EIC
 
-EIC 与 [PIC / optical circuit](../pic/) 共用高速边界：driver 面向 modulator electrode，TIA 面向 photodetector。laser bias 与光源管理见 [激光源](../laser-source/)；fiber array 和 coupler 见 [Optical I/O / fiber coupling](../optical-io/)；EIC、PIC、ASIC 与 substrate 的距离、热和返修问题见 [Package integration](../packaging/)；KGD、封装后测试和 burn-in 见 [Manufacturing and test](../manufacturing-test/)。
+<TermNote label="EIC" note="electrical integrated circuit，电子集成电路。CPO 光引擎中，它指靠近 PIC 的高速电子芯片或电子功能区，负责 driver、TIA、时钟恢复、均衡、控制和部分电源管理。" /> 是光引擎中负责电信号调理的电子芯片或功能区。如果把光引擎看作一个整体——从数据中心交换机的电信号开始，到光纤另一端再变回电信号——那么 EIC 正好站在电域和光域的交界处：发送方向（TX）它把交换 ASIC 或 SerDes 发来的高速比特流转换成适合调制器的电压/电流波形；接收方向（RX）它把光电探测器产出的微弱光电流放大成后级可以判读的数据信号。没有 EIC，数字域和光子域之间就没有接口。
 
-相关基础页：[Electrical signal to optical signal](../../learn/electrical-signal-to-optical-signal/)、[Tx path and Rx path](../../learn/tx-rx-path/)、[Inside a transceiver](../../learn/inside-a-transceiver/)、[Bandwidth density and power per bit](../../learn/bandwidth-density-and-power-per-bit/)。
-
-## 先决定系统分工：retimed、linear 与 direct-drive
-
-CPO 的 EIC 形态由 host 和 optical engine 的分工决定。光引擎可以集成完整 CDR / DSP，也可以只保留高线性模拟前端，还可以把 driver 或 receiver 进一步推向 direct-drive co-design。
-
-| 边界类型 | Engine 内 EIC 功能 | 系统含义 |
-|---|---|---|
-| Retimed | CDR / retimer，可能包含 DSP、ADC / DAC、diagnostics 和完整 PHY 功能 | 接口清晰，局部补偿强；功耗、面积、热和测试复杂度上升 |
-| Linear amplified | driver、TIA 和必要模拟放大，减少本地 regeneration | engine 功耗和延迟有机会下降；host SerDes 承担更完整补偿 |
-| Half-retimed | 一个方向 retimed，另一个方向 linear | 按 Tx / Rx 难度拆分补偿责任 |
-| Direct drive | ASIC 或 host I/O 直接面对调制器或 PD / TIA 边界 | 电路径极短；封装寄生、线性度、调试和测试访问要求很高 |
-
-减少 engine 内 DSP 并不会让信道损伤消失。均衡、判决、jitter tolerance、PAM4 linearity 和 FEC margin 仍要由 host SerDes、PIC、电极、PD、package channel 和 calibration 共同承担。EIC 页面应先读这一层分工，再读 driver、TIA 和控制电路。
-
-## Tx 前端：driver 与调制器共同定义
-
-Driver 的任务是在目标 baud rate 下给 PIC 调制器提供足够快、足够准、足够稳定的电压或电流波形。它是面向具体 modulator load 的高速模拟前端。
-
-| 调制器或负载 | Driver 关注点 | 典型风险 |
-|---|---|---|
-| Silicon MZM | 差分摆幅、行波电极阻抗、速度匹配、VpiL、RF 损耗 | 摆幅不足、速度失配或电极损耗导致 optical eye 闭合 |
-| Microring modulator | 小电容、谐振工作点、PAM4 线性、bias / heater 协同 | 温漂和非线性造成电平不均或锁定范围不足 |
-| EAM / EML | 反向偏置、电吸收曲线、chirp、光功率承受 | 偏置窗口和吸收非线性影响 ER、TDECQ 和寿命 |
-| TFLN MZM | 高速电极、封装走线、较低光损耗、驱动摆幅 | 封装电损耗、驱动功耗和热路径共同限制带宽 |
-
-PAM4 让 driver 线性度、抖动和电平控制变得关键。driver 输出电平、调制器转换曲线和光功率响应会叠加成 optical eye；电极、电容、microbump、interposer trace 和 termination 会共同形成频率响应。工程上常用 peaking、pre-emphasis、FFE、segmented driver、bias DAC、calibration loop 或数字辅助预失真来保护 OMA、ER、TDECQ 和 BER。
-
-## Rx 前端：PD-to-TIA 是接收端第一段链路
-
-Photodetector 输出的是电流，<TermNote label="TIA" note="transimpedance amplifier，跨阻放大器。它把 photodiode 输出电流转换成电压，并在带宽、噪声、增益和饱和之间取舍。" /> 把这个电流转换成后级可以处理的电压。简化关系是：
+光引擎的完整系统链是：
 
 ```text
-Vout ≈ Ipd × transimpedance gain
+发送方向（TX，电 → 光）
+  Host ASIC（交换芯片 / SerDes）
+    → EIC driver 将数字电平转为调制器驱动波形
+      → PIC 调制器将电信号写入光载波
+        → 光纤将光信号送出
+
+接收方向（RX，光 → 电）
+  光纤传入光信号
+    → PIC 光电探测器将光信号转为微弱光电流
+      → EIC TIA 将光电流放大并转为电压信号
+        → CDR 恢复时钟、重新定时
+          → Host ASIC 接收数据
 ```
 
-接收端难点在于这个关系要在几十 GHz 带宽、很小输入电流、PD 电容、pad、bump、ESD 和封装寄生下成立。
+除了 driver 和 TIA 这两个核心高速模拟前端，EIC 还承担时钟恢复、均衡补偿、PIC 偏置控制、温度传感读出、管理接口（I2C / SPI / CMIS）和电源管理等功能。每一类功能在物理上可能集成在同一颗芯片上，也可能拆成多颗芯片（例如离 PIC 最近的 TIA / driver 用先进工艺，管理功能用成熟工艺），取决于系统对功耗、面积、热分布和测试颗粒度的要求。
 
-| 取舍 | 含义 | 对链路的影响 |
+### 0.1 EIC 是光引擎的"电子翻译层"
+
+EIC 在系统中的核心角色可以用一句话概括：**EIC 把数字世界和光子世界之间的信号翻译工作做了**。这个"翻译"是双向的，而且两端信号的物理性质完全不同。
+
+**发送方向（TX）。** Host ASIC 或 SerDes 输出的是已经过均衡的 PAM4 或 NRZ 比特流——典型摆幅在几百 mV 量级，时序由片上 PLL 和相位插值器控制。调制器需要的是能够高效改变波导折射率或吸收系数的驱动波形。硅光 MZM 需要差分摆幅可达 2–4 Vpp 的行波电极驱动；微环调制器需要偏置在共振曲线斜率最大的位置，驱动信号叠加其上。EIC driver 承担了这个电平转换和波形整形的工作——它要把 ASIC 传来的干净但低压的数字信号，变成足够驱动调制器的高质量模拟波形，同时尽量不引入额外的抖动或噪声。
+
+**接收方向（RX）。** PIC 上的锗光电探测器（Ge PD）接收光信号后，产生的是微弱的光电流——信号光功率在 -10 到 -5 dBm 量级时，典型光电流在几十 μA 到几 mA 之间。这个电流信号直接送进 EIC 的 TIA。TIA 的任务是在几十 GHz 的带宽内，以尽可能低的附加噪声把电流转为电压信号（Vout ≈ Ipd × 跨阻增益），同时维持足够的线性度来保留 PAM4 的四个电平。TIA 输出的电压信号——通常在几十到几百 mV 量级——再经过后级限幅放大器或直接进入 CDR 进行时钟恢复和数据重定时。
+
+**双向之外的功能。** EIC 还必须处理"翻译"之外的系统性工作。调制器的偏置点随温度漂移，需要 DAC 和补偿环路来实时校准；光电探测器、加热器和激光器需要多种不同的电压 / 电流偏置，这些由 EIC 内部的电源管理区块分配；芯片内部温度、各路偏置状态、链路诊断结果需要通过 I2C / SPI / CMIS 接口上报给系统管理控制器。这些"后台"功能虽然不直接出现在信号链路上，却是光引擎能长期稳定运行的前提。
+
+EIC 不是孤立工作的。它与光引擎中每个相邻模块之间存在功能依赖和物理接口：
+
+| 相邻模块 | EIC 侧的功能依赖 | 物理接口 |
 |---|---|---|
-| gain vs. bandwidth | 更高跨阻有利于小信号灵敏度，也更容易受输入电容和稳定性限制 | 影响 receiver sensitivity 和可达 baud rate |
-| noise vs. power | 低输入等效噪声通常需要更强输入级和更高偏置电流 | 影响灵敏度，同时进入 engine 热预算 |
-| linear range vs. sensitivity | 高增益容易饱和，低增益会提高小信号噪声压力 | 影响 PAM4 动态范围和接收余量 |
-| PD capacitance vs. bandwidth | PD 结电容、pad 和互连寄生形成输入极点 | 影响高频响应、TIA stability 和封装布局 |
+| PIC 调制器 | driver 的输出摆幅、偏置点和带宽必须匹配 modulator 的阻抗和 EO 响应 | 微凸块（microbump）、interposer 走线、电极寄生 |
+| PIC 光电探测器 | TIA 的输入阻抗、噪声和带宽必须匹配 PD 的电容和响应度 | PD 到 TIA 的互连长度、pad / bump 寄生 |
+| 激光源 | laser bias 电流或电压由 EIC 控制，监测 PD 电流由 EIC 读出 | 低速模拟走线、电源 / 地隔离 |
+| Host ASIC / SerDes | 时钟域对齐、均衡分配、链路状态上报 | 高速差分线、参考时钟分配 |
+| 封装基板 | 电源完整性、热分布、信号回流路径 | bump 间距、焊球布局、散热通孔 |
 
-高速 data PD 与 monitor PD 的读出目标不同。data PD 追求带宽、噪声和动态范围；monitor PD 追求稳定、线性和低漂移。EIC 往往同时包含高速 TIA 和低速 monitor readout，两者共享电源、地、温度和管理接口，但指标体系不同。
+完整的系统链可以表达为：**EIC ←→ PIC ←→ 光源 ←→ 光纤 ←→ 封装**。任何一个环节的接口参数变化，都会影响 EIC 的架构选择和指标设计。
 
-## SerDes、CDR 与 DSP：补偿责任放在哪里
+### 0.2 EIC 的三重身份
 
-<TermNote label="CDR" note="clock and data recovery，时钟数据恢复。它从接收数据中恢复采样时钟，并把数据重新定时，降低积累抖动对后级的影响。" /> 解决采样时序问题。<TermNote label="DSP" note="digital signal processor，数字信号处理器。光互连中常用于均衡、预失真、判决反馈、FEC 辅助、非线性补偿和链路诊断。" /> 解决波形和通道损伤问题。CPO 把电路径缩短后，CDR / DSP 的位置仍然是系统架构选择。
+EIC 的功能可以从三个分层来理解，每个分层对应一组不同的电路功能和性能目标：
 
-| 边界 | Host / switch ASIC 侧 | 光引擎 EIC 侧 |
+| 功能层 | 核心电路 | 性能目标 | 工艺敏感点 |
+|---|---|---|---|
+| 信号调理层（signal conditioning） | driver、TIA、CTLE、FFE、DFE | 带宽、摆幅、线性度、噪声、均衡能力 | 晶体管 ft / fmax、寄生电容、电源噪声 |
+| 时钟恢复层（timing recovery） | CDR、PLL、相位插值器、时钟分配 | 抖动容限、锁定时间、lane-to-lane deskew | VCO 相位噪声、PLL 带宽、电源 / 衬底噪声隔离 |
+| 系统控制层（housekeeping） | bias DAC、monitor ADC、温度传感器、I2C / SPI 管理接口 | 精度、温漂、长期稳定、诊断覆盖率 | 模拟精度随工艺 / 温度变化、寄存器规模和固件成熟度 |
+
+**信号调理层**是 EIC 的高速主体。TX 侧的 driver 必须同时满足带宽、摆幅和线性度——在 PAM4 调制下，四个电平之间的间距不均会直接劣化光学眼图的 TDECQ。RX 侧的 TIA 必须在低噪声和高带宽之间取舍——更宽的带宽通常以更大的输入参考噪声为代价，而噪声会直接限制接收灵敏度。当信道的频率响应非理想时（高频衰减、阻抗不连续），还需要在 EIC 内部或 host 侧加入 CTLE、FFE 或 DFE 来补偿。
+
+**时钟恢复层**解决的是采样问题。高速串行数据信号没有独立的时钟线——时钟信息嵌在数据的电平跳变中。CDR 从数据流中提取出时钟信号，并用它重新对数据进行采样和定时，消除前级积累的抖动。PLL 为 CDR 提供可调频的本地时钟源，相位插值器（phase interpolator）则对多通道之间做精细的相位对齐。在 CPO 光引擎中，时钟恢复层的位置是一个关键的架构选择——完全放在 engine 内（retimed），完全放回 host ASIC（linear / direct-drive），还是中间状态（half-retimed），直接影响 engine 的功耗、面积和接口清晰度。
+
+**系统控制层**没有高速指标压力，但它决定了光引擎能否在量产和现场运维中稳定运行。bias DAC 为调制器偏置点和微环加热器提供精细可调的控制电压，monitor ADC 将探测器电流、温度和光功率读数数字化，I2C / SPI 管理接口把这些信息上报给系统，同时接收来自系统的配置指令。控制层还需要实现启动初始化序列、故障检测和上报、校准流程和固件更新——这些功能不提升单路带宽，但它们是把光引擎从"实验室原型"变成"可部署产品"的关键。
+
+三个功能层共享同一颗芯片（或同一组芯片）上的电源、地、时钟和衬底，但它们的电路风格、噪声容忍度和设计约束各不相同——信号调理层追求高频性能，时钟恢复层追求相位纯度，系统控制层追求精度和稳定。在同一个 EIC 中管理好这三者之间的隔离和共存，是工程上的核心挑战。
+
+### 0.3 EIC 在 CPO 中的位置
+
+CPO（co-packaged optics，共封装光学）将光引擎从 PCB 边缘移到交换 ASIC 的同一封装基板上，大幅缩短了高速电互连的长度。传统可插拔光模块中，ASIC 到光模块的 PCB 走线长达 10–20 cm，高频损耗严重，必须用功耗可观的 DSP 做重定时和均衡。CPO 把这段距离压缩到几厘米甚至毫米量级，电通道损耗从 15–20 dB 降至 10 dB 以下，信号完整性的压力随之减轻。
+
+在这个架构中，**EIC 是"电域的最后一级"**。一条完整的信号路径从交换 ASIC 的 SerDes 出发，经过封装基板上的差分走线，进入 EIC 的输入级，再经过 driver/TIA，通过微凸块或引线到达 PIC 的调制器电极或光电探测器。EIC 之前的信号路径完全在电域内（数字信号 + 高速模拟信号），EIC 之后信号进入 PIC 的光域。这个分界位置决定了 EIC 的约束条件：
+
+| 约束 | 来源 | 影响 |
 |---|---|---|
-| DSP-based optical PHY | 负责系统侧 SerDes 和协议接口 | 集成光侧 DSP、driver、TIA、CDR、diagnostics |
-| Short-reach / VSR CPO interface | 负责短距离高速电互连和部分 margin | 负责靠近 PIC 的 driver / TIA 和必要 retiming |
-| Linear interface | Host SerDes 承担完整均衡和判决 | 保留高线性 driver、TIA 和必要模拟增益 |
-| Direct-drive co-design | ASIC I/O 面向光电器件条件优化 | EIC 极简或成为专用 analog front end |
+| **热约束** | EIC 自身功耗（每通道可能数百 mW）加上临近 ASIC 和 PIC 的热量，三种芯片的热场互相耦合 | EIC 结温可能比单独测试时高 20–40°C，影响 TIA 噪声、driver 摆幅和 PLL 抖动 |
+| **功耗约束** | CPO 光引擎的功耗预算极紧（1.6T 引擎目标 低于 15–20 W），EIC 是主要耗电模块之一 | pJ/bit 和每通道功耗是核心指标，PAM4 的线性度和摆幅要求直接推高 driver 功耗 |
+| **封装寄生约束** | microbump、interposer 走线、TSV 引入额外的电感和电容，EIC 的输入端和输出端都受到寄生影响 | TIA 输入端的 PD 电容 + 寄生电容构成极点，限制带宽；driver 负载端的寄生电感可能引入振铃和反射 |
+| **测试约束** | EIC 与 PIC 和 ASIC 封装在一起后，无法独立测试 EIC，必须通过光电联合测试来验证 | KGD 要求更高，需在封装前做更全面的晶圆级测试（包括 RF、PLL、ADC/DAC、BIST） |
 
-这一层分工会改变功耗和可诊断性。Retimed EIC 能在 engine 内部看见更多链路状态，也带来更多热和固件复杂度；linear EIC 功耗潜力较好，但需要 host 看到并补偿更长的模拟链路；direct-drive 需要 PIC / EIC / ASIC / package 同时建模。
+EIC 与相邻模块的关系在网站其他页面有更详细的展开：
 
-## 电源、时钟、控制：让 PIC 长期停在正确工作点
+- 光源的偏置和控制由 EIC 的 laser bias 电路完成，光源本身的原理和与 PIC 的耦合方式见 [激光源](../laser-source/)
+- 光纤与 PIC 之间的耦合方式（光栅耦合器、边缘耦合器、模场转换）见 [Optical I/O / fiber coupling](../optical-io/)
+- EIC 与 PIC 和 ASIC 的封装互连——bump 间距、interposer 材料、热管理、返修能力——见 [Package integration](../packaging/)
+- EIC 的 KGD 筛选、封装中间测试和 burn-in 策略见 [Manufacturing and test](../manufacturing-test/)
 
-EIC 的低速电路常决定光引擎能否稳定量产和运维。Driver、TIA、PLL、ADC / DAC、heater control、monitor readout、I2C / SPI / CMIS management、BIST、PRBS 和 alarm 都要在狭小封装里共存。
+### 0.4 EIC 的关键抉择：哪些功能留在 engine 内
 
-| 功能 | 主要内容 | 为什么重要 |
+前面提到，CPO 缩短了电互连距离，减轻了均衡和重定时的部分压力。但这个压力减轻了多少、哪些补偿功能可以移出 EIC，是一个系统层面的抉择。这个抉择的核心问题是：
+
+**哪些信号调理、时钟恢复和诊断功能放在光引擎内的 EIC 中，哪些留在 host ASIC 的 SerDes 中？**
+
+不同的答案产生了不同的 EIC 架构风格，也决定了光引擎的功耗、接口复杂度、可互换性和诊断能力：
+
+| 架构风格 | EIC 的核心功能 | host ASIC 侧 | 系统含义 |
+|---|---|---|---|
+| **Retimed** | 完整 CDR + 均衡（CTLE/FFE/DFE）+ driver + TIA + 诊断 | 标准 SerDes 接口，不需感知光路特性 | 接口最清晰，可互换性好；EIC 功耗和面积最大 |
+| **Half-retimed** | 一个方向 retimed（通常 RX），另一个方向 linear 或模拟 | 另一个方向需承担更多均衡责任 | 按 Tx/Rx 难度拆分工，平衡功耗和补偿 |
+| **Linear / Analog** | 高线性 driver + TIA，基本无本地 CDR 和数字均衡 | host SerDes 承担完整均衡、时钟恢复和判决 | 功耗和延迟最低；要求 ASIC 与 engine 深度协同设计，接口标准化难度大 |
+| **Direct-drive** | EIC 功能降到最低——仅保留紧邻 PIC 的必要模拟前端 | ASIC I/O 直接面向调制器或 PD | 电路径最短，但封装寄生、线性度、测试访问和故障隔离的工程挑战最大 |
+
+这张表实质上是整个 EIC 页面的索引——每一种架构对应不同的 EIC 内部电路设计和封装策略，将在以下各节中逐一展开。这里先记住一个判断：减少 engine 内 EIC 的功能并不意味信道损伤消失了——均衡、抖动容限、PAM4 线性度和 FEC 余量仍然存在，只是补偿责任从 engine 移到了 host SerDes。**EIC 的架构选择，本质是补偿责任的再分配**，而非补偿的消除。理解了这一点，接下来读 driver、TIA、CDR 和控制电路时，才能始终带着"这一块为什么在这里、它让出了什么"的问题。
+
+
+## 1. EIC 的物理基础
+
+要理解 driver 和 TIA 的设计约束，需要先建立几个底层物理关系：调制器需要多大电压才能产生足够的光信号，光电探测器产生的微弱电流怎样变成可测量的电压，以及 CPO 封装环境如何改变这些关系的边界条件。这一节不涉及具体电路拓扑，只建立后面讨论 driver 和 TIA 所需的物理直觉。
+
+### 1.1 电信号怎样变成调制器的驱动电压
+
+<TermNote label="半波电压（Vπ）" note="half-wave voltage。MZM 两臂之间产生 π 相位差所需的电压差，是衡量调制器效率的核心参数。Vπ 越小，达到给定消光比所需的驱动摆幅越低。" /> 是 MZM 效率的集中体现。硅基 MZM 通过 PN 结载流子耗尽改变波导折射率来产生相位差，这种 <TermNote label="自由载流子等离子体色散效应" note="free-carrier plasma dispersion。硅波导中自由载流子浓度变化引起折射率实部和虚部同时改变，从而实现相位调制，但也引入损耗变化。" /> 的效率远低于 LiNbO₃ 的电光效应，因此硅 MZM 的 Vπ 通常在 2–5 V 量级，远高于薄膜铌酸锂（TFLN）或磷化铟（InP）调制器。
+
+相移量与电压和调制器长度的关系可以写作：
+
+```text
+Δφ = π × (ΔV × L) / (Vπ × Lπ) = π × ΔV × L / VπL
+```
+
+其中 VπL（半波电压-长度积）是一个工艺相关的品质因数，它把电压和长度合并成一个数字。硅载流子耗尽型 MZM 的典型 VπL 在 1–2 V·cm 量级，意味着一个 3 mm 长的调制器 Vπ 约为 3–6 V，而一个 5 mm 长的调制器 Vπ 可以降到 2–3 V。VπL 越低，用更短的调制器长度或更低的电压就能达到 π 相移——这对 driver 来说意味着更小的摆幅要求和更低的功耗。
+
+Driver 的输出摆幅需要与调制器的 Vπ 匹配。如果摆幅远小于 Vπ，调制器两臂的相位差达不到 π，干涉后的消光比（ER）就不够，光眼图的垂直张开度下降。如果摆幅远大于 Vπ，多余电压会产生超出 π 的相位差，导致调制曲线的非线性区域被使用，同时 driver 的功耗浪费在不需要的过驱动上。
+
+PAM4 调制的引入进一步提高了对驱动电压精度的要求。PAM4 把两个比特编码成四个光功率电平，四个电平之间的间隔必须相等才能保持接收端判决余量。如果驱动电压-光功率转换曲线不是线性的——例如调制器的 Vπ 转换函数是正弦型——那么等间距的驱动电压不会产生等间距的光功率电平。Driver 的线性度、调制器的偏置点和 PAM4 预失真（pre-distortion 或 DAC 式 segmented driver）需要共同补偿这种非线性。
+
+调制器电极的电气模型决定了 driver 需要驱动什么样的负载。在数据率较低或调制器较短时，可以用集总模型（lumped model）：电极等效为电容 C_mod 与串联电阻 R_mod，RC 时间常数限制带宽。对于硅基 PN 结调制器，结电容典型值为每毫米 0.4–0.6 pF，一个 3 mm 调制器的总电容约 1.2–1.8 pF，与 driver 输出电阻形成几十 GHz 的 RC 极点。当数据率超过这个极点频率，就需要过渡到行波电极（traveling-wave electrode）设计，把电极做成传输线，让电信号与光波导一起传播，从而实现远高于 RC 极限的带宽。
+
+| 模型 | 适用条件 | 带宽限制 | 驱动方式 |
+|---|---|---|---|
+| 集总（lumped） | 调制器短（< 1–2 mm）、数据率中等 | RC ≈ 1/(2πR_mod C_mod) | 单端或差分电压驱动 |
+| 行波（traveling-wave） | 调制器长（> 3 mm）、数据率高 | 速度失配 + RF 损耗 | 传输线端接，需阻抗匹配 |
+
+行波电极把带宽极限从 RC 转移到了电极与光波导之间的速度匹配和 RF 损耗上，这对 driver 的输出阻抗和端接提出了新的要求——后面在 driver 一节展开。
+
+### 1.2 光电流怎样变成可测量的电压
+
+光电探测器把接收到的光功率转换成电流。在典型 CPO 接收链路中，到达探测器光敏面的光功率在 -10 到 -20 dBm（几十 μW 到几百 μW）量级，乘以探测器的响应度（responsivity，典型值 0.5–1 A/W），产生的光电流 Ipd 大约在 10 μA 到 2 mA 之间。这个电流范围决定了 TIA 需要处理的信号大小。
+
+TIA 的核心功能是把这个小电流线性地转换成一个后级可以处理的电压，转换关系是：
+
+```text
+Vout = Ipd × ZT
+```
+
+其中 ZT 是跨阻增益（transimpedance gain），单位是 Ω（或 dBΩ）。一个 10 kΩ 的 ZT 意味着 10 μA 输入产生 100 mV 输出，2 mA 输入产生 20 V 输出——后者显然超出了现代 CMOS 工艺的供电电压范围，因此实际 TIA 在输入电流较大时会发生饱和或限幅。跨阻增益需要在灵敏度（小信号要求高增益）和动态范围（大信号要求不饱和）之间选择。
+
+TIA 的增益-带宽乘积受到输入节点总电容的强烈限制。输入电容 Cin 包括光电探测器的结电容、ESD 保护结构、bump/pad 寄生和 TIA 输入级的栅极或基极电容，在 50 GBaud 以上系统中通常有 50–150 fF。TIA 的 -3 dB 带宽 f-3dB 与跨阻增益 ZT、Cin 和 TIA 的反馈网络之间满足近似关系：
+
+```text
+ZT × f-3dB ≈ 常数（受限于 Cin 和工艺的 fT）
+```
+
+这意味着在给定的输入电容下，想要更高的增益就必须牺牲带宽，反之亦然。这个取舍是 TIA 设计中最基本的约束。
+
+TIA 的输出噪声决定了接收端能看到多微弱的光信号。<TermNote label="输入等效噪声电流密度" note="input-referred noise current density。所有 TIA 内部噪声源（反馈电阻热噪声、放大器输入噪声等）折算到输入端的等效噪声电流谱密度，单位 pA/√Hz。" /> 是衡量 TIA 噪声性能的关键指标。它的物理来源主要有三个：
+
+```text
+In²_total = 4kT / RF + In²_amp + (2πf × Cin × Vn_amp)²
+```
+
+- **4kT / RF**：反馈电阻的热噪声。RF 越大，热噪声密度越低，但带宽也越低。这是增益-带宽-噪声三者取舍的核心。
+- **In²_amp**：放大器输入级本身的电流噪声。CMOS 输入级通常很小，双极型输入级更大但有时也意味着更好的高频特性。
+- **(2πf × Cin × Vn_amp)²**：放大器的电压噪声被输入电容积分放大，在高频段迅速成为主导。这就是为什么输入电容大不仅限制带宽，还会恶化高频噪声。
+
+| 噪声来源 | 与 RF 的关系 | 频率特性 | 典型贡献 |
+|---|---|---|---|
+| 反馈电阻热噪声 | ∝ 1/√RF | 白噪声 | 低频-中频主导（RF < 10 kΩ 时尤其明显） |
+| 放大器电压噪声 × Cin | 与 RF 无关 | 随频率增长 6 dB/oct | 高频主导 |
+| 放大器电流噪声 | 与 RF 无关 | 白噪声或 1/f | 通常可忽略 |
+
+整个接收链路的最低可检测光功率（灵敏度）最终由这个输入等效噪声电流和光电探测器的响应度共同决定。如果 TIA 的输入等效噪声电流密度是 15 pA/√Hz，信号带宽是 30 GHz，那么 RMS 噪声电流约 15 × √30 ≈ 82 nArms。要保证 10⁻¹² 误码率，信号电流需要约为 RMS 噪声的 14 倍（对应 Q 因子 ≈ 7），即约 1.15 μA。乘以一倍光功率到电流的转换系数（1 / Rresponsivity），就得到了最低可检测光功率的估计值。
+
+### 1.3 高速电信号在 CPO 中的特殊条件
+
+CPO 把光引擎放在 switch ASIC 旁边，从 ASIC SerDes 到光引擎 EIC 的高频走线长度缩短到 50 mm 以内，这就是 <TermNote label="XSR" note="extra-short-reach。OIF 定义的短距电互连分类，通常指 die-to-die 或 chip-to-module 距离在 50 mm 以内的通道。" /> SerDes 的典型工作范围。距离短不意味着问题少——恰恰相反，CPO 把原本在面板模块内部和背板上的信号完整性问题压缩到了封装尺度，让微观几何参数变得重要。
+
+XSR 通道的电损耗来自三个层面：导体趋肤效应损耗（∝ √f）、介质极化损耗（∝ f）和阻抗不连续引起的反射。虽然 50 mm 的走线总损耗远小于背板上的半米通道，但 CPO 的链路预算中几乎没有预留 margin——因为接口标准（如 OIF CEI-112G-XSR）要求的通道损耗预算通常只有几 dB，任何额外的不连续都会直接吃掉余量。更关键的是，CPO 通道中不连续的密度远高于传统模块。
+
+| 不连续点 | 物理来源 | 电气效应 | 典型值 |
+|---|---|---|---|
+| ASIC bump → interposer trace | 微凸块（microbump）电容 | 电容性不连续 → 反射 | 每 bump 20–50 fF |
+| Interposer trace → EIC bump | 不同介质的传输线过渡 | 阻抗变化 → 回损 | Z0 偏差 10–20% |
+| EIC bump → on-die routing | 多层金属垂直过渡 | 寄生电感 + 电容谐振 | 电感 ~50–150 pH |
+| On-die routing → modulator electrode | 集总电容到传输线过渡 | 高频时反射增加 | 随频率恶化 |
+
+Microbump 的寄生电容虽小（每 bump 20–50 fF），但在 50+ GHz 时已经构成可观的容性负载。多个 bump 串联（如通过 interposer 转接时经过两组 bump）会形成 LC 谐振网络，在某个频率附近出现明显的插入损耗尖峰。Interposer 走线的特性阻抗也难以做到严格的 50 Ω 或 100 Ω 差分——转接板（interposer）的材料、厚度和线宽受工艺限制，实际阻抗偏差在 10% 以上，这在不连续点处产生反射。
+
+一个有趣的反直觉结论是：CPO 缩短了物理距离，却提高了对信号完整性的要求。原因在于传统光模块有清晰的电接口规范（如 QSFP-DD 的 host connector），所有通道损伤在接口处已经被明确定义和预算；而 CPO 的 EIC-PIC 接口没有行业统一电接口规范，每个集成方案都需要自己的 co-design。Driver 看到的负载不只是调制器，还包括从 driver 输出到调制器电极之间整条路径的寄生参数。TIA 看到的输入电流也不只是 PD 的输出，还受到 PD 到 TIA 之间 bump、trace 和 interposer 的寄生影响。
+
+热-电耦合是 CPO 场景中另一个被低估的物理关系。EIC 的 driver 和 TIA 在紧凑封装中与 PIC 紧密相邻，它们的功耗转化为热，改变 PIC 的温度场。硅波导的折射率对温度敏感（热光系数约 1.8 × 10⁻⁴ K⁻¹），这意味着温度变化会改变 MZM 的偏置点（移动其正交工作点），对微环调制器则直接改变谐振波长（典型红移 ~0.08 nm/K）。Driver 功耗随数据率和摆幅变化，这种动态发热在 PAM4 的四个电平上会引入时变偏置误差——driver 热耦合到调制器，调制器偏置变化又反过来改变 driver 需要输出的电压摆幅。
+
+| 热-电耦合路径 | 机制 | 对链路的影响 |
 |---|---|---|
-| power integrity | analog / digital / driver / TIA / PLL / heater rails、decap、IR drop、ground bounce | 电源噪声会进入 jitter、driver swing、TIA noise 和控制读数 |
-| clocking | reference clock、PLL、CDR、phase interpolator、lane deskew | 决定采样窗口、lane 对齐和 jitter tolerance |
-| PIC control | DAC、ADC、monitor PD readout、temperature sensor、heater / bias loop | 保持 MRM resonance、MZM bias、WDM channel 和 optical power |
-| diagnostics | PRBS、scan、BIST、loopback、alarm coverage、telemetry | 支持 wafer test、bring-up、failure isolation 和现场维护 |
+| Driver → 调制器 | driver 发热改变 MZM 两臂温度 → 偏置点漂移 | 消光比下降，PAM4 电平不均 |
+| TIA → 附近探测器 | TIA 功耗造成局部温升 | 暗电流变化，响应度轻微漂移 |
+| 整个光引擎热分布 | EIC + PIC 共用散热路径 | 多通道之间的热串扰和波长锁定困难 |
+| 动态功耗变化 | PAM4 不同码型下电流变化 → 瞬时发热 | 码型相关的时变偏置误差 |
 
-控制环路的价值在长期运行中最明显。CPO optical engine 难以像前面板模块那样直接更换，EIC 的 telemetry 粒度、校准流程和故障定位能力会直接影响运营成本。
+理解这些物理关系之后，接下来两节分别讨论 driver 和 TIA 如何在具体电路层面应对这些约束。
 
-## PIC / EIC / 封装的共同设计条件
+## 2. 系统分工架构
 
-EIC 指标在封装后才算真正成立。driver 到 modulator 的路径、PD 到 TIA 的路径、power delivery、thermal map 和 test access 需要与 PIC 和 package 同时定义。
+### 2.1 为什么系统分工是 EIC 的第一个决策
 
-| EIC 条件 | 传给 PIC / 封装的影响 |
-|---|---|
-| driver output swing / impedance | 决定 modulator electrode、termination、microbump 数量和 RF routing |
-| driver-to-modulator path length | 决定 interposer / substrate 走线、return path、reflection、loss 和 skew |
-| TIA input capacitance budget | 决定 PD 面积、pad、bump、ESD 和 placement |
-| PD-to-TIA placement | 决定接收噪声、带宽、封装布局和可测试性 |
-| rail count / peak current | 决定 package power delivery、decap、VRM 位置和热点 |
-| clock and lane deskew | 决定 reference clock routing、jitter isolation 和多 lane 同步 |
-| ADC / DAC and sensors | 决定 PIC heater、bias、monitor tap 和 WDM control 的可实现性 |
-| test access | 决定 wafer probe、package probe、loopback、PRBS、scan 和 failure analysis 覆盖 |
+EIC 是光引擎中 host ASIC 和 PIC 之间的电子接口层。但这个接口层的"厚度"是多少——它应该做多少信号处理——不是一个电路实现问题，而是整个光链路的系统架构设计起点。
 
-这些条件会反向改变 EIC 架构。若 modulator 电容较大，driver 需要更强输出或更短互连；若 PD 电容较大，TIA 噪声和带宽承压；若 package substrate 提供的 return path 不连续，实验室里的 driver / TIA 指标会在系统中下降。
+系统分工之所以成为 EIC 的第一个决策，是因为它直接决定了三件事：**功耗预算的分配**（多少功耗放在 engine 侧、多少留给 host）、**信号补偿责任的归属**（谁来负责均衡和判决）、以及**测试诊断的可见性**（能否在 engine 内部做 loopback 和眼图测试）。这三个维度一旦确定，后续的 driver 摆幅、TIA 噪声、封装走线长度、<TermNote label="SerDes" note="serializer/deserializer，串行器/解串器。把并行数据转换成高速串行信号（发送端）和把高速串行信号恢复成并行数据（接收端）的接口电路。" /> 均衡能力指标都会被连锁锁定。
 
-## 测试、bring-up 与可诊断性
+四种分工架构——Retimed（全再生）、Linear Amplified（线性放大）、Half-Retimed（半再生）和 Direct-Drive（直接驱动）——最早由 <TermNote label="OIF" note="Optical Internetworking Forum，光互联论坛。推动高速电接口和光接口标准化的行业组织，发布了 CEI、CMIS、Co-Packaging Framework 等一系列重要规范。" /> Co-Packaging Framework Document 定义。这些分类并非任意划分的离散档位，而是信号在 engine 内被"再生"程度不同的连续谱。从 Retimed（完整时钟数据恢复 + 判决）到 Direct-Drive（几乎无有源信号处理），每一步减少的再生量都以增大 host 侧的补偿责任为代价。
 
-EIC 的测试不能停在 DC pass / fail。CPO 需要把电学测试、光电联合测试和管理状态串起来。
+分工选择没有绝对优劣。同样的光链路预算，放在不同的功耗、面积、互操作性和可测试性约束下，会导向不同的最优方案。下面逐一展开四种架构的内部逻辑、信号路径和工程代价。
 
-| 阶段 | 重点证据 | 作用 |
+### 2.2 Retimed 接口：引擎内完整信号再生
+
+Retimed 接口是传统可插拔光模块方案的直接延续：EIC 内集成完整的 <TermNote label="CDR" note="clock and data recovery，时钟数据恢复。从接收数据流中提取时钟相位并重新定时输出，消除积累抖动对后级电路的影响。" />，在某些实现中还包含 <TermNote label="DSP" note="digital signal processor，数字信号处理器。在光互连中用于均衡、预失真、判决反馈、FEC 增强和非线性补偿。" />、<TermNote label="ADC/DAC" note="analog-to-digital converter / digital-to-analog converter，模数转换器/数模转换器。DSP 方案中 ADC 将接收模拟波形采样为数字序列，DAC 将发送数字预补偿转为模拟波形。" /> 和完整的 PHY 功能。从系统角度看，engine 内部完成了完整的信号再生——时钟重新提取、数据重新判决、波形重新整形。
+
+信号路径如下：host ASIC 的 SerDes 通过 PCB trace 和 connector 把高速串行信号送到引擎端 → EIC 的 CDR 恢复出干净的时钟并用它对数据进行重定时 → 重定时后的数据进入 driver 级，驱动调制器产生光信号。接收方向的信号同样：PD 电流经 TIA 转为电压 → CDR 恢复时钟并判决 → 干净的串行数据送回 host。这套路径的关键特征是：engine 的输入和输出端都是完整的数字信号，模拟损伤在 engine 内部被隔离。
+
+Retimed 接口的优势非常明确：**接口干净，局部补偿能力强**。由于 CDR/DSP 在 engine 内重建了信号，host 侧的 SerDes 只需要驱动到达引擎的较短 PCB 走线，不需要关心光链路的模拟特性。这使得 host 和 engine 可以独立设计、独立测试、来自不同供应商——对互操作性要求高的多供应商 CPO 系统，这是最安全的架构选择。测试边界也清晰：在 EIC 的 driver 输出端可以直接做眼图测试和 PRBS 误码测试，生产阶段的故障定位不需要打开光路。
+
+代价同样显著。CDR 和 DSP 自身功耗高——对于 112 Gb/s 及以上的 lane rate，完整的 DSP-based retimer 功耗通常在 1.5–3.5 W 每通道，加上额外的发热量进入引擎热预算。数字电路也带来了延迟增加（CDR 的处理延迟和 DSP 的流水线延迟合计可达 10–50 ns），对要求极端低延迟的 AI/ML 集群中某些同步计算模式会产生影响。此外，DSP 需要额外的 die 面积和更复杂的电源分配网络。
+
+适用场景包括：多个独立供应商共同构建的 CPO 系统（需要清晰的接口定义和互操作保证）、host-to-engine 距离较长（需要通过 retimer 补偿电通道损耗）、以及需要丰富链路诊断功能的系统（DSP 可以提供 SNR、BER、<TermNote label="FFE/DFE" note="feed-forward equalizer / decision-feedback equalizer，前馈均衡器/判决反馈均衡器。FFE 对已知信道损伤做预补偿或后补偿，DFE 利用已判决符号消除后续符号的码间串扰。" /> tap 收敛状态等遥测数据）。
+
+### 2.3 Linear Amplified 接口：去掉再生，保留模拟增益
+
+Linear Amplified 接口（业界也常称为 LPO，即 Linear-drive Pluggable Optics）的核心思路是：EIC 只保留 driver、TIA 和必要的模拟放大，去掉 CDR/DSP 等数字再生电路。整个链路的均衡和判决责任全部上移到 host SerDes。
+
+信号路径在发送方向为：host ASIC SerDes 的 TX <TermNote label="FFE" note="feed-forward equalizer，前馈均衡器。在发送端对信号进行预加重或去加重，补偿信道的高频损耗。" /> 做预补偿 → 信号经过 PCB trace + connector 到达引擎端 → EIC 线性 driver（不做重定时，只做模拟放大和阻抗匹配）→ 调制器 → 光纤。接收方向为：PD → TIA（跨阻放大）→ 线性 buffer → 回到 host SerDes RX（由 CTLE + DFE + CDR 完成均衡、判决和时钟恢复）。
+
+"线性"在这里是关键要求。driver 和 TIA 必须保持良好的线性度——输出电压或电流与输入值之间成精确比例，因为不再有数字判决来纠正在模拟路径中产生的失真。对于 PAM4 调制，四个电平之间的间距必须均匀，driver 和 TIA 的 <TermNote label="THD" note="total harmonic distortion，总谐波失真。衡量放大器的非线性失真程度，THD 越高，输出波形中不需要的谐波分量越多。" /> 必须足够低。电平间距不均匀会直接提高 <TermNote label="BER" note="bit error rate，误码率。接收端判决错误的比特数与总传输比特数之比，是衡量数字通信链路质量的核心指标。" />，且这种损伤无法通过后续的 FEC 完全恢复（FEC 对付随机误码有效，但对系统性电平偏移效果有限）。
+
+Linear Amplified 接口的优势是功耗和延迟。由于去掉了功耗最大的 CDR/DSP 模块，engine 功耗可以降低 50%–70%（取决于 lane rate 和实现细节）。Cisco 在 OFC 2024 的公开演示中展示：两台 51.2 Tb/s 的 Silicon One G200 交换机，一台使用完全 retimed 光模块、一台使用 LPO，LPO 方案在全系统层面节省了约 700 W。延迟方面，LPO 每方向比 retimed 方案低 60–90 ns——这对短距离 AI/ML 互联中延迟累加尤为关键（当光纤距离很短时，retimer 的处理延迟可能占总链路延迟的很大比例）。
+
+代价是 host SerDes 的设计压力显著增大。host RX 需要更强大的均衡能力——CTLE 的峰化增益需要覆盖更长的模拟链路损耗，DFE tap 数量可能需要增加以补偿额外的反射和回波。更根本的挑战是线性度。当 lane rate 提升到 200 Gb/s（约 106 Gbaud PAM4）时，保持 driver 和 TIA 的 THD 在 2% 以下同时满足带宽要求变得极为困难。Meta 在 OFC 2024 的模拟结果指出：200 G/lane 的 LPO 要达到 <TermNote label="KP4-FEC" note="KP4 Reed-Solomon FEC，一种前向纠错码（RS(544,514)），是 IEEE 802.3 标准中 400 Gb/s 及以上速率的基本 FEC 方案，输入 BER 门限约 2.4e-4。" /> 门限以上可能需要 OMA 不低于 +5 dBm——即要求光源输出功率大幅度增加，而这与功耗和热目标矛盾。
+
+此外，Linear Amplified 接口失去了 engine 内部的测试点。没有 CDR，就不能在 engine 内部做 loopback 测试；缺少 DSP，就没有 SNR、tap 系数等链路状态遥测。整个电光链路的"能见度"完全依赖 host SerDes 的 BER 计数器和 FEC 统计。这给生产测试和现场故障定位带来了新的挑战。
+
+适用场景是：功耗和延迟为首要约束的系统（典型如 AI/ML 集群中的短距离节点互联）、host SerDes 能力较强的平台（能够承担完整均衡）、以及愿意接受更严格互操作性测试流程的垂直集成方案。
+
+### 2.4 Half-Retimed 接口：Tx/Rx 不对称分工
+
+Half-Retimed（半再生）接口是前两种方案的混合体：一个方向做 retimed，另一个方向保持 linear。这种不对称因何而来？因为光链路的发送和接收面临的物理挑战不同，值得分开优化。
+
+典型场景一：**Tx 侧 retimed，Rx 侧 linear**。这也是 OIF 率先标准化的方案——<TermNote label="RTLR" note="Retimed Transmitter Linear Receiver，已发布为 OIF-EEI-112G-RTLR Implementation Agreement。发送端使用 CDR 重定时，接收端使用线性放大不经判决直接回传。" />（Retimed Transmitter, Linear Receiver）。选择这种不对称的理由是：发送方向的调制器对 driver 输出的波形质量要求极高——上升/下降时间、过冲、抖动和电平精度都会直接印在光信号上。如果 driver 之前有 CDR，可以保证进入调制器的数据有干净的时钟沿和精确的定时。而接收方向不同：host SerDes 的 RX 本身就有 CTLE、DFE 和 CDR 来做均衡和判决，从引擎线性输出的模拟信号到 host 判决之间并没有增加新的损伤环节。因此 Rx 侧去掉 CDR 的收益（功耗节省）大于代价（对 host SerDes 均衡能力的需求增加）。OIF-EEI-112G-RTLR 定义的就是这种 112 Gb/s 芯片到模块的电接口，适配 Ethernet C2M 100 Gb/s 应用。
+
+典型场景二：**Tx 侧 linear，Rx 侧 retimed**。这在业界也有对应的方案，称为"反向 RTLR"或 LRO（Linear Retimed Optics）。选择这种不对称的理由是：接收方向 PD/TIA 的输出噪声水平较高（PD 的散粒噪声和 TIA 的热噪声叠加），如果在 engine 内先做 CDR 再回传，噪声不会被后级的模拟放大进一步恶化。而发送方向如果 host SerDes 的 TX 均衡能力足够强（FFE tap 够多、摆幅够大），可以补偿 PCB 走线的损耗，让线性 driver 直接驱动调制器。这种方案曾在 OFC 2024 的"LPO vs DSP"辩论中被提及作为 200 G/lane 的折中。
+
+Half-Retimed 本质上是一种"按难度拆分"的工程权衡。它承认全 retimed 功耗太高，全 linear 又对某些方向的信号路径过于苛刻，因此把补偿资源优先分配给难度更大的方向。从功耗角度看，Half-Retimed 的 engine 功耗约为全 retimed 的 60%–75%（取决于哪个方向保留 CDR），且保留了单方向的测试可视度和 loopback 能力。
+
+该方案已经在 OIF 完成了标准化（OIF-EEI-112G-RTLR），并被多家模块厂商实现为商用产品。对 CPO 系统设计者来说，Half-Retimed 是当前功耗、互操作性和技术成熟度之间最均衡的选择之一。
+
+### 2.5 Direct-Drive：极限短距，EIC 极简化
+
+Direct-Drive 接口将系统分工推向极致——host ASIC 的 I/O 直接面对调制器电极或 PD/TIA 边界，EIC 退化为极简的模拟前端，在某些设计中甚至完全消失。
+
+实现 Direct-Drive 需要满足几个苛刻条件。第一，ASIC 输出摆幅必须直接匹配调制器的 <TermNote label="Vπ" note="半波电压。使 MZM 输出光功率从最大变到最小所需施加的电压变化量，是调制器驱动电压需求的核心指标。" />——不再有单独的 driver 做电压增益，ASIC SerDes 的 TX 输出必须能直接推动调制器产生足够的相位变化。第二，阻抗匹配必须精确——避免了独立的 driver，但也失去了 driver 作为阻抗转换器的缓冲作用，ASIC 输出阻抗和调制器电极阻抗必须在整个工作频段内良好匹配。第三，封装路径必须极短（通常 < 5 mm），否则走线损耗和寄生反射会迅速吞噬信号质量。这意味着 ASIC 和 PIC 必须紧邻放置——在同一封装基板内甚至同一 interposer 上。
+
+Direct-Drive 的最大吸引力是功耗——去掉整个 EIC 有源链路可以节省 1–3 W 每通道的 driver/TIA 功耗，在某些系统中可带来 pJ/bit 级别的显著改善。Ranovus 在 OFC 2024 展示的 Odin Analog-Drive CPO 2.0 方案宣称实现了 4 pJ/bit（含激光器），相比传统 retimed 方案减少约 50% 的功耗。延迟方面也达到了极致——整个电光路径上几乎没有有源器件的处理延迟。
+
+代价是丧失了模块化。ASIC 和 PIC 必须联合设计（co-design），无法独立开发、独立测试。调制器的 Vπ、带宽、电容，ASIC 的 TX 摆幅、RX 灵敏度、均衡能力必须提前协商并锁定。任何一方的变更都会触发另一方的重新设计。这也意味着互操作性基本不存在——一个 Direct-Drive 方案中的 ASIC 和 PIC 是锁定的配对关系，不能与其他供应商的器件互换。测试和诊断方面的挑战同样突出：没有 EIC 层提供 loopback 和 telemetry，链路状态的诊断只能依赖 host 侧的有限检测。
+
+目前 Direct-Drive 主要存在于研究阶段和高度垂直整合的方案中。Nvidia、Ranovus、Ayar Labs 等公司在 OFC 近年来先后展示过 Direct-Drive CPO 演示，但尚未成为广泛商用的主流方案。在 200 Gb/s/lane 及以上速率，Direct-Drive 面临的线性度、回波损耗和带宽挑战预计将更加严峻。
+
+### 2.6 四种接口的对比
+
+下表从八个维度对比四种架构的系统特性：
+
+| 接口类型 | Engine 内 EIC 功能 | 功耗（相对） | 延迟（相对） | Host SerDes 负担 | 互操作性 | 测试可视度 | 典型场景 | 标准化状态 |
+|---|---|---|---|---|---|---|---|---|
+| **Retimed** | 完整 CDR/DSP、driver、TIA、PHY | 高（基准） | 高（基准） | 低——CDR 隔离模拟损伤 | 高，多供应商可独立开发 | 高——engine 内可做 loopback、眼图、PRBS | 多供应商 CPO、长 host-to-engine 距离、需要丰富遥测的系统 | IEEE 802.3 成熟标准 |
+| **Linear Amplified** | 线性 driver、TIA、模拟增益，无 CDR | 低（节省 50%–70%） | 低（低 60–90 ns） | 高——host SerDes 需完整均衡 | 中——线性度要求严格，互操作测试更复杂 | 低——无 engine 内测试点，依赖 host 侧统计 | AI/ML 短距互联、功耗第一优先的系统 | OIF EEI 框架项目中，LPO 多供应商实现存在 |
+| **Half-Retimed** | 一个方向 CDR + driver，另一个方向 TIA + 模拟 Buffer | 中（全 retimed 的 60%–75%） | 中（取决于 CDR 方向） | 中——retimed 方向无负担，linear 方向需补偿 | 中高——OIF RTLR 已发布 IA | 中——retimed 方向可测试 | 功耗与互操作性折中场景、RTLR/LRO 商用化方案 | OIF-EEI-112G-RTLR 已发布 |
+| **Direct-Drive** | 极简或无——ASIC I/O 直接面对 PIC | 极低（节省 1–3 W 每通道） | 极低（几乎无有源处理延迟） | 极高——ASIC SerDes 直接驱动调制器 | 极低——ASIC+PIC 必须联合设计 | 极低——无 EIC 层诊断 | 垂直整合方案、研究演示、极限功耗优化 | 无标准化，研究阶段 |
+
+选择架构时，关键在于识别系统的主导约束。如果互操作性和测试清晰度是第一位，Retimed 仍是最安全的选择。如果功耗预算是硬天花板，Linear Amplified 或 Half-Retimed 提供了明显的节电空间，但必须同步提升 host SerDes 的均衡能力。如果系统是从零开始垂直整合且追求极致效率，Direct-Drive 是值得探索的前沿方向——但需要接受互操作性方面的大幅让步。
+
+这些架构之间没有绝对的孰优孰劣。同一个光引擎内的不同 lane 也可以混合部署不同分工模式（例如部分 lane retimed、部分 lane linear），取决于每根光纤所连接的另一端设备的能力。系统分工是 EIC 的第一层设计决策——它通过划定 EIC 的职责边界，间接设定了整个 CPO 系统的功耗、性能和可维护性的上限。
+
+## 3. Tx 发送链路：Driver 深度解析
+
+Driver 是光引擎发送方向上信号链的最后一环。它的输入来自 pre-driver 或 SerDes 的输出（典型差分摆幅 200–600 mVpp），输出直接面对调制器电极——一个可能是几百 fF 的容性负载（集总 MZM 或微环），也可能是一条特性阻抗约 30–50 Ω 的行波传输线（行波 MZM 或 TFLN 调制器）。Driver 的输出质量——摆幅、上升/下降时间、抖动、线性度和阻抗匹配——最终印在光信号上，成为接收端可见的消光比、眼图张开度和 <TermNote label="TDECQ" note="transmitter dispersion eye closure quaternary，发射机色散眼图闭合四电平度量。IEEE 802.3bs 定义的 PAM4 发射机信号质量指标，综合衡量波形损伤、色散代价和噪声容限。" />。因此 driver 设计在电光链路中的位置极其关键：它处在电路和光子器件的接口上，必须同时理解两边。
+
+### 3.1 Driver 的物理角色：Vπ、摆幅、带宽的三角取舍
+
+Driver 设计师面对的核心矛盾是一个"不可能三角"：摆幅、带宽和功耗三者无法同时最优。理解这个三角取舍，需要从调制器的物理约束开始。
+
+MZM 的相位变化量与驱动电压的关系可以写作：
+
+```text
+Δφ = π × (V_driver / Vπ) × (L_segment / L_total)
+```
+
+Vπ（<TermNote label="半波电压" note="half-wave voltage。使 MZM 一个臂相对于另一个臂产生 π 相位差所需施加的电压差，是调制器驱动效率的核心参数。" />）是调制器的一个工艺参数——对硅基载流子耗尽型 MZM 典型值为 3–5 V，对薄膜铌酸锂（TFLN）调制器则可低至 1–2 V。如果一个调制器的 Vπ = 3 V、采用 push-pull 差分驱动，要达到 π 相移（即从"亮"到"暗"的完整开关），需要的差分摆幅至少为 3 Vpp。对于 PAM4 信号，四个电平的均匀分布意味着最大电平需要约 3 Vpp，因此实际所需摆幅会略高于 Vπ——典型经验值是 Vπ 的 1.2–1.5 倍。
+
+带宽约束来自调制器电极的等效电气模型。集总电极的等效电容 C_load（包括调制器电容、pad/bump 寄生和 ESD 保护结构）与 driver 输出级等效电阻 R_out 构成一个 RC 低通极点：
+
+```text
+f_3dB = 1 / (2π × R_out × C_load)
+```
+
+对于 100 GBaud PAM4，信号的一阶 Nyquist 频率为 50 GHz（PAM4 的奈奎斯特频率等于 baud rate 的一半），要求 f_3dB 至少在 50–70 GHz 以上。如果 C_load = 200 fF，R_out 必须小于约 11 Ω。但 R_out 越小，输出级的电流消耗越大——这直接拉高功耗。
+
+功耗约束以 pJ/bit 衡量。CML（电流模）输出级的功耗近似为：
+
+```text
+P/bit ≈ (V_driver × I_tail) / (2 × baud_rate)
+```
+
+对于 3.5 Vppd 摆幅、100 GBaud 的 CML driver，若 I_tail = 30 mA，单 lane 功耗约为 1.05 W，合 10.5 pJ/bit——这对 CPO 引擎的热预算是一个相当大的数字。电压模（CMOS 推挽）driver 的理论静态功耗为零，但动态功耗 C_load × V² × f 在 200 fF、3.5 V、100 GBaud 下也达到约 0.6 W（6 pJ/bit）。
+
+这三个参数的内在矛盾是：
+- **增大摆幅** → 需要更高的电源电压或更大的输出级电流 → 功耗上升，且大摆幅下对输出管的耐压要求更高
+- **增大带宽** → 需要更小的 R_out → 更大的输出管尺寸（即更大的寄生电容）或更高的偏置电流 → 功耗上升
+- **降低功耗** → 要么减少摆幅（牺牲消光比），要么降低带宽（限制 baud rate），要么两者同时妥协
+
+实际系统的典型数值举例：一个 100 GBaud PAM4 链路使用硅基 MZM，Vπ = 3 V，电极总电容约 1 pF（含寄生）。若采用集总驱动，R_out = 10 Ω 可提供约 16 GHz 的 RC 带宽——远不足以支持 50 GHz 奈奎斯特频率。方案要么是增大输出级电流把 R_out 降到 3 Ω 以下（但 f_3dB ≈ 53 GHz，功耗巨大），要么改用行波电极 + 分布式或分段驱动架构（把电容沿电极分布到多个驱动单元）。绝大多数高速设计选择了后者。
+
+### 3.2 Driver 输出级拓扑：电压模 vs 电流模
+
+Driver 输出级只有两种基本拓扑：电压模（voltage-mode）和电流模（current-mode）。两者的物理区别在于输出级的控制变量是电压还是电流，这决定了功耗、速度和阻抗匹配三个维度的根本差异。
+
+**电压模 driver** 的本质是 CMOS 反相器或推挽（push-pull）输出级。一对 PMOS 和 NMOS 交替导通，输出节点在电源和地之间摆动。理想 CMOS 反相器的静态功耗为零——两个管子不会同时导通——因此动态功耗只来自负载电容的充放电：P_dyn = C_load × V² × f × α（α 为翻转活动因子）。在先进 CMOS 工艺（7 nm 以下）中，核心供电电压已降至 0.7–0.9 V，单级反相器直接驱动的摆幅受限于电源电压，无法达到硅 MZM 所需的 3–4 Vppd。解决途径是采用**共源共栅叠管（stacked FET）**结构——把多个晶体管串联（如 3-stack cascode），让输出摆幅超过单个晶体管的耐压。另一种变体是**脉冲共源共栅（pulsed-cascode）**输出级：通过脉冲驱动逻辑控制叠管的导通时序，在保持输出管栅氧可靠性的前提下获得高于电源电压的摆幅。
+
+电压模的优势是功耗效率高——在输出信号不翻转时理论上不消耗任何功率。劣势同样明显：输出阻抗高（反相器在输出高/低电平时分别呈现 PMOS/NMOS 的导通电阻 R_on，典型值几十到上百 Ω），在行波电极需要精确特性阻抗匹配（如 50 Ω）时很难做到宽带匹配；摆幅受限；高压叠管牺牲了部分速度（额外节点电容）。
+
+**电流模（CML）driver** 以差分对为核心：一对共源或共射差分晶体管加上尾电流源 I_tail 和两个负载电阻 R_load（接到电源 VCC）。输出电压摆幅由 V_swing = I_tail × R_load 决定。CML driver 有几点本质特性：
+
+- **静态功耗持续存在**——尾电流源无论数据图案如何始终消耗 I_tail × VCC
+- **输出阻抗由 R_load 主导**——可以精确设计为匹配目标阻抗（如 50 Ω 差分）
+- **天然差分输出**——对共模噪声和电源噪声抑制好
+- **速度快**——CML 的输出摆幅小（典型 200–600 mVpp，但大摆幅设计可到 2–3 Vpp）、节点电压变化幅度小，不会进入线性区深处，晶体管的 fT 利用率高
+
+| 维度 | 电压模（Voltage-Mode） | 电流模（CML） |
 |---|---|---|
-| wafer / die test | leakage、scan、PLL lock、driver swing、TIA gain、ADC / DAC、temperature sensor | 建立 EIC KGD 和分档 |
-| subassembly test | bump continuity、RF path、power rail、control loop access | 确认封装动作没有破坏高速和管理路径 |
-| package bring-up | PRBS、eye、BER、TDECQ、lane skew、thermal sweep、calibration log | 验证 EIC 与 PIC、laser、fiber 和散热路径共同工作 |
-| field diagnostics | telemetry、alarm、FEC counters、loopback、firmware state | 支持失效定位、预防性维护和降级运行 |
+| 输出摆幅 | 受限于电源电压，叠管可扩展至 2–3 V | 由 I_tail × R_load 控制，可独立调节 |
+| 静态功耗 | 理想为零，实际有漏电 | 持续存在，尾电流源始终消耗 |
+| 动态功耗 | C_load × V² × f | 约等于静态功耗（摆幅固定时几乎与数据图案无关） |
+| 输出阻抗 | 高且非线性（R_on 随输出电平变化） | 低且精确（由 R_load 主导） |
+| 阻抗匹配 | 需额外匹配网络 | 天然匹配（R_load 可设计为目标阻抗） |
+| 工艺移植 | 随 CMOS 工艺节点按比例缩小（功耗/面积好） | 在先进 CMOS 中叠管受限，更依赖 SiGe BiCMOS |
+| 噪声抑制 | 单端设计噪声敏感 | 差分结构共模抑制好 |
+| 适用场景 | 集总 MZM、低压低功耗应用 | 行波 MZM、高频分布式 driver、高速 CML 链路 |
 
-可诊断性需要提前设计。封装后发现 BER 上升时，系统要能区分 driver swing、modulator bias、laser power、coupler loss、TIA noise、PD responsivity、power rail 或 clock jitter。缺少 monitor、loopback 和状态记录时，故障定位会变成昂贵返厂分析。
+实际工程中，两种拓扑并非互斥。许多商用 driver 内部使用 CML 做前级和中间级（利用其高速和阻抗可控的优点），输出级采用电压模或混合结构（利用其功耗优势）。硅光 Co-Packaging 场景下，EIC 对功耗和热高度敏感，电压模或电压模变体的吸引力在增加——前提是解决阻抗匹配和摆幅扩展问题。
 
-## 判断 EIC 的核心指标
+### 3.3 分布式 driver、集总 driver 与分段 driver
 
-EIC 指标要按功能分组。最大 lane rate 或工艺节点只能说明局部能力，不能证明它适合某个 optical engine。
+在输出级拓扑选定后，第二个层面的架构决策是 driver 级怎样与调制器电极配合。三种主流架构——集总、分布式、分段——本质上是带宽、功耗、面积和时序复杂度之间的不同取舍。
 
-| 指标组 | 典型参数 | 工程含义 |
+**集总 driver（lumped driver）** 是最直接的方案：单个或几个级联的宽带放大器 + 输出缓冲，直接驱动一个集总电极的调制器。输出极点由负载总电容决定：
+
+```text
+f_3dB = 1 / (2π × R_out × C_load)
+```
+
+其中 C_load = C_modulator + C_pad + C_bump + C_ESD + C_trace。对于微环调制器（C_load ≈ 30–80 fF），这个极点可以远高于 100 GHz，集总驱动完全够用。但对于硅基 MZM 的集总电极（C_load ≈ 0.5–2 pF），15–30 Ω 的 R_out 只能提供 5–20 GHz 带宽——不足以支持 100+ GBaud 操作。集总 driver 的优点是设计简单、面积小、无传输线复杂度和速度匹配问题。适用范围包括：低电容调制器（微环、EAM）、中等 baud rate（低于 56 GBaud）的 MZM、以及不需要极端带宽的系统。
+
+**分布式 driver（distributed amplifier）** 是解决集总方案带宽瓶颈的经典方法。其核心思路是：把一个大驱动级拆成多个小增益单元（transconductor cells），通过输入和输出两条人工传输线（artificial transmission line, ATL）级联。输入 ATL 由串联电感和每个增益单元的输入电容交替构成 LC 梯形网络；输出 ATL 由同样的串联电感和增益单元的输出电容构成。信号沿输入传输线传播，依次激励每个增益单元，各单元的输出电流在输出传输线上相干叠加。人工传输线的截止频率由下式决定：
+
+```text
+f_c = 1 / (π × √(L_unit × C_unit))
+```
+
+只要 f_c 高于信号带宽，整条链路的带宽就不再受单个晶体管 fT 的限制，而主要由传输线的结构和损耗决定。分布式 driver 的带宽可轻松做到 60–100 GHz，在 130 nm SiGe BiCMOS（fT ≈ 250–350 GHz）工艺中是实现 >100 GBaud 驱动的标准方案。
+
+分布式 driver 的优势是带宽极宽且能吸收晶体管寄生电容成为传输线的一部分（而非限制带宽的 RC 极点）。劣势同样显著：面积大（传输线占用大量芯片面积）、功耗高（多级增益单元叠加偏置电流）、设计复杂（需要精心控制传输线的特性阻抗、截止频率和各单元之间的时序），以及传输线本身的金属损耗在高频累积。典型分布式 driver 功耗在数百 mW 到 1 W 量级。
+
+**分段 driver（segmented driver）** 是为长 MZM 量身定制的架构。其物理基础是 VπL 守恒：调制器的半波电压-长度积是一个工艺常数。
+
+```text
+Vπ × L_total = VπL （常数，如硅基 MZM 的典型值 1.5 V·cm）
+```
+
+如果把总长度为 L_total 的调制器均分为 N 段，每段长度为 L_seg = L_total / N，每段自身的 Vπ 按比例增大了 N 倍（Vπ_seg = N × Vπ_total），因为"短"调制器需要更大的电压才能达到 π 相移。但分段的精髓在于：我们不要求每段单独产生 π 相移——每段只需贡献总相移的 1/N。因此每段实际需要的驱动电压为：
+
+```text
+V_driver_per_segment = Vπ_total × N / N = Vπ_total
+```
+
+和集总驱动所需电压完全相同。但每段的负载电容 C_seg = C_total / N——比集总情况小了 N 倍。更小的电容意味着每段 driver 可以有 N 倍更高的带宽（在相同输出电阻下），或者在相同带宽下降低功耗。
+
+每段电容缩小 N 倍带来的另一个重要好处是：每段的驱动级可以用更小的晶体管实现，总功耗有可能低于单一大驱动级。当然，分段 driver 需要 N 个独立的驱动单元，面积和布线复杂度会随 N 增加。
+
+分段架构的核心挑战在于时序。各段的相位贡献要相干叠加——如果段与段之间的驱动信号有 timing skew（假设 1 bit 对应 ~10 ps 在 100 GBaud 下），每段之间的相对延迟误差必须远小于 1 ps，否则分段的相位贡献不能正确相长干涉，光信号脉冲会被展宽。这要求分段 driver 的输入时钟分配网络必须做精确的延迟匹配，通常用对称 H-tree 或蛇形走线实现，有时还需要片内延迟校准环路。
+
+| 架构 | 带宽 | 功耗 | 面积 | 复杂度 | 适用调制器 |
+|---|---|---|---|---|---|
+| 集总 | 受限于 RC 极点（~5-20 GHz for MZM） | 中低 | 小 | 低 | 微环、EAM、低速 MZM |
+| 分布式 | 极宽（60-100+ GHz） | 高（~0.5-1.5 W） | 大（传输线） | 高 | 行波电极 MZM（Si/TFLN）、高速链路 |
+| 分段 | 每段电容小 → 单段带宽高 | 中（可优化） | 中到大（N 个驱动单元） | 中高（时序对齐） | 长 MZM、O-DAC 方案 |
+
+三种架构可以混合使用。例如：一个分段 MZM 的每段可以由分布式驱动器的单个增益单元驱动——同时获得分段的电容优势和分布式的带宽优势。这是当前 200+ Gb/s PAM4 硅光子发送器的主流方向。
+
+### 3.4 不同调制器对 driver 的差异化要求
+
+Driver 不是通用放大器——它是"面向负载设计"的高速模拟前端。调制器的电极结构、电容大小、Vπ 和驱动方式是选择驱动拓扑的直接依据。下表对比五种常见调制器负载对 driver 的要求：
+
+| 调制器类型 | 负载特性 | Vπ / 驱动需求 | 关键参数 | Driver 设计重点 |
+|---|---|---|---|---|
+| **硅 MZM（行波）** | 分布 RC 传输线，Z₀ ≈ 25–40 Ω | VπL ≈ 1.0–2.0 V·cm，需 3–5 Vppd 差分 | 阻抗匹配、速度匹配、RF 损耗 | 分布式或分段 driver，行波电极匹配，高摆幅输出 |
+| **硅 MZM（集总）** | 等效电容 0.5–2 pF | Vπ 较高（3–6 V），需 3–6 Vpp | 摆幅 > 带宽 | 高摆幅电压模 driver，叠管输出级 |
+| **微环调制器（MRM）** | 小电容 30–80 fF | 谐振偏置下 1–2 Vpp 可驱动 | 谐振锁定、PAM4 线性、温漂 | 低压高线性 driver，heater 控制协同，线性度优先 |
+| **电吸收调制器（EAM/EML）** | 结电容 + 反向偏置 | 2–3 Vpp 叠加在反向偏压上 | Chirp、光功率承受能力、偏置窗口 | 反向偏压源 + AC 耦合驱动，需考虑 chirp 特性 |
+| **薄膜铌酸锂 MZM（TFLN）** | 行波电极，低 RF 损耗 | VπL < 2 V·cm（典型 1.5–1.8） | 带宽 > 100 GHz，电极速度匹配 | 极宽带分布式 driver，低损耗传输线设计 |
+
+**硅 MZM（行波电极）** 是当前 100+ GBaud 相干和 PAM4 链路中最常见的负载。它的电极是 PN 结分布 RC 传输线，特征阻抗因 PN 结电容和波导结构的差异落在 25–40 Ω 之间（低于标准的 50 Ω）。Driver 的输出阻抗必须匹配这个较低的阻抗值，否则反射会导致调制曲线畸变。更关键的约束是速度匹配——电信号在电极上的传播速度必须尽量接近光波导中的群速度（硅波导群折射率 n_g ≈ 3.6–4.2），否则累积的走离效应会限制有效调制长度。这意味着驱动器和调制器需要联合设计，实际工程中常通过蛇形绕线（serpentine routing）调整电传输线的延迟，或在光波导上引入 slow-light 结构调整光延迟。
+
+**硅 MZM（集总电极）** 适用于调制器长度较短（< 1 mm）、baud rate 不特别高（< 56 GBaud）的场景。它的等效电容主要由 PN 结贡献（每毫米 0.4–0.6 pF），整体可达 0.5–2 pF。Driver 需要高摆幅（通常 3–6 Vpp）来补偿较大的 Vπ。电压模输出级配合共源共栅叠管是常用选择——用 1.8 V 或 2.5 V I/O 晶体管通过 3-stack 结构实现 4–5 Vpp 输出。挑战在于：电压越高，晶体管栅氧可靠性压力越大，输出级的设计必须仔细验证 hot-carrier 退化。
+
+**微环调制器（MRM）** 的电极电容极低（30–80 fF，取决于环形波导截面和电极间距），这使得驱动 MRM 在带宽上很轻松——集总 driver 就能达到 100+ GHz 带宽。真正的挑战在别处：谐振峰对温度极为敏感（约 0.1 nm/K），需要精确的波长锁定和 heater 调谐；PAM4 调制要求 driver 在谐振曲线的线性区工作，否则光输出的电平间距会压缩；此外，微环的谐振 Q 值对驱动电压幅度有增益——同样的驱动电压在谐振点附近可以产生比 MZM 更大的光功率变化。MRM driver 的设计重点因此不是摆幅或带宽，而是线性度和与控制环路的紧密协同。
+
+**电吸收调制器（EAM/EML）** 的驱动需求和 MZM 有本质不同。EAM 依靠电场改变量子阱（或体材料）的吸收系数，其工作点需要反向偏压（典型 -1 到 -3 V），调制信号 AC 耦合叠加在反向偏压上。EAM 的 chirp 参数（α-parameter）与工作偏压密切相关：在吸收边附近正 chirp 较强，在更深的反向偏压下 chirp 降低。Driver 设计需要同时考虑偏置电压生成和 AC 驱动摆幅——反向偏压的噪声会直接调制光信号的相位成分（chirp），导致光纤传输中的色散代价上升。
+
+**TFLN MZM** 是近五年来光电子集成发展最快的调制器平台。TFLN 的电光系数（r₃₃ ≈ 30 pm/V）远高于硅的等离子体色散效应，且几乎不引入额外损耗，因此其 VπL 可低至 1.5–2 V·cm 以下，同时带宽可超过 110 GHz（BCB 低 k 介质和 slab 去除工艺的 TFLN 调制器已展示 >110 GHz EO 带宽）。TFLN MZM 对 driver 的核心要求是"极宽带 + 高摆幅"——行波电极需要分布式 driver 提供 60+ GHz 带宽和 3–4 Vppd 摆动，同时利用 TFLN 的低 RF 损耗优势实现低 pJ/bit 驱动。主流方案是 130 nm SiGe BiCMOS 分布式 driver + TFLN 行波电极的 flip-chip 或 hybrid 集成。
+
+### 3.5 <TermNote label="PAM4" note="4-level pulse amplitude modulation，四电平脉冲幅度调制。在每个符号周期内用四个电平（00/01/11/10）传输 2 比特信息，相比 NRZ 带宽效率提高一倍但对信噪比和线性度要求更高。" /> 对 driver 线性度的额外要求
+
+NRZ 调制下，driver 只需要产生两个电平（0 和 1），输出级可以工作在开关模式——导通和关断之间的过渡区波形质量对 BER 的影响有限。PAM4 从根本上改变了这个前提：driver 必须产生四个等间距的电平（记为 0/1/2/3），任何非线性都会破坏四个电平的均匀分布，直接压缩眼图张开度。
+
+衡量 PAM4 电平质量的首要指标是 <TermNote label="RLM" note="ratio of level mismatch，电平匹配比。IEEE 802.3bs 定义的标准 PAM4 发射机电平质量指标。RLM = 1 表示四个电平完全等间距，RLM < 0.95 通常需要调试，RLM < 0.92 可能显著影响 BER。" />。RLM 定义为三个眼图张开幅度（下眼 V1–V0、中眼 V2–V1、上眼 V3–V2）的最小值与最大值的比值，再乘以一个标准化因子。理想值为 1（三眼完全等间距），RLM 低于 0.92 时预 FEC BER 会显著上升。
+
+RLM 退化的来源是多方面的。Driver 输出级的非线性是第一关——如果输出级的电压-电流转换关系不是精确线性的，四个预设的电平对应的输出电压就不是等间距的。第二个来源是调制器的正弦型 MZM 传递函数（P_out ∝ cos²(Δφ/2)）——等间距的驱动电压在 cos² 曲线上产生的是非等间距的光功率输出。第三个来源是 driver 和调制器之间的阻抗失配——频率相关的反射会使得不同电平的稳态电压不同。
+
+第二个关键线性度指标是 <TermNote label="THD" note="total harmonic distortion，总谐波失真。输出信号中包含的谐波分量功率与基波功率之比的平方根，通常以百分比表示。衡量放大器的波形保真度。" />。THD 衡量 driver 在处理连续波形（而非跳变电平）时产生谐波失真的程度。虽然 PAM4 信号是离散电平跳变，但 driver 内部的晶体管非线性（跨导 g_m 随输入电压变化、输出电导 g_o 随输出电压变化）会导致波形经过驱动后包含额外谐波分量——这些分量等效为符号间干扰（ISI）的一部分，会增加眼图的垂直闭合度。
+
+在 200+ Gb/s PAM4 的典型链路预算中，RLM 目标通常高于 0.95，THD 保持低于 2–3%（对 3.9 Vppd 输出摆幅，THD < 2.7% 已被 RFIC 2025 报道的实现验证）。线性度不足的后果是上层眼和下层眼的张开度不同——接收端判决器的垂直余量不对称，整体 BER 受限于眼图最差的那个电平间距。
+
+提高 driver 线性度的电路技术主要有三类：
+
+- **分段 DAC 式 driver**：把输出级拆成多个二进制权重或温度计码（thermometer-coded）的子驱动单元，每单元独立开关控制。电平之间的过渡由不同数量的子单元同时切换来实现。这种结构天然地比单级模拟放大器更线性——输出的每个电平是多个相同子单元电流/电压的精确叠加，单元之间的匹配精度决定了线性度。分段数为 3–5 比特时，RLM 可以达到 0.97 以上。
+
+- **源极退化（source degeneration）**：在差分对的源极（或发射极）串联电阻，引入局部负反馈，以降低跨导 g_m 对输入电压的依赖。代价是牺牲增益（或需要后级补偿），但在 THD 控制上效果显著。源极退化电阻的取值需要在线性度提升和摆幅/增益损失之间做取舍。
+
+- **预失真（pre-distortion）**：在数字域（DSP-based TX）或模拟域（DAC mapping）修正驱动波形的电平值，使其经过 driver 非线性和调制器 cos² 函数后恰好产生等间距的光功率输出。数字预失真的调校需要知道 driver 和调制器的联合传递函数，通常在出厂前通过一次校准完成，并在全温度范围内通过查找表调整。在 224 Gb/s PAM4 系统中，模拟预失真配合分段 driver 已被证明能将 RLM 从不到 0.85 提升至 >0.95。
+
+除上述技术外，driver 的电源完整性也直接影响线性度——电源上的纹波会调制输出电平的幅度，等效于增加了 THD。高速 PAM4 driver 通常在输出级使用独立的低压差稳压器（LDO）供电，隔离其他电路模块的开关噪声。
+
+### 3.6 带宽扩展、预加重与均衡
+
+Driver 要同时满足摆幅、带宽和线性度三个目标，单纯靠放大器的自然响应往往不够——尤其当目标带宽超过 50 GHz 时，必须借助带宽扩展电路和均衡技术来补偿通道损耗和缓解速度瓶颈。
+
+**电感峰化（inductive peaking）** 是最经典的宽带技术，原理简单但效果显著：在放大器的负载路径中串联一个电感（或采用有源电感替代），利用电感的阻抗随频率升高而增大的特性，抵消负载电容的高频滚降。串联峰化使带宽扩展约 1.5–1.7 倍，带宽扩展倍数取决于电感值 L 和负载电容 C 之间的阻尼比 ζ。过小的电感峰化不足，过大的电感会产生过冲和群延迟峰化。
+
+**T-coil 峰化** 是电感峰化的高级变体——两个耦合电感形成 T 型网络，在负载电容两端创建一个类似桥接的结构。T-coil 可以将带宽扩展约 2.7–2.8 倍，同时保持平坦的群延迟响应。它的额外好处是：T-coil 网络的输入阻抗在很宽的频率范围内可以设计为纯电阻（约等于 R_term），使得输出级的阻抗匹配可以在极宽带宽内保持平坦——这对行波电极的驱动非常关键。T-coil 的代价是需要较大的芯片面积（两个耦合电感通常占用 50–100 μm × 50–100 μm 以上）和复杂的电磁仿真验证。
+
+**Cherry-Hooper 放大器** 是一种两级反馈结构：第一级是跨导级（将输入电压转换为电流），第二级是跨阻级（将电流转为电压，并引入并联-并联反馈）。其带宽优势来自两级之间使用小电阻反馈而非直接电容耦合，使第二级的输入阻抗很低——这"吃掉"了第一级输出节点的 RC 时间常数。Cherry-Hooper 结构在宽带 TIA 中比在 driver 中更常用，但部分高速 driver 的中间级也借鉴其低输入阻抗的特性来提高级间带宽。
+
+除放大器带宽扩展外，光链路中的频率相关损耗——PCB 走线、bump 互连、调制器电极本身的 RF 损耗——会导致信号的高频分量比低频分量衰减更多，结果表现为眼图闭合和上升/下降时间退化。为补偿这一损耗，driver 在发送侧可以使用 <TermNote label="FFE" note="feed-forward equalizer，前馈均衡器。在发送端对数据进行预加重或去加重处理，通过多抽头 FIR 滤波器补偿已知信道损耗，是最常用的发射侧均衡技术。" /> 形式的**预加重**。
+
+预加重的物理逻辑是："既然信道对高频衰减更大，就在发射时主动放大高频分量。"一个两抽头 FFE 的实现方式是：主抽头提供主脉冲幅度，后一个抽头取反并延迟 1 UI（unit interval）后叠加到主抽头上——后抽头的极性决定了是预加重还是去加重。对于补偿信道高频损耗，使用正的 pre-cursor 和负的 post-cursor 抽头权重，在数据跳变沿附近产生幅度增强。FFE 的 tap 数量决定了可补偿的频率范围和精度——2–3 tap 可以补偿 15–25 dB 的中频段损耗，5–7 tap 可以处理更复杂的信道响应。
+
+在 driver 设计中，预加重可以在数字域（DSP-based FFE，更灵活但功耗高）或模拟域（analog FFE，通过延迟线 + 模拟乘法累加实现，更省电但 tap 数受限）实现。对于光引擎场景，模拟 FFE 集成在 driver 内部更常见——它不增加 ADC/DAC 的功耗和延迟。
+
+这些带宽扩展和均衡技术的最终目标是保护三个关键的光信号质量参数：
+
+- **OMA（<TermNote label="optical modulation amplitude" note="光调制幅度。PAM4 信号中最大电平和最小电平对应的光功率之差，是衡量光信号幅度强度的核心指标。" />）**——最小化带宽损失意味着保持最大的眼垂直接收幅度
+- **ER（<TermNote label="extinction ratio" note="消光比。MZM 输出亮态和暗态的光功率之比，以 dB 表示。ER 越大接收端信号余量越大。" />）**——预加重可以补偿因带宽不足导致的上升/下降时间退化，从而保持 ER 不因符号间干扰而减小
+- **TDECQ**——眼图闭合程度和波形损伤的综合度量。带宽扩展、阻抗匹配和线性度提升共同作用使 TDECQ 保持在 3 dB 以下（IEEE 802.3bs 对 400 GbE 的要求）
+
+在 200+ Gb/s PAM4 时代，driver 的带宽和均衡设计已不再是单独的电路工程问题——需要把 pre-driver、分布/分段输出级、T-coil 峰化网络和模拟 FFE 作为一个整体传输链路来建模、仿真和优化，并同时考虑封装寄生和调制器电极的 EM 行为。这也是为什么近两年来先进的发送器设计越来越多地采用电子-光子联合设计流程来完成 driver–封装–电极的闭环优化。
+
+
+## 4. Rx 接收链路：TIA 深度解析
+
+### 4.1 TIA 的物理本质：电流到电压的转换
+
+光电探测器（PD）的输出是光电流 Ipd，不是电压。PD 把入射光功率线性地转换成电流——响应度 0.5–1 A/W 时，-10 dBm 入射光产生约 50–100 μA 光电流，-5 dBm 产生约 150–300 μA。这个电流直接送进 <TermNote label="TIA" note="transimpedance amplifier，跨阻放大器。把 PD 输出的微弱电流信号线性地转换成电压信号，是光接收链路的第一级有源电路。" />，由 TIA 完成电流到电压的转换：
+
+```text
+Vout = Ipd × ZT
+```
+
+其中 ZT 是跨阻增益，单位为 Ω（或 dBΩ）。典型 TIA 的 ZT 在 500 Ω 到 5 kΩ 之间（54–74 dBΩ），视数据率和工艺节点而定。一个 1 kΩ 的 ZT 意味着 100 μA 输入产生 100 mV 输出——这个电压水平刚刚够后级放大器或限幅放大器做进一步处理。
+
+阅读 TIA 设计时，一个初学者最容易问的问题是：为什么不用一个大电阻直接把电流转成电压？把 PD 的输出直接接一个 10 kΩ 电阻到地，1 mA 光电流就能产生 10 V 的电压——看起来比 TIA 还简单。
+
+问题出在带宽上。PD 有结电容 Cpd（典型值 20–100 fF），加上 pad、ESD 和互连寄生，总输入电容 Cin 通常在 50–150 fF 范围。PD 接一个电阻 R 到地，输入节点就形成一个 RC 低通滤波器：
+
+```text
+f_3dB = 1 / (2π × Cin × R)
+```
+
+代入 Cin = 100 fF、R = 10 kΩ，f_3dB ≈ 160 MHz——这对于 100 GBaud <TermNote label="PAM4" note="4-level pulse amplitude modulation，四电平脉冲幅度调制。每个符号传输 2 比特信息，四个电平需要接收端区分三个眼图开口，对链路线性度和 SNR 要求远高于 NRZ。" /> 需要的 35 GHz 带宽差了超过两个数量级。要让 RC 极点不成为瓶颈，R 必须大幅减小。R = 50 Ω 时 f_3dB ≈ 32 GHz——带宽够了，但 1 mA × 50 Ω = 50 mV，小信号只能产生几百 μV 输出，后级 <TermNote label="SNR" note="signal-to-noise ratio，信噪比。信号功率与噪声功率之比，直接决定接收端可以可靠检测到的最小信号幅度。" /> 会完全崩溃。
+
+TIA 的核心突破就在这里：**它不是用一个大电阻直接转换电流，而是用一个放大器来降低输入节点的等效阻抗**。反馈放大器在输入端呈现的等效阻抗 Zin 远小于反馈电阻 Rf 的物理值：
+
+```text
+Zin = Rf / (1 + A)
+
+其中 A 是放大器的开环增益。如果 A = 40 dB（100×）、Rf = 10 kΩ，则 Zin ≈ 100 Ω——比 Rf 本身低了两个数量级。
+
+这种"阻抗变换"打破了增益-带宽的 RC 限制。从输入节点看过去，等效阻抗 Zin 很小，RC 极点频率很高；从增益角度看，跨阻仍然近似等于 Rf（约 10 kΩ），小信号的输出电压仍然很大。这是 TIA 设计中最根本的物理洞察：**放大器把大电阻的"增益效果"保留下来，同时把它的"带宽代价"通过反馈消除了**。
+
+实际 TIA 的输入电流范围从几 μA（灵敏度极限）到几 mA（强光过载状态），跨度超过 30 dB。ZT 的选择需要在两个方向上平衡：ZT 太低，小信号 SNR 不足；ZT 太高，强光下 TIA 饱和，输出波形被削顶。工程上常用多档增益切换或 <TermNote label="AGC" note="automatic gain control，自动增益控制。根据输入信号幅度自动调整放大器增益，在弱信号时提供高增益、强信号时降低增益以防止饱和，是扩展接收动态范围的核心技术。" /> 来兼顾两端。
+
+### 4.2 增益-带宽-噪声三角取舍
+
+TIA 设计中最核心的约束是三个互相冲突的目标——增益（跨阻 ZT）、带宽（BW）和输入等效噪声电流——构成的 impossible triangle。理解这个三角关系是进入 TIA 电路设计的前提。
+
+**增益 vs. 带宽。** 放大器的闭环带宽受限于输入节点的时间常数。考虑一个理想的电压放大器（开环增益 A、单极点响应）、反馈电阻 Rf 和总输入电容 Cin，TIA 的 -3 dB 带宽可以近似表示为：
+
+```text
+f_3dB ≈ sqrt(G / (2π × Cin × Rf))
+
+其中 G = A × fT（增益-带宽积），fT 是工艺的截止频率。
+
+这个近似式揭示了两个关键关系。第一，Rf 越大 → f_3dB 越低。在给定的 Cin 下，要提升增益（增大 Rf）就必须承受带宽下降的代价。第二，即便 Rf 固定，更大的 Cin 也会压低带宽——这正是 4.1 节中 PD 电容成为第一约束的由来。
+
+**噪声的三大来源。** TIA 的输入等效噪声电流密度（单位 pA/√Hz）决定了接收端的灵敏度上限。它的主要贡献者有三个：
+
+第一，**反馈电阻热噪声**：
+
+```text
+i²_n,Rf = 4kT / Rf
+
+k 是玻尔兹曼常数（1.38×10⁻²³ J/K），T 是绝对温度（300 K）。
+
+在 300 K 下 4kT ≈ 1.66×10⁻²⁰ J。Rf = 1 kΩ 时 i²_n,Rf ≈ 1.66×10⁻²³ A²/Hz → i_n,Rf ≈ 4.07 pA/√Hz。Rf = 10 kΩ 时降到约 1.29 pA/√Hz。
+
+关键规律：Rf 越大，反馈电阻热噪声越小——但 Rf 越大，带宽越小。这里增益和噪声是盟友（大 Rf 同时提升增益和降低噪声），但它们与带宽是死敌。
+
+第二，**放大器输入电压噪声被总输入电容放大**：
+
+```text
+i²_n,V = v²_n,amp × (2π × Cin)² × BW³ / 3
+
+其中 v_n,amp 是放大器输入电压噪声密度（单位 nV/√Hz），Cin = Cpd + Cpad + CESD + Cinput_stage。
+
+这是三个噪声来源中最"危险"的一个。它有 Cin² 项——输入电容每增加 1 倍，这个噪声贡献增加 4 倍。它还有 BW³ 项——带宽翻倍，这个噪声贡献增加 8 倍。对于高频 TIA（BW > 30 GHz），即便 v_n,amp 只有 1–2 nV/√Hz、(2π × Cin)² × BW³/3 这个系数也能把 i_n,V 推到和反馈电阻热噪声相当甚至更大的水平。
+
+第三，**放大器输入电流噪声**：
+
+```text
+i²_n,I = i²_n,amp
+
+典型 CMOS TIA 的输入级电流噪声在 0.1–1 pA/√Hz 量级，通常在总噪声中占比最小。
+
+```
+
+**三角取舍的数值例子。** 做一个 100 GBaud PAM4 接收链路的 TIA 设计估算。关键参数如下：
+- 目标带宽 BW = 35 GHz（PAM4 需要约 0.35 × baud rate 的带宽来保留四个电平信息）
+- PD 电容 Cpd = 50 fF，pad + ESD + 互连寄生约 30 fF，TIA 输入级电容约 20 fF → Cin ≈ 100 fF
+- 目标输入参考噪声电流密度 < 15 pA/√Hz（对应灵敏度约 -10 dBm @ 100 GBaud PAM4）
+
+从带宽约束反推 Rf 的上限。假设放大器增益-带宽积 GBW = 200 GHz（典型 28 nm CMOS 或先进 SiGe BiCMOS 水平），代入近似式：
+
+```text
+f_3dB ≈ sqrt(GBW / (2π × Rf × Cin)) = 35 GHz
+→ Rf ≈ GBW / (2π × (35 GHz)² × Cin) = 200e9 / (2π × 1.225e18 × 100e-15)
+→ Rf ≈ 200e9 / 769.7e3 ≈ 260 kΩ?!
+
+```
+
+这个数字是不合理的——它说明单靠放大器增益-带宽积撑带宽的方法在实际中会遇到很多寄生效应和次级极点，上面这个近似式过于乐观。实际设计中，Rf 通常在 0.5–5 kΩ 范围。取 Rf = 2 kΩ，估算各项噪声：
+
+```text
+• 反馈电阻热噪声：i_n,Rf = sqrt(4kT / 2000) ≈ 2.88 pA/√Hz
+• 电压噪声贡献：假设 v_n,amp = 1.5 nV/√Hz
+  i_n,V ≈ 1.5 × 2π × 100e-15 × sqrt(35e9³/3)
+  → RMS 噪声电流 ≈ 1.5 × 6.28e-13 × 4.76e14 ≈ 0.45 μA RMS
+  → 均摊到带宽上 ≈ i_n,V / √BW ≈ 0.45e-6 / √35e9 ≈ 2.4 pA/√Hz
+• 放大器电流噪声：假设 0.3 pA/√Hz，可忽略
+• 总噪声密度：sqrt(2.88² + 2.4²) ≈ 3.75 pA/√Hz
+```
+
+这个噪声水平远优于 15 pA/√Hz 的目标——但代价是 Rf = 2 kΩ 时，输入 2 mA 光电流输出就达到 4 V，远超 1 V 量级的供电电压，需要 <TermNote label="IDCC" note="input DC current cancellation，输入直流电流消除。在 TIA 输入端吸收 PD 产生的直流光电流，防止大直流电流经反馈电阻后使 TIA 输出饱和。" /> 或 AGC 来防止饱和。这就是三角取舍的现实：噪声和带宽可以同时做好，但代价是动态范围被牺牲了。
+
+| 目标 | 增大 Rf | 减小 Cin | 增大放大器 gm |
+|---|---|---|---|
+| 跨阻增益 ZT | ↑ 升高 | — | — |
+| 带宽 BW | ↓ 降低 | ↑ 提升 | ↑ 提升 |
+| 噪声 in | ↓ 降低（Rf 热噪声） | ↓ 降低（电压噪声积分项） | ↓ 降低 |
+| 功耗 | — | — | ↑ 升高 |
+| 动态范围 | ↓ 降低（更易饱和） | — | — |
+| PD-TIA 封装 | — | ↓ 更难（需要更紧耦合） | — |
+
+这个表格总结了三角取舍的基本方向。没有任何一个设计能满足所有目标——工程师必须在增益、带宽、噪声和功耗之间做优先级的排序，然后选择适合的拓扑。
+
+### 4.3 主流 TIA 拓扑
+
+三种 TIA 拓扑在业界被广泛使用：shunt-feedback（并联反馈型）、regulated cascode（调节型共源共栅，简称 RGC）和 common-gate（共栅型）。每种拓扑在输入阻抗、噪声、带宽和功耗之间做出不同的取舍。
+
+**a) Shunt-Feedback TIA——最通用的低噪声方案**
+
+Shunt-feedback TIA 由电压放大器（通常是反相器级或共源级）加上跨接在输入输出之间的反馈电阻 Rf 构成。这是光接收器 TIA 中最常用的拓扑，因为它同时实现了低噪声和合理的带宽。
+
+电路的输入阻抗为：
+
+```text
+Rin = Rf / (1 + A)
+
+其中 A 是放大器开环电压增益。A → ∞ 时 Rin → 0，输入节点的时间常数消失。
+
+实际的 A 在 20–40 dB（10–100×）范围，因此 Rin 通常在 10–100 Ω 量级——远低于 Rf 本身的数值。
+
+Shunt-feedback TIA 的噪声性能是最好的。反馈电阻热噪声是主要噪声源（4kT/Rf），而放大器的自身噪声被环路增益抑制。对于一个开环增益 A = 40 dB 的反相器级，放大器输入参考电压噪声 v_n,amp 在输出端被增益放大，但折算回输入端要除以跨阻增益，所以最终的噪声贡献比开环使用时小得多。
+
+带宽方面的关键物理效应是：shunt-feedback TIA 的输入阻抗在高频呈现**电感特性**。这是因为反馈环路有有限的带宽——高频时放大器增益下降，反馈效果减弱，输入阻抗的相位转向感性。这个等效输入电感 L_in 可以部分抵消 PD 的电容 Cpd，形成 LC 谐振来扩展带宽：
+
+```text
+f_3dB ≈ sqrt(A × GBW) / (2π × Rf × Cin)
+
+这个近似式中的 (A × GBW) 项正是放大器增益-带宽积；通过合理设计可以让电感峰化的 Q 值低于 1/√2，在扩展带宽的同时不引入过多 peaking。
+
+Shunt-feedback 的劣势在于增益-带宽积受限于放大器的 GBW。对于 100 GBaud+ 应用，单级反相器放大器的 GBW 往往不够，需要多级级联或级联运放结构。多级放大器的频率补偿变得更复杂，反馈电阻在极高频率下会被放大器的 Cgd（栅漏寄生电容）旁路，导致高频跨阻下降。
+
+最常用的变体包括：
+- **电感峰化 shunt-feedback TIA**：在 Rf 支路串联一个电感（通常在 50–200 pH 量级），利用 LC 谐振进一步扩展带宽。
+- **差分 shunt-feedback TIA**：双端输入双端输出，配合 IDCC 电路消除 PD 直流光电流的偏移。差分结构还有共模电源噪声抑制的优势。
+
+**b) Regulated Cascode (RGC) TIA——大 PD 电容场景的带宽冠军**
+
+RGC 的核心结构是共栅极（CG）输入级加上一个本地反馈环路：一个共源放大器从输出端采样信号后驱动 CG 管的栅极，形成一个"增强型共栅"结构。这个本地反馈环路大大提高了输入级的有效跨导。
+
+输入阻抗的表达式是：
+
+```text
+Rin ≈ 1 / [gm_CG × (1 + A_local)]
+
+其中 gm_CG 是 CG 管的跨导，A_local 是本地反馈共源放大器的增益。A_local 通常在 10–20 dB（3–10×），因此有效跨导被放大到原来的 4–11 倍，输入阻抗可以降到 10 Ω 以下。
+
+RGC 的带宽优势来自于这个极低的输入阻抗。PD 的电容 Cpd 被 Rin 隔离得更好：
+
+```text
+输入极点：f_in ≈ 1 / (2π × Rin × Cpd)
+
+Rin = 10 Ω、Cpd = 100 fF → f_in ≈ 160 GHz——输入极点远高于 TIA 的闭环带宽，PD 电容几乎不影响带宽。
+
+RGC 非常适合 PD 电容较大的场景——例如高响应度 PD（需要较大的光敏面积，因此结电容大）、或大面积 PD（用于多模光纤接收）。在这些场合，Cpd 可能达到 200–500 fF，shunt-feedback TIA 的带宽被严重压缩，但 RGC 仍能维持较好的高频响应。
+
+RGC 的噪声性能不如 shunt-feedback。原因有两个。第一，CG 管的沟道热噪声直接出现在输入端——在 CG 结构中，输入信号看到的是 1/gm 的输入阻抗，而沟道噪声电流 in_ch 直接叠加在信号路径上。第二，本地反馈放大器的噪声也会通过反馈路径被耦合到输入端。典型 RGC 的输入等效噪声电流密度比同等功耗的 shunt-feedback 高 2–5 pA/√Hz。
+
+线性度是 RGC 的另一个弱项。CG 管的跨导随输入电流变化，导致跨阻增益在小信号和大信号条件下不同。对于 PAM4 系统——四个电平需要精确等间距——这种增益变化会直接压缩眼图的垂直裕度。共源共栅结构还消耗更多的电压裕度：CG 管和本地反馈管的叠加使供电电压至少需要 1.2–1.5 V（先进节点），比单级 shunt-feedback 大约多 0.2–0.4 V。
+
+**c) Common-Gate (CG) TIA——简单的结构，有限的性能**
+
+CG TIA 就是单级共栅放大器：输入信号从源极进入，栅极交流接地，漏极的负载电阻 Rload 提供跨阻增益。输入阻抗很简单：
+
+```text
+Rin ≈ 1/gm
+
+如果 gm = 20 mS（典型值），Rin ≈ 50 Ω。
+
+CG TIA 的结构是所有 TIA 拓扑中最简单的——只有一个晶体管和一个负载电阻。它的天然宽带特性来自共栅结构本身：输入阻抗低，没有反馈环路引起的稳定性问题，增益主要由 Rload 决定。
+
+然而 CG TIA 的缺点同样明显。噪声最高：CG 管的沟道热噪声直接流入输入端，而且不能像 shunt-feedback 那样被环路增益压制。跨阻增益低：Rload 不能太大（否则输出节点时间常数太大），因此 ZT 通常只有几百 Ω。要提升 gm 来降低输入阻抗需要更大的偏置电流→功耗升高。
+
+现代设计中 CG TIA 很少单独使用。它的主要价值是作为 RGC 的基础结构——RGC 就是在 CG 基础上加本地反馈解决了输入阻抗不够低的问题。
+
+**三种拓扑的对比：**
+
+| 参数 | Shunt-Feedback TIA | RGC TIA | CG TIA |
+|---|---|---|---|
+| 输入阻抗 Rin | Rf/(1+A)，10-100 Ω | 1/[gm×(1+Alocal)]，&lt;10 Ω | 1/gm，~30-80 Ω |
+| 跨阻增益 ZT | 高（Rf 决定，kΩ 级） | 中（Rload，0.5-2 kΩ） | 低（Rload，&lt;0.5 kΩ） |
+| 噪声性能 | 最佳 | 中等 | 最差 |
+| 带宽 | 受限于放大器 GBW | 最佳（极低 Rin 隔离 Cpd） | 好（低 Rin 但增益有限） |
+| 线性度 | 好 | 较差 | 中等 |
+| 功耗 | 低-中 | 中-高 | 低 |
+| 电压裕度 | 高（低压友好） | 低（叠管结构） | 高 |
+| 复杂度 | 中 | 高 | 低 |
+| 适用场景 | 通用，低噪声优先 | Cpd 大的场景 | 极低速率或噪声不敏感 |
+
+选择拓扑时，第一刀是根据 PD 电容大小。Cpd < 100 fF → shunt-feedback 通常是最优选择，噪声最小、功耗适中。Cpd > 200 fF → RGC 的带宽优势会超过它的噪声劣势。第二刀是看信号调制格式：<TermNote label="NRZ" note="non-return-to-zero，不归零码。两电平脉冲幅度调制，每个符号传输 1 比特信息，对接收链路线性度要求较低、对噪声更敏感。" /> 对线性度要求低、对噪声更敏感 → shunt-feedback；PAM4 对线性度要求高、动态范围宽 → 差分 shunt-feedback 或混合结构（shunt-feedback 输入 + RGC 后级）。
+
+### 4.4 PD-TIA 联合设计
+
+PD 和 TIA 不是两个独立模块——它们在电气上直接连接，彼此的寄生参数和接口条件耦合在一起。PD-TIA 联合设计的质量，决定了接收链路的带宽上限和噪声基底。
+
+**PD 电容是 TIA 的"第一约束"。** TIA 的带宽和噪声都与输入总电容 Cin 直接相关（见 4.2 节），而 Cin 中最大且最不可控的贡献者就是 PD 结电容 Cpd。Cpd 由 PD 的光敏面积和耗尽区厚度决定——更大的面积吸收更多光（响应度高），但也带来更大的结电容（带宽低）。这个"响应度-带宽"取舍是 PD 设计的基本矛盾，而 TIA 必须与 PD 的 Cpd 配合。
+
+```text
+典型值对照：
+• 高速 PD（响应度 ~0.5 A/W）：Cpd = 20-50 fF，适合 >50 GBaud
+• 标准 PD（响应度 ~0.8 A/W）：Cpd = 50-100 fF，适合 25-50 GBaud
+• 高响应度 PD（响应度 >0.9 A/W）：Cpd = 100-200 fF，适合 25 GBaud 以下
+```
+
+PD 和 TIA 之间的互连通常通过键合线（bondwire）或微凸块（microbump）实现。键合线电感 Lbw 在 PD-TIA 系统中扮演双刃剑的角色。串联电感 Lbw 与 Cpd 和 TIA 的输入电容形成一个 π 型 LC 网络。当 Lbw 在 0.3–1 nH 范围时，这个 LC 网络可以产生阻抗变换效应——把 PD 的高阻输出转换为低阻输出——在特定频段内扩展带宽。这就是**串联电感峰化**：
+
+```text
+谐振频率 fres ≈ 1 / (2π × sqrt(Lbw × Cpd))
+
+对于 Cpd = 50 fF、Lbw = 0.5 nH，fres ≈ 1 / (2π × sqrt(0.5e-9 × 50e-15)) ≈ 31.8 GHz。
+
+这个频率恰好在目标带宽附近，电感峰化可以帮助扩展带宽约 20–40%。
+
+但键合线电感超过 1 nH 后会带来问题。更高的电感在 Cpd-Lbw 谐振时的 Q 值太高，产生明显的频域 peaking（增益尖峰）和群延迟波动。时域上表现为脉冲响应的振铃（ringing），恶化 PAM4 眼图。因此在 50 GHz+ 设计中，PD 到 TIA 的距离必须以数十 μm 为单位控制——每 100 μm 的键合线增加约 0.1 nH 电感和少量寄生电容，长键合线不仅增加了不希望的电感谐振，还增加了串联电阻和额外的寄生电容。
+
+PD 需要偏置电压才能在反偏状态下工作。典型高速锗 PD 的反偏电压在 1–3 V 范围（取决于 PD 的耗尽层设计和击穿电压）。偏置通常通过 TIA 输入端的 bias-T 电路提供——一个高频扼流电感（choke）或大电阻把偏置电压送到 PD 阴极，同时隔离交流信号路径。在片上集成度较高的设计中，偏置电路直接做在 TIA 芯片上，由片上的电荷泵或电压调节器产生。
+
+**DC 电流消除（IDCC）——防止 TIA 饱和的关键电路。** PD 在连续波（CW）光照射下会产生较大的直流光电流——典型值在 0.5–2 mA 量级（取决于入射光功率和响应度）。这个直流电流如果全部流入 TIA 的反馈电阻 Rf，会在输出端产生很大的直流电压偏移：
+
+```text
+Vout_DC = Ipd_DC × Rf
+
+Ipd_DC = 1 mA、Rf = 2 kΩ → Vout_DC = 2 V——这在 1.2 V 供电的 CMOS 工艺中已经严重饱和。
+
+IDCC 电路的作用是在 TIA 输入端"吸走"直流光电流，只让交流信号分量进入 TIA 的放大路径。有两种主要实现方式：
+- **电流镜式 IDCC**：用一个电流镜复制 PD 的直流电流，从 TIA 输入端反向注入来抵消直流分量。优点是简单，缺点是抵消精度受限于电流镜的匹配程度。
+- **积分环路式 IDCC**：一个低通积分器检测 TIA 输出端的直流偏移，产生一个反馈电流注入输入端来抵消 PD 直流电流。优点是精度高（低频环路增益很大），缺点是积分器的响应时间限制了过载恢复速度。
+
+**PD 与 TIA 的距离（proximity）问题。** 在 CPO 架构中，PD 可以在 PIC 上（通过微凸块和 EIC 的 TIA 连接），也可以和 TIA 做在同一芯片上（单片集成），还可以通过倒装焊（flip-chip）贴装在 EIC 上。三种方式的互连长度和寄生参数差异很大：
+
+| 集成方式 | 互连长度 | 典型寄生电感 | 典型寄生电容 | 适合带宽 |
+|---|---|---|---|---|
+| 单片集成（PD on TIA die） | &lt;10 μm | &lt;10 pH | &lt;5 fF | >100 GHz |
+| 微凸块（microbump） | 10-50 μm | 20-50 pH | 10-30 fF | 50-100 GHz |
+| 键合线（bondwire） | 100-500 μm | 0.1-1 nH | 20-100 fF | &lt;50 GHz |
+
+对于 >50 GHz 带宽的目标，键合线已经不是可接受的选项——其引入的电感和寄生电容会严重限制带宽和增加不确定性。微凸块或倒装焊是最常见的 PD-to-TIA 互连方式。
+
+**差分 TIA 的特殊考虑。** 差分 TIA 使用两个匹配的 PD（或一个差分 PD，由两个光电二极管以相反偏压串联而成），两个 TIA 输入分别接收正相和反相的光电流。差分结构的核心优势是共模抑制——电源噪声、衬底噪声和共模干扰被差分放大器压制，信号质量更干净。代价是 PD 面积加倍（两个 PD 必须匹配），且需要两个 PD 接收等量的光功率——这意味着光学耦合也需要差分结构（如差分马赫-曾德尔干涉仪型接收器）。
+
+### 4.5 TIA 后级：<TermNote label="LA" note="limiting amplifier，限幅放大器。将幅度不定的输入信号放大到固定幅度输出的后级放大器，常用于 NRZ 接收链路 TIA 之后。" />、<TermNote label="VGA" note="variable gain amplifier，可变增益放大器。增益可连续调节的放大器，在 PAM4 接收链路中替代限幅放大器，在保持线性的前提下调节信号幅度。" /> 和 <TermNote label="CTLE" note="continuous-time linear equalizer，连续时间线性均衡器。在模拟域提供高通特性的频率补偿，用于抵消信道和封装走线的高频损耗。" />
+
+TIA 输出的是模拟电压信号，幅度通常只有几十到几百 mV。要把这个信号送进 CDR 或 ADC 做判决和时钟恢复，还需要后级电路做进一步的放大、均衡和幅度调节。
+
+**限幅放大器（LA, limiting amplifier）。** 在 NRZ 调制系统中，TIA 后接限幅放大器是最常见的搭配。LA 的任务是把幅度不定的输入信号放大到固定幅度的数字电平——无论输入是 10 mV 还是 200 mV，输出都是固定的 CML 电平（通常几百 mVpp，如 300–400 mV 差分）。LA 的核心设计挑战是带宽和增益的平衡：需要提供 30–50 dB 的总增益，同时保持带宽覆盖信号频率。现代 LA 通常采用多级差分放大器级联，每级提供 8–12 dB 增益，级间用电感峰化或 T-coil 扩展带宽。LA 天然具有限幅特性——输出幅度被电源电压和电流限制锁定，不会随输入增大而无限增长。
+
+LA 对 NRZ 非常有效，但不能直接用于 PAM4。限幅放大后的信号只剩下两个电平（高/低），PAM4 的四个电平信息被完全破坏。
+
+**可变增益放大器（VGA, variable gain amplifier）。** PAM4 系统中，TIA 的信号幅度变化范围很大（灵敏度极限附近的几十 μV 到过载附近的几百 mV）。VGA 替代 LA 的角色，在保持线性的前提下调节信号幅度。VGA 的核心要求是：
+- 增益可调范围宽（通常 >20 dB）
+- 增益调节过程中带宽保持稳定
+- 在最大增益下噪声不能太高
+- <TermNote label="THD" note="total harmonic distortion，总谐波失真。衡量放大器输出波形中含有的谐波分量总和与基波之比，THD 越高表明放大器非线性失真越严重。" /> 在 PAM4 要求之下（低于 2%）
+
+VGA 的常见实现方式包括电流分流型（current-steering VGA）和跨导-跨阻型（TAS-TIS VGA）。电流分流型通过改变差分对尾电流的分配比例来调节跨导，实现增益连续可调。TAS-TIS 结构通过跨导（transconductance, TAS）级和跨阻（transimpedance, TIS）级的组合，可以在大增益变化范围内保持输出共模电平稳定。
+
+**CTLE（连续时间线性均衡器）。** CTLE 放在 TIA 之后、VGA 之前，功能是在模拟域补偿信道的高频损耗。它的传输函数是一个高通滤波器特征：
+
+```text
+H(s) = (s + ωz1) / (s + ωp1) × (s + ωz2) / (s + ωp2) × ...
+
+其中 ωz（零点）< ωp（极点），形成带峰化的频率响应——低频增益较低，高频增益较高。
+```
+
+CTLE 的起峰频率和峰化量（peaking amount）通常可调，以匹配不同信道条件。峰化量的可调范围典型值在 0–10 dB。CTLE 的噪声贡献必须纳入链路预算——高频峰化同时放大了噪声，因此峰化量越大，SNR 越差。CTLE 的零点通常用源极退化电阻-电容网络（RC degeneration）实现：在差分对的源极之间串联一个 RC 支路，在零点频率以上退化电阻被电容短路→源极阻抗下降→增益上升。
+
+CTLE 是信道均衡的第一级——它处理的是确定性、固定的信道损伤（封装走线损耗、PD 带宽不足）。更复杂的自适应均衡（FFE、DFE）可以放在 CDR/DSP 中，但 CTLE 在模拟域的贡献是零延迟——不需要时钟、不需要训练序列，打开即生效。
+
+**各级的增益分配**是系统设计的关键。一个典型的 PAM4 接收链路增益预算如下：
+
+| 级 | 功能 | 典型增益 | 输出幅度（典型） |
+|---|---|---|---|
+| TIA | 电流→电压转换 | 1-5 kΩ (60-74 dBΩ) | 10-400 mVpp |
+| CTLE | 频率均衡 | 0-10 dB peaking | 10-400 mVpp |
+| VGA | 幅度调节 | -10 到 +20 dB | 100-600 mVpp |
+| 输出缓冲（buffer） | 驱动 50Ω 负载 | 0-6 dB | 200-600 mVpp |
+
+从眼图角度看，TIA 的输出 SNR 最差（信号小、PD 散粒噪声和 TIA 热噪声刚刚叠加），经 VGA 放大后 SNR 提升（信号幅度增大，噪声基本不变），但 CTLE 的峰化操作可能在高频段把噪声也放大。整个链路的总增益设计需要在灵敏度（最小信号被放大到判决器能分辨的水平）和线性度（最大信号不超出 VGA 和 buffer 的线性范围）之间折中。
+
+### 4.6 PAM4 接收的特殊要求
+
+PAM4 对 TIA 和整个接收链路提出了比 NRZ 严格得多的要求。NRZ 的 TIA 输出只需要"有/无"可以区分——限幅放大器把信号归一化到固定幅度后，判决器只需要判断一个阈值（通常是信号幅度的一半）。PAM4 的 TIA 输出需要保留四个电平（00、01、10、11）的相对幅度——限幅会导致电平关系完全丢失，判决器需要三个不同的阈值来区分四个电平之间的三个间隔。
+
+**动态范围的挑战。** TIA 在 PAM4 系统中需要处理的最小信号和最大信号跨度超过 30 dB。灵敏度极限下输入电流约 10–20 μA（对应 -10 dBm OMA 量级），过载状态输入电流可达 1.5–2 mA（对应 +3 到 +5 dBm OMA）。如果 TIA 的跨阻增益固定为 2 kΩ：
+
+```text
+• 灵敏度极限：Ipd = 15 μA → Vout = 30 mV（后级可处理）
+• 过载极限：Ipd = 2 mA → Vout = 4 V（远超 1 V 供电电压）
+
+也就是说，固定增益 TIA 在 PAM4 系统中几乎一定会饱和。
+```
+
+解决方案是引入**自动增益控制（AGC）**。AGC-TIA 实时检测输出幅度，当输出接近饱和时自动降低跨阻增益，保证放大器始终工作在线性区。AGC 的实现方式有两种：
+- **反馈电阻阵列切换**：用 MOS 开关切换不同阻值的 Rf，离散地调节 ZT。开关的寄生电容和导通电阻在高频时引入非理想效应，需要精心设计。
+- **MOS 压控电阻**：用一个工作在三极管区的 MOS 管作为可变反馈电阻，通过调节栅极电压连续改变 Rf。优点是调节连续、控制环路简单；缺点是 MOS 管的线性度不如多晶硅电阻，会引入失真。
+
+112 Gb/s PAM4 的商用 TIA 通常提供 3–4 档增益切换，每档约 6–10 dB，配合后级 VGA 的连续调节完成整个动态范围的覆盖。
+
+**过载恢复（overload recovery）——强光之后的快速复位。** 当输入光功率突然从过载水平回落到正常水平时，TIA 需要快速从饱和状态回到线性工作点。饱和期间，TIA 内部的偏置点发生了偏移——反馈环路的节点电容充上了非正常电压，需要一定时间才能放电回到正常工作电位。这个"恢复时间"如果过长——超过几十个 UI（unit interval）——就会在强光脉冲之后造成一连串误码。对于 IDCC 电路，过载恢复是一个特别尖锐的问题：积分环路型 IDCC 在大电流冲击后积分器的输出会饱和，需要较长时间才能恢复。设计上通常会引入快速复位机制（如检测到过载时短接积分电容）来加快恢复。
+
+**线性度——PAM4 的核心指标。** PAM4 对 TIA 和整个模拟链路的线性度要求远高于 NRZ。NRZ 只需要信号不反向、阈值判断仍是 0 或 1；PAM4 的四个电平间距必须均匀。衡量 TIA 线性度的指标包括 THD（总谐波失真）和 HD3（三次谐波失真）：
+
+```text
+对于 PAM4 信号，眼图中间三个"眼睛"的高度决定了 BER 余量。
+如果 THD > 2-3%，最内层（中间的两个眼）的张开度会被压缩。
+TIA 的线性度目标通常是 HD3 < -40 dBc（THD < 1%）。
+```
+
+TIA 的非线性主要来自输入级的跨导随输入电流的变化。对于 shunt-feedback TIA，输入级通常是反相器（CMOS 逆变器）或差分对。反相器的跨导 gm 在偏置点附近相对稳定，但大信号下 NMOS 和 PMOS 的 gm 变化导致跨导偏移。改善线性度的常见方法包括：
+- **源极退化（source degeneration）**：在输入管的源极串联电阻，以 gm 的降低为代价换取线性度的大幅改善
+- **大偏置电流**：在更深的 AB 类或 A 类偏置下工作，gm 变化更小
+- **分段增益控制**：对大信号使用低增益路径、小信号使用高增益路径，各自优化线性度
+
+| 要求 | NRZ TIA | PAM4 TIA |
 |---|---|---|
-| Tx driver | swing、bandwidth、rise / fall time、jitter、linearity、pre-emphasis、output impedance | 决定 modulator 能否形成足够 OMA、ER 和低 TDECQ |
-| Rx TIA | transimpedance gain、input-referred noise、bandwidth、saturation current、linearity | 决定 receiver sensitivity、dynamic range 和 PAM4 接收能力 |
-| SerDes / DSP / CDR | lane rate、FFE / DFE / CTLE taps、CDR jitter tolerance、BER margin | 决定补偿责任和接口清晰度 |
-| power / thermal | pJ/bit、rail count、peak current、junction temperature、sensor coverage | 决定功耗密度、散热路径和长期稳定性 |
-| package interface | bump pitch、pad map、ESD、trace length、PD-to-TIA parasitics | 决定电路指标能否在封装后保持 |
-| control / telemetry | ADC / DAC resolution、calibration time、alarm coverage、PRBS / BIST | 决定 bring-up、调试、运维和可靠性管理 |
+| 动态范围 | ~15-20 dB | >30 dB |
+| 线性度（THD） | 不需要严格线性 | &lt;2%（典型 &lt;1%） |
+| 后级 | 限幅放大器（LA） | VGA（线性放大） |
+| AGC | 可选的 | 必需的 |
+| 过载恢复 | 不敏感（限幅后恢复快） | 关键（线性放大不能容忍丢失） |
+| 眼图质量关注点 | 眼宽（抖动） | 眼高（电平间距均匀性）+ 眼宽 |
 
-## 总结：EIC 是系统分工层
+PAM4 接收链路的设计哲学可以总结为：**TIA 的线性度决定了眼图的上限，后级 VGA 和 CTLE 帮助维持这个上限不被后续级恶化**。整个链路需要在 30 dB+ 的动态范围内保持 1–2% 的 THD——这与 NRZ 接收器"只管放大、不管非线性"的设计思路有本质区别。
 
-EIC 是 CPO 光引擎的电子分工层。它在 Tx 侧把 SerDes 信号变成适合调制器的高速波形，在 Rx 侧把 PD 电流变成可恢复的数据电压，并通过 clock、power、control 和 telemetry 维持 PIC 的工作点。
 
-理解 EIC，要同时看系统接口和物理接口。系统接口决定 retimed、linear 或 direct-drive；物理接口决定 driver-to-modulator、PD-to-TIA、power delivery、thermal coupling 和 test access。只有这两层同时闭合，EIC 才能把 CPO 的短电路径收益变成稳定产品。
+## 5. 时钟与数据恢复 (CDR)
 
-进一步阅读：
+### 5.1 为什么需要 CDR：从串行数据中找回时钟
 
-- [OIF: Implementation Agreements](https://www.oiforum.com/technical-work/implementation-agreements-ias/)
-- [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
-- [Frontiers: Co-packaged optics (CPO): status, challenges, and solutions](https://pmc.ncbi.nlm.nih.gov/articles/PMC10027985/)
-- [OIF / Eoptolink: Linear Drive Optics demo](https://www.oiforum.com/wp-content/uploads/OIF_PLL_Demo_Eoptolink_ECOC2023.pdf)
-- [MACOM: PURE DRIVE Linear Drive Optical Solutions](https://www.macom.com/pure-drive-linear-architecture)
-- [Broadcom: BCM85812 optical PAM4 DSP PHY with integrated TIA and laser driver](https://www.broadcom.com/products/ethernet-connectivity/phy-and-poe/optical/bcm85812)
+在 50–112 GBaud 的高速串行链路中，发射端不会为接收端单独发送一路时钟信号。如果这么做了，就需要多一条 lane、多一个接收通道、额外的功耗和额外的封装引脚——而对于一条 112 Gb/s 的 PAM4 链路来说，每增加一个通道都在消耗系统里最稀缺的资源：封装带宽和热预算。因此，时钟必须和数据在同一个通道上传输，而接收端需要自己从接收到的数据流中把时钟"提取"出来。
+
+没有独立的时钟会带来一个根本问题：接收端不知道什么时候去采样数据。理想情况下，采样应该在眼图的中心位置——信号最稳定、噪声容限最大的时刻。但如果收发两端的时钟频率有微小的偏差（例如 112 Gb/s 下 200 ppm 的频偏意味着大约 22 MHz 的绝对频率差），采样点会随着时间的推移逐渐漂移到眼图边缘，直到落入码间串扰或噪声主导的区域，误码率（<TermNote label="BER" note="bit error rate，误码率。接收端判决错误的比特数与总传输比特数之比，是衡量数字通信链路质量的核心指标。" />）急剧上升。这就是 CDR 存在的根本原因。
+
+CDR 的核心任务可以分解为两步。第一步是**频率锁定**：让本地振荡器的频率与发送端的数据率一致（至少把频偏压缩到环路的捕获范围内）。第二步是**相位锁定**：在频率已对准的基础上，精确调整采样时钟的相位，使采样点落在眼图中心。这两步完成后，CDR 恢复出的时钟不仅用于采样当前数据，也作为重定时（retiming）的基准，把数据重新同步到本地时钟域输出。
+
+CDR 的性能好坏不是由单一指标决定的，而是四个相互制约的维度：**抖动容忍度**（<TermNote label="jitter tolerance / JTOL" note="抖动容忍度。CDR 能承受的输入抖动最大幅度而不超过指定 BER，通常以 UIpp（单位间隔峰峰值）随抖动频率的变化曲线表征。" />）描述了 CDR 在多大的输入抖动下仍能保持锁定，低频段由环路带宽决定，高频段由 CDR 的内部噪声底决定。**抖动传递**（<TermNote label="jitter transfer / JTRAN" note="抖动传递函数。输出抖动与输入抖动之比随频率的变化，本质上是 CDR 的低通滤波特性，带宽越窄对高频抖动过滤越好。" />）衡量 CDR 输出端还残留了多少来自输入的抖动，CDR 环路带宽越窄，高频抖动隔离越好，但这会伤害低频的 JTOL。**锁定时间**决定了 CDR 从启动或信号中断后重新建立锁定需要多长时间，在链路经常切换的系统中尤为重要。**频率捕获范围**（frequency acquisition range）则告诉设计者 CDR 能容忍多大的初始频偏——范围越宽，对参考时钟精度的要求越低，但捕获电路的设计越复杂。
+
+这四个指标构成了 CDR 设计的基础取舍面。理解它们之后，我们再来看 CDR 内部是怎么工作的。
+
+### 5.2 CDR 的基本工作原理
+
+绝大多数 CDR 的底层机制是一个锁相环（<TermNote label="PLL" note="phase-locked loop，锁相环。通过反馈控制使本地振荡器的相位与输入信号同步的闭环系统，是 CDR 和频率合成的基本架构。" />）。PLL 的核心是一套负反馈系统：检测本地时钟与输入数据边沿之间的相位差，用这个误差信号去调整时钟的产生器，直到两者锁定。CDR 与普通 PLL 的唯一区别在于：它的"参考输入"不是干净的参考时钟，而是含有大量随机跳变的数据流——数据边沿出现的时间和位置由发送端的码流决定，并不像时钟那样有规整的周期。
+
+CDR 的信号流可以用以下框图描述：
+
+```
+数据输入 → [相位检测器] → 误差信号 → [环路滤波器] → 控制电压 → [VCO/DCO] → 恢复时钟
+                                                                              ↓
+                                                                         [重定时触发器] → 恢复数据 + 恢复时钟
+```
+
+**相位检测器**（<TermNote label="phase detector / PD" note="相位检测器。比较输入数据边沿与本地时钟之间的相位差，输出与相位差成正比的误差信号，是 CDR 的测量前端。" />）是 CDR 的"眼睛"，负责判断时钟是否过早或过晚。PD 有多种实现方式，常见的有三种：Alexander 型（也称 bang-bang PD）只输出超前/滞后两个状态，结构简单、适合高速但引入了大量量化噪声；线性 PD（如 Hogge PD）输出与相位差大小成比例的模拟误差信号，相位噪声低但电路复杂度高；波特率 PD（baud-rate PD，如 Mueller-Muller PD）不需要额外的边沿采样，只用一个数据采样器就能提取相位信息，功耗优势明显，但对通道特性敏感。
+
+环路滤波器（loop filter）是一个低通滤波器。它的作用不是"滤除噪声"这么简单，而是决定 CDR 的动态行为。环路滤波器的截止频率（即 CDR 环路带宽）是 CDR 设计中最关键的参数：带宽越窄，环路对高频抖动的过滤能力越强（JTRAN 越好），但低频抖动的跟踪能力越弱（JTOL 变差），锁定也越慢；带宽越宽则相反。环路滤波器通常是一个一阶或二阶的滤波器，在模拟 CDR 中用 RC 网络实现，在数字 CDR 中用数字累加器和比例路径实现。
+
+被环路滤波器处理后的误差信号去控制振荡器。在模拟 CDR 中，这是一个压控振荡器（<TermNote label="VCO" note="voltage-controlled oscillator，压控振荡器。控制电压改变振荡频率的电路单元，LC-VCO 和环形振荡器是两种主流实现。" />）：控制电压越高，振荡频率越快。LC-VCO 使用电感和电容构成谐振腔，相位噪声极低，适合对抖动要求严格的场景，但面积大、调谐范围窄（通常 < 20%）。环形振荡器（ring oscillator）靠奇数个反相器首尾相接振荡，面积小、调谐范围宽（可达 50% 以上），但相位噪声差。在数字 CDR 中，控制振荡器是一个数控振荡器（<TermNote label="DCO" note="digitally controlled oscillator，数控振荡器。用数字控制字代替控制电压来调节振荡频率，配合相位插值器（phase interpolator）实现高精度相位调整。" />），用数字控制字设定频率，配合相位插值器（PI）完成精细的相位调整。
+
+VCO/DCO 生成的时钟有两个用途：一是反馈回相位检测器形成闭环，二是送给重定时触发器（retiming flip-flop）对数据进行重新采样。重定时这个动作的意义在于：即使环路已经锁定，经过传输通道累积的抖动、CDR 内部噪声和电源噪声仍然可能使数据边沿发生偏移。通过一个与恢复时钟对齐的触发器重新判决数据，可以把这些抖动从数据路径中隔离出去，输出"干净"的数据。
+
+整个 PLL 反馈机制可以用一个直观的类比来理解：想象一个人在嘈杂的环境中试图跟着一段音乐的节奏拍手。耳朵（相位检测器）听出拍手节奏和音乐的偏差，大脑（环路滤波器）决定该调整多少、以多快的速度调整，手（VCO）执行这个调整——拍得更快或更慢。耳朵再次倾听偏差，循环往复，直到拍手和音乐完全同步。CDR 的工作方式与此完全相同，只不过它的"拍手"发生在数十 GHz 的频率上，每次调整的步长在皮秒量级。
+
+### 5.3 PAM4 给 CDR 带来的额外挑战
+
+NRZ（2 电平）和 PAM4（4 电平）在 CDR 设计上的差异不是渐进的，而是根本性的。NRZ 信号在每个比特周期一定存在从 0 到 1 或从 1 到 0 的边沿（取决于数据图案），而且每次跳变都是全摆幅——要么完全到顶，要么完全到底。PAM4 信号则不同：相邻电平之间的跳变幅度不同，从电平 0 到 3 是全摆幅跳变（类似于 NRZ），但从 1 到 2 或 2 到 1 的跳变只有全摆幅的三分之一。
+
+这种不均匀的跳变给 CDR 带来了三个层次的问题。第一个问题是**相位检测的信噪比下降**。当数据从电平 1 跳到 2 时，只有全摆幅三分之一的电压变化在经过传输通道后被噪声和 ISI 淹没，相位检测器很难准确判断这个微弱边沿的过零点位置——它与噪声的边界模糊了。对于 bang-bang PD 这种只依赖边沿极性的检测器来说，小幅度跳变带来的直接后果是相位误差信号的信噪比恶化，CDR 进入类似"半盲"的状态。
+
+第二个问题是**边沿密度的不均匀性**。NRZ 的最大连续相同位（<TermNote label="CID" note="consecutive identical digits，连续相同数字。数据流中长时间无跳变的状态，CDR 在此期间得不到相位更新，相位误差会逐渐累积。" />）受编码限制（如 64b/66b 编码保证最长 66 位不出现超过 65 个连续相同的位），但 PAM4 的问题不同：信号可能长时间停留在某个中间电平上（例如接收到的电平一直为 1 或 2），此时即使数据在不断变化，眼图边界上的边沿仍然很小甚至被噪声淹没。这意味着在某些数据图案下，CDR 在相当长的时间内得不到有效的相位更新——相位误差在这段时间内逐渐累积，等到下一个全摆幅边沿出现时，CDR 可能已经被"漂移"到了眼图边缘。
+
+第三个问题是**环路带宽设计的取舍更困难**。PAM4 的边沿密度低且不均匀，意味着 CDR 需要更窄的环路带宽来平滑相位误差的波动（避免小跳变带来的相位抖动直接传递到恢复时钟上）。但更窄的带宽意味着更慢的锁定时间和更差的低频 JTOL——在需要快速切换通道的系统中，这可能是不可接受的。
+
+业界针对这些挑战发展出了几类解决方案。**波特率相位检测**（baud-rate PD）是核心进步之一。与传统的过采样（oversampling）PD 不同，波特率 PD 不需要额外的边沿采样器——它在每个符号周期只采样一次，从采样值和判决误差中提取相位信息。Mueller-Muller PD 使用前后符号的采样值和误差值的相关性来推断相位偏差，不依赖信号边沿本身，因此对小幅度跳变不敏感。但 MM-PD 的局限是它假设通道的冲激响应在采样点附近是对称的，当通道有显著的前向码间串扰（pre-cursor ISI）时，CDR 的锁定点会偏离理想位置。
+
+另一种实用方案是**参考时钟辅助锁定**。给 CDR 提供一个频率精度较高的本地参考时钟（如来自主芯片的 PLL），先用参考时钟把本地 DCO/VCO 的频率拉入捕获范围，再切换到从数据边沿提取的相位误差信号。这样做的好处是频率捕获问题被独立解决了，CDR 的环路带宽可以专门针对 PAM4 的抖动特性做优化。
+
+在数字 CDR 中，**自适应环路带宽**成为可能。CDR 在运行中监测边沿密度或相位误差的方差：当检测到边沿密度低（或相位误差方差大）时，自动收窄环路带宽以减少抖动传递；当检测到有连续全摆幅跳变时，适当放宽带宽以加速锁定。这种自适应能力是模拟 CDR 难以实现的，也是全数字架构在 PAM4 时代的一个核心优势。
+
+### 5.4 CDR 架构对比
+
+PAM4 链路对 CDR 提出了不同的性能要求，单一的架构无法同时最优地满足所有场景。下面讨论三种主流 CDR 架构的设计逻辑和适用边界。
+
+**a) PLL-based CDR（模拟锁相环 CDR）**
+
+PLL-based CDR 是最传统的成熟架构。它的核心是一个模拟电荷泵 PLL：相位检测器输出超前/滞后脉冲，电荷泵把它们转换成电流，积分到环路滤波器的电容上产生控制电压，控制电压调节 VCO 的频率。
+
+这种架构的优势集中在抖动性能上。采用 LC-VCO 的模拟 PLL CDR 可以达到极低的相位噪声——对于 56 GBaud 以下的 NRZ 信号，这几乎是最优的时钟恢复方案。LC-VCO 的谐振腔天然抑制了远离载波频率的相位噪声，模拟电荷泵和环路滤波器在处理连续误差信号时不会引入额外的量化噪声。因此，在需要最高信号质量的场景中（如长距 DWDM 或高性能测试设备），模拟 PLL CDR 仍然是首选。
+
+但它的弱点同样突出。模拟电路对工艺-电压-温度（<TermNote label="PVT" note="process-voltage-temperature，工艺-电压-温度变化。模拟电路性能随芯片制造偏差、供电电压波动和工作温度变化的敏感程度，PVT 容忍度是衡量电路鲁棒性的关键。" />）变化高度敏感——同一个 VCO 在快工艺角、高电压、低温下的振荡频率可能比慢工艺角、低电压、高温下高出 30%–40%，这让环路稳定性设计变得极具挑战。锁定范围窄也是固有缺陷：模拟 PLL 中电荷泵电流和 VCO 增益的匹配有限，相位检测器在频偏超过数百 ppm 时就无法可靠工作，需要额外的频率锁定辅助环路（如频率检测器或参考时钟注入）。这些辅助电路增加了面积和设计复杂度。
+
+在 112 Gb/s 以上的 PAM4 链路中，纯模拟 PLL CDR 的应用空间正在缩小——不是因为它的抖动性能不够，而是因为 PAM4 需要的自适应环路带宽、数字校准和灵活配置能力，在纯模拟域中实现代价太高。
+
+**b) 全数字 CDR（All-Digital CDR / AD-CDR）**
+
+全数字 CDR 把相位检测、环路滤波和振荡器控制三个环节全部数字化。输入的 PAM4 数据首先被时间数字转换器（<TermNote label="TDC" note="time-to-digital converter，时间数字转换器。将时间间隔量化为数字码，在全数字 CDR 中用于将相位误差转换为数字域表示。" />）或 ADC 采样成数字码，相位误差在数字域计算，经过数字环路滤波器（比例-积分路径），输出数字控制字送到 DCO，DCO 通过相位插值器产生所需的采样相位。
+
+全数字 CDR 的灵活性是模拟方案无法比拟的。环路带宽可以随输入信号的边沿密度、温度和电压动态调整——不需要更换任何模拟元件，只改变数字滤波器的系数即可。PVT 变化对数字电路的影响远小于模拟电路，因为在数字域中，只要时序约束满足，逻辑功能就是确定的。数字 CDR 还可以很容易地集成到先进 CMOS 工艺中（7 nm 以下模拟电路的可用电压裕度和器件本征增益都在快速下降，数字电路反而更受益于工艺缩减）。
+
+代价主要来自量化噪声和分辨率限制。TDC 的量化步长决定了相位误差的最小可分辨粒度——步长太大，CDR 在锁定点附近的相位抖动大；步长太小，TDC 的功耗和面积增加。类似地，DCO 和相位插值器的分辨率和线性度也直接决定了恢复时钟的抖动性能。在 112 Gb/s PAM4 链路中，一个 UI 只有约 17.8 ps（PAM4 符号率为 56 GBaud），要求相位调整步长在 1 ps 以下，这对 DCO/PI 的设计提出了极高的要求。
+
+全数字 CDR 目前是 112 Gb/s PAM4 及更高速率的最主流架构，几乎所有商用 7 nm 以下 SerDes IP 都采用数字 CDR 方案。它的自适应能力和工艺可迁移性在持续演进的标准中具有明显的长期优势。
+
+**c) 相位插值 CDR（PI-based CDR）**
+
+相位插值 CDR 是一种混合架构的设计思路。它用一个全局 PLL 产生固定的多相时钟（如 8 相或 16 相，均匀覆盖一个 UI），然后相位插值器（<TermNote label="PI" note="phase interpolator，相位插值器。在多相时钟源的基础上，通过加权混合相邻两相时钟产生中间相位，实现精细的相位调整。" />）根据数字控制字从这些固定相位中选择并混合出需要的精确采样相位。VCO 本身不参与反馈，只在全局 PLL 中固定频率运行。
+
+这种架构的核心优势是环路稳定性和多 lane 一致性。全局 PLL 的 VCO 不跟踪每个单独 lane 的数据边沿，因此不会受到每条 lane 上的数据抖动影响——VCO 的输出始终是"干净的"。这大大简化了环路的稳定性设计；PI-based CDR 本质上不存在模拟 PLL 中 VCO 压控增益变化导致的稳定性漂移。更重要的是，所有 lane 共享同一个全局 PLL 的多相时钟，意味着每条 lane 的采样时钟频率完全相同，不存在不同 lane 之间因各自 VCO 频率不同而产生的 beat frequency 问题。对于需要 4×112 G 甚至 8×112 G lane 对齐的共封装光学（CPO）光引擎，这种"频率一致"的特性非常宝贵。
+
+相位插值器的线性度是 PI-based CDR 的性能瓶颈。PI 的本质是通过不同权重的电流混合两相时钟来产生中间相位——如果混合电流的匹配精度不够，输出的相位会偏离理想值，引入相位误差（PI nonlinearity）。这种非线性在 PAM4 中尤其有害，因为 PAM4 的相位裕度比 NRZ 小得多。现代设计使用数字校准和查找表（LUT）来补偿 PI 的非线性，但校准需要额外的测试时间和 die 上校准电路。
+
+PI-based CDR 是当前多 lane 高速光模块和 CPO 应用中被广泛采用的架构。它的核心吸引力不是单 lane 的抖动极限，而是多 lane 的同步能力和可扩展性。
+
+下面对三种架构做系统对比：
+
+| 特性 | 模拟 PLL CDR | 全数字 CDR | PI-based CDR |
+|---|---|---|---|
+| **抖动性能** | 最优（LC-VCO 相位噪声低） | 受量化噪声限制 | 受 PI 线性度限制 |
+| **功耗** | 中等 | 中等偏高（ADC/TDC 和数字逻辑） | 中等（节省了每 lane VCO） |
+| **面积** | 大（LC-VCO 电感 + 模拟滤波电容） | 中等（随工艺缩小） | 中等偏小 |
+| **PVT 敏感度** | 高（VCO 增益、电荷泵电流随 PVT 大幅变化） | 低（数字逻辑确定性强） | 低（全局 PLL 可单独校准） |
+| **环路带宽灵活性** | 固定（需要修改无源元件） | 可编程、可自适应 | 可编程 |
+| **多 lane 支持** | 差（每 lane 需要单独 VCO） | 中等（每 lane 需要单独 DCO/PI） | 优（共享全局 PLL 多相时钟） |
+| **工艺可迁移性** | 差（模拟 IP 逐工艺重设计） | 好（数字综合 + 少量模拟 IP） | 好（数字为主） |
+| **112 G PAM4 适用性** | 困难（自适应能力不足） | 主流方案 | 多 lane 场景首选 |
+
+架构选择的本质是对抖动性能、功耗、灵活性和扩展能力之间的取舍。单 lane 的研制型光模块追求抖动极限时，模拟 PLL 仍有价值；在量产型的 112 G PAM4 光模块中，全数字 CDR 是当前的主流；而在需要多 lane 密集集成的 CPO 系统中，PI-based CDR 的同步优势让它成为更合适的选择。
+
+
+## 6. 均衡与 DSP
+
+### 6.1 信道损伤从哪来：ISI、反射、串扰、色散
+
+即使发射端的 <TermNote label="PAM4" note="4-level pulse amplitude modulation，四电平脉冲幅度调制。每个符号携带 2 bit 信息，四个电平分别为 −3、−1、+1、+3。" /> 信号质量完美、driver 的摆幅和上升时间都符合规格书，到达接收端的信号也一定不是发射端的样子。信道——从 TX 输出经过 PCB 走线、bump、connector、vias 到调制器电极、再到光纤、再经过 PD/TIA 回到接收端的整条路径——在传输过程中引入了一系列物理损伤。理解这些损伤，是理解均衡器为什么存在的前提。
+
+最根本的损伤是**码间干扰**（<TermNote label="ISI" note="inter-symbol interference，码间干扰。前一个或后一个符号的残余能量干扰当前符号的判决，是高速串行链路中最主要的信号完整性损伤。" />）。ISI 有两个主要来源。第一个来源是带宽限制：调制器、光电探测器、TIA、PCB 走线、封装互连——路径上的每个元件都有低通特性。高频成分被衰减的幅度大于低频成分，结果是脉冲在时域上被"展宽"——前一个符号的尾巴拖入当前符号的采样时刻，当前符号的能量又被后一个符号拉低。以 112 Gb/s PAM4 为例，一个 <TermNote label="UI" note="unit interval，单位间隔。一个符号的持续时间。对于 56 GBaud 的 PAM4 信号，1 UI ≈ 17.86 ps。" /> 只有约 17.9 ps，而一段 10 cm 的 PCB 微带线在 28 GHz（奈奎斯特频率）处的插入损耗可能超过 10 dB——脉冲展宽的量级远大于一个 UI。ISI 的第二个来源是阻抗不匹配造成的反射：信号在 bump、connector、via 和电极过渡等阻抗不连续点处一部分能量被反射回来，经过往返传播后叠加到后续的符号上。反射系数 <TermNote label="Γ" note="reflection coefficient，反射系数。Γ = (Z1 − Z2) / (Z1 + Z2)，当两段传输线的特征阻抗 Z1 和 Z2 不相等时，信号在接口处产生反射。" /> = (Z1 − Z2) / (Z1 + Z2)——阻抗差越大，反射的能量越大。反射造成的 ISI 表现为离散的"回波"，在脉冲响应中看到的是在某个延迟位置出现一个或多个额外峰值。
+
+**串扰**是相邻 lane 之间的电磁耦合。两条平行走线之间存在互感和互容，其中一路的信号跳变会通过寄生路径耦合到相邻路。串扰分为近端串扰（<TermNote label="NEXT" note="near-end crosstalk，近端串扰。干扰源 lane 在发送端的信号跳变耦合到受害 lane 的同侧接收端，噪声幅度与跳变幅度直接相关。" />）和远端串扰（<TermNote label="FEXT" note="far-end crosstalk，远端串扰。干扰源 lane 的发送端信号经耦合后传播到受害 lane 的远端接收端，FEXT 的幅度受走线长度和耦合长度影响。" />），前者在驱动端测得，后者在接收端测得。在 CPO 场景中，PIC 上的电极走线间距可能只有几微米到十几微米，串扰电平远高于传统可插拔模块。根据 <TermNote label="OIF" note="Optical Internetworking Forum，光互联论坛。推动高速电接口和光接口标准化的行业组织，发布了 CEI、CMIS、Co-Packaging Framework 等一系列重要规范。" /> CEI-112G-Linear 项目的模拟数据，在密集布线的光引擎内部，总串扰（NEXT + FEXT）可以占到接收端噪声预算的 30%–50%。
+
+**色散**是光纤介质自身的损伤。光纤中不同波长的光传播速度不同——这本质上是材料色散和波导色散的叠加。一个调制后的光脉冲必然有一定谱宽，不同频谱分量到达接收端的时间不同，脉冲因此展宽。对于 2 km 以下的光纤链路（<TermNote label="CPO" note="co-packaged optics，共封装光学。将光引擎与交换 ASIC 置于同一封装基板内，缩短电互连距离、减小功耗和尺寸。" /> 的典型 <TermNote label="SMF" note="single-mode fiber，单模光纤。芯径约 9 μm，只支持基模传输，1310 nm 和 1550 nm 波段是数据中心光互连的标准传输介质。" /> 链路长度通常 < 500 m），色散导致的脉冲展宽在 1–2 ps 以内，远小于 ISI 和串扰的贡献。但若考虑 10 km 以上的 LR 链路，色散会迅速成为主要的损伤之一——DSP 中的色散补偿模块需要上百个抽头的 FIR 滤波器来补偿。
+
+从频域角度看，这些损伤叠加起来的等效信道是一个低通滤波器（带宽限制引起的高频衰减）叠加带通波纹（反射和阻抗失配引起的周期性陷波）再加上额外的噪声基底（串扰和接收机噪声）。均衡器的任务就是在这个模糊化的信道中恢复出原始的符号序列。
+
+### 6.2 发射端均衡：FFE 与预加重
+
+既然信道对高频的衰减大于低频，一个自然的思路是在发射端先把高频分量"预增强"再发送——让信号经过信道衰减后到达接收端时各频率分量恢复平坦。这就是**预加重**（pre-emphasis）的基本逻辑。
+
+预加重的物理实现是在 driver 输出级做分段设计。一段提供主脉冲（main pulse），另一段延迟一个 UI 后提供一个反向的预加重脉冲。两段叠加的结果是：符号的跳变沿被增强（高频分量加大），而符号的稳定区被削弱（低频分量减小）。这样信号经过信道的低通衰减后，高频和低频的幅度差被抵消，到达接收端时更为平坦。预加重通常用两个参数控制：一个是主脉冲和预加重脉冲的幅度比（决定了高频补偿量），一个是预加重脉冲的延迟时间（决定了补偿的频谱范围）。
+
+前馈均衡器（<TermNote label="FFE" note="feed-forward equalizer，前馈均衡器。在发送端或接收端用 FIR 滤波器对信号波形做预补偿或后补偿，抵消信道引入的码间干扰。" />）是预加重的推广形式。FFE 本质上是一个 <TermNote label="FIR" note="finite impulse response，有限冲激响应滤波器。由延迟单元和可调权重系数构成，输出是输入序列与冲激响应的卷积，不依赖反馈回路。" /> 数字滤波器：多个延迟单元串联，每个延迟 1 UI，每个抽头有一个可调的权重系数（tap coefficient）。发送端的 FFE（TX FFE）把数字码流经过 FIR 滤波后再送给 <TermNote label="DAC" note="digital-to-analog converter，数模转换器。将 DSP 输出的数字码流转换为模拟电压信号驱动调制器，DAC 的分辨率和线性度直接决定预补偿信号的精度。" /> 和 driver，接收端的 FFE（RX FFE）把 ADC 采样后的信号同样经过 FIR 滤波后再做判决。
+
+以一条 3-tap FFE 为例，它有三个抽头：一个 pre-cursor tap（延迟 −1 UI，影响前一个符号）、一个 main tap（延迟 0 UI，主信号）、一个 post-cursor tap（延迟 +1 UI，影响后一个符号）。每个 tap 的物理意义是：pre-cursor 系数用于抵消信道对前一个符号的 ISI（即前一个符号泄露到当前符号的分量），post-cursor 系数用于抵消信道对后一个符号的 ISI，main 系数提供当前符号的主信号幅度。三个系数的相对比例决定了均衡器的频率响应曲线——main 与 post 的比例决定了低频补偿量，pre 与 main 的比例决定了高频补偿量。
+
+FFE 的最大优势是结构简单、工作在符号率上、没有稳定性问题（因为是前馈结构，无反馈环路）。它的局限性有两方面：一是 FFE 增强高频的同时也会增强高频噪声（因为它对信号和噪声做同样的滤波），二是 FFE 的抽头数量受限于 TX 的 DAC 分辨率和 RX 的 ADC 采样率。在 112 Gb/s PAM4 系统中，TX FFE 通常有 3–5 个 tap，RX 数字 FFE 可以有 10–20 个 tap（取决于 ADC 的采样率和 DSP 的功耗预算）。对于 CPO 系统，FFE 通常位于 host SerDes 的 TX 侧——对光引擎而言是"上游的馈赠"，<TermNote label="EIC" note="electronic integrated circuit，电子集成电路。在光引擎中负责驱动调制器、放大 PD 信号、时钟恢复和均衡处理的核心芯片，是 host ASIC 和 PIC 之间的电子接口层。" /> 本身不参与 FFE 的系数决策，但需要为 FFE 提供干净的、足够带宽的模拟路径来传递预补偿后的信号。
+
+### 6.3 接收端均衡：CTLE 与 DFE
+
+接收端均衡器面对的是已经被信道损伤污染的信号，需要在判决之前尽可能恢复信号质量。两大类主流技术是线性模拟均衡器和反馈数字均衡器。
+
+**连续时间线性均衡器**（<TermNote label="CTLE" note="continuous-time linear equalizer，连续时间线性均衡器。一种模拟高通滤波器，频率响应与信道的低通特性互补，补偿信道的高频衰减。" />）在物理本质上是一个高通滤波器。它的频率响应与信道的低通特性"互补"——信道衰减了多少高频，CTLE 就提升多少高频，使级联后的整体频率响应尽量平坦。CTLE 的典型电路实现是源极退化（source degeneration）差分对：在差分对的源极端接一个电阻 Rs 和一个电容 Cs 的并联网络。在低频段，Cs 的阻抗很高，退化电阻 Rs 起主导作用，降低了低频增益；在高频段，Cs 的阻抗下降，Rs 被部分"短路"，退化效果减弱，高频增益回升。转折频率由 Rs × Cs 决定，高频提升量由 Rs 与负载电阻 RL 的比值决定。
+
+CTLE 有两个主要优势。第一是功耗极低——纯模拟电路，连续时间工作，不需要时钟、不需要 ADC，也没有量化噪声。第二是几乎没有延迟——信号通过 CTLE 的群延迟通常只有几个皮秒，远小于数字均衡器的延时。在 56 Gb/s NRZ 时代，单级 CTLE 配合一个 1-tap DFE 就足以满足多数 C2M 链路的信号完整性要求。
+
+CTLE 的劣势是它的补偿能力有限。因为它只能生成平滑的高通曲线，无法处理信道中由反射或阻抗失配引起的尖锐陷波（notch）。当 PCB 走线中存在长残桩（stub）或阻抗严重不匹配时，频域响应会出现多个深陷波——CTLE 对这类局部凹陷无能为力。另一个局限是：CTLE 的高频提升同时放大了高频噪声，因此它的增益不能无限增加（通常最大峰化不超过 10–15 dB）。
+
+**判决反馈均衡器**（<TermNote label="DFE" note="decision-feedback equalizer，判决反馈均衡器。利用已经判决的前几个符号的数值来估计并消除它们对当前符号的码间干扰，只减 ISI 不放大噪声。" />）的工作逻辑完全不同。DFE 不试图"修正"信号波形，而是利用已经判决出的前几个比特的值，估计出它们对当前符号产生的 ISI 分量，然后从输入信号中减去这个估计值。结构上，DFE 包含一个判决器（slicer/decision circuit）→ 延迟链 → 一组抽头系数 → 一个反馈减法器。判决器先对当前符号做出判决，然后这个判决值经过延迟链产生 1 UI、2 UI、⋯⋯N UI 的延时版本，每个版本乘以对应的抽头系数后求和，再从 ADC 输出（或 CTLE 输出）中减去。
+
+DFE 的关键优势在于它**只消除 ISI 而不放大噪声**。与 FFE 不同——FFE 在提升高频信号的同时一定会提升同频段的噪声——DFE 处理的是已经判决出的符号值（"已知量"），减去的是一个确定性的估计量，对当前符号的噪声没有影响。这个属性让 DFE 成为处理长拖尾 ISI 的首选方案。
+
+DFE 的关键限制是**错误传播**（error propagation）。如果判决器对当前符号做出了错误判决，这个错误值会通过延迟链和反馈回路影响后续 N 个符号的减法结果——一个错误可能导致一连串的后续错误。对 PAM4 来说，四个电平之间的间距只有 NRZ 的三分之一，判决裕量更小，错误概率天然更高，因此错误传播在 PAM4 系统中比 NRZ 严重得多。此外，DFE 的反馈环路必须在 1 UI 时间内完成减法运算——对于 56 GBaud 的 PAM4（1 UI ≈ 17.9 ps），留给比较、乘法和减法的时间窗口极短，限制了可实现的最大抽头数。
+
+下表对比两种接收端均衡器的核心特性：
+
+| 特性 | CTLE | DFE |
+|---|---|---|
+| **基本原理** | 高通滤波器，频率响应与信道互补 | 利用已判决符号减去 ISI 估计量 |
+| **补偿能力** | 平滑的滚降衰减，不能处理尖锐陷波 | 可消除多次反射和长拖尾 ISI |
+| **噪声增强** | 有——高频提升同时放大高频噪声 | 无——只减 ISI 不减噪声 |
+| **功耗** | 低（模拟电路，连续时间） | 中高（需要 ADC + 数字逻辑） |
+| **复杂度** | 低（2–3 个可调参数） | 高（多抽头自适应算法） |
+| **处理延迟** | 极低（几个皮秒） | 高（需要判决 + 反馈环，至少 1 UI） |
+| **错误传播** | 无 | 有——PAM4 下更严重 |
+| **典型 tap 数** | 不适用（连续频域响应） | 1–5（取决于工艺和功耗） |
+
+实际系统中 CTLE 和 DFE 通常配合使用：CTLE 在前端做第一级粗均衡（补偿平滑滚降、压低总的 ISI 幅度），DFE 在后级做第二级精均衡（消除残留的反射和拖尾 ISI）。这种级联结构既可以降低 DFE 所需的抽头数量（减少错误传播的风险），又能弥补 CTLE 无法处理尖锐陷波的不足。
+
+### 6.4 ADC-DSP 架构与全数字均衡
+
+在 112 Gb/s PAM4 及以上速率，模拟均衡器（CTLE + 模拟 DFE）的补偿能力逐渐逼近极限。信道损耗更高、反射模式更复杂、串扰更大——需要更强大和更灵活的均衡算法。这推动了 ADC-DSP 架构成为高速 <TermNote label="SerDes" note="serializer/deserializer，串行器/解串器。把并行数据转换成高速串行信号（发送端）和把高速串行信号恢复成并行数据（接收端）的接口电路。" /> 的主流方案。
+
+ADC-DSP 接收端的信号路径如下：来自 TIA 的模拟电压信号首先进入模拟前端（<TermNote label="AFE" note="analog front-end，模拟前端。在 ADC 之前处理接收信号的模拟电路级，通常包括 CTLE、VGA 和抗混叠滤波器。" />），经过 CTLE 做第一级粗均衡和 <TermNote label="VGA" note="variable gain amplifier，可变增益放大器。增益可调的宽带放大器，用于将 ADC 输入摆幅调整到满量程附近以最大化量化信噪比。" /> 将信号幅度调整到 <TermNote label="ADC" note="analog-to-digital converter，模数转换器。将连续时间模拟电压信号离散化为数字码流，高速 ADC 通常采用时间交织架构（time-interleaved）来突破单通道采样率上限。" /> 的满量程范围附近，然后送入高速 ADC 做数字化。对于 112 Gb/s PAM4（符号率 56 GBaud），ADC 的采样率约 56–64 GS/s（通常以 1–1.14 倍符号率采样），分辨率 6–7 bit。这类 ADC 通常采用时间交织架构——16–32 个子 ADC 以轮流方式交替采样，每个子 ADC 的采样率降低到 2–4 GS/s，靠并行化突破单个采样器的速度上限。在 224 Gb/s PAM4（符号率 ~106 GBaud）时，ADC 采样率需提高到 100 GS/s 以上，时间交织的通道数成比例增加，设计难度和功耗都大幅上升。
+
+ADC 之后的数字 <TermNote label="DSP" note="digital signal processor，数字信号处理器。在光互连中负责均衡、判决、时钟恢复、FEC 增强和非线性补偿的数字化信号处理模块。" /> 处理链通常包括以下级：数字 FFE → 数字 DFE → 可选 <TermNote label="MLSE" note="maximum likelihood sequence estimation，最大似然序列估计。利用 Viterbi 算法在符号序列级别做最优判决——不是对每个符号独立判决，而是从所有可能的符号序列中选出最有可能发送的一条。" /> → 判决器 → 输出。数字 FFE 有 10–20 个抽头（或更多），能够补偿较长延迟的 ISI 和部分反射回波。数字 DFE 通常有 1–5 个抽头，利用 FIR 结构在数字域实现反馈减法，避免了模拟 DFE 中 1 UI 反馈环路的时序压力——反馈可以在一个符号周期内用流水线完成。
+
+**最大似然序列估计**（MLSE）是全数字架构中最强大的均衡手段，但也是代价最高的。MLSE 抛弃了"逐个符号判决"的思路，改用 Viterbi 算法在符号序列级别寻找最可能的发送序列。给定一串接收到的采样值，MLSE 评估所有可能的发送序列（PAM4 下每个位置有 4 种可能，状态数为 4<sup>L</sup>，L 为信道记忆长度），选择与观测序列最匹配的那一条。由于不依赖"先判决再消除"的反馈结构，MLSE 不存在 DFE 的错误传播问题，对长 ISI 信道的性能显著优于 DFE。
+
+MLSE 在 224 Gb/s PAM4 时代几乎成为必需，原因有两个。第一，信道损耗已经从 112G 的约 28–30 dB 增加到 224G 的 35–40 dB，DFE 在此损耗水平下错误传播概率急剧上升，系统难以稳定工作在目标 <TermNote label="BER" note="bit error rate，误码率。接收端判决错误的比特数与总传输比特数之比。对于带 KP4-FEC 的系统，链路需要保证原始 BER 低于约 2.4 × 10⁻⁴。" /> 以下。DesignCon 2024 的最佳论文对 CEI-224G-LR-PAM4 信道的模拟显示：当插入损耗超过 36 dB 时，FFE + DFE 的 BER 曲线开始急剧上升，而引入 MLSE 后系统在 40 dB IL 下仍有超过 1 dB 的 SNR 裕量。第二，MLSE 可以利用 PAM4 信号的冗余信息——四个电平之间的间距虽然只有 NRZ 的三分之一，但序列级别的联合判决能把这部分损失的判决裕量部分"找回来"。
+
+MLSE 的代价是功耗和面积。一个实现良好的 4-state MLSE 在 56 GBaud 下的功耗约为数字 FFE + DFE 的 2–3 倍，而且随着信道记忆长度增加（状态数 = 4<sup>L</sup>）呈指数增长。因此在当前商用产品中，MLSE 仅在高端 retimer 芯片和 200G+ SerDes IP 中部署，56G/112G 系统仍以 FFE + DFE 为主力。
+
+### 6.5 CPO / LPO 场景下 DSP 放在哪一侧
+
+DSP 在物理上可以放在链路的不同位置——放在引擎侧的 EIC 内，放在 host ASIC 的 SerDes 内，或者两边都不放全部交给光链路。这个"位置决策"就是第 2 节中讨论的系统分工在均衡域的具体体现。四种架构在 DSP 归属上的逻辑如下。
+
+**Retimed 架构**：DSP 在 EIC 内，引擎端完成完整的 ADC → 数字均衡 → <TermNote label="CDR" note="clock and data recovery，时钟数据恢复。从接收数据流中提取时钟相位并重新定时输出，消除积累抖动对后级电路的影响。" /> → 判决 → 重定时。host SerDes 的均衡压力最小——它只需要补偿到引擎端接口的 PCB 走线损耗（通常 < 15 dB），不需要知道光链路的任何特性。代价是引擎功耗最高——DSP 本身消耗约 1.5–3.5 W 每通道（取决于速率、工艺和均衡深度），加上 ADC/DAC 的功耗和 CDR 的数字逻辑，引擎侧的热预算消耗巨大。在 CPO 场景中，这个热量必须通过封装级的散热路径排出，进一步增加了封装设计的复杂度。
+
+**Linear 架构**（<TermNote label="LPO" note="linear-drive pluggable optics，线性可插拔光学。可插拔光模块中去除 DSP 的架构，driver 和 TIA 只提供线性模拟放大，均衡和判决完全由 host SerDes 完成。" />）：DSP 完全在 host ASIC 侧，EIC 只保留线性 driver 和 TIA，不做任何数字信号处理。这是目前功耗最低的方案——引擎内省掉了 DSP 的约 1–2 pJ/bit（112G PAM4 下的典型值），对 800G 模块（8 × 112G）来说意味着大约 8–16 W 的功耗节省。但代价是 host SerDes 必须从 TX 输出到 RX 输入补偿全链路的损伤——包括 PCB 走线、modulator/PD、driver/TIA 和光纤。这要求 host SerDes 的 RX 具备更强大的 CTLE（更高峰化增益）和 DFE（更多抽头），TX 也需要更多的 FFE tap 来做预补偿。OIF CEI-224G-Linear 项目（2024 年启动）正在定义这类系统在 224 Gb/s 速率下的电接口标准，目标是实现全线性光学模块的互操作性。
+
+**Half-Retimed 架构**（半再生）：一个方向有 DSP，一个方向没有。发送方向 retimed（Tx 有 CDR）而接收方向 linear（Rx 无 CDR）——这是 OIF <TermNote label="RTLR" note="Retimed Transmitter Linear Receiver，已发布为 OIF-EEI-112G-RTLR Implementation Agreement。发送端使用 CDR 重定时，接收端使用线性放大不经判决直接回传的半再生架构。" /> 标准化的方案，也是目前业界最务实的折中之一。选择这种不对称的原因是：光发送端的调制器对驱动信号的定时精度要求极高（上升时间、抖动、过冲直接影响光眼图质量），而接收方向 PD/TIA 的模拟输出可以在 host 侧完成完整的均衡和判决。反向的不对称（Tx linear, Rx retimed）称为 <TermNote label="LRO" note="linear receiver optics，线性接收光学。一种非对称架构——发送方向保留 DSP，接收方向无 DSP。在 200G/lane 速率下作为功耗和性能之间的折中方案被广泛讨论。" />（Linear Receiver Optics），在 OFC 2024–2025 中作为 200G/lane 的折中方案被多次讨论。
+
+**"DSP-free"不等于"无损"**。这是一个容易被误解的关键点。LPO 方案去掉的是引擎内的 DSP 芯片，但均衡和补偿的工作没有被消除——它们只是从引擎侧转移到了 host 侧。host SerDes 需要运行更长的数字 FFE、更多的 DFE tap，甚至需要启用原本在 112G 系统中不需要的 MLSE。这些增加的均衡能力在 host 侧同样消耗功耗和面积——只是 host ASIC 通常在更大的工艺节点（7 nm 以下）上制造，且有更好的散热条件，因此每 pJ/bit 的"均衡效率"可能更高。换句话说，LPO 的本质不是省掉均衡，而是把均衡工作转移到效率更高的节点去完成。这也意味着选择 LPO 方案的系统设计者必须确认 host ASIC 的 SerDes IP 具备足够强的均衡能力——否则链路预算无法闭合。
+
+下表总结四种分工模式下 DSP 的位置和影响：
+
+| 架构 | DSP 位置 | 引擎功耗 | Host SerDes 负担 | 技术成熟度 |
+|---|---|---|---|---|
+| **Retimed** | EIC 内 | 高（基准） | 低（仅补偿电接口） | 成熟，IEEE 802.3 标准 |
+| **Half-Retimed (RTLR)** | 仅发送方向在 EIC | 中（全 retimed 的 60%–75%） | 中（Rx 方向需补偿光链路） | OIF EEI 已发布 IA |
+| **Linear (LPO)** | Host ASIC 内 | 低（节省 1–2 pJ/bit） | 高（需全链路补偿） | 112G 有产品，224G 标准化中 |
+| **Direct-Drive** | 无独立 EIC | 极低 | 极高（ASIC 直接驱动调制器） | 研究阶段 |
+
+选择哪条路径取决于系统的首要约束。如果功耗是第一优先级且 host SerDes 能力强，LPO 是当前最现实的选择。如果互操作性和测试清晰度最重要，retimed 仍然最安全。对于希望在两者之间取得平衡的系统，half-retimed 在 2024–2025 年提供了最务实的技术折中——这也是 OIF 率先标准化 RTLR 并将其作为 112G 芯片到模块电接口推荐方案的原因。
+
+
+## 7. 电源、时钟、控制：让 PIC 长期停在正确工作点
+
+高速 driver 和 TIA 决定了光引擎能否工作，但真正决定它能否长期稳定工作的，是一套"慢速"电路：电源管理、时钟分配、PIC 控制环和诊断遥测。EIC 把这些功能集成在同一个 die 上，与高速模拟电路共享衬底和封装，既要避免电源噪声和时钟抖动污染信号路径，也要通过闭环控制补偿 PIC 的老化和温漂。
+
+### 7.1 电源完整性：多路电源轨、去耦、IR 压降
+
+一个典型 EIC 芯片上同时存在 5 到 10 路独立的电源轨，分属不同的敏感度等级。最干净的是 PLL 和 TIA 输入级电源——它们对噪声容忍度极低，稍有纹波就会转化为时钟抖动或灵敏度损失。其次是 driver 输出级和 TIA 输出缓冲的模拟电源——摆幅大、电流变化快，但 PSRR（电源抑制比）设计得当可以容忍一定纹波。最"脏"的是数字逻辑电源（CDR、DSP、控制状态机）——电流大、开关频率高、产生的噪声最多，需要用足够的隔离手段防止它污染邻近的模拟域。
+
+| 电源轨 | 典型用途 | 噪声敏感度 | 典型电压 | 特征 |
+|---|---|---|---|---|
+| VDDA_TIA | TIA 输入级 + 前端放大 | 极高 | 0.9–1.2 V | 决定灵敏度的关键路径 |
+| VDDA_DRV | Driver 输出级供电 | 高 | 1.8–3.3 V | 输出摆幅与 Vpi 匹配 |
+| VDDD | CDR / DSP / 数字逻辑 | 低（自产噪声大） | 0.7–0.9 V | 大电流、高 dI/dt |
+| VDDPLL | PLL 电荷泵 + VCO | 极高 | 0.9–1.2 V | 需要独立 LDO 或外部滤波 |
+| VDDIO | I2C/SPI/管理接口 | 中 | 1.8–3.3 V | 摆幅大，与 host 电平对接 |
+| VDDCTRL | ADC / DAC / heater driver | 中高 | 1.2–1.8 V | 控制精度依赖电源稳定性 |
+
+电源噪声转化为信号劣化的路径有明确的物理机制。Driver 电源轨上的纹波直接调制输出级电压：如果电源纹波有 10 mVpp，而 driver 的增益是 6 dB（即电压放大倍数为 2），输出摆幅上就会出现 20 mVpp 的附加波动——这在 PAM4 电平间距只有几百 mV 的系统中直接缩小了眼图垂直张开度，反映为 TDECQ 恶化。TIA 的 PSRR 在低频段通常较好（40–60 dB），但在 GHz 频段会快速下降，此时电源上的高频噪声会等效地出现在 TIA 输入端，增加等效输入噪声电流密度。PLL 的电源纹波则通过 VCO 的 KVCO（压控增益）转换为相位抖动：100 mVpp 的 1 MHz 纹波在 KVCO = 1 GHz/V 的 VCO 上产生约 100 MHz 的瞬时频率偏移，积累成显著的 RMS 抖动。
+
+解决电源噪声的核心手段是去耦和分区隔离。片上 <TermNote label="decap" note="decoupling capacitor，去耦电容。利用 MOS 电容或 MIM 电容的电荷存储能力，在电源和地之间形成的局部电荷池，用于抑制高频瞬态电流引起的电压跌落。" /> 利用 MOS 电容或 MIM 电容为每个功率域提供纳秒级瞬态电流，其有效范围通常在 100 MHz 到几 GHz。片外去耦（0402/0201 MLCC）覆盖更低频率的电流脉冲，配合磁珠（ferrite bead）在不同电源域之间形成频率相关的隔离——磁珠在 DC 下只有 mΩ 级阻抗，在 100+ MHz 时跃升到几百 Ω，有效阻止高频噪声跨域传播。IR 压降管理是另一个常被低估的问题：driver 输出级的峰值电流可达几十 mA 到上百 mA，如果这个电流经过的电源网络串联阻抗过大（微凸块、片上金属线、封装基板走线），产生的 IR 压降会减少 driver 可用的实际摆幅，同时干扰同 die 上敏感模拟电路的偏置电压。在高性能 EIC 中，PLL 和 TIA 前端的电源轨通常会配备片内 <TermNote label="LDO" note="low-dropout regulator，低压差线性稳压器。一种在输入输出电压差很小时仍能稳定工作的线性稳压器，用于在片内生成干净的局部电源。" /> ，从较脏的输入电源（如 1.8 V 通用模拟轨）产生极低噪声的局部电源，后接 RC 或 LC 滤波，形成 PSRR 叠加的多级保护。
+
+### 7.2 时钟分配与同步
+
+光引擎的所有高速操作——发射端的数据采样、接收端的时钟恢复、PAM4 电平判决——都需要同一个时间基准。这个基准来自一个外部输入的参考时钟（reference clock），典型频率为 156.25 MHz 或 312.5 MHz。EIC 内部通过 <TermNote label="PLL" note="phase-locked loop，锁相环。一种利用反馈控制使内部振荡器频率和相位与参考信号同步的电路，用于在片内产生高频时钟。" /> 把这个低频参考倍频到 SerDes 和 CDR 需要的频率：56 GBaud PAM4 需要 28 GHz 的半速率时钟，112 GBaud 需要 56 GHz。PLL 中的 VCO（压控振荡器）是片内最高频的电路块，也是电源噪声和衬底噪声最敏感的节点——它的相位噪声直接进入所有 lane 的采样时钟。
+
+多 lane 并行传输时，所有 lane 共享同一个 PLL 输出的多相时钟，但每个 lane 的物理路径长度不同，数据到达 EIC 的时间也会有差异。EIC 通过 <TermNote label="phase interpolator" note="相位插值器。一种对时钟相位做精细步进调节的电路，通常以 1/32 或 1/64 UI 为步长调整采样时钟的相位延迟，用于 lane 内的时序对准。" /> 为每个 lane 独立调节采样时钟的相位延迟，补偿 lane 内的通道偏移。Lane 间的偏斜（lane-to-lane skew）来自激光器阵列、波导、调制器和 PD 的物理布局差异——同一芯片上，靠近激光器的 lane 和远离激光器的 lane 可能在光路上差几毫米，对应约 10–20 ps 的时间差。接收端的 deskew 功能会测量这些偏移并在 CDR 中对齐所有 lane 的数据输出。
+
+| 时钟功能块 | 输入 | 输出 | 关键指标 |
+|---|---|---|---|
+| 参考时钟输入 | 来自 host 或片外振荡器 | 156.25 / 312.5 MHz | 短期抖动、长期漂移、初始精度 |
+| PLL | 参考时钟 | 倍频后多相时钟（如 28 GHz） | RMS 抖动、锁定时间、KVCO、VCO 相位噪声 |
+| 时钟分配网络 | PLL 多相时钟 | 到每个 lane 的采样时钟 | 分配网络引入的 jitter、lane 间相位匹配 |
+| Phase interpolator | 分配后的时钟 | 精细延迟调整后的采样时钟 | 步进精度、INL/DNL、带宽 |
+
+时钟抖动预算管理是系统级工作。典型的 CPO 链路会把总抖动预算设定为 0.3 UI RMS（56 GBaud 时约 5.4 ps），从参考时钟到最终 CDR 采样点，每一级的抖动贡献按 RSS（平方和开根号）方式累积。参考时钟贡献 50–100 fs RMS（高频段），PLL 内部贡献 200–500 fs RMS（典型值为 ring-VCO 150–300 fs，LC-VCO 80–150 fs），时钟分配网络再增加 50–100 fs。如果总预算不够，就需要在 PLL 设计（选择 LC-VCO 替代 ring-VCO）、分配网络屏蔽（差分时钟走线、独立的电源域）和 CDR 抖动容忍度之间迭代。
+
+接收端 CDR 的另一个功能是从数据信号中恢复时钟。CDR 内部的相位检测器比较数据过零点和本地采样时钟的相位差，通过环路滤波器控制本地数控振荡器（DCO）或 VCO，使采样时钟与输入数据保持同步。CPO 场景下 CDR 面临的特殊挑战是：数据信号经过 PIC 调制器和探测器后，其相位噪声谱密度分布与纯电通道不同——光电器件的低频相位噪声（1/f 噪声）和温度引起的慢速漂移比纯电链路更大。CDR 的环路带宽需要在跟踪快变抖动和滤除慢速噪声之间权衡：带宽太窄跟不上电源耦合的高频抖动，带宽太宽会把光电转换的低频噪声引入采样点。
+
+### 7.3 PIC 控制环路：bias、heater、lock
+
+EIC 的低速电路通过闭环控制为 PIC 维持工作点——这也是 EIC 中最能体现光电 co-design 的层面。PIC 内部的光电器件对温度、偏置电压和老化非常敏感，如果没有 EIC 的持续补偿，调制器会偏离正交工作点，微环会失谐出有效波长窗口。
+
+**MZM 偏置控制**：Mach-Zehnder 调制器的传输函数是正弦平方曲线——输出光功率随偏置电压在最大和最小之间摆动。最佳工作点（正交偏置点）位于曲线的 50% 透过率处，此时 PAM4 四个电平可以近似等间距地映射到光功率上。偏置漂移主要来自两个因素：温度变化通过热光效应改变两臂波导折射率，导致偏置点以约 0.1 V/°C 的速率移动；长期运行中载流子注入和电迁移也会缓慢改变 PN 结的 I-V 特性。EIC 的偏置控制环路通过 DAC 输出直流偏置电压叠加在 RF 驱动信号上，同时利用 <TermNote label="monitor PD" note="monitor photodetector，监控光电探测器。PIC 上用于监测光功率和偏置状态的低速光电二极管，不参与高速数据传输，而是为控制环路提供反馈信号。" /> 读出光功率，在数字域执行闭环搜索——典型算法是 dithering（在偏置电压上叠加小幅低频扰动，监测光功率的二次谐波幅度来判断是否处于正交点）。偏置 DAC 需要 10–12 bit 分辨率才能保证步进电压对应的光功率变化小于 0.1 dB，从而把非线性失真控制在允许范围内。
+
+| 控制环路 | 被控对象 | 执行器（EIC 侧） | 传感器（PIC 侧） | 循环时间 |
+|---|---|---|---|---|
+| MZM 偏置 | MZM 正交工作点 | Bias DAC + 直流偏置叠加 | 输出端 monitor PD | 100 µs–10 ms |
+| 微环谐振锁定 | MRM 谐振波长 | Heater DAC / PDM 驱动 | 微环 drop-port PD / 自带光电流 | 10 µs–1 ms |
+| WDM 通道对齐 | 每个通道的波长 | 各通道独立 heater DAC | 阵列探测器 | 1–100 ms |
+| Driver 摆幅校准 | Driver 输出幅度 | 增益 / 偏置寄存器 | 片上包络检测器 | 秒级 |
+
+**微环谐振锁定**：微环调制器（MRM）的谐振波长对温度极其敏感，硅的 <TermNote label="热光系数" note="thermo-optic coefficient。折射率随温度的变化率。硅的热光系数约为 1.8 × 10⁻⁴ K⁻¹，意味着温度每升高 1°C，折射率变化导致谐振波长红移约 0.08–0.1 nm。" /> 约为 1.8 × 10⁻⁴ K⁻¹，对应的波长漂移约 0.08–0.1 nm/°C。在 DWDM 系统中，相邻通道的波长间距可能只有 0.8 nm（100 GHz 频率间隔），几度的温度变化就足以把微环的谐振峰移出激光线宽范围，造成调制效率断崖式下降。锁定环路的工作流程是：monitor PD（通常取微环 drop 端的光电流）或微环 PN 结自身的缺陷辅助光电流作为反馈信号，经 ADC 数字化后送入数字 PI 或峰值搜索控制器，控制器输出经 DAC 或脉冲密度调制（PDM）转换成加热功率，通过微环上方的金属加热器（heater）改变局部温度来微调谐振波长。加热效率通常在 50–100 pm/mW 量级——要把微环调谐 0.8 nm（即覆盖一个通道间隔），需要大约 8–16 mW 加热功率。锁定精度需要优于 50 pm（保证调制效率和消光比），对应 EIC 侧的控制分辨率约 12 bit，循环时间在 10 µs 到 1 ms 之间，取决于 PIC 的热时间常数和控制器的响应速度。
+
+**WDM 通道对齐与热串扰**：在多波长系统中，每个通道的微环都需要独立锁定。但密集排列的微环之间存在热串扰——加热 channel 1 时产生的热量会扩散到相邻 channel 2，改变后者的谐振波长，必须由 channel 2 的控制环反向补偿。这种热串扰网格使多通道锁定成为一个耦合系统：N 个加热器产生的温度场由 N×N 的耦合矩阵描述，简单的独立 PI 控制器可能振荡。工程上常用的解决方式包括解耦矩阵（decoupling matrix，在控制算法中补偿热交叉耦合系数）、时分锁定（交错各通道的锁定操作，避免同时调整）或迭代逼近。
+
+### 7.4 管理接口与遥测
+
+EIC 的管理接口是外界访问光引擎内部状态的窗口。CPO 光引擎不像可插拔模块那样可以随手拔出更换，当链路出现问题时，工程师必须通过管理接口读取遥测数据才能定位故障原因。
+
+**管理接口协议**：最常用的两种是 I2C（两线串行总线，2 线制，适用于短距离片内或片间通信，速率 400 kHz–1 MHz）和 SPI（四线串行总线，速率可达几十 MHz）。在光模块生态中，<TermNote label="CMIS" note="Common Management Interface Specification，通用管理接口规范。OIF 定义的光模块管理接口标准，定义了寄存器映射、状态机、诊断监测和告警的标准化访问方式，最初用于可插拔模块，也被 CPO 引擎采用。" /> 是最重要的管理标准。它最初由 OIF 为可插拔光模块制定，但在 CPO 和 ELSFP（外部激光小可插拔光源）的推进中被扩展为平台无关的接口描述。CMIS 定义了完整的寄存器映射：芯片标识、模块状态机（低功耗→上电→就绪→运行→故障）、数据通路配置、应用编码（lane 数、数据率、调制格式）、诊断监测（电源电压、温度、光功率、偏置电流）以及告警阈值。CPO 引擎通常用一个片上 MCU（微控制器）实现 CMIS 协议栈，通过 I2C/SPI 与 host 通信，同时通过内部总线读写 EIC 各子模块的状态寄存器。
+
+**遥测数据种类与粒度**：EIC 内部集成了多种传感器在同一颗 die 上。
+- **温度传感器**：通常在芯片不同位置部署 3–10 个测温点——靠近 driver 的位置、靠近 TIA 的位置、靠近 PLL 的位置。温度读数用于 bias 补偿、激光器保护和热管理决策。
+- **电源电压 / 电流监测**：每个独立电源域都有电压监测 ADC 和电流采样电路。电压偏离设定值超过 5% 往往意味着电源网络或去耦有问题。电流读数则可以反映 driver / TIA 的偏置状态是否正常。
+- **监控 PD 读出**：PIC 上的 monitor PD 产生 pA–µA 级的电流，经 TIA 或跨阻 ADC 数字化后用于推断光功率、偏置点和谐振锁定状态。
+- **Driver 输出摆幅监测**：通过片上包络检测器或低速 ADC 测量 driver 输出电平。当 driver 的增益或偏置因为老化发生漂移时，摆幅监测可以提前预警，而不是等到系统 BER 上升才发现。
+- **Heater 功率和占空比**：每个 heater 的功耗记录可以间接反映 PIC 的温漂程度——heater 偏置持续增大意味着激光器波长或 PIC 温度正在漂移，可能是散热或激光器老化的早期信号。
+
+| 遥测类别 | 传感器 / 信号来源 | 典型精度 / 分辨率 | 诊断价值 |
+|---|---|---|---|
+| Die 温度 | 片上硅带隙或二极管温度传感器 | ±1–2°C | bias 补偿、过温告警、热管理 |
+| 电源电压 | 分压电阻 + 低速 ADC | ±1–3% | 电源交付完整性、IR 降异常 |
+| 光功率（monitor PD） | PIC monitor PD → EIC ADC | 10–12 bit | 偏置点、老化趋势、激光器功率 |
+| Driver 摆幅 | 输出端包络检测 | 8–10 bit | 增益漂移、driver 老化 |
+| Heater 功率 | 电流 / 电压读出 | — | 波长锁定状态、PIC 热状态 |
+
+**告警和故障管理**：CMIS 规范的告警框架定义了从"正常"到"警告"到"告警"再到"严重故障"的分级体系。常见告警类型包括：
+- <TermNote label="LOS" note="loss of signal，信号丢失。接收端输入光功率低于灵敏度阈值时触发的告警，表明链路出现中断或光功率严重不足。" /> ——接收端监视器发现输入光功率低于阈值，可能来自激光器故障、光纤断裂或耦合对准偏移。
+- OT（over temperature，过温）——die 温度超过工作温度上限（通常 85°C 或 100°C），可能触发降频或关机保护。
+- 偏置漂移告警——MZM 偏置 DAC 的控制值持续漂移到调节范围边界，提示调制器可能需要重新启动或偏置电路出现异常。
+- TIA 过载告警——接收端电流超过 TIA 线性输入范围，意味着输入光功率过高，可能损坏 TIA 或导致非线性失真。
+
+**遥测粒度和故障定位**：遥测的价值在于粒度。CPO 引擎内部有 4–32 个 lane，如果只聚合出模块级的平均光功率和温度，当 BER 恶化时只能知道"某个通道"有问题，但无法区分是 Tx 侧 driver 老化、激光器波长漂移、耦合对准变化、还是 Rx 侧 TIA 退化。每个 lane 的独立传感器数据——每通道的偏置电压、heater 功率、monitor PD 光电流、TIA 偏置电流、driver 摆幅——才能形成故障指纹，将问题隔离到具体的功能块。这也是为什么 CPO 的 EIC 往往比可插拔模块集成更多的 ADC 通道和传感器节点：无法更换的引擎必须靠更完整的自诊断来维持可用性。
+
+## 8. PIC / EIC / 封装的共同设计条件
+
+EIC 的 datasheet 参数在实验室探针台上测得，但封装后还需要穿过 micro-bump、interposer trace、substrate via 才能到达 PIC。这个物理路径的每一个环节都在修改 EIC 的有效性能。
+
+### 8.1 从实验室到封装：为什么 EIC 的 "毫伏" 在系统中会变
+
+实验室环境中，探针直接接触 EIC 焊盘，寄生电感可以忽略——测得的是 EIC 的"裸片极限性能"。封装环境中，信号从 EIC 出发，经过 micro-bump → interposer RDL 走线 → via → C4 bump → substrate → bond wire → PIC 电极，每一段都有串联电感、并联电容和电阻损耗。
+
+一个具体数字：driver 输出在探针台上是 4 Vppd，经过 bump（约 0.2 nH）+ 2 mm trace（约 0.8 nH）+ 调制器电极（约 1.5 pF）后，到达 modulator 时的有效摆幅只剩约 3.2 Vppd——约 20% 衰减。这 0.8 V 的损失不是 driver 本身的问题，是封装互连的寄生电感与调制器电容形成的 LC 低通滤波效应——电感越大、电容越大、信号频率越高，衰减越重。
+
+这就是为什么 CPO 要缩短 EIC-PIC 距离。每缩短 1 mm 互连长度，约减少 0.3–0.5 nH 串联电感——按 50 GHz 信号计算，相当于少衰减约 5–8%。缩短距离不是"更好"的问题，是 112 Gbaud PAM-4 能否闭合眼图的问题。封装互连的寄生参数与 EIC 的 driver 输出级设计、PIC 调制器的电极阻抗一起形成了一条完整的频率相关通道——三方中任何一方的参数变化都可能将原本闭合的眼图推入不可恢复的区间。
+
+### 8.2 电互连的物理建模
+
+EIC 到 PIC 的电互连本质上是一段"封装内传输线"。它不是 PCB 上的微带线，也不是芯片内部的 BEOL 互连——物理尺寸和介电环境介于两者之间，需要专门的建模方法。关键结构元素及其寄生量级如下：
+
+| 结构 | 典型尺寸 | 主导寄生参数 | 对信号的影响 |
+|------|---------|-------------|------------|
+| Micro-bump | ~40 μm 间距，~20–30 μm 直径 | ~50 fF 电容，~0.1 nH 电感 | 阻抗不连续点，高频反射来源 |
+| RDL 走线 | ~2 μm 厚 Cu，~2–10 μm 宽 | 串联电阻 ~0.5–2 Ω/mm，电感 ~0.3–0.5 nH/mm | 低频衰减 + 高频低通滤波 |
+| Via | ~10–50 μm 高 | ~0.05–0.2 nH 电感 | 垂直过渡层，特定频率下形成谐振 |
+| Substrate 走线 | ~15 μm 厚 Cu，~15–50 μm 宽 | 特性阻抗 ~40–60 Ω，损耗 ~0.2–0.5 dB/mm | 主传输路径，阻抗匹配决定反射量 |
+| Bond wire | ~100–500 μm 长 | ~0.5–1 nH/mm 电感 | 高电感，CPO 设计应尽量避免 |
+
+对于 > 50 GHz 的信号（112 Gbaud PAM-4 基频约 28 GHz，三阶谐波已到 84 GHz），这些结构的电长度不可忽略。在 50 GHz 下，1 mm 走线在介质中的电长度约 7°（FR4）/ 10°（low-loss organic），2 mm 就接近 20°。阻抗不连续处的反射相位旋转已不可忽略——反射波不再与入射波简单叠加或抵消，而是部分旋转到正交方向，破坏信号完整性。
+
+常用的建模方式是基于 S 参数的电磁仿真：先用全波仿真工具（HFSS、CST、Momentum 等）提取互连结构的多端口 S 参数，再转换到时域等效电路，与 EIC 的 I/O 模型和 PIC 的电极模型一起做联合瞬态仿真。这个流程的输出是端到端的电眼图——它才是封装后真正有效的性能指标，不是 EIC 的裸片测试值。
+
+设计中最容易被忽略的是信号回流路径。不连续的回流路径产生额外环路电感——电流环路面积每扩大一倍，等效串联电感约翻倍，带宽降低、串扰增加。在封装设计中，为每路高速信号分配专用的回流路径（相邻地线或地平面）与信号布线本身同样重要。
+
+### 8.3 热耦合：EIC 发热怎样影响 PIC
+
+EIC 是光引擎内的主要热源之一。一颗 4-lane 112G PAM4 EIC（含 driver + TIA + CDR）总功耗约 3–6 W。这些热量通过两条路径散发：芯片背面经 TIM（热界面材料）传导到散热器，正面通过 micro-bump 和 interposer 传导到 substrate。其中约 30–50% 的热量经由 bump 和 interposer 进入 substrate 方向，成为 PIC 的热输入。
+
+热对 PIC 的影响是多方面的。硅波导的热光系数（dn/dT）约 1.8×10⁻⁴ /K——温度变化 1°C 就使波导有效折射率改变，进而使 MZI 相位偏移、微环共振波长偏移约 0.1 nm。对于通道间隔仅 0.8 nm（100 GHz）的 WDM 系统，几度的温差就能将信号从一个通道推向相邻通道。
+
+微环调制器是对温度最敏感的 PIC 器件。每个环需要闭环加热器将共振波长锁定到对应的激光器通道上。但加热器本身也产生热量——单个加热器功耗 4–14 mW/nm 调谐量，数十个加热器同时工作的总功耗可达数百毫瓦。这些热量在 PIC 中横向扩散，又成为相邻环的干扰源，形成多变量耦合的控制问题。
+
+Ge PD 的暗电流对温度同样敏感。暗电流每升温 10°C 大约翻倍——从 25°C 到 85°C 可增长 6 倍以上。暗电流的散粒噪声叠加在信号电流上，直接抬升接收端的噪声基底，降低灵敏度。
+
+热管理需要从三个层面同时处理。芯片级：EIC 的热点（driver 输出级、CDR 逻辑）在版图布局时应远离 PIC 的温度敏感区（微环、MZI 臂），利用 bump map 错开位置，通过 interposer 的水平热阻实现热隔离。封装级：高导热 TIM（导热系数 > 5 W/m·K）和散热器路径设计决定热沉效率，必要时在 EIC 和 PIC 之间插入隔热结构（thermal trench 或低导热 underfill）。系统级：风冷与液冷的选择决定封装可承受的功耗密度上限；CPO 场景下 ASIC 的 200–600 W 废热通过 substrate 传导到光引擎区域，ASIC 负载波动可能通过热耦合干扰微环锁频环路，控制环路的响应速度必须快于热耦合的时间常数（通常在数十毫秒量级）。
+
+### 8.4 EIC → PIC / 封装的接口条件表
+
+以下表格总结 EIC 对 PIC 和封装提出的硬性约束。最后一列解释每项约束 WHY 存在——它来自哪个物理或系统层面的机制。
+
+| EIC 条件 | 传递给 PIC 的设计约束 | 传递给封装的设计约束 | WHY |
+|----------|---------------------|---------------------|-----|
+| Driver 输出摆幅 / 阻抗 | 调制器 Vπ 必须匹配——驱动电平需要达到 π 相移；电极阻抗约 50–100 Ω | Bump 数量、RDL 走线宽度（电流承载 + 阻抗控制）、substrate 介质选型 | Driver 摆幅由 EIC 工艺节点和功耗给定，修改 PIC 调制器比改 EIC 成本更低 |
+| Driver-to-modulator 路径长度 | 调制器电极输入位置（TX 端口物理坐标） | Interposer 尺寸、bump map、substrate 布线长度 | 每 1 mm 互连贡献 ~0.3–0.5 nH 串联电感 → 高频衰减 |
+| TIA 输入电容预算 | PD 结电容由 PD 面积决定——面积每翻倍，电容翻倍，TIA 带宽减半 | Pad 尺寸、ESD 结构（加 ESD 即增加电容）、bump 间距 | TIA 输入电容直接决定接收端带宽——它是 Rx 路径的 RC 极点 |
+| PD-to-TIA 距离 | PD 位置和输出 pad 位置（RX 端口物理坐标） | Bump map 优化、bond wire 长度控制或省略 | 互连寄生电感与 PD 电容谐振 → 频率响应出现尖峰或凹陷 |
+| 电源轨数量 / 峰值电流 | 片上 decap（去耦电容）面积 | PCB 去耦层叠、VRM 位置、电源层分割、C4 bump 数量 | 峰值电流在封装电感上产生 L·di/dt 压降 → 电源噪声进入信号路径 |
+| 时钟输入 | — | Reference clock 走线长度匹配、屏蔽隔离 | 时钟抖动直接转化为信号抖动——任何不对称耦合都增加确定性抖动 |
+| ADC/DAC 分辨率和通道数 | Heater contact 数量、monitor PD 抽头数量 | Bump 数量增加（每路低速信号占一个 bump） | 控制精度取决于 DAC 分辨率；可独立控制的 heater 数取决于 bump 和走线通道数 |
+| 测试访问 | 片上 loopback 光路、PRBS 发生器、test PD | 测试点、probe pad、boundary scan 链、可测试性 bump | CPO 封装后无法直接接触 EIC 焊盘——测试必须通过封装级接口访问 |
+
+以上每项约束都有明确的物理机制。设计团队应在项目启动阶段就将此表分发给 PIC、封装和 EIC 三方，作为接口控制文档的起点。每个约束项有一方是"给定方"（通常是 EIC，受工艺节点和功耗约束），其他两方是"适配方"。如果适配方的设计裕量不够，三方回到系统预算重新分配。
+
+### 8.5 联合设计的迭代流程
+
+实际项目中，PIC、EIC 和封装不是串行完成的——它们形成一条迭代回路，通常需要 2–3 轮完整循环才能收敛。
+
+**步骤一：系统预算分配。** 从链路预算出发——OMA（光调制幅度）、TDECQ、BER——将 margin 分配到各子系统：driver 摆幅允许的衰减量、调制器消光比和插损、PD 响应度和暗电流、TIA 噪声和带宽、封装互连的插入损耗和反射。每一项的典型值加在一起必须在总预算以内。
+
+**步骤二：第一次 pass。** PIC 和 EIC 各自按目标设计——PIC 团队确定调制器电极尺寸和 PD 尺寸，EIC 团队确定 driver 输出级和 TIA 输入级。封装团队根据初步 bump map 和 chiplet 尺寸设计 interposer 和 substrate 布局。此阶段三方使用各自的独立仿真工具，仅通过规格文档交换接口条件。
+
+**步骤三：联合仿真。** 封装团队提取互连结构的 S 参数 → 与 PIC 电极等效电路模型和 EIC 的 IBIS 或 SPICE I/O 模型一起送入通道仿真器 → 得到端到端的电眼图和浴盆曲线。这是三方第一次看到"真正的"系统性能——封装后的信号完整性不是在实验室裸片测试中能看到的。
+
+**步骤四：迭代。** 如果电眼图不满足 BER 目标，有三个调整方向。(a) EIC 侧：增加 driver 摆幅、调整预加重抽头系数、降低 TIA 输入电容。(b) PIC 侧：缩短调制器电极长度（降低电容）、调整 PD 尺寸（降低结电容但降低响应度——互为取舍）、更换调制器类型（如 MZM 换 EAM）。(c) 封装侧：缩短互连距离、加宽走线降低电阻、增加回流路径密度、改用更低损耗介质。每次修改后回到步骤三重新仿真，直到眼图闭合 margin 满足要求。
+
+**步骤五：热仿真耦合。** 电学迭代初步收敛后，将 EIC 的功耗分布和 PIC 的温度敏感器件位置叠在一起做热仿真。温度漂移使微环共振波长偏移、MZM 偏置点漂移、PD 暗电流增加——这些变化必须小于电学设计中留出的 margin。如果热漂移超出裕量，需要调整器件布局（热源远离敏感区）、增加加热器调谐范围、或提升封装散热能力。热仿真的结果也反馈回步骤三——因为温度影响互连材料的介电常数和损耗，也改变 EIC 的 driver/TIA 性能（载流子迁移率随温度下降）。
+
+**步骤六：最终 sign-off。** 电眼图闭合 margin + 热裕量（全温度范围 + 工艺 corner + 老化指标）必须满足 BER 目标。Sign-off 条件通常比规格要求保留至少 10–20% 裕量——因为量产时每颗芯片的工艺偏差不同、运行环境不同、多年后的老化状态也不同。只有在联合仿真和热仿真都确认这些裕量足够时，PIC、EIC 和封装三方的设计才算真正锁定。
+
+这个流程不是一次性完成的。每次流片后的测试数据反馈回来校准仿真模型（S 参数 vs. 实测、波导损耗 vs. 测试结构数据），在新一轮设计中更新模型参数——形成一个随项目进展不断收紧的收敛过程。
+
+
+## 9. 制造与集成路径
+
+EIC 不是在真空中设计的。选择什么工艺、用什么方式与 PIC 连在一起，直接决定了 driver 能输出多少摆幅、TIA 能听到多小的信号。
+
+### 9.1 EIC 工艺选择：CMOS、SiGe BiCMOS、FD-SOI
+
+EIC 的工艺节点不是越快越好。先进 CMOS 的数字密度对 DSP 和 CDR 友好，但低压供电限制了 driver 摆幅；SiGe BiCMOS 保留了高击穿电压和低噪声，但数字密度和成本竞争力在下降；FD-SOI 试图在两者之间找到一个新平衡点。
+
+| 工艺 | fT / fmax | 供电电压 | 优势 | 劣势 | 典型产品 |
+|---|---|---|---|---|---|
+| 先进 CMOS（7nm / 5nm / 3nm） | ~300 GHz（5nm） | < 1 V | 数字密度极高（DSP / CDR 友好）、成本低（大批量）、功耗低 | 供电电压低（driver 摆幅受限）、模拟噪声较大 | Broadcom DSP PHY、Nvidia EIC |
+| SiGe BiCMOS（130nm / 90nm） | 300–500 GHz | 1.8–3.3 V | 高 fT × 高 BV（天然适合 driver）、噪声低（TIA 友好） | 数字密度低（不适合大规模 DSP）、成本高、产能有限 | MACOM driver / TIA、Semtech |
+| FD-SOI（22nm） | ~350 GHz | 1.5–1.8 V | 折中方案：高 fT + 可接受数字密度 + 背栅偏置调谐（适合模拟） | 生态不如 CMOS 成熟 | 新兴 EIC 方案 |
+
+**CMOS 的低压限制**是先进节点用于 driver 时的核心矛盾。5nm CMOS 的核心供电已降至 0.8–0.9 V，即使采用差分结构和 AC-coupled 输出级，实际可用的差分摆幅也很难超过 1.5 <TermNote label="Vppd" note="volts peak-to-peak differential，差分峰峰电压。差分信号中正负两端的电压差，等于 2× 单端峰峰值。" />。硅 MZM 的 <TermNote label="Vπ" note="half-wave voltage，半波电压。使 MZM 两臂光程差达到 π 相移（即一个干涉周期）所需的驱动电压幅度。VπL 是 Vπ 与电极长度的乘积，用于比较不同调制器的效率。" /> 通常在 2–5 V 之间，低 Vπ 设计（如 2 V 以下）往往需要更长的行波电极或更高的光损耗。当 driver 的可用摆幅小于调制器需要的驱动电压时，工程上只能通过分段 MZM（segmented MZM，每段由一级小 driver 驱动，叠加后达到总摆幅）、电压模技术或 T-coil 网络的电感峰化来弥补——这些方法都会增加面积、功耗或设计复杂度。这也解释了为什么 MZM 设计越来越强调与 driver 的 co-design：降低 VπL 的效率增益会被 driver 的摆幅瓶颈部分抵消。
+
+**SiGe BiCMOS 的高 fT × BV 乘积**是 driver 的理想组合。BiCMOS 在同一颗芯片上整合了 SiGe HBT（异质结双极晶体管）和标准 CMOS：HBT 提供 fT 300–500 GHz、击穿电压 2–4 V 的模拟性能，CMOS 提供偏置、控制和低速数字逻辑所需的晶体管。SiGe HBT 的高 fT 意味着它可以在 100+ GBaud 下提供足够增益，BVCEO > 2 V 意味着单级放大就能输出 3 Vppd 以上的摆幅——不需要分段、不需要功率合成器，输出级结构比 CMOS 方案简单得多。对于需要高线性度的 PAM4 driver 和超低噪声的 TIA 前端，SiGe HBT 的 1/f 噪声拐点和散粒噪声都优于同代的 CMOS 器件，实测 TIA 灵敏度可以差 2–4 dB。代价是数字逻辑的集成密度远低于先进 CMOS——一个 100 万门的 DSP 在 SiGe BiCMOS 上可能占用比 CMOS 5nm 大 5–10 倍的面积，且每逻辑门的功耗高出数倍。因此 SiGe BiCMOS 的典型产品形态是"纯模拟前端 + 外部 DSP"——driver 和 TIA 用 SiGe 做，CDR / DSP 用另一颗 CMOS 芯片完成。MACOM 和 Semtech 的高速光通信 driver / TIA 产品线长期采用这一路线。
+
+**FD-SOI 是"两不像"的折中**，但这个折中在特定场景下有独特价值。22nm FD-SOI（如 GlobalFoundries 22FDX）的 fT 约 350 GHz，接近 SiGe 90nm 水平；供电电压 1.5–1.8 V，允许比先进 CMOS 更高的 driver 摆幅（实测可达 1.87 Vpp 从 2 V 电源）；同时具备与 28nm CMOS 相当的数字密度。它独有的**背栅偏置**（back-bias）能力——通过衬底偏压调节晶体管的阈值电压 Vth——对 EIC 的模拟设计有直接帮助：TIA 的输入级偏置电流可以依靠背栅调谐来补偿工艺-电压-温度（<TermNote label="PVT" note="process-voltage-temperature，工艺-电压-温度。半导体器件的性能随制造工艺波动、供电电压偏差和工作温度变化的综合效应，PVT 变化需要在电路设计中预留裕量。" />）变化，消除传统上需要激光修调或片外校准的环节。2025 年 IEEE RFIC 会议上展示的 22nm FD-SOI driver 利用 SOI 的浮动体结构实现堆叠开关输出级，在 58 Gb/s 下单通道功耗仅 0.66 pJ/bit。FD-SOI 的主要限制是代工厂生态不如 CMOS 成熟——台积电和三星的主力数字工艺都是 FinFET，FD-SOI 的主力产能在 GlobalFoundries 和三星的较小产线上，设计工具和 IP 的可用性仍在追赶中。
+
+### 9.2 2D、2.5D 与 3D 集成方案
+
+工艺选择之后的问题是：EIC 和 PIC 在物理上怎么"挨着"。这个"挨着"的距离直接决定了互连寄生、信号完整性、热耦合和返修的难易。从互连长度的维度看，集成方案可以分为三个层次。
+
+**2D 并排放置**是起步方案。EIC 和 PIC 在同一块封装基板上左右排列，通过 <TermNote label="bond wire" note="bond wire，键合引线。用于芯片管脚到封装基板或另一芯片之间的互连金线或铜线，长度通常 1–5 mm。" /> 或基板走线连接。互连长度在 mm 级——就是 driver 输出到调制器电极需要经过的键合线或封装 trace 的长度。键合线的串联电感约 1–3 nH/mm，对于 < 50 GBaud 速率，这个电感尚可接受（与调制器电极的输入阻抗形成低通滤波，3 dB 带宽可覆盖 25–40 GHz）。但在 56 GBaud 以上，键合线电感造成的带宽损失不可忽视：一个 3 nH 的串联电感与调制器 50 Ω 输入端形成约 26 GHz 的 -3dB 带宽极点——信号在奈奎斯特频率处已经衰减了约 6 dB。2D 方案的优势在于热隔离（EIC 的热点与 PIC 的光学器件之间有空间缓冲）和返修便利（任一芯片失效都可以单独拆卸重贴）。劣势也很明显：面积大（两颗芯片并排占用封装基板空间）、互连电感大（带宽受限）、无法满足大 I/O 密度（每根 bond wire 需要 pad 面积和间隔）。
+
+**2.5D 中介层（interposer）方案**是当前 CPO 的主流集成方式。EIC 和 PIC 通过硅或玻璃中介层连接——interposer 上包含精细走线（RDL）和 TSV，芯片通过微凸块或铜柱（Cu pillar）倒装在 interposer 上，interposer 再通过 C4 bump 与封装基板连接。互连长度从键合线的 mm 级缩短到 interposer 走线的 0.5–2 mm，串联电感降至 0.3–1 nH。这个量级的互连可以支撑 112 Gb/s PAM4（56 GBaud）的带宽要求，配合行波电极的 50 Ω 设计，链路损耗可控制在 2–3 dB 以内（含两个 bump 的过渡和 interposer 走线）。典型方案中每个微凸块的直径约 25–40 μm、间距 40–55 μm，单个 bump 的寄生电容约 50–100 fF、电感约 0.05–0.15 nH——两个 bump 叠加后对 56 GBaud 信号仍有余量。
+
+TSMC 的 <TermNote label="COUPE" note="Compact Universal Photonic Engine，紧凑型通用光子引擎。台积电 2024 年推出的硅光封装集成平台，将 PIC 和 EIC 在晶圆级实现键合，再通过 CoWoS 与计算芯片集成。" /> on Substrate 方案是 2.5D 的代表性商业化平台。PIC（65nm SOI）和 EIC（N7 / N6）分别制造后通过微凸块倒装在同一硅 interposer 上，interposer 内含 TSV 和 RDL 完成信号、电源和地的垂直过渡与水平分布，最后以 BGA（球栅阵列）形式与封装基板对接。除了硅 interposer，玻璃 interposer 也是一个活跃的方向：玻璃的介电常数（Dk ≈ 5，硅 ≈ 11.9）和损耗因子（Df）都低于硅，射频信号在玻璃 interposer 上的传输损耗比硅低 30–40%，对于 100+ GHz 的毫米波信号有明显优势。玻璃通孔（<TermNote label="TGV" note="through-glass via，玻璃通孔。在玻璃中介层中制作的垂直导电通孔，用于信号和电源在不同层之间的垂直过渡。与 TSV 相比，TGV 的射频损耗更低。" />）的制造工艺正在成熟中，但热膨胀系数（CTE）匹配和玻璃的脆性仍是工程挑战。
+
+**3D 垂直堆叠**把互连长度推到极限。EIC 通过微凸块或混合键合直接翻转堆叠在 PIC 上方（或反过来 PIC 贴在 EIC 上），互连长度仅由微凸块高度决定——20–50 μm。对应的串联电感约为 0.05–0.2 nH，带宽极限可达 150+ GHz。这个量级的寄生对 112 GBaud 甚至 224 GBaud 的 driver 和 TIA 链路几乎不构成限制。3D 的第二个好处是面积效率：EIC 和 PIC 在二维上重叠，不占用额外的基板面积，整个光引擎的 footprint 主要由 PIC 面积决定。
+
+3D 集成的主要挑战不在电而在热和制造。EIC 的功耗密度通常高于 PIC——一个 100+ mW 的 driver 或 TIA 直接贴在 PIC 上方，产生的热量必须经过 PIC 的硅衬底（或 TSV 阵列）才能散到散热器。PIC 上的微环调制器对温度极其敏感（~0.08–0.1 nm/°C），EIC 热量通过晶体管-微凸块-PIC 导热路径进入 PIC 衬底后，会直接改变谐振波长和 MZM 偏置点。返修是另一个现实问题：3D 堆叠后 EIC 和 PIC 通过微凸块阵列紧密结合，underfill 填充后几乎无法分离。如果堆叠后发现 EIC 失效，整个 PIC + EIC 堆叠体报废。KGD（已知合格芯片）成了 3D 方案的前置条件——堆叠前每颗 die 都必须经过完整测试。
+
+三种方案的对比表：
+
+| 维度 | 2D 并排放置 | 2.5D Interposer | 3D 垂直堆叠 |
+|---|---|---|---|
+| 互连长度 | mm 级（1–5 mm） | 0.5–2 mm | μm 级（20–50 μm） |
+| 串联电感 | 1–3 nH（bond wire） | 0.3–1 nH | 0.05–0.2 nH |
+| 热隔离 | 好（空间分离） | 中（interposer 导热） | 差（EIC 热量直接传入 PIC） |
+| 返修性 | 好（可单独拆换） | 中（可局部返修） | 几乎不可能 |
+| KGD 兼容 | 宽松 | 必要 | 严格要求 |
+| 工艺难度 | 低 | 中 | 高 |
+| 典型应用速率 | < 50 GBaud | 56–112 GBaud | 112+ GBaud |
+
+### 9.3 Flip-chip、Microbump、DBI 与 TSV
+
+上述三种集成方案中，EIC 和 PIC（或 interposer）之间通过具体的互连结构完成电和机械连接。这些互连结构的寄生参数直接进入高速信号路径和电源网络——选型和优化是 EIC 物理设计的一部分。
+
+**微凸块（Microbump）** 是最成熟、最常用的 EIC-PIC 互连方式。工艺上，它先在芯片的 I/O pad 上制作铜柱（Cu pillar），铜柱顶端加上锡银焊料帽（solder cap），然后将芯片倒装并加热回流，使焊料熔化键合。典型尺寸：铜柱直径约 25–40 μm，高度 20–50 μm，焊料帽高度 5–15 μm。键合后的间距（standoff）约 20–50 μm，pitch（相邻两个 bump 的中心距）约 40–55 μm。单个 bump 的寄生参数：电容约 50–100 fF（取决于焊料与衬底的距离和介电常数），电感约 0.05–0.15 nH（由 bump 的几何形状决定——更高更细的 bump 电感更大）。这些寄生在 56 GBaud 以下是可以接受的，但在 112+ GBaud 时，bump 电容效应变得显著：一个 100 fF 的 bump 在 53 GHz 奈奎斯特频率下的容抗约 30 Ω，与互连的 50 Ω 特征阻抗形成 RC 低通极点——单节点引起的 -3dB 带宽约 32 GHz，多个 bump 串联后带宽进一步收缩。热压缩回流带来的对准精度和焊料空洞控制也是影响良率的重要因素——空洞率的控制通常要求在 5% 以下，超过 15% 的微凸块会在电流集中和热循环下提前疲劳失效。
+
+**直接键合互连**（<TermNote label="DBI" note="Direct Bond Interconnect，直接键合互连。一种无焊料的 Cu-Cu 直接键合技术，在室温下通过氧化介质分子力将两片晶圆贴合并利用 Cu 的热膨胀在退火后形成导电通路，间距可 < 10 μm。" />）或称混合键合（hybrid bonding），是微凸块的替代方案。原理是：两片晶圆在室温下通过介质的分子间作用力初步贴合，然后在 250–350°C 退火过程中，铜焊盘受热膨胀挤压形成金属-金属直接接触——整个过程不需要焊料、不需要回流、不需要 underfill。DBI 的间距可以缩小到 10 μm 以下，TSMC 的 SoIC-X 技术已实现 9 μm pitch 的 Cu-Cu 混合键合。寄生参数几乎为零：没有焊料层意味着没有额外的串联电阻和电容，铜-铜直接接触的导电率和热导率都远优于焊料。
+
+DBI 的工程门槛主要在表面平整度。键合面的粗糙度要求小于 1 nm RMS，晶圆的局域翘曲需要在几微米以内——这要求 CMP（化学机械抛光）工艺将芯片表面控制在极高平整度才能实现均匀接触。DBI 的另一个限制是返修：一旦两片晶圆在退火后完成铜-铜键合，分离几乎等同于破坏。因此 DBI 只用于已知良率足够高的晶圆或已知通过的 KGD——台积电 SoIC-X 的典型使用方法是将 EIC 晶圆与 PIC 晶圆在代工厂直接键合后划片，键合界面在交付客户时已是封死状态。
+
+Nvidia 在 ISSCC 2026 展示的 3D 堆叠 CPO 光引擎是 DBI 在 EIC-PIC 领域的技术样板。EIC 采用 7nm FinFET 工艺，PIC 采用 65nm SOI 硅光工艺，两者通过台积电 SoIC-X 混合键合面对面堆叠，键合 pitch 仅 9 μm。单通道 32 Gb/s NRZ，每根光纤承载 9 个波长（8 数据 + 1 半速率转发时钟），单光纤吞吐量 256 Gb/s——这是目前业界报告的最高 EIC-PIC 3D 集成密度的商用级展示。键合界面的超低寄生（Cp + CESD 的总和远低于微凸块方案）使接收端灵敏度提升可以直接转换为激光器功耗节省 30–40%。
+
+**硅通孔**（<TermNote label="TSV" note="Through-Silicon Via，硅通孔。贯穿硅衬底的垂直导电孔，用于在芯片的正面电路和背面之间或堆叠芯片的不同层之间传输信号、电源和地。" />）在集成方案中扮演的角色与微凸块不同。TSV 不是 EIC-PIC 之间的互连，而是**垂直过渡**——在 interposer 中把正面的 RDL 走线过渡到背面的 C4 bump，或在 3D 堆叠中把上层芯片的信号引到下层或基板。典型尺寸：直径 5–10 μm（针对先进 interposer）至 25–50 μm（针对较老的硅光平台），深度 50–100 μm，对应深宽比 5:1 到 10:1。每个 TSV 的寄生参数约 0.05–0.2 nH 电感和 0.1–0.5 pF 电容。在 CPO 场景中，TSV 的电容是更需要关注的值：一个 0.3 pF 的 TSV 在 53 GHz 下的容抗约 10 Ω，如果 TSV 出现在 50 Ω 特性阻抗的传输路径上，这个容性不连续会引起反射（反射系数约 −0.67，即约 −3.5 dB 的回波损耗）。TSV 的射频建模——包括 TSV 本身、周围的耗尽区电容、以及 TSV-to-substrate 耦合——已成为 EIC-PIC co-design 中不可忽视的环节。
+
+### 9.4 EIC KGD 测试：先筛出好的芯片再封装
+
+KGD（Known-Good-Die）不是一个测试动作的集合，而是封装经济学的必然产物。在 CPO 光引擎中，一颗 PIC 的制造成本可能只有几十美元，一个 4 波长激光器阵列约几十美元，但把这些组件与价值几百到几千美元的 switch ASIC 集成在一个封装内的整体封装成本（基板、散热、调谐、装配、测试、返修预留）可能数倍于组件成本。如果在封装后才发现 EIC 有缺陷——比如一个 TIA 通道的增益偏低，或一个 driver 输出级的 PSRR 不足——检查修复意味着解焊、分离、替换、重焊、重测，每一步都有损坏周边好组件（PIC 和激光器）的风险。**封装后修复一个 EIC 缺陷的实际成本，大约是封装前在 wafer 级别发现的 10–50 倍。**
+
+EIC KGD 测试需要覆盖 EIC 的所有功能域，但测试插入点不同决定了它能看到什么：
+
+**DC 测试**是最基础的筛选层。测量每个电源域的对地漏电（Ioff）、pad I-V 特性（ESD 保护结构是否完整、pad 是否与电路正常连接）、TIA 的偏置电流和 driver 输出级的静态电流。DC pass / fail 在三分钟内可以覆盖整个 12 英寸晶圆上的数千颗 die，拦截因为工艺缺陷（金属短路、栅氧击穿、接触孔失效）造成的明显坏片。DC 检测出的缺陷一般在 0.1–1% 的漏电不良水平。
+
+**数字测试**关注 EIC 中的数字电路功能，包括 scan chain（扫描链，用于测试片上数字逻辑的 DFT 结构）、BIST（内置自测试，如 SRAM 和 PLL 的自检）、边界扫描（boundary scan，JTAG 标准定义的芯片引脚级互连测试）。对于集成了 CDR / DSP 的 EIC，完整的 scan 测试可以覆盖 die 上 90% 以上的数字逻辑——但 scan 测试需要探针卡提供数百到数千个数字 I/O 通道，对探针卡的 channel count 和 fan-out 能力有很高要求。
+
+**高速测试**是 EIC KGD 中最难的部分。Driver 面向调制器的输出口通常是差分对，要在 wafer 上测量其 swing、rise/fall time、jitter 和眼图张开度，需要探针上承载 50+ GHz 的信号路径——高频探针的尖端间距通常是 100–150 μm，寿命约 10–20 万次接触，每根探针的成本从几百到上千美元不等（取决于带宽和通道数）。对于 driver，常用的片上测试结构是**包络检波器**（envelope detector）：在 driver 输出端并联一个二极管-电容峰值检波电路，输出一个正比于 RF 摆幅的 DC 电压，通过慢速 pad 即可测量。包络检波器的精度约 ±5–10%，不足以做精确的 TDECQ 测量，但足以判断 driver 是否工作、输出摆幅是否在 bin 范围内。对于 TIA，可以通过片上 PRBS 发生器向 TIA 注入已知电流模式（片上电流 DAC + 51 Ω 源阻抗模拟 PD 输出），在 TIA 输出端用 on-chip 眼图监视器测量 eye 张开度——不需要外部高速信号源和高频探针。
+
+**片内自测试结构的价值**在 KGD 中怎么强调都不过分。一颗支持 PRBS 发生器和片内眼图监视器的 EIC，可以在 wafer 测试中完成完整的 Tx/Rx 环回（loopback）测试——driver 输出通过片上短路线或小电容回路回到 TIA 输入，产生的 BER 可以评估整个通道的信号完整性。这种自测试不需要板级的高频连接器、不需要外部误码仪、不需要昂贵的 67 GHz 探针。实际量产中，EIC 的 wafer-level 高速测试成本主要取决于自测试覆盖了多少功能域——自测试覆盖率越高，探针接触次数越少，每颗 die 的测试成本越低。
+
+**晶圆级老化筛选**（Wafer-Level Burn-In，WLBI）是 KGD 的补充环节。在晶圆上对 EIC 施加高温（120–150°C）和偏压（1.1–1.2× 额定电压），持续数小时到数十小时，模拟若干年的使用应力。WLBI 的目的是筛除早期失效——那些在正常使用中会在几个月内失效的潜在缺陷品（氧化物陷阱、电迁移薄弱点、热载流子注入引起的参数漂移）。老化前后的参数对比（漏电、摆幅、增益、偏置电流的变化率）可以为芯片的寿命预测提供数据。需要注意的是，WLBI 会消耗芯片的可用寿命预算，因此老化的时间长度和应力条件需要在良率、成本和可靠性之间取得平衡。
+
+
+## 10. 测试、bring-up 与可诊断性
+
+EIC 的测试不能停在 DC pass/fail。CPO 光引擎需要在不同组装阶段逐级验证 EIC 的功能，并在现场运维时能快速定位问题。测试体系的设计原则是"越早越便宜，越晚越真实"——在晶圆级可以用探针卡和 BIST 低成本筛查大部分缺陷，但有些问题（如激光器与调制器的配合、封装互连引入的高频损耗）只有在封装完成后面对真实光链路才能暴露。以下按组装阶段、测试方法论、故障定位和现场运维四个层面展开。
+
+### 10.1 三级测试体系：Die → Subassembly → Package
+
+CPO 光引擎的测试按组装阶段分层。每一层的测试对象不同、使用的设备不同、筛选出的缺陷类型也不同。下面这张表概括了三级的核心区别：
+
+| 阶段 | 测什么 | 怎么测 | 筛出什么 |
+|------|--------|--------|---------|
+| Die 级（EIC KGD） | DC leakage、scan、PLL lock、driver swing、TIA gain、ADC/DAC | 探针卡 + 片上 BIST | 有制造缺陷的 die |
+| Subassembly 级 | bump 连续性、RF 路径完整性、电源轨、控制环路 | 探针 + PRBS | 封装动作损坏的互连 |
+| Package 级 | PRBS、optical eye、BER、TDECQ、lane skew、热扫描 | 光口输入 + 电口 BERT | 全系统性能验证 |
+
+**Die 级测试**是第一个质量门。裸 die 阶段的缺陷种类以制造工艺偏差为主：栅氧击穿或金属短路会导致 DC leakage 超标，PLL 因 VCO 工艺角偏移无法锁定，driver 输出级因 MOS 管阈值漂移而摆幅不足。Die 级测试的优势是成本最低、覆盖全面——探针卡可以同时接触上百个 pad，几分钟内完成一条数千个测试项的扫描链（scan chain）检查。测试结果的 wafer map 还能反馈给良率工程，用于修正工艺窗口。跳过这一级直接把未经筛选的 die 送入封装，意味着封装后才发现的缺陷要追溯到晶圆、重新做失效分析，周期和成本都远高于 die 级把关。
+
+**Subassembly 级测试**紧接在 die attach、flip-chip 或 fiber attach 之后。封装动作本身可能引入新的缺陷：microbump 在回流焊后可能出现虚焊或桥接，RF 走线因热应力产生微裂纹，电源轨在 multiple die stacking 后压降轮廓改变。Subassembly 级的典型做法是先用低速连续性测试确认所有 bump 的电气接触完好，再用 PRBS 图案验证高速路径的完整性——如果 driver 输出端的 PRBS 眼图在封装后明显闭合，说明封装互连增加的插入损耗或反射超出了设计裕量。这一级的测试仍以电测为主（光路尚未完全组装或尚未接入激光源），因此测的主要是封装对电性能的影响，而非光链路的端到端 BER。
+
+**Package 级测试**是出厂前的最终验证。此时光引擎已经完成所有组装：PIC 接入了激光器或外部光源，fiber array 对准并固定，EIC 与 PIC 通过 bump 连接，散热路径就位。测试时从光口输入经调制后的光信号、从电口读回，用 BERT 测量端到端的 BER 和 TDECQ。热扫描（thermal sweep）是这一级不可省略的项目——CPO 光引擎在交换机 ASIC 附近工作，结温可能比室温高 40–60 °C，driver 摆幅、TIA 增益、微环谐振波长都会随温度变化，只有跨越全温度范围的眼图测试才能确认系统余量。Package 级测试的代价最高（占用昂贵的 BERT 和采样示波器、需要激光源和温控接口），因此必须在 die 级和 subassembly 级剔除尽可能多的缺陷，确保进入 package 测试的样本绝大多数是 good unit。
+
+### 10.2 高速电测试：PRBS、眼图、BER、TDECQ
+
+在数字通信链路中，四个测量量构成了从"信号长什么样"到"信号到底好不好"的完整评估链条。它们各自回答不同层次的问题，在工程中缺一不可。
+
+**PRBS（伪随机比特序列）**是高速链路测试的"标准饲料"。EIC 测试不使用真实业务数据——真实数据的内容和统计特性不可控，无法做可重复的量化比较。<TermNote label="PRBS" note="pseudo-random binary sequence，伪随机比特序列。一种由线性反馈移位寄存器生成的确定性二进制序列，具有近似随机数据的统计特性，但图案本身是可重复的。" /> 由线性反馈移位寄存器生成，序列本身确定（给定种子即可复现），但统计特性接近于随机数据。不同长度的 PRBS 服务于不同的测试目的：PRBS-7（2⁷−1 = 127 bit）图案短、低频成分少，适合快速验证基本眼图张开度和链路有无严重问题；PRBS-31（2³¹−1 ≈ 2.1×10⁹ bit）包含很长的连续相同数字串（long run length），能同时考验 DC 平衡能力和低频截止特性——如果链路有 AC 耦合或较低的截止频率，长串的相同数字会导致基线漂移，使眼图垂直闭合。EIC 片上集成 PRBS 发生器和检查器是自我测试能力的关键：它意味着不依赖外部 BERT 就可以用晶圆探针或封装后测试接口完成基本链路评估，对生产测试和现场诊断都有直接价值。
+
+**眼图（Eye Diagram）**是所有符号周期的波形叠加，用一张图同时展示幅度噪声和时序抖动的分布。电眼图和光眼图是两个不同的概念：电眼图是在 EIC driver 输出端用高速示波器捕获的电压波形叠加，反映 driver 的输出摆幅、上升/下降时间、过冲和抖动；光眼图是调制器把电波形写入光载波后，用光采样示波器捕获的光功率波形叠加，反映的是电眼图经过调制器转换曲线后的结果。两者不同——电眼图好不代表光眼图好，因为调制器的非线性会压缩或倾斜 PAM4 的四个电平间距。产线上常用 eye mask test 做快速 pass/fail 判定：IEEE 802.3 为每个 lane rate 定义了眼图内部的"禁止区域"（mask），如果任何波形落入禁止区域，该 lane 即判定为 fail。Mask test 无法替代完整 BER 测量，但胜在速度快（毫秒级即可完成），适合高通量筛选。
+
+**BER（误码率）**是数字通信链路最直接的指标——它是判决错误的比特数与总传输比特数的比值。BER 不能直接告诉你"信号有多差"的物理原因，但它是最终判决标准：如果接收端重新定时后判决错误太多，FEC（前向纠错）补救不了，链路就不可用。典型要求因 FEC 强度而异：KP4-FEC 前（pre-FEC）BER 必须低于 2×10⁻⁴——在 200 Gbps 速率下，这个数字意味着大约每 10 μs 可以接受一个错误比特，超过这个阈值 FEC 的纠错能力就会被耗尽。BER 与 <TermNote label="OMA" note="optical modulation amplitude，光调制幅度。PAM4 中定义为最外层两个电平之间的平均光功率差，即 OMA_outer，是决定眼图垂直张开度的关键参数。" /> 之间存在明确的交换关系：OMA 越大，眼图越高，噪声容限越大，BER 越低。但提升 OMA 需要增大 driver 输出摆幅或激光器功率，两者都会增加功耗；在工程中选择"够用"的 OMA 就是选择功耗和 BER 的平衡点。
+
+**TDECQ（发射色散眼图闭合四进制）**是 IEEE 802.3 为 PAM4 系统定义的发射质量指标。<TermNote label="TDECQ" note="transmitter and dispersion eye closure quaternary，发射色散眼图闭合四进制。IEEE 802.3bs 定义的一种度量，表示实际发射信号经过参考接收机和均衡器后，与理想信号相比需要额外增加多少光功率才能达到相同的符号错误率，单位为 dB。" /> 衡量的是：在相同的接收机灵敏度下，实际发射机比理想发射机差了多少 dB。工程上更直观的理解是——TDECQ 量化了发射端眼图闭合的"额外噪声等效惩罚"：一个 TDECQ 为 3.0 dB 的发射机，接收机需要多一倍的入射光功率才能达到与理想发射机相同的 SER。典型产线要求 TDECQ < 3.0 dB（IEEE 802.3bs 对 400G-SR8 的强制上限）。TDECQ 高的直接后果是"吃掉"链路预算中预留给接收端的 margin：100 Gb/s 每 lane 的链路预算通常只有 5–7 dB，如果 TDECQ 用掉 3 dB，留给光纤损耗、连接器污染和老化裕量的就只有 2–4 dB。EIC driver 的线性度、上升时间、电源噪声和调制器偏置精度都会贡献到 TDECQ 上——因此 TDECQ 既是 driver 性能的"汇总评分"，也是产线测试中最重要的 pass/fail 边界之一。
+
+| 测量量 | 测什么 | 典型设备 | 产线用途 |
+|--------|--------|---------|---------|
+| PRBS | 标准测试图案 | 片上 BIST / 外接 PPG | 提供测试激励 |
+| 眼图 | 波形叠加的幅度和时序分布 | 采样示波器（DCA） | 快速 mask pass/fail |
+| BER | 判决错误的比例 | BERT / 片上 checker | 最终判决标准 |
+| TDECQ | 发射端光信号的质量惩罚（dB） | 采样示波器 + 软件 | 链路预算分配 |
+
+### 10.3 故障定位的分层策略
+
+CPO 引擎封装后 BER 超标，第一反应不应该是"换掉整个引擎"。BER 超标只是一个症状，原因可能来自光路、电光转换、接收、数字电路和固件控制五个层面中的任何一个。分层隔离策略的目标是：用最短的排查路径锁定根本原因，避免盲目更换。
+
+**Layer 1（光路）**：先确认激光器是否正常工作。激光器输出功率是否在规格范围内？耦合损耗是否因为光纤对准偏移或端面污染而增大？这两个问题不需要拆开封装——通过 PIC 上的 monitor PD 读出光电流即可判断。如果 monitor PD 读数相对于基线下降了 30% 以上，优先检查激光器驱动电流和光纤接口清洁度。
+
+**Layer 2（电光转换——发射端）**：如果光功率正常但 BER 仍差，问题可能出在电信号到光信号的转换过程。调制器偏置点是否正确？MZM 是否偏离了正交工作点？Driver 的输出摆幅是否达到设计值？片上 DAC 可以通过回读确认偏置电压设置；低速 ADC 可以监测 monitor PD 输出的平均值来判断偏置点。如果 driver 摆幅设置正确但光眼图幅度不足，则问题指向调制器的插损异常或驱动电极缺陷。
+
+**Layer 3（接收端）**：如果发射端链路没有问题，则需要排查接收路径。TIA 的输出共模电压和幅度是否正常？标准信号输入时有正确的响应吗？PD 的暗电流是否异常增大（暗电流上升可能意味着 PD 结损伤或污染）？EIC 片上的 loopback 功能在这里发挥关键作用——它通过一个片内衰减器把 driver 的输出回环到 TIA 的输入，形成一个纯电的端到端测试路径。如果 loopback 下 BER 正常，说明接收端的 TIA、CDR 和数字判定链路没有问题，故障一定在光电器件或光路上；如果 loopback 下 BER 也差，则故障在 EIC 内部。
+
+**Layer 4（数字电路）**：排除模拟和光电路径后，检查数字电路状态。CDR 是否锁定？PRBS checker 是否在同步状态？如果 CDR 失锁，所有后续的 BER 测量都无效。状态寄存器可以在管理接口上直接读出这些标志位——几十微秒的读操作即可确认数字电路的健康状态。
+
+**Layer 5（固件/控制）**：最后检查固件层面的异常。Calibration 流程是否在 bring-up 时顺利完成？thermal control loop 是否稳定（微环的 heater 功耗是否在预期范围内）？管理接口的日志（上一次 reset 的原因、calibration 失败记录、电源轨的 under-voltage 报警）往往能揭示那些"硬件看起来没问题但就是不通"的根本原因。
+
+| 故障层 | 排查点 | 用什么查 | 典型判断 |
+|--------|--------|---------|---------|
+| L1 光路 | 激光功率、耦合损耗 | Monitor PD 读数 | 光功率下降 > 30% → 检查激光器或接口 |
+| L2 电光转换 | 调制器偏置、driver 摆幅 | 片上 DAC 回读 + ADC 监测 | 摆幅正常但光眼小 → 调制器插损异常 |
+| L3 接收 | TIA 输出、PD 暗电流 | 片上 loopback（driver → TIA） | Loopback 正常 → 故障在光电域 |
+| L4 数字 | CDR 锁定、PRBS 同步 | 状态寄存器读出 | CDR 失锁 → 先恢复时钟再测 BER |
+| L5 固件/控制 | Calibration 状态、thermal 稳定 | 管理接口日志 | Calibration 未完成 → 链路不会通 |
+
+分层策略的核心含义是：每一层的 monitor 都是一个"不用开刀就能做的体检"。如果光引擎缺少某一层的 monitor——例如没有片上 loopback、没有 monitor PD 读出接口、没有状态寄存器——那么当 BER 超标时，工程师只能通过更换来排查：换一个光引擎看是否还有问题。这种"换换看"的诊断方式在 51.2T 交换机的数百个引擎面前完全不现实。这就是为什么 EIC 需要内置丰富的 telemetry ——诊断能力不是可有可无的增值功能，而是 CPO 系统可维护性的前提条件。
+
+### 10.4 现场运维与预防性维护
+
+CPO 光引擎与可插拔模块有一个根本区别：前者不可现场更换。可插拔模块（QSFP-DD、OSFP 等）出现故障时，运维人员只需要拔出模块、插入备件即可恢复业务。CPO 引擎与交换机 ASIC 通过基板深度集成，没有用户可操作的接口——引擎故障就意味着整块线卡或整台交换机需要退出服务并返厂维修。因此，CPO 的可靠性不能靠"坏了就换"，必须通过遥测来主动管理。
+
+关键遥测参数随时间的趋势变化提供了引擎健康度的核心判断依据：
+
+- **激光器偏置电流随时间上升**——这是激光器老化的经典标志。半导体激光器的阈值电流随使用时间缓慢上升，为了维持恒定的输出光功率，自动功率控制（APC）会持续增加偏置电流。当偏置电流接近驱动器的最大输出限时，激光器已接近寿命终点。
+- **Driver 输出摆幅随时间下降**——Driver 内部的 MOS 管在长期电应力下可能出现热载流子注入（HCI）和偏置温度不稳定性（BTI），导致驱动能力下降。输出摆幅下降直接缩小 OMA，反映为接收端眼图闭合和 BER 劣化。
+- **TIA 输出噪声底随时间上升**——PD 的暗电流会随辐射暴露或结退化而增加，暗电流的 shot noise 会以额外噪声的形式出现在 TIA 输出端。同时 TIA 输入级的 MOS 管 1/f 噪声也会随老化缓慢上升。噪声底上升意味着相同的光功率下 SNR 下降——当 SNR 低于 FEC 的要求时，链路开始报错。
+- **Heater 功耗随时间增加**——对微环调制器或波长锁定型引擎来说，PIC 上的 heater 功耗记录了维持谐振波长所需的加热量。如果 heater 功耗随时间单调增加，意味着 PIC 的光学路径发生了漂移（可能是封装应力释放、微环波导的老化或激光器中心波长的缓慢偏移），heater 功率预算的耗尽速度就是引擎的可维护时间的上限。
+
+| 遥测趋势 | 预示什么问题 | 典型应对 |
+|----------|-------------|---------|
+| 激光器偏置电流 ↑ | 激光器老化 | 计划更换周期；调整 APC 上限阈值 |
+| Driver 输出摆幅 ↓ | Driver 退化 | 降低 lane rate 或增加 pre-emphasis 补偿 |
+| TIA 噪声底 ↑ | PD 暗电流增加或 TIA 退化 | 检查结温；提高 FEC 强度 |
+| Heater 功耗 ↑ | 微环波长漂移 | 评估是否需要热调校；越线则安排维护窗口 |
+
+跟踪这些趋势的核心价值在于：可以在 BER 劣化到不可用之前安排维护窗口。一台 51.2T 交换机有上千条 lane 需要同时健康运行，如果某条 lane 的 laser bias 在过去半年逐月上升了 15%，而 OMA 同步下降了 0.5 dB，系统可以预测该 lane 在未来 3–6 个月内可能失效并触发链路重路由（traffic reroute）和备件更换计划。这比"BER 突然超标、整片线卡断网"的被动修复方式高效得多。
+
+这与 Section 9 的 KGD 测试形成闭环。前端的筛选（KGD test）保证进入封装的材料质量；后端的遥测（field telemetry）保证运行中的状态可感知。两者共同构成了 CPO 长期可靠运行的基础：筛选在源头拦住先天缺陷，遥测在运行中捕捉后天退化。任何一个环节缺失，CPO 的可靠性保证都无法闭环。
+
+
+## 11. 判断 EIC 的核心指标
+
+评价一颗 EIC 不能只看 lane rate 或工艺节点。一颗 7 nm 的 EIC 可能因为 driver 摆幅与调制器 Vπ 不匹配而无法闭合链路预算，而一颗较老工艺的 EIC 如果集成方式和性能取舍得当，反而能在特定系统中表现更好。判断 EIC 需要按功能分组，看每组指标是否在系统链路预算内相互匹配——PAM4 信号对线性度和噪声的耦合要求，使得摆幅、带宽、功耗、抖动和线性度这五组参数必须同时满足，缺一不可。
+
+以下五个子节分别覆盖发射端 driver、接收端 TIA、时钟与数字处理、功耗热管理以及封装互连层面的核心指标。
+
+### 11.1 Tx Driver 指标族
+
+Driver 的核心任务是把 host SerDes 输出的电压信号放大到足以驱动调制器的幅度。这个任务看似简单，实际涉及多组相互冲突的约束：更高的输出摆幅需要更大的电流和更低的负载阻抗，而更大的电流意味着更高的功耗和更慢的上升时间；更宽的带宽需要更小的输入/输出时间常数，但寄生参数在封装集成中很难无限缩小；PAM4 的四个等间距电平对 driver 的线性度提出了远高于 NRZ 的要求——非线性失真会直接压缩某些电平的眼图张开度，且无法通过接收端均衡完全恢复。
+
+输出摆幅与调制器 <TermNote label="Vπ" note="half-wave voltage，半波电压。MZM 两臂之间产生 π 相位差所需的电压差，Vπ 越小则达到给定消光比所需的驱动电压越低。" /> 的匹配是第一组需要检查的关系。如果 driver 的差分输出摆幅（Vppd）远小于调制器的 Vπ，则消光比（ER）不足，光眼图垂直张开度不够；如果摆幅远大于 Vπ，多余的电压不仅浪费功耗，还会把调制曲线推向非线性区——在 PAM4 系统中这尤其危险，因为正弦型的调制传输函数会使四个光功率电平之间的间距不均匀。设计良好的系统会让 driver 的最大摆幅略高于调制器 Vπ（留出 10–20% 的裕量），配合偏置控制使工作点落在调制曲线线性度最好的区间。
+
+带宽和上升时间是第二组相互关联的指标。Driver 的 -3 dB 带宽需要根据符号率和调制格式来设定：NRZ 信号的能量集中在 DC 到 0.7 × baud rate 之间，带宽不足会直接切掉信号的高频分量导致眼图闭合；PAM4 的信号对带宽的要求稍宽松（奈奎斯特频率为 baud rate 的一半），但每层之间的电压间距只有 NRZ 的三分之一，对 ISI 的容忍度更低，实际需要的带宽约为 0.35–0.5 × baud rate。上升/下降时间（通常用 20%–80% 量度）需要小于 0.4 个 UI——对于 56 GBaud 的 PAM4 信号，1 UI ≈ 17.9 ps，上升时间需要控制在 7 ps 以内，否则相邻符号之间的 ISI 会显著恶化眼图。
+
+抖动和线性度是 driver 中容易被低估但实际对链路预算影响极大的指标。输出抖动分为 <TermNote label="RJ" note="random jitter，随机抖动。由热噪声、闪烁噪声等随机过程引起的高斯分布抖动，无法完全消除，只能通过低噪声设计压低。" /> 和 <TermNote label="DJ" note="deterministic jitter，确定性抖动。由电源噪声、串扰、反射和码型相关性等确定因素引起的抖动，幅度有界，可以通过设计改善。" /> 两部分，RJ 的 RMS 值需要控制在 0.3 ps 以下，DJ 的峰峰值需要低于 1 ps（56 GBaud），否则抖动会水平闭合眼图。PAM4 线性度用 <TermNote label="RLM" note="ratio level mismatch，电平比率失配。PAM4 四个电平之间实际间距与理想间距的相对偏差，IEEE 802.3 标准要求 RLM ≥ 0.92。" /> 衡量，RLM 越接近 1 说明四个电平分布越等间距。RLM 下降的根源之一是 <TermNote label="THD" note="total harmonic distortion，总谐波失真。信号经过非线性系统后产生的各次谐波功率与基波功率之比，在 driver 中反映了输出级晶体管跨导的非线性程度和偏置点的压缩效应。" /> ——谐波失真压缩某些电平间距，使眼图的三层张开不够均匀。Driver 内部的预加重或有限冲激响应均衡（FFE）可以用少量抽头（通常 1–3 tap）补偿输出路径上的高频衰减，但这个补偿能力有限，不能替代带宽设计。
+
+| 指标 | 典型范围（2025 年） | 为什么重要 |
+|---|---|---|
+| 最大 baud rate | 56–112 GBaud（研究级 224 GBaud） | 决定每 lane 的数据速率上限，baud rate × log₂(M) = lane rate |
+| 差分输出摆幅（Vppd） | 2–4.5 Vppd（取决于调制器类型和工艺） | 摆幅 < Vπ 则消光比不足；摆幅过大则功耗浪费且线性度恶化 |
+| 带宽（-3 dB） | 30–95 GHz | 带宽需约 0.7 × baud rate（NRZ）或 0.35–0.5 × baud rate（PAM4）才能保证眼图张开 |
+| 上升/下降时间（20–80%） | < 0.4 UI（约 7 ps @ 56 GBaud） | 转换时间过长则 ISI 显著增加，PAM4 对 ISI 比 NRZ 更敏感 |
+| 输出抖动（RJ + DJ） | RJ < 0.3 ps RMS, DJ < 1 ps pp | 抖动直接闭合水平方向眼图，且无法通过增加光功率补偿 |
+| PAM4 线性度（RLM） | > 0.92 | 四个电平等间距是 PAM4 眼图三层均匀张开的前提 |
+| THD | < 2–3% | 谐波失真压缩部分电平间距，直接导致 RLM 下降 |
+| 预加重/均衡 tap 数 | 1–3 tap FFE | 补偿 driver 到调制器之间的通道高频衰减，补偿范围有限 |
+| 输出阻抗 | 差分 50/100 Ω 或匹配调制器电极阻抗 | 阻抗不匹配产生反射和驻波，恶化信号完整性和实际可用摆幅 |
+| pJ/bit（能效） | 1.5–5 pJ/bit（MRM 更低，MZM 更高） | 决定了功耗预算中 driver 占多少，直接影响引擎热设计 |
+
+### 11.2 Rx TIA 指标族
+
+接收端 TIA 承担着把光电探测器产生的微弱电流（几十 μA 到几 mA）线性地转换为后级可以处理的电压信号的任务。TIA 的核心约束是灵敏度、带宽和动态范围之间的三角权衡——这是光电接收链路中最经典的工程取舍。与 driver 不同，TIA 的输入信号能量完全由探测器产生的光电流决定，系统设计者无法像在发射端那样通过增加驱动幅度来改善信噪比。因此 TIA 的噪声性能直接决定了接收端能看到多弱的光信号，也就定义了整个链路预算中最紧张的一环。
+
+噪声是 TIA 最重要的指标，用 <TermNote label="输入等效噪声电流密度" note="input-referred noise current density。所有 TIA 内部噪声源（反馈电阻热噪声、放大器输入噪声等）折算到输入端的等效噪声电流谱密度，单位 pA/√Hz。在 112G PAM4 中，最先进的 CMOS TIA 可以达到 10–11 pA/√Hz。" /> 来衡量（单位 pA/√Hz）。这个指标已经在前面的物理基础部分做过理论推导，这里给出实际的参考数值。截至 2025 年，商用 112G PAM4 TIA 的输入等效噪声电流密度在 10–25 pA/√Hz 范围内，先进工艺（22 nm FDSOI、16 nm FinFET）可以做到 10–11 pA/√Hz。配合响应度 0.5–0.8 A/W 的锗硅探测器，这个噪声水平对应的灵敏度约为 −8 到 −10 dBm <TermNote label="OMA" note="optical modulation amplitude，光调制幅度。PAM4 信号中最高光功率电平和最低光功率电平之间的功率差，比平均光功率更能反映信号中携带信息的实际能量。" />。SiGe BiCMOS 工艺的 TIA 虽然带宽更宽（可到 60–70 GHz），但输入等效噪声通常在 15–20 pA/√Hz 量级，这是其工艺节点较老、输入电容较大的代价。
+
+跨阻增益和带宽的取舍在 TIA 中比在 driver 中更加尖锐。增益（典型值 54–74 dBΩ，即 500 Ω–5 kΩ）决定了 TIA 能把多小的输入电流转换成后级可用的电压。但如果增益设置过高，TIA 的输出会在强信号时饱和——这就是过载点（overload）的意义。最大输入电流（overload）在 1–3 mA 量级，超过这个值 TIA 输出进入限幅区，PAM4 电平的幅度信息被削平。输入动态范围（> 30 dB for PAM4）描绘了 TIA 可同时处理的最小和最大信号的范围，在 CPO 场景中尤其重要，因为多 lane 之间由于光纤耦合效率和 PIC 制造偏差，各通道的光功率可能相差 10 dB 以上。
+
+TIA 输入端的寄生电容是限制噪声和带宽的底层参数。这个电容包括光电探测器的结电容、ESD 保护结构、bump/pad 寄生以及 TIA 输入级的栅极电容之和。TIA 芯片自身的输入电容目标是 < 50 fF，但加上探测器部分后总输入电容通常为 50–150 fF。更高的输入电容会通过两种机制同时恶化性能：一是与反馈电阻形成更低的主极点压缩带宽，二是放大 TIA 输入级的电压噪声到输入电流（在公式中表现为 (2πf × Cin × Vn_amp)² 项）。这意味着输入端每增加 10 fF 寄生，就需要在增益、带宽或噪声三者中至少牺牲一个。
+
+| 指标 | 典型范围（2025 年） | 为什么重要 |
+|---|---|---|
+| 跨阻增益 | 54–74 dBΩ（500 Ω–5 kΩ） | 增益不够则后级放大器噪声贡献占主导，降低整体信噪比 |
+| 带宽（-3 dB） | 30–70 GHz | 带宽同 driver，决定眼图水平张开度；带宽不足直接增加 ISI |
+| 输入等效噪声电流密度 | 10–25 pA/√Hz（先进 CMOS 可达 10–11） | 直接决定接收灵敏度极限，是链路预算的核心输入参数 |
+| 最大输入电流（overload） | 1–3 mA | 决定强信号下 TIA 是否饱和，影响链路的动态范围上限 |
+| 输入动态范围 | > 30 dB（PAM4） | 确保最弱和最强信号都工作在线性区，适应多通道功率差异 |
+| 输入电容（TIA 侧） | < 50 fF（芯片自身）+ PD 寄生 | 限制噪声和带宽的底层参数，输入端每增 10 fF 就需牺牲性能 |
+| THD | < 2%（PAM4 线性模式） | 失真压缩 PAM4 电平间距，降低有效信噪比 |
+| 灵敏度（OMA @ KP4-FEC 阈值） | −8 到 −10 dBm OMA（112G PAM4） | 系统链路预算的核心输入，决定了可用的光纤损耗预算 |
+| pJ/bit | 1–3 pJ/bit | TIA + 后级放大器的功耗，多通道时累加显著 |
+
+### 11.3 CDR / SerDes / DSP 指标族
+
+CDR、SerDes 和 DSP 共同构成了 EIC 的数字信号处理链。这些模块不直接处理光信号，但它们决定了 EIC 能在多大的信号损伤下恢复出无误码的数据。随着每 lane 速率从 112G 向 224G 演进，这部分电路的复杂度和功耗占比正在快速上升。一个好的 EIC 需要确保 CDR 的抖动特性、SerDes 的均衡能力和 DSP 的纠错冗余三者之间相互匹配——任何一块成为短板都会使链路无法在目标 BER 下工作。
+
+抖动特性是 CDR 设计的核心。JTOL 和 JTRAN 两个指标从正反两个方向反映了 CDR 的跟踪能力。CDR 的 JTOL 需要大于 0.3 UI 甚至更高——这代表着即使输入数据带有较大的相位偏移，CDR 也能保持锁定并正确采样。JTOL 曲线通常呈"盆形"：低频段主要受限于 CDR 环路带宽（带宽越宽，低频跟踪能力越强），高频段受限于 DCO 或 VCO 的调谐范围和相位检测器的增益。另一个方向是 JTOL 的低频区：CDR 必须能跟得上由温度变化、低频电源噪声和光电转换 1/f 噪声引起的慢速相位漂移。JTRAN 是 CDR 环路对输入抖动的传递函数——理想情况下 CDR 应该跟踪低频抖动（数据信号中的慢速相位变化）而抑制高频抖动（不跟随快速相位噪声）。JTRAN 的 peaking 需要小于 0.1 dB，否则 CDR 环路会在某个频率附近放大输入抖动，使输出时钟的抖动比输入数据还大——这被称为"抖动放大"（jitter peaking），在级联 CDR 的场景中会逐级累积。
+
+均衡能力指标反映了 EIC 对信道损伤的容忍度。发射端 <TermNote label="FFE" note="feed-forward equalizer，前馈均衡器。在发送端或接收端用 FIR 滤波器对信号波形做预补偿或后补偿，抵消信道引入的码间干扰。" /> 的 tap 数决定了 driver 可以补偿多长范围的信道高频衰减（典型值 TX 侧 3–7 tap，RX 侧 5–16 tap）。DFE 的优势是消除 ISI 而不放大噪声，它的 tap 数（1–16 tap）决定了 EIC 在多长的后标 ISI 范围内仍能维持低误码率。当信道损耗超过 30–35 dB 时，单靠 FFE + DFE 可能已经不足以维持在 KP4-FEC 可纠错的 BER 阈值以下，此时需要引入 MLSE 等更高级的均衡算法。
+
+除了均衡，CDR 还需要考虑锁定时间和频率捕获范围。在 CPO 系统中，链路启动、故障恢复和重新配置都需要 CDR 快速重新锁定——锁定时间需要 < 1 ms。频率捕获范围（±200–500 ppm）决定了 CDR 能容忍参考时钟与输入数据之间的频率偏差大小。如果这个范围太窄，参考时钟的微小偏差就会导致无法锁定。
+
+| 指标 | 典型范围 | 为什么重要 |
+|---|---|---|
+| 最大 lane rate | 112–224 Gbps PAM4 | 决定单 lane 容量，直接影响总带宽密度 |
+| 抖动容忍度（<TermNote label="JTOL" note="jitter tolerance，抖动容忍度。CDR 在保证给定 BER 的前提下，输入数据上能承受的最大抖动幅度。通常以 UI 为单位在特定频率下测量。" />） | > 0.3 UI @ 高频（> 10 MHz） | 反映 CDR 能忍受多大的输入抖动而不判决走样 |
+| 抖动传递（<TermNote label="JTRAN" note="jitter transfer，抖动传递函数。CDR 输出时钟的抖动幅度与输入数据抖动幅度的比值随频率的变化曲线。peaking 指在某个频率附近出现输出抖动大于输入抖动的现象。" />） | < 0.1 dB peaking | 防止 CDR 环路放大输入抖动，避免级联系统的抖动累积 |
+| 锁定时间 | < 1 ms | 链路建立和故障恢复的时间预算中有严格限制 |
+| 频率捕获范围 | ±200–500 ppm | 决定 CDR 对参考时钟精度和温度漂移的容差 |
+| FFE tap 数 | 3–7 tap（TX），5–16 tap（RX） | 决定可补偿的信道延迟扩展长度，tap 越多抗多径反射能力越强 |
+| <TermNote label="DFE" note="decision-feedback equalizer，判决反馈均衡器。利用已判决的前几个符号值估计并消除它们对当前符号的 ISI，只减 ISI 不放大噪声。" /> tap 数 | 1–16 tap | 决定消除后向 ISI 的能力，tap 数受 1 UI 反馈环时序限制 |
+| <TermNote label="KP4-FEC" note="KP4 forward error correction，KP4 前向纠错码。IEEE 802.3 标准定义的 RS(544, 514) 里德-所罗门码，可以在原始 BER ≤ 2.4 × 10⁻⁴ 时纠错到 BER < 10⁻¹⁵。" /> 前纠错阈值 | < 2.4 × 10⁻⁴（pre-FEC BER） | 在此 BER 以下 FEC 可以纠正到系统级 BER < 10⁻¹⁵，是链路预算的判决标准 |
+
+### 11.4 功耗与热指标族
+
+功耗指标的重要性在 CPO 时代比可插拔模块时代上升了一个层次。在可插拔模块中，功耗主要影响电费成本和模块外壳温度，热量通过模块外壳和 cage 散发到系统风道中。在 CPO 中，EIC 的功耗直接转化为封装内部的发热量，这些热量必须经过封装基板、散热器和系统级热管理路径排出——路径更长、热阻更大，而且 EIC 的热量会通过封装基板传递到相邻的 PIC 上，改变 PIC 的温度场和光电器件的工作点。因此功耗在 CPO 中不仅是能源效率问题，更是系统功能正确性的问题。
+
+总功耗和 pJ/bit 是宏观指标。一个典型的 4-lane 112G EIC（含 driver、TIA 和 CDR）的总功耗在 3–8 W 之间，对应的 pJ/bit 在 5–15 pJ/bit 范围。这个范围之所以宽，是因为功耗高度依赖调制器类型（MZM 需要高摆幅 driver，功耗更高；MRM 驱动电压低，driver 更省电）、工艺节点（先进 FinFET 的能效显著优于较老节点）以及数字化程度（全 retimed 比 LPO 方案多消耗 1–2 pJ/bit 的 DSP 功耗）。EIC 的功耗分布通常是 driver 占比最大（40–50%），TIA 其次（20–30%），CDR 和数字逻辑占剩余部分——但随速率提升，DSP 的功耗占比正在快速增加。
+
+热指标直接决定了 EIC 的可靠性寿命。结温（junction temperature）的上限决定了芯片在多高的环境温度下仍能可靠工作：商用级通常为 −5 到 100°C，工业级扩展到 −40 到 110°C。热阻 <TermNote label="θ_JC" note="junction-to-case thermal resistance，结到外壳热阻。芯片内部最热点（结）到封装外壳表面之间的等效热阻，单位 °C/W，用于在给定功耗下估算结温升高值。" /> 将功耗和结温连接起来：功耗 5 W、θ_JC = 10°C/W 的芯片，结温比外壳温度高出 50°C。如果外壳温度是 70°C，结温就达到 120°C——已经超过了商用级的温度上限。因此低功耗设计和低热阻封装是同一枚硬币的两面。
+
+电源质量是常被忽视但影响巨大的维度。EIC 通常需要 5–10 路独立的电源轨（TIA 输入级、driver 输出级、数字逻辑、PLL、I/O 等各有独立的电压域），每路对噪声的敏感度不同。<TermNote label="PSRR" note="power supply rejection ratio，电源抑制比。衡量电路从输入到输出对电源纹波衰减能力的指标，单位 dB。PSRR 越高，电源上的噪声被转化为输出信号干扰的比例越小。" /> 衡量电路对电源纹波的抑制能力——driver 和 TIA 输入级的 PSRR 需要 > 20–30 dB @ 1 MHz，否则低频电源纹波会转化为信号抖动和幅度噪声。在电源完整性设计不足的设计中，切换电源轨上的 LDO 或改用更低噪声的电源分配方案，往往是改善系统 BER 的最有效手段。
+
+| 指标 | 典型范围 | 为什么重要 |
+|---|---|---|
+| 总功耗（4-lane 112G EIC） | 3–8 W（含 driver/TIA/CDR） | 直接进入引擎热预算，CPO 中热量须经封装散出，路径更长 |
+| pJ/bit（EIC 总计） | 5–15 pJ/bit | 光模块/引擎总功耗的关键组成，决定系统级能效 |
+| 结温范围 | −5 到 100°C（商用），−40 到 110°C（工业） | 超过上限会引发可靠性失效（电迁移加速、热载流子注入） |
+| 热阻（θ_JC） | 5–15°C/W（取决于封装） | 给定功耗下估算结温升高的关键参数，决定可用散热方案 |
+| 电源轨数量 | 5–10 路 | 决定封装引脚分配和板级去耦复杂度，每路噪声敏感度不同 |
+| 电源噪声容忍度（PSRR） | > 20–30 dB @ 1 MHz | 电源纹波若不抑制会转化为信号抖动和幅度调制，压缩眼图 |
+
+### 11.5 封装接口指标族
+
+EIC 最终必须通过封装与 PIC 和系统基板互连。封装接口的几何参数和电气特性对 EIC 的高频性能有决定性影响——一条设计良好的 driver 如果封装互连的寄生参数过大，其可用带宽可能被折损 30% 以上。封装接口指标族衡量的是 EIC 在这个物理集成层面的代价和限制。
+
+微凸块间距和 <TermNote label="DBI" note="direct bond interconnect，直接键合互连。一种无凸块的晶圆级键合技术，通过铜焊盘之间的直接热压键合形成电气互连，可实现 < 10 μm 的焊盘间距和极低的寄生电容。" /> 是封装密集度的核心指标。传统 microbump 的间距在 40–55 μm，对应的单 bump 寄生电容约 20–50 fF，寄生电感约 50–150 pH。对于需要传输 112 Gbps PAM4 信号的多 lane EIC，40 μm 间距意味着每 lane 的信号走线宽度受限于 bump 布局密度，RF 走线的特性阻抗控制更加困难。DBI（直接键合互连）可以把间距推到 10 μm 以下，寄生电容降低 10 倍以上，但工艺成熟度和成本仍高于 microbump。封装方式的选择实际上是在互连密度、寄生参数和成本之间做取舍。
+
+EIC 到 PIC 之间的总互连寄生电感是制约高频性能的硬约束。这个电感包括 bump 本身的电感、interposer 或 bridge 上走线电感、以及 EIC 和 PIC 各自的 pad 电感。总和可在 0.1 nH（DBI 混合键合）到 3 nH（带有较长 interposer 走线的 2.5D 封装）之间变化。寄生电感与 TIA 的输入电容或 driver 的输出电容形成 LC 谐振，在某个频率（通常 f_res = 1/(2π√(LC))）附近出现阻抗峰或陷波。如果这个谐振频率落在信号带宽内，就会造成插入损耗的非线性畸变——表现为眼图特定位置的抖动或幅度塌陷。设计良好的 EIC 需要在电路设计时就把封装寄生参数纳入仿真（co-design 的意义正在于此）。
+
+信号 bump 的配置和测试访问是封装设计中另外两个工程取舍。单 lane 信号需要的 bump 数量（差分信号对 + 地屏蔽）通常为 2–6 个，密集信号布局迫使 bump 间距尽可能小，但间距越小对 RDL（重分布层）走线的工艺精度要求越高。测试访问 bump 占总体 bump 的 5–10%——这些 bump 不参与正常运行，只为晶圆级测试和老化筛选提供访问通路。在功能密度和可测性之间的取舍，决定了 EIC 的良率能从封装层面获得多少保护。
+
+| 指标 | 典型范围 | 为什么重要 |
+|---|---|---|
+| Bump 间距 | 40–55 μm（microbump），< 10 μm（DBI） | 决定互连密度和 bump 寄生参数，间距越小寄生越低但成本越高 |
+| EIC-to-PIC 总互连寄生电感 | 0.1–3 nH（取决于集成方式） | 与 I/O 电容形成 LC 谐振，限制 driver 和 TIA 的可用带宽 |
+| 单 lane 信号 bump 数量 | 2–6（差分信号 + 地屏蔽） | 决定互连的 RF 质量和 bump 布局密度 |
+| 最大 bump 总数 | 几百到几千（含信号/电源/地/控制） | 决定封装基板层数和加工良率，总数越高成本越高 |
+| 测试访问 bump 比例 | 5–10% 的 bump 用于测试 | 在功能密度和可测性之间的取舍，测试通路不足则良率损失严重 |
+
+
+## 12. 应用场景与工艺趋势
+
+前面几节深入讨论了 EIC 各功能块（driver、TIA、CDR、电源、控制、测试）的设计原理和工程约束。这一节把视角拉高到系统层面，探讨 EIC 面临的几个宏观趋势：lane 速率从 112 Gbps 向 224 Gbps 跨越时电路设计的难度跃迁、Broadcom 与 Nvidia 两种 CPO 方案的 EIC 架构差异、主要代工厂的 EIC-PIC 集成平台、以及 EIC 从 DSP-centric 走向 direct-drive 的演进路线。
+
+### 12.1 从 112G 到 224G/lane：下一代 EIC 的技术跨越
+
+单 lane 速率从 112 Gbps <TermNote label="PAM4" note="4-level pulse amplitude modulation，四电平脉冲幅度调制。每个符号携带 2 bit 信息，在相同 baud rate 下比 NRZ 数据率翻倍，但信噪比要求提高约 9.5 dB。" /> 翻倍到 224 Gbps PAM4（对应 112 GBaud），最直接的后果是模拟带宽需求从约 35 GHz 跳升到约 70 GHz。PAM4 所需的模拟带宽约为 baud rate 的 0.35 倍——这不是一个硬物理极限，而是工程上的经验折中：太窄的带宽会截断信号的高频分量、加剧码间串扰，太宽的带宽则会引入更多噪声。在 112 GBaud 下，0.35 倍即约 39 GHz，但考虑到工艺角和温度裕量，实际设计目标通常在 60–70 GHz。对 driver 而言，这意味着现有 7nm/5nm <TermNote label="CMOS" note="complementary metal-oxide-semiconductor，互补金属氧化物半导体。硅基集成电路的主流工艺技术，以低功耗和高集成度见长，但在极高频率下增益和击穿电压受限于特征尺寸的持续缩小。" /> 工艺的 fT（截止频率）虽然足够（7nm CMOS 的 fT 可达 200–300 GHz），但模拟电路的增益密度随工艺微缩而下降——更短沟道带来更高 fT，但本征增益（gm/gds）和击穿电压也同步降低，使得设计一个 70 GHz 带宽、同时输出摆幅达到 2 Vpp 的 driver 变得极为困难。因此 224G driver 的工艺选择面临十字路口：要么转向 3nm/2nm 先进 CMOS 以获取更高的 fT 裕量，要么采用 <TermNote label="SiGe BiCMOS" note="silicon-germanium bipolar complementary metal-oxide-semiconductor，硅锗双极-互补金属氧化物半导体。一种在 CMOS 平台中集成 SiGe 异质结双极晶体管（HBT）的工艺，HBT 的 fT/fmax 可达 300–500 GHz，兼具高击穿电压和优异的噪声性能，特别适合高速模拟与射频前端。" /> 以利用其异质结双极晶体管（HBT）的高 fT（300–500 GHz）和高击穿电压优势。前者牺牲了输出摆幅裕量但获得了与数字逻辑的工艺兼容性，后者保留了模拟性能但增加了工艺成本和与数字电路集成的难度。
+
+在 driver 的电路架构层面，224G 对分段式 driver 的时序匹配提出了前所未有的要求。行波 driver（traveling-wave driver）在片上传输线上的信号损耗随频率急剧增加——在 70 GHz 以上，硅基传输线的趋肤效应损耗和介质损耗使每毫米衰减可达 0.5–1.0 dB。为了弥补这种损耗，driver 通常被分成多个段（segmented driver），每段紧邻调制器的一个分段电极，由延迟匹配的时钟分别驱动。各段的驱动信号到达时间必须严格对齐，否则调制器不同段产生的相位调制会在光域中部分抵消，导致消光比下降和眼图闭合。在 224G 下，符号周期约 8.9 ps（PAM4 符号率为 112 GBaud），段间偏斜（skew）需要控制在 0.5 ps 以下——这接近于单个 CMOS 反相器门的传播延迟。设计者需要依靠精确的传输线建模、工艺角蒙特卡洛仿真和片上延迟校准环路来满足这一约束。
+
+TIA 面临的挑战同样严峻。TIA 的输入等效噪声电流谱密度（inA/√Hz）与带宽的 3/2 次方成正比——更精确地说，在简单的 RC 限制系统中，总输出噪声功率与带宽的三次方成正比（噪声带宽 × 放大器增益平方的积分）。当带宽从 35 GHz 翻倍到 70 GHz，噪声功率的理论增长约为 8 倍（(70/35)³ = 8）。这意味着在保持相同灵敏度（即达到目标 BER 所需的最小输入光功率）的前提下，TIA 的噪声密度需要降低到原来的约 1/√8 ≈ 0.35 倍。实际设计中，这一目标很难同时兼顾带宽和噪声——降低噪声通常需要更大的输入器件尺寸和更高的偏置电流，而这又会增加输入电容、降低带宽。工程上的折中结果是：224G TIA 必须在更先进的工艺节点（7nm 以下）上设计，利用更小尺寸的器件降低寄生电容，同时用更高的功耗换取更低的噪声密度。如果 TIA 的噪声性能无法按比例提升，系统将不得不接受灵敏度劣化 2–3 dB，转而依赖更强的 <TermNote label="FEC" note="forward error correction，前向纠错。在发送端对数据添加冗余校验信息，接收端利用这些冗余检测并纠正传输过程中出现的比特错误，是光通信链路实现可靠传输的关键技术。" /> 来弥补。
+
+在 CDR 和 DSP 侧，224 Gbps/lane 的核心瓶颈在于 <TermNote label="ADC" note="analog-to-digital converter，模数转换器。将连续模拟信号转换为离散数字采样值的电路，在 DSP-based 接收机中位于 TIA 之后、数字均衡器之前。" /> 的采样率和功耗。要实现有效的数字均衡（FFE/DFE），ADC 通常需要以至少 2 倍符号率过采样，即需要 > 112 GS/s 的采样率。目前在 7nm CMOS 中可实现约 64–80 GS/s 的 ADC（采用 time-interleaved 架构），要突破 112 GS/s 需要更多的 interleaving 路数（32 路甚至 64 路），这会急剧增加芯片面积和功耗——预计 224G ADC 的功耗将从 112G 时代的数十 mW 跳升到数百 mW 每通道。与此同时，<TermNote label="ISI" note="inter-symbol interference，码间串扰。由于信道带宽有限或反射导致当前符号的能量扩散到相邻符号时间窗口，造成符号之间的相互干扰，是高速链路中限制 Baud 率的主要因素。" /> 在 112 GBaud 下比 56 GBaud 严重得多，因为信道的频率相关损耗和反射在更高频率下更为显著。<TermNote label="MLSE" note="maximum likelihood sequence estimation，最大似然序列估计。一种利用维特比算法在所有可能的发送序列中搜索最可能序列的检测方法，在强 ISI 信道中性能优于传统的 FFE+DFE 均衡，但计算复杂度随信道记忆长度指数增长。" /> 在 224G 时代几乎成为必需——传统的 FFE+DFE 均衡在奈奎斯特频率衰减超过 20–25 dB 的信道中已经无法提供足够的信噪比恢复，而 MLSE 利用维特比算法在序列层面进行判决，可以在强 ISI 条件下获得 3–5 dB 的额外增益。代价是每通道的乘加运算量增加 10–100 倍，这对 EIC 的数字功耗和热管理提出了额外的约束。
+
+上述技术跨越正在被标准化进程推动和同步确认。<TermNote label="IEEE 802.3dj" note="IEEE 802.3 工作组正在制定的 200 Gb/s per lane 以太网标准修订，目标涵盖 200GbE、400GbE、800GbE 和 1.6TbE，采用 PAM4 调制和 224 Gbps 线速率，预计 2026 年完成批准。" /> 定义了 200 Gb/s per lane 的电气和光学接口，支持从 200GbE 到 1.6TbE 的速率族，目前草案（D2.4）已进入后期阶段，预计 2026 年批准。<TermNote label="OIF CEI-224G" note="Optical Internetworking Forum 的通用电气 I/O 224G 项目，定义了 XSR（extra short reach，die-to-die）、VSR（very short reach，chip-to-module）、MR（medium reach）和 LR（long reach）四个接口等级，覆盖 144–232 Gbps 的信令速率。" /> 则定义了从 die-to-die 到 chip-to-module 再到背板的四个电气接口等级。两个标准的核心目标一致：使 224 Gbps 每 lane 的电气和光学互连在功耗、成本和可制造性上可落地。
+
+### 12.2 Broadcom vs Nvidia CPO EIC 方案对比
+
+以两个已接近量产的 CPO 方案——Broadcom Bailly（51.2T 交换机）和 Nvidia Quantum-X（InfiniBand 交换机）——为例，可以清晰地看到 EIC 架构的真实选择。两者选择了截然不同的技术路线，而这种差异从根本上决定了 EIC 的工艺、集成方式和性能边界。
+
+| 维度 | Broadcom Bailly (51.2T) | Nvidia Quantum-X (Spectrum-X) |
+|------|-------------------------|-------------------------------|
+| 交换机 ASIC | Tomahawk-5 (51.2 Tbps) | Custom switch ASIC (115.2 Tbps) |
+| 光调制器 | 硅 MZM（行波电极） | 硅 <TermNote label="MRM" note="micro-ring modulator，微环调制器。利用微型环形谐振腔的谐振特性实现调制，谐振状态下光在环内多次循环增强了光与物质的相互作用，因此 Vπ 极低（典型值 < 1 V），但谐振波长对温度极其敏感。" />（微环谐振器） |
+| EIC 集成方式 | EIC + PIC co-packaged on 有机基板 | TSMC <TermNote label="COUPE" note="compact universal photonic engine，台积电的紧凑型通用光子引擎平台。基于 SoIC 3D 堆叠技术，通过 hybrid bonding 将 EIC 与 PIC 直接铜对铜键合，实现高密度、低寄生的光电集成。" /> 3D 堆叠（EIC flip-chip 在 PIC 之上） |
+| EIC 工艺 | <TermNote label="SiGe BiCMOS" note="见 12.1 节注。硅锗异质结双极晶体管工艺在此处用于 driver/TIA 前端以满足 MZM 行波驱动对高摆幅和高带宽的协同需求。" />（driver/TIA 侧） | 7nm CMOS（EIC 集成 driver + TIA + DSP） |
+| 外部光源 | <TermNote label="CWDM" note="coarse wavelength division multiplexing，粗波分复用。在 O 波段（1260–1360 nm）以 20 nm 通道间隔复用的方案，通道数通常为 4 或 8，对激光器波长精度要求低于 DWDM。" /> <TermNote label="ELS" note="external laser source，外部激光源。独立于 PIC 的激光器模块，通过光纤将连续光注入 PIC，可在 CPO 系统中实现激光器现场更换，降低运维成本。" />，16 光纤对 / 6.4T 引擎 | 18 个激光模块，144 通道，每个模块 8 个集成激光器 |
+| EIC 可替换性 | EIC + PIC 永久键合 | 可插拔 <TermNote label="OSA" note="optical subassembly，光学子组件。一个完整的光收发子系统，包含 PIC、EIC、光纤接口和必要的无源光学元件，作为 CPO 引擎的可更换单元。" /> 模块（4.8 Tbps/模块，含 3 个 1.6T 光子引擎） |
+| 能效（EIC 相关） | ~5–10 pJ/bit（MZM driver 功耗较高） | 宣称 3.5× 优于可插拔（MRM 低压驱动省功耗） |
+
+Broadcom 选择 MZM 加行波电极的技术路线，核心考虑是带宽充裕度和工艺成熟度。MZM 是硅光子学中研究最深入、可靠性数据最完整的调制器类型，其行波电极在 60–70 GHz 范围内仍能提供平坦的调制响应。但代价是 MZM 的 Vπ 通常高达 2–5 V，driver 需要提供 2–4 Vpp 的差分输出摆幅和数百 mW 的功耗——这也是 Broadcom 在 EIC 中保留 SiGe BiCMOS 工艺的根本原因。CMOS 在相同输出摆幅下受限于击穿电压和电流驱动能力，无法同时满足 70 GHz 带宽和足够摆幅的要求。SiGe HBT 的击穿电压（BVceo 通常 1.5–2.5 V）和 fT（300 GHz+）组合提供了必要的设计裕量。Broadcom 的封装方案也反映了其"可制造性优先"的思路：EIC 与 PIC 在有机基板上并排放置或垂直堆叠，采用 ASE 的 FOWLP 工艺而非 3D hybrid bonding，降低了制造复杂度但牺牲了集成密度和寄生性能。
+
+Nvidia 采用 MRM 微环调制器的选择则从根本上改变了 EIC 的设计约束。MRM 的 Vπ 极低（典型值 < 1 V），这意味着 driver 可以用标准 CMOS 的 0.9–1.2 V 电源轨实现充分驱动，无需高摆幅输出级，也无需 SiGe BiCMOS 工艺。Nvidia 与 TSMC COUPE 平台深度绑定，通过 SoIC 3D 堆叠将 7nm CMOS EIC 直接 flip-chip 键合在 65nm PIC 之上，实现了极短的互连距离和最低的寄生参数。这种方案的核心优势在于数字集成度——既然 EIC 可以用标准 CMOS 工艺，CDR、DSP、FEC 乃至部分 SerDes 功能都可以与 driver/TIA 集成在同一个 die 上，而 Broadcom 的 SiGe 方案则需要额外的 CMOS die 或 chiplet 来完成数字处理。但 MRM 路线也有其固有的代价：微环的谐振波长对温度极其敏感（约 0.08–0.1 nm/°C），在 100 GHz 通道间隔的 WDM 系统中，数度的温度变化就足以让微环失谐。Nvidia 的解决方案是每通道配备 heater 和闭环锁定电路，但 heater 持续加热产生的功耗和热串扰管理本身也是一项系统级挑战——heater 功率在密集 WDM 场景下可能抵消部分 MRM 相对 MZM 的功耗优势。
+
+两种方案的差异本质上反映了 EIC 架构的不同取舍：Broadcom 以较高的 driver 功耗和 SiGe 工艺成本换取 MZM 的稳定性和大带宽裕量，适用于对可靠性和跨温度范围性能要求严格的超大规模数据中心；Nvidia 以 MRM 的低压优势和 CMOS 数字集成度换取更优的能效比和更高的通道密度，更适合其垂直整合生态中功耗预算严格、但对温度管理有专门设计的 AI 集群。
+
+### 12.3 TSMC COUPE、Samsung I-CubeE 等集成平台
+
+EIC 与 PIC 的物理集成方式决定了互连寄生、热管理策略和测试可及性。在 224G 时代，裸 die 之间的每根 micro-bump 引入的 50–100 fF 寄生电容都会在高频下产生显著的阻抗不连续。因此各主要代工厂和集成厂商均推出了专用的 EIC-PIC 集成平台。
+
+**TSMC COUPE（compact universal photonic engine）** 是目前覆盖面最广、客户生态最成熟的硅光集成平台。它的核心技术是 <TermNote label="SoIC" note="system-on-integrated-chips，片上系统集成芯片。台积电的 3D 堆叠技术，通过无凸块的直接铜对铜混合键合（hybrid bonding）将不同工艺节点的芯片垂直堆叠，实现最高的互连密度和最低的寄生参数，间距可达微米级。" /> 3D 堆叠——下层是 N65+（65nm 及以上成熟工艺）的 PIC，上层是 N7+（7nm 及以下先进工艺）的 EIC。两片晶圆通过 hybrid bonding 直接铜对铜键合，无需中间层（interposer）或微凸块（micro-bump），因此互连电容可以压低到 1–2 fF/bump 量级——这对 70+ GHz 信号完整性至关重要。COUPE 平台在 2025 年的里程碑是支持可插拔光模块用的光子引擎出货，2026 年则进一步将 COUPE 引擎集成进 CPO 封装中，与交换机 ASIC 共享基板。在光学耦合方面，COUPE 采用水平 O 波段光栅耦合器配合微透镜阵列将光从 PIC 表面耦合到光纤阵列，背面金属反射镜可将耦合效率提升约 0.5 dB，使整体光纤耦合损耗降至约 1.2 dB、1 dB 带宽达 25 nm。在可制造性方面，TSMC 已实现 <TermNote label="EWAT" note="electrical wafer acceptance test，电学晶圆验收测试。在晶圆级对芯片的电性能进行全面测试，筛除制造缺陷，是确保 KGD（known good die）的核心手段。" /> 和 <TermNote label="OWAT" note="optical wafer acceptance test，光学晶圆验收测试。在晶圆级对 PIC 的光学性能（波导损耗、耦合器效率、调制器 Vπ、探测器响应度等）进行自动化测试，是硅光晶圆良率管理的关键环节。" /> 的晶圆级自动化测试，确保 PIC 和 EIC 在 bonding 之前均为 KGD——这对于 CPO 的最终良率至关重要，因为一旦两个 die 键合完成，若其中之一有缺陷则整个堆叠报废。
+
+**Samsung I-CubeE（3.5D CPO）** 是三星在硅光集成领域的差异化方案。与 TSMC 的 SoIC 3D 堆叠不同，I-CubeE 采用 3D 堆叠（PIC + EIC 垂直键合）后集成在有机 <TermNote label="RDL" note="redistribution layer，重分布层。在有机基板或中介层表面制作的铜布线层，用于将 die 的密集 bump 扇出到基板上较大间距的焊球或连接点。" /> interposer 上。有机 RDL interposer 的优点是成本远低于硅中介层（silicon interposer），且可以利用成熟的 PCB 级封装设备；但其走线密度和热导率不如硅。为了弥补有机材料在信号完整性上的不足，I-CubeE 在 RDL interposer 中嵌入了硅桥（silicon bridge）来提供局部的高密度、低损耗 die-to-die 连接。I-CubeE 的另一个亮点是采用 <TermNote label="UCIe" note="universal chiplet interconnect express，通用芯粒互连标准。一种开放的 die-to-die 接口标准，定义物理层、协议层和合规性测试，目标是实现不同厂商 chiplet 之间的即插即用互连。" /> 标准化 die-to-die 接口——这使得 EIC 和 PIC 不必来自同一家代工厂或设计团队，只要双方遵守 UCIe 物理层规范（包括通道速率、阻抗、均衡要求），就可以在同一封装内互连。Samsung 的目标是支持 24–32 Gbps 的 UCIe 链路速率，并随着 <TermNote label="TSV" note="through-silicon via，硅通孔。垂直贯穿硅衬底的导电通道，用于实现 3D 堆叠芯片之间的电气互连。TSV 的高度和直径直接影响其寄生电感和电阻，进而限制高频信号质量。" /> 高度的降低向 40 Gbps 演进。
+
+**Intel、Cisco、Broadcom 等厂商的路线各有侧重。** Intel 长期坚持其 PIC + EIC 单片集成路线（在同一硅衬底上制造光器件和电子电路），但 224G 时代单片集成面临着器件性能折中日益尖锐的挑战——CMOS 逻辑工艺优化方向与硅光器件需求的分歧越来越大，Intel 也开始转向 3D 堆叠（通过 hybrid bonding 将分开制造的 EIC 和 PIC 堆叠），与其 EMIB 封装技术结合。Cisco 展示了基于其 FPOP（fan-out package-on-package）工艺的 3.2T 光引擎——将 EIC 通过 fan-out 晶圆级封装形成中介层，PIC 再键合在该中介层上，实现了无需 TSV 的 3D 光电集成。Broadcom 则在其 CPO 产品中采用 FOWLP 方案与 ASE 合作，将 EIC 和 PIC 嵌入模塑化合物（molding compound）中再通过 RDL 层互连，成本可控但高频性能一定程度上低于 hybrid bonding 方案。
+
+| 平台 | 集成方式 | EIC-PIC 间距 | 关键特点 | 代表客户 |
+|------|---------|------------|----------|---------|
+| TSMC COUPE | SoIC hybrid bonding | 微米级 | 寄生最低，自动化测试成熟 | Nvidia、Alchip/Ayar Labs |
+| Samsung I-CubeE | 3D stack + organic RDL + 硅桥 | 十微米级 | 成本灵活，UCIe 标准化 D2D | 待公开 |
+| Intel EMIB + 3D | Embedded bridge + hybrid bonding | 微米级 | 与逻辑工艺兼容性强 | 内部产品线 |
+| Cisco FPOP | Fan-out RDL interposer | 十微米级 | 无需 TSV，工艺较简单 | — |
+| Broadcom FOWLP | Fan-out 晶圆级封装 | ~10–30 µm | 成本低，适合大量产 | Google/Meta（方案层面） |
+
+### 12.4 从 DSP-based 到 Linear 再到 Direct-Drive 的演进时间线
+
+EIC 架构在过去五年中经历了一次根本性的范式转移：从"模块内 DSP 包办一切"到"尽可能把信号处理推回 Host ASIC"，再到"连模块内的线性 driver/TIA 都省掉"。这个演进过程推动力只有一个——每比特功耗的持续降低。
+
+**2020–2023：DSP-based retimed 主导期。** 在这个阶段，光模块内部的 <TermNote label="DSP" note="digital signal processor，数字信号处理器。在光模块中负责信号恢复和补偿的数字芯片，集成了 ADC、均衡器（FFE/DFE）、时钟恢复和 FEC 编码等功能，是模块功耗和成本的主要来源。" /> 是所有高速模块的标配。信号路径是：Host ASIC SerDes → PCB 走线 → 模块连接器 → DSP（均衡、CDR 重定时）→ driver → 调制器 → 光纤。DSP 承担了完整的信号恢复职责——Tx 侧预加重、Rx 侧 FFE/DFE 均衡、CDR 和 KP4-FEC。一个 800G 模块内，DSP 的功耗通常占模块总功耗的 50% 以上（约 8–10W 中的 4–6W），且 DSP 芯片自身又是模块 BOM 成本的最大单项（约 20–40%）。在 112 Gbps/lane 时代，这种架构是可行的，因为 DSP 的 7nm/5nm 工艺实现功耗仍在可接受范围内（约 4W @ 800G）。但到了 224G，DSP 的功耗预期将激增——更高采样率的 ADC 和更复杂的 MLSE 均衡器将使单模块 DSP 功耗可能达到 10–15W，已经接近模块总功耗预算的天花板。
+
+**2023–2025：<TermNote label="LPO" note="linear pluggable optics，线性驱动可插拔光模块。一种去除模块内 DSP 和 CDR 的光模块架构，模块仅保留线性 driver 和 TIA，信号均衡和时钟恢复全部转移至 Host ASIC SerDes 完成，功耗可降低 40–50%。" /> 兴起。** LPO 的核心创新是去掉模块内的 DSP 和 CDR，让信号保持模拟形态穿过模块。模块内的 EIC 变为纯线性 driver（可包含 CTLE 等简单均衡）和线性 TIA（可包含连续时间均衡器），而均衡、CDR 等数字处理全部转移到 Host ASIC 侧的 SerDes。这带来的好处是直接的：800G LPO 模块功耗降至 8–10W（vs. DSP 模块的 16–18W），成本降低 20–40%，延迟从纳秒级降至皮秒级。代价是传输距离受限（通常 ≤500m–2km），且对 Host ASIC 的 SerDes 均衡能力要求更高——Broadcom Tomahawk-5 的 SerDes 配备 7-tap Tx FFE 和 21-tap Rx FFE，足以补偿大部分 LPO 链路的信道损失。2024–2025 年，Arista、Cisco、Nvidia 等主要交换机厂商相继发布 LPO 支持计划，中国模块供应商（中际旭创、新易盛等）的 800G LPO 产品开始批量出货。LPO-MSA 标准组织也在 2024–2025 年完成互通性规范制定。
+
+**2025–2027：CPO 加速 + half-retimed / linear EIC 共存。** CPO 将 EIC 和 PIC 封装在交换机 ASIC 的同一基板上，将电信号路径从 PCB 级（数十厘米）缩短到封装级（数毫米至数厘米），从根本上消除了 PCB 和连接器带来的信号损耗。在 CPO 架构下，EIC 的架构选择出现分流：部分方案采用 half-retimed EIC（模块内保留 CDR 和简单均衡，但无完整 DSP），部分方案延续 LPO 的纯线性路径。Half-retimed 方案的优势是 CDR 可以恢复时钟质量、切断抖动累积，适合需要穿越中距离（2–10 km）光学链路的场景；纯线性方案则延迟更低、功耗更优，适合机架内 AI 集群的短距互连。两种路线在 2025–2027 年间将共存于不同的应用场景中。Nvidia 的 Quantum-X CPO 在引擎级保留了可插拔 OSA 的概念（4.8 Tbps 可更换模块），但 OSA 内部已经是 PIC+EIC 的 3D 堆叠——这在架构上介于 LPO 和完全 CPO 之间。与此同时，1.6T LPO 模块预计在 2027–2028 年进入市场，进一步压缩 DSP 模块的市场空间。
+
+**2028+：Direct-Drive——垂直整合的终极形态？** Direct-drive 是比 LPO 更进一步的理念：Host ASIC 的 SerDes 直接驱动调制器和接收来自 TIA 的信号，中间不经过独立封装的 EIC 芯片。在这种架构中，driver 和 TIA 的功能被吸收进交换机 ASIC 或 GPU SoC 的 I/O 电路中，PIC（或 PIC 的一部分）直接与 SoC 通过 hybrid bonding 集成在一个封装内。这本质上是在 SoC 的 I/O 层实现了光电转换，类似于在芯片上集成 SerDes——只是这次"SerDes"的输出直接是调制器驱动波形。Direct-drive 的最大优势是完全消除了 EIC 单独的功耗和成本项，使每比特能耗降至最低（目标 < 3 pJ/bit）。但它的挑战同样巨大：PIC 的制造工艺与逻辑 SoC 的工艺差异极大，PIC 需要在 65nm 甚至更成熟的 SOI 平台上制造以降低波导光学损耗，而 SoC 需要最先进的 3nm/2nm 工艺——两套工艺路线如何在同一个封装（甚至同一个 die 上）协调？目前在 2028 年时间节点上，direct-drive 仍是一个"设计愿景"多于"量产方案"的路线，但它代表了终极集成方向：当光子引擎可以像 DDR 接口或 PCIe SerDes 一样被 SoC 原生支持时，光互连的成本和功耗将接近电互连的水平。
+
+| 时期 | 主导架构 | EIC 形态 | 典型功耗（以 800G 端口计） | 主要驱动力 |
+|------|---------|---------|------------------------|-----------|
+| 2020–2023 | DSP-based 可插拔 | DSP + driver + TIA 在模块内 | 16–18W / 800G | 通用性、互通性 |
+| 2023–2025 | LPO 试用 | 纯线性 driver + TIA（无 DSP） | 8–10W / 800G | 功耗降低 40–50% |
+| 2025–2027 | CPO 起步 + LPO 放量 | Half-retimed 或线性，与 PIC 封装集成 | 5–8W / 800G | 信号路径缩短、密度提升 |
+| 2028+ | Direct-drive 探索 | Driver/TIA 集成进 SoC I/O | < 3–5W / 800G | 终极功耗与成本优化 |
+
+这个演进的底层逻辑是一致的：**每次把信号处理往电链路的前端移动一步，就减少一次电-光-电转换边界上的功耗和延迟开销。** DSP-based 时信号在模块内经历了"光→电→DSP→电→光"的转换损失；LPO 去掉了 DSP 两次；CPO 缩短了 ASIC 到光引擎的 PCB 距离；Direct-drive 则计划把最后几毫米的 EIC die 也吸收进去。每一步都在逼近那个终极状态：从交换芯片的硅原子直接到光子的距离，只有一层 hybrid bonding 的厚度。
+
+## 13. 总结：EIC 是系统分工的物理实现层
+
+EIC 的设计从系统分工开始——补偿责任在 host 和光引擎之间的分配方式决定了 EIC 的功能边界和功耗基线。Tx 侧的 Driver 面向具体调制器负载，把 SerDes 数字信号转换成满足 Vπ、带宽和线性度要求的高速驱动波形；Rx 侧的 TIA 在 PD 电容和封装寄生的约束下完成电流到电压的低噪声转换。CDR 从数据边沿恢复时钟，DSP 通过 CTLE、FFE、DFE 分层补偿信道损伤。电源分配、时钟分配和 PIC 控制环路则维持光引擎的长期稳定——bias/heater 闭环补偿温度和老化漂移。当 EIC 与 PIC、封装走到联合设计阶段，互连寄生和热耦合的实际影响才完全显现。好 EIC 的标准是按功能组分解的指标在系统链路预算内同时闭合：EIC 的本质，就是把系统分工的选择在物理层实现出来。
+
+### 13.1 EIC 知识地图
+
+| 章节 | 核心问题 | 一句话答案 |
+|------|---------|-----------|
+| 0. 什么是 EIC | EIC 做什么？ | 光引擎的电子翻译层 |
+| 1. 物理基础 | 底层物理约束是什么？ | Vπ 决定摆幅、Cin 决定噪声带宽 |
+| 2. 系统分工 | 补偿责任放在哪里？ | Retimed/Linear/Direct-drive 是连续谱 |
+| 3. Driver | 电信号怎样驱动调制器？ | 面向具体负载设计：电压模/电流模、集总/分布式/分段 |
+| 4. TIA | PD 电流怎样读回？ | 增益-带宽-噪声三角决定了灵敏度极限 |
+| 5. CDR | 没有时钟怎么办？ | 从数据边沿恢复时钟，PAM4 让这件事更难 |
+| 6. 均衡与 DSP | 信道损伤怎样补偿？ | CTLE+FFE+DFE 分层次消除 ISI |
+| 7. 电源/时钟/控制 | PIC 怎样长期稳定？ | 多路电源隔离 + PLL + heater/bias 闭环 |
+| 8. 联合设计 | EIC+PIC+封装怎样一起工作？ | 互连寄生和热耦合决定了封装后的实际性能 |
+| 9. 制造与集成 | 用什么工艺、怎么连？ | CMOS/SiGe/FD-SOI + 2.5D/3D + KGD 测试 |
+| 10. 测试诊断 | 坏了怎么找原因？ | 三级测试 + 分层故障隔离 |
+| 11. 指标体系 | 好 EIC 的标准是什么？ | 按功能组指标匹配链路预算 |
+| 12. 应用趋势 | 明天会怎样？ | 224G/lane + CPO + Linear/Direct-drive |
+
+### 13.2 进一步阅读
+
+- [OIF Implementation Agreements](https://www.oiforum.com/technical-work/implementation-agreements-ias/) —— OIF 发布的 CEI、CMIS 和 Co-Packaging Framework 系列关键标准
+- [OIF Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf) —— 系统分工架构 (Retimed/Linear/Direct-Drive) 的原始定义文档
+- [Frontiers: Co-packaged optics (CPO): status, challenges, and solutions](https://pmc.ncbi.nlm.nih.gov/articles/PMC10027985/) —— CPO 技术综述，覆盖 EIC、PIC、封装和测试全链路
+- [MACOM PURE DRIVE Linear Architecture](https://www.macom.com/pure-drive-linear-architecture) —— 商用线性 driver/TIA 方案的产品架构和技术说明
+- [Broadcom BCM85812 optical PAM4 DSP PHY](https://www.broadcom.com/products/ethernet-connectivity/phy-and-poe/optical/bcm85812) —— 集成 TIA 和 laser driver 的商用量产 PAM4 DSP 方案
+- [IEEE P802.3df 800 Gb/s Ethernet Task Force](https://www.ieee802.org/3/df/) —— 224 Gb/s/lane 标准化的最新进展和基线提案
+
+### 13.3 相邻页面
+
+- [激光源](../laser-source/) —— 激光器偏置和控制由 EIC 的 laser bias 电路完成，光功率与波长稳定性是 EIC 控制环路的前置条件
+- [PIC 光集成电路](../pic/) —— 调制器电极和光电探测器是 EIC driver/TIA 的直接负载，寄生参数和温度特性必须在联合设计中同步考虑
+- [Optical I/O / fiber coupling](../optical-io/) —— 光纤与 PIC 的耦合效率直接影响 TIA 的灵敏度需求和动态范围预算
+- [Package integration](../packaging/) —— EIC/PIC/ASIC 在封装内的互连寄生、散热路径和返修能力决定实验室指标能否转化为量产性能
+- [Manufacturing and test](../manufacturing-test/) —— EIC 的 KGD 筛选、封装中间测试和 burn-in 是光引擎从样品走向量产的质量保障
+- [Reliability and operations](../reliability-operations/) —— EIC 的遥测粒度、告警覆盖和故障隔离能力直接影响现场运维中的可维护性
