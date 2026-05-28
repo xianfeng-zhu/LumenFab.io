@@ -2063,7 +2063,7 @@ const indexItems = [
       // Monitor PD optical path glow animation
       if (mpdGlowSpheres && mpdCurve) {
         for (const item of mpdGlowSpheres) {
-          const t = (item.offset + time * 0.10) % 1;
+          const t = (item.offset + time * 0.55) % 1;
           const pt = mpdCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
@@ -2076,7 +2076,7 @@ const indexItems = [
       // Electrical path glow animation (Ge → M1 → bond pad)
       if (elecGlowSpheres) {
         for (const item of elecGlowSpheres) {
-          const t = (item.offset + time * 0.12) % 1;
+          const t = (item.offset + time * 0.55) % 1;
           const pt = elecCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
@@ -2089,7 +2089,7 @@ const indexItems = [
       // Monitor PD electrical path glow animation
       if (mpdElecGlowSpheres && mpdElecCurve) {
         for (const item of mpdElecGlowSpheres) {
-          const t = (item.offset + time * 0.08) % 1;
+          const t = (item.offset + time * 0.55) % 1;
           const pt = mpdElecCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
@@ -2105,7 +2105,7 @@ const indexItems = [
           const spheres = dropElecGlowSpheres[i];
           const curve = dropElecCurves[i];
           for (const item of spheres) {
-            const t = (item.offset + time * 0.10) % 1;
+            const t = (item.offset + time * 0.55) % 1;
             const pt = curve.getPointAt(t);
             item.mesh.position.copy(pt);
             const fade = Math.sin(t * Math.PI);
@@ -2135,7 +2135,7 @@ const indexItems = [
           const spheres = heaterElecGlowSpheres[i];
           const curve = heaterElecCurves[i];
           for (const item of spheres) {
-            const t = (item.offset + time * 0.08) % 1;
+            const t = (item.offset + time * 0.55) % 1;
             const pt = curve.getPointAt(t);
             item.mesh.position.copy(pt);
             const fade = Math.sin(t * Math.PI);
@@ -2186,7 +2186,7 @@ const indexItems = [
       // TX output GC optical path (waveguide → Z-branch → GC → upward)
       if (txOutGcGlowSpheres && txOutGcPathCurve) {
         for (const item of txOutGcGlowSpheres) {
-          const t = (item.offset + time * 0.12) % 1;
+          const t = (item.offset + time * 0.30) % 1;
           const pt = txOutGcPathCurve.getPointAt(t);
           item.mesh.position.copy(pt);
           const fade = Math.sin(t * Math.PI);
