@@ -372,7 +372,8 @@ const indexItems = [
     // Rib waveguide — right segment (does not pass through grating coupler region)
     const ribRidgeH = siRibH - siSlabH;
     const ribY = siBase + siRibH / 2; // rib waveguide centre — sits directly on BOX
-    const gcRightEdge = -2.4 + 6 * 0.16 + 0.05 / 2; // ~-1.415
+    const gcN = 4, gcPeriod = 0.16, gcToothW = 0.05, gcToothZW = 0.36;
+    const gcRightEdge = -2.4 + gcN * gcPeriod + gcToothW / 2; // ~-1.415
     const ribStartX = -0.9;
     const ribEndX = chipLen / 2 - 0.3;
     const ribRightLen = ribEndX - ribStartX;
@@ -612,14 +613,22 @@ const indexItems = [
     const fiberCenterX = -2.32;
     const fiberBottomY = padBaseY + padH + 0.05;
 
-    // Grating coupler — 与 rib 波导同高度的周期性刻蚀结构
+    // Grating coupler — periodic teeth etched into the waveguide surface
+    const gcLeftX = -2.4 - gcN * gcPeriod - gcToothW / 2;
+    const gcRightX = -2.4 + gcN * gcPeriod + gcToothW / 2;
+    // Rib waveguide under GC teeth
+    const gcWG = createBox({
+      size: [gcRightX - gcLeftX, siRibH, 0.32],
+      position: [(gcLeftX + gcRightX) / 2, ribY, rxZ],
+      color: 0x0f766e, roughness: 0.42, metalness: 0.12
+    });
+    lSiDevice.add(tagPart(gcWG, "ribWaveguide", false, 4));
+    // Teeth
     const gcGroup = new THREE.Group();
-    const gcPeriod = 0.16;
-    const gcY = ribY;
-    for (let i = -6; i <= 6; i++) {
+    for (let i = -gcN; i <= gcN; i++) {
       const gcTooth = createBox({
-        size: [0.05, siRibH,0.55],
-        position: [-2.4 + i * gcPeriod, gcY, rxZ],
+        size: [gcToothW, siRibH, gcToothZW],
+        position: [-2.4 + i * gcPeriod, ribY, rxZ],
         color: 0x7c3aed,
         roughness: 0.35,
         metalness: 0.25
@@ -668,14 +677,18 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(txInputEdgeCoupler, "edgeCoupler", false, 5));
 
-    // TX input grating coupler (Z = -0.4, independent from edge coupler)
+    // TX input grating coupler
+    const txGcWG = createBox({
+      size: [gcRightX - gcLeftX, siRibH, 0.32],
+      position: [(gcLeftX + gcRightX) / 2, ribY, -0.4],
+      color: 0x0f766e, roughness: 0.42, metalness: 0.12
+    });
+    lSiDevice.add(tagPart(txGcWG, "ribWaveguide", false, 4));
     const txGcGroup = new THREE.Group();
-    const txGcPeriod = 0.16;
-    const txGcY = ribY;
-    for (let i = -6; i <= 6; i++) {
+    for (let i = -gcN; i <= gcN; i++) {
       const txGcTooth = createBox({
-        size: [0.05, siRibH,0.55],
-        position: [-2.4 + i * txGcPeriod, txGcY, -0.4],
+        size: [gcToothW, siRibH, gcToothZW],
+        position: [-2.4 + i * gcPeriod, ribY, -0.4],
         color: 0x7c3aed,
         roughness: 0.35,
         metalness: 0.25
@@ -890,22 +903,22 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(txOutputZBranch, "ribWaveguide", false, 4));
 
-    // Short X-stub waveguide to place GC teeth on
-    const txOutputGcStub = createBox({
-      size: [0.8, siRibH,0.32],
-      position: [txOutputGcBranchX, ribY, -0.4],
-      color: 0x0f766e,
-      roughness: 0.42,
-      metalness: 0.12
+    // Rib waveguide under TX output GC (centred at X=2.2)
+    const outGcLeftX = 2.2 - gcN * gcPeriod - gcToothW / 2;
+    const outGcRightX = 2.2 + gcN * gcPeriod + gcToothW / 2;
+    const txOutGcWG = createBox({
+      size: [outGcRightX - outGcLeftX, siRibH, 0.32],
+      position: [(outGcLeftX + outGcRightX) / 2, ribY, -0.4],
+      color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
-    lSiDevice.add(tagPart(txOutputGcStub, "ribWaveguide", false, 4));
+    lSiDevice.add(tagPart(txOutGcWG, "ribWaveguide", false, 4));
 
-    // GC teeth on the output stub
+    // GC teeth on the output waveguide
     const txOutputGcGroup = new THREE.Group();
-    for (let i = -6; i <= 6; i++) {
+    for (let i = -gcN; i <= gcN; i++) {
       const txOutputGcTooth = createBox({
-        size: [0.05, siRibH,0.55],
-        position: [txOutputGcBranchX + i * 0.16, txGcY, -0.4],
+        size: [gcToothW, siRibH, gcToothZW],
+        position: [2.2 + i * gcPeriod, ribY, -0.4],
         color: 0x7c3aed,
         roughness: 0.35,
         metalness: 0.25
