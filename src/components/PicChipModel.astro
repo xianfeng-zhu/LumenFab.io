@@ -1032,47 +1032,43 @@ const indexItems = [
     addM1ContactPads(arm2nZ);
     addM1ContactPads(arm2pZ);
 
-    // M1 Z-bridges: thin lateral traces connecting doping contacts to RF electrodes
+    // M1 Z-bridges: short traces at each contact-via position
     // arm1 n++ (Z=-0.07) → rfGnd1 (Z=0.20)
     // arm2 p++ (Z=0.87) → rfGnd2 (Z=0.60)
     const rfPadY = viaTopY + m1H / 2;
 
-    const gndBridge1 = createBox({
-      size: [2.0, m1H, 0.06],
-      position: [0.5, rfPadY, 0.065],
-      color: 0xf97316,
-      metalness: 0.65,
-      roughness: 0.22
-    });
-    lRf.add(tagPart(gndBridge1, "rfElectrode", false, 4));
+    const addGndBridge = (zFrom, zTo) => {
+      const zCenter = (zFrom + zTo) / 2;
+      const zLen = Math.abs(zTo - zFrom);
+      for (const vx of viaXs) {
+        const trace = createBox({
+          size: [0.08, m1H, zLen],
+          position: [vx, rfPadY, zCenter],
+          color: 0xf97316,
+          metalness: 0.65,
+          roughness: 0.22
+        });
+        lRf.add(tagPart(trace, "rfElectrode", false, 4));
+      }
+    };
+    addGndBridge(-0.07, 0.20); // arm1 n++ → GND1
+    addGndBridge(0.87, 0.60);  // arm2 p++ → GND2
 
-    const gndBridge2 = createBox({
-      size: [2.0, m1H, 0.06],
-      position: [0.5, rfPadY, 0.735],
-      color: 0xf97316,
-      metalness: 0.65,
-      roughness: 0.22
-    });
-    lRf.add(tagPart(gndBridge2, "rfElectrode", false, 4));
-
-    // Signal-side M1 bars directly under RF signal electrode
-    const sigBar1 = createBox({
-      size: [2.0, m1H, 0.08],
-      position: [0.5, rfPadY, 0.37],
-      color: 0xf97316,
-      metalness: 0.65,
-      roughness: 0.22
-    });
-    lRf.add(tagPart(sigBar1, "rfElectrode", false, 4));
-
-    const sigBar2 = createBox({
-      size: [2.0, m1H, 0.08],
-      position: [0.5, rfPadY, 0.43],
-      color: 0xf97316,
-      metalness: 0.65,
-      roughness: 0.22
-    });
-    lRf.add(tagPart(sigBar2, "rfElectrode", false, 4));
+    // Signal-side M1 traces directly under RF signal electrode
+    const addSigTrace = (z) => {
+      for (const vx of viaXs) {
+        const trace = createBox({
+          size: [0.08, m1H, 0.08],
+          position: [vx, rfPadY, z],
+          color: 0xf97316,
+          metalness: 0.65,
+          roughness: 0.22
+        });
+        lRf.add(tagPart(trace, "rfElectrode", false, 4));
+      }
+    };
+    addSigTrace(0.37); // arm1 p++
+    addSigTrace(0.43); // arm2 n++
 
     // Optical path (RX: fiber → GC → waveguide → rings → Ge detector)
     const pathGroup = new THREE.Group();
