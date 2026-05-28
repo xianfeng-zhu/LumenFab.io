@@ -485,13 +485,13 @@ const indexItems = [
     });
     lM1.add(tagPart(m1Line, "m1Interconnect", false, 4));
 
-    // === Layer 8: RF electrodes ===
-    const rfH = 0.18;
+    // === Layer 8: RF electrodes (GSG travelling-wave) ===
+    const rfH = 0.10;
     const rfBaseY = cladTopY + heaterH + m1H;
 
     const rfSignal = createBox({
-      size: [3.2, rfH, 0.12],
-      position: [0.6, rfBaseY + rfH / 2, 0.4],
+      size: [2.0, rfH, 0.10],
+      position: [0.5, rfBaseY + rfH / 2, 0.4],
       color: 0xef4444,
       metalness: 0.7,
       roughness: 0.18
@@ -499,15 +499,15 @@ const indexItems = [
     lRf.add(tagPart(rfSignal, "rfElectrode", false, 4));
 
     const rfGnd1 = createBox({
-      size: [3.2, rfH, 0.12],
-      position: [0.6, rfBaseY + rfH / 2, -0.4],
+      size: [2.0, rfH, 0.10],
+      position: [0.5, rfBaseY + rfH / 2, 0.20],
       color: 0xdc2626,
       metalness: 0.7,
       roughness: 0.18
     });
     const rfGnd2 = createBox({
-      size: [3.2, rfH, 0.12],
-      position: [0.6, rfBaseY + rfH / 2, 1.2],
+      size: [2.0, rfH, 0.10],
+      position: [0.5, rfBaseY + rfH / 2, 0.60],
       color: 0xdc2626,
       metalness: 0.7,
       roughness: 0.18
@@ -1003,17 +1003,14 @@ const indexItems = [
     addM1ContactPads(arm2pZ);
 
     // M1 Z-bridges: lateral traces to connect doping contact pads to RF electrodes
-    // RF signal electrode (Z range [0.34, 0.46]) covers arm1 p++ (0.37) and arm2 n++ (0.43) directly
-    // arm1 n++ (Z=-0.07) → rfGnd1 (Z=-0.4)
-    // arm2 p++ (Z=0.87) → rfGnd2 (Z=1.2)
+    // arm1 n++ (Z=-0.07) → rfGnd1 (Z=0.20)
+    // arm2 p++ (Z=0.87) → rfGnd2 (Z=0.60)
     const rfPadY = viaTopY + m1H / 2;
-    const gnd1ZCenter = (-0.07 + (-0.4)) / 2;
-    const gnd2ZCenter = (0.87 + 1.2) / 2;
-    const gndBridgeLen = 0.33;
+    const gndBridgeLen = 0.27;
 
     const gndBridge1 = createBox({
-      size: [1.9, m1H, gndBridgeLen],
-      position: [0.5, rfPadY, gnd1ZCenter],
+      size: [2.0, m1H, gndBridgeLen],
+      position: [0.5, rfPadY, 0.065],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
@@ -1021,17 +1018,17 @@ const indexItems = [
     lRf.add(tagPart(gndBridge1, "rfElectrode", false, 4));
 
     const gndBridge2 = createBox({
-      size: [1.9, m1H, gndBridgeLen],
-      position: [0.5, rfPadY, gnd2ZCenter],
+      size: [2.0, m1H, gndBridgeLen],
+      position: [0.5, rfPadY, 0.735],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
     });
     lRf.add(tagPart(gndBridge2, "rfElectrode", false, 4));
 
-    // Signal-side M1 bars (arm1 p++ at 0.37, arm2 n++ at 0.43) directly under RF signal electrode
+    // Signal-side M1 bars directly under RF signal electrode
     const sigBar1 = createBox({
-      size: [1.9, m1H, 0.08],
+      size: [2.0, m1H, 0.08],
       position: [0.5, rfPadY, 0.37],
       color: 0xf97316,
       metalness: 0.65,
@@ -1040,7 +1037,7 @@ const indexItems = [
     lRf.add(tagPart(sigBar1, "rfElectrode", false, 4));
 
     const sigBar2 = createBox({
-      size: [1.9, m1H, 0.08],
+      size: [2.0, m1H, 0.08],
       position: [0.5, rfPadY, 0.43],
       color: 0xf97316,
       metalness: 0.65,
@@ -1180,7 +1177,7 @@ const indexItems = [
       new THREE.Vector3(2.8, padCenterY, 0.8),            // bond pad surface
       new THREE.Vector3(2.8, rfCenterY, 0.8),             // via down to RF level
       new THREE.Vector3(2.2, rfCenterY, 0.4),             // Z-bend to RF signal line
-      new THREE.Vector3(0.6, rfCenterY, 0.4),             // along RF signal electrode
+      new THREE.Vector3(0.5, rfCenterY, 0.4),             // along RF signal electrode
     ];
     const txeCurve = new THREE.CatmullRomCurve3(txePoints);
     const txeGeometry = new THREE.TubeGeometry(txeCurve, 48, 0.02, 8, false);
@@ -1395,7 +1392,7 @@ const indexItems = [
 
     // RF electrodes — on ILD top surface (electrode too narrow)
     const ildTopSurf = rfBaseY + rfH + eps;
-    lTop.add(createFaceLabel("RF 电极 (GSG)", new THREE.Vector3(0.6, ildTopSurf, 0.4), faceTop, { scale: 0.10 }));
+    lTop.add(createFaceLabel("RF 电极 (GSG)", new THREE.Vector3(0.5, ildTopSurf, 0.4), faceTop, { scale: 0.10 }));
 
     // Bond pads — top face
     const padTopY = padBaseY + padH + eps;
@@ -1413,7 +1410,7 @@ const indexItems = [
       { key: "ribWaveguide", size: [2.8, ribRidgeH + 0.14, 0.5], position: [-2.2, siSlabTop + ribRidgeH / 2, 0], priority: 5 },
       { key: "geDetector", size: [1.5, geH + 0.1, 0.7], position: [geX, siSlabTop + geH / 2, rxZ], priority: 6 },
       { key: "m1Interconnect", size: [1.8, m1H + 0.12, 0.4], position: [geX, cladTopY + heaterH + m1H / 2 + 0.04, rxZ], priority: 5 },
-      { key: "rfElectrode", size: [3.4, rfH + 0.14, 1.6], position: [0.6, rfBaseY + rfH / 2, 0.4], priority: 5 },
+      { key: "rfElectrode", size: [2.2, rfH + 0.14, 0.7], position: [0.5, rfBaseY + rfH / 2, 0.4], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [-2.4, siSlabTop + ribRidgeH / 2, rxZ], priority: 6 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [-2.4, siSlabTop + ribRidgeH / 2, -0.4], priority: 6 },
       { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [-chipLen / 2 + 0.02, siSlabTop - siSlabH / 2 + siRibH / 2 + 0.04, rxZ], priority: 6 },
