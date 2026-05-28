@@ -653,7 +653,7 @@ const indexItems = [
     lSiDevice.add(tagPart(gcGroup, "gratingCoupler"));
 
     // RX edge coupler (left facet — alternative input, bypasses GC via separate Z track)
-    const rxEcZ = rxZ + 0.35; // 2.55 — separate track, does not pass through GC
+    const rxEcZ = rxZ + 0.6; // 2.8 — separate track with clearance from GC teeth (Z≈2.48)
     const rxEcJunctionX = -1.0; // where edge coupler waveguide joins main RX path (after GC)
     const rxInputEdgeCoupler = createBox({
       size: [0.08, siRibH + 0.06, 0.6],
