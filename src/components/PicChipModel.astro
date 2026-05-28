@@ -564,12 +564,12 @@ const indexItems = [
     const mpdViaH2 = cladTopY + heaterH - (siSlabTop + 0.1);
     lM1.add(tagPart(createBox({
       size: [0.05, mpdViaH2, 0.05],
-      position: [-0.78, siSlabTop + 0.1 + mpdViaH2 / 2, 0.88],
+      position: [-0.76, siSlabTop + 0.1 + mpdViaH2 / 2, 0.94],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4));
     lM1.add(tagPart(createBox({
       size: [0.2, m1H, 0.06],
-      position: [-0.78, cladTopY + heaterH + m1H / 2, 0.88],
+      position: [-0.76, cladTopY + heaterH + m1H / 2, 0.94],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     }), "m1Interconnect", false, 4));
 
@@ -732,22 +732,25 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(txWaveguide, "ribWaveguide", false, 4));
 
-    // Directional coupler — bus (straight) + coupled (S-bend → parallel → S-bend → monitor PD)
+    // Directional coupler — S-bend tap coupler
+    // Bus waveguide: straight strip on TX path centreline (Z=0.4)
+    // Coupled waveguide: S-bend approach → parallel gap → S-bend exit → monitor PD
+    // Only ~1–5% of light couples across the narrow gap via evanescent coupling
     const dcBusWG = createBox({
       size: [dcLen, ribRidgeH, 0.12],
-      position: [dcX, siSlabTop + ribRidgeH / 2, 0.4 - dcGap / 2 - 0.06],
+      position: [dcX, siSlabTop + ribRidgeH / 2, 0.4],
       color: 0x14b8a6,
       roughness: 0.42,
       metalness: 0.12
     });
     lSiDevice.add(tagPart(dcBusWG, "stripWaveguide", false, 5));
-    const dcCoupledZ = 0.4 + dcGap / 2 + 0.06;
+    const dcCoupledZ = 0.4 + 0.06 + 0.06; // 0.58 — bus edge (0.46) + gap (0.06) + half-width (0.06)
     const dcCoupledPathPts = [
-      new THREE.Vector3(dcStartX - 0.38, siSlabTop + ribRidgeH / 2, dcCoupledZ + 0.06),
+      new THREE.Vector3(dcStartX - 0.38, siSlabTop + ribRidgeH / 2, 0.70),
       new THREE.Vector3(dcStartX, siSlabTop + ribRidgeH / 2, dcCoupledZ),
       new THREE.Vector3(dcEndX, siSlabTop + ribRidgeH / 2, dcCoupledZ),
-      new THREE.Vector3(dcEndX + 0.4, siSlabTop + ribRidgeH / 2, dcCoupledZ + 0.18),
-      new THREE.Vector3(dcEndX + 0.6, siSlabTop + ribRidgeH / 2, 0.85),
+      new THREE.Vector3(dcEndX + 0.4, siSlabTop + ribRidgeH / 2, 0.78),
+      new THREE.Vector3(dcEndX + 0.6, siSlabTop + ribRidgeH / 2, 0.91),
     ];
     const dcCoupledCurve = new THREE.CatmullRomCurve3(dcCoupledPathPts);
     const dcCoupledGeom = new THREE.TubeGeometry(dcCoupledCurve, 40, 0.04, 8, false);
@@ -757,7 +760,7 @@ const indexItems = [
     // Monitor PD at end of coupled waveguide
     const mpdH = 0.1;
     const mpdX = dcEndX + 0.62;
-    const mpdZ = 0.88;
+    const mpdZ = 0.94;
     const mpd = createBox({
       size: [0.24, mpdH, 0.16],
       position: [mpdX, siSlabTop + mpdH / 2, mpdZ],
@@ -1097,12 +1100,12 @@ const indexItems = [
     }
     chip.add(tagPart(rxEcPathGroup, "opticalPath"));
 
-    // Monitor PD optical path (DC coupled waveguide → monitor PD)
+    // Monitor PD optical path (coupling region exit → S-bend → monitor PD)
     const mpdPathGroup = new THREE.Group();
     const mpdPathY = siSlabTop + ribRidgeH / 2;
     const mpdPts = [
-      new THREE.Vector3(dcEndX + 0.4, mpdPathY, 0.67),
-      new THREE.Vector3(dcEndX + 0.6, mpdPathY, 0.85),
+      new THREE.Vector3(dcEndX + 0.1, mpdPathY, dcCoupledZ),
+      new THREE.Vector3(dcEndX + 0.4, mpdPathY, 0.78),
       new THREE.Vector3(mpdX, mpdPathY, mpdZ),
     ];
     const mpdCurve = new THREE.CatmullRomCurve3(mpdPts);
