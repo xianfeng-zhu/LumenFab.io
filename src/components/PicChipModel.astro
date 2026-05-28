@@ -1298,7 +1298,7 @@ const indexItems = [
       const rr = ringR[i];
       const rx = ringXs[i];
       const rz = rxZ + 0.16 + ringGap + rr + 0.035;
-      lSiDevice.add(createFaceLabel("λ" + (i + 1) + " 微环", new THREE.Vector3(rx, wgTopY, rz + rr + 0.06), faceTop, { scale: 0.07 }));
+      lSiDevice.add(createFaceLabel("λ" + (i + 1) + " 微环谐振器", new THREE.Vector3(rx, wgTopY, rz + rr + 0.06), faceTop, { scale: 0.07 }));
       // Ge PD label on each drop
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
       const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
