@@ -564,12 +564,12 @@ const indexItems = [
     const mpdViaH2 = cladTopY + heaterH - (siSlabTop + 0.1);
     lM1.add(tagPart(createBox({
       size: [0.05, mpdViaH2, 0.05],
-      position: [-2.15, siSlabTop + 0.1 + mpdViaH2 / 2, 0.86],
+      position: [-0.78, siSlabTop + 0.1 + mpdViaH2 / 2, 0.88],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4));
     lM1.add(tagPart(createBox({
       size: [0.2, m1H, 0.06],
-      position: [-2.15, cladTopY + heaterH + m1H / 2, 0.86],
+      position: [-0.78, cladTopY + heaterH + m1H / 2, 0.88],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     }), "m1Interconnect", false, 4));
 
@@ -710,61 +710,22 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(txInputGcStub, "ribWaveguide", false, 4));
 
-    // TX main waveguide (rib) — from input couplers toward Y-branch
-    const ybX = -2.15;
+    // TX main waveguide (rib) — from edge coupler to directional coupler
+    const dcLen = 0.55;
+    const dcGap = 0.06;
+    const dcX = -1.65;
+    const dcStartX = dcX - dcLen / 2; // -1.925
+    const dcEndX = dcX + dcLen / 2;   // -1.375
     const txWaveguide = createBox({
-      size: [0.8, ribRidgeH, 0.32],
-      position: [-2.75, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [1.77, ribRidgeH, 0.32],
+      position: [-2.81, siSlabTop + ribRidgeH / 2, 0.4],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
     });
     lSiDevice.add(tagPart(txWaveguide, "ribWaveguide", false, 4));
 
-    // Y-branch splitter — tapered stem → junction → two diverging outputs
-    const ybStem = createBox({
-      size: [0.1, ribRidgeH, 0.32],
-      position: [ybX - 0.13, siSlabTop + ribRidgeH / 2, 0.4],
-      color: 0x0f766e, roughness: 0.42, metalness: 0.12
-    });
-    lSiDevice.add(tagPart(ybStem, "ribWaveguide", false, 4));
-    const ybJunction = createBox({
-      size: [0.12, ribRidgeH, 0.5],
-      position: [ybX, siSlabTop + ribRidgeH / 2, 0.4],
-      color: 0x14b8a6, roughness: 0.42, metalness: 0.12
-    });
-    lSiDevice.add(tagPart(ybJunction, "stripWaveguide", false, 5));
-    // Bridge from Y-branch to DC
-    const ybToDC = createBox({
-      size: [0.22, ribRidgeH, 0.32],
-      position: [-1.96, siSlabTop + ribRidgeH / 2, 0.4],
-      color: 0x0f766e, roughness: 0.42, metalness: 0.12
-    });
-    lSiDevice.add(tagPart(ybToDC, "ribWaveguide", false, 4));
-    // Tap branch — goes +Z to monitor PD
-    const ybTapZ = 0.68;
-    const ybTapLen = 0.28;
-    const ybTap = createBox({
-      size: [ybTapLen, ribRidgeH, 0.24],
-      position: [ybX, siSlabTop + ribRidgeH / 2, ybTapZ],
-      color: 0x0f766e, roughness: 0.42, metalness: 0.12
-    });
-    lSiDevice.add(tagPart(ybTap, "ribWaveguide", false, 4));
-    // Monitor PD at end of tap branch
-    const mpdX = ybX;
-    const mpdH = 0.1;
-    const mpdZ = ybTapZ + ybTapLen / 2 + 0.06;
-    const mpd = createBox({
-      size: [0.24, mpdH, 0.16],
-      position: [mpdX, siSlabTop + mpdH / 2, mpdZ],
-      color: 0x16a34a, roughness: 0.38, metalness: 0.08
-    });
-    lGeDetector.add(tagPart(mpd, "geDetector", false, 5));
-
-    // Directional coupler — two parallel waveguides with narrow gap
-    const dcLen = 0.55;
-    const dcGap = 0.06;
-    const dcX = -1.65;
+    // Directional coupler — bus (straight) + coupled (S-bend → parallel → S-bend → monitor PD)
     const dcBusWG = createBox({
       size: [dcLen, ribRidgeH, 0.12],
       position: [dcX, siSlabTop + ribRidgeH / 2, 0.4 - dcGap / 2 - 0.06],
@@ -773,19 +734,34 @@ const indexItems = [
       metalness: 0.12
     });
     lSiDevice.add(tagPart(dcBusWG, "stripWaveguide", false, 5));
-    const dcCoupledWG = createBox({
-      size: [dcLen, ribRidgeH, 0.12],
-      position: [dcX, siSlabTop + ribRidgeH / 2, 0.4 + dcGap / 2 + 0.06],
-      color: 0x14b8a6,
-      roughness: 0.42,
-      metalness: 0.12
+    const dcCoupledZ = 0.4 + dcGap / 2 + 0.06;
+    const dcCoupledPathPts = [
+      new THREE.Vector3(dcStartX - 0.38, siSlabTop + ribRidgeH / 2, dcCoupledZ + 0.06),
+      new THREE.Vector3(dcStartX, siSlabTop + ribRidgeH / 2, dcCoupledZ),
+      new THREE.Vector3(dcEndX, siSlabTop + ribRidgeH / 2, dcCoupledZ),
+      new THREE.Vector3(dcEndX + 0.4, siSlabTop + ribRidgeH / 2, dcCoupledZ + 0.18),
+      new THREE.Vector3(dcEndX + 0.6, siSlabTop + ribRidgeH / 2, 0.85),
+    ];
+    const dcCoupledCurve = new THREE.CatmullRomCurve3(dcCoupledPathPts);
+    const dcCoupledGeom = new THREE.TubeGeometry(dcCoupledCurve, 40, 0.04, 8, false);
+    const dcCoupledMesh = new THREE.Mesh(dcCoupledGeom, material(0x14b8a6, { roughness: 0.38, metalness: 0.12 }));
+    lSiDevice.add(tagPart(dcCoupledMesh, "stripWaveguide", false, 5));
+
+    // Monitor PD at end of coupled waveguide
+    const mpdH = 0.1;
+    const mpdX = dcEndX + 0.62;
+    const mpdZ = 0.88;
+    const mpd = createBox({
+      size: [0.24, mpdH, 0.16],
+      position: [mpdX, siSlabTop + mpdH / 2, mpdZ],
+      color: 0x16a34a, roughness: 0.38, metalness: 0.08
     });
-    lSiDevice.add(tagPart(dcCoupledWG, "stripWaveguide", false, 5));
+    lGeDetector.add(tagPart(mpd, "geDetector", false, 5));
 
     // TX waveguide from DC to MMI splitter
     const txWaveguideDC = createBox({
-      size: [0.75, ribRidgeH, 0.32],
-      position: [-1.0, siSlabTop + ribRidgeH / 2, 0.4],
+      size: [0.43, ribRidgeH, 0.32],
+      position: [-1.16, siSlabTop + ribRidgeH / 2, 0.4],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
@@ -1093,13 +1069,13 @@ const indexItems = [
     }
     chip.add(tagPart(pathGroup, "opticalPath"));
 
-    // Monitor PD tap optical path
+    // Monitor PD optical path (DC coupled waveguide → monitor PD)
     const mpdPathGroup = new THREE.Group();
     const mpdPathY = siSlabTop + ribRidgeH / 2;
     const mpdPts = [
-      new THREE.Vector3(ybX, mpdPathY, 0.4),
-      new THREE.Vector3(ybX, mpdPathY, ybTapZ),
-      new THREE.Vector3(ybX, mpdPathY, mpdZ),
+      new THREE.Vector3(dcEndX + 0.4, mpdPathY, 0.67),
+      new THREE.Vector3(dcEndX + 0.6, mpdPathY, 0.85),
+      new THREE.Vector3(mpdX, mpdPathY, mpdZ),
     ];
     const mpdCurve = new THREE.CatmullRomCurve3(mpdPts);
     const mpdGeom = new THREE.TubeGeometry(mpdCurve, 20, 0.015, 6, false);
@@ -1312,13 +1288,10 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.15), faceTop, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, 0.65), faceTop, { scale: 0.08 }));
 
-    // Y-branch
-    lSiDevice.add(createFaceLabel("Y 分支", new THREE.Vector3(ybX, wgTopY, 0.4), faceTop, { scale: 0.08 }));
-    // Monitor PD
-    lGeDetector.add(createFaceLabel("监测 PD", new THREE.Vector3(mpdX, siSlabTop + mpdH + eps, mpdZ), faceTop, { scale: 0.07 }));
-
     // Directional coupler
     lSiDevice.add(createFaceLabel("定向耦合器", new THREE.Vector3(dcX, wgTopY, 0.4), faceTop, { scale: 0.08 }));
+    // Monitor PD (at DC coupled port output)
+    lGeDetector.add(createFaceLabel("监测 PD", new THREE.Vector3(mpdX, siSlabTop + mpdH + eps, mpdZ), faceTop, { scale: 0.07 }));
 
     // Microring resonators
     for (let i = 0; i < 3; i++) {
