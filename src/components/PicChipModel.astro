@@ -16,6 +16,7 @@ const indexItems = [
   ["cladding", "#94a3b8", "SiO₂ 上包层"],
   ["stripWaveguide", "#14b8a6", "条形波导 (全刻蚀)"],
   ["ribWaveguide", "#0f766e", "脊形波导 (浅刻蚀)"],
+  ["doping", "#1d4ed8", "PN 结掺杂区"],
   ["geDetector", "#16a34a", "Ge 光电探测器"],
   ["heater", "#eab308", "TiN 微加热器"],
   ["m1Interconnect", "#f97316", "M1 互连"],
@@ -113,6 +114,11 @@ const indexItems = [
       title: "脊形波导 (部分刻蚀)",
       body: "仅刻蚀掉部分硅厚度 (~70 nm 或 ~150 nm)，留下一层硅平板。传播损耗更低 (可低于 0.3 dB/cm)，但弯曲半径较大 (数十微米)。用于长距离布线、MMI、调制器相位臂和延迟线。"
     },
+    doping: {
+      color: "#1d4ed8",
+      title: "PN 结掺杂区",
+      body: "MZM 相位臂两侧的 p++ / n++ 离子注入区。与脊形波导中的本征硅共同形成横向 PN 结——外加反向偏压改变耗尽区宽度，通过等离子色散效应改变波导折射率，实现纯电控相位调制。蓝色为 n++ 注入，红色为 p++ 注入。"
+    },
     geDetector: {
       color: "#16a34a",
       title: "Ge 光电探测器",
@@ -181,7 +187,7 @@ const indexItems = [
   };
 
   const deviceKeys = ["mzm", "dc", "microring", "siDevice"];
-  const compoundKeys = { siDevice: ["stripWaveguide", "ribWaveguide", "siDevice"] };
+  const compoundKeys = { siDevice: ["stripWaveguide", "ribWaveguide", "siDevice", "doping"] };
 
   const partOrder = Object.keys(partInfo);
   const partColor = (key) => Number.parseInt(partInfo[key].color.slice(1), 16);
@@ -1039,7 +1045,7 @@ const indexItems = [
         roughness: 0.45,
         metalness: 0.05
       });
-      lSiDevice.add(tagPart(strip, "siDevice", false, 6, "mzm"));
+      lSiDevice.add(tagPart(strip, "doping", false, 6, "mzm"));
     };
     addDoping(arm1nZ, 0x1d4ed8); // n++
     addDoping(arm1pZ, 0xdc2626); // p++
@@ -1501,8 +1507,15 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(mmiCombinerCx, stripTopY, 0.4), faceTop, { scale: 0.10 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, armZ1), faceTop, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(0.5, wgTopY, armZ2), faceTop, { scale: 0.08 }));
-
-    // Directional coupler
+    // PN doping labels — depth test off
+    const facePZ = new THREE.Vector3(0, 0, 1);
+    const faceNZ = new THREE.Vector3(0, 0, -1);
+    // p++ on arm2 p++ front face (+Z, closest to camera)
+    const pZ = armZ2 + armWidth / 2 + dopingW + eps;
+    // n++ on arm1 n++ back face (-Z, furthest from camera, facing away)
+    const nZ = armZ1 - armWidth / 2 - dopingW - eps;
+    lSiDevice.add(createFaceLabel("p++", new THREE.Vector3(0.5, dopingY, pZ), facePZ, { color: "#dc2626", scale: 0.12 }));
+    lSiDevice.add(createFaceLabel("n++", new THREE.Vector3(0.5, dopingY, nZ), faceNZ, { color: "#1d4ed8", scale: 0.12 }));
     lSiDevice.add(createFaceLabel("定向耦合器", new THREE.Vector3(dcX, stripTopY, 0.4), faceTop, { scale: 0.08 }));
     // Monitor PD (at DC coupled port output)
     lGeDetector.add(createFaceLabel("监测 PD", new THREE.Vector3(mpdX, siBase + mpdH + eps, mpdZ), faceTop, { scale: 0.07 }));
@@ -1540,11 +1553,11 @@ const indexItems = [
 
     // Heaters — above heater top surface (heater strip too narrow for face label)
     const heaterTopY = cladTopY + heaterH + eps;
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, heaterZ1), faceTop, { scale: 0.09, depthTest: false }));
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, heaterZ2), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, heaterZ1), faceTop, { scale: 0.09 }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, heaterZ2), faceTop, { scale: 0.09 }));
     // M1 interconnect — above M1 top surface
     const m1TopY = cladTopY + heaterH + m1H + eps;
-    lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, rxZ), faceTop, { scale: 0.10, depthTest: false }));
+    lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, rxZ), faceTop, { scale: 0.10 }));
 
     // RF electrodes — on ILD top surface (electrode too narrow)
     const ildTopSurf = rfBaseY + rfH + eps;
