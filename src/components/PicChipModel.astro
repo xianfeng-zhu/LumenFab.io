@@ -66,6 +66,11 @@ const indexItems = [
       <button type="button" data-pic-part-index={key} style={`--part-color: ${color}`}>{label}</button>
     ))}
   </div>
+  <div class="pic-model__index" aria-label="器件索引" data-pic-device-index>
+    <button type="button" data-pic-device-index="mzm" style="--part-color: #ef4444">MZM 调制器</button>
+    <button type="button" data-pic-device-index="dc" style="--part-color: #14b8a6">定向耦合器</button>
+    <button type="button" data-pic-device-index="microring" style="--part-color: #0891b2">微环 WDM 组</button>
+  </div>
   <div class="pic-model__info" data-pic-part-info aria-live="polite">
     <strong data-pic-part-title>结构说明</strong>
     <span data-pic-part-body>选择模型中的结构，或点击下方结构索引，这里会显示它在 PIC 芯片中的作用。</span>
@@ -157,8 +162,25 @@ const indexItems = [
       color: "#f59e0b",
       title: "电信号路径",
       body: "Ge 探测器吸收光子后产生电子-空穴对，在反向偏压下形成光电流。电流经 W 接触通孔向上进入 M1 铜互连层，再经 M1 引线传输至 Al 焊盘，最终通过引线键合送到片外的 TIA/CDR 电路。"
+    },
+    mzm: {
+      color: "#ef4444",
+      title: "MZM 马赫-曾德尔调制器",
+      body: "TX 光路的核心有源器件。连续光经 MMI 分束器分为两路，进入两根相位臂。EIC 驱动器通过 GSG 行波电极向两臂 PN 结施加推挽信号，利用载流子等离子色散效应改变折射率、产生相位差，在输出 MMI 合束时干涉为强度调制光。TiN 加热器提供静态偏置补偿。"
+    },
+    dc: {
+      color: "#14b8a6",
+      title: "定向耦合器 (tap coupler)",
+      body: "两条相同截面的条形波导以极小间距平行排列，通过倏逝场耦合交换功率。此处配置为 tap 耦合器——仅约 1–5% 的光从总线耦合到监测支路，其余继续沿总线传输。耦合波导经 S-bend 引出至监测 PD，用于实时追踪光功率。"
+    },
+    microring: {
+      color: "#0891b2",
+      title: "微环 WDM 解复用组",
+      body: "三个半径略有不同的微环谐振器共用同一根 RX 总线波导。每个环的共振波长匹配一个 WDM 信道——当输入光波长等于某环的共振波长时，光被下载到对应的 drop 端口，由 Ge PD 探测。环间波长间隔由半径差决定，热调谐补偿工艺偏差。"
     }
   };
+
+  const deviceKeys = ["mzm", "dc", "microring"];
 
   const partOrder = Object.keys(partInfo);
   const partColor = (key) => Number.parseInt(partInfo[key].color.slice(1), 16);
@@ -203,14 +225,16 @@ const indexItems = [
     return tagPart(mesh, key, true, priority);
   }
 
-  function tagPart(object, key, isHitProxy = false, priority = 0) {
+  function tagPart(object, key, isHitProxy = false, priority = 0, deviceGroup = '') {
     object.userData.partKey = key;
     object.userData.hitProxy = isHitProxy;
     object.userData.selectionPriority = priority;
+    if (deviceGroup) object.userData.deviceGroup = deviceGroup;
     object.traverse((child) => {
       child.userData.partKey = key;
       child.userData.hitProxy = isHitProxy;
       child.userData.selectionPriority = priority;
+      if (deviceGroup) child.userData.deviceGroup = deviceGroup;
     });
     return object;
   }
@@ -402,7 +426,7 @@ const indexItems = [
       const mesh = new THREE.Mesh(geom, material(0x14b8a6, { roughness: 0.38, metalness: 0.12 }));
       mesh.position.set(rx, ringY, rz);
       mesh.rotation.x = Math.PI / 2;
-      lSiDevice.add(tagPart(mesh, "stripWaveguide", false, 5));
+      lSiDevice.add(tagPart(mesh, "stripWaveguide", false, 5, "microring"));
       // drop waveguide (Z direction from ring far side upward)
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
       const dwg = createBox({
@@ -410,7 +434,7 @@ const indexItems = [
         position: [rx, siSlabTop + ribRidgeH / 2, dropZ],
         color: 0x0f766e, roughness: 0.42, metalness: 0.12
       });
-      lSiDevice.add(tagPart(dwg, "ribWaveguide", false, 4));
+      lSiDevice.add(tagPart(dwg, "ribWaveguide", false, 4, "microring"));
       // Ge PD at drop waveguide end
       const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
       const pd = createBox({
@@ -418,7 +442,7 @@ const indexItems = [
         position: [rx, siSlabTop + dropGeH / 2, geZ],
         color: 0x16a34a, roughness: 0.38, metalness: 0.08
       });
-      lGeDetector.add(tagPart(pd, "geDetector", false, 5));
+      lGeDetector.add(tagPart(pd, "geDetector", false, 5, "microring"));
       // W via + M1 stub deferred to after cladding (needs cladTopY)
       dropGeData.push({ rx, geZ });
     }
@@ -475,7 +499,7 @@ const indexItems = [
       metalness: 0.7,
       roughness: 0.18
     });
-    lRf.add(tagPart(rfSignal, "rfElectrode", false, 4));
+    lRf.add(tagPart(rfSignal, "rfElectrode", false, 4, "mzm"));
 
     const rfGnd1 = createBox({
       size: [2.0, rfH, 0.10],
@@ -491,7 +515,7 @@ const indexItems = [
       metalness: 0.75,
       roughness: 0.22
     });
-    lRf.add(tagPart(rfGnd1, "rfElectrode"), tagPart(rfGnd2, "rfElectrode"));
+    lRf.add(tagPart(rfGnd1, "rfElectrode", false, 0, "mzm"), tagPart(rfGnd2, "rfElectrode", false, 0, "mzm"));
 
     // === ILD cover over metal structures ===
     // In a real PIC, heater / M1 / RF electrodes are embedded in SiO₂ ILD,
@@ -520,21 +544,21 @@ const indexItems = [
         size: [0.06, viaH_drop, 0.06],
         position: [d.rx, geTopY + viaH_drop / 2, d.geZ],
         color: 0x78716c, metalness: 0.75, roughness: 0.25
-      }), "m1Interconnect", false, 4));
+      }), "m1Interconnect", false, 4, "microring"));
       // M1 stub
       const m1StubY = cladTopY + heaterH + m1H / 2;
       lM1.add(tagPart(createBox({
         size: [0.3, m1H, 0.08],
         position: [d.rx, m1StubY, d.geZ],
         color: 0xf97316, metalness: 0.65, roughness: 0.22
-      }), "m1Interconnect", false, 4));
+      }), "m1Interconnect", false, 4, "microring"));
       // Top via: M1 → bond pad
       const topViaH = padBaseY - (cladTopY + heaterH + m1H);
       lM1.add(tagPart(createBox({
         size: [0.06, topViaH, 0.06],
         position: [d.rx, cladTopY + heaterH + m1H + topViaH / 2, d.geZ],
         color: 0x78716c, metalness: 0.75, roughness: 0.25
-      }), "m1Interconnect", false, 4));
+      }), "m1Interconnect", false, 4, "microring"));
     }
 
     // Monitor PD W via + M1 stub (deferred — needs cladTopY)
@@ -565,7 +589,7 @@ const indexItems = [
     ];
     for (const [px, pz] of padPositions) {
       const pad = createBox({
-        size: [0.35, padH, 0.35],
+        size: [0.18, padH, 0.18],
         position: [px, padBaseY + padH / 2, pz],
         color: 0x475569,
         metalness: 0.55,
@@ -740,7 +764,7 @@ const indexItems = [
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(dcBusWG, "stripWaveguide", false, 5));
+    lSiDevice.add(tagPart(dcBusWG, "stripWaveguide", false, 5, "dc"));
     const dcCoupledZ = 0.4 + 0.06 + 0.06 + 0.06; // 0.58 — bus centre + bus half + gap + coupled half
     const dcCoupledW = 0.12;
 
@@ -762,7 +786,7 @@ const indexItems = [
     dcShape.closePath();
     const dcCoupledGeom = new THREE.ExtrudeGeometry(dcShape, { steps: 64, extrudePath: dcCoupledCurve });
     const dcCoupledMesh = new THREE.Mesh(dcCoupledGeom, material(0x14b8a6, { roughness: 0.42, metalness: 0.12 }));
-    lSiDevice.add(tagPart(dcCoupledMesh, "stripWaveguide", false, 5));
+    lSiDevice.add(tagPart(dcCoupledMesh, "stripWaveguide", false, 5, "dc"));
 
     // Monitor PD at end of coupled waveguide
     const mpdH = 0.1;
@@ -776,7 +800,7 @@ const indexItems = [
     lGeDetector.add(tagPart(mpd, "geDetector", false, 5));
     // Monitor PD Al bond pad
     lTop.add(tagPart(createBox({
-      size: [0.35, padH, 0.35],
+      size: [0.18, padH, 0.18],
       position: [mpdX, padBaseY + padH / 2, mpdZ],
       color: 0x475569, metalness: 0.55, roughness: 0.28
     }), "bondPad"));
@@ -799,7 +823,7 @@ const indexItems = [
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(txMmiSplitter, "stripWaveguide", false, 4));
+    lSiDevice.add(tagPart(txMmiSplitter, "stripWaveguide", false, 4, "mzm"));
 
     const txArm1 = createBox({
       size: [1.9, ribRidgeH, 0.32],
@@ -808,7 +832,7 @@ const indexItems = [
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(txArm1, "ribWaveguide", false, 4));
+    lSiDevice.add(tagPart(txArm1, "ribWaveguide", false, 4, "mzm"));
 
     const txArm2 = createBox({
       size: [1.9, ribRidgeH, 0.32],
@@ -817,7 +841,7 @@ const indexItems = [
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(txArm2, "ribWaveguide", false, 4));
+    lSiDevice.add(tagPart(txArm2, "ribWaveguide", false, 4, "mzm"));
 
     // TX MMI combiner (output end of MZM)
     const txMmiCombiner = createBox({
@@ -827,7 +851,7 @@ const indexItems = [
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(txMmiCombiner, "stripWaveguide", false, 4));
+    lSiDevice.add(tagPart(txMmiCombiner, "stripWaveguide", false, 4, "mzm"));
 
     // TX output waveguide (from combiner toward output coupler)
     const txOutputWaveguide = createBox({
@@ -895,7 +919,7 @@ const indexItems = [
       metalness: 0.5,
       roughness: 0.3
     });
-    lHeater.add(tagPart(txHeater1, "heater", false, 5));
+    lHeater.add(tagPart(txHeater1, "heater", false, 5, "mzm"));
 
     const txHeater2 = createBox({
       size: [1.6, heaterH, 0.1],
@@ -904,7 +928,7 @@ const indexItems = [
       metalness: 0.5,
       roughness: 0.3
     });
-    lHeater.add(tagPart(txHeater2, "heater", false, 5));
+    lHeater.add(tagPart(txHeater2, "heater", false, 5, "mzm"));
 
     // Heater W vias up to M1 level
     const viaToM1H = heaterH + m1H;
@@ -915,7 +939,7 @@ const indexItems = [
       metalness: 0.75,
       roughness: 0.25
     });
-    lHeater.add(tagPart(heaterVia1, "heater", false, 5));
+    lHeater.add(tagPart(heaterVia1, "heater", false, 5, "mzm"));
     const heaterVia2 = createBox({
       size: [0.06, viaToM1H, 0.06],
       position: [0.5, cladTopY + viaToM1H / 2, 0.68],
@@ -923,7 +947,7 @@ const indexItems = [
       metalness: 0.75,
       roughness: 0.25
     });
-    lHeater.add(tagPart(heaterVia2, "heater", false, 5));
+    lHeater.add(tagPart(heaterVia2, "heater", false, 5, "mzm"));
 
     // M1 traces from heater vias to bond pad vias
     const heaterM1Y = cladTopY + heaterH + m1H / 2;
@@ -937,7 +961,7 @@ const indexItems = [
       metalness: 0.65,
       roughness: 0.22
     });
-    lM1.add(tagPart(heaterM1Trace1, "m1Interconnect", false, 4));
+    lM1.add(tagPart(heaterM1Trace1, "m1Interconnect", false, 4, "mzm"));
     const heaterM1Trace2 = createBox({
       size: [heaterTraceLen, m1H, 0.08],
       position: [heaterTraceCx, heaterM1Y, 0.68],
@@ -945,7 +969,7 @@ const indexItems = [
       metalness: 0.65,
       roughness: 0.22
     });
-    lM1.add(tagPart(heaterM1Trace2, "m1Interconnect", false, 4));
+    lM1.add(tagPart(heaterM1Trace2, "m1Interconnect", false, 4, "mzm"));
 
     // Top vias: M1 → bond pad (deferred — needs padBaseY)
     const heaterTopViaH = padBaseY - (cladTopY + heaterH + m1H);
@@ -953,24 +977,24 @@ const indexItems = [
       size: [0.06, heaterTopViaH, 0.06],
       position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, 0.12],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
-    }), "m1Interconnect", false, 4));
+    }), "m1Interconnect", false, 4, "mzm"));
     lM1.add(tagPart(createBox({
       size: [0.06, heaterTopViaH, 0.06],
       position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, 0.68],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
-    }), "m1Interconnect", false, 4));
+    }), "m1Interconnect", false, 4, "mzm"));
 
     // Heater bond pads
     lTop.add(tagPart(createBox({
-      size: [0.35, padH, 0.35],
+      size: [0.18, padH, 0.18],
       position: [heaterPadX, padBaseY + padH / 2, 0.12],
       color: 0x475569, metalness: 0.55, roughness: 0.28
-    }), "bondPad"));
+    }), "bondPad", false, 0, "mzm"));
     lTop.add(tagPart(createBox({
-      size: [0.35, padH, 0.35],
+      size: [0.18, padH, 0.18],
       position: [heaterPadX, padBaseY + padH / 2, 0.68],
       color: 0x475569, metalness: 0.55, roughness: 0.28
-    }), "bondPad"));
+    }), "bondPad", false, 0, "mzm"));
 
     // === p-n junction doping for MZM phase arms ===
     // Each arm has n++ on one side, p++ on the other, forming a lateral p-n junction
@@ -996,7 +1020,7 @@ const indexItems = [
         roughness: 0.45,
         metalness: 0.05
       });
-      lSiDevice.add(tagPart(strip, "siDevice", false, 6));
+      lSiDevice.add(tagPart(strip, "siDevice", false, 6, "mzm"));
     };
     addDoping(arm1nZ, 0x1d4ed8); // n++
     addDoping(arm1pZ, 0xdc2626); // p++
@@ -1019,7 +1043,7 @@ const indexItems = [
           metalness: 0.75,
           roughness: 0.25
         });
-        lM1.add(tagPart(via, "m1Interconnect", false, 4));
+        lM1.add(tagPart(via, "m1Interconnect", false, 4, "mzm"));
       }
     };
     addContactVias(arm1nZ); // n++ contacts for arm 1
@@ -1037,7 +1061,7 @@ const indexItems = [
           metalness: 0.65,
           roughness: 0.22
         });
-        lM1.add(tagPart(pad, "m1Interconnect", false, 4));
+        lM1.add(tagPart(pad, "m1Interconnect", false, 4, "mzm"));
       }
     };
     addM1ContactPads(arm1nZ);
@@ -1061,7 +1085,7 @@ const indexItems = [
           metalness: 0.65,
           roughness: 0.22
         });
-        lRf.add(tagPart(trace, "rfElectrode", false, 4));
+        lRf.add(tagPart(trace, "rfElectrode", false, 4, "mzm"));
       }
     };
     addGndBridge(-0.07, 0.20); // arm1 n++ → GND1
@@ -1077,7 +1101,7 @@ const indexItems = [
           metalness: 0.65,
           roughness: 0.22
         });
-        lRf.add(tagPart(trace, "rfElectrode", false, 4));
+        lRf.add(tagPart(trace, "rfElectrode", false, 4, "mzm"));
       }
     };
     addSigTrace(0.37); // arm1 p++
@@ -1227,7 +1251,7 @@ const indexItems = [
       const dCurve = new THREE.CatmullRomCurve3(dPoints);
       dropElecCurves.push(dCurve);
       const dGeom = new THREE.TubeGeometry(dCurve, 32, 0.018, 8, false);
-      dGroup.add(tagPart(new THREE.Mesh(dGeom, transparent(0xf59e0b, 0.5)), "electricalPath"));
+      dGroup.add(tagPart(new THREE.Mesh(dGeom, transparent(0xf59e0b, 0.5)), "electricalPath", false, 0, "microring"));
       const dSpheres = [];
       for (let i = 0; i < 5; i++) {
         const glow = new THREE.Mesh(
@@ -1238,7 +1262,7 @@ const indexItems = [
         dGroup.add(glow);
       }
       dropElecGlowSpheres.push(dSpheres);
-      chip.add(tagPart(dGroup, "electricalPath"));
+      chip.add(tagPart(dGroup, "electricalPath", false, 0, "microring"));
     }
 
     // TX RF electrical path (bond pad → RF signal electrode → over MZM phase arms)
@@ -1254,7 +1278,7 @@ const indexItems = [
     const txeCurve = new THREE.CatmullRomCurve3(txePoints);
     const txeGeometry = new THREE.TubeGeometry(txeCurve, 48, 0.02, 8, false);
     const txeMesh = new THREE.Mesh(txeGeometry, transparent(0xf59e0b, 0.5));
-    txeGroup.add(tagPart(txeMesh, "electricalPath"));
+    txeGroup.add(tagPart(txeMesh, "electricalPath", false, 0, "mzm"));
 
     const txeGlowSpheres = [];
     for (let i = 0; i < 6; i++) {
@@ -1265,7 +1289,7 @@ const indexItems = [
       txeGlowSpheres.push({ mesh: glow, offset: i / 6 });
       txeGroup.add(glow);
     }
-    chip.add(tagPart(txeGroup, "electricalPath"));
+    chip.add(tagPart(txeGroup, "electricalPath", false, 0, "mzm"));
 
     // Heater DC electrical paths (bond pad → M1 trace → W via → TiN heater)
     const heaterElecCurves = [];
@@ -1283,7 +1307,7 @@ const indexItems = [
       const hCurve = new THREE.CatmullRomCurve3(hPoints);
       heaterElecCurves.push(hCurve);
       const hGeom = new THREE.TubeGeometry(hCurve, 32, 0.016, 8, false);
-      hGroup.add(tagPart(new THREE.Mesh(hGeom, transparent(0xf59e0b, 0.45)), "electricalPath"));
+      hGroup.add(tagPart(new THREE.Mesh(hGeom, transparent(0xf59e0b, 0.45)), "electricalPath", false, 0, "mzm"));
       const hSpheres = [];
       for (let i = 0; i < 5; i++) {
         const glow = new THREE.Mesh(
@@ -1294,7 +1318,7 @@ const indexItems = [
         hGroup.add(glow);
       }
       heaterElecGlowSpheres.push(hSpheres);
-      chip.add(tagPart(hGroup, "electricalPath"));
+      chip.add(tagPart(hGroup, "electricalPath", false, 0, "mzm"));
     }
 
     // TX optical path (CW laser → input coupler → waveguide → MMI splitter → phase arms → MMI combiner → output waveguide → output coupler)
@@ -1593,6 +1617,7 @@ const indexItems = [
     const infoTitle = figure?.querySelector("[data-pic-part-title]");
     const infoBody = figure?.querySelector("[data-pic-part-body]");
     const indexButtons = figure?.querySelectorAll("[data-pic-part-index]") || [];
+    const deviceButtons = figure?.querySelectorAll("[data-pic-device-index]") || [];
 
     // Controls
     const explodeBtn = figure?.querySelector("[data-pic-explode-toggle]");
@@ -1690,6 +1715,7 @@ const indexItems = [
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
     let selectedPart = "";
+    let selectedDevice = "";
     let pointerDownState = null;
     const dragSelectionThreshold = 5;
     const referenceOpacity = 0.16;
@@ -1707,14 +1733,21 @@ const indexItems = [
         return;
       }
       selectedPart = partKey;
+      selectedDevice = deviceKeys.includes(partKey) ? partKey : "";
       infoTitle.textContent = partInfo[partKey].title;
       infoTitle.style.setProperty("--part-title-color", partInfo[partKey].color);
       infoBody.textContent = partInfo[partKey].body;
 
+      // Update category index buttons
       for (const button of indexButtons) {
         const buttonPart = button.getAttribute("data-pic-part-index");
         button.style.setProperty("--part-color", partInfo[buttonPart]?.color || "var(--border)");
         button.setAttribute("aria-pressed", String(buttonPart === partKey));
+      }
+      // Update device index buttons
+      for (const button of deviceButtons) {
+        const dev = button.getAttribute("data-pic-device-index");
+        button.setAttribute("aria-pressed", String(dev === partKey));
       }
 
       dimNonSelectedParts(partKey);
@@ -1745,7 +1778,9 @@ const indexItems = [
           return;
         }
 
-        const isSelected = object.userData.partKey === partKey;
+        const isSelected = deviceKeys.includes(partKey)
+          ? object.userData.deviceGroup === partKey
+          : object.userData.partKey === partKey;
         const isCladding = object.userData.partKey === "cladding";
         const baseOpacity = isCladding && isCladdingHidden ? 0 : (object.userData.baseOpacity ?? 1);
         const targetOpacity = isSelected
@@ -1785,6 +1820,7 @@ const indexItems = [
 
     const clearSelectedPart = () => {
       selectedPart = "";
+      selectedDevice = "";
       infoTitle.textContent = "结构说明";
       infoTitle.style.removeProperty("--part-title-color");
       infoBody.textContent = "选择模型中的结构，或点击下方结构索引，这里会显示它在 PIC 芯片中的作用。";
@@ -1792,6 +1828,9 @@ const indexItems = [
       for (const button of indexButtons) {
         const buttonPart = button.getAttribute("data-pic-part-index");
         button.style.setProperty("--part-color", partInfo[buttonPart]?.color || "var(--border)");
+        button.setAttribute("aria-pressed", "false");
+      }
+      for (const button of deviceButtons) {
         button.setAttribute("aria-pressed", "false");
       }
 
@@ -1894,6 +1933,14 @@ const indexItems = [
       const handler = () => setSelectedPart(button.getAttribute("data-pic-part-index"));
       button.addEventListener("click", handler);
       indexClickHandlers.push([button, handler]);
+    }
+
+    const deviceClickHandlers = [];
+    for (const button of deviceButtons) {
+      const dev = button.getAttribute("data-pic-device-index");
+      const handler = () => setSelectedPart(dev);
+      button.addEventListener("click", handler);
+      deviceClickHandlers.push([button, handler]);
     }
 
     // ---- Explode toggle ----
@@ -2147,6 +2194,9 @@ const indexItems = [
       renderer.domElement.removeEventListener("pointerleave", clearPointerDownState);
       renderer.domElement.removeEventListener("pointermove", updateCursor);
       for (const [button, handler] of indexClickHandlers) {
+        button.removeEventListener("click", handler);
+      }
+      for (const [button, handler] of deviceClickHandlers) {
         button.removeEventListener("click", handler);
       }
       explodeBtn?.removeEventListener("click", handleExplodeToggle);
