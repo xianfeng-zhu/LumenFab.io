@@ -1437,7 +1437,7 @@ const indexItems = [
     chip.rotation.x = -0.22;
     chip.rotation.y = -0.45;
 
-    return { chip, layerGroups, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1494,7 +1494,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, elecCurve, elecGlowSpheres, txPathCurve1, txPathCurve2, txGlowSpheres1, txGlowSpheres2, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -1811,6 +1811,19 @@ const indexItems = [
         clippingPlane.constant = -sectionSliderValue;
       } else {
         renderer.clippingPlanes = [];
+      }
+
+      // Optical path glow animation (vertical: fiber → GC surface)
+      if (pathGlowSpheres) {
+        for (const item of pathGlowSpheres) {
+          const t = (item.offset + time * 0.18) % 1;
+          const pt = pathCurve.getPointAt(t);
+          item.mesh.position.copy(pt);
+          const fade = Math.sin(t * Math.PI);
+          item.mesh.material.opacity = 0.25 + 0.55 * fade;
+          const s = 0.7 + 0.45 * fade;
+          item.mesh.scale.setScalar(s);
+        }
       }
 
       // Electrical path glow animation (Ge → M1 → bond pad)
