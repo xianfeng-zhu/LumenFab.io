@@ -1172,6 +1172,37 @@ const indexItems = [
     }
     chip.add(tagPart(rxEcPathGroup, "opticalPath"));
 
+    // Microring drop optical paths (ring → drop waveguide → Ge PD)
+    const dropPathCurves = [];
+    const dropPathGlowSpheres = [];
+    for (let i = 0; i < 3; i++) {
+      const rr = ringR[i], rx = ringXs[i];
+      const rz = rxZ + 0.16 + ringGap + rr + 0.035;
+      const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
+      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      const pts = [
+        new THREE.Vector3(rx, gcTopY, rz + rr),
+        new THREE.Vector3(rx, gcTopY, dropZ),
+        new THREE.Vector3(rx, gcTopY, geZ),
+      ];
+      const curve = new THREE.CatmullRomCurve3(pts);
+      dropPathCurves.push(curve);
+      const geom = new THREE.TubeGeometry(curve, 16, 0.015, 6, false);
+      const group = new THREE.Group();
+      group.add(tagPart(new THREE.Mesh(geom, transparent(0x67e8f9, 0.4)), "opticalPath"));
+      const spheres = [];
+      for (let j = 0; j < 5; j++) {
+        const glow = new THREE.Mesh(
+          new THREE.SphereGeometry(0.026, 10, 6),
+          new THREE.MeshBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.5 })
+        );
+        spheres.push({ mesh: glow, offset: j / 5 });
+        group.add(glow);
+      }
+      dropPathGlowSpheres.push(spheres);
+      chip.add(tagPart(group, "opticalPath"));
+    }
+
     // Monitor PD optical path (coupling region exit → S-bend → monitor PD)
     const mpdPathGroup = new THREE.Group();
     const mpdPathY = siSlabTop + ribRidgeH;
@@ -1587,7 +1618,7 @@ const indexItems = [
     chip.rotation.x = 0;
     chip.rotation.y = 0;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
+    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres };
   }
 
   for (const root of roots) {
@@ -1645,7 +1676,7 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres } = buildModel(scene);
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -2009,6 +2040,23 @@ const indexItems = [
           item.mesh.material.opacity = 0.25 + 0.55 * fade;
           const s = 0.7 + 0.45 * fade;
           item.mesh.scale.setScalar(s);
+        }
+      }
+
+      // Microring drop optical paths glow animation
+      if (dropPathGlowSpheres && dropPathCurves) {
+        for (let i = 0; i < dropPathGlowSpheres.length; i++) {
+          const spheres = dropPathGlowSpheres[i];
+          const curve = dropPathCurves[i];
+          for (const item of spheres) {
+            const t = (item.offset + time * 0.60) % 1;
+            const pt = curve.getPointAt(t);
+            item.mesh.position.copy(pt);
+            const fade = Math.sin(t * Math.PI);
+            item.mesh.material.opacity = 0.25 + 0.55 * fade;
+            const s = 0.7 + 0.45 * fade;
+            item.mesh.scale.setScalar(s);
+          }
         }
       }
 
