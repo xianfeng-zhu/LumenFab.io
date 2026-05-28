@@ -1444,8 +1444,8 @@ const indexItems = [
 
     // Heaters — above heater top surface (heater strip too narrow for face label)
     const heaterTopY = cladTopY + heaterH + eps;
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.6, heaterTopY, 0.12), faceTop, { scale: 0.09, depthTest: false }));
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.6, heaterTopY, 0.68), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, 0.12), faceTop, { scale: 0.09, depthTest: false }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(0.18, heaterTopY, 0.68), faceTop, { scale: 0.09, depthTest: false }));
     // M1 interconnect — above M1 top surface
     const m1TopY = cladTopY + heaterH + m1H + eps;
     lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, rxZ), faceTop, { scale: 0.10, depthTest: false }));
