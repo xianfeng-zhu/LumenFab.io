@@ -1032,14 +1032,13 @@ const indexItems = [
     addM1ContactPads(arm2nZ);
     addM1ContactPads(arm2pZ);
 
-    // M1 Z-bridges: lateral traces to connect doping contact pads to RF electrodes
+    // M1 Z-bridges: thin lateral traces connecting doping contacts to RF electrodes
     // arm1 n++ (Z=-0.07) → rfGnd1 (Z=0.20)
     // arm2 p++ (Z=0.87) → rfGnd2 (Z=0.60)
     const rfPadY = viaTopY + m1H / 2;
-    const gndBridgeLen = 0.27;
 
     const gndBridge1 = createBox({
-      size: [2.0, m1H, gndBridgeLen],
+      size: [2.0, m1H, 0.06],
       position: [0.5, rfPadY, 0.065],
       color: 0xf97316,
       metalness: 0.65,
@@ -1048,7 +1047,7 @@ const indexItems = [
     lRf.add(tagPart(gndBridge1, "rfElectrode", false, 4));
 
     const gndBridge2 = createBox({
-      size: [2.0, m1H, gndBridgeLen],
+      size: [2.0, m1H, 0.06],
       position: [0.5, rfPadY, 0.735],
       color: 0xf97316,
       metalness: 0.65,
