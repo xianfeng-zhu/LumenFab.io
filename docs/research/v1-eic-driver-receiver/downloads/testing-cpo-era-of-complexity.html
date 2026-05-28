@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="/images/logo-circle-pcb.png?v=e2aa7291">
+    <link rel="stylesheet" href="/css/style.css?v=e2aa7291">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <title>Testing Co-packaged Optics in the Era of Complexity - Go Semi & Beyond</title>
+</head>
+<body class="">
+    <header>
+        <div class="container main-nav-container">
+            <div class="logo-container">
+                <a href="/" class="header-logo-link">
+                    <img src="/images/logo-gosemi-nav.png" alt="Go Semi & Beyond" class="header-logo header-logo-full" width="302" height="80">
+                    <img src="/images/logo-circle-pcb.png" alt="Go Semi & Beyond" class="header-logo-circle" width="45" height="45">
+                    <span class="header-logo-text">GO SEMI & BEYOND</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/issues/april-2026/">Current Issue</a></li>
+                    <li><a href="/issues/">Archive</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="https://visitor.r20.constantcontact.com/manage/optin?v=001y_Bo5goCBKQ5mpCMPMk9NZ99QMnLrLllc1SVvjz3oBDPSK7NuaD2lmbp7Qd60Oy3ftqVE4iZfLT8xvaduZ92LDuKgDRcJgGp19iRFGA-2EqbiZuQnFXcLv5m5oWB7xioLSQR2RO7XNixpn3YPSNXUJ4X2lHntVromrWTUzGfYQ4%3D" class="btn-small" target="_blank">Subscribe</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+
+    <article class="article-page archive-article">
+        <div class="article-header">
+            <h1>Testing Co-packaged Optics in the Era of Complexity</h1><div class="article-meta"><span class="article-label">Top Story</span> &bull; <span class="article-date">April 2026 Issue</span> &bull; <span class="article-author">By Ira Leventhal, Vice President, Research & Venture, Advantest America, Inc.</span></div>
+        </div>
+        <div class="article-body">
+            <p><em>This article is adapted with permission from Electronic Product Design &amp; Test. The original article can be viewed <a href="https://www.epdtonthenet.net/">here</a>.</em></p>
+<p><em>By Ira Leventhal, Vice President, Research &amp; Venture, Advantest America, Inc.</em></p>
+<p>As a consequence, test complexity is exploding for devices targeting AI server farms and data centers. Test complexity is increasing in part because process nodes are shrinking (more Moore). Additionally, complexity is rising because of heterogeneous 2D, 2.5D, and 3D integration (more than Moore). This integration increasingly includes CPO devices that replace high-power electrical I/O with lower-power optical communications.</p>
+<p>Heterogeneous integration relies on advanced technologies like hybrid bonding and high-bandwidth memory stacking. These devices face challenges in high-speed data transfer, power, heat dissipation, and die handling. The power demand of electrical I/O can rival that of the processor core, pushing a shift toward optical data-communications using CPO devices. Additionally, testing in high-volume manufacturing requires tools for yield analytics and lifecycle data management, along with leading-edge test instrumentation, dynamic thermal control, and a robust data infrastructure.</p>
+<h2 id="multiple-test-insertions">Multiple test insertions</h2>
+<p>This increasing test complexity drives the need for fully automated, scalable tools for optical and electrical testing that can accommodate the five distinct test insertions required for CPO devices in HVM settings (Figure 1). Two of these insertions are at the wafer level. Insertion #1 provides single-sided photonic integrated circuit (PIC) wafer-level probing. After this insertion, the photonics wafer may be bonded to the electronics wafer, so insertion #2 provides single- or double-sided electronic IC (EIC) plus PIC wafer-level probing. Insertion #3 is the singulated-die/chip-level insertion of the optical engine (OE), requiring both electrical and optical probes or sockets, necessitating special die handling solutions. This step ensures that a faulty OE is not paired with a processor chip costing many thousands of dollars. The final two insertions require an electrical and optical socket to test the entire ASIC/CPO advanced package module; insertion #4 is a classical ATE final test (FT) of the packaged device, while insertion #5 is a system-level test (SLT) that mimics mission-mode operation.</p>
+<p><figure><img alt="CPO test insertions" src="/images/issues/april-2026/image6.png" /><figcaption>Figure 1. Test insertions for CPO devices in HVM settings.</figcaption></figure></p>
+<p>All these insertions, which do not simply repeat the same tests, present significant challenges. Many successful test strategies aim to "shift left," or find defects as early as possible in the process. Success requires a cohesive ecosystem. No one industry player can solve the entire test complexity problem—it requires a deep level of collaboration across the ecosystem, from probe card vendors to instrument vendors.</p>
+<h2 id="leveraging-the-installed-electrical-test-base">Leveraging the installed electrical-test base</h2>
+<p>The semiconductor test industry lacks explicit standards for optical probing, optical-package fiber-connector handling, and optical instrumentation. As a result, test can require highly customized rack-and-stack instrumentation and time-consuming optical signal-path calibration. Work is proceeding, however, on fully automated, accurate, stable, and repeatable optical test solutions that leverage existing electrical test equipment. The ultimate goal is a highly integrated, standard, and fully scalable ATE with automated calibration and diagnostics that can fully test CPO devices at high throughput.</p>
+<p>The need for CPO is now approaching a tipping point: some adoption of CPO is occurring at 200G/lane, and CPO will be mandatory at 400G/lane. Consequently, an industry roadmap is emerging for CPO FT/SLT test insertions in HVM (Figure 2). The roadmap shows that for switch ASICs, test solutions will be validated by Q4 2026, with HVM ramp-up beginning by mid-2027. For GPUs, each stage will follow one year later.</p>
+<p><figure><img alt="CPO HVM ramp-up roadmap" src="/images/issues/april-2026/image7.png" /><figcaption>Figure 2. A roadmap for switch ASIC and GPU HVM ramp-up.</figcaption></figure></p>
+<p>For both types of devices, HVM test strategies are focused on loopback approaches (for example, routing a transmitter output back to a receiver input) with the option of adding optical instruments. In addition, thermal control is necessary to keep optoelectronic devices within their mission-mode temperature range during test, keeping in mind that the optical engine will be located next to a processor operating at very high temperatures.</p>
+<p>A sign of progress in the detachable connector landscape is that first-generation connector choices were made to move builds forward as the first step towards HVM. However, there may be a return to a "wild west" approach with multiple competing connector options as customers chase performance, leading to a mix of standard and custom solutions. Additionally, significant issues remain regarding hardened test connectors as well as their cleaning and servicing. And finally, many optical connectors are not built for test applications, and their performance can degrade in as few as 20 insertion cycles.</p>
+<h2 id="aggressive-ramp-schedule">Aggressive ramp schedule</h2>
+<p>The aggressive HVM ramp schedule for CPO devices necessitates integrating optoelectronic test capabilities into existing manufacturing and test systems without extensive redesign. Equipment operators must build on their current setups rather than replace them. However, simply combining different benchtop setups in a "Frankenstein" approach won't meet the strict requirements for quality, reliability, scalability, and supportability needed for HVM testing. An effective HVM-ready test system requires intentional design focused on these stringent demands.</p>
+<p>Several factors must be considered when implementing HVM solutions for CPO device package test. An HVM system should support multiple devices, enable fast changeover, integrate automated cleaning, and maximize throughput and uptime while limiting mechanical complexity.</p>
+<p>New key requirements for optical components include using hardened optical test connectors, maintaining polarization on the external laser source (ELS) output, and minimizing losses. Polarization drift that occurs in the continuous wave output of the external laser source (ELS), which essentially serves as an optical power supply, can compromise the performance of the modulators in the DUT's OEs. While DSP-based error correction approaches are highly effective on modulated signals, they cannot be applied pre-modulation, so great care must be taken to provide a clean ELS input to the OEs. Important steps to follow include:</p>
+<ul>
+<li>Using polarization-maintaining optical fiber (PMF).</li>
+<li>Minimizing the number of connectors in the optical path, because all connectors contribute to increased insertion loss and polarization loss, as well as reduced polarization extinction ratio (PER).</li>
+<li>Ensuring all connectors are precisely aligned and polished to optimize PER.</li>
+<li>Establishing an ongoing calibration and verification process to regularly check that the optical signal path meets spec.</li>
+</ul>
+<h2 id="modular-platform-approach">Modular platform approach</h2>
+<p>Advantest's platform approach to high-performance compute (HPC) and AI device testing is based on a split architecture that cleanly separates the tester and handler sides of the system (Figure 3). This architecture allows each element—thermal head, mechanical handling, test socket, load board, and DUT interface—to operate within a structured framework optimized for performance and scalability. By decoupling these layers, the system ensures stable thermal management, improved mechanical reliability, and consistent electrical performance under the extreme requirements of current and future HPC and AI devices.</p>
+<p><figure><img alt="Split modular architecture" src="/images/issues/april-2026/image8.png" /><figcaption>Figure 3. Split modular architecture with handler side and electrical tester side.</figcaption></figure></p>
+<p>With CPO entering the picture, this architecture is refactored into multiple specialized layers, each responsible for a distinct function (Figure 4). An Optical Layer is added, centered around an Optical Load Board that provides reliable, repeatable contact to the CPO connectors and smooth integration of the ELS inputs and optical instrumentation. This layer is integrated between the traditional electrical and thermal/mechanical layers to form a cohesive test solution tailored for CPO devices. This layered approach enables advanced optical capabilities without forcing a disruptive redesign of the entire test cell. In essence, optical capability becomes a natural extension, not a structural overhaul.</p>
+<p><figure><img alt="Optical layer within modular platform" src="/images/issues/april-2026/image9.png" /><figcaption>Figure 4. Optical layer within a modular test platform.</figcaption></figure></p>
+<p>This platform-based approach delivers substantial advantages for scaling into high-volume manufacturing (HVM). Its modular architecture enables a seamless progression from NPI to high-throughput production, while built-in automation improves operational efficiency and reduces operator burden. Because it remains fully compatible with the installed base—testers, handlers, load boards, and sockets—customers can introduce CPO capability without retooling their factories. At the same time, the platform's flexibility accommodates both switch ASICs and GPUs, multiple connector formats, and parallel test configurations, broadening coverage across diverse CPO device families.</p>
+<p>Equally important is the system's versatility in test strategy. Whether the workflow relies on optical instrumentation, loopback-based validation, or a hybrid approach, the same platform supports each method within a unified hardware and software environment. This consistency enables optimized test flows across insertions and simplifies operational management. The result is a high-uptime, high-throughput solution engineered for performance and reliability: hardened optical connectors, automated cleaning, rapid changeover fixtures, and automated calibration processes all work together to maximize overall equipment effectiveness (OEE).</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>A platform-based approach for CPO HVM test emphasizes intentional design, ensuring cohesive, robust solutions instead of improvised, ad hoc ones. Such an approach is critical for success in CPO test in the Era of Complexity, driven by the emergence of CPO devices in the HPC/AI environment, and it ensures scalability, automation, and compatibility from NPI to HVM. Advantest is leveraging its in-house expertise and working with key ecosystem partners, including leading prober and probe card vendors as well as connector and instrument vendors, to ensure the aggressive rollout of CPO-ready HVM test solutions.</p>
+        </div>
+        <div class="article-footer" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
+            <a href="/issues/april-2026/" class="btn-outline">&larr; Back to April 2026 Issue</a>
+            
+        </div>
+    </article>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>GO SEMI & BEYOND</h4>
+                    <p>Advantest's newsletter focused on the semiconductor industry and beyond. Delivering insights on test innovation, industry trends, and emerging technologies.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="/issues/april-2026/">Current Issue</a></li>
+                        <li><a href="/issues/">Archive</a></li>
+                        <li><a href="/about/">About</a></li>
+                        <li><a href="https://visitor.r20.constantcontact.com/manage/optin?v=001y_Bo5goCBKQ5mpCMPMk9NZ99QMnLrLllc1SVvjz3oBDPSK7NuaD2lmbp7Qd60Oy3ftqVE4iZfLT8xvaduZ92LDuKgDRcJgGp19iRFGA-2EqbiZuQnFXcLv5m5oWB7xioLSQR2RO7XNixpn3YPSNXUJ4X2lHntVromrWTUzGfYQ4%3D" target="_blank">Subscribe</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>Email: corpcomms@advantest.com</li>
+                        <li>Marketing: mktgcomms@advantest.com</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Follow Advantest</h4>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/company/advantest" title="LinkedIn" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/advantest" title="YouTube" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.facebook.com/advantest" title="Facebook" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/advantest" title="Instagram" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.757-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Advantest Corporation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="/js/main.js?v=e2aa7291"></script>
+</body>
+</html>

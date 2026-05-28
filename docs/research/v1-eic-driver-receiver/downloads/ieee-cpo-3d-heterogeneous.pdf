@@ -1,0 +1,715 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- v ieee cookie banner v -->
+<script src="https://cmp.osano.com/AzyzptTmRlqVd2LRf/eeabc00e-3d69-467a-b823-c8166c73d2b0/osano.js"></script>
+<link rel="stylesheet" href="https://cookie-consent.ieee.org/ieee-cookie-banner.css" type="text/css"/>
+<!-- ^ ieee cookie banner ^ -->
+
+
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="DnLxLGm9nfwvv3gG7i_MR5xG3QYr6IgYKkytUEpbVwgAEJ2mzBQy7_HpMne99qVqssuttSAoFmBHM2Px6qXTBg" />
+  <meta charset="utf-8"/>
+  <meta name="author" content="IEEE.vTools" />
+
+  <meta name="description" content="IEEE vTools Events is used for managing IEEE conferences and meetings. 
+Events are showcased in IEEE Collabratec™ and can be promoted on websites and eNotices.
+" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Co-Packaged Optics – 3D Heterogeneous Integration of Photonic IC and Electronic IC : vTools Events | vTools IEEE</title>
+
+
+  <link rel="shortcut icon" type="image/png" href="/assets/vtools_ui_img/vtools/favicon-9a2f51f1cc2537587d98d55cbe21f68999d8903384e73b086751495bd3a6427e.png" />
+
+  <!-- jQuery Files -->
+  <script src="/assets/jquery/vtools_jquery-3a475a9d51006b3897cffc389240925809930e261e3a59215542a249167aaef0.js"></script>
+
+  <link rel="stylesheet" href="/assets/raleway/raleway-b00c212ded1da350d18967766b06ed9cacfe4573b5007b22a55bce177bc9cf47.css" />
+<link rel="stylesheet" href="/assets/vtools/color_themes/bright_orange-5fd1a1c462f795baa37c268aafed1cd9383c4ac019f5f49ddb535c9741a7283c.css" title="bright_orange" />
+
+<link rel="stylesheet" href="/assets/vtools-8a2cf2acc85d28a2ac1ad946b4ad04b9756ae65fb4fefc2fe846dc18e6876442.css" />
+
+  <!-- Royal Preloader -->
+  <script src="/assets/raleway/preloader-fbb1a4a60322f016caf997fd2d8782fc51e334a71d9e5fd002ae9f6f0b9b0a4e.js"></script>
+
+  
+<script type="text/javascript">
+vTools = {};
+vTools.AuthenticatedWhenPageLoaded = false;
+</script>
+<script src="/assets/vtools_ui-427ccace15e7fbe82fa6999998e0d171bd3dd955dabf4e6e213e842d4cb61eaa.js"></script>
+
+
+<link rel="stylesheet" href="/assets/application-60079cd8278423d242618a11c2412a3c66dc61dfa50140e4bd11a7d4cf8aba5d.css" />
+	<link rel="canonical" href="https://events.vtools.ieee.org/m/505983" />
+	<meta property="og:title" content="Co-Packaged Optics – 3D Heterogeneous Integration of Photonic IC and Electronic IC" />
+	<meta property="og:url" content="https://events.vtools.ieee.org/m/505983" />
+	<meta property="og:image" content="https://events.vtools.ieee.org/assets/IEEE_logo_share-1865d4ee759f4354f16d5156e4313bba31c1f869d7b24dd23f11c41f3c5b1536.jpg" />
+	<link rel="image_src" href="https://events.vtools.ieee.org/assets/IEEE_logo_share-1865d4ee759f4354f16d5156e4313bba31c1f869d7b24dd23f11c41f3c5b1536.jpg" />
+	<script src="/assets/tinymce-18bcadb75cd5d862ca411e17ecf5b62c528f7074e0201dd4256670f37028014b.js" data-turbolinks-track="reload"></script>
+	<script src="https://www.google.com/recaptcha/api.js"></script>
+
+	<script src="https://www.google.com/recaptcha/api.js?render=6LfnqJMrAAAAAGByvDOKF_zDs2jhx9_N3c7iodnu"></script>
+
+ <link rel="stylesheet" href="/assets/meeting_view_controller/list_meeting_action-4441d2f76e9349971c06de91a3d51d44df67a51773a18bbadfa166cad9b3f847.css" />
+ <script src="/assets/meeting_view_controller/list_meeting_action-689f25a61591ec7105a6da872f0592a0cfe8040054ae82757a235a34f514bee7.js"></script>
+
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ4RJXQJW2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FJ4RJXQJW2');
+    </script>
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+
+      (function() {
+          var op = XMLHttpRequest.prototype.open;
+          XMLHttpRequest.prototype.open = function() {
+              var resp = op.apply(this, arguments);
+              var url = arguments && arguments[1] ? "" + arguments[1] : "";
+              url = url.toLowerCase();
+              if (url.includes("ieee.org") || url.includes("localhost") || url.includes("127.0.0.1") || !url.startsWith("http")) {
+                  this.setRequestHeader('X-CSRF-Token', $('meta[name=csrf-token]').attr('content'));
+              }
+              return resp;
+          };
+      }());
+
+  </script>
+</head>
+
+<body class=" scrollreveal royal_preloader" data-turbo="false">
+
+	<!-- Preloader and Settings -->
+	<div id="royal_preloader"></div>
+	
+
+
+	<div id="bg-boxed">
+    	<div class="boxed">
+
+<!--
+		<style>
+	      #javascript_notice {
+	        border: 2px solid orange;
+	        background-color: white;
+	        border: 2px solid orange;
+	        color: #8b2222;
+	      }
+	    </style>
+	    <noscript><div id="javascript_notice">
+	      It appears that you have JavaScript disabled.  JavaScript is <b>highly</b>
+	      recommended for vTools applications, and is required for some functionality.
+	    </div></noscript>
+-->
+
+		
+<header>
+
+	<!-- Begin Top Bar -->
+<div class="top-bar">
+	<div class="container">
+		<div class="row">
+			
+				<div class="col-xs-8 col-sm-8 hidden-xs hidden-sm">
+    <span class="glyphicon glyphicon-home"></span>
+    <a class="basic" href="http://www.ieee.org/" style="margin-left:3px;">IEEE.org</a>
+    <span class="hidden-sm">
+      |
+      <a class="basic"  href="http://ieeexplore.ieee.org">IEEE <em>Xplore</em> Digital Library</a>
+      |
+      <a class="basic"  href="http://standards.ieee.org/">IEEE Standards</a>
+      |
+      <a class="basic" href="http://spectrum.ieee.org/">IEEE Spectrum</a>
+      |
+      <a class="basic" href="http://www.ieee.org/sitemap.html">More Sites</a>
+    </span>
+</div>
+
+	        	
+			<div class="col-xs-6 col-sm-6 visible-xs visible-sm">
+				<a href="http://ieee.org" target="_blank">
+					<img alt="Visit IEEE.org" style="margin-top:7px;" src="/assets/vtools_ui_img/ieee/ieee-logo-small-47b86b7f8d2e1873f3f8e5104d1c883d44f61e202b0f2dfc8af69840bcfc74f4.jpg" />
+				</a>
+			</div>
+			
+			
+<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 text-right">
+    <ul class="topbar-list list-inline" style="border: 0 !important;">
+    
+        <!--<li>						
+            <a class="btn btn-social-icon btn-rw btn-primary btn-xs">
+				<i class="fa fa-twitter"></i>
+			</a>
+			<a class="btn btn-social-icon btn-rw btn-primary btn-xs">
+				<i class="fa fa-instagram"></i>
+			</a>
+			<a class="btn btn-social-icon btn-rw btn-primary btn-xs">
+				<i class="fa fa-facebook"></i>
+			</a>
+		</li>-->
+		
+		<!--<li><a data-toggle="modal" data-target="#login">Login</a></li><li><a href="pages-forms-register-login.html">Register</a></li>-->
+		
+		<li id="_vtools_signin_status" style="font-size:1.3em; border: 0 !important;">
+					<a href="/tego_/authentication/sign_in?_landing=/m/505983"><!-- vToolsUI #100 <span class="fa fa-key fa-lg ieee_primary_blue" style="margin-right:8px; vertical-align:middle;"></span>-->Sign In</a>
+
+		</li>
+		
+	</ul>
+</div>
+
+
+			
+		</div><!--/row -->		
+	</div><!--/container header -->   
+</div><!--/top bar -->   
+<!-- End Top Bar -->
+
+	
+	<!-- Begin Identity and Navigation -->
+	<div class="navbar-wrapper">
+		<div class="navbar navbar-main" id="fixed-navbar">
+			<div class="container">
+				
+					
+ <div class="row">
+	<div class="col-sm-12 column-header">
+			<div class="pull-right hidden-xs hidden-sm">
+	<a href="https://ieee.org" target="_blank">
+		<img alt="Visit IEEE.org" style="margin-top:7px;" src="/assets/vtools_ui_img/ieee/ieee-logo-small-47b86b7f8d2e1873f3f8e5104d1c883d44f61e202b0f2dfc8af69840bcfc74f4.jpg" />
+	</a>
+</div>
+<div style="white-space: nowrap;">
+
+	<div class="pull-left hidden-xs hidden-sm" style="">
+		<a href="http://sites.ieee.org/vtools/" style="" target="_blank"
+			 class="tooltip-active" title="">
+			<img alt="Visit vTools.IEEE.org" style="width: 250px; height: auto;" src="/assets/vtools_ui_img/vtools/logo_ieee_vtools-049b6ae8e2167696f2d2ca3191de321cc69a35bc971793dfbfe2084cd177d30d.jpg" />
+		</a>
+	</div>
+
+		<a href="/">
+			<span class="content-box header_title_application"
+				style="">
+				events
+			</span>
+		</a>
+	
+</div><!-- /navbar header -->
+	</div>
+</div>
+
+
+					<nav id="_vtools_app_nav" class="navbar navbar-default">
+  <div class="container-fluid">
+  	
+  	<ul class="nav navbar-nav navbar-right visible-lg" style="float:right; margin-top: 10px; margin-right:0;">
+		<li class="dropdown dropdown-main" style="font-size:0.8em; white-space:normal; width:220px; text-align:right;">
+        </li>
+	</ul><!-- /navbar right --> 
+  	
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#_vtools_app_nav_collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand visible-xs visible-sm" href="#">QuickNav</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="_vtools_app_nav_collapse">
+      <ul class="nav navbar-nav">
+	        <li class="dropdown dropdown-main" style="">
+	        	<a href="http://sites.ieee.org/vtools/" target="_blank" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">vTools<span class="fa fa-angle-down dropdown-arrow"></span></a>
+	        	<ul class="dropdown-menu dropdown-subhover dropdown-animation animated fadeIn"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+              <li class=""><a href="http://sites.ieee.org/vtools" target="_blank" class="mn-menu-link">vTools Home</a></li>
+              <li class=""><a href="http://sites.ieee.org/vtools/blog" target="_blank" class="mn-menu-link">vTools Blog</a></li>
+              <li class="theme-border-bottom-heavy">
+                <a href="http://sites.ieee.org/vtools/training" target="_blank" class="mn-menu-link">vTools Tutorials</a>
+              </li>
+                  <li><a href="https://engage.vtools.ieee.org" target="_blank" class="mn-menu-link">Engage</a></li>
+                  <li><a href="https://enotice.vtools.ieee.org" target="_blank" class="mn-menu-link">eNotice</a></li>
+                  <li><a href="https://events.vtools.ieee.org" target="_blank" class="mn-menu-link">Events</a></li>
+                  <li><a href="https://nominations.vtools.ieee.org" target="_blank" class="mn-menu-link">Nominations</a></li>
+                  <li><a href="https://officers.vtools.ieee.org" target="_blank" class="mn-menu-link">Officer Reporting</a></li>
+                  <li><a href="https://sbr.vtools.ieee.org" target="_blank" class="mn-menu-link">Student Branch Reporting</a></li>
+                  <li><a href="https://surveys.vtools.ieee.org" target="_blank" class="mn-menu-link">Surveys</a></li>
+                  <li><a href="https://voting.vtools.ieee.org" target="_blank" class="mn-menu-link">Voting</a></li>
+                  <li><a href="https://webinabox.vtools.ieee.org" target="_blank" class="mn-menu-link">WebInABox</a></li>
+                  <li><a href="https://xtreme.vtools.ieee.org" target="_blank" class="mn-menu-link">Xtreme</a></li>
+	        	</ul>
+	        </li>
+        	
+        <li><a href="/events/search"><span>Search</span></a></li><li><a href="/my_events"><span>My Events</span></a></li><li><a href="/tego_/events/administration"><span>Manage Events</span></a></li><li><a href="/api/doc"><span>API</span></a></li><li><a href="/about"><span>About</span></a></li><li><a href="/contact"><span>Contact</span></a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+
+				
+			</div><!-- /container header -->   
+		</div><!-- /navbar -->
+	</div><!-- /navbar wrapper -->
+	<!-- End Navigation -->
+	
+	<!-- -->
+	<div class="header _header_breadbrumb_bar ieee_bright_orange_fade1_bg" style="width:100%; height:20px;">&nbsp;</div>
+<div class="wedge20_topright_ieee_bright_orange_fade1" style="float:right;"></div>
+
+
+</header><!-- /header -->
+<!-- End Header -->
+
+		<!--<section class="">
+        	<div class="">-->
+      <section class="content-40mg main-content">
+			  <div class="container main-content-body">
+				
+          <div id="_vtools_session_expired_message" style="display:none;" class="alert alert-warning alert-warning-rw" role="alert">
+            It appears that your session has timed out.  Please <a href="/tego_/authentication/sign_in?_landing=/m/505983">click here to sign in</a>
+            again.<br />NOTE that if there is any unsaved work on this page, it will be lost.
+          </div>
+				
+			    <!--<div class="alert alert-warning alert-warning-rw" role="alert">The intermittent issues with the integration between vTools.Events and vTools.eNotice have been resolved.<br /><br />
+If you are still experiencing an issue with a vTools.eNotice mailing that originates from vTools.Events, please <a href="/contact" target="_blank">contact staff</a> for assistance.</div>-->
+				  
+          
+			    	
+<h2 class="text-primary" style="margin-top: 10px; margin-bottom: 10px;">Co-Packaged Optics – 3D Heterogeneous Integration of Photonic IC and Electronic IC</h2>
+
+<div>
+    <span class="label ieee_primary_blue_bg"
+          style="display: inline-block; font-size: 1.25em; margin-bottom: 5px;">#electronics-packaging</span>
+    <span class="label ieee_primary_blue_bg"
+          style="display: inline-block; font-size: 1.25em; margin-bottom: 5px;">#photonics</span>
+    <span class="label ieee_primary_blue_bg"
+          style="display: inline-block; font-size: 1.25em; margin-bottom: 5px;">#circuits</span>
+    <span class="label ieee_primary_blue_bg"
+          style="display: inline-block; font-size: 1.25em; margin-bottom: 5px;">#seminar</span>
+    <span class="label ieee_primary_blue_bg"
+          style="display: inline-block; font-size: 1.25em; margin-bottom: 5px;">#technical</span>
+
+  <div style="display: block; float: right; margin-left: 6px;">
+  <script src="https://platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
+  <script type="IN/Share" data-url="https://events.vtools.ieee.org/m/505983"></script>
+</div>
+<div style="display: block; float: right; margin-left:6px;">
+  <div class="fb-share-button tooltip-active" data-href="https://events.vtools.ieee.org/m/505983" data-layout="button" data-size="small" data-mobile-iframe="true">
+    <a data-toggle="tooltip" data-placement="top" title="Share this event to Facebook"
+    	 class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://events.vtools.ieee.org/m/505983"><img src="/assets/fb_logo_57-3e49d9dc43267590184389ab3da0cb9f7308c9c848667dab109a0f7c73450ece.png" width="30" alt="Share" /></a>
+  </div>
+</div>
+<div style="display: block; float: right;">
+  <a data-toggle="tooltip" data-placement="top" title="Share this event to X"
+  	 class="twitter-share-button tooltip-active"
+     target="_blank"
+     href="https://twitter.com/intent/tweet?text=Co-Packaged%20Optics%20%E2%80%93%203D%20Heterogeneous%20Integration%20of%20Photonic%20IC%20and%20Electronic%20IC&amp;url=https://events.vtools.ieee.org/m/505983&amp;related=ieeevtools%3AIEEE%20vTools"
+     data-size="small">
+  <img src="/assets/twitter_white_on_blue-d1fd9022653a353b06ae8e5afd69e70b9a3e2dab582ad78e8e279564d41dba40.png" width="30" alt="Tweet" /></a>
+</div>
+
+</div>
+
+<hr class="hr-solid hr-extended ieee_bright_orange_bt2" style="clear:both;">
+
+
+
+
+	  <p>Technical seminar by IEEE Electronics Packaging Society Distinguished Lecturer Dr. John H. Lau with the following abstract:</p>
+<div>
+<p class="MsoNormal">Silicon photonics are the semiconductor integration of EIC and PIC on a silicon substrate (wafer) with complementary metal-oxide semiconductor (CMOS) technology. On the other hand, co-packaged optics (CPO) are heterogeneous integration packaging methods to integrate the optical engine (OE) which consists of photonic ICs (PIC) and the electrical engine (EE) which consists of the electronic ICs (EIC) as well as the switch ASIC (application specific IC). The advantages of CPO are: (a) to reduce the length of the electrical interface between the OE/EE (or PIC/EIC) and the ASIC, (b) to reduce the energy required to drive the signal, and (c) to cut the latency which leads to better electrical performance. In the next few years, we will see more implementations of a higher level of heterogeneous integration of PIC and EIC, whether it is for performance, form factor, power consumption or cost. The content of this lecture is shown below.</p>
+</div>
+<ul type="disc">
+<li class="MsoNormal">Silicon Photonics</li>
+<li class="MsoNormal">Data Centers</li>
+<li class="MsoNormal">Optical Transceivers</li>
+<li class="MsoNormal">Optical Engine (OE) and Electrical Engine (EE)</li>
+<li class="MsoNormal">OBO (on-board optics)</li>
+<li class="MsoNormal">NPO (near-board optics)</li>
+<li class="MsoNormal">CPO (co-packaged optics)</li>
+<li class="MsoNormal">3D Integration of the PIC and EIC</li>
+<li class="MsoNormal">3D Heterogeneous Integration of PIC and EIC</li>
+<li class="MsoNormal">3D Heterogeneous Integration of ASIC Switch, PIC and EIC</li>
+<li class="MsoNormal">3D Heterogeneous Integration of ASIC Switch, PIC and EIC with Bridges</li>
+<li class="MsoNormal">3D Heterogeneous Integration of ASIC Switch, EIC and PIC embedded in Glass-core Substrate</li>
+<li class="MsoNormal">Summary and Recommendations</li>
+</ul>
+<p>&nbsp;</p>
+
+<br style="clear:both;">
+
+<hr class="hr-solid hr-extended ieee_bright_orange_bt2">
+
+<div class="extended_width">
+  <div class="col-sm-3 heading">
+    <h3 class="text-uppercase text-primary"><span class="fa fa-clock-o fa-lg"></span>&nbsp;&nbsp;Date and Time</h3>
+  </div>
+  <div class="col-sm-3 heading ieee_bright_orange_bl2">
+    <h3 class="text-uppercase text-primary"><span class="fa fa-map-marker fa-lg"></span>&nbsp;&nbsp;Location</h3>
+  </div>
+  <div class="col-sm-3 heading ieee_bright_orange_bl2">
+    <h3 class="text-uppercase text-primary"><span class="fa fa-envelope-o fa-lg"></span>&nbsp;&nbsp;Hosts</h3>
+  </div>
+  <div class="col-sm-3 heading ieee_bright_orange_bl2">
+    <h3 class="text-uppercase text-primary"><span class="fa fa-tags fa-lg"></span>&nbsp;&nbsp;Registration</h3>
+  </div>
+</div>
+
+<br style="clear:both;" />
+<hr class="hr-solid hr-extended ieee_bright_orange_bt2" style="margin-bottom: 0px !important;">
+
+<div class="ieee_bright_orange_fade4_bg _event_info extended_width" style="">
+
+  <div class="col-sm-3">
+    <ul class="list-unstyled" style="list-style:none;">
+
+
+
+		<div id="_event_date_and_time_display">
+				<script type='text/javascript'>
+					$(document).ready(function() {
+						$('#_event_date_and_time_display').replaceContentsWithLoading();
+						setTimeout(function() {
+							$('#_event_date_and_time_display')
+								.load('/meeting_view/event_info_date_and_time_display/505983')
+						}, 3000);
+					});
+				</script>
+		</div>
+
+		<!-- The following images (Outlook_Icon, and iCal_Icon) are copyrighted computer
+				icons of computer software. It is believed that the exhibition of icons to
+		  		illustrate or identify the computer software in question
+		  		on the IEEE vTools.Meetings website, hosted on servers in the United States,
+		  		qualifies as fair use under United States copyright law. -->
+  		<li>
+			
+  		
+<img alt="Add_To_Calendar_icon" src="/assets/Add_To_Calendar-22bfc8a6ff082b5eb53083d044fd6582c9fb44f1e1021fd33f3ce909bd70878a.png" />
+<!--<a href="#13">-->Add Event to Calendar<!--</a>--><!-- onclick="$('#calendars').toggle();" -->
+<div style="padding-left:15px; clear:both; text-indent: 0;">
+  	<img alt="iCal Icon" src="/assets/iCal_Icon-522a8e40309c62b3241b4008ab834c25416e576029b06e86015a5a1cf7c48b79.png" />
+    <a href="/event/505983/ical">iCal</a>
+  	<br />
+  	<img alt="Google Calendar Icon" src="/assets/Google_Cal_Icon-3c4605cd23e2ba360cf55d18eee36a0ce929534333a28cb48dd94f662f2cba81.png" />
+    <a target="blank" href="https://www.google.com/calendar/event?action=TEMPLATE&amp;text=Co-Packaged Optics – 3D Heterogeneous Integration of Photonic IC and Electronic IC&amp;dates=20251017T070000Z/20251017T200000Z&amp;details=Technical seminar by IEEE Electronics Packaging Society Distinguished Lecturer Dr. John H. Lau with the following abstract:
+
+Silicon photonics are the semiconductor integration of EIC and PIC on a silicon substrate (wafer) with complementary metal-oxide semiconductor (CMOS) technology. On the other hand, co-packaged optics (CPO) are heterogeneous integration packaging methods to integrate the optical engine (OE) which consists of photonic ICs (PIC) and the electrical engine (EE) which consists of the electronic ICs (EIC) as well as the switch ASIC (application specific IC). The advantages of CPO are: (a) to reduce the length of the electrical interface between the OE/EE (or PIC/EIC) and the ASIC, (b) to reduce the energy required to drive the signal, and (c) to cut the latency which leads to better electrical performance. In the next few years, we will see more implementations of a higher level of heterogeneous integration of PIC and EIC, whether it is ...&amp;location=2356 Main Mall, Vancouver, British Columbia, Canada, V6T 1Z4&amp;trp=true">Google Calendar</a>
+</div>
+		</li>
+		
+	
+</ul>
+
+    <div style="width: 150px; margin-top: 30px;"><div style="margin: 20px; width: 80%;"><?xml version="1.0" standalone="yes"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" viewBox="0 0 222 222" shape-rendering="crispEdges"><path d="M0 0h7v7h-7zM9 0h1v2h-1v2h1v-2h1v2h-1v1h-1v2h-1v-6h1zM13 0h1v1h2v-1h2v1h1v1h-1v1h-1v1h-1v-2h-3v1h-1v-2h1zM20 0h1v3h1v-3h1v4h-2v1h1v1h-1v2h-2v-1h-1v-2h-1v-1h1v1h1v-1h1zM24 0h3v1h-1v1h1v1h1v1h-1v1h-2v2h-1v-2h-1v-1h1v-2h1v-1h-1zM30 0h7v7h-7zM1 1v5h5v-5zM28 1h1v1h-1zM31 1v5h5v-5zM2 2h3v3h-3zM32 2h3v3h-3zM13 3h1v1h-1zM14 4h2v1h-1v2h-1v-1h-1v-1h1zM28 4h1v4h1v1h1v-1h5v1h-2v1h-1v-1h-2v2h-2v1h-3v-1h2v-3h-1v2h-2v1h-1v2h-1v-1h-2v-1h-1v1h1v1h-1v1h2v3h-1v1h1v1h-1v1h2v1h-2v1h-1v-2h-1v-1h-1v-4h1v-1h-1v-4h-1v-1h-2v-2h1v-1h1v3h1v-1h1v1h-1v1h2v-1h1v-1h1v-2h1v2h3v-2h1v1h1zM19 5v2h1v-2zM10 6h1v1h-1zM12 6h1v2h1v3h1v1h-1v1h-1v-1h-2v2h-1v-5h-1v1h-1v1h-2v-1h1v-1h-2v-1h4v-1h1v2h1v-2h1zM2 8h1v1h-1zM0 9h1v1h-1zM4 9h1v2h-1v1h-1v-1h-2v-1h3zM11 9v1h1v-1zM36 9h1v3h-1zM12 10v1h1v-1zM21 10v1h1v-1zM32 10h1v2h-1zM34 10h1v1h-1zM0 11h1v1h-1zM8 11h1v1h-1zM16 11h1v4h-2v1h-2v1h1v1h-2v-3h1v-1h2v-2h1zM1 12h2v2h-1v1h-1v-1h-1v-1h1zM4 12h1v1h1v-1h1v1h-1v1h2v1h-2v1h3v-1h2v1h-1v2h-1v1h1v-1h1v1h-1v1h-2v1h1v1h1v1h1v-1h1v-1h-2v-1h2v-1h2v-1h1v-1h1v-1h1v1h-1v2h-2v1h-1v3h-1v1h-1v2h-1v-1h-4v1h-2v-1h-1v-1h-2v-1h2v-1h1v1h-1v1h1v-1h1v-1h2v-1h-2v-2h1v-1h2v-1h-3v-3h-1zM30 12h2v2h-4v1h1v2h1v-2h2v-1h2v-1h1v2h-1v1h-1v-1h-1v2h-1v2h-1v-1h-1v1h1v1h1v1h1v1h1v1h-1v1h-1v-2h-1v-1h-2v1h2v1h-2v1h-1v-3h-1v-2h1v-2h1v-1h-2v-1h1v-2h3zM25 13h1v1h-1zM36 13h1v2h-1zM3 14h1v4h-1v-1h-1v1h-1v1h1v-1h1v1h-1v1h-2v-3h1v-1h-1v-1h1v1h2zM23 14h1v2h-1zM20 15v1h1v-1zM35 15h1v1h-1zM24 16h1v4h-1v-2h-1v-1h1zM36 16h1v8h-2v-1h-1v-2h2v-1h-1v-1h1zM19 17v2h1v-2zM33 17h2v1h-1v2h-1zM3 19h1v1h-1zM6 19v1h1v-1zM27 19v1h1v-1zM2 20h1v1h-1zM16 20h3v3h-1v-2h-1v3h-1v1h1v2h2v-1h-1v-1h1v-2h1v2h-1v1h3v-1h1v-2h1v-1h1v-1h1v1h-1v1h-1v1h1v-1h1v2h-1v1h1v1h-1v2h-1v-1h-1v1h1v2h-1v1h-1v-2h-1v-1h-1v1h1v2h1v1h-1v2h-1v-4h-1v-1h-1v-1h-1v-1h-3v-2h-1v-3h1v-2h1v2h1zM1 21h1v1h-1zM6 23v1h1v-1zM8 23v1h1v-1zM21 23h1v1h-1zM33 23h1v2h-1zM4 24v1h1v-1zM14 24v1h1v-1zM28 24h3v3h1v-1h4v-1h1v10h-3v1h-1v-1h-1v-2h-3v1h-1v-1h-1v-2h1v-2h-1v-1h-1v-1h1v-1h1v2h1v-3h-1zM1 25h2v1h-1v1h-2v-1h1zM23 25v2h1v-2zM3 26h1v1h-1zM6 26h1v1h-1zM8 26h2v2h-1v-1h-1zM15 26v1h1v-1zM2 27h1v1h-1zM5 27h1v1h-1zM11 27h1v1h2v1h-2v1h-1v-1h-1v-1h1zM32 27v1h1v1h1v1h1v1h-1v1h-1v1h1v1h2v-5h-1v-2zM0 28h2v1h-2zM6 28h1v1h-1zM8 28h1v1h1v1h1v1h-2v1h-1zM15 29h1v1h-1zM25 29h2v1h-1v1h-1zM29 29v3h3v-3zM0 30h7v7h-7zM12 30h1v1h-1zM14 30h1v1h-1zM16 30h2v1h1v5h-1v-2h-1v-3h-1zM30 30h1v1h-1zM1 31v5h5v-5zM11 31h1v2h2v-1h1v1h-1v4h-2v-1h1v-1h-1v-1h-1v-1h-1v1h1v3h-1v-1h-1v-1h-1v-1h1v-2h2zM24 31h1v1h-1zM2 32h3v3h-3zM22 33h1v1h-1zM25 33h2v1h-2zM15 34h2v1h-2zM23 34h1v1h-1zM26 35h4v2h-2v-1h-2zM31 35h1v1h-1zM15 36h1v1h-1zM19 36h2v1h-2zM23 36h2v1h-2zM32 36h1v1h-1zM36 36h1v1h-1z" fill="#000" transform="translate(0,0) scale(6)"/></svg></div></div>
+  </div>
+
+  <div class="col-sm-3 ieee_bright_orange_bl2" style="overflow-x: auto;">
+    
+
+
+
+
+  <ul class="list-unstyled" style="list-style:none;">
+
+    <li>
+      2356 Main Mall
+    </li>
+    <li>
+      Vancouver, British Columbia
+    </li>
+    <li>
+      Canada
+        V6T 1Z4
+    </li>
+    <li>
+      <span class="sublabel">Building:</span>
+      MacLeod Building 
+    </li>
+    <li>
+      <span class="sublabel">Room Number:</span>
+      MCLD 3038
+    </li>
+    <li>
+      <a target="_blank" href="https://maps.app.goo.gl/Q5CnGhRiDSDaLw1P7">Click here for Map</a>
+    </li>
+
+  </ul>
+
+	<hr />
+	<a href="https://maps.app.goo.gl/Q5CnGhRiDSDaLw1P7" target="_blank">
+		<img style="width:250px !important" src="https://maps.googleapis.com/maps/api/staticmap?size=250x200&amp;sensor=false&amp;zoom=14&amp;markers=49.2617174%2C-123.2494264&amp;key=AIzaSyB0Wuw_lpTBVvD9zhp2Pz2Dgt-jf4FlQZo" />
+	</a>
+
+
+
+
+  </div>
+
+
+  <div class="col-sm-3 ieee_bright_orange_bl2">
+    
+<script type="text/javascript">
+  function contactEventHostsLoadedCallback() {
+      $('#_vtools_modal_body .tooltip-active').tooltip();
+      $('#_vtools_modalSubmit').click(function(evt) {
+          grecaptcha.ready(function() {
+              grecaptcha.execute('6LfnqJMrAAAAAGByvDOKF_zDs2jhx9_N3c7iodnu', {action: 'contact_hosts'}).then(function(token) {
+                  var tcon = tinymce.get('message').getContent();
+                  $('#message').val(tcon);
+
+                  $('<input>').attr({
+                      type: 'hidden',
+                      name: 'g-recaptcha-response',
+                      value: token
+                  }).appendTo('#_ch_form');
+
+                  var form = $('#_ch_form').serialize();
+                  $('#_vtools_modal_body').replaceContentsWithLoading();
+                  $('#_vtools_modalSubmit').hide();
+                  $('#_vtools_modalCancel').hide();
+                  $.ajax({
+                      url: '/event/contact_hosts/505983',
+                      method: 'POST',
+                      data: form
+                  }).done(function(res, txtStatus, jqXHR) {
+                      $('#_vtools_modal_body').html(res);
+                  }).fail(function() {
+                      $('#_vtools_modal_body').html(serverErrorAlertHTML());
+                      $('#_vtools_modalCancel').show();
+                  });
+              });
+          });
+      });
+  }
+
+  $(document).ready(function() {
+     if (window.location.search.indexOf("contact_hosts=1") > -1)
+         $("#_contact_hosts_button").click();
+  });
+</script>
+
+<ul class="list-unstyled" style="list-style:none; padding-left: 0;">
+
+	<li><script id="mail_to-oyq964vt">eval(decodeURIComponent('%76%61%72%20%73%63%72%69%70%74%20%3d%20%64%6f%63%75%6d%65%6e%74%2e%67%65%74%45%6c%65%6d%65%6e%74%42%79%49%64%28%27%6d%61%69%6c%5f%74%6f%2d%6f%79%71%39%36%34%76%74%27%29%3b%76%61%72%20%61%20%3d%20%64%6f%63%75%6d%65%6e%74%2e%63%72%65%61%74%65%45%6c%65%6d%65%6e%74%28%27%61%27%29%3b%61%2e%73%65%74%41%74%74%72%69%62%75%74%65%28%27%68%72%65%66%27%2c%20%27%6d%61%69%6c%74%6f%3a%73%68%61%68%72%69%61%72%40%65%63%65%2e%75%62%63%2e%63%61%3f%73%75%62%6a%65%63%74%3d%43%6f%2d%50%61%63%6b%61%67%65%64%25%32%30%4f%70%74%69%63%73%25%32%30%25%45%32%25%38%30%25%39%33%25%32%30%33%44%25%32%30%48%65%74%65%72%6f%67%65%6e%65%6f%75%73%25%32%30%49%6e%74%65%67%72%61%74%69%6f%6e%25%32%30%6f%66%25%32%30%50%68%6f%74%6f%6e%69%63%25%32%30%49%43%25%32%30%61%6e%64%25%32%30%45%6c%65%63%74%72%6f%6e%69%63%25%32%30%49%43%25%32%30%2d%25%32%30%56%61%6e%63%6f%75%76%65%72%25%32%30%53%65%63%74%69%6f%6e%25%32%30%43%68%61%70%74%65%72%2c%25%32%30%53%53%43%33%37%2f%43%54%30%38%2f%45%50%32%31%27%29%3b%61%2e%61%70%70%65%6e%64%43%68%69%6c%64%28%64%6f%63%75%6d%65%6e%74%2e%63%72%65%61%74%65%54%65%78%74%4e%6f%64%65%28%27%56%61%6e%63%6f%75%76%65%72%20%53%65%63%74%69%6f%6e%20%43%68%61%70%74%65%72%2c%20%53%53%43%33%37%2f%43%54%30%38%2f%45%50%32%31%27%29%29%3b%73%63%72%69%70%74%2e%70%61%72%65%6e%74%4e%6f%64%65%2e%69%6e%73%65%72%74%42%65%66%6f%72%65%28%61%2c%73%63%72%69%70%74%29%3b'))</script></li>
+
+
+    <li style="text-align: center; padding-top: 5px;">
+      <a id="_contact_hosts_button"
+         href="/event/contact_hosts/505983"
+         onclick="vToolsModal({
+           title: 'Contact Event Host',
+           url: '/event/contact_hosts/505983',
+           callback: contactEventHostsLoadedCallback
+           });
+           return false;"
+         class="btn btn-rw btn-primary button-pill tooltip-active"
+         data-toggle="tooltip" data-placement="bottom"
+         title="Click here to contact event host(s) for this event">Contact Event
+      Host</a>
+    </li>
+
+	
+	<li>
+		<p>sudip@ece.ubc.ca</p>
+	</li>
+
+</ul>
+
+  </div>
+
+  <div class="col-sm-3 ieee_bright_orange_bl2" style="padding-right:25px;">
+    <ul class="list-unstyled" style="list-style:none;">
+
+	  
+
+      <li>Starts <strong>
+				<span class="tooltip-active" data-toggle="tooltip" data-placement="top" data-html="true" title="UTC:<br />08 October 2025 07:00 AM UTC<br /><br />Event:<br />08 October 2025 12:00 AM <br /><br />Local:<br />08 October 2025 07:00 AM (GMT+00:00) UTC<br /><br />Event Time Zone: PDT<br />Your Time Zone: UTC">08 October 2025 07:00 AM UTC</span>
+			</strong></li>
+      <li>Ends <strong>
+				<span class="tooltip-active" data-toggle="tooltip" data-placement="top" data-html="true" title="UTC:<br />17 October 2025 07:00 PM UTC<br /><br />Event:<br />17 October 2025 12:00 PM <br /><br />Local:<br />17 October 2025 07:00 PM (GMT+00:00) UTC<br /><br />Event Time Zone: PDT<br />Your Time Zone: UTC">17 October 2025 07:00 PM UTC</span>
+			</strong></li>
+		          	
+				<li>No Admission Charge</li>
+					          	
+		          	
+          	</ul>
+          	<ul class="list-unstyled" style="list-style:none;">
+          	<li>
+				<div style="width:100%; text-align:center; padding:10px;">
+          <a href="/event/register/505983"
+             style="margin:auto; color:white; padding:5px; display: block;">
+            <img style="width: 180px;" src="https://events.vtools.ieee.org/meeting_view/meeting_registration_link_image/505983?_=3984831">
+          </a>
+          		</div>
+	       	</li>
+
+		
+		
+	
+	
+</ul>
+
+  </div>
+
+  <br style="clear:both;" />
+</div>
+
+<hr class="hr-solid hr-extended ieee_bright_orange_bt2" style="margin-top: 0px !important;">
+
+
+
+	<div class="col-sm-12 heading">
+		<h3 class="text-uppercase text-primary"><span class="fa fa-user fa-lg"></span>&nbsp;&nbsp;Speakers</h3>
+	</div>
+	
+
+  
+		  <div class="col-sm-12">
+    		<h4>
+    			
+    			<span style="float:left; margin-right:10px; max-width:400px; overflow-x:scroll;">
+			    </span>
+		        <span class="speakername">John Lau</span><span style='font-weight:normal'> of Unimicron Technology Corporation</span>
+		        
+    		</h4>
+    		<p class="clear:both;">
+          
+		          <div style="margin-bottom:15px;"><span class="sublabel" style="display:inline;">Topic: </span><h3 style="display:inline;"> Co-Packaged Optics – 3D Heterogeneous Integration of Photonic IC and Electronic IC</h3></div>
+		          <p>
+		            <div>
+<p class="MsoNormal"><strong>&nbsp;</strong></p>
+<p>Technical seminar by IEEE Electronics Packaging Society Distinguished Lecturer Dr. John H. Lau with the following abstract:</p>
+<div>&nbsp;</div>
+</div>
+<div>
+<p class="MsoNormal">Silicon photonics are the semiconductor integration of EIC and PIC on a silicon substrate (wafer) with complementary metal-oxide semiconductor (CMOS) technology. On the other hand, co-packaged optics (CPO) are heterogeneous integration packaging methods to integrate the optical engine (OE) which consists of photonic ICs (PIC) and the electrical engine (EE) which consists of the electronic ICs (EIC) as well as the switch ASIC (application specific IC). The advantages of CPO are: (a) to reduce the length of the electrical interface between the OE/EE (or PIC/EIC) and the ASIC, (b) to reduce the energy required to drive the signal, and (c) to cut the latency which leads to better electrical performance. In the next few years, we will see more implementations of a higher level of heterogeneous integration of PIC and EIC, whether it is for performance, form factor, power consumption or cost. The content of this lecture is shown below.</p>
+</div>
+<div>
+<p class="MsoNormal">&nbsp;</p>
+</div>
+<ul type="disc">
+<li class="MsoNormal">Silicon Photonics</li>
+<li class="MsoNormal">Data Centers</li>
+<li class="MsoNormal">Optical Transceivers</li>
+<li class="MsoNormal">Optical Engine (OE) and Electrical Engine (EE)</li>
+<li class="MsoNormal">OBO (on-board optics)</li>
+<li class="MsoNormal">NPO (near-board optics)</li>
+<li class="MsoNormal">CPO (co-packaged optics)</li>
+<li class="MsoNormal">3D Integration of the PIC and EIC</li>
+<li class="MsoNormal">3D Heterogeneous Integration of PIC and EIC</li>
+<li class="MsoNormal">3D Heterogeneous Integration of ASIC Switch, PIC and EIC</li>
+<li class="MsoNormal">3D Heterogeneous Integration of ASIC Switch, PIC and EIC with Bridges</li>
+<li class="MsoNormal">3D Heterogeneous Integration of ASIC Switch, EIC and PIC embedded in Glass-core Substrate</li>
+<li class="MsoNormal">Summary and Recommendations</li>
+</ul> 
+		          </p>
+		
+		          <p><span class='sublabel'>Biography:</span>
+		            <p>John H. Lau (Life Fellow, IEEE) received the Ph.D. degree from the University of Illinois at Urbana&ndash;Champaign in 1977 and three master degrees from the University of British Columbia in 1973, the University of Wisconsin&ndash;Madison in 1974, and Fairleigh Dickinson University in 1979. He also earned a bachelor&rsquo;s degree from the National Taiwan University in 1970. He was a Senior Scientist/MTS with the Hewlett-Packard Laboratory and Agilent, Palo Alto, CA, USA, for 20 years, the Director of the System Packaging Laboratory, Institute of Microelectronics, Singapore, for two years, a Visiting Professor with The Hong Kong University of Science and Technology, Hong Kong, for one year, a Specialist with the Industrial Technology Research Institute, Taiwan, for five years, and a Senior Technical Advisor with ASM Pacific Technology, Hong Kong, for five years. He was the CTO from July 2019 to June 2021 and has been a Senior Special Project Assistant with Unimicron Technology Corporation, Taiwan, since July 2021. He has more than 40 years of research and development and manufacturing experiences in semiconductor packaging and surface-mount technology assembly, published more than 530 peer-reviewed papers (385 are the principal investigator), 52 issued and pending U.S. patents (31 are the principal inventor), and 23 textbooks such as Chiplet Design and Heterogeneous Integration Packaging (Springer, 2023) and Flip Chip, Hybrid Bonding, Fan-in and Fan-out Technology (Springer, 2024). John is an elected ASME Fellow and IMAPS Fellow and has been actively participating in industry/academy/society meetings/conferences to contribute, learn, and share. He received many awards, including the ASME Worcester Reed Warner Medal and the IEEE Components Packaging and Manufacturing Technology Field Award.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+		          </p>
+		
+		          <p><span class='subheading'>Email:</span> <script id="mail_to-uiwetc4m">eval(decodeURIComponent('%76%61%72%20%73%63%72%69%70%74%20%3d%20%64%6f%63%75%6d%65%6e%74%2e%67%65%74%45%6c%65%6d%65%6e%74%42%79%49%64%28%27%6d%61%69%6c%5f%74%6f%2d%75%69%77%65%74%63%34%6d%27%29%3b%76%61%72%20%61%20%3d%20%64%6f%63%75%6d%65%6e%74%2e%63%72%65%61%74%65%45%6c%65%6d%65%6e%74%28%27%61%27%29%3b%61%2e%73%65%74%41%74%74%72%69%62%75%74%65%28%27%68%72%65%66%27%2c%20%27%6d%61%69%6c%74%6f%3a%4a%6f%68%6e%5f%4c%61%75%40%55%6e%69%6d%69%63%72%6f%6e%2e%63%6f%6d%27%29%3b%61%2e%61%70%70%65%6e%64%43%68%69%6c%64%28%64%6f%63%75%6d%65%6e%74%2e%63%72%65%61%74%65%54%65%78%74%4e%6f%64%65%28%27%4a%6f%68%6e%5f%4c%61%75%40%55%6e%69%6d%69%63%72%6f%6e%2e%63%6f%6d%27%29%29%3b%73%63%72%69%70%74%2e%70%61%72%65%6e%74%4e%6f%64%65%2e%69%6e%73%65%72%74%42%65%66%6f%72%65%28%61%2c%73%63%72%69%70%74%29%3b'))</script></p>
+		
+		          <p><span class='sublabel'>Address:</span>Taiwan</p>
+    			
+    		</p>
+		  </div>
+
+
+    
+  
+    
+
+  
+   
+
+ 
+
+<br style="clear:both;" />
+<br style="clear:both;" />
+<!--<hr class="hr-solid" style="clear:both;">-->
+
+
+
+<br style="clear:both;" />
+<hr class="hr-solid hr-extended ieee_bright_orange_bt2">
+
+
+
+
+        </div>
+    	</section>
+    
+    	<!-- Begin Footer -->
+<footer class="footer-light">
+    <div class="container">
+        <div class="row">
+			<div class="col-sm-12" style="text-align:center;"><a href="https://app.ieee.org/?utm_source=dhtml_footer&amp;utm_medium=hp&amp;utm_campaign=ieee-app2020%20" target="_blank" style="margin-left: auto;margin-right: auto;display: block;width: 728px;padding: 8px;"><img src="https://www.ieee.org//content/dam/ieee-org/ieee/web/org/the-ieee-app-footer-tap-connect-network-share-ad-728x90.jpg" class="img-responsive" alt="IEEE App" title="IEEE App"></a></div>
+			
+			<div class="col-sm-12" style="text-align:left;">
+				
+				<a href="#" style="float:right; margin-left:20px; margin-right:-20px;" class="scroll-top"><div class="footer-scrolltop-holder"><span class="ion-ios7-arrow-up footer-scrolltop"></span></div></a>
+				
+					<a class="basic" href="/">Home</a>
+&nbsp;|&nbsp;
+<a class="basic" href="https://site.ieee.org/vtools/feature-requests-and-bug-reports/">Contact &amp; Support</a>
+&nbsp;|&nbsp;
+<a class="basic" href="http://www.ieee.org/accessibility_statement.html">Accessibility</a>
+&nbsp;|&nbsp;
+<a class="basic" href="http://www.ieee.org/p9-26.html">Nondiscrimination Policy</a>
+&nbsp;|&nbsp;
+<a class="basic" href="https://secure.ethicspoint.com/domain/media/en/gui/20410/index.html">IEEE Ethics Reporting</a>
+&nbsp;|&nbsp;
+<a class="basic" href="https://www.ieee.org/security-privacy.html">Privacy &amp; Opting Out of Cookies</a>
+&nbsp;|&nbsp;
+<a class="basic" href="http://www.ieee.org/about/feedback_ieee_site.html">Feedback</a>
+
+
+				<br />
+				Events version 6.22.4
+				<br />
+					&copy; Copyright 2013-2026  IEEE – All rights reserved. Use of this Web site signifies your agreement to the <a class="basic" href="http://www.ieee.org/site_terms_conditions.html">IEEE Terms and Conditions</a>.<br /> A public charity, IEEE is the world's largest technical professional organization dedicated to advancing technology for the benefit of humanity.<br />
+			</div>
+        </div><!-- /row -->
+
+ 		<br /><br /><br />
+    </div><!-- /container -->
+</footer><!-- /footer -->
+<!-- End Footer --> 
+    
+		</div><!-- /boxed -->
+	</div><!-- /bg boxed-->
+   
+   	<script src="/assets/raleway/raleway-ab1019808585dce6e6a61409e394fd6bcaa5fdcd0056eee92283a4f2fedb8d11.js"></script>
+</body>
+</html>
