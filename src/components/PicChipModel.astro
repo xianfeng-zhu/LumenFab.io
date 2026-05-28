@@ -1308,14 +1308,16 @@ const indexItems = [
 
     // Edge-coupler-based paths (TX input edge coupler → waveguide → MZM → output)
     const txEdgePathPoints1 = [
-      new THREE.Vector3(-3.73, fiberBottomY + 0.2, 0.4), // outside edge coupler
-      new THREE.Vector3(-3.73, fiberBottomY, 0.4),        // fiber end face
+      new THREE.Vector3(-3.73, fiberBottomY + 0.2, 0.4), // outside left edge coupler
+      new THREE.Vector3(-3.73, fiberBottomY, 0.4),        // fiber end face (in)
       new THREE.Vector3(-3.73, txPathTopY, 0.4),          // edge coupler surface
       new THREE.Vector3(-0.5, txPathY, 0.4),              // TX waveguide
       new THREE.Vector3(0.5, txPathY, 0.15),              // phase arm 1
       new THREE.Vector3(1.7, txPathY, 0.4),               // MMI combiner
       new THREE.Vector3(2.75, txPathY, 0.4),              // output waveguide
-      new THREE.Vector3(3.73, txPathY, 0.4),              // output edge coupler
+      new THREE.Vector3(3.73, txPathY, 0.4),              // output edge coupler face
+      new THREE.Vector3(3.73, fiberBottomY, 0.4),         // fiber end face (out)
+      new THREE.Vector3(3.73, fiberBottomY + 0.2, 0.4),   // outside right edge coupler
     ];
     const txEdgePathPoints2 = [
       new THREE.Vector3(-3.73, fiberBottomY + 0.2, 0.4),
@@ -1326,6 +1328,8 @@ const indexItems = [
       new THREE.Vector3(1.7, txPathY, 0.4),
       new THREE.Vector3(2.75, txPathY, 0.4),
       new THREE.Vector3(3.73, txPathY, 0.4),
+      new THREE.Vector3(3.73, fiberBottomY, 0.4),
+      new THREE.Vector3(3.73, fiberBottomY + 0.2, 0.4),
     ];
 
     const txEdgePathCurve1 = new THREE.CatmullRomCurve3(txEdgePathPoints1);
