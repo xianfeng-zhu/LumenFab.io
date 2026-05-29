@@ -328,7 +328,7 @@ const indexItems = [
     const tx2ArmZ2 = tx2Z + 0.125;
 
     // MMI & arm length — needed early (used by RF electrodes before MMIs are created)
-    const mmiLen = 1.2;
+    const mmiLen = 0.85;
     const mmiWidth = 0.50;
     const mmiSplitterCx = -0.7 * xScale;
     const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale; // symmetric around dopingX
@@ -1100,90 +1100,67 @@ const indexItems = [
 
     // MZI Wavelength Multiplexer — combines λ1 (TX1) and λ2 (TX2) onto one output
     // Two 2×2 MMIs with unequal arm lengths → wavelength-selective combination
-    const mziMmiLen = mmiLen;                     // 1.2
-    const mziMmiW = mmiWidth;                     // 0.50, normal MMI width
-    const mziMmiInCx = mmiCombinerCx + 0.8;       // 3.35
-    const mziMmiOutCx = mziMmiInCx + 1.1;         // 4.45
-    const mziCenterZ = (tx2Z + 0.4) / 2;          // -0.5
-    const mziPort1Z = mziCenterZ + 0.15;           // -0.35
-    const mziPort2Z = mziCenterZ - 0.15;           // -0.65
+    const mziMmiLen = 0.55;                        // compact 2×2 coupler
+    const mziMmiW = mmiWidth;                      // 0.50
+    const mziMmiInCx = mmiCombinerCx + 1.0;        // 3.55
+    const mziMmiOutCx = mziMmiInCx + 1.1;          // 4.65
+    const mziCenterZ = (tx2Z + 0.4) / 2;           // -0.5
+    const mziPort1Z = mziCenterZ + 0.15;            // -0.35
+    const mziPort2Z = mziCenterZ - 0.15;            // -0.65
+    const mziColor = 0x8b5cf6; // purple — MZI components
+    const mziArmColor = 0xa78bfa; // lighter purple
 
-    // Z-bend: TX1 output (Z=0.4) → MZI port 1 (Z=-0.35)
-    const wgColor = [0x0f766e, 0.42, 0.12];
-    const combiOutX = mmiCombinerCx + mmiLen / 2;
-    lSiDevice.add(tagPart(createBox({
-      size: [0.32, siRibH, Math.abs(0.4 - mziPort1Z)],
-      position: [combiOutX + 0.15, ribY, (0.4 + mziPort1Z) / 2],
-      color: 0x0f766e, roughness: 0.42, metalness: 0.12
-    }), "ribWaveguide", false, 4));
-    // Z-bend: TX2 output (Z=-1.4) → MZI port 2 (Z=-0.65)
-    lSiDevice.add(tagPart(createBox({
-      size: [0.32, siRibH, Math.abs(-1.4 - mziPort2Z)],
-      position: [combiOutX + 0.15, ribY, (-1.4 + mziPort2Z) / 2],
-      color: 0x0f766e, roughness: 0.42, metalness: 0.12
-    }), "ribWaveguide", false, 4));
+    // S-bend Z-bend helper — curved waveguide changing Z
+    const zBendColor = 0x06b6d4; // cyan
+    const _bendW = 0.22;
+    const addZBend = (startX, startZ, endX, endZ) => {
+      const midX = (startX + endX) / 2;
+      const midZ = (startZ + endZ) / 2;
+      const pts = [new THREE.Vector3(startX, ribY, startZ), new THREE.Vector3(midX, ribY, midZ), new THREE.Vector3(endX, ribY, endZ)];
+      const curve = new THREE.CatmullRomCurve3(pts);
+      const shape = new THREE.Shape();
+      const hw = _bendW / 2, hh = siRibH / 2;
+      shape.moveTo(-hw, -hh); shape.lineTo(hw, -hh); shape.lineTo(hw, hh); shape.lineTo(-hw, hh); shape.closePath();
+      lSiDevice.add(tagPart(new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { steps: 16, extrudePath: curve }), material(zBendColor, { roughness: 0.42, metalness: 0.12 })), "ribWaveguide", false, 4));
+    };
+    // TX1 output → MZI port 1, TX2 output → MZI port 2
+    const combiOutX = mmiCombinerCx + mmiLen / 2 + taperLen;
+    const mziInX = mziMmiInCx - mziMmiLen / 2 - taperLen;
+    addZBend(combiOutX, 0.4, mziInX, mziPort1Z);
+    addZBend(combiOutX, -1.4, mziInX, mziPort2Z);
 
     // Input 2×2 MMI
-    const mziInputMmi = createBox({
-      size: [mziMmiLen, stripH, mziMmiW],
-      position: [mziMmiInCx, stripY, mziCenterZ],
-      color: 0x14b8a6, roughness: 0.42, metalness: 0.12
-    });
+    const mziInputMmi = createBox({ size: [mziMmiLen, stripH, mziMmiW], position: [mziMmiInCx, stripY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
     lSiDevice.add(tagPart(mziInputMmi, "stripWaveguide", false, 4));
-    // MMI port tapers (all 4 ports)
-    addTaper(mziMmiInCx - mziMmiLen/2 - taperLen/2, mziPort1Z, mziMmiW, armWidth);
-    addTaper(mziMmiInCx - mziMmiLen/2 - taperLen/2, mziPort2Z, mziMmiW, armWidth);
-    addTaper(mziMmiInCx + mziMmiLen/2 + taperLen/2, mziPort1Z, mziMmiW, armWidth);
-    addTaper(mziMmiInCx + mziMmiLen/2 + taperLen/2, mziPort2Z, mziMmiW, armWidth);
 
-    // MZI arm 1: shorter, straight (port 1, Z=-0.35)
-    const mziArm1Len = mziMmiOutCx - mziMmiInCx;
-    lSiDevice.add(tagPart(createBox({
-      size: [mziArm1Len, siRibH, armWidth],
-      position: [(mziMmiInCx + mziMmiOutCx) / 2, ribY, mziPort1Z],
-      color: 0x0f766e, roughness: 0.42, metalness: 0.12
-    }), "ribWaveguide", false, 4));
-
-    // MZI arm 2: longer with visible detour (port 2, Z=-0.65)
+    // MZI arms — span from input MMI face to output MMI face
+    const mziArmStartX = mziMmiInCx + mziMmiLen / 2;
+    const mziArmEndX = mziMmiOutCx - mziMmiLen / 2;
+    const mziArmLen = mziArmEndX - mziArmStartX;
+    const mziArmCx = (mziArmStartX + mziArmEndX) / 2;
+    // Arm 1: short, straight
+    lSiDevice.add(tagPart(createBox({ size: [mziArmLen, siRibH, armWidth], position: [mziArmCx, ribY, mziPort1Z], color: mziArmColor, roughness: 0.42, metalness: 0.12 }), "ribWaveguide", false, 4));
+    // Arm 2: long with detour
     const mziArm2PathPts = [
-      new THREE.Vector3(mziMmiInCx, stripY + 0.001, mziPort2Z),
+      new THREE.Vector3(mziArmStartX, stripY + 0.001, mziPort2Z),
       new THREE.Vector3(mziMmiInCx + 0.3, stripY + 0.001, mziPort2Z - 0.22),
       new THREE.Vector3(mziMmiInCx + 0.55, stripY + 0.001, mziPort2Z - 0.22),
       new THREE.Vector3(mziMmiInCx + 0.85, stripY + 0.001, mziPort2Z),
-      new THREE.Vector3(mziMmiOutCx, stripY + 0.001, mziPort2Z),
+      new THREE.Vector3(mziArmEndX, stripY + 0.001, mziPort2Z),
     ];
     const mziArm2Curve = new THREE.CatmullRomCurve3(mziArm2PathPts);
     const mziArm2Shape = new THREE.Shape();
     const _ahw = armWidth / 2, _ahh = siRibH / 2;
-    mziArm2Shape.moveTo(-_ahw, -_ahh);
-    mziArm2Shape.lineTo( _ahw, -_ahh);
-    mziArm2Shape.lineTo( _ahw,  _ahh);
-    mziArm2Shape.lineTo(-_ahw,  _ahh);
-    mziArm2Shape.closePath();
-    lSiDevice.add(tagPart(new THREE.Mesh(
-      new THREE.ExtrudeGeometry(mziArm2Shape, { steps: 48, extrudePath: mziArm2Curve }),
-      material(0x0f766e, { roughness: 0.42, metalness: 0.12 })
-    ), "ribWaveguide", false, 4));
+    mziArm2Shape.moveTo(-_ahw, -_ahh); mziArm2Shape.lineTo(_ahw, -_ahh); mziArm2Shape.lineTo(_ahw, _ahh); mziArm2Shape.lineTo(-_ahw, _ahh); mziArm2Shape.closePath();
+    lSiDevice.add(tagPart(new THREE.Mesh(new THREE.ExtrudeGeometry(mziArm2Shape, { steps: 48, extrudePath: mziArm2Curve }), material(mziArmColor, { roughness: 0.42, metalness: 0.12 })), "ribWaveguide", false, 4));
 
     // Output 2×2 MMI
-    const mziOutputMmi = createBox({
-      size: [mziMmiLen, stripH, mziMmiW],
-      position: [mziMmiOutCx, stripY, mziCenterZ],
-      color: 0x14b8a6, roughness: 0.42, metalness: 0.12
-    });
+    const mziOutputMmi = createBox({ size: [mziMmiLen, stripH, mziMmiW], position: [mziMmiOutCx, stripY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
     lSiDevice.add(tagPart(mziOutputMmi, "stripWaveguide", false, 4));
-    addTaper(mziMmiOutCx - mziMmiLen/2 - taperLen/2, mziPort1Z, mziMmiW, armWidth);
-    addTaper(mziMmiOutCx - mziMmiLen/2 - taperLen/2, mziPort2Z, mziMmiW, armWidth);
-    addTaper(mziMmiOutCx + mziMmiLen/2 + taperLen/2, mziPort1Z, mziMmiW, armWidth);
-    addTaper(mziMmiOutCx + mziMmiLen/2 + taperLen/2, mziPort2Z, mziMmiW, armWidth);
 
-    // Z-bend: MZI output port 1 (Z=-0.35) → output WG (Z=0.4)
-    const mziOutBendX = mziMmiOutCx + mziMmiLen / 2;
-    lSiDevice.add(tagPart(createBox({
-      size: [0.32, siRibH, Math.abs(0.4 - mziPort1Z)],
-      position: [mziOutBendX + 0.15, ribY, (0.4 + mziPort1Z) / 2],
-      color: 0x0f766e, roughness: 0.42, metalness: 0.12
-    }), "ribWaveguide", false, 4));
+    // Output Z-bend: MZI port 1 (Z=-0.35) → output WG (Z=0.4)
+    const mziOutBendX = mziMmiOutCx + mziMmiLen / 2 + taperLen;
+    addZBend(mziOutBendX, mziPort1Z, mziOutBendX + 0.3, 0.4);
 
     // TX output waveguide (from output Z-bend toward edge coupler)
     const outWgEndX = chipLen / 2 - 0.02;
