@@ -164,6 +164,27 @@ test("PIC optical path overlays stay on waveguide centerlines around rings and m
   assert.match(component, /const tx2MpdPathPts = tx2DcCoupledPathPts\.slice\(1\)\.map\(\(point\) => new THREE\.Vector3\(point\.x, mpdPathY, point\.z\)\);/);
 });
 
+test("PIC optical path overlays use segmented centerline curves at branches and bends", () => {
+  assert.match(component, /const createOpticalPathCurve = \(points\) => \{/);
+  assert.match(component, /curve\.add\(new THREE\.LineCurve3\(points\[i - 1\], points\[i\]\)\);/);
+  assert.match(component, /const pathCurve = createOpticalPathCurve\(pathPoints\);/);
+  assert.match(component, /const rxEcPathCurve = createOpticalPathCurve\(rxEcPathPoints\);/);
+  assert.match(component, /const curve = createOpticalPathCurve\(pts\);/);
+  assert.match(component, /const mpdCurve = createOpticalPathCurve\(mpdPts\);/);
+  assert.match(component, /const tx2MpdOptCurve = createOpticalPathCurve\(tx2MpdPathPts\);/);
+  assert.match(component, /const txGcInCurve = createOpticalPathCurve\(txGcInPathPoints\);/);
+  assert.match(component, /const txEdgePathCurve1 = createOpticalPathCurve\(txEdgePathPoints1\);/);
+  assert.match(component, /const txEdgePathCurve2 = createOpticalPathCurve\(txEdgePathPoints2\);/);
+  assert.match(component, /const txOutGcPathCurve = createOpticalPathCurve\(txOutGcPathPoints\);/);
+  assert.match(component, /const tx2GcInCurve = createOpticalPathCurve\(tx2GcInPathPoints\);/);
+  assert.match(component, /const tx2EdgeCurve1 = createOpticalPathCurve\(tx2EdgePath1\);/);
+  assert.match(component, /const tx2EdgeCurve2 = createOpticalPathCurve\(tx2EdgePath2\);/);
+  assert.match(component, /const tx2OutGcCurve = createOpticalPathCurve\(tx2OutGcPathPoints\);/);
+  assert.doesNotMatch(component, /const pathCurve = new THREE\.CatmullRomCurve3\(pathPoints\);/);
+  assert.doesNotMatch(component, /const rxEcPathCurve = new THREE\.CatmullRomCurve3\(rxEcPathPoints\);/);
+  assert.doesNotMatch(component, /const txEdgePathCurve1 = new THREE\.CatmullRomCurve3\(txEdgePathPoints1\);/);
+});
+
 test("PIC mobile touch gestures keep OrbitControls pinch zoom while desktop wheel uses custom trackpad handling", () => {
   assert.match(component, /controls\.enableZoom = true;/);
   assert.match(component, /controls\.touches\.ONE = THREE\.TOUCH\.ROTATE;/);

@@ -1599,6 +1599,14 @@ const indexItems = [
     addGndBridge(tx2Arm1pZ, tx2Z); // tx2 arm1 p++ → signal
     addGndBridge(tx2Arm2nZ, tx2Z); // tx2 arm2 n++ → signal
 
+    const createOpticalPathCurve = (points) => {
+      const curve = new THREE.CurvePath();
+      for (let i = 1; i < points.length; i++) {
+        curve.add(new THREE.LineCurve3(points[i - 1], points[i]));
+      }
+      return curve;
+    };
+
     // Optical path (RX: fiber → GC → waveguide → rings → Ge detector)
     const pathGroup = new THREE.Group();
     const pathY = ribY;
@@ -1613,7 +1621,7 @@ const indexItems = [
       new THREE.Vector3(geX, gcTopY, rxZ),
       new THREE.Vector3(geX, geBaseY + geH, rxZ),
     ];
-    const pathCurve = new THREE.CatmullRomCurve3(pathPoints);
+    const pathCurve = createOpticalPathCurve(pathPoints);
     const pathGeometry = new THREE.TubeGeometry(pathCurve, 64, 0.025, 8, false);
     const pathMesh = new THREE.Mesh(pathGeometry, transparent(0x0891b2, 0.55));
     pathGroup.add(tagPart(pathMesh, "opticalPath"));
@@ -1637,7 +1645,7 @@ const indexItems = [
       new THREE.Vector3(rxEcJunctionX, gcTopY, rxZ),
       new THREE.Vector3(-0.5, gcTopY, rxZ),
     ];
-    const rxEcPathCurve = new THREE.CatmullRomCurve3(rxEcPathPoints);
+    const rxEcPathCurve = createOpticalPathCurve(rxEcPathPoints);
     const rxEcPathGeom = new THREE.TubeGeometry(rxEcPathCurve, 40, 0.022, 8, false);
     rxEcPathGroup.add(tagPart(new THREE.Mesh(rxEcPathGeom, transparent(0x0891b2, 0.45)), "opticalPath"));
     const rxEcGlowSpheres = [];
@@ -1668,7 +1676,7 @@ const indexItems = [
         new THREE.Vector3(rx, gcTopY, dropOpticalGeZ),
         new THREE.Vector3(rx, geBaseY + dropGeH, dropOpticalGeZ),
       ];
-      const curve = new THREE.CatmullRomCurve3(pts);
+      const curve = createOpticalPathCurve(pts);
       dropPathCurves.push(curve);
       const geom = new THREE.TubeGeometry(curve, 16, 0.015, 6, false);
       const group = new THREE.Group();
@@ -1691,7 +1699,7 @@ const indexItems = [
     const mpdPathY = siBase + siRibH;
     const mpdPts = dcCoupledPathPts.slice(1).map((point) => new THREE.Vector3(point.x, mpdPathY, point.z));
     mpdPts.push(new THREE.Vector3(mpdX, mpdBaseY + mpdH, mpdZ));
-    const mpdCurve = new THREE.CatmullRomCurve3(mpdPts);
+    const mpdCurve = createOpticalPathCurve(mpdPts);
     const mpdGeom = new THREE.TubeGeometry(mpdCurve, 20, 0.015, 6, false);
     mpdPathGroup.add(tagPart(new THREE.Mesh(mpdGeom, transparent(0x67e8f9, 0.4)), "opticalPath"));
     const mpdGlowSpheres = [];
@@ -1709,7 +1717,7 @@ const indexItems = [
     const tx2MpdPathGroup = new THREE.Group();
     const tx2MpdPathPts = tx2DcCoupledPathPts.slice(1).map((point) => new THREE.Vector3(point.x, mpdPathY, point.z));
     tx2MpdPathPts.push(new THREE.Vector3(tx2MpdX, mpdBaseY + mpdH, tx2MpdZ));
-    const tx2MpdOptCurve = new THREE.CatmullRomCurve3(tx2MpdPathPts);
+    const tx2MpdOptCurve = createOpticalPathCurve(tx2MpdPathPts);
     const tx2MpdOptGeom = new THREE.TubeGeometry(tx2MpdOptCurve, 20, 0.015, 6, false);
     tx2MpdPathGroup.add(tagPart(new THREE.Mesh(tx2MpdOptGeom, transparent(0x67e8f9, 0.4)), "opticalPath"));
     const tx2MpdOptGlow = [];
@@ -1873,7 +1881,7 @@ const indexItems = [
       new THREE.Vector3(dcX, txPathTopY, 0.4),
       new THREE.Vector3(-0.5, txPathTopY, 0.4),
     ];
-    const txGcInCurve = new THREE.CatmullRomCurve3(txGcInPathPoints);
+    const txGcInCurve = createOpticalPathCurve(txGcInPathPoints);
     const txGcInGeom = new THREE.TubeGeometry(txGcInCurve, 40, 0.022, 8, false);
     const txPathMat = transparent(0x0891b2, 0.45);
     txPathGroup.add(tagPart(new THREE.Mesh(txGcInGeom, txPathMat.clone()), "opticalPath"));
@@ -1943,8 +1951,8 @@ const indexItems = [
       ...mziTopPath,
     ];
 
-    const txEdgePathCurve1 = new THREE.CatmullRomCurve3(txEdgePathPoints1);
-    const txEdgePathCurve2 = new THREE.CatmullRomCurve3(txEdgePathPoints2);
+    const txEdgePathCurve1 = createOpticalPathCurve(txEdgePathPoints1);
+    const txEdgePathCurve2 = createOpticalPathCurve(txEdgePathPoints2);
     const txEdgePathGeom1 = new THREE.TubeGeometry(txEdgePathCurve1, 64, 0.022, 8, false);
     const txEdgePathGeom2 = new THREE.TubeGeometry(txEdgePathCurve2, 64, 0.022, 8, false);
     txPathGroup.add(tagPart(new THREE.Mesh(txEdgePathGeom1, txPathMat.clone()), "opticalPath"));
@@ -1975,7 +1983,7 @@ const indexItems = [
       new THREE.Vector3(txOutputGcBranchX, fiberBottomY, outGcZ),
       new THREE.Vector3(txOutputGcBranchX, fiberBottomY + 0.2, outGcZ),
     ];
-    const txOutGcPathCurve = new THREE.CatmullRomCurve3(txOutGcPathPoints);
+    const txOutGcPathCurve = createOpticalPathCurve(txOutGcPathPoints);
     const txOutGcPathGeom = new THREE.TubeGeometry(txOutGcPathCurve, 48, 0.022, 8, false);
     const txOutGcPathMesh = new THREE.Mesh(txOutGcPathGeom, txPathMat.clone());
     txPathGroup.add(tagPart(txOutGcPathMesh, "opticalPath"));
@@ -2006,7 +2014,7 @@ const indexItems = [
       new THREE.Vector3(dcX, txPathTopY, tx2Z),
       new THREE.Vector3(-0.5, txPathTopY, tx2Z),
     ];
-    const tx2GcInCurve = new THREE.CatmullRomCurve3(tx2GcInPathPoints);
+    const tx2GcInCurve = createOpticalPathCurve(tx2GcInPathPoints);
     const tx2GcInGeom = new THREE.TubeGeometry(tx2GcInCurve, 40, 0.022, 8, false);
     tx2PathGroup.add(tagPart(new THREE.Mesh(tx2GcInGeom, tx2PathMat.clone()), "opticalPath"));
     const tx2GcInGlowSpheres = [];
@@ -2032,7 +2040,7 @@ const indexItems = [
       new THREE.Vector3(combiOutX, txPathTopY, tx2Z),
       ...mziBottomPath,
     ];
-    const tx2EdgeCurve1 = new THREE.CatmullRomCurve3(tx2EdgePath1);
+    const tx2EdgeCurve1 = createOpticalPathCurve(tx2EdgePath1);
     const tx2EdgeGeom1 = new THREE.TubeGeometry(tx2EdgeCurve1, 64, 0.022, 8, false);
     tx2PathGroup.add(tagPart(new THREE.Mesh(tx2EdgeGeom1, tx2PathMat.clone()), "opticalPath"));
     const tx2EdgeGlow1 = [];
@@ -2058,7 +2066,7 @@ const indexItems = [
       new THREE.Vector3(combiOutX, txPathTopY, tx2Z),
       ...mziBottomPath,
     ];
-    const tx2EdgeCurve2 = new THREE.CatmullRomCurve3(tx2EdgePath2);
+    const tx2EdgeCurve2 = createOpticalPathCurve(tx2EdgePath2);
     const tx2EdgeGeom2 = new THREE.TubeGeometry(tx2EdgeCurve2, 64, 0.022, 8, false);
     tx2PathGroup.add(tagPart(new THREE.Mesh(tx2EdgeGeom2, tx2PathMat.clone()), "opticalPath"));
     const tx2EdgeGlow2 = [];
@@ -2080,7 +2088,7 @@ const indexItems = [
       new THREE.Vector3(txOutputGcBranchX, fiberBottomY, outGcZ),
       new THREE.Vector3(txOutputGcBranchX, fiberBottomY + 0.2, outGcZ),
     ];
-    const tx2OutGcCurve = new THREE.CatmullRomCurve3(tx2OutGcPathPoints);
+    const tx2OutGcCurve = createOpticalPathCurve(tx2OutGcPathPoints);
     const tx2OutGcGeom = new THREE.TubeGeometry(tx2OutGcCurve, 48, 0.022, 8, false);
     tx2PathGroup.add(tagPart(new THREE.Mesh(tx2OutGcGeom, tx2PathMat.clone()), "opticalPath"));
     const tx2OutGcGlow = [];
