@@ -16,6 +16,7 @@ const indexItems = [
   ["cladding", "#94a3b8", "SiO₂ 上包层"],
   ["stripWaveguide", "#14b8a6", "条形波导 (全刻蚀)"],
   ["ribWaveguide", "#0f766e", "脊形波导 (浅刻蚀)"],
+  ["mmiWaveguide", "#2dd4bf", "MMI 多模区 (深部分刻蚀)"],
   ["doping", "#1d4ed8", "PN 结掺杂区"],
   ["geDetector", "#16a34a", "Ge 光电探测器"],
   ["heater", "#eab308", "TiN 微加热器"],
@@ -113,7 +114,12 @@ const indexItems = [
     ribWaveguide: {
       color: "#0f766e",
       title: "脊形波导 (部分刻蚀)",
-      body: "仅刻蚀掉部分硅厚度 (~70 nm 或 ~150 nm)，留下一层硅平板。传播损耗更低 (可低于 0.3 dB/cm)，但弯曲半径较大 (数十微米)。用于长距离布线、MMI、调制器相位臂和延迟线。"
+      body: "仅浅刻蚀掉部分硅厚度，留下一层硅平板。传播损耗更低 (可低于 0.3 dB/cm)，但弯曲半径较大 (数十微米)。用于长距离布线、调制器相位臂和延迟线。"
+    },
+    mmiWaveguide: {
+      color: "#2dd4bf",
+      title: "MMI 多模区 (深部分刻蚀)",
+      body: "MMI 的宽多模区通常采用深部分刻蚀截面：比长距离 rib 波导约束更强，又保留硅平板以提升多模干涉区的工艺容差。它不等同于紧凑微环和定向耦合器所用的全刻蚀 strip 波导。"
     },
     doping: {
       color: "#1d4ed8",
@@ -188,7 +194,7 @@ const indexItems = [
   };
 
   const deviceKeys = ["mzm", "dc", "microring", "siDevice"];
-  const compoundKeys = { siDevice: ["stripWaveguide", "ribWaveguide", "siDevice", "doping"] };
+  const compoundKeys = { siDevice: ["stripWaveguide", "ribWaveguide", "mmiWaveguide", "siDevice", "doping"] };
 
   const partOrder = Object.keys(partInfo);
   const partColor = (key) => Number.parseInt(partInfo[key].color.slice(1), 16);
@@ -400,6 +406,8 @@ const indexItems = [
     // Rib waveguide — right segment (does not pass through grating coupler region)
     const ribRidgeH = siRibH - siSlabH;
     const ribY = siBase + siRibH / 2; // rib waveguide centre — sits directly on BOX
+    const mmiH = siRibH;
+    const mmiY = ribY;
     const geBaseY = siBase + siRibH - 0.03;  // Ge PD overlaps rib waveguide top
     const mpdBaseY = siBase + stripH - 0.04; // monitor PD overlaps strip waveguide top
     const gcN = 4, gcPeriod = 0.16, gcToothW = 0.05, gcToothZW = 0.36;
@@ -407,8 +415,6 @@ const indexItems = [
     const gcRightEdge = gcCenterX + gcN * gcPeriod + gcToothW / 2;
     const ribStartX = -0.9 * xScale;
     const ribEndX = chipRightX - 0.3;
-    const ribRightLen = ribEndX - ribStartX;
-    const ribRightCenter = (ribStartX + ribEndX) / 2;
 
     // Taper helper — reusable trapezoidal taper between two waveguide widths
     const taperLen = 0.15;
@@ -428,15 +434,6 @@ const indexItems = [
       lSiDevice.add(tagPart(mesh, "ribWaveguide", false, 4));
     };
 
-    const ribWG = createBox({
-      size: [ribRightLen, siRibH,0.32],
-      position: [ribRightCenter, ribY, rxZ],
-      color: 0x0f766e,
-      roughness: 0.42,
-      metalness: 0.12
-    });
-    lSiDevice.add(tagPart(ribWG, "ribWaveguide", false, 4));
-
     // Connector from grating coupler to rib waveguide
     const connLen = ribStartX - gcRightEdge;
     const connCenterX = (gcRightEdge + ribStartX) / 2;
@@ -449,9 +446,6 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(conn, "ribWaveguide", false, 4));
 
-    const siTopY = siSlabTop + stripRidgeH;
-    yBase = siBase + siSlabH;
-
     // WDM demux — three microrings on RX bus, each with drop port + Ge PD
     const ringR = [0.22, 0.25, 0.28]; // slightly different radii → different λ
     const ringXs = [-0.3, 0.8, 1.9].map(v => v * xScale);
@@ -461,6 +455,43 @@ const indexItems = [
     const dropLen = 0.42;
     const dropGeH = 0.12;
     const dropGeData = [];
+    const rxRingBusW = 0.24;
+    const rxRingBusStartX = ringXs[0] - 0.48;
+    const rxRingBusEndX = ringXs[2] + 0.48;
+    const rxRibBeforeRingEndX = rxRingBusStartX - taperLen;
+    const rxRibBeforeRingLen = rxRibBeforeRingEndX - ribStartX;
+    const rxRibBeforeRing = createBox({
+      size: [rxRibBeforeRingLen, siRibH, 0.32],
+      position: [(ribStartX + rxRibBeforeRingEndX) / 2, ribY, rxZ],
+      color: 0x0f766e,
+      roughness: 0.42,
+      metalness: 0.12
+    });
+    lSiDevice.add(tagPart(rxRibBeforeRing, "ribWaveguide", false, 4));
+    addTaper(rxRingBusStartX - taperLen / 2, rxZ, 0.32, rxRingBusW);
+    const ringBusWG = createBox({
+      size: [rxRingBusEndX - rxRingBusStartX, stripH, rxRingBusW],
+      position: [(rxRingBusStartX + rxRingBusEndX) / 2, stripY, rxZ],
+      color: 0x14b8a6,
+      roughness: 0.42,
+      metalness: 0.12
+    });
+    lSiDevice.add(tagPart(ringBusWG, "stripWaveguide", false, 5, "microring"));
+    addTaper(rxRingBusEndX + taperLen / 2, rxZ, rxRingBusW, 0.32);
+    const rxRibAfterRingStartX = rxRingBusEndX + taperLen;
+    const rxRibAfterRingLen = ribEndX - rxRibAfterRingStartX;
+    const rxRibAfterRingCenter = (rxRibAfterRingStartX + ribEndX) / 2;
+    const rxRibAfterRing = createBox({
+      size: [rxRibAfterRingLen, siRibH, 0.32],
+      position: [rxRibAfterRingCenter, ribY, rxZ],
+      color: 0x0f766e,
+      roughness: 0.42,
+      metalness: 0.12
+    });
+    lSiDevice.add(tagPart(rxRibAfterRing, "ribWaveguide", false, 4));
+
+    const siTopY = siSlabTop + stripRidgeH;
+    yBase = siBase + siSlabH;
     for (let i = 0; i < 3; i++) {
       const rr = ringR[i];
       const rx = ringXs[i];
@@ -474,11 +505,11 @@ const indexItems = [
       // drop waveguide (Z direction from ring far side upward)
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
       const dwg = createBox({
-        size: [0.24, siRibH,dropLen],
-        position: [rx, ribY, dropZ],
-        color: 0x0f766e, roughness: 0.42, metalness: 0.12
+        size: [0.24, stripH, dropLen],
+        position: [rx, stripY, dropZ],
+        color: 0x14b8a6, roughness: 0.42, metalness: 0.12
       });
-      lSiDevice.add(tagPart(dwg, "ribWaveguide", false, 4, "microring"));
+      lSiDevice.add(tagPart(dwg, "stripWaveguide", false, 4, "microring"));
       // Ge PD at drop waveguide end — sits on top, overlapping the waveguide
       const geZ = dropZ + dropLen / 2 - 0.04;
       const pd = createBox({
@@ -1004,13 +1035,13 @@ const indexItems = [
     const armWidth = 0.20;
 
     const txMmiSplitter = createBox({
-      size: [mmiLen, stripH, mmiWidth],
-      position: [mmiSplitterCx, stripY, 0.4],
-      color: 0x14b8a6,
+      size: [mmiLen, mmiH, mmiWidth],
+      position: [mmiSplitterCx, mmiY, 0.4],
+      color: 0x2dd4bf,
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(txMmiSplitter, "stripWaveguide", false, 4, "mzm"));
+    lSiDevice.add(tagPart(txMmiSplitter, "mmiWaveguide", false, 4, "mzm"));
 
     const txArm1 = createBox({
       size: [armLen, siRibH,armWidth],
@@ -1032,13 +1063,13 @@ const indexItems = [
 
     // TX MMI combiner (output end of MZM)
     const txMmiCombiner = createBox({
-      size: [mmiLen, stripH, mmiWidth],
-      position: [mmiCombinerCx, stripY, 0.4],
-      color: 0x14b8a6,
+      size: [mmiLen, mmiH, mmiWidth],
+      position: [mmiCombinerCx, mmiY, 0.4],
+      color: 0x2dd4bf,
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(txMmiCombiner, "stripWaveguide", false, 4, "mzm"));
+    lSiDevice.add(tagPart(txMmiCombiner, "mmiWaveguide", false, 4, "mzm"));
 
     // === Tapers: MMI ↔ phase arms ===
 
@@ -1059,13 +1090,13 @@ const indexItems = [
 
     // TX2 MZM — identical structure, shifted to tx2Z = -1.4
     const tx2MmiSplitter = createBox({
-      size: [mmiLen, stripH, mmiWidth],
-      position: [mmiSplitterCx, stripY, tx2Z],
-      color: 0x14b8a6,
+      size: [mmiLen, mmiH, mmiWidth],
+      position: [mmiSplitterCx, mmiY, tx2Z],
+      color: 0x2dd4bf,
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(tx2MmiSplitter, "stripWaveguide", false, 4, "mzm"));
+    lSiDevice.add(tagPart(tx2MmiSplitter, "mmiWaveguide", false, 4, "mzm"));
 
     const tx2Arm1 = createBox({
       size: [armLen, siRibH, armWidth],
@@ -1086,13 +1117,13 @@ const indexItems = [
     lSiDevice.add(tagPart(tx2Arm2, "ribWaveguide", false, 4, "mzm"));
 
     const tx2MmiCombiner = createBox({
-      size: [mmiLen, stripH, mmiWidth],
-      position: [mmiCombinerCx, stripY, tx2Z],
-      color: 0x14b8a6,
+      size: [mmiLen, mmiH, mmiWidth],
+      position: [mmiCombinerCx, mmiY, tx2Z],
+      color: 0x2dd4bf,
       roughness: 0.42,
       metalness: 0.12
     });
-    lSiDevice.add(tagPart(tx2MmiCombiner, "stripWaveguide", false, 4, "mzm"));
+    lSiDevice.add(tagPart(tx2MmiCombiner, "mmiWaveguide", false, 4, "mzm"));
 
     // TX2 tapers
     addTaper(taperSplitCx, (tx2Z + tx2ArmZ1) / 2, mmiWidth, armWidth);
@@ -1142,8 +1173,8 @@ const indexItems = [
     addZBend(combiOutX, tx2Z, mziInputFaceX, mziPort2Z);
 
     // Input 2×2 MMI
-    const mziInputMmi = createBox({ size: [mziMmiLen, stripH, mziMmiW], position: [mziMmiInCx, stripY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
-    lSiDevice.add(tagPart(mziInputMmi, "stripWaveguide", false, 4));
+    const mziInputMmi = createBox({ size: [mziMmiLen, mmiH, mziMmiW], position: [mziMmiInCx, mmiY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
+    lSiDevice.add(tagPart(mziInputMmi, "mmiWaveguide", false, 4));
 
     // MZI arms — span from input MMI face to output MMI face
     const mziArmStartX = mziMmiInCx + mziMmiLen / 2;
@@ -1167,8 +1198,8 @@ const indexItems = [
     lSiDevice.add(tagPart(new THREE.Mesh(new THREE.ExtrudeGeometry(mziArm2Shape, { steps: 48, extrudePath: mziArm2Curve }), material(mziArmColor, { roughness: 0.42, metalness: 0.12 })), "ribWaveguide", false, 4));
 
     // Output 2×2 MMI
-    const mziOutputMmi = createBox({ size: [mziMmiLen, stripH, mziMmiW], position: [mziMmiOutCx, stripY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
-    lSiDevice.add(tagPart(mziOutputMmi, "stripWaveguide", false, 4));
+    const mziOutputMmi = createBox({ size: [mziMmiLen, mmiH, mziMmiW], position: [mziMmiOutCx, mmiY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
+    lSiDevice.add(tagPart(mziOutputMmi, "mmiWaveguide", false, 4));
 
     // Output 2×2 MMI exposes two output ports; the selected WDM output uses one port.
     const outWgEndX = chipRightX - 0.02;
@@ -2145,6 +2176,7 @@ const indexItems = [
     const sideZ = chipWidth / 2 + eps;
     const wgTopY = siBase + siRibH + eps;
     const stripTopY = stripY + stripH / 2 + eps;
+    const mmiTopY = mmiY + mmiH / 2 + eps;
 
     // Vertical layer stack — +Z side face
     lSubstrate.add(createFaceLabel("Si 衬底", new THREE.Vector3(0, substrateH / 2, sideZ), faceZ, { scale: 0.12 }));
@@ -2154,11 +2186,11 @@ const indexItems = [
 
     // Waveguides — top face
     lSiDevice.add(createFaceLabel("TX 脊形波导", new THREE.Vector3(txWgCx, wgTopY, 0.4), faceTop, { scale: 0.10 }));
-    lSiDevice.add(createFaceLabel("RX 脊形波导", new THREE.Vector3(ribRightCenter, wgTopY, rxZ), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("RX 脊形波导", new THREE.Vector3(rxRibAfterRingCenter, wgTopY, rxZ), faceTop, { scale: 0.10 }));
 
     // MMI & MZM — top face
-    lSiDevice.add(createFaceLabel("MMI 分束器", new THREE.Vector3(mmiSplitterCx, stripTopY, 0.4), faceTop, { scale: 0.10 }));
-    lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(mmiCombinerCx, stripTopY, 0.4), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("MMI 分束器", new THREE.Vector3(mmiSplitterCx, mmiTopY, 0.4), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("MMI 合束器", new THREE.Vector3(mmiCombinerCx, mmiTopY, 0.4), faceTop, { scale: 0.10 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(dopingX, wgTopY, armZ1), faceTop, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("MZM 相位臂", new THREE.Vector3(dopingX, wgTopY, armZ2), faceTop, { scale: 0.08 }));
     // PN doping labels — depth test off
@@ -2229,8 +2261,8 @@ const indexItems = [
 
     // === TX2 (λ2) labels ===
     lSiDevice.add(createFaceLabel("TX2 脊形波导", new THREE.Vector3(txWgCx, wgTopY, tx2Z), faceTop, { scale: 0.10 }));
-    lSiDevice.add(createFaceLabel("TX2 MMI 分束器", new THREE.Vector3(mmiSplitterCx, stripTopY, tx2Z), faceTop, { scale: 0.10 }));
-    lSiDevice.add(createFaceLabel("TX2 MMI 合束器", new THREE.Vector3(mmiCombinerCx, stripTopY, tx2Z), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("TX2 MMI 分束器", new THREE.Vector3(mmiSplitterCx, mmiTopY, tx2Z), faceTop, { scale: 0.10 }));
+    lSiDevice.add(createFaceLabel("TX2 MMI 合束器", new THREE.Vector3(mmiCombinerCx, mmiTopY, tx2Z), faceTop, { scale: 0.10 }));
     lSiDevice.add(createFaceLabel("TX2 MZM 相位臂", new THREE.Vector3(dopingX, wgTopY, tx2ArmZ1), faceTop, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("TX2 MZM 相位臂", new THREE.Vector3(dopingX, wgTopY, tx2ArmZ2), faceTop, { scale: 0.08 }));
     // TX2 doping labels
@@ -2241,7 +2273,7 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("TX2 定向耦合器", new THREE.Vector3(dcX, stripTopY, tx2Z), faceTop, { scale: 0.08 }));
     lGeDetector.add(createFaceLabel("TX2 监测 PD", new THREE.Vector3(tx2MpdX, mpdBaseY + mpdH + eps, tx2MpdZ), faceTop, { scale: 0.07 }));
     // MZI multiplexer labels
-    lSiDevice.add(createFaceLabel("MZI 波分复用合束器", new THREE.Vector3(mziMmiInCx, stripTopY, (tx2Z + 0.4) / 2), faceTop, { scale: 0.09 }));
+    lSiDevice.add(createFaceLabel("MZI 波分复用合束器", new THREE.Vector3(mziMmiInCx, mmiTopY, (tx2Z + 0.4) / 2), faceTop, { scale: 0.09 }));
     lSiDevice.add(createFaceLabel("MZI 长臂(ΔL)", new THREE.Vector3(mziMmiInCx + 0.5, wgTopY, mziPort2Z - 0.22), faceTop, { scale: 0.07 }));
     lSiDevice.add(createFaceLabel("TX2 输入边缘耦合器", new THREE.Vector3(ecLX, ecY, tx2Z), faceNX, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("TX2 光栅耦合器", new THREE.Vector3(gcCenterX, wgTopY, tx2GcZ), faceTop, { scale: 0.10 }));
@@ -2269,8 +2301,8 @@ const indexItems = [
       { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [chipRightX - 0.02, ribY + 0.04, outWgZ], priority: 6 },
       { key: "cladding", size: [chipLen - 0.3, cladBaseH + 0.04, chipWidth - 0.3], position: [chipCenterX, siBase + cladBaseH / 2, 0], priority: 1 },
       { key: "electricalPath", size: [0.6, 1.2, 0.4], position: [geX, cladTopY + 0.3, rxZ], priority: 3 },
-      { key: "stripWaveguide", size: [mmiLen + 0.2, stripH + 0.14, mmiWidth + 0.2], position: [mmiSplitterCx, stripY, 0.4], priority: 5 },
-      { key: "stripWaveguide", size: [mmiLen + 0.2, stripH + 0.14, mmiWidth + 0.2], position: [mmiCombinerCx, stripY, 0.4], priority: 5 },
+      { key: "mmiWaveguide", size: [mmiLen + 0.2, mmiH + 0.14, mmiWidth + 0.2], position: [mmiSplitterCx, mmiY, 0.4], priority: 5 },
+      { key: "mmiWaveguide", size: [mmiLen + 0.2, mmiH + 0.14, mmiWidth + 0.2], position: [mmiCombinerCx, mmiY, 0.4], priority: 5 },
       { key: "ribWaveguide", size: [outWgLen + 0.1, siRibH + 0.14, 0.5], position: [outWgCx, ribY, outWgZ], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [txOutputGcBranchX, ribY, outGcZ], priority: 6 },
       { key: "ribWaveguide", size: [1.0, siRibH + 0.14, 1.0], position: [txOutputGcBranchX, ribY, outGcWgZcenter], priority: 5 },
@@ -2281,8 +2313,8 @@ const indexItems = [
       { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [chipLeftX + 0.02, ribY + 0.04, tx2Z], priority: 6 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [gcCenterX, ribY, tx2GcZ], priority: 6 },
       { key: "stripWaveguide", size: [dcLen + 0.14, stripH + 0.12, 0.4], position: [dcX, stripY, tx2Z], priority: 5 },
-      { key: "stripWaveguide", size: [mmiLen + 0.2, stripH + 0.14, mmiWidth + 0.2], position: [mmiSplitterCx, stripY, tx2Z], priority: 5 },
-      { key: "stripWaveguide", size: [mmiLen + 0.2, stripH + 0.14, mmiWidth + 0.2], position: [mmiCombinerCx, stripY, tx2Z], priority: 5 },
+      { key: "mmiWaveguide", size: [mmiLen + 0.2, mmiH + 0.14, mmiWidth + 0.2], position: [mmiSplitterCx, mmiY, tx2Z], priority: 5 },
+      { key: "mmiWaveguide", size: [mmiLen + 0.2, mmiH + 0.14, mmiWidth + 0.2], position: [mmiCombinerCx, mmiY, tx2Z], priority: 5 },
       { key: "ribWaveguide", size: [armLen, siRibH + 0.14, armWidth + 0.1], position: [dopingX, ribY, tx2ArmZ1], priority: 5 },
       { key: "ribWaveguide", size: [1.9, siRibH + 0.14, armWidth + 0.1], position: [0.5, ribY, tx2ArmZ2], priority: 5 },
       { key: "heater", size: [2.0, heaterH + 0.12, 0.8], position: [dopingX, cladTopY + heaterH / 2 + 0.02, tx2Z], priority: 6 },
@@ -2304,7 +2336,7 @@ const indexItems = [
 
     const hitTargetLayerMap = {
       substrate: lSubstrate, box: lBox, siDevice: lSiDevice,
-      stripWaveguide: lSiDevice, ribWaveguide: lSiDevice,
+      stripWaveguide: lSiDevice, ribWaveguide: lSiDevice, mmiWaveguide: lSiDevice,
       geDetector: lGeDetector, cladding: lCladding,
       heater: lHeater, m1Interconnect: lM1,
       rfElectrode: lRf, gratingCoupler: lSiDevice, edgeCoupler: lSiDevice,

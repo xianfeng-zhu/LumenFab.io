@@ -83,6 +83,34 @@ test("PIC MZI output waveguide uses one output port of the 2x2 MMI", () => {
   assert.doesNotMatch(component, /position: \[txOutputGcBranchX, ribY, -0\.4\]/);
 });
 
+test("PIC model separates MMI multimode regions from full-etch strip waveguides", () => {
+  assert.match(component, /\["mmiWaveguide", "#2dd4bf", "MMI 多模区 \(深部分刻蚀\)"\]/);
+  assert.match(component, /mmiWaveguide: \{/);
+  assert.match(component, /title: "MMI 多模区 \(深部分刻蚀\)"/);
+  assert.match(component, /compoundKeys = \{ siDevice: \["stripWaveguide", "ribWaveguide", "mmiWaveguide", "siDevice", "doping"\] \};/);
+  assert.match(component, /mmiWaveguide: lSiDevice/);
+  assert.match(component, /tagPart\(txMmiSplitter, "mmiWaveguide", false, 4, "mzm"\)/);
+  assert.match(component, /tagPart\(txMmiCombiner, "mmiWaveguide", false, 4, "mzm"\)/);
+  assert.match(component, /tagPart\(tx2MmiSplitter, "mmiWaveguide", false, 4, "mzm"\)/);
+  assert.match(component, /tagPart\(tx2MmiCombiner, "mmiWaveguide", false, 4, "mzm"\)/);
+  assert.match(component, /tagPart\(mziInputMmi, "mmiWaveguide", false, 4\)/);
+  assert.match(component, /tagPart\(mziOutputMmi, "mmiWaveguide", false, 4\)/);
+  assert.doesNotMatch(component, /tagPart\(txMmiSplitter, "stripWaveguide"/);
+  assert.doesNotMatch(component, /tagPart\(mziInputMmi, "stripWaveguide"/);
+});
+
+test("PIC microring demux uses strip waveguides through ring coupling and drop sections", () => {
+  assert.match(component, /const rxRingBusW = 0\.24;/);
+  assert.match(component, /const rxRingBusStartX = ringXs\[0\] - 0\.48;/);
+  assert.match(component, /const rxRingBusEndX = ringXs\[2\] \+ 0\.48;/);
+  assert.match(component, /tagPart\(ringBusWG, "stripWaveguide", false, 5, "microring"\)/);
+  assert.match(component, /tagPart\(dwg, "stripWaveguide", false, 4, "microring"\)/);
+  assert.match(component, /tagPart\(rxRibBeforeRing, "ribWaveguide", false, 4\)/);
+  assert.match(component, /tagPart\(rxRibAfterRing, "ribWaveguide", false, 4\)/);
+  assert.doesNotMatch(component, /const ribWG = createBox/);
+  assert.doesNotMatch(component, /tagPart\(dwg, "ribWaveguide", false, 4, "microring"\)/);
+});
+
 test("PIC model defaults to a centered top-down camera view", () => {
   assert.match(component, /const substrateCenter = new THREE\.Vector3\(chipCenterX, center\.y, 0\);/);
   assert.match(component, /child\.position\.sub\(substrateCenter\);/);
