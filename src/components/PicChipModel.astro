@@ -2352,6 +2352,31 @@ const indexItems = [
     controls.minPolarAngle = 0.01;
     controls.maxPolarAngle = Math.PI - 0.01;
     controls.target.set(0, 0, 0);
+    controls.enableZoom = false; // disable default scroll-to-zoom
+
+    // Custom trackpad: two-finger drag = pan, pinch (ctrl+scroll) = zoom
+    const _right = new THREE.Vector3();
+    const _up = new THREE.Vector3();
+    const _fwd = new THREE.Vector3();
+    const wheelHandler = (e) => {
+      if (e.target !== canvas) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.ctrlKey) {
+        const factor = e.deltaY > 0 ? 1.025 : 0.975;
+        camera.position.sub(controls.target).multiplyScalar(factor).add(controls.target);
+      } else {
+        const s = 0.006;
+        const dx = e.deltaX * s;
+        const dy = -e.deltaY * s;
+        camera.getWorldDirection(_fwd);
+        _right.crossVectors(_fwd, camera.up).normalize();
+        _up.crossVectors(_right, _fwd).normalize();
+        controls.target.addScaledVector(_right, dx).addScaledVector(_up, dy);
+        camera.position.addScaledVector(_right, dx).addScaledVector(_up, dy);
+      }
+    };
+    window.addEventListener("wheel", wheelHandler, { capture: true, passive: false });
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.45));
     const key = new THREE.DirectionalLight(0xffffff, 2.25);
@@ -3025,6 +3050,7 @@ const indexItems = [
       sectionBtn?.removeEventListener("click", handleSectionToggle);
       claddingBtn?.removeEventListener("click", toggleCladding);
       sectionSlider?.removeEventListener("input", handleSectionSlider);
+      window.removeEventListener("wheel", wheelHandler, { capture: true });
       controls.dispose();
       renderer.dispose();
     }, { once: true });
