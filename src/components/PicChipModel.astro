@@ -2307,11 +2307,12 @@ const indexItems = [
       layer.add(createHitBox(target));
     }
 
-    // Center the model
+    // Center the view on the silicon substrate, not on fibers or auxiliary geometry.
     const outline = new THREE.Box3().setFromObject(chip);
     const center = outline.getCenter(new THREE.Vector3());
+    const substrateCenter = new THREE.Vector3(chipCenterX, center.y, 0);
     for (const child of chip.children) {
-      child.position.sub(center);
+      child.position.sub(substrateCenter);
     }
 
     // Record base Y for each layer group (after centering)
@@ -2322,7 +2323,10 @@ const indexItems = [
     chip.rotation.x = 0;
     chip.rotation.y = 0;
 
-    return { modelViewCenterX: chipCenterX, chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow };
+    const modelViewCenterX = 0;
+    const substrateViewHalfWidth = chipLen / 2;
+
+    return { modelViewCenterX, substrateViewHalfWidth, chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow };
   }
 
   for (const root of roots) {
@@ -2405,13 +2409,26 @@ const indexItems = [
 
     const model = buildModel(scene);
     const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow } = model;
-    const { modelViewCenterX } = model;
-    const defaultTopCameraDistance = 14;
+    const { modelViewCenterX, substrateViewHalfWidth } = model;
+    const defaultTopCameraDistance = 13;
+    const modelViewXPadding = 0.55;
 
-    camera.position.set(modelViewCenterX, defaultTopCameraDistance, 0.01);
-    controls.target.set(modelViewCenterX, 0, 0);
-    camera.lookAt(controls.target);
-    controls.update();
+    const getTopCameraDistanceForAspect = (aspect) => {
+      const safeAspect = Math.max(aspect, 0.1);
+      const fitDistance =
+        (substrateViewHalfWidth + modelViewXPadding) /
+        (Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * safeAspect);
+      return Math.max(defaultTopCameraDistance, fitDistance);
+    };
+
+    const setTopCameraFrame = () => {
+      camera.position.set(modelViewCenterX, getTopCameraDistanceForAspect(camera.aspect), 0.01);
+      controls.target.set(modelViewCenterX, 0, 0);
+      camera.lookAt(controls.target);
+      controls.update();
+    };
+
+    setTopCameraFrame();
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];
@@ -2733,6 +2750,7 @@ const indexItems = [
       root.style.setProperty("--model-height", `${canvasHeight}px`);
       renderer.setSize(width, canvasHeight, false);
       camera.aspect = width / canvasHeight;
+      setTopCameraFrame();
       camera.updateProjectionMatrix();
     };
 

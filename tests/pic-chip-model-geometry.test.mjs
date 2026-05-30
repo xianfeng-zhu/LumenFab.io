@@ -26,10 +26,13 @@ const mziOutputFaceX = mziMmiOutCx + mziMmiLen / 2;
 const chipLeftX = -5.625;
 const chipRightX = 5.625 + 1.2;
 const chipCenterX = (chipLeftX + chipRightX) / 2;
+const chipLen = chipRightX - chipLeftX;
+const substrateViewHalfWidth = chipLen / 2;
 const cameraFovDegrees = 42;
 const desktopDefaultAspect = 1 / 0.64;
+const mobileDefaultAspect = 390 / 400;
 const modelXPadding = 0.55;
-const expectedDefaultCameraDistance = 14;
+const expectedDefaultCameraDistance = 13;
 
 const zBends = [
   { startX: combiOutX, startZ: 0.4, endX: mziInputFaceX, endZ: mziPort1Z, y: 0 },
@@ -73,9 +76,13 @@ test("PIC MZI output waveguide is flush with and centered on the output MMI", ()
 });
 
 test("PIC model defaults to a centered top-down camera view", () => {
-  assert.match(component, /modelViewCenterX: chipCenterX/);
-  assert.match(component, /const defaultTopCameraDistance = 14;/);
-  assert.match(component, /camera\.position\.set\(modelViewCenterX, defaultTopCameraDistance, 0\.01\);/);
+  assert.match(component, /const substrateCenter = new THREE\.Vector3\(chipCenterX, center\.y, 0\);/);
+  assert.match(component, /child\.position\.sub\(substrateCenter\);/);
+  assert.match(component, /const modelViewCenterX = 0;/);
+  assert.match(component, /const substrateViewHalfWidth = chipLen \/ 2;/);
+  assert.match(component, /const defaultTopCameraDistance = 13;/);
+  assert.match(component, /const getTopCameraDistanceForAspect = \(aspect\) =>/);
+  assert.match(component, /camera\.position\.set\(modelViewCenterX, getTopCameraDistanceForAspect\(camera\.aspect\), 0\.01\);/);
   assert.match(component, /controls\.target\.set\(modelViewCenterX, 0, 0\);/);
   assert.doesNotMatch(component, /camera\.position\.set\(0, 5\.5, 9\.5\);/);
   assert.doesNotMatch(component, /controls\.target\.set\(0, 0, 0\);/);
@@ -86,9 +93,29 @@ test("PIC top-down default view leaves horizontal margin around the chip", () =>
     Math.tan((cameraFovDegrees * Math.PI) / 360) *
     expectedDefaultCameraDistance *
     desktopDefaultAspect;
-  const leftMargin = halfVisibleWidth - (chipCenterX - chipLeftX);
-  const rightMargin = halfVisibleWidth - (chipRightX - chipCenterX);
+  const leftMargin = halfVisibleWidth - substrateViewHalfWidth;
+  const rightMargin = halfVisibleWidth - substrateViewHalfWidth;
 
   assert.ok(leftMargin >= modelXPadding, `left margin ${leftMargin.toFixed(2)} is too small`);
   assert.ok(rightMargin >= modelXPadding, `right margin ${rightMargin.toFixed(2)} is too small`);
+});
+
+test("PIC top-down default view backs up on narrow canvases to avoid side clipping", () => {
+  const fixedDistanceHalfVisibleWidth =
+    Math.tan((cameraFovDegrees * Math.PI) / 360) *
+    expectedDefaultCameraDistance *
+    mobileDefaultAspect;
+  const requiredMobileDistance =
+    (substrateViewHalfWidth + modelXPadding) /
+    (Math.tan((cameraFovDegrees * Math.PI) / 360) * mobileDefaultAspect);
+
+  assert.ok(
+    fixedDistanceHalfVisibleWidth < substrateViewHalfWidth + modelXPadding,
+    "a fixed desktop distance should be too close for the mobile aspect ratio"
+  );
+  assert.ok(requiredMobileDistance > expectedDefaultCameraDistance);
+  assert.match(component, /const modelViewXPadding = 0\.55;/);
+  assert.match(component, /const getTopCameraDistanceForAspect = \(aspect\) =>/);
+  assert.match(component, /\(substrateViewHalfWidth \+ modelViewXPadding\) \//);
+  assert.match(component, /Math\.max\(defaultTopCameraDistance, fitDistance\);/);
 });
