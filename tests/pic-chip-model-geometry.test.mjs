@@ -185,6 +185,29 @@ test("PIC optical path overlays use segmented centerline curves at branches and 
   assert.doesNotMatch(component, /const txEdgePathCurve1 = new THREE\.CatmullRomCurve3\(txEdgePathPoints1\);/);
 });
 
+test("PIC MZM optical overlays turn at splitter and combiner taper edges", () => {
+  assert.match(component, /const mzmSplitterOutputPathPoints = \(baseZ, armZ\) => \[/);
+  assert.match(component, /new THREE\.Vector3\(mmiSplitterCx - mmiLen \/ 2 - taperLen, txPathTopY, baseZ\)/);
+  assert.match(component, /new THREE\.Vector3\(mmiSplitterCx - mmiLen \/ 2, txPathTopY, baseZ\)/);
+  assert.match(component, /new THREE\.Vector3\(mmiSplitterCx \+ mmiLen \/ 2, txPathTopY, baseZ\)/);
+  assert.match(component, /new THREE\.Vector3\(taperSplitCx \+ taperLen \/ 2, txPathTopY, armZ\)/);
+  assert.match(component, /const mzmCombinerInputPathPoints = \(baseZ, armZ\) => \[/);
+  assert.match(component, /new THREE\.Vector3\(taperCombCx - taperLen \/ 2, txPathTopY, armZ\)/);
+  assert.match(component, /new THREE\.Vector3\(mmiCombinerCx - mmiLen \/ 2, txPathTopY, baseZ\)/);
+  assert.match(component, /new THREE\.Vector3\(mmiCombinerCx \+ mmiLen \/ 2, txPathTopY, baseZ\)/);
+  assert.match(component, /new THREE\.Vector3\(combiOutX, txPathTopY, baseZ\)/);
+  assert.match(component, /\.\.\.mzmSplitterOutputPathPoints\(0\.4, armZ1\)/);
+  assert.match(component, /\.\.\.mzmCombinerInputPathPoints\(0\.4, armZ1\)/);
+  assert.match(component, /\.\.\.mzmSplitterOutputPathPoints\(0\.4, armZ2\)/);
+  assert.match(component, /\.\.\.mzmCombinerInputPathPoints\(0\.4, armZ2\)/);
+  assert.match(component, /\.\.\.mzmSplitterOutputPathPoints\(tx2Z, tx2ArmZ1\)/);
+  assert.match(component, /\.\.\.mzmCombinerInputPathPoints\(tx2Z, tx2ArmZ1\)/);
+  assert.match(component, /\.\.\.mzmSplitterOutputPathPoints\(tx2Z, tx2ArmZ2\)/);
+  assert.match(component, /\.\.\.mzmCombinerInputPathPoints\(tx2Z, tx2ArmZ2\)/);
+  assert.doesNotMatch(component, /new THREE\.Vector3\(dopingX, txPathTopY, armZ1\),\s*new THREE\.Vector3\(mmiCombinerCx, txPathTopY, 0\.4\)/s);
+  assert.doesNotMatch(component, /new THREE\.Vector3\(dopingX, txPathTopY, tx2ArmZ1\),\s*new THREE\.Vector3\(mmiCombinerCx, txPathTopY, tx2Z\)/s);
+});
+
 test("PIC mobile touch gestures keep OrbitControls pinch zoom while desktop wheel uses custom trackpad handling", () => {
   assert.match(component, /controls\.enableZoom = true;/);
   assert.match(component, /controls\.touches\.ONE = THREE\.TOUCH\.ROTATE;/);

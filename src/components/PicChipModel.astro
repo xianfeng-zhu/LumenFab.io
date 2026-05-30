@@ -1879,7 +1879,7 @@ const indexItems = [
       new THREE.Vector3(gcCenterX, txPathTopY, 0),
       new THREE.Vector3(gcCenterX, txPathTopY, 0.4),
       new THREE.Vector3(dcX, txPathTopY, 0.4),
-      new THREE.Vector3(-0.5, txPathTopY, 0.4),
+      new THREE.Vector3(mmiSplitterCx - mmiLen / 2 - taperLen, txPathTopY, 0.4),
     ];
     const txGcInCurve = createOpticalPathCurve(txGcInPathPoints);
     const txGcInGeom = new THREE.TubeGeometry(txGcInCurve, 40, 0.022, 8, false);
@@ -1895,6 +1895,18 @@ const indexItems = [
       new THREE.Vector3(txOutputFaceX, txPathTopY, outWgZ),
       new THREE.Vector3(txOutputFaceX, fiberBottomY, outWgZ),
       new THREE.Vector3(txOutputFaceX, fiberBottomY + 0.2, outWgZ),
+    ];
+    const mzmSplitterOutputPathPoints = (baseZ, armZ) => [
+      new THREE.Vector3(mmiSplitterCx - mmiLen / 2 - taperLen, txPathTopY, baseZ),
+      new THREE.Vector3(mmiSplitterCx - mmiLen / 2, txPathTopY, baseZ),
+      new THREE.Vector3(mmiSplitterCx + mmiLen / 2, txPathTopY, baseZ),
+      new THREE.Vector3(taperSplitCx + taperLen / 2, txPathTopY, armZ),
+    ];
+    const mzmCombinerInputPathPoints = (baseZ, armZ) => [
+      new THREE.Vector3(taperCombCx - taperLen / 2, txPathTopY, armZ),
+      new THREE.Vector3(mmiCombinerCx - mmiLen / 2, txPathTopY, baseZ),
+      new THREE.Vector3(mmiCombinerCx + mmiLen / 2, txPathTopY, baseZ),
+      new THREE.Vector3(combiOutX, txPathTopY, baseZ),
     ];
     const mziTopPath = [
       ...zBendPathPoints(0.4, mziPort1Z),
@@ -1932,10 +1944,9 @@ const indexItems = [
       new THREE.Vector3(ecRightX, txPathTopY, 0.4),          // edge coupler surface
       new THREE.Vector3(txWgCx, txPathTopY, 0.4),           // TX waveguide
       new THREE.Vector3(dcX, txPathTopY, 0.4),            // DC bus centre
-      new THREE.Vector3(-0.5, txPathTopY, 0.4),           // TX waveguide past DC
+      ...mzmSplitterOutputPathPoints(0.4, armZ1),
       new THREE.Vector3(dopingX, txPathTopY, armZ1),          // phase arm 1
-      new THREE.Vector3(mmiCombinerCx, txPathTopY, 0.4),  // MMI combiner
-      new THREE.Vector3(combiOutX, txPathTopY, 0.4),
+      ...mzmCombinerInputPathPoints(0.4, armZ1),
       ...mziTopPath,
     ];
     const txEdgePathPoints2 = [
@@ -1944,10 +1955,9 @@ const indexItems = [
       new THREE.Vector3(ecRightX, txPathTopY, 0.4),
       new THREE.Vector3(txWgCx, txPathTopY, 0.4),           // TX waveguide
       new THREE.Vector3(dcX, txPathTopY, 0.4),            // DC bus centre
-      new THREE.Vector3(-0.5, txPathTopY, 0.4),           // TX waveguide past DC
+      ...mzmSplitterOutputPathPoints(0.4, armZ2),
       new THREE.Vector3(dopingX, txPathTopY, armZ2),          // phase arm 2
-      new THREE.Vector3(mmiCombinerCx, txPathTopY, 0.4),
-      new THREE.Vector3(combiOutX, txPathTopY, 0.4),
+      ...mzmCombinerInputPathPoints(0.4, armZ2),
       ...mziTopPath,
     ];
 
@@ -2012,7 +2022,7 @@ const indexItems = [
       new THREE.Vector3(gcCenterX, txPathTopY, (tx2GcZ + tx2Z) / 2),
       new THREE.Vector3(gcCenterX, txPathTopY, tx2Z),
       new THREE.Vector3(dcX, txPathTopY, tx2Z),
-      new THREE.Vector3(-0.5, txPathTopY, tx2Z),
+      new THREE.Vector3(mmiSplitterCx - mmiLen / 2 - taperLen, txPathTopY, tx2Z),
     ];
     const tx2GcInCurve = createOpticalPathCurve(tx2GcInPathPoints);
     const tx2GcInGeom = new THREE.TubeGeometry(tx2GcInCurve, 40, 0.022, 8, false);
@@ -2034,10 +2044,9 @@ const indexItems = [
       new THREE.Vector3(ecRightX, txPathTopY, tx2Z),
       new THREE.Vector3(txWgCx, txPathTopY, tx2Z),
       new THREE.Vector3(dcX, txPathTopY, tx2Z),
-      new THREE.Vector3(-0.5, txPathTopY, tx2Z),
+      ...mzmSplitterOutputPathPoints(tx2Z, tx2ArmZ1),
       new THREE.Vector3(dopingX, txPathTopY, tx2ArmZ1),
-      new THREE.Vector3(mmiCombinerCx, txPathTopY, tx2Z),
-      new THREE.Vector3(combiOutX, txPathTopY, tx2Z),
+      ...mzmCombinerInputPathPoints(tx2Z, tx2ArmZ1),
       ...mziBottomPath,
     ];
     const tx2EdgeCurve1 = createOpticalPathCurve(tx2EdgePath1);
@@ -2060,10 +2069,9 @@ const indexItems = [
       new THREE.Vector3(ecRightX, txPathTopY, tx2Z),
       new THREE.Vector3(txWgCx, txPathTopY, tx2Z),
       new THREE.Vector3(dcX, txPathTopY, tx2Z),
-      new THREE.Vector3(-0.5, txPathTopY, tx2Z),
+      ...mzmSplitterOutputPathPoints(tx2Z, tx2ArmZ2),
       new THREE.Vector3(dopingX, txPathTopY, tx2ArmZ2),
-      new THREE.Vector3(mmiCombinerCx, txPathTopY, tx2Z),
-      new THREE.Vector3(combiOutX, txPathTopY, tx2Z),
+      ...mzmCombinerInputPathPoints(tx2Z, tx2ArmZ2),
       ...mziBottomPath,
     ];
     const tx2EdgeCurve2 = createOpticalPathCurve(tx2EdgePath2);
