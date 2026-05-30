@@ -340,7 +340,7 @@ const indexItems = [
 
     // MMI & arm length — needed early (used by RF electrodes before MMIs are created)
     const mmiLen = 0.85;
-    const mmiWidth = 0.50;
+    const mmiWidth = 0.36;
     const mmiSplitterCx = -0.7 * xScale;
     const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale; // symmetric around dopingX
     const armLen = (mmiCombinerCx - mmiLen / 2 - 0.15) - (mmiSplitterCx + mmiLen / 2 + 0.15);
@@ -402,6 +402,8 @@ const indexItems = [
     const stripRidgeH = siFullH - siSlabH;
     const stripH = siFullH;         // full etch: BOX → full Si height
     const stripY = siBase + stripH / 2;
+    const ribW = 0.24;
+    const edgeCouplerW = 0.44;
 
     // Rib waveguide — right segment (does not pass through grating coupler region)
     const ribRidgeH = siRibH - siSlabH;
@@ -410,7 +412,7 @@ const indexItems = [
     const mmiY = ribY;
     const geBaseY = siBase + siRibH - 0.03;  // Ge PD overlaps rib waveguide top
     const mpdBaseY = siBase + stripH - 0.04; // monitor PD overlaps strip waveguide top
-    const gcN = 4, gcPeriod = 0.16, gcToothW = 0.05, gcToothZW = 0.36;
+    const gcN = 7, gcPeriod = 0.08, gcToothW = 0.03, gcToothZW = 0.24;
     const gcCenterX = -3.2 * xScale;
     const gcRightEdge = gcCenterX + gcN * gcPeriod + gcToothW / 2;
     const ribStartX = -0.9 * xScale;
@@ -438,7 +440,7 @@ const indexItems = [
     const connLen = ribStartX - gcRightEdge;
     const connCenterX = (gcRightEdge + ribStartX) / 2;
     const conn = createBox({
-      size: [connLen, siRibH,0.32],
+      size: [connLen, siRibH, ribW],
       position: [connCenterX, ribY, rxZ],
       color: 0x0f766e,
       roughness: 0.42,
@@ -455,20 +457,22 @@ const indexItems = [
     const dropLen = 0.42;
     const dropGeH = 0.12;
     const dropGeData = [];
-    const rxRingBusW = 0.24;
+    const rxRingBusW = 0.16;
+    const ringTubeR = 0.075;
+    const ringDropW = rxRingBusW;
     const rxRingBusStartX = ringXs[0] - 0.48;
     const rxRingBusEndX = ringXs[2] + 0.48;
     const rxRibBeforeRingEndX = rxRingBusStartX - taperLen;
     const rxRibBeforeRingLen = rxRibBeforeRingEndX - ribStartX;
     const rxRibBeforeRing = createBox({
-      size: [rxRibBeforeRingLen, siRibH, 0.32],
+      size: [rxRibBeforeRingLen, siRibH, ribW],
       position: [(ribStartX + rxRibBeforeRingEndX) / 2, ribY, rxZ],
       color: 0x0f766e,
       roughness: 0.42,
       metalness: 0.12
     });
     lSiDevice.add(tagPart(rxRibBeforeRing, "ribWaveguide", false, 4));
-    addTaper(rxRingBusStartX - taperLen / 2, rxZ, 0.32, rxRingBusW);
+    addTaper(rxRingBusStartX - taperLen / 2, rxZ, ribW, rxRingBusW);
     const ringBusWG = createBox({
       size: [rxRingBusEndX - rxRingBusStartX, stripH, rxRingBusW],
       position: [(rxRingBusStartX + rxRingBusEndX) / 2, stripY, rxZ],
@@ -477,12 +481,12 @@ const indexItems = [
       metalness: 0.12
     });
     lSiDevice.add(tagPart(ringBusWG, "stripWaveguide", false, 5, "microring"));
-    addTaper(rxRingBusEndX + taperLen / 2, rxZ, rxRingBusW, 0.32);
+    addTaper(rxRingBusEndX + taperLen / 2, rxZ, rxRingBusW, ribW);
     const rxRibAfterRingStartX = rxRingBusEndX + taperLen;
     const rxRibAfterRingLen = ribEndX - rxRibAfterRingStartX;
     const rxRibAfterRingCenter = (rxRibAfterRingStartX + ribEndX) / 2;
     const rxRibAfterRing = createBox({
-      size: [rxRibAfterRingLen, siRibH, 0.32],
+      size: [rxRibAfterRingLen, siRibH, ribW],
       position: [rxRibAfterRingCenter, ribY, rxZ],
       color: 0x0f766e,
       roughness: 0.42,
@@ -497,7 +501,7 @@ const indexItems = [
       const rx = ringXs[i];
       const rz = rxZ + 0.16 + ringGap + rr + 0.035;
       // ring torus
-      const geom = new THREE.TorusGeometry(rr, stripH / 2, 16, 48);
+      const geom = new THREE.TorusGeometry(rr, ringTubeR, 16, 48);
       const mesh = new THREE.Mesh(geom, material(0x14b8a6, { roughness: 0.38, metalness: 0.12 }));
       mesh.position.set(rx, ringY, rz);
       mesh.rotation.x = Math.PI / 2;
@@ -505,7 +509,7 @@ const indexItems = [
       // drop waveguide (Z direction from ring far side upward)
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
       const dwg = createBox({
-        size: [0.24, stripH, dropLen],
+        size: [ringDropW, stripH, dropLen],
         position: [rx, stripY, dropZ],
         color: 0x14b8a6, roughness: 0.42, metalness: 0.12
       });
@@ -553,16 +557,18 @@ const indexItems = [
 
     // === Layer 6: Heaters (TX MZM phase arms) ===
     const heaterH = 0.06;
+    const heaterW = 0.07;
 
     // === Layer 7: M1 interconnect ===
     const m1H = 0.09;
 
     // === Layer 8: RF electrodes (GSG travelling-wave) ===
     const rfH = 0.10;
+    const rfElectrodeW = 0.07;
     const rfBaseY = cladTopY + heaterH + m1H;
 
     const rfSignal = createBox({
-      size: [armLen + 0.1, rfH, 0.10],
+      size: [armLen + 0.1, rfH, rfElectrodeW],
       position: [dopingX, rfBaseY + rfH / 2, 0.4],
       color: 0xef4444,
       metalness: 0.7,
@@ -571,14 +577,14 @@ const indexItems = [
     lRf.add(tagPart(rfSignal, "rfElectrode", false, 4, "mzm"));
 
     const rfGnd1 = createBox({
-      size: [armLen + 0.1, rfH, 0.10],
+      size: [armLen + 0.1, rfH, rfElectrodeW],
       position: [dopingX, rfBaseY + rfH / 2, 0.20],
       color: 0x94a3b8,
       metalness: 0.75,
       roughness: 0.22
     });
     const rfGnd2 = createBox({
-      size: [armLen + 0.1, rfH, 0.10],
+      size: [armLen + 0.1, rfH, rfElectrodeW],
       position: [dopingX, rfBaseY + rfH / 2, 0.60],
       color: 0x94a3b8,
       metalness: 0.75,
@@ -716,7 +722,7 @@ const indexItems = [
     const gcRightX = gcCenterX + gcN * gcPeriod + gcToothW / 2;
     // Rib waveguide under GC teeth
     const gcWG = createBox({
-      size: [gcRightX - gcLeftX, siRibH, 0.32],
+      size: [gcRightX - gcLeftX, siRibH, ribW],
       position: [(gcLeftX + gcRightX) / 2, ribY, rxZ],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
@@ -739,7 +745,7 @@ const indexItems = [
     const rxEcZ = rxZ + 0.6; // 2.8 — separate track with clearance from GC teeth (Z≈2.48)
     const rxEcJunctionX = -1.0 * xScale; // where edge coupler waveguide joins main RX path (after GC)
     const rxInputEdgeCoupler = createBox({
-      size: [0.08, siRibH + 0.06, 0.6],
+      size: [0.06, siRibH + 0.04, edgeCouplerW],
       position: [chipLeftX + 0.02, ribY + 0.04, rxEcZ],
       color: 0xa855f7,
       roughness: 0.4,
@@ -751,14 +757,15 @@ const indexItems = [
     const rxEcWgLen = rxEcJunctionX - (chipLeftX + 0.02);
     const rxEcWgCx = (chipLeftX + 0.02 + rxEcJunctionX) / 2;
     const rxEcWg = createBox({
-      size: [rxEcWgLen + 0.04, siRibH,0.32],
+      size: [rxEcWgLen + 0.04, siRibH, ribW],
       position: [rxEcWgCx, ribY, rxEcZ],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
     lSiDevice.add(tagPart(rxEcWg, "ribWaveguide", false, 4));
     // Z-branch: connects edge-coupler track (rxEcZ) to main RX track (rxZ) after GC
+    const rxEcZBranchLen = Math.abs(rxEcZ - rxZ) - ribW;
     const rxEcZbranch = createBox({
-      size: [0.32, siRibH,rxEcZ - rxZ],
+      size: [ribW, siRibH, rxEcZBranchLen],
       position: [rxEcJunctionX, ribY, (rxEcZ + rxZ) / 2],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
@@ -766,7 +773,7 @@ const indexItems = [
 
     // TX2 input edge coupler (left facet — λ2 laser input)
     const tx2InputEdgeCoupler = createBox({
-      size: [0.08, siRibH + 0.06, 0.6],
+      size: [0.06, siRibH + 0.04, edgeCouplerW],
       position: [chipLeftX + 0.02, ribY + 0.04, tx2Z],
       color: 0xa855f7,
       roughness: 0.4,
@@ -777,7 +784,7 @@ const indexItems = [
 
     // TX input edge coupler (left facet — CW laser input)
     const txInputEdgeCoupler = createBox({
-      size: [0.08, siRibH + 0.06, 0.6],
+      size: [0.06, siRibH + 0.04, edgeCouplerW],
       position: [chipLeftX + 0.02, ribY + 0.04, 0.4],
       color: 0xa855f7,
       roughness: 0.4,
@@ -788,7 +795,7 @@ const indexItems = [
 
     // TX input grating coupler
     const txGcWG = createBox({
-      size: [gcRightX - gcLeftX, siRibH, 0.32],
+      size: [gcRightX - gcLeftX, siRibH, ribW],
       position: [(gcLeftX + gcRightX) / 2, ribY, -0.4],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
@@ -807,8 +814,9 @@ const indexItems = [
     lSiDevice.add(tagPart(txGcGroup, "gratingCoupler"));
 
     // Z-branch from TX main waveguide (Z bottom edge 0.24) to TX input GC (Z top edge -0.24)
+    const txInputZBranchLen = Math.abs(0.4 - (-0.4)) - ribW;
     const txInputZBranch = createBox({
-      size: [0.32, siRibH,0.48],
+      size: [ribW, siRibH, txInputZBranchLen],
       position: [gcCenterX, ribY, 0],
       color: 0x0f766e,
       roughness: 0.42,
@@ -818,7 +826,7 @@ const indexItems = [
 
     // Short X-stub waveguide for TX input GC at Z = -0.4
     const txInputGcStub = createBox({
-      size: [0.8, siRibH,0.32],
+      size: [0.8, siRibH, ribW],
       position: [gcCenterX, ribY, -0.4],
       color: 0x0f766e,
       roughness: 0.42,
@@ -829,7 +837,7 @@ const indexItems = [
     // TX2 input grating coupler (Z = -1.6, mirror of TX1 GC at -0.4)
     const tx2GcZ = tx2Z - 0.8;
     const tx2GcWG = createBox({
-      size: [gcRightX - gcLeftX, siRibH, 0.32],
+      size: [gcRightX - gcLeftX, siRibH, ribW],
       position: [(gcLeftX + gcRightX) / 2, ribY, tx2GcZ],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
@@ -848,8 +856,9 @@ const indexItems = [
     lSiDevice.add(tagPart(tx2GcGroup, "gratingCoupler"));
 
     // Z-branch from TX2 main waveguide to TX2 input GC
+    const tx2InputZBranchLen = Math.abs(tx2Z - tx2GcZ) - ribW;
     const tx2InputZBranch = createBox({
-      size: [0.32, siRibH, Math.abs(tx2Z - tx2GcZ)],
+      size: [ribW, siRibH, tx2InputZBranchLen],
       position: [gcCenterX, ribY, (tx2Z + tx2GcZ) / 2],
       color: 0x0f766e,
       roughness: 0.42,
@@ -859,7 +868,7 @@ const indexItems = [
 
     // Short X-stub waveguide for TX2 input GC
     const tx2InputGcStub = createBox({
-      size: [0.8, siRibH, 0.32],
+      size: [0.8, siRibH, ribW],
       position: [gcCenterX, ribY, tx2GcZ],
       color: 0x0f766e,
       roughness: 0.42,
@@ -870,8 +879,8 @@ const indexItems = [
     // DC variables needed for waveguide length computation
     const dcLen = 0.55;
     const dcGap = 0.10;
-    const dcBusW = 0.20;
-    const dcTapW = 0.14;
+    const dcBusW = 0.14;
+    const dcTapW = 0.10;
     const dcX = -1.8 * xScale;
     const dcStartX = dcX - dcLen / 2;
     const dcEndX = dcX + dcLen / 2;
@@ -884,7 +893,7 @@ const indexItems = [
 
     // TX2 main waveguide (rib) — from edge coupler to directional coupler
     const tx2Waveguide = createBox({
-      size: [txWgLen, siRibH, 0.32],
+      size: [txWgLen, siRibH, ribW],
       position: [txWgCx, ribY, tx2Z],
       color: 0x0f766e,
       roughness: 0.42,
@@ -894,7 +903,7 @@ const indexItems = [
 
     // TX main waveguide (rib) — from edge coupler to directional coupler
     const txWaveguide = createBox({
-      size: [txWgLen, siRibH,0.32],
+      size: [txWgLen, siRibH, ribW],
       position: [txWgCx, ribY, 0.4],
       color: 0x0f766e,
       roughness: 0.42,
@@ -915,8 +924,8 @@ const indexItems = [
     });
     lSiDevice.add(tagPart(dcBusWG, "stripWaveguide", false, 5, "dc"));
     // Rib→strip taper at DC entry, strip→rib taper at DC exit
-    addTaper(dcApproachStartX, 0.4, 0.32, dcBusW);
-    addTaper(dcEndX, 0.4, dcBusW, 0.32);
+    addTaper(dcApproachStartX, 0.4, ribW, dcBusW);
+    addTaper(dcEndX, 0.4, dcBusW, ribW);
     const dcCoupledZ = 0.4 + dcBusW / 2 + dcGap + dcTapW / 2;
 
     const dcCoupledY = stripY + 0.001;
@@ -962,7 +971,7 @@ const indexItems = [
     const dcToMmiLen = mmiEdgeL - dcEndX;
     const dcToMmiCx = (dcEndX + mmiEdgeL) / 2;
     const txWaveguideDC = createBox({
-      size: [dcToMmiLen, siRibH, 0.32],
+      size: [dcToMmiLen, siRibH, ribW],
       position: [dcToMmiCx, ribY, 0.4],
       color: 0x0f766e,
       roughness: 0.42,
@@ -983,8 +992,8 @@ const indexItems = [
       metalness: 0.12
     });
     lSiDevice.add(tagPart(tx2DcBusWG, "stripWaveguide", false, 5, "dc"));
-    addTaper(dcApproachStartX, tx2Z, 0.32, dcBusW);
-    addTaper(dcEndX, tx2Z, dcBusW, 0.32);
+    addTaper(dcApproachStartX, tx2Z, ribW, dcBusW);
+    addTaper(dcEndX, tx2Z, dcBusW, ribW);
 
     const tx2DcCoupledPathPts = [
       new THREE.Vector3(dcApproachStartX, tx2DcCoupledY, tx2DcCoupledZ),
@@ -1022,7 +1031,7 @@ const indexItems = [
 
     // TX2 waveguide from DC to MMI splitter
     const tx2WaveguideDC = createBox({
-      size: [dcToMmiLen, siRibH, 0.32],
+      size: [dcToMmiLen, siRibH, ribW],
       position: [dcToMmiCx, ribY, tx2Z],
       color: 0x0f766e,
       roughness: 0.42,
@@ -1033,7 +1042,7 @@ const indexItems = [
     // TX MMI splitter + MZM phase arms
     const armZ1 = 0.275;
     const armZ2 = 0.525;
-    const armWidth = 0.20;
+    const armWidth = 0.14;
 
     const txMmiSplitter = createBox({
       size: [mmiLen, mmiH, mmiWidth],
@@ -1084,10 +1093,10 @@ const indexItems = [
     addTaper(taperCombCx, (0.4 + armZ1) / 2, armWidth, mmiWidth);
     // Phase arm 2 → MMI combiner
     addTaper(taperCombCx, (0.4 + armZ2) / 2, armWidth, mmiWidth);
-    // Splitter input taper: input WG (width 0.32) → MMI body (width 0.50)
-    addTaper(mmiSplitterCx - mmiLen / 2 - taperLen / 2, 0.4, 0.32, mmiWidth);
-    // Combiner output taper: MMI body (width 0.50) → output WG (width 0.32)
-    addTaper(mmiCombinerCx + mmiLen / 2 + taperLen / 2, 0.4, mmiWidth, 0.32);
+    // Splitter input taper: input rib waveguide → MMI body.
+    addTaper(mmiSplitterCx - mmiLen / 2 - taperLen / 2, 0.4, ribW, mmiWidth);
+    // Combiner output taper: MMI body → output rib waveguide.
+    addTaper(mmiCombinerCx + mmiLen / 2 + taperLen / 2, 0.4, mmiWidth, ribW);
 
     // TX2 MZM — identical structure, shifted to tx2Z = -1.4
     const tx2MmiSplitter = createBox({
@@ -1132,13 +1141,13 @@ const indexItems = [
     addTaper(taperCombCx, (tx2Z + tx2ArmZ1) / 2, armWidth, mmiWidth);
     addTaper(taperCombCx, (tx2Z + tx2ArmZ2) / 2, armWidth, mmiWidth);
     // TX2 splitter input taper and combiner output taper
-    addTaper(mmiSplitterCx - mmiLen / 2 - taperLen / 2, tx2Z, 0.32, mmiWidth);
-    addTaper(mmiCombinerCx + mmiLen / 2 + taperLen / 2, tx2Z, mmiWidth, 0.32);
+    addTaper(mmiSplitterCx - mmiLen / 2 - taperLen / 2, tx2Z, ribW, mmiWidth);
+    addTaper(mmiCombinerCx + mmiLen / 2 + taperLen / 2, tx2Z, mmiWidth, ribW);
 
     // MZI Wavelength Multiplexer — combines λ1 (TX1) and λ2 (TX2) onto one output
     // Two 2×2 MMIs with unequal arm lengths → wavelength-selective combination
     const mziMmiLen = 0.55;                        // compact 2×2 coupler
-    const mziMmiW = mmiWidth;                      // 0.50
+    const mziMmiW = mmiWidth;
     const mziMmiInCx = mmiCombinerCx + 1.35;       // 3.90 — pushed right for Z-bend S-curve room
     const mziMmiOutCx = mziMmiInCx + 1.1;         // 5.00
     const mziCenterZ = (tx2Z + 0.4) / 2;           // -0.5
@@ -1149,7 +1158,7 @@ const indexItems = [
 
     // S-bend Z-bend helper — curved waveguide changing Z
     const zBendColor = 0x06b6d4; // cyan
-    const _bendW = 0.22;
+    const _bendW = 0.16;
     const makeZBendCurve = (startX, startZ, endX, endZ, y) => {
       const spec = { startX, startZ, endX, endZ, y };
       return new class extends THREE.Curve {
@@ -1219,14 +1228,14 @@ const indexItems = [
     const outWgCx = (outWgStartX + outWgEndX) / 2;
     const outWgZ = mziMainOutputPortZ;
     lSiDevice.add(tagPart(createBox({
-      size: [outWgLen, siRibH, 0.32],
+      size: [outWgLen, siRibH, ribW],
       position: [outWgCx, ribY, outWgZ],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     }), "ribWaveguide", false, 4));
 
     // TX output edge coupler (right facet — modulated light output)
     const txOutputEdgeCoupler = createBox({
-      size: [0.08, siRibH + 0.06, 0.6],
+      size: [0.06, siRibH + 0.04, edgeCouplerW],
       position: [chipRightX - 0.02, ribY + 0.04, outWgZ],
       color: 0xa855f7,
       roughness: 0.4,
@@ -1244,7 +1253,7 @@ const indexItems = [
     const outGcWgZspan = Math.abs(outGcZnear - outGcZfar);
     const outGcWgZcenter = (outGcZnear + outGcZfar) / 2;
     const txOutGcWG = createBox({
-      size: [0.32, siRibH, outGcWgZspan],
+      size: [ribW, siRibH, outGcWgZspan],
       position: [txOutputGcBranchX, ribY, outGcWgZcenter],
       color: 0x0f766e, roughness: 0.42, metalness: 0.12
     });
@@ -1267,7 +1276,7 @@ const indexItems = [
     // TX heaters above phase arms (thermal tuning / bias)
     // Offset slightly outward in Z to remain visible under GND electrodes
     const txHeater1 = createBox({
-      size: [armLen - 0.5, heaterH, 0.1],
+      size: [armLen - 0.5, heaterH, heaterW],
       position: [dopingX, cladTopY + heaterH / 2, armZ1 - 0.03],
       color: 0xeab308,
       metalness: 0.5,
@@ -1276,7 +1285,7 @@ const indexItems = [
     lHeater.add(tagPart(txHeater1, "heater", false, 5, "mzm"));
 
     const txHeater2 = createBox({
-      size: [armLen - 0.5, heaterH, 0.1],
+      size: [armLen - 0.5, heaterH, heaterW],
       position: [dopingX, cladTopY + heaterH / 2, armZ2 + 0.03],
       color: 0xeab308,
       metalness: 0.5,
@@ -1356,7 +1365,7 @@ const indexItems = [
     const tx2HeaterZ1 = tx2ArmZ1 - 0.03;
     const tx2HeaterZ2 = tx2ArmZ2 + 0.03;
     const tx2Heater1 = createBox({
-      size: [armLen - 0.5, heaterH, 0.1],
+      size: [armLen - 0.5, heaterH, heaterW],
       position: [dopingX, cladTopY + heaterH / 2, tx2HeaterZ1],
       color: 0xeab308,
       metalness: 0.5,
@@ -1364,7 +1373,7 @@ const indexItems = [
     });
     lHeater.add(tagPart(tx2Heater1, "heater", false, 5, "mzm"));
     const tx2Heater2 = createBox({
-      size: [armLen - 0.5, heaterH, 0.1],
+      size: [armLen - 0.5, heaterH, heaterW],
       position: [dopingX, cladTopY + heaterH / 2, tx2HeaterZ2],
       color: 0xeab308,
       metalness: 0.5,
@@ -1426,7 +1435,7 @@ const indexItems = [
 
     // === p-n junction doping for MZM phase arms ===
     // Each arm has n++ on one side, p++ on the other, forming a lateral p-n junction
-    const dopingW = 0.12;
+    const dopingW = 0.08;
     const dopingH = siSlabH;
     const dopingY = siBase + siSlabH / 2;
     const slabTopY = siSlabTop;
@@ -1559,7 +1568,7 @@ const indexItems = [
     const tx2RfGnd1Z = tx2Z - 0.20;
     const tx2RfGnd2Z = tx2Z + 0.20;
     const tx2RfSignal = createBox({
-      size: [armLen + 0.1, rfH, 0.10],
+      size: [armLen + 0.1, rfH, rfElectrodeW],
       position: [dopingX, rfBaseY + rfH / 2, tx2RfSignalZ],
       color: 0xef4444,
       metalness: 0.7,
@@ -1567,14 +1576,14 @@ const indexItems = [
     });
     lRf.add(tagPart(tx2RfSignal, "rfElectrode", false, 4, "mzm"));
     const tx2RfGnd1 = createBox({
-      size: [armLen + 0.1, rfH, 0.10],
+      size: [armLen + 0.1, rfH, rfElectrodeW],
       position: [dopingX, rfBaseY + rfH / 2, tx2RfGnd1Z],
       color: 0x94a3b8,
       metalness: 0.75,
       roughness: 0.22
     });
     const tx2RfGnd2 = createBox({
-      size: [armLen + 0.1, rfH, 0.10],
+      size: [armLen + 0.1, rfH, rfElectrodeW],
       position: [dopingX, rfBaseY + rfH / 2, tx2RfGnd2Z],
       color: 0x94a3b8,
       metalness: 0.75,

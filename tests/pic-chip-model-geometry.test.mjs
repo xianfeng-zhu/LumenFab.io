@@ -100,7 +100,7 @@ test("PIC model separates MMI multimode regions from full-etch strip waveguides"
 });
 
 test("PIC microring demux uses strip waveguides through ring coupling and drop sections", () => {
-  assert.match(component, /const rxRingBusW = 0\.24;/);
+  assert.match(component, /const rxRingBusW = 0\.16;/);
   assert.match(component, /const rxRingBusStartX = ringXs\[0\] - 0\.48;/);
   assert.match(component, /const rxRingBusEndX = ringXs\[2\] \+ 0\.48;/);
   assert.match(component, /tagPart\(ringBusWG, "stripWaveguide", false, 5, "microring"\)/);
@@ -118,6 +118,29 @@ test("PIC through-port Ge detector sits at the end of the RX main waveguide", ()
   assert.match(component, /position: \[geX, geBaseY \+ geH \/ 2, rxZ\]/);
   assert.match(component, /new THREE\.Vector3\(geX, geBaseY \+ geH, rxZ\)/);
   assert.doesNotMatch(component, /const geX = 3\.0 \* xScale;/);
+});
+
+test("PIC model uses slimmer device geometry while preserving connected centerlines", () => {
+  assert.match(component, /const ribW = 0\.24;/);
+  assert.match(component, /const mmiWidth = 0\.36;/);
+  assert.match(component, /const gcN = 7, gcPeriod = 0\.08, gcToothW = 0\.03, gcToothZW = 0\.24;/);
+  assert.match(component, /const rxRingBusW = 0\.16;/);
+  assert.match(component, /const ringTubeR = 0\.075;/);
+  assert.match(component, /const ringDropW = rxRingBusW;/);
+  assert.match(component, /const rfElectrodeW = 0\.07;/);
+  assert.match(component, /const heaterW = 0\.07;/);
+  assert.match(component, /const edgeCouplerW = 0\.44;/);
+  assert.match(component, /const dcBusW = 0\.14;/);
+  assert.match(component, /const dcTapW = 0\.10;/);
+  assert.match(component, /const armWidth = 0\.14;/);
+  assert.match(component, /const _bendW = 0\.16;/);
+  assert.match(component, /const dopingW = 0\.08;/);
+  assert.match(component, /const txInputZBranchLen = Math\.abs\(0\.4 - \(-0\.4\)\) - ribW;/);
+  assert.match(component, /const tx2InputZBranchLen = Math\.abs\(tx2Z - tx2GcZ\) - ribW;/);
+  assert.match(component, /const rxEcZBranchLen = Math\.abs\(rxEcZ - rxZ\) - ribW;/);
+  assert.match(component, /size: \[connLen, siRibH, ribW\]/);
+  assert.match(component, /addTaper\(dcApproachStartX, 0\.4, ribW, dcBusW\);/);
+  assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, 0\.4, mmiWidth, ribW\);/);
 });
 
 test("PIC model defaults to a centered top-down camera view", () => {
