@@ -1170,13 +1170,13 @@ const indexItems = [
     const mziOutputMmi = createBox({ size: [mziMmiLen, stripH, mziMmiW], position: [mziMmiOutCx, stripY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
     lSiDevice.add(tagPart(mziOutputMmi, "stripWaveguide", false, 4));
 
-    // Output waveguide from MZI output port 1 (Z=-0.35) straight to right edge
+    // Output waveguide leaves the MZI output MMI at its centerline.
     const outWgEndX = chipRightX - 0.02;
-    const mziOutTaperEndX = mziMmiOutCx + mziMmiLen / 2 + taperLen;
-    const outWgStartX = mziOutTaperEndX;
+    const mziOutputFaceX = mziMmiOutCx + mziMmiLen / 2;
+    const outWgStartX = mziOutputFaceX;
     const outWgLen = outWgEndX - outWgStartX;
     const outWgCx = (outWgStartX + outWgEndX) / 2;
-    const outWgZ = mziPort1Z; // -0.35 — no Z-bend needed, output stays at MZI port Z
+    const outWgZ = mziCenterZ;
     lSiDevice.add(tagPart(createBox({
       size: [outWgLen, siRibH, 0.32],
       position: [outWgCx, ribY, outWgZ],
@@ -2262,9 +2262,9 @@ const indexItems = [
       { key: "electricalPath", size: [0.6, 1.2, 0.4], position: [geX, cladTopY + 0.3, rxZ], priority: 3 },
       { key: "stripWaveguide", size: [mmiLen + 0.2, stripH + 0.14, mmiWidth + 0.2], position: [mmiSplitterCx, stripY, 0.4], priority: 5 },
       { key: "stripWaveguide", size: [mmiLen + 0.2, stripH + 0.14, mmiWidth + 0.2], position: [mmiCombinerCx, stripY, 0.4], priority: 5 },
-      { key: "ribWaveguide", size: [outWgLen + 0.1, siRibH + 0.14, 0.5], position: [outWgCx, ribY, 0.4], priority: 5 },
-      { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [txOutputGcBranchX, ribY, -0.4], priority: 6 },
-      { key: "ribWaveguide", size: [1.0, siRibH + 0.14, 1.0], position: [txOutputGcBranchX, ribY, -0.2], priority: 5 },
+      { key: "ribWaveguide", size: [outWgLen + 0.1, siRibH + 0.14, 0.5], position: [outWgCx, ribY, outWgZ], priority: 5 },
+      { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [txOutputGcBranchX, ribY, outGcZ], priority: 6 },
+      { key: "ribWaveguide", size: [1.0, siRibH + 0.14, 1.0], position: [txOutputGcBranchX, ribY, outGcWgZcenter], priority: 5 },
       { key: "heater", size: [armLen + 0.1, heaterH + 0.12, 0.8], position: [dopingX, cladTopY + heaterH / 2 + 0.02, 0.4], priority: 6 },
       { key: "stripWaveguide", size: [dcLen + 0.14, stripH + 0.12, 0.4], position: [dcX, stripY, 0.4], priority: 5 },
       // TX2 hit targets
@@ -2322,7 +2322,7 @@ const indexItems = [
     chip.rotation.x = 0;
     chip.rotation.y = 0;
 
-    return { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow };
+    return { modelViewCenterX: chipCenterX, chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow };
   }
 
   for (const root of roots) {
@@ -2344,7 +2344,6 @@ const indexItems = [
     scene.background = null;
 
     const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 5.5, 9.5);
 
     const renderer = new THREE.WebGLRenderer({
       canvas,
@@ -2366,7 +2365,6 @@ const indexItems = [
     controls.maxDistance = 80;
     controls.minPolarAngle = 0.01;
     controls.maxPolarAngle = Math.PI - 0.01;
-    controls.target.set(0, 0, 0);
     controls.enableZoom = false; // disable default scroll-to-zoom
 
     // Custom trackpad: two-finger drag = pan, pinch (ctrl+scroll) = zoom
@@ -2405,7 +2403,14 @@ const indexItems = [
     rim.position.set(0, -3, 5);
     scene.add(rim);
 
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow } = buildModel(scene);
+    const model = buildModel(scene);
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow } = model;
+    const { modelViewCenterX } = model;
+
+    camera.position.set(modelViewCenterX, 11, 0.01);
+    controls.target.set(modelViewCenterX, 0, 0);
+    camera.lookAt(controls.target);
+    controls.update();
 
     // ---- Cladding visibility toggle ----
     const claddingMeshes = [];

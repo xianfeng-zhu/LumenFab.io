@@ -16,11 +16,13 @@ const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale;
 const tx2Z = -1.4;
 const mziMmiLen = 0.55;
 const mziMmiInCx = mmiCombinerCx + 1.35;
+const mziMmiOutCx = mziMmiInCx + 1.1;
 const mziCenterZ = (tx2Z + 0.4) / 2;
 const mziPort1Z = mziCenterZ + 0.15;
 const mziPort2Z = mziCenterZ - 0.15;
 const combiOutX = mmiCombinerCx + mmiLen / 2 + taperLen;
 const mziInputFaceX = mziMmiInCx - mziMmiLen / 2;
+const mziOutputFaceX = mziMmiOutCx + mziMmiLen / 2;
 
 const zBends = [
   { startX: combiOutX, startZ: 0.4, endX: mziInputFaceX, endZ: mziPort1Z, y: 0 },
@@ -50,4 +52,23 @@ test("PIC model connects Z-bends directly to the MZI input MMI face", () => {
   assert.match(component, /addZBend\(combiOutX, 0\.4, mziInputFaceX, mziPort1Z\);/);
   assert.match(component, /addZBend\(combiOutX, tx2Z, mziInputFaceX, mziPort2Z\);/);
   assert.doesNotMatch(component, /new THREE\.Vector3\(3\.73, txPathTopY, 0\.4\)/);
+});
+
+test("PIC MZI output waveguide is flush with and centered on the output MMI", () => {
+  assert.equal(mziOutputFaceX, 5.275);
+  assert.ok(Math.abs(mziCenterZ + 0.5) < 1e-9);
+  assert.match(component, /const mziOutputFaceX = mziMmiOutCx \+ mziMmiLen \/ 2;/);
+  assert.match(component, /const outWgStartX = mziOutputFaceX;/);
+  assert.match(component, /const outWgZ = mziCenterZ;/);
+  assert.match(component, /position: \[chipRightX - 0\.02, ribY \+ 0\.04, outWgZ\]/);
+  assert.doesNotMatch(component, /position: \[outWgCx, ribY, 0\.4\]/);
+  assert.doesNotMatch(component, /position: \[txOutputGcBranchX, ribY, -0\.4\]/);
+});
+
+test("PIC model defaults to a centered top-down camera view", () => {
+  assert.match(component, /modelViewCenterX: chipCenterX/);
+  assert.match(component, /camera\.position\.set\(modelViewCenterX, 11, 0\.01\);/);
+  assert.match(component, /controls\.target\.set\(modelViewCenterX, 0, 0\);/);
+  assert.doesNotMatch(component, /camera\.position\.set\(0, 5\.5, 9\.5\);/);
+  assert.doesNotMatch(component, /controls\.target\.set\(0, 0, 0\);/);
 });
