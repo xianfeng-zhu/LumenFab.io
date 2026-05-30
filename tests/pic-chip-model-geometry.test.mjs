@@ -111,6 +111,15 @@ test("PIC microring demux uses strip waveguides through ring coupling and drop s
   assert.doesNotMatch(component, /tagPart\(dwg, "ribWaveguide", false, 4, "microring"\)/);
 });
 
+test("PIC through-port Ge detector sits at the end of the RX main waveguide", () => {
+  assert.match(component, /const geLen = 0\.7;/);
+  assert.match(component, /const geX = ribEndX - geLen \/ 2;/);
+  assert.match(component, /size: \[geLen, geH, 0\.35\]/);
+  assert.match(component, /position: \[geX, geBaseY \+ geH \/ 2, rxZ\]/);
+  assert.match(component, /new THREE\.Vector3\(geX, geBaseY \+ geH, rxZ\)/);
+  assert.doesNotMatch(component, /const geX = 3\.0 \* xScale;/);
+});
+
 test("PIC model defaults to a centered top-down camera view", () => {
   assert.match(component, /const substrateCenter = new THREE\.Vector3\(chipCenterX, center\.y, 0\);/);
   assert.match(component, /child\.position\.sub\(substrateCenter\);/);

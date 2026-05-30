@@ -524,9 +524,10 @@ const indexItems = [
 
     // === Layer 4: Ge photodetector ===
     const geH = 0.12;
-    const geX = 3.0 * xScale; // after all 3 rings: through-port monitor
+    const geLen = 0.7;
+    const geX = ribEndX - geLen / 2; // through-port monitor, ending at RX main waveguide tip
     const geDetector = createBox({
-      size: [0.7, geH, 0.35],
+      size: [geLen, geH, 0.35],
       position: [geX, geBaseY + geH / 2, rxZ],
       color: 0x16a34a,
       roughness: 0.38,
