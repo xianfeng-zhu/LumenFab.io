@@ -2412,9 +2412,11 @@ const indexItems = [
     controls.maxDistance = 80;
     controls.minPolarAngle = 0.01;
     controls.maxPolarAngle = Math.PI - 0.01;
-    controls.enableZoom = false; // disable default scroll-to-zoom
+    controls.enableZoom = true;
+    controls.touches.ONE = THREE.TOUCH.ROTATE;
+    controls.touches.TWO = THREE.TOUCH.DOLLY_PAN;
 
-    // Custom trackpad: two-finger drag = pan, pinch (ctrl+scroll) = zoom
+    // Custom desktop trackpad wheel handling; touch pinch still uses OrbitControls zoom.
     const _right = new THREE.Vector3();
     const _up = new THREE.Vector3();
     const _fwd = new THREE.Vector3();

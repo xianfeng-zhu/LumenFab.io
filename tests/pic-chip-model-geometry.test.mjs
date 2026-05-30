@@ -164,6 +164,17 @@ test("PIC optical path overlays stay on waveguide centerlines around rings and m
   assert.match(component, /const tx2MpdPathPts = tx2DcCoupledPathPts\.slice\(1\)\.map\(\(point\) => new THREE\.Vector3\(point\.x, mpdPathY, point\.z\)\);/);
 });
 
+test("PIC mobile touch gestures keep OrbitControls pinch zoom while desktop wheel uses custom trackpad handling", () => {
+  assert.match(component, /controls\.enableZoom = true;/);
+  assert.match(component, /controls\.touches\.ONE = THREE\.TOUCH\.ROTATE;/);
+  assert.match(component, /controls\.touches\.TWO = THREE\.TOUCH\.DOLLY_PAN;/);
+  assert.match(component, /window\.addEventListener\("wheel", wheelHandler, \{ capture: true, passive: false \}\);/);
+  assert.match(component, /if \(e\.target !== canvas\) return;/);
+  assert.match(component, /if \(e\.ctrlKey\) \{/);
+  assert.match(component, /controls\.target\.addScaledVector\(_right, dx\)\.addScaledVector\(_up, dy\);/);
+  assert.doesNotMatch(component, /controls\.enableZoom = false;/);
+});
+
 test("PIC model defaults to a centered top-down camera view", () => {
   assert.match(component, /const substrateCenter = new THREE\.Vector3\(chipCenterX, center\.y, 0\);/);
   assert.match(component, /child\.position\.sub\(substrateCenter\);/);
