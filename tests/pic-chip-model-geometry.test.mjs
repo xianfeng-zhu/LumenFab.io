@@ -23,6 +23,13 @@ const mziPort2Z = mziCenterZ - 0.15;
 const combiOutX = mmiCombinerCx + mmiLen / 2 + taperLen;
 const mziInputFaceX = mziMmiInCx - mziMmiLen / 2;
 const mziOutputFaceX = mziMmiOutCx + mziMmiLen / 2;
+const chipLeftX = -5.625;
+const chipRightX = 5.625 + 1.2;
+const chipCenterX = (chipLeftX + chipRightX) / 2;
+const cameraFovDegrees = 42;
+const desktopDefaultAspect = 1 / 0.64;
+const modelXPadding = 0.55;
+const expectedDefaultCameraDistance = 14;
 
 const zBends = [
   { startX: combiOutX, startZ: 0.4, endX: mziInputFaceX, endZ: mziPort1Z, y: 0 },
@@ -67,8 +74,21 @@ test("PIC MZI output waveguide is flush with and centered on the output MMI", ()
 
 test("PIC model defaults to a centered top-down camera view", () => {
   assert.match(component, /modelViewCenterX: chipCenterX/);
-  assert.match(component, /camera\.position\.set\(modelViewCenterX, 11, 0\.01\);/);
+  assert.match(component, /const defaultTopCameraDistance = 14;/);
+  assert.match(component, /camera\.position\.set\(modelViewCenterX, defaultTopCameraDistance, 0\.01\);/);
   assert.match(component, /controls\.target\.set\(modelViewCenterX, 0, 0\);/);
   assert.doesNotMatch(component, /camera\.position\.set\(0, 5\.5, 9\.5\);/);
   assert.doesNotMatch(component, /controls\.target\.set\(0, 0, 0\);/);
+});
+
+test("PIC top-down default view leaves horizontal margin around the chip", () => {
+  const halfVisibleWidth =
+    Math.tan((cameraFovDegrees * Math.PI) / 360) *
+    expectedDefaultCameraDistance *
+    desktopDefaultAspect;
+  const leftMargin = halfVisibleWidth - (chipCenterX - chipLeftX);
+  const rightMargin = halfVisibleWidth - (chipRightX - chipCenterX);
+
+  assert.ok(leftMargin >= modelXPadding, `left margin ${leftMargin.toFixed(2)} is too small`);
+  assert.ok(rightMargin >= modelXPadding, `right margin ${rightMargin.toFixed(2)} is too small`);
 });

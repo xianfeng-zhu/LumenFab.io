@@ -2406,8 +2406,9 @@ const indexItems = [
     const model = buildModel(scene);
     const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow } = model;
     const { modelViewCenterX } = model;
+    const defaultTopCameraDistance = 14;
 
-    camera.position.set(modelViewCenterX, 11, 0.01);
+    camera.position.set(modelViewCenterX, defaultTopCameraDistance, 0.01);
     controls.target.set(modelViewCenterX, 0, 0);
     camera.lookAt(controls.target);
     controls.update();
