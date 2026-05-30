@@ -64,13 +64,21 @@ test("PIC model connects Z-bends directly to the MZI input MMI face", () => {
   assert.doesNotMatch(component, /new THREE\.Vector3\(3\.73, txPathTopY, 0\.4\)/);
 });
 
-test("PIC MZI output waveguide is flush with and centered on the output MMI", () => {
+test("PIC MZI output waveguide uses one output port of the 2x2 MMI", () => {
   assert.equal(mziOutputFaceX, 5.275);
   assert.ok(Math.abs(mziCenterZ + 0.5) < 1e-9);
+  assert.notEqual(mziPort1Z, mziCenterZ);
+  assert.notEqual(mziPort2Z, mziCenterZ);
   assert.match(component, /const mziOutputFaceX = mziMmiOutCx \+ mziMmiLen \/ 2;/);
+  assert.match(component, /const mziMainOutputPortZ = mziPort1Z;/);
+  assert.match(component, /const mziUnusedOutputPortZ = mziPort2Z;/);
   assert.match(component, /const outWgStartX = mziOutputFaceX;/);
-  assert.match(component, /const outWgZ = mziCenterZ;/);
+  assert.match(component, /const outWgZ = mziMainOutputPortZ;/);
+  assert.match(component, /const mziUnusedOutputLen = 0\.32;/);
+  assert.match(component, /position: \[mziUnusedOutputCx, ribY, mziUnusedOutputPortZ\]/);
   assert.match(component, /position: \[chipRightX - 0\.02, ribY \+ 0\.04, outWgZ\]/);
+  assert.doesNotMatch(component, /const outWgZ = mziCenterZ;/);
+  assert.doesNotMatch(component, /Output waveguide leaves the MZI output MMI at its centerline/);
   assert.doesNotMatch(component, /position: \[outWgCx, ribY, 0\.4\]/);
   assert.doesNotMatch(component, /position: \[txOutputGcBranchX, ribY, -0\.4\]/);
 });

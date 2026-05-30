@@ -1170,13 +1170,22 @@ const indexItems = [
     const mziOutputMmi = createBox({ size: [mziMmiLen, stripH, mziMmiW], position: [mziMmiOutCx, stripY, mziCenterZ], color: mziColor, roughness: 0.42, metalness: 0.12 });
     lSiDevice.add(tagPart(mziOutputMmi, "stripWaveguide", false, 4));
 
-    // Output waveguide leaves the MZI output MMI at its centerline.
+    // Output 2×2 MMI exposes two output ports; the selected WDM output uses one port.
     const outWgEndX = chipRightX - 0.02;
     const mziOutputFaceX = mziMmiOutCx + mziMmiLen / 2;
+    const mziMainOutputPortZ = mziPort1Z;
+    const mziUnusedOutputPortZ = mziPort2Z;
+    const mziUnusedOutputLen = 0.32;
+    const mziUnusedOutputCx = mziOutputFaceX + mziUnusedOutputLen / 2;
+    lSiDevice.add(tagPart(createBox({
+      size: [mziUnusedOutputLen, siRibH, 0.18],
+      position: [mziUnusedOutputCx, ribY, mziUnusedOutputPortZ],
+      color: mziArmColor, roughness: 0.42, metalness: 0.12
+    }), "ribWaveguide", false, 4));
     const outWgStartX = mziOutputFaceX;
     const outWgLen = outWgEndX - outWgStartX;
     const outWgCx = (outWgStartX + outWgEndX) / 2;
-    const outWgZ = mziCenterZ;
+    const outWgZ = mziMainOutputPortZ;
     lSiDevice.add(tagPart(createBox({
       size: [outWgLen, siRibH, 0.32],
       position: [outWgCx, ribY, outWgZ],
