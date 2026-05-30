@@ -83,6 +83,15 @@ test("PIC MZI output waveguide uses one output port of the 2x2 MMI", () => {
   assert.doesNotMatch(component, /position: \[txOutputGcBranchX, ribY, -0\.4\]/);
 });
 
+test("PIC MZI long-arm optical overlay follows the physical detour curve", () => {
+  assert.match(component, /const mziLongArmOpticalPath = Array\.from\(\{ length: 17 \}, \(_, i\) => \{/);
+  assert.match(component, /const point = mziArm2Curve\.getPoint\(i \/ 16\);/);
+  assert.match(component, /return new THREE\.Vector3\(point\.x, txPathTopY, point\.z\);/);
+  assert.match(component, /\.\.\.mziLongArmOpticalPath,/);
+  assert.doesNotMatch(component, /new THREE\.Vector3\(mziArmStartX \+ 0\.15, txPathTopY, mziPort2Z - 0\.22\),/);
+  assert.doesNotMatch(component, /new THREE\.Vector3\(mziArmEndX - 0\.1, txPathTopY, mziPort2Z\),/);
+});
+
 test("PIC model separates MMI multimode regions from full-etch strip waveguides", () => {
   assert.match(component, /\["mmiWaveguide", "#2dd4bf", "MMI 多模区 \(深部分刻蚀\)"\]/);
   assert.match(component, /mmiWaveguide: \{/);

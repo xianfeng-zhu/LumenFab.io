@@ -1916,13 +1916,14 @@ const indexItems = [
       new THREE.Vector3(mziMmiOutCx, txPathTopY, outWgZ),
       ...txOutputTailPath,
     ];
+    const mziLongArmOpticalPath = Array.from({ length: 17 }, (_, i) => {
+      const point = mziArm2Curve.getPoint(i / 16);
+      return new THREE.Vector3(point.x, txPathTopY, point.z);
+    });
     const mziBottomPath = [
       ...zBendPathPoints(tx2Z, mziPort2Z),
       new THREE.Vector3(mziMmiInCx, txPathTopY, mziPort2Z),
-      new THREE.Vector3(mziArmStartX + 0.15, txPathTopY, mziPort2Z - 0.22),
-      new THREE.Vector3((mziArmStartX + mziArmEndX) / 2, txPathTopY, mziPort2Z - 0.22),
-      new THREE.Vector3(mziArmEndX - 0.1, txPathTopY, mziPort2Z),
-      new THREE.Vector3(mziArmEndX, txPathTopY, mziPort2Z),
+      ...mziLongArmOpticalPath,
       new THREE.Vector3(mziMmiOutCx, txPathTopY, mziPort2Z),
       new THREE.Vector3(mziMmiOutCx, txPathTopY, outWgZ),
       ...txOutputTailPath,
