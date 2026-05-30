@@ -184,7 +184,7 @@ const indexItems = [
     dc: {
       color: "#14b8a6",
       title: "定向耦合器 (tap coupler)",
-      body: "两条相同截面的条形波导以极小间距平行排列，通过倏逝场耦合交换功率。此处配置为 tap 耦合器——仅约 1–5% 的光从总线耦合到监测支路，其余继续沿总线传输。耦合波导经 S-bend 引出至监测 PD，用于实时追踪光功率。"
+      body: "主路条形波导与较窄的监测支路以小间距平行排列，通过倏逝场耦合交换少量功率。此处配置为 tap 耦合器——仅约 1–5% 的光从总线耦合到监测支路，其余继续沿总线传输。耦合波导经 S-bend 引出至监测 PD，用于实时追踪光功率。"
     },
     microring: {
       color: "#0891b2",
@@ -878,9 +878,9 @@ const indexItems = [
 
     // DC variables needed for waveguide length computation
     const dcLen = 0.55;
-    const dcGap = 0.10;
+    const dcGap = 0.16;
     const dcBusW = 0.14;
-    const dcTapW = 0.10;
+    const dcTapW = 0.07;
     const dcX = -1.8 * xScale;
     const dcStartX = dcX - dcLen / 2;
     const dcEndX = dcX + dcLen / 2;
@@ -1608,11 +1608,8 @@ const indexItems = [
       new THREE.Vector3(fiberCenterX, fiberBottomY, rxZ),
       new THREE.Vector3(fiberCenterX, gcTopY, rxZ),
       new THREE.Vector3(ribStartX, gcTopY, rxZ),
-      new THREE.Vector3(ringXs[0], gcTopY, rxZ + 0.15),
-      new THREE.Vector3((ringXs[0] + ringXs[1]) / 2, gcTopY, rxZ),
-      new THREE.Vector3(ringXs[1], gcTopY, rxZ + 0.15),
-      new THREE.Vector3((ringXs[1] + ringXs[2]) / 2, gcTopY, rxZ),
-      new THREE.Vector3(ringXs[2], gcTopY, rxZ + 0.15),
+      new THREE.Vector3(rxRingBusStartX, gcTopY, rxZ),
+      new THREE.Vector3(rxRingBusEndX, gcTopY, rxZ),
       new THREE.Vector3(geX, gcTopY, rxZ),
       new THREE.Vector3(geX, geBaseY + geH, rxZ),
     ];
@@ -1661,12 +1658,15 @@ const indexItems = [
       const rr = ringR[i], rx = ringXs[i];
       const rz = rxZ + 0.16 + ringGap + rr + 0.035;
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
-      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      const dropStartZ = dropZ - dropLen / 2;
+      const dropEndZ = dropZ + dropLen / 2;
+      const dropOpticalGeZ = dropZ + dropLen / 2 - 0.04;
       const pts = [
         new THREE.Vector3(rx, gcTopY, rz + rr),
-        new THREE.Vector3(rx, gcTopY, dropZ),
-        new THREE.Vector3(rx, gcTopY, dropZ + dropLen / 2),
-        new THREE.Vector3(rx, geBaseY + dropGeH, geZ),
+        new THREE.Vector3(rx, gcTopY, dropStartZ),
+        new THREE.Vector3(rx, gcTopY, dropEndZ),
+        new THREE.Vector3(rx, gcTopY, dropOpticalGeZ),
+        new THREE.Vector3(rx, geBaseY + dropGeH, dropOpticalGeZ),
       ];
       const curve = new THREE.CatmullRomCurve3(pts);
       dropPathCurves.push(curve);
@@ -1689,12 +1689,8 @@ const indexItems = [
     // Monitor PD optical path (coupling region exit → S-bend → monitor PD)
     const mpdPathGroup = new THREE.Group();
     const mpdPathY = siBase + siRibH;
-    const mpdPts = [
-      new THREE.Vector3(dcEndX + 0.1, mpdPathY, dcCoupledZ),
-      new THREE.Vector3(dcEndX + 0.5, mpdPathY, 0.88),
-      new THREE.Vector3(mpdX, mpdPathY, mpdZ),
-      new THREE.Vector3(mpdX, mpdBaseY + mpdH, mpdZ),
-    ];
+    const mpdPts = dcCoupledPathPts.slice(1).map((point) => new THREE.Vector3(point.x, mpdPathY, point.z));
+    mpdPts.push(new THREE.Vector3(mpdX, mpdBaseY + mpdH, mpdZ));
     const mpdCurve = new THREE.CatmullRomCurve3(mpdPts);
     const mpdGeom = new THREE.TubeGeometry(mpdCurve, 20, 0.015, 6, false);
     mpdPathGroup.add(tagPart(new THREE.Mesh(mpdGeom, transparent(0x67e8f9, 0.4)), "opticalPath"));
@@ -1711,12 +1707,8 @@ const indexItems = [
 
     // TX2 Monitor PD optical path (coupling region exit → S-bend → monitor PD)
     const tx2MpdPathGroup = new THREE.Group();
-    const tx2MpdPathPts = [
-      new THREE.Vector3(dcEndX + 0.1, mpdPathY, tx2DcCoupledZ),
-      new THREE.Vector3(dcEndX + 0.5, mpdPathY, tx2DcCoupledZ - 0.24),
-      new THREE.Vector3(tx2MpdX, mpdPathY, tx2MpdZ),
-      new THREE.Vector3(tx2MpdX, mpdBaseY + mpdH, tx2MpdZ),
-    ];
+    const tx2MpdPathPts = tx2DcCoupledPathPts.slice(1).map((point) => new THREE.Vector3(point.x, mpdPathY, point.z));
+    tx2MpdPathPts.push(new THREE.Vector3(tx2MpdX, mpdBaseY + mpdH, tx2MpdZ));
     const tx2MpdOptCurve = new THREE.CatmullRomCurve3(tx2MpdPathPts);
     const tx2MpdOptGeom = new THREE.TubeGeometry(tx2MpdOptCurve, 20, 0.015, 6, false);
     tx2MpdPathGroup.add(tagPart(new THREE.Mesh(tx2MpdOptGeom, transparent(0x67e8f9, 0.4)), "opticalPath"));
@@ -2224,7 +2216,7 @@ const indexItems = [
       lSiDevice.add(createFaceLabel("λ" + (i + 1) + " 微环谐振器", new THREE.Vector3(rx, stripTopY, rz + rr + 0.06), faceTop, { scale: 0.07 }));
       // Ge PD label on each drop
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
-      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      const geZ = dropZ + dropLen / 2 - 0.04;
       lGeDetector.add(createFaceLabel("Ge PD", new THREE.Vector3(rx, geBaseY + dropGeH + eps, geZ), faceTop, { scale: 0.06 }));
     }
 
@@ -2340,7 +2332,7 @@ const indexItems = [
       const rr = ringR[i], rx = ringXs[i];
       const rz = rxZ + 0.16 + ringGap + rr + 0.035;
       const dropZ = rz + rr + 0.032 + dropLen / 2 + 0.03;
-      const geZ = dropZ + dropLen / 2 + dropGeH / 2 + 0.04;
+      const geZ = dropZ + dropLen / 2 - 0.04;
       largeHitTargets.push({ key: "geDetector", size: [0.55, dropGeH + 0.08, 0.32], position: [rx, geBaseY + dropGeH / 2, geZ], priority: 6 });
     }
 

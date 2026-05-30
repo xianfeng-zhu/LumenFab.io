@@ -131,7 +131,7 @@ test("PIC model uses slimmer device geometry while preserving connected centerli
   assert.match(component, /const heaterW = 0\.07;/);
   assert.match(component, /const edgeCouplerW = 0\.44;/);
   assert.match(component, /const dcBusW = 0\.14;/);
-  assert.match(component, /const dcTapW = 0\.10;/);
+  assert.match(component, /const dcTapW = 0\.07;/);
   assert.match(component, /const armWidth = 0\.14;/);
   assert.match(component, /const _bendW = 0\.16;/);
   assert.match(component, /const dopingW = 0\.08;/);
@@ -141,6 +141,27 @@ test("PIC model uses slimmer device geometry while preserving connected centerli
   assert.match(component, /size: \[connLen, siRibH, ribW\]/);
   assert.match(component, /addTaper\(dcApproachStartX, 0\.4, ribW, dcBusW\);/);
   assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, 0\.4, mmiWidth, ribW\);/);
+});
+
+test("PIC directional coupler monitor tap is slimmer with a clearer coupling gap", () => {
+  assert.match(component, /const dcGap = 0\.16;/);
+  assert.match(component, /const dcBusW = 0\.14;/);
+  assert.match(component, /const dcTapW = 0\.07;/);
+  assert.match(component, /const dcCoupledZ = 0\.4 \+ dcBusW \/ 2 \+ dcGap \+ dcTapW \/ 2;/);
+  assert.match(component, /const tx2DcCoupledZ = tx2Z - dcBusW \/ 2 - dcGap - dcTapW \/ 2;/);
+  assert.match(component, /const hw = dcTapW \/ 2;/);
+  assert.match(component, /const tx2DcHw = dcTapW \/ 2;/);
+});
+
+test("PIC optical path overlays stay on waveguide centerlines around rings and monitor taps", () => {
+  assert.match(component, /new THREE\.Vector3\(rxRingBusStartX, gcTopY, rxZ\)/);
+  assert.match(component, /new THREE\.Vector3\(rxRingBusEndX, gcTopY, rxZ\)/);
+  assert.doesNotMatch(component, /new THREE\.Vector3\(ringXs\[\d\], gcTopY, rxZ \+ 0\.15\)/);
+  assert.match(component, /const dropOpticalGeZ = dropZ \+ dropLen \/ 2 - 0\.04;/);
+  assert.match(component, /new THREE\.Vector3\(rx, gcTopY, dropOpticalGeZ\)/);
+  assert.doesNotMatch(component, /const geZ = dropZ \+ dropLen \/ 2 \+ dropGeH \/ 2 \+ 0\.04;/);
+  assert.match(component, /const mpdPts = dcCoupledPathPts\.slice\(1\)\.map\(\(point\) => new THREE\.Vector3\(point\.x, mpdPathY, point\.z\)\);/);
+  assert.match(component, /const tx2MpdPathPts = tx2DcCoupledPathPts\.slice\(1\)\.map\(\(point\) => new THREE\.Vector3\(point\.x, mpdPathY, point\.z\)\);/);
 });
 
 test("PIC model defaults to a centered top-down camera view", () => {
