@@ -9,7 +9,8 @@
 - **仅修改** `src/pages/components/laser-source.mdx`
 - 不动其他页面，保持现有交叉引用链接有效
 - 保留所有 TermNote 组件的 term/note 内容
-- 保留 DfbLaserModel 3D 模型组件
+- 保留 DfbLaserModel 3D 模型组件，不修改其代码
+- 模型位置前移：参考 PIC 页面将 PicChipModel 放在导语之后、正文之前的方式，将 DfbLaserModel 从当前位置（工作原理之后）移到 §0 导语和 §1 结构地图之间
 
 ## 目标读者
 
