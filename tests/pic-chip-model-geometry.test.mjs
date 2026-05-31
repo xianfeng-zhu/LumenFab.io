@@ -24,7 +24,11 @@ const mzmDopingW = 0.08;
 const mzmHeaterTraceW = 0.08;
 const minMzmDopingGap = 0.05;
 const minMzmMetalClearance = 0.025;
+const mmiSplitterCx = -0.7 * xScale;
 const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale;
+const mzmArmLen = (mmiCombinerCx - mmiLen / 2 - 0.15) - (mmiSplitterCx + mmiLen / 2 + 0.15);
+const heaterLeftTapMargin = 0.18;
+const heaterPadX = 0.5 * xScale - (mzmArmLen - 0.5) / 2 + heaterLeftTapMargin;
 const tx2Z = -1.4;
 const mziMmiLen = 0.55;
 const mziMmiInCx = mmiCombinerCx + 1.35;
@@ -215,6 +219,31 @@ test("PIC MZM RF electrodes follow widened active-region contacts", () => {
   assert.doesNotMatch(component, /const tx2RfGnd2Z = tx2Z \+ 0\.20;/);
 });
 
+test("PIC MZM RF feed uses full GSG bond pads and electrical paths", () => {
+  assert.match(component, /const addRfBondPads = \(\.\.\.zPositions\) => \{/);
+  assert.match(component, /addRfBondPads\(txRfGnd1Z, txRfSignalZ, txRfGnd2Z\);/);
+  assert.match(component, /addRfBondPads\(tx2RfGnd1Z, tx2RfSignalZ, tx2RfGnd2Z\);/);
+  assert.match(component, /const addRfFeedPath = \(z, pathGroup, curves, glowSets\) => \{/);
+  assert.match(component, /addRfFeedPath\(txRfGnd1Z, txeGroup, txeCurves, txeGlowSpheres\);/);
+  assert.match(component, /addRfFeedPath\(txRfSignalZ, txeGroup, txeCurves, txeGlowSpheres\);/);
+  assert.match(component, /addRfFeedPath\(txRfGnd2Z, txeGroup, txeCurves, txeGlowSpheres\);/);
+  assert.match(component, /addRfFeedPath\(tx2RfGnd1Z, tx2TxeGroup, tx2TxeCurves, tx2TxeGlow\);/);
+  assert.match(component, /addRfFeedPath\(tx2RfSignalZ, tx2TxeGroup, tx2TxeCurves, tx2TxeGlow\);/);
+  assert.match(component, /addRfFeedPath\(tx2RfGnd2Z, tx2TxeGroup, tx2TxeCurves, tx2TxeGlow\);/);
+  assert.doesNotMatch(component, /\[rfPadPx, 0\.4\], \[rfPadPx, tx2Z\]/);
+  assert.doesNotMatch(component, /const txePoints = \[/);
+  assert.doesNotMatch(component, /const tx2TxePoints = \[/);
+});
+
+test("PIC MZM RF bond pads are labeled as GSG terminals", () => {
+  assert.match(component, /const addGsgPadLabels = \(g1Z, signalZ, g2Z\) => \{/);
+  assert.match(component, /createFaceLabel\("G", new THREE\.Vector3\(rfPadPx, padTopY, g1Z\)/);
+  assert.match(component, /createFaceLabel\("S", new THREE\.Vector3\(rfPadPx, padTopY, signalZ\)/);
+  assert.match(component, /createFaceLabel\("G", new THREE\.Vector3\(rfPadPx, padTopY, g2Z\)/);
+  assert.match(component, /addGsgPadLabels\(txRfGnd1Z, txRfSignalZ, txRfGnd2Z\);/);
+  assert.match(component, /addGsgPadLabels\(tx2RfGnd1Z, tx2RfSignalZ, tx2RfGnd2Z\);/);
+});
+
 test("PIC MZM M1 contact routing stays below the RF electrode layer", () => {
   assert.match(component, /const contactM1Y = m1CenterY;/);
   assert.match(component, /const contactViaTopY = m1BaseY;/);
@@ -236,10 +265,11 @@ test("PIC metal stack separates heater M1 and RF layers with local vias", () => 
   assert.match(component, /const m1TopY = m1BaseY \+ m1H;/);
   assert.match(component, /const rfBaseY = m1TopY \+ m1ToRfGap;/);
   assert.match(component, /const heaterToM1ViaH = m1BaseY - heaterTopY;/);
-  assert.match(component, /position: \[dopingX, heaterTopY \+ heaterToM1ViaH \/ 2, heaterZ1\]/);
+  assert.match(component, /position: \[heaterPadX, heaterTopY \+ heaterToM1ViaH \/ 2, heaterZ1\]/);
   assert.match(component, /const m1ToRfViaH = rfBaseY - m1TopY;/);
   assert.match(component, /const addM1ToRfVias = \(z\) => \{/);
   assert.match(component, /position: \[vx, m1TopY \+ m1ToRfViaH \/ 2, z\]/);
+  assert.doesNotMatch(component, /position: \[dopingX, heaterTopY \+ heaterToM1ViaH \/ 2, heaterZ1\]/);
   assert.doesNotMatch(component, /const rfBaseY = cladTopY \+ heaterH \+ m1H;/);
   assert.doesNotMatch(component, /const heaterM1Y = cladTopY \+ heaterH \+ m1H \/ 2;/);
   assert.doesNotMatch(component, /const viaToM1H = heaterH \+ m1H;/);
@@ -277,8 +307,13 @@ test("PIC MZM heater M1 traces keep clearance from RF PN contact metal", () => {
   assert.doesNotMatch(component, /const tx2HeaterZ2 = tx2ArmZ2 \+ 0\.03;/);
 });
 
-test("PIC MZM heater DC pads use local M1 landings above heater vias", () => {
-  assert.match(component, /const heaterPadX = dopingX;/);
+test("PIC MZM heater DC pads use local M1 landings near the left side of the heaters", () => {
+  const dopingX = 0.5 * xScale;
+  const heaterHalfLen = (mzmArmLen - 0.5) / 2;
+
+  assert.ok(heaterPadX < dopingX, "heater feed should sit left of the MZM arm center");
+  assert.ok(heaterPadX > dopingX - heaterHalfLen, "heater feed should stay on the heater trace");
+  assert.match(component, /const heaterPadX = dopingX - \(armLen - 0\.5\) \/ 2 \+ 0\.18;/);
   assert.match(component, /const heaterM1LandingLen = 0\.16;/);
   assert.match(component, /size: \[heaterM1LandingLen, m1H, 0\.08\]/);
   assert.match(component, /position: \[heaterPadX, m1CenterY, heaterZ1\]/);
@@ -286,6 +321,7 @@ test("PIC MZM heater DC pads use local M1 landings above heater vias", () => {
   assert.match(component, /position: \[heaterPadX, m1CenterY, tx2HeaterZ1\]/);
   assert.match(component, /position: \[heaterPadX, m1CenterY, tx2HeaterZ2\]/);
   assert.match(component, /new THREE\.Vector3\(heaterPadX, m1CenterY, hz\),\n\s*new THREE\.Vector3\(heaterPadX, heaterTopY, hz\),/);
+  assert.doesNotMatch(component, /const heaterPadX = dopingX;/);
   assert.doesNotMatch(component, /const heaterTraceLen = heaterPadX - 0\.5 \* xScale;/);
   assert.doesNotMatch(component, /const heaterTraceCx = \(0\.5 \* xScale \+ heaterPadX\) \/ 2;/);
   assert.doesNotMatch(component, /new THREE\.Vector3\(dopingX, m1CenterY, hz\),/);

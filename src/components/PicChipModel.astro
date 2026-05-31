@@ -681,11 +681,7 @@ const indexItems = [
     }), "m1Interconnect", false, 4));
 
     // === Layer 9: Bond pads ===
-    const padPositions = [
-      [geX, rxZ], [rfPadPx, 0.4], [rfPadPx, tx2Z],
-      ...dropGeData.map(d => [d.rx, d.geZ])
-    ];
-    for (const [px, pz] of padPositions) {
+    const addBondPad = (px, pz, deviceGroup = "") => {
       const pad = createBox({
         size: [0.18, padH, 0.18],
         position: [px, padBaseY + padH / 2, pz],
@@ -693,8 +689,30 @@ const indexItems = [
         metalness: 0.55,
         roughness: 0.28
       });
-      lTop.add(tagPart(pad, "bondPad"));
+      lTop.add(tagPart(pad, "bondPad", false, 0, deviceGroup));
+      return pad;
+    };
+    const padPositions = [
+      [geX, rxZ],
+      ...dropGeData.map(d => [d.rx, d.geZ])
+    ];
+    for (const [px, pz] of padPositions) {
+      addBondPad(px, pz);
     }
+
+    const rfPadViaH = padBaseY - (rfBaseY + rfH);
+    const addRfBondPads = (...zPositions) => {
+      for (const z of zPositions) {
+        addBondPad(rfPadPx, z, "mzm");
+        lRf.add(tagPart(createBox({
+          size: [0.055, rfPadViaH, 0.055],
+          position: [rfPadPx, rfBaseY + rfH + rfPadViaH / 2, z],
+          color: 0x78716c,
+          metalness: 0.75,
+          roughness: 0.25
+        }), "rfElectrode", false, 4, "mzm"));
+      }
+    };
 
     // W contact via: Ge detector → M1
     const wViaH = m1BaseY - (geBaseY + geH);
@@ -1307,11 +1325,13 @@ const indexItems = [
     });
     lHeater.add(tagPart(txHeater2, "heater", false, 5, "mzm"));
 
+    const heaterPadX = dopingX - (armLen - 0.5) / 2 + 0.18;
+
     // Heater W vias up to M1 level
     const heaterToM1ViaH = m1BaseY - heaterTopY;
     const heaterVia1 = createBox({
       size: [0.06, heaterToM1ViaH, 0.06],
-      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, heaterZ1],
+      position: [heaterPadX, heaterTopY + heaterToM1ViaH / 2, heaterZ1],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
@@ -1319,7 +1339,7 @@ const indexItems = [
     lHeater.add(tagPart(heaterVia1, "heater", false, 5, "mzm"));
     const heaterVia2 = createBox({
       size: [0.06, heaterToM1ViaH, 0.06],
-      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, heaterZ2],
+      position: [heaterPadX, heaterTopY + heaterToM1ViaH / 2, heaterZ2],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
@@ -1327,7 +1347,6 @@ const indexItems = [
     lHeater.add(tagPart(heaterVia2, "heater", false, 5, "mzm"));
 
     // Local M1 landing directly under each heater DC bond pad
-    const heaterPadX = dopingX;
     const heaterM1LandingLen = 0.16;
     const heaterM1Landing1 = createBox({
       size: [heaterM1LandingLen, m1H, 0.08],
@@ -1394,13 +1413,13 @@ const indexItems = [
     // TX2 heater W vias
     const tx2HeaterVia1 = createBox({
       size: [0.06, heaterToM1ViaH, 0.06],
-      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, tx2HeaterZ1],
+      position: [heaterPadX, heaterTopY + heaterToM1ViaH / 2, tx2HeaterZ1],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     });
     lHeater.add(tagPart(tx2HeaterVia1, "heater", false, 5, "mzm"));
     const tx2HeaterVia2 = createBox({
       size: [0.06, heaterToM1ViaH, 0.06],
-      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, tx2HeaterZ2],
+      position: [heaterPadX, heaterTopY + heaterToM1ViaH / 2, tx2HeaterZ2],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     });
     lHeater.add(tagPart(tx2HeaterVia2, "heater", false, 5, "mzm"));
@@ -1463,6 +1482,7 @@ const indexItems = [
     addRfElectrode(txRfSignalZ, 0xef4444, 4);
     addRfElectrode(txRfGnd1Z, 0x94a3b8);
     addRfElectrode(txRfGnd2Z, 0x94a3b8);
+    addRfBondPads(txRfGnd1Z, txRfSignalZ, txRfGnd2Z);
 
     const addDoping = (z, colorHex) => {
       const strip = createBox({
@@ -1600,6 +1620,7 @@ const indexItems = [
     addRfElectrode(tx2RfSignalZ, 0xef4444, 4);
     addRfElectrode(tx2RfGnd1Z, 0x94a3b8);
     addRfElectrode(tx2RfGnd2Z, 0x94a3b8);
+    addRfBondPads(tx2RfGnd1Z, tx2RfSignalZ, tx2RfGnd2Z);
 
     // TX2 M1 Z-bridges (doping contacts → RF electrodes)
     addM1Bridge(tx2Arm1nZ, tx2RfGnd1Z);
@@ -1823,29 +1844,37 @@ const indexItems = [
       chip.add(tagPart(dGroup, "electricalPath", false, 0, "microring"));
     }
 
-    // TX RF electrical path (bond pad → W via → RF signal electrode → over MZM)
-    const txeGroup = new THREE.Group();
+    // TX RF electrical paths (G/S/G bond pads → travelling-wave electrodes → over MZM)
     const rfCenterY = rfBaseY + rfH / 2;
-    const txePoints = [
-      new THREE.Vector3(rfPadPx, padCenterY + 0.5, 0.4),
-      new THREE.Vector3(rfPadPx, padCenterY, 0.4),
-      new THREE.Vector3(rfPadPx, rfCenterY, 0.4),
-      new THREE.Vector3(dopingX, rfCenterY, 0.4),
-    ];
-    const txeCurve = new THREE.CatmullRomCurve3(txePoints);
-    const txeGeometry = new THREE.TubeGeometry(txeCurve, 48, 0.02, 8, false);
-    const txeMesh = new THREE.Mesh(txeGeometry, transparent(0xf59e0b, 0.5));
-    txeGroup.add(tagPart(txeMesh, "electricalPath", false, 0, "mzm"));
+    const addRfFeedPath = (z, pathGroup, curves, glowSets) => {
+      const points = [
+        new THREE.Vector3(rfPadPx, padCenterY + 0.5, z),
+        new THREE.Vector3(rfPadPx, padCenterY, z),
+        new THREE.Vector3(rfPadPx, rfCenterY, z),
+        new THREE.Vector3(dopingX, rfCenterY, z),
+      ];
+      const curve = new THREE.CatmullRomCurve3(points);
+      curves.push(curve);
+      const geometry = new THREE.TubeGeometry(curve, 48, 0.018, 8, false);
+      pathGroup.add(tagPart(new THREE.Mesh(geometry, transparent(0xf59e0b, 0.42)), "electricalPath", false, 0, "mzm"));
+      const glowSpheres = [];
+      for (let i = 0; i < 5; i++) {
+        const glow = new THREE.Mesh(
+          new THREE.SphereGeometry(0.026, 10, 6),
+          new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.45 })
+        );
+        glowSpheres.push({ mesh: glow, offset: i / 5 });
+        pathGroup.add(glow);
+      }
+      glowSets.push(glowSpheres);
+    };
 
+    const txeGroup = new THREE.Group();
+    const txeCurves = [];
     const txeGlowSpheres = [];
-    for (let i = 0; i < 6; i++) {
-      const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.03, 10, 6),
-        new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.5 })
-      );
-      txeGlowSpheres.push({ mesh: glow, offset: i / 6 });
-      txeGroup.add(glow);
-    }
+    addRfFeedPath(txRfGnd1Z, txeGroup, txeCurves, txeGlowSpheres);
+    addRfFeedPath(txRfSignalZ, txeGroup, txeCurves, txeGlowSpheres);
+    addRfFeedPath(txRfGnd2Z, txeGroup, txeCurves, txeGlowSpheres);
     chip.add(tagPart(txeGroup, "electricalPath", false, 0, "mzm"));
 
     // Heater DC electrical paths (bond pad → local M1 landing → W via → TiN heater)
@@ -2147,26 +2176,13 @@ const indexItems = [
     }
     chip.add(tagPart(tx2MpdElecGroup, "electricalPath"));
 
-    // TX2 RF electrical path (bond pad → W via → RF signal electrode → over TX2 MZM)
+    // TX2 RF electrical paths (G/S/G bond pads → travelling-wave electrodes → over TX2 MZM)
     const tx2TxeGroup = new THREE.Group();
-    const tx2TxePoints = [
-      new THREE.Vector3(rfPadPx, padCenterY + 0.5, tx2Z),
-      new THREE.Vector3(rfPadPx, padCenterY, tx2Z),
-      new THREE.Vector3(rfPadPx, rfCenterY, tx2Z),
-      new THREE.Vector3(dopingX, rfCenterY, tx2Z),
-    ];
-    const tx2TxeCurve = new THREE.CatmullRomCurve3(tx2TxePoints);
-    const tx2TxeGeom = new THREE.TubeGeometry(tx2TxeCurve, 48, 0.02, 8, false);
-    tx2TxeGroup.add(tagPart(new THREE.Mesh(tx2TxeGeom, transparent(0xf59e0b, 0.5)), "electricalPath", false, 0, "mzm"));
+    const tx2TxeCurves = [];
     const tx2TxeGlow = [];
-    for (let i = 0; i < 6; i++) {
-      const glow = new THREE.Mesh(
-        new THREE.SphereGeometry(0.03, 10, 6),
-        new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.5 })
-      );
-      tx2TxeGlow.push({ mesh: glow, offset: i / 6 });
-      tx2TxeGroup.add(glow);
-    }
+    addRfFeedPath(tx2RfGnd1Z, tx2TxeGroup, tx2TxeCurves, tx2TxeGlow);
+    addRfFeedPath(tx2RfSignalZ, tx2TxeGroup, tx2TxeCurves, tx2TxeGlow);
+    addRfFeedPath(tx2RfGnd2Z, tx2TxeGroup, tx2TxeCurves, tx2TxeGlow);
     chip.add(tagPart(tx2TxeGroup, "electricalPath", false, 0, "mzm"));
 
     // TX2 heater DC electrical paths
@@ -2284,6 +2300,12 @@ const indexItems = [
     for (const d of dropGeData) {
       lTop.add(createFaceLabel("Al 焊盘", new THREE.Vector3(d.rx, padTopY, d.geZ), faceTop, { scale: 0.08 }));
     }
+    const addGsgPadLabels = (g1Z, signalZ, g2Z) => {
+      lTop.add(createFaceLabel("G", new THREE.Vector3(rfPadPx, padTopY, g1Z), faceTop, { scale: 0.07 }));
+      lTop.add(createFaceLabel("S", new THREE.Vector3(rfPadPx, padTopY, signalZ), faceTop, { scale: 0.07 }));
+      lTop.add(createFaceLabel("G", new THREE.Vector3(rfPadPx, padTopY, g2Z), faceTop, { scale: 0.07 }));
+    };
+    addGsgPadLabels(txRfGnd1Z, txRfSignalZ, txRfGnd2Z);
     // Heater bond pad labels
     lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, heaterZ1), faceTop, { scale: 0.08 }));
     lTop.add(createFaceLabel("DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, heaterZ2), faceTop, { scale: 0.08 }));
@@ -2311,6 +2333,7 @@ const indexItems = [
     lHeater.add(createFaceLabel("TX2 TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterLabelY, tx2HeaterZ2), faceTop, { scale: 0.09 }));
     // TX2 RF
     lTop.add(createFaceLabel("TX2 RF 电极 (GSG)", new THREE.Vector3(0.5, ildTopSurf, tx2Z), faceTop, { scale: 0.10 }));
+    addGsgPadLabels(tx2RfGnd1Z, tx2RfSignalZ, tx2RfGnd2Z);
     // TX2 heater bond pads
     lTop.add(createFaceLabel("TX2 DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, tx2HeaterZ1), faceTop, { scale: 0.08 }));
     lTop.add(createFaceLabel("TX2 DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, tx2HeaterZ2), faceTop, { scale: 0.08 }));
@@ -2397,7 +2420,7 @@ const indexItems = [
     const modelViewCenterX = 0;
     const substrateViewHalfWidth = chipLen / 2;
 
-    return { modelViewCenterX, substrateViewHalfWidth, chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow };
+    return { modelViewCenterX, substrateViewHalfWidth, chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurves, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurves, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow };
   }
 
   for (const root of roots) {
@@ -2481,7 +2504,7 @@ const indexItems = [
     scene.add(rim);
 
     const model = buildModel(scene);
-    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurve, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurve, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow } = model;
+    const { chip, layerGroups, pathCurve, pathGlowSpheres, rxEcPathCurve, rxEcGlowSpheres, mpdCurve, mpdGlowSpheres, mpdElecCurve, mpdElecGlowSpheres, elecCurve, elecGlowSpheres, dropElecCurves, dropElecGlowSpheres, dropPathCurves, dropPathGlowSpheres, heaterElecCurves, heaterElecGlowSpheres, txGcInCurve, txGcInGlowSpheres, txEdgePathCurve1, txEdgePathCurve2, txEdgeGlowSpheres1, txEdgeGlowSpheres2, txOutGcPathCurve, txOutGcGlowSpheres, txeCurves, txeGlowSpheres, tx2GcInCurve, tx2GcInGlowSpheres, tx2EdgeCurve1, tx2EdgeCurve2, tx2EdgeGlow1, tx2EdgeGlow2, tx2OutGcCurve, tx2OutGcGlow, tx2MpdElecCurve, tx2MpdElecGlow, tx2TxeCurves, tx2TxeGlow, tx2HeaterElecCurves, tx2HeaterElecGlowSpheres, tx2MpdOptCurve, tx2MpdOptGlow } = model;
     const { modelViewCenterX, substrateViewHalfWidth } = model;
     const defaultTopCameraDistance = 13;
     const modelViewXPadding = 0.55;
@@ -2965,16 +2988,20 @@ const indexItems = [
         }
       }
 
-      // TX RF electrical path glow animation (bond pad → RF electrode → over MZM)
-      if (txeGlowSpheres && txeCurve) {
-        for (const item of txeGlowSpheres) {
-          const t = (item.offset + time * 0.12) % 1;
-          const pt = txeCurve.getPointAt(t);
-          item.mesh.position.copy(pt);
-          const fade = Math.sin(t * Math.PI);
-          item.mesh.material.opacity = 0.25 + 0.55 * fade;
-          const s = 0.7 + 0.45 * fade;
-          item.mesh.scale.setScalar(s);
+      // TX RF electrical path glow animation (G/S/G pads → RF electrodes → over MZM)
+      if (txeGlowSpheres && txeCurves) {
+        for (let i = 0; i < txeGlowSpheres.length; i++) {
+          const spheres = txeGlowSpheres[i];
+          const curve = txeCurves[i];
+          for (const item of spheres) {
+            const t = (item.offset + time * 0.12) % 1;
+            const pt = curve.getPointAt(t);
+            item.mesh.position.copy(pt);
+            const fade = Math.sin(t * Math.PI);
+            item.mesh.material.opacity = 0.25 + 0.55 * fade;
+            const s = 0.7 + 0.45 * fade;
+            item.mesh.scale.setScalar(s);
+          }
         }
       }
 
@@ -3109,15 +3136,19 @@ const indexItems = [
       }
 
       // TX2 RF electrical path
-      if (tx2TxeGlow && tx2TxeCurve) {
-        for (const item of tx2TxeGlow) {
-          const t = (item.offset + time * 0.12) % 1;
-          const pt = tx2TxeCurve.getPointAt(t);
-          item.mesh.position.copy(pt);
-          const fade = Math.sin(t * Math.PI);
-          item.mesh.material.opacity = 0.25 + 0.55 * fade;
-          const s = 0.7 + 0.45 * fade;
-          item.mesh.scale.setScalar(s);
+      if (tx2TxeGlow && tx2TxeCurves) {
+        for (let i = 0; i < tx2TxeGlow.length; i++) {
+          const spheres = tx2TxeGlow[i];
+          const curve = tx2TxeCurves[i];
+          for (const item of spheres) {
+            const t = (item.offset + time * 0.12) % 1;
+            const pt = curve.getPointAt(t);
+            item.mesh.position.copy(pt);
+            const fade = Math.sin(t * Math.PI);
+            item.mesh.material.opacity = 0.25 + 0.55 * fade;
+            const s = 0.7 + 0.45 * fade;
+            item.mesh.scale.setScalar(s);
+          }
         }
       }
 
