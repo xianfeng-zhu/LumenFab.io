@@ -229,6 +229,19 @@ test("PIC optical path overlays use segmented centerline curves at branches and 
 });
 
 test("PIC MZM optical overlays turn at splitter and combiner taper edges", () => {
+  assert.match(component, /const addAngledTaper = \(startX, startZ, endX, endZ, startW, endW\) => \{/);
+  assert.match(component, /const addTaper = \(cx, cz, startW, endW, length = taperLen\) =>/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, 0\.4, taperSplitCx \+ taperLen \/ 2, armZ1, mmiWidth, armWidth\);/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, 0\.4, taperSplitCx \+ taperLen \/ 2, armZ2, mmiWidth, armWidth\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, armZ1, mmiCombinerCx - mmiLen \/ 2, 0\.4, armWidth, mmiWidth\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, armZ2, mmiCombinerCx - mmiLen \/ 2, 0\.4, armWidth, mmiWidth\);/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, tx2Z, taperSplitCx \+ taperLen \/ 2, tx2ArmZ1, mmiWidth, armWidth\);/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, tx2Z, taperSplitCx \+ taperLen \/ 2, tx2ArmZ2, mmiWidth, armWidth\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, tx2ArmZ1, mmiCombinerCx - mmiLen \/ 2, tx2Z, armWidth, mmiWidth\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, tx2ArmZ2, mmiCombinerCx - mmiLen \/ 2, tx2Z, armWidth, mmiWidth\);/);
+  assert.doesNotMatch(component, /addTaper\(taperSplitCx, \(0\.4 \+ armZ1\) \/ 2, mmiWidth, armWidth\);/);
+  assert.doesNotMatch(component, /addTaper\(taperCombCx, \(0\.4 \+ armZ1\) \/ 2, armWidth, mmiWidth\);/);
+  assert.doesNotMatch(component, /addTaper\(taperSplitCx, \(tx2Z \+ tx2ArmZ1\) \/ 2, mmiWidth, armWidth\);/);
   assert.match(component, /const mzmSplitterOutputPathPoints = \(baseZ, armZ\) => \[/);
   assert.match(component, /new THREE\.Vector3\(mmiSplitterCx - mmiLen \/ 2 - taperLen, txPathTopY, baseZ\)/);
   assert.match(component, /new THREE\.Vector3\(mmiSplitterCx - mmiLen \/ 2, txPathTopY, baseZ\)/);

@@ -418,23 +418,32 @@ const indexItems = [
     const ribStartX = -0.9 * xScale;
     const ribEndX = chipRightX - 0.3;
 
-    // Taper helper — reusable trapezoidal transition from the left waveguide width to the right one.
+    // Taper helper — reusable trapezoidal transition from one waveguide port to another.
     const taperLen = 0.15;
     const taperH = (stripRidgeH + ribRidgeH) / 2;
-    const addTaper = (cx, cz, startW, endW, length = taperLen) => {
-      const hwStart = startW / 2, hwEnd = endW / 2;
+    const addAngledTaper = (startX, startZ, endX, endZ, startW, endW) => {
+      const dx = endX - startX;
+      const dz = endZ - startZ;
+      const len = Math.hypot(dx, dz) || 1;
+      const nx = -dz / len;
+      const nz = dx / len;
+      const hwStart = startW / 2;
+      const hwEnd = endW / 2;
+      const toShapePoint = (x, z) => [x, -z];
       const shape = new THREE.Shape();
-      shape.moveTo(-length / 2, -hwStart);
-      shape.lineTo( length / 2, -hwEnd);
-      shape.lineTo( length / 2,  hwEnd);
-      shape.lineTo(-length / 2,  hwStart);
+      shape.moveTo(...toShapePoint(startX + nx * hwStart, startZ + nz * hwStart));
+      shape.lineTo(...toShapePoint(endX + nx * hwEnd, endZ + nz * hwEnd));
+      shape.lineTo(...toShapePoint(endX - nx * hwEnd, endZ - nz * hwEnd));
+      shape.lineTo(...toShapePoint(startX - nx * hwStart, startZ - nz * hwStart));
       shape.closePath();
       const geom = new THREE.ExtrudeGeometry(shape, { steps: 1, depth: taperH, bevelEnabled: false });
       const mesh = new THREE.Mesh(geom, material(0x14b8a6, { roughness: 0.42, metalness: 0.10 }));
       mesh.rotation.x = -Math.PI / 2;
-      mesh.position.set(cx, siBase + taperH / 2, cz);
+      mesh.position.set(0, siBase + taperH / 2, 0);
       lSiDevice.add(tagPart(mesh, "ribWaveguide", false, 4));
     };
+    const addTaper = (cx, cz, startW, endW, length = taperLen) =>
+      addAngledTaper(cx - length / 2, cz, cx + length / 2, cz, startW, endW);
 
     // Connector from grating coupler to rib waveguide
     const connLen = ribStartX - gcRightEdge;
@@ -1092,13 +1101,13 @@ const indexItems = [
     // MMI splitter → phase arm 1
     const taperSplitCx = mmiSplitterCx + mmiLen / 2 + taperLen / 2;
     const taperCombCx = mmiCombinerCx - mmiLen / 2 - taperLen / 2;
-    addTaper(taperSplitCx, (0.4 + armZ1) / 2, mmiWidth, armWidth);
+    addAngledTaper(mmiSplitterCx + mmiLen / 2, 0.4, taperSplitCx + taperLen / 2, armZ1, mmiWidth, armWidth);
     // MMI splitter → phase arm 2
-    addTaper(taperSplitCx, (0.4 + armZ2) / 2, mmiWidth, armWidth);
+    addAngledTaper(mmiSplitterCx + mmiLen / 2, 0.4, taperSplitCx + taperLen / 2, armZ2, mmiWidth, armWidth);
     // Phase arm 1 → MMI combiner
-    addTaper(taperCombCx, (0.4 + armZ1) / 2, armWidth, mmiWidth);
+    addAngledTaper(taperCombCx - taperLen / 2, armZ1, mmiCombinerCx - mmiLen / 2, 0.4, armWidth, mmiWidth);
     // Phase arm 2 → MMI combiner
-    addTaper(taperCombCx, (0.4 + armZ2) / 2, armWidth, mmiWidth);
+    addAngledTaper(taperCombCx - taperLen / 2, armZ2, mmiCombinerCx - mmiLen / 2, 0.4, armWidth, mmiWidth);
     // Splitter input taper: input rib waveguide → MMI body.
     addTaper(mmiSplitterCx - mmiLen / 2 - taperLen / 2, 0.4, ribW, mmiWidth);
     // Combiner output taper: MMI body → output rib waveguide.
@@ -1142,10 +1151,10 @@ const indexItems = [
     lSiDevice.add(tagPart(tx2MmiCombiner, "mmiWaveguide", false, 4, "mzm"));
 
     // TX2 tapers
-    addTaper(taperSplitCx, (tx2Z + tx2ArmZ1) / 2, mmiWidth, armWidth);
-    addTaper(taperSplitCx, (tx2Z + tx2ArmZ2) / 2, mmiWidth, armWidth);
-    addTaper(taperCombCx, (tx2Z + tx2ArmZ1) / 2, armWidth, mmiWidth);
-    addTaper(taperCombCx, (tx2Z + tx2ArmZ2) / 2, armWidth, mmiWidth);
+    addAngledTaper(mmiSplitterCx + mmiLen / 2, tx2Z, taperSplitCx + taperLen / 2, tx2ArmZ1, mmiWidth, armWidth);
+    addAngledTaper(mmiSplitterCx + mmiLen / 2, tx2Z, taperSplitCx + taperLen / 2, tx2ArmZ2, mmiWidth, armWidth);
+    addAngledTaper(taperCombCx - taperLen / 2, tx2ArmZ1, mmiCombinerCx - mmiLen / 2, tx2Z, armWidth, mmiWidth);
+    addAngledTaper(taperCombCx - taperLen / 2, tx2ArmZ2, mmiCombinerCx - mmiLen / 2, tx2Z, armWidth, mmiWidth);
     // TX2 splitter input taper and combiner output taper
     addTaper(mmiSplitterCx - mmiLen / 2 - taperLen / 2, tx2Z, ribW, mmiWidth);
     addTaper(mmiCombinerCx + mmiLen / 2 + taperLen / 2, tx2Z, mmiWidth, ribW);
