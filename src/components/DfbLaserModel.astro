@@ -512,7 +512,7 @@ const indexItems = [
       size: [5.55, 0.09, 0.42],
       position: [0, topY + 0.045, cutawayOffset - 0.54],
       color: 0x94a3b8,
-      opacity: 0.48
+      opacity: 0.64
     });
     const dielectricRight = dielectricLeft.clone();
     dielectricRight.position.z = cutawayOffset + 0.54;
@@ -522,7 +522,7 @@ const indexItems = [
       size: [5.1, 0.06, 0.31],
       position: [0, topY + 0.08, cutawayOffset],
       color: 0x22c55e,
-      opacity: 0.36
+      opacity: 0.5
     });
     chip.add(tagPart(currentWindow, "currentWindow", false, 3));
 
@@ -570,7 +570,7 @@ const indexItems = [
       size: [0.045, topY + 0.35, fullWidth + 0.08],
       position: [length / 2 + 0.025, (topY + 0.25) / 2, 0],
       color: 0x334155,
-      opacity: 0.2
+      opacity: 0.36
     });
     const facetBack = facetFront.clone();
     facetBack.position.x = -length / 2 - 0.025;
@@ -580,18 +580,18 @@ const indexItems = [
       size: [0.035, topY + 0.2, 0.86],
       position: [length / 2 + 0.07, (topY + 0.2) / 2, cutawayOffset],
       color: 0xa855f7,
-      opacity: 0.44
+      opacity: 0.58
     });
     const hrCoating = createBox({
       size: [0.035, topY + 0.2, 0.86],
       position: [-length / 2 - 0.07, (topY + 0.2) / 2, cutawayOffset],
       color: 0x7e22ce,
-      opacity: 0.55
+      opacity: 0.66
     });
     chip.add(tagPart(arCoating, "coating", false, 3), tagPart(hrCoating, "coating", false, 3));
 
     const modeGeometry = new THREE.SphereGeometry(1, 48, 24);
-    const mode = new THREE.Mesh(modeGeometry, transparent(0x0891b2, 0.46));
+    const mode = new THREE.Mesh(modeGeometry, transparent(0x0891b2, 0.62));
     mode.scale.set(2.65, 0.07, 0.28);
     mode.position.set(0, layerCenters["MQW active region"], cutawayOffset);
     chip.add(tagPart(mode, "mode"));
