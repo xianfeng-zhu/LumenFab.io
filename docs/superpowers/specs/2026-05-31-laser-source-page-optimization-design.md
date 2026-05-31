@@ -26,6 +26,15 @@
 - 直陈：尽量少用「不是……而是……」等否定-肯定对照结构；直接陈述事实本身，读者不需要先排除一个错误答案再获知正确答案
 - 保留：技术精度不打折，物理因果关系不简化
 
+## 写作依据
+
+重写技术内容时，必须依据专业资料来确保准确，不能凭猜测或语言直觉改写：
+
+- 优先参考项目内研究笔记：`docs/research/v1-inp-dfb-laser-principle/`、`docs/research/v1-laser-source-*/`、`docs/research/v1-physics-and-laser-foundations/`
+- 其次参考页面现有的「资料来源」所列文献（RP Photonics、MIT OCW、Cornell、Lumentum 等）
+- 对当前页面中已有明确出处的事实陈述，改写时保留原意不偏离
+- 不确定的技术细节宁可保留原文，不自行推断
+
 ---
 
 ## 节级结构变化
