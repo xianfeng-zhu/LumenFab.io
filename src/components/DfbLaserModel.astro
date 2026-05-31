@@ -21,7 +21,8 @@ const legendItems = [
   ["dielectric", "#64748b", "绝缘 / 钝化"],
   ["pMetal", "#f97316", "p-contact"],
   ["nContact", "#475569", "n-contact"],
-  ["facet", "#334155", "端面 / 镀膜"]
+  ["facet", "#334155", "端面 / 镀膜"],
+  ["photonPool", "#f472b6", "有源区光子 / 波长选择"]
 ];
 
 const indexItems = [
@@ -42,6 +43,7 @@ const indexItems = [
   ["facet", "#334155", "解理端面"],
   ["coating", "#a855f7", "AR / HR coating"],
   ["current", "#22c55e", "电流路径"],
+  ["photonPool", "#f472b6", "有源区光子 / 波长选择"],
   ["output", "#60a5fa", "边发射输出光"]
 ];
 ---
@@ -49,6 +51,17 @@ const indexItems = [
 <figure class="dfb-model">
   <div class="dfb-model__viewport" data-dfb-laser-model>
     <canvas aria-label={title}></canvas>
+    <div class="dfb-model__controls">
+      <div class="dfb-model__controls-row">
+        <button type="button" class="dfb-model__control-btn" data-dfb-explode-toggle aria-pressed="false">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 5.5L7 1.5L11 5.5"/>
+            <path d="M3 8.5L7 12.5L11 8.5"/>
+          </svg>
+          <span>分层展开</span>
+        </button>
+      </div>
+    </div>
     <div class="dfb-model__legend" aria-hidden="true">
       {legendItems.map(([key, color, label]) => (
         <span data-key={key}><i style={`--swatch: ${color}`}></i>{label}</span>
@@ -135,7 +148,7 @@ const indexItems = [
     grating: {
       color: "#0d9488",
       title: "DFB 光栅",
-      body: "DFB 光栅沿腔长方向周期性扰动有效折射率，把前向光和后向光耦合起来，为接近 Bragg 条件的模式提供分布式反馈。模型为了可视化把光栅外露；实际光栅可能位于有源区上方、下方、埋入再生长层或侧向耦合区域。"
+      body: "DFB 光栅沿腔长方向周期性扰动有效折射率。接近 Bragg 条件的光场会把前向传播波和后向传播波强耦合起来，许多微弱反射沿腔长相干相加，形成分布式反馈。模型为了可视化把光栅外露；实际光栅可能位于有源区上方、下方、埋入再生长层或侧向耦合区域。"
     },
     phase: {
       color: "#1e293b",
@@ -161,6 +174,11 @@ const indexItems = [
       color: "#22c55e",
       title: "电流注入路径",
       body: "电流从顶部 p-contact 进入，通过电流窗口、p-InP 包层和 MQW 有源区，到达 n-InP 层和背面 n-contact。电流路径与光学模式越匹配，无效复合和局部发热越少。"
+    },
+    photonPool: {
+      color: "#f472b6",
+      title: "有源区光子与波长选择",
+      body: "有源区内不同颜色的小球表示不同波长的自发辐射光子。DFB 光栅不会像筛网一样逐个拦截光子，而是通过周期性折射率扰动选择能形成前向 / 后向耦合模式的 Bragg 波长；非目标波长因反馈不足和增益竞争逐渐衰减，目标波长形成稳定输出。"
     },
     output: {
       color: "#60a5fa",
@@ -241,9 +259,100 @@ const indexItems = [
     return object;
   }
 
+  const smoothstep = (edge0, edge1, value) => {
+    const t = THREE.MathUtils.clamp((value - edge0) / (edge1 - edge0), 0, 1);
+    return t * t * (3 - 2 * t);
+  };
+
+  const createSegmentedPathCurve = (points) => {
+    const curve = new THREE.CurvePath();
+    for (let i = 1; i < points.length; i += 1) {
+      curve.add(new THREE.LineCurve3(points[i - 1], points[i]));
+    }
+    return curve;
+  };
+
+  const createGlowSpheres = ({ count, radius, color, opacity = 0.72 }) =>
+    Array.from({ length: count }, (_, i) => ({
+      mesh: new THREE.Mesh(
+        new THREE.SphereGeometry(radius, 14, 8),
+        new THREE.MeshBasicMaterial({
+          color,
+          transparent: true,
+          opacity,
+          depthTest: false,
+          depthWrite: false
+        })
+      ),
+      offset: i / count
+    }));
+
   function buildModel(scene) {
     const chip = new THREE.Group();
     scene.add(chip);
+
+    const layerGroups = [];
+    const layerGroupMap = new Map();
+    function addLayer(key) {
+      const group = new THREE.Group();
+      group.userData.layerKey = key;
+      group.userData.layerIndex = layerGroups.length;
+      layerGroups.push(group);
+      layerGroupMap.set(key, group);
+      chip.add(group);
+      return group;
+    }
+
+    addLayer("nContact");
+    addLayer("substrate");
+    addLayer("nCladding");
+    addLayer("activeRegion");
+    addLayer("grating");
+    addLayer("pCladding");
+    addLayer("ridge");
+    addLayer("topContact");
+    const annotationGroup = new THREE.Group();
+    annotationGroup.userData.layerKey = "annotations";
+    chip.add(annotationGroup);
+
+    const layerKeyByPart = {
+      nContact: "nContact",
+      substrate: "substrate",
+      nCladding: "nCladding",
+      sch: "activeRegion",
+      mqw: "activeRegion",
+      mode: "activeRegion",
+      photonPool: "activeRegion",
+      output: "activeRegion",
+      grating: "grating",
+      phase: "grating",
+      pCladding: "pCladding",
+      ridge: "ridge",
+      contactCap: "ridge",
+      dielectric: "topContact",
+      currentWindow: "topContact",
+      pMetal: "topContact"
+    };
+
+    const findObjectPartKey = (object) => {
+      if (object.userData.partKey) return object.userData.partKey;
+      let partKey = "";
+      object.traverse((child) => {
+        if (!partKey && child.userData.partKey) partKey = child.userData.partKey;
+      });
+      return partKey;
+    };
+
+    const assignChildrenToLayers = () => {
+      const directChildren = [...chip.children].filter((child) => (
+        child !== annotationGroup && !layerGroups.includes(child)
+      ));
+      for (const child of directChildren) {
+        const partKey = findObjectPartKey(child);
+        const targetLayer = layerGroupMap.get(layerKeyByPart[partKey]);
+        (targetLayer || annotationGroup).add(child);
+      }
+    };
 
     const length = 6.25;
     const fullWidth = 2.04;
@@ -442,6 +551,106 @@ const indexItems = [
     beam.rotation.z = Math.PI / 2;
     chip.add(tagPart(beam, "output"));
 
+    const currentPathGroup = new THREE.Group();
+    const currentPathCurves = [];
+    const currentGlowSpheres = [];
+    for (const x of [-2.2, 0, 2.2]) {
+      const currentPoints = [
+        new THREE.Vector3(x, topY + 0.34, cutawayOffset),
+        new THREE.Vector3(x, topY + 0.08, cutawayOffset),
+        new THREE.Vector3(x, layerCenters["MQW active region"], cutawayOffset),
+        new THREE.Vector3(x, -0.08, cutawayOffset)
+      ];
+      const curve = createSegmentedPathCurve(currentPoints);
+      currentPathCurves.push(curve);
+      const geometry = new THREE.TubeGeometry(curve, 24, 0.018, 8, false);
+      currentPathGroup.add(tagPart(new THREE.Mesh(geometry, transparent(0x22c55e, 0.42)), "current"));
+      const glowSpheres = createGlowSpheres({ count: 5, radius: 0.032, color: 0x22c55e });
+      for (const item of glowSpheres) {
+        currentPathGroup.add(tagPart(item.mesh, "current", false, 3));
+      }
+      currentGlowSpheres.push(glowSpheres);
+    }
+    chip.add(tagPart(currentPathGroup, "current"));
+
+    const gratingFeedbackGroup = new THREE.Group();
+    const gratingFeedbackCurve = createSegmentedPathCurve([
+      new THREE.Vector3(-length / 2 + 0.42, layerCenters["MQW active region"] + 0.12, cutawayOffset - 0.18),
+      new THREE.Vector3(length / 2 - 0.42, layerCenters["MQW active region"] + 0.12, cutawayOffset - 0.18)
+    ]);
+    const gratingFeedbackPulses = [
+      { offset: 0.02, direction: 1, zPhase: 0 },
+      { offset: 0.28, direction: 1, zPhase: 1.8 },
+      { offset: 0.54, direction: 1, zPhase: 3.6 },
+      { offset: 0.14, direction: -1, zPhase: 0.9 },
+      { offset: 0.4, direction: -1, zPhase: 2.7 },
+      { offset: 0.66, direction: -1, zPhase: 4.5 }
+    ].map((spec) => {
+      const pulse = new THREE.Mesh(
+        new THREE.SphereGeometry(0.035, 14, 8),
+        new THREE.MeshBasicMaterial({
+          color: spec.direction > 0 ? 0x38bdf8 : 0xa5f3fc,
+          transparent: true,
+          opacity: 0.42,
+          depthTest: false,
+          depthWrite: false
+        })
+      );
+      pulse.userData.offset = spec.offset;
+      pulse.userData.direction = spec.direction;
+      pulse.userData.baseZ = cutawayOffset - 0.18;
+      pulse.userData.zPhase = spec.zPhase;
+      gratingFeedbackGroup.add(tagPart(pulse, "grating", false, 3));
+      return pulse;
+    });
+    chip.add(tagPart(gratingFeedbackGroup, "grating", false, 3));
+
+    const photonGroup = new THREE.Group();
+    const activePhotons = [];
+    const photonSpecs = [
+      { color: 0x60a5fa, z: cutawayOffset - 0.46, offset: 0.04, speed: 0.18, amplitude: 2.35, isTarget: true },
+      { color: 0x67e8f9, z: cutawayOffset - 0.3, offset: 0.36, speed: 0.2, amplitude: 2.15, isTarget: true },
+      { color: 0xf472b6, z: cutawayOffset - 0.38, offset: 0.12, speed: 0.16, amplitude: 2.1, isTarget: false },
+      { color: 0xf59e0b, z: cutawayOffset - 0.22, offset: 0.38, speed: 0.14, amplitude: 2.1, isTarget: false },
+      { color: 0xa78bfa, z: cutawayOffset - 0.12, offset: 0.62, speed: 0.13, amplitude: 2.0, isTarget: false },
+      { color: 0xfb7185, z: cutawayOffset - 0.54, offset: 0.78, speed: 0.15, amplitude: 2.0, isTarget: false }
+    ];
+    for (const spec of photonSpecs) {
+      const photon = new THREE.Mesh(
+        new THREE.SphereGeometry(spec.isTarget ? 0.072 : 0.06, 16, 10),
+        new THREE.MeshBasicMaterial({
+          color: spec.color,
+          transparent: true,
+          opacity: spec.isTarget ? 0.86 : 0.72,
+          depthTest: false,
+          depthWrite: false
+        })
+      );
+      photon.userData.baseY = layerCenters["MQW active region"] + 0.055;
+      photon.userData.baseZ = spec.z;
+      photon.userData.offset = spec.offset;
+      photon.userData.speed = spec.speed;
+      photon.userData.amplitude = spec.amplitude;
+      photon.userData.isTargetPhoton = spec.isTarget;
+      activePhotons.push(photon);
+      photonGroup.add(tagPart(photon, "photonPool", false, 3));
+    }
+    chip.add(tagPart(photonGroup, "photonPool", false, 3));
+
+    const outputPhotonGroup = new THREE.Group();
+    const outputPhotonCurve = createSegmentedPathCurve([
+      new THREE.Vector3(length / 2 - 0.18, layerCenters["MQW active region"], cutawayOffset),
+      new THREE.Vector3(length / 2 + 0.14, layerCenters["MQW active region"], cutawayOffset),
+      new THREE.Vector3(length / 2 + 1.35, layerCenters["MQW active region"], cutawayOffset)
+    ]);
+    const outputPhotonGeometry = new THREE.TubeGeometry(outputPhotonCurve, 32, 0.018, 8, false);
+    outputPhotonGroup.add(tagPart(new THREE.Mesh(outputPhotonGeometry, transparent(0x60a5fa, 0.5)), "output"));
+    const outputPhotonSpheres = createGlowSpheres({ count: 5, radius: 0.04, color: 0x60a5fa, opacity: 0.8 });
+    for (const item of outputPhotonSpheres) {
+      outputPhotonGroup.add(tagPart(item.mesh, "output", false, 3));
+    }
+    chip.add(tagPart(outputPhotonGroup, "output"));
+
     const largeHitTargets = [
       { key: "mqw", size: [5.6, 0.24, 0.42], position: [0, layerCenters["MQW active region"], cutawayOffset], priority: 4 },
       { key: "sch", size: [5.7, 0.42, 0.5], position: [0, layerCenters["MQW active region"], cutawayOffset + 0.42], priority: 3 },
@@ -449,19 +658,39 @@ const indexItems = [
       { key: "phase", size: [0.5, 0.44, 0.5], position: [0, gratingY, cutawayOffset - 0.45], priority: 5 },
       { key: "currentWindow", size: [5.25, 0.24, 0.45], position: [0, topY + 0.08, cutawayOffset - 0.45], priority: 4 },
       { key: "coating", size: [0.22, topY + 0.28, 0.9], position: [length / 2 + 0.1, (topY + 0.2) / 2, cutawayOffset], priority: 4 },
+      { key: "photonPool", size: [5.15, 0.36, 0.92], position: [0, layerCenters["MQW active region"], cutawayOffset], priority: 4 },
+      { key: "output", size: [1.5, 0.4, 0.5], position: [length / 2 + 0.72, layerCenters["MQW active region"], cutawayOffset], priority: 4 },
       { key: "nContact", size: [5.95, 0.24, fullWidth + 0.12], position: [0, -0.08, 0], priority: 3 }
     ];
     for (const target of largeHitTargets) {
       chip.add(createHitBox(target));
     }
 
+    assignChildrenToLayers();
+
     const outline = new THREE.Box3().setFromObject(chip);
     const center = outline.getCenter(new THREE.Vector3());
     for (const child of chip.children) {
       child.position.sub(center);
     }
+    for (const group of layerGroups) {
+      group.userData.baseY = group.position.y;
+    }
     chip.rotation.x = -0.18;
     chip.rotation.y = -0.58;
+    const viewBox = new THREE.Box3().setFromObject(chip);
+    const viewSphere = viewBox.getBoundingSphere(new THREE.Sphere());
+    chip.userData.modelViewRadius = viewSphere.radius;
+    chip.userData.layerGroups = layerGroups;
+    chip.userData.animations = {
+      currentPathCurves,
+      currentGlowSpheres,
+      gratingFeedbackCurve,
+      gratingFeedbackPulses,
+      activePhotons,
+      outputPhotonCurve,
+      outputPhotonSpheres
+    };
     return chip;
   }
 
@@ -471,6 +700,7 @@ const indexItems = [
     const infoTitle = figure?.querySelector("[data-dfb-part-title]");
     const infoBody = figure?.querySelector("[data-dfb-part-body]");
     const indexButtons = figure?.querySelectorAll("[data-dfb-part-index]") || [];
+    const explodeBtn = figure?.querySelector("[data-dfb-explode-toggle]");
     const scene = new THREE.Scene();
     scene.background = null;
 
@@ -497,7 +727,33 @@ const indexItems = [
     controls.maxDistance = 80;
     controls.minPolarAngle = 0.01;
     controls.maxPolarAngle = Math.PI - 0.01;
+    controls.enableZoom = true;
+    controls.touches.ONE = THREE.TOUCH.ROTATE;
+    controls.touches.TWO = THREE.TOUCH.DOLLY_PAN;
     controls.target.set(0, 0, 0);
+
+    const _right = new THREE.Vector3();
+    const _up = new THREE.Vector3();
+    const _fwd = new THREE.Vector3();
+    const wheelHandler = (e) => {
+      if (e.target !== canvas) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.ctrlKey) {
+        const factor = e.deltaY > 0 ? 1.025 : 0.975;
+        camera.position.sub(controls.target).multiplyScalar(factor).add(controls.target);
+      } else {
+        const s = 0.006;
+        const dx = e.deltaX * s;
+        const dy = -e.deltaY * s;
+        camera.getWorldDirection(_fwd);
+        _right.crossVectors(_fwd, camera.up).normalize();
+        _up.crossVectors(_right, _fwd).normalize();
+        controls.target.addScaledVector(_right, dx).addScaledVector(_up, dy);
+        camera.position.addScaledVector(_right, dx).addScaledVector(_up, dy);
+      }
+    };
+    window.addEventListener("wheel", wheelHandler, { capture: true, passive: false });
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0xdbeafe, 2.45));
     const key = new THREE.DirectionalLight(0xffffff, 2.25);
@@ -508,12 +764,41 @@ const indexItems = [
     scene.add(fill);
 
     const model = buildModel(scene);
+    const layerGroups = model.userData.layerGroups;
+    const {
+      currentPathCurves,
+      currentGlowSpheres,
+      gratingFeedbackCurve,
+      gratingFeedbackPulses,
+      activePhotons,
+      outputPhotonCurve,
+      outputPhotonSpheres
+    } = model.userData.animations;
+    const modelViewRadius = model.userData.modelViewRadius;
+    const defaultCameraDirection = new THREE.Vector3(4.8, 3.4, 5.4).normalize();
+    const minCameraDistance = 7.4;
+    const modelViewPadding = 0.68;
+    const getCameraDistanceForAspect = (aspect) => {
+      const fitAspect = Math.max(Math.min(aspect, 1), 0.1);
+      const fitDistance = modelViewRadius / (Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * fitAspect) * modelViewPadding;
+      return Math.max(minCameraDistance, fitDistance);
+    };
+    const setDefaultCameraFrame = () => {
+      controls.target.set(0, 0, 0);
+      camera.position.copy(defaultCameraDirection).multiplyScalar(getCameraDistanceForAspect(camera.aspect)).add(controls.target);
+      camera.lookAt(controls.target);
+      controls.update();
+    };
+    setDefaultCameraFrame();
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
     let selectedPart = "";
     let pointerDownState = null;
     const dragSelectionThreshold = 5;
-    const referenceOpacity = 0.18;
+    const referenceOpacity = 0.08;
+    let isExploded = false;
+    const explodeGap = 0.38;
+    const explodeSpeed = 0.09;
 
     const setSelectedPart = (partKey) => {
       if (!partKey || !partInfo[partKey] || !infoTitle || !infoBody) return;
@@ -711,12 +996,21 @@ const indexItems = [
       indexClickHandlers.push([button, handler]);
     }
 
+    const handleExplodeToggle = () => {
+      isExploded = !isExploded;
+      if (explodeBtn) {
+        explodeBtn.setAttribute("aria-pressed", String(isExploded));
+      }
+    };
+    explodeBtn?.addEventListener("click", handleExplodeToggle);
+
     const resize = () => {
       const { width } = root.getBoundingClientRect();
       const canvasHeight = Math.max(380, Math.min(600, width * 0.6));
       root.style.setProperty("--model-height", `${canvasHeight}px`);
       renderer.setSize(width, canvasHeight, false);
       camera.aspect = width / canvasHeight;
+      setDefaultCameraFrame();
       camera.updateProjectionMatrix();
     };
 
@@ -727,6 +1021,77 @@ const indexItems = [
     let frame = 0;
     const animate = () => {
       frame = requestAnimationFrame(animate);
+      const time = performance.now() * 0.001;
+
+      const explodeTarget = isExploded ? explodeGap : 0;
+      for (let i = 0; i < layerGroups.length; i += 1) {
+        const current = layerGroups[i].userData.explodeY || 0;
+        const target = i * explodeTarget;
+        const newVal = current + (target - current) * explodeSpeed;
+        layerGroups[i].userData.explodeY = newVal;
+        layerGroups[i].position.y = (layerGroups[i].userData.baseY || 0) + newVal;
+      }
+
+      if (currentGlowSpheres && currentPathCurves) {
+        for (let i = 0; i < currentGlowSpheres.length; i += 1) {
+          for (const item of currentGlowSpheres[i]) {
+            const t = (item.offset + time * 0.72) % 1;
+            const pt = currentPathCurves[i].getPointAt(t);
+            item.mesh.position.copy(pt);
+            const fade = Math.sin(t * Math.PI);
+            item.mesh.material.opacity = 0.22 + 0.58 * fade;
+            item.mesh.scale.setScalar(0.72 + 0.42 * fade);
+          }
+        }
+      }
+
+      if (gratingFeedbackPulses && gratingFeedbackCurve) {
+        for (const pulse of gratingFeedbackPulses) {
+          const t = (pulse.userData.offset + time * 0.5) % 1;
+          const reflectedT = pulse.userData.direction > 0 ? t : 1 - t;
+          const feedbackPoint = gratingFeedbackCurve.getPointAt(reflectedT);
+          pulse.position.copy(feedbackPoint);
+          pulse.position.z = pulse.userData.baseZ + Math.sin(time * 3.4 + pulse.userData.zPhase) * 0.045;
+          const envelope = Math.sin(t * Math.PI);
+          pulse.material.opacity = 0.16 + 0.58 * envelope;
+          pulse.scale.setScalar(0.72 + 0.36 * envelope);
+        }
+      }
+
+      if (activePhotons) {
+        for (const photon of activePhotons) {
+          const travel = (time * photon.userData.speed + photon.userData.offset) % 1;
+          if (photon.userData.isTargetPhoton) {
+            const bounce = 0.5 - 0.5 * Math.cos(travel * Math.PI * 2);
+            photon.position.x = THREE.MathUtils.lerp(-photon.userData.amplitude, photon.userData.amplitude, bounce);
+            photon.position.y = photon.userData.baseY + Math.sin(time * 2.1 + photon.userData.offset * Math.PI * 2) * 0.025;
+            photon.position.z = photon.userData.baseZ + Math.sin(time * 1.6 + photon.userData.offset * 8) * 0.035;
+            const pulse = 0.5 + 0.5 * Math.sin(time * 3.2 + photon.userData.offset * 10);
+            photon.material.opacity = 0.56 + pulse * 0.24;
+            photon.scale.setScalar(0.86 + pulse * 0.22);
+          } else {
+            const suppression = smoothstep(0.58, 0.9, travel);
+            photon.position.x = THREE.MathUtils.lerp(-photon.userData.amplitude, photon.userData.amplitude, travel);
+            photon.position.y = photon.userData.baseY + Math.sin(time * 2.4 + photon.userData.offset * 7) * 0.032;
+            photon.position.z = photon.userData.baseZ + Math.cos(time * 2.1 + photon.userData.offset * 9) * 0.045;
+            const flicker = 0.5 + 0.5 * Math.sin(time * 4.2 + photon.userData.offset * 11);
+            photon.material.opacity = (0.22 + flicker * 0.34) * (1 - suppression) + 0.035 * (1 - smoothstep(0.9, 1, travel));
+            photon.scale.setScalar((0.7 + flicker * 0.22) * (1 - suppression * 0.72));
+          }
+        }
+      }
+
+      if (outputPhotonSpheres && outputPhotonCurve) {
+        for (const item of outputPhotonSpheres) {
+          const t = (item.offset + time * 0.36) % 1;
+          const pt = outputPhotonCurve.getPointAt(t);
+          item.mesh.position.copy(pt);
+          const fade = Math.sin(t * Math.PI);
+          item.mesh.material.opacity = 0.25 + 0.6 * fade;
+          item.mesh.scale.setScalar(0.75 + 0.48 * fade);
+        }
+      }
+
       controls.update();
       renderer.render(scene, camera);
     };
@@ -743,6 +1108,8 @@ const indexItems = [
       for (const [button, handler] of indexClickHandlers) {
         button.removeEventListener("click", handler);
       }
+      explodeBtn?.removeEventListener("click", handleExplodeToggle);
+      window.removeEventListener("wheel", wheelHandler, { capture: true });
       controls.dispose();
       renderer.dispose();
     }, { once: true });
@@ -790,6 +1157,57 @@ const indexItems = [
     font-size: 0.82rem;
     line-height: 1.2;
     backdrop-filter: blur(8px);
+  }
+
+  .dfb-model__controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(8px);
+    font-size: 0.8rem;
+  }
+
+  .dfb-model__controls-row {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .dfb-model__control-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.38rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.78rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+  }
+
+  .dfb-model__control-btn:hover {
+    background: var(--surface-2);
+  }
+
+  .dfb-model__control-btn[aria-pressed="true"] {
+    border-color: #0d9488;
+    background: color-mix(in srgb, #0d9488 12%, var(--surface));
+    color: #0d9488;
+  }
+
+  .dfb-model__control-btn svg {
+    flex-shrink: 0;
   }
 
   .dfb-model__legend span,
@@ -871,6 +1289,20 @@ const indexItems = [
   @media (max-width: 720px) {
     .dfb-model__viewport {
       min-height: var(--model-height, 380px);
+    }
+
+    .dfb-model__controls {
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.4rem;
+    }
+
+    .dfb-model__control-btn {
+      padding: 0.35rem;
+    }
+
+    .dfb-model__control-btn span {
+      display: none;
     }
 
     .dfb-model__legend {
