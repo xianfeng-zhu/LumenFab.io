@@ -182,6 +182,39 @@ test("PIC MZM PN doping strips leave a visible gap between phase arms", () => {
   assert.doesNotMatch(component, /const tx2ArmZ2 = tx2Z \+ 0\.125;/);
 });
 
+test("PIC MZM RF electrodes follow widened active-region contacts", () => {
+  const outerContactOffset = mzmArmSeparation / 2 + mzmArmWidth / 2 + mzmDopingW / 2;
+
+  assert.ok(outerContactOffset > 0.4, "GSG grounds should visibly sit outside the widened MZM arms");
+  assert.match(component, /const txRfSignalZ = 0\.4;/);
+  assert.match(component, /const txRfGnd1Z = arm1nZ;/);
+  assert.match(component, /const txRfGnd2Z = arm2pZ;/);
+  assert.match(component, /addRfElectrode\(txRfSignalZ, 0xef4444, 4\);/);
+  assert.match(component, /addRfElectrode\(txRfGnd1Z, 0x94a3b8\);/);
+  assert.match(component, /addRfElectrode\(txRfGnd2Z, 0x94a3b8\);/);
+  assert.match(component, /const tx2RfSignalZ = tx2Z;/);
+  assert.match(component, /const tx2RfGnd1Z = tx2Arm1nZ;/);
+  assert.match(component, /const tx2RfGnd2Z = tx2Arm2pZ;/);
+  assert.match(component, /addRfElectrode\(tx2RfSignalZ, 0xef4444, 4\);/);
+  assert.match(component, /addRfElectrode\(tx2RfGnd1Z, 0x94a3b8\);/);
+  assert.match(component, /addRfElectrode\(tx2RfGnd2Z, 0x94a3b8\);/);
+  assert.match(component, /const mzmRfHitZ = mzmArmSeparation \+ armWidth \+ 2 \* dopingW \+ 0\.18;/);
+  assert.doesNotMatch(component, /position: \[dopingX, rfBaseY \+ rfH \/ 2, 0\.20\]/);
+  assert.doesNotMatch(component, /position: \[dopingX, rfBaseY \+ rfH \/ 2, 0\.60\]/);
+  assert.doesNotMatch(component, /const tx2RfGnd1Z = tx2Z - 0\.20;/);
+  assert.doesNotMatch(component, /const tx2RfGnd2Z = tx2Z \+ 0\.20;/);
+});
+
+test("PIC MZM M1 contact routing stays below the RF electrode layer", () => {
+  assert.match(component, /const contactM1Y = cladTopY \+ heaterH \+ m1H \/ 2;/);
+  assert.match(component, /const contactViaTopY = cladTopY \+ heaterH \+ m1H;/);
+  assert.match(component, /const contactViaH = contactViaTopY - viaBaseY;/);
+  assert.match(component, /position: \[vx, contactM1Y, z\]/);
+  assert.match(component, /lM1\.add\(tagPart\(trace, "m1Interconnect", false, 4, "mzm"\)\);/);
+  assert.doesNotMatch(component, /const rfPadY = viaTopY \+ m1H \/ 2;/);
+  assert.doesNotMatch(component, /lRf\.add\(tagPart\(trace, "rfElectrode", false, 4, "mzm"\)\);/);
+});
+
 test("PIC directional coupler bus width stays close to connected waveguides while the monitor tap remains slimmer", () => {
   assert.ok(dcBusW / ribW >= 0.8, "DC bus should not look abruptly narrower than the connected rib waveguide");
   assert.ok(dcTapW / dcBusW >= 0.6, "monitor tap should remain visibly related to the bus waveguide");

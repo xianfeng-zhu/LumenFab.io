@@ -576,31 +576,17 @@ const indexItems = [
     const rfH = 0.10;
     const rfElectrodeW = 0.07;
     const rfBaseY = cladTopY + heaterH + m1H;
-
-    const rfSignal = createBox({
-      size: [armLen + 0.1, rfH, rfElectrodeW],
-      position: [dopingX, rfBaseY + rfH / 2, 0.4],
-      color: 0xef4444,
-      metalness: 0.7,
-      roughness: 0.18
-    });
-    lRf.add(tagPart(rfSignal, "rfElectrode", false, 4, "mzm"));
-
-    const rfGnd1 = createBox({
-      size: [armLen + 0.1, rfH, rfElectrodeW],
-      position: [dopingX, rfBaseY + rfH / 2, 0.20],
-      color: 0x94a3b8,
-      metalness: 0.75,
-      roughness: 0.22
-    });
-    const rfGnd2 = createBox({
-      size: [armLen + 0.1, rfH, rfElectrodeW],
-      position: [dopingX, rfBaseY + rfH / 2, 0.60],
-      color: 0x94a3b8,
-      metalness: 0.75,
-      roughness: 0.22
-    });
-    lRf.add(tagPart(rfGnd1, "rfElectrode", false, 0, "mzm"), tagPart(rfGnd2, "rfElectrode", false, 0, "mzm"));
+    const addRfElectrode = (z, colorHex, priority = 0) => {
+      const electrode = createBox({
+        size: [armLen + 0.1, rfH, rfElectrodeW],
+        position: [dopingX, rfBaseY + rfH / 2, z],
+        color: colorHex,
+        metalness: colorHex === 0xef4444 ? 0.7 : 0.75,
+        roughness: colorHex === 0xef4444 ? 0.18 : 0.22
+      });
+      lRf.add(tagPart(electrode, "rfElectrode", false, priority, "mzm"));
+      return electrode;
+    };
 
     // === ILD cover over metal structures ===
     // In a real PIC, heater / M1 / RF electrodes are embedded in SiO₂ ILD,
@@ -1462,6 +1448,13 @@ const indexItems = [
     const arm1pZ = armZ1 + armWidth / 2 + dopingW / 2; // p++ strip, upper side
     const arm2nZ = armZ2 - armWidth / 2 - dopingW / 2; // n++ strip, lower side
     const arm2pZ = armZ2 + armWidth / 2 + dopingW / 2; // p++ strip, upper side
+    const txRfSignalZ = 0.4;
+    const txRfGnd1Z = arm1nZ;
+    const txRfGnd2Z = arm2pZ;
+
+    addRfElectrode(txRfSignalZ, 0xef4444, 4);
+    addRfElectrode(txRfGnd1Z, 0x94a3b8);
+    addRfElectrode(txRfGnd2Z, 0x94a3b8);
 
     const addDoping = (z, colorHex) => {
       const strip = createBox({
@@ -1480,8 +1473,9 @@ const indexItems = [
 
     // Contact vias from doped slab up through cladding to M1 level
     const viaBaseY = slabTopY;
-    const viaTopY = cladTopY + heaterH + m1H;
-    const contactViaH = viaTopY - viaBaseY;
+    const contactM1Y = cladTopY + heaterH + m1H / 2;
+    const contactViaTopY = cladTopY + heaterH + m1H;
+    const contactViaH = contactViaTopY - viaBaseY;
     const contactViaY = viaBaseY + contactViaH / 2;
     const viaXs = [-0.1, 0.5, 1.1].map(v => v * xScale); // three contacts along each strip
 
@@ -1507,7 +1501,7 @@ const indexItems = [
       for (const vx of viaXs) {
         const pad = createBox({
           size: [0.08, m1H, 0.08],
-          position: [vx, viaTopY + m1H / 2, z],
+          position: [vx, contactM1Y, z],
           color: 0xf97316,
           metalness: 0.65,
           roughness: 0.22
@@ -1520,46 +1514,42 @@ const indexItems = [
     addM1ContactPads(arm2nZ);
     addM1ContactPads(arm2pZ);
 
-    // M1 Z-bridges: short traces at each contact-via position
-    // arm1 n++ (Z=-0.07) → rfGnd1 (Z=0.20)
-    // arm2 p++ (Z=0.87) → rfGnd2 (Z=0.60)
-    const rfPadY = viaTopY + m1H / 2;
-
-    const addGndBridge = (zFrom, zTo) => {
+    // M1 Z-bridges stay in the first metal layer; RF electrodes remain above as M2.
+    const addM1Bridge = (zFrom, zTo) => {
       const zCenter = (zFrom + zTo) / 2;
-      const zLen = Math.abs(zTo - zFrom);
+      const zLen = Math.max(Math.abs(zTo - zFrom), 0.08);
       for (const vx of viaXs) {
         const trace = createBox({
           size: [0.08, m1H, zLen],
-          position: [vx, rfPadY, zCenter],
+          position: [vx, contactM1Y, zCenter],
           color: 0xf97316,
           metalness: 0.65,
           roughness: 0.22
         });
-        lRf.add(tagPart(trace, "rfElectrode", false, 4, "mzm"));
+        lM1.add(tagPart(trace, "m1Interconnect", false, 4, "mzm"));
       }
     };
-    addGndBridge(armZ1 - armWidth / 2 - dopingW / 2, 0.20); // arm1 n++ → GND1
-    addGndBridge(armZ2 + armWidth / 2 + dopingW / 2, 0.60);  // arm2 p++ → GND2
+    addM1Bridge(arm1nZ, txRfGnd1Z); // arm1 n++ → GND1
+    addM1Bridge(arm2pZ, txRfGnd2Z); // arm2 p++ → GND2
 
     // Signal-side M1 traces directly under RF signal electrode
     const addSigTrace = (z) => {
       for (const vx of viaXs) {
         const trace = createBox({
           size: [0.08, m1H, 0.08],
-          position: [vx, rfPadY, z],
+          position: [vx, contactM1Y, z],
           color: 0xf97316,
           metalness: 0.65,
           roughness: 0.22
         });
-        lRf.add(tagPart(trace, "rfElectrode", false, 4, "mzm"));
+        lM1.add(tagPart(trace, "m1Interconnect", false, 4, "mzm"));
       }
     };
-    addSigTrace(armZ1 + armWidth / 2 + dopingW / 2); // arm1 p++
-    addSigTrace(armZ2 - armWidth / 2 - dopingW / 2); // arm2 n++
+    addSigTrace(arm1pZ); // arm1 p++
+    addSigTrace(arm2nZ); // arm2 n++
     // Signal-side bridges — connect doping vias to RF signal electrode (Z=0.4)
-    addGndBridge(armZ1 + armWidth / 2 + dopingW / 2, 0.4); // arm1 p++ → signal
-    addGndBridge(armZ2 - armWidth / 2 - dopingW / 2, 0.4); // arm2 n++ → signal
+    addM1Bridge(arm1pZ, txRfSignalZ); // arm1 p++ → signal
+    addM1Bridge(arm2nZ, txRfSignalZ); // arm2 n++ → signal
 
     // === TX2 p-n junction doping for MZM phase arms ===
     const tx2Arm1nZ = tx2ArmZ1 - armWidth / 2 - dopingW / 2;
@@ -1581,39 +1571,19 @@ const indexItems = [
 
     // TX2 GSG RF electrodes
     const tx2RfSignalZ = tx2Z;
-    const tx2RfGnd1Z = tx2Z - 0.20;
-    const tx2RfGnd2Z = tx2Z + 0.20;
-    const tx2RfSignal = createBox({
-      size: [armLen + 0.1, rfH, rfElectrodeW],
-      position: [dopingX, rfBaseY + rfH / 2, tx2RfSignalZ],
-      color: 0xef4444,
-      metalness: 0.7,
-      roughness: 0.18
-    });
-    lRf.add(tagPart(tx2RfSignal, "rfElectrode", false, 4, "mzm"));
-    const tx2RfGnd1 = createBox({
-      size: [armLen + 0.1, rfH, rfElectrodeW],
-      position: [dopingX, rfBaseY + rfH / 2, tx2RfGnd1Z],
-      color: 0x94a3b8,
-      metalness: 0.75,
-      roughness: 0.22
-    });
-    const tx2RfGnd2 = createBox({
-      size: [armLen + 0.1, rfH, rfElectrodeW],
-      position: [dopingX, rfBaseY + rfH / 2, tx2RfGnd2Z],
-      color: 0x94a3b8,
-      metalness: 0.75,
-      roughness: 0.22
-    });
-    lRf.add(tagPart(tx2RfGnd1, "rfElectrode", false, 0, "mzm"), tagPart(tx2RfGnd2, "rfElectrode", false, 0, "mzm"));
+    const tx2RfGnd1Z = tx2Arm1nZ;
+    const tx2RfGnd2Z = tx2Arm2pZ;
+    addRfElectrode(tx2RfSignalZ, 0xef4444, 4);
+    addRfElectrode(tx2RfGnd1Z, 0x94a3b8);
+    addRfElectrode(tx2RfGnd2Z, 0x94a3b8);
 
     // TX2 M1 Z-bridges (doping contacts → RF electrodes)
-    addGndBridge(tx2Arm1nZ, tx2RfGnd1Z);
-    addGndBridge(tx2Arm2pZ, tx2RfGnd2Z);
+    addM1Bridge(tx2Arm1nZ, tx2RfGnd1Z);
+    addM1Bridge(tx2Arm2pZ, tx2RfGnd2Z);
     addSigTrace(tx2Arm1pZ);
     addSigTrace(tx2Arm2nZ);
-    addGndBridge(tx2Arm1pZ, tx2Z); // tx2 arm1 p++ → signal
-    addGndBridge(tx2Arm2nZ, tx2Z); // tx2 arm2 n++ → signal
+    addM1Bridge(tx2Arm1pZ, tx2RfSignalZ); // tx2 arm1 p++ → signal
+    addM1Bridge(tx2Arm2nZ, tx2RfSignalZ); // tx2 arm2 n++ → signal
 
     const createOpticalPathCurve = (points) => {
       const curve = new THREE.CurvePath();
@@ -2322,6 +2292,7 @@ const indexItems = [
     lTop.add(createFaceLabel("TX2 DC 焊盘", new THREE.Vector3(heaterPadX, padTopY, tx2HeaterZ2), faceTop, { scale: 0.08 }));
 
     // Hit targets — organised by layer so they move with explode view
+    const mzmRfHitZ = mzmArmSeparation + armWidth + 2 * dopingW + 0.18;
     const largeHitTargets = [
       { key: "substrate", size: [chipLen - 0.3, substrateH + 0.08, chipWidth - 0.3], position: [chipCenterX, substrateH / 2, 0], priority: 2 },
       { key: "box", size: [chipLen - 0.3, boxH + 0.08, chipWidth - 0.3], position: [chipCenterX, substrateH + boxH / 2, 0], priority: 2 },
@@ -2329,7 +2300,7 @@ const indexItems = [
       { key: "ribWaveguide", size: [2.8, siRibH + 0.14, 0.5], position: [-2.2, ribY, 0], priority: 5 },
       { key: "geDetector", size: [0.9, geH + 0.1, 0.45], position: [geX, geBaseY + geH / 2, rxZ], priority: 6 },
       { key: "m1Interconnect", size: [0.5, m1H + 0.12, 0.2], position: [geX, cladTopY + heaterH + m1H / 2 + 0.04, rxZ], priority: 5 },
-      { key: "rfElectrode", size: [armLen + 0.3, rfH + 0.14, 0.7], position: [dopingX, rfBaseY + rfH / 2, 0.4], priority: 5 },
+      { key: "rfElectrode", size: [armLen + 0.3, rfH + 0.14, mzmRfHitZ], position: [dopingX, rfBaseY + rfH / 2, 0.4], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [gcCenterX, ribY, rxZ], priority: 6 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [gcCenterX, ribY, -0.4], priority: 6 },
       { key: "edgeCoupler", size: [0.2, siRibH + 0.2, 0.8], position: [chipLeftX + 0.02, ribY + 0.04, rxEcZ], priority: 6 },
@@ -2353,7 +2324,7 @@ const indexItems = [
       { key: "ribWaveguide", size: [armLen, siRibH + 0.14, armWidth + 0.1], position: [dopingX, ribY, tx2ArmZ1], priority: 5 },
       { key: "ribWaveguide", size: [1.9, siRibH + 0.14, armWidth + 0.1], position: [0.5, ribY, tx2ArmZ2], priority: 5 },
       { key: "heater", size: [2.0, heaterH + 0.12, 0.8], position: [dopingX, cladTopY + heaterH / 2 + 0.02, tx2Z], priority: 6 },
-      { key: "rfElectrode", size: [2.2, rfH + 0.14, 0.7], position: [dopingX, rfBaseY + rfH / 2, tx2Z], priority: 5 },
+      { key: "rfElectrode", size: [2.2, rfH + 0.14, mzmRfHitZ], position: [dopingX, rfBaseY + rfH / 2, tx2Z], priority: 5 },
       { key: "geDetector", size: [0.4, mpdH + 0.08, 0.26], position: [tx2MpdX, mpdBaseY + mpdH / 2, tx2MpdZ], priority: 6 },
     ];
     for (let i = 0; i < 3; i++) {
