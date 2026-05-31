@@ -16,7 +16,8 @@ const ribW = 0.24;
 const dcBusW = 0.2;
 const dcTapW = 0.14;
 const dcLen = 0.55;
-const dcTaperLen = 0.36;
+const previousDcTaperLen = 0.36;
+const dcTaperLen = 0.216;
 const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale;
 const tx2Z = -1.4;
 const mziMmiLen = 0.55;
@@ -173,9 +174,10 @@ test("PIC directional coupler bus width stays close to connected waveguides whil
 });
 
 test("PIC directional coupler tapers occupy visible connector spans outside the straight coupling region", () => {
-  assert.ok(dcTaperLen >= 0.3, "DC taper needs enough length to be visible in the full-chip view");
+  assert.ok(Math.abs(dcTaperLen - previousDcTaperLen * 0.6) < 1e-12, "DC taper should be 60% of its previous length");
+  assert.ok(dcTaperLen > taperLen, "DC taper should remain longer than the global compact taper");
   assert.ok(dcTaperLen < dcLen, "DC taper should not dominate the straight coupling region");
-  assert.match(component, /const dcTaperLen = 0\.36;/);
+  assert.match(component, /const dcTaperLen = 0\.216;/);
   assert.match(component, /const dcParallelStartX = dcStartX;/);
   assert.match(component, /const dcParallelEndX = dcEndX;/);
   assert.match(component, /const dcRibEntryEndX = dcParallelStartX - dcTaperLen;/);
