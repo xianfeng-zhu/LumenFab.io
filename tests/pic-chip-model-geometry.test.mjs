@@ -18,6 +18,10 @@ const dcTapW = 0.14;
 const dcLen = 0.55;
 const previousDcTaperLen = 0.36;
 const dcTaperLen = 0.216;
+const mzmArmSeparation = 0.36;
+const mzmArmWidth = 0.14;
+const mzmDopingW = 0.08;
+const minMzmDopingGap = 0.05;
 const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale;
 const tx2Z = -1.4;
 const mziMmiLen = 0.55;
@@ -156,6 +160,26 @@ test("PIC model uses slimmer device geometry while preserving connected centerli
   assert.match(component, /size: \[connLen, siRibH, ribW\]/);
   assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen, "dc"\);/);
   assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, 0\.4, mmiWidth, ribW, taperLen, "mzm"\);/);
+});
+
+test("PIC MZM PN doping strips leave a visible gap between phase arms", () => {
+  const innerDopingGap = mzmArmSeparation - mzmArmWidth - 2 * mzmDopingW;
+
+  assert.ok(
+    innerDopingGap >= minMzmDopingGap,
+    `inner PN doping gap ${innerDopingGap.toFixed(3)} should remain visually separable`
+  );
+  assert.match(component, /const mzmArmSeparation = 0\.36;/);
+  assert.match(component, /const tx2ArmZ1 = tx2Z - mzmArmSeparation \/ 2;/);
+  assert.match(component, /const tx2ArmZ2 = tx2Z \+ mzmArmSeparation \/ 2;/);
+  assert.match(component, /const armZ1 = 0\.4 - mzmArmSeparation \/ 2;/);
+  assert.match(component, /const armZ2 = 0\.4 \+ mzmArmSeparation \/ 2;/);
+  assert.match(component, /const armWidth = 0\.14;/);
+  assert.match(component, /const dopingW = 0\.08;/);
+  assert.doesNotMatch(component, /const armZ1 = 0\.275;/);
+  assert.doesNotMatch(component, /const armZ2 = 0\.525;/);
+  assert.doesNotMatch(component, /const tx2ArmZ1 = tx2Z - 0\.125;/);
+  assert.doesNotMatch(component, /const tx2ArmZ2 = tx2Z \+ 0\.125;/);
 });
 
 test("PIC directional coupler bus width stays close to connected waveguides while the monitor tap remains slimmer", () => {

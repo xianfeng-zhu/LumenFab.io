@@ -335,8 +335,9 @@ const indexItems = [
 
     // TX2 (λ2) channel — mirrored below TX1 at Z ≈ -1.4
     const tx2Z = -1.4;
-    const tx2ArmZ1 = tx2Z - 0.125;
-    const tx2ArmZ2 = tx2Z + 0.125;
+    const mzmArmSeparation = 0.36;
+    const tx2ArmZ1 = tx2Z - mzmArmSeparation / 2;
+    const tx2ArmZ2 = tx2Z + mzmArmSeparation / 2;
 
     // MMI & arm length — needed early (used by RF electrodes before MMIs are created)
     const mmiLen = 0.85;
@@ -1055,8 +1056,8 @@ const indexItems = [
     lSiDevice.add(tagPart(tx2WaveguideDC, "ribWaveguide", false, 4));
 
     // TX MMI splitter + MZM phase arms
-    const armZ1 = 0.275;
-    const armZ2 = 0.525;
+    const armZ1 = 0.4 - mzmArmSeparation / 2;
+    const armZ2 = 0.4 + mzmArmSeparation / 2;
     const armWidth = 0.14;
 
     const txMmiSplitter = createBox({
