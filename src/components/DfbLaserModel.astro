@@ -22,7 +22,8 @@ const legendItems = [
   ["pMetal", "#f97316", "p-contact"],
   ["nContact", "#475569", "n-contact"],
   ["facet", "#334155", "端面 / 镀膜"],
-  ["photonPool", "#f472b6", "有源区光子 / 波长选择"]
+  ["photonPool", "#f472b6", "有源区光子 / 波长选择"],
+  ["braggSelection", "#38bdf8", "Bragg 波长选择"]
 ];
 
 const indexItems = [
@@ -44,6 +45,7 @@ const indexItems = [
   ["coating", "#a855f7", "AR / HR coating"],
   ["current", "#22c55e", "电流路径"],
   ["photonPool", "#f472b6", "有源区光子 / 波长选择"],
+  ["braggSelection", "#38bdf8", "Bragg 波长选择"],
   ["output", "#60a5fa", "边发射输出光"]
 ];
 ---
@@ -180,6 +182,11 @@ const indexItems = [
       title: "有源区光子与波长选择",
       body: "有源区内不同颜色的小球表示不同波长的自发辐射光子。DFB 光栅不会像筛网一样逐个拦截光子，而是通过周期性折射率扰动选择能形成前向 / 后向耦合模式的 Bragg 波长；非目标波长因反馈不足和增益竞争逐渐衰减，目标波长形成稳定输出。"
     },
+    braggSelection: {
+      color: "#38bdf8",
+      title: "Bragg 波长选择",
+      body: "多色波纹表示不同波长在有源区内尝试形成纵向光场。接近 Bragg 条件的波纹会逐渐相干增强，并与前向 / 后向反馈耦合；偏离 Bragg 条件的波纹相位关系不能沿光栅周期稳定累加，因此在增益竞争中变淡。"
+    },
     output: {
       color: "#60a5fa",
       title: "边发射输出光",
@@ -287,6 +294,69 @@ const indexItems = [
       offset: i / count
     }));
 
+  const braggWaveSegments = 72;
+  const braggWaveLength = 5.25;
+  const braggRibbonWidth = 0.035;
+
+  const createBraggWaveLine = ({ color, baseY, baseZ, phaseOffset, waveNumber, isTargetBragg }) => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array((braggWaveSegments + 1) * 2 * 3), 3));
+    const indices = [];
+    for (let i = 0; i < braggWaveSegments; i += 1) {
+      const a = i * 2;
+      const b = a + 1;
+      const c = a + 2;
+      const d = a + 3;
+      indices.push(a, c, b, b, c, d);
+    }
+    geometry.setIndex(indices);
+    const line = new THREE.Mesh(
+      geometry,
+      new THREE.MeshBasicMaterial({
+        color,
+        transparent: true,
+        opacity: isTargetBragg ? 0.72 : 0.36,
+        depthTest: false,
+        depthWrite: false,
+        side: THREE.DoubleSide
+      })
+    );
+    line.userData.baseY = baseY;
+    line.userData.baseZ = baseZ;
+    line.userData.phaseOffset = phaseOffset;
+    line.userData.waveNumber = waveNumber;
+    line.userData.isTargetBragg = isTargetBragg;
+    line.renderOrder = 4;
+    return line;
+  };
+
+  const updateBraggWaveLine = (line, time) => {
+    const position = line.geometry.getAttribute("position");
+    const cycle = (time * 0.13 + line.userData.phaseOffset) % 1;
+    const suppression = line.userData.isTargetBragg ? 0 : smoothstep(0.42, 0.92, cycle);
+    const coherence = line.userData.isTargetBragg
+      ? 0.62 + 0.38 * (0.5 + 0.5 * Math.sin(time * 1.4))
+      : 1 - suppression;
+
+    for (let i = 0; i <= braggWaveSegments; i += 1) {
+      const u = i / braggWaveSegments;
+      const x = (u - 0.5) * braggWaveLength;
+      const longitudinalEnvelope = Math.sin(u * Math.PI);
+      const phase = x * line.userData.waveNumber + time * (line.userData.isTargetBragg ? 1.15 : 2.05) + line.userData.phaseOffset * Math.PI * 2;
+      const wave = Math.sin(phase) * longitudinalEnvelope * coherence;
+      const y = line.userData.baseY + 0.14 + wave * 0.018;
+      const z = line.userData.baseZ + wave * (line.userData.isTargetBragg ? 0.13 : 0.09);
+      position.setXYZ(i * 2, x, y - braggRibbonWidth, z);
+      position.setXYZ(i * 2 + 1, x, y + braggRibbonWidth, z);
+    }
+
+    position.needsUpdate = true;
+    line.geometry.computeBoundingSphere();
+    line.material.opacity = line.userData.isTargetBragg
+      ? 0.42 + 0.34 * coherence
+      : 0.05 + 0.28 * coherence;
+  };
+
   function buildModel(scene) {
     const chip = new THREE.Group();
     scene.add(chip);
@@ -323,6 +393,7 @@ const indexItems = [
       mqw: "activeRegion",
       mode: "activeRegion",
       photonPool: "activeRegion",
+      braggSelection: "activeRegion",
       output: "activeRegion",
       grating: "grating",
       phase: "grating",
@@ -605,6 +676,21 @@ const indexItems = [
     });
     chip.add(tagPart(gratingFeedbackGroup, "grating", false, 3));
 
+    const braggSelectionGroup = new THREE.Group();
+    const braggSelectionLines = [
+      { color: 0x38bdf8, baseY: layerCenters["MQW active region"], baseZ: cutawayOffset - 0.52, phaseOffset: 0.05, waveNumber: 8.2, isTargetBragg: true },
+      { color: 0x93c5fd, baseY: layerCenters["MQW active region"], baseZ: cutawayOffset - 0.38, phaseOffset: 0.42, waveNumber: 8.2, isTargetBragg: true },
+      { color: 0xf472b6, baseY: layerCenters["MQW active region"], baseZ: cutawayOffset - 0.2, phaseOffset: 0.18, waveNumber: 6.6, isTargetBragg: false },
+      { color: 0xf59e0b, baseY: layerCenters["MQW active region"], baseZ: cutawayOffset - 0.08, phaseOffset: 0.5, waveNumber: 10.1, isTargetBragg: false },
+      { color: 0xa78bfa, baseY: layerCenters["MQW active region"], baseZ: cutawayOffset + 0.06, phaseOffset: 0.76, waveNumber: 7.4, isTargetBragg: false }
+    ].map((spec) => {
+      const line = createBraggWaveLine(spec);
+      updateBraggWaveLine(line, 0);
+      braggSelectionGroup.add(tagPart(line, "braggSelection", false, 3));
+      return line;
+    });
+    chip.add(tagPart(braggSelectionGroup, "braggSelection", false, 3));
+
     const photonGroup = new THREE.Group();
     const activePhotons = [];
     const photonSpecs = [
@@ -659,6 +745,7 @@ const indexItems = [
       { key: "currentWindow", size: [5.25, 0.24, 0.45], position: [0, topY + 0.08, cutawayOffset - 0.45], priority: 4 },
       { key: "coating", size: [0.22, topY + 0.28, 0.9], position: [length / 2 + 0.1, (topY + 0.2) / 2, cutawayOffset], priority: 4 },
       { key: "photonPool", size: [5.15, 0.36, 0.92], position: [0, layerCenters["MQW active region"], cutawayOffset], priority: 4 },
+      { key: "braggSelection", size: [5.35, 0.42, 1.0], position: [0, layerCenters["MQW active region"] + 0.14, cutawayOffset - 0.24], priority: 4 },
       { key: "output", size: [1.5, 0.4, 0.5], position: [length / 2 + 0.72, layerCenters["MQW active region"], cutawayOffset], priority: 4 },
       { key: "nContact", size: [5.95, 0.24, fullWidth + 0.12], position: [0, -0.08, 0], priority: 3 }
     ];
@@ -687,6 +774,7 @@ const indexItems = [
       currentGlowSpheres,
       gratingFeedbackCurve,
       gratingFeedbackPulses,
+      braggSelectionLines,
       activePhotons,
       outputPhotonCurve,
       outputPhotonSpheres
@@ -770,6 +858,7 @@ const indexItems = [
       currentGlowSpheres,
       gratingFeedbackCurve,
       gratingFeedbackPulses,
+      braggSelectionLines,
       activePhotons,
       outputPhotonCurve,
       outputPhotonSpheres
@@ -1055,6 +1144,12 @@ const indexItems = [
           const envelope = Math.sin(t * Math.PI);
           pulse.material.opacity = 0.16 + 0.58 * envelope;
           pulse.scale.setScalar(0.72 + 0.36 * envelope);
+        }
+      }
+
+      if (braggSelectionLines) {
+        for (const wave of braggSelectionLines) {
+          updateBraggWaveLine(wave, time);
         }
       }
 

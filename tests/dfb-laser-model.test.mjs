@@ -92,3 +92,23 @@ test("DFB model shows grating feedback by animating coupled forward and backward
   assert.match(component, /const feedbackPoint = gratingFeedbackCurve\.getPointAt\(reflectedT\);/);
   assert.match(component, /pulse\.material\.opacity = 0\.16 \+ 0\.58 \* envelope;/);
 });
+
+test("DFB model shows Bragg wavelength selection with coherent and suppressed wave traces", () => {
+  assert.match(component, /\["braggSelection", "#38bdf8", "Bragg 波长选择"\]/);
+  assert.match(component, /braggSelection: \{/);
+  assert.match(component, /braggSelection: "activeRegion"/);
+  assert.match(component, /const braggRibbonWidth = 0\.035;/);
+  assert.match(component, /const createBraggWaveLine = \(\{ color, baseY, baseZ, phaseOffset, waveNumber, isTargetBragg \}\) =>/);
+  assert.match(component, /const updateBraggWaveLine = \(line, time\) =>/);
+  assert.match(component, /new THREE\.MeshBasicMaterial\(\{/);
+  assert.match(component, /side: THREE\.DoubleSide/);
+  assert.match(component, /const braggSelectionGroup = new THREE\.Group\(\);/);
+  assert.match(component, /const braggSelectionLines = \[/);
+  assert.match(component, /isTargetBragg: true/);
+  assert.match(component, /isTargetBragg: false/);
+  assert.match(component, /tagPart\(line, "braggSelection", false, 3\)/);
+  assert.match(component, /braggSelectionLines,/);
+  assert.match(component, /for \(const wave of braggSelectionLines\)/);
+  assert.match(component, /updateBraggWaveLine\(wave, time\);/);
+  assert.match(component, /position\.setXYZ\(i \* 2, x, y - braggRibbonWidth, z\);/);
+});
