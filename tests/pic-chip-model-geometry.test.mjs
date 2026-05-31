@@ -12,6 +12,9 @@ const component = await readFile(
 const xScale = 1.5;
 const mmiLen = 0.85;
 const taperLen = 0.15;
+const ribW = 0.24;
+const dcBusW = 0.2;
+const dcTapW = 0.14;
 const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale;
 const tx2Z = -1.4;
 const mziMmiLen = 0.55;
@@ -139,8 +142,8 @@ test("PIC model uses slimmer device geometry while preserving connected centerli
   assert.match(component, /const rfElectrodeW = 0\.07;/);
   assert.match(component, /const heaterW = 0\.07;/);
   assert.match(component, /const edgeCouplerW = 0\.44;/);
-  assert.match(component, /const dcBusW = 0\.14;/);
-  assert.match(component, /const dcTapW = 0\.07;/);
+  assert.match(component, /const dcBusW = 0\.2;/);
+  assert.match(component, /const dcTapW = 0\.14;/);
   assert.match(component, /const armWidth = 0\.14;/);
   assert.match(component, /const _bendW = 0\.16;/);
   assert.match(component, /const dopingW = 0\.08;/);
@@ -152,14 +155,19 @@ test("PIC model uses slimmer device geometry while preserving connected centerli
   assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, 0\.4, mmiWidth, ribW\);/);
 });
 
-test("PIC directional coupler monitor tap is slimmer with a clearer coupling gap", () => {
+test("PIC directional coupler bus width stays close to connected waveguides while the monitor tap remains slimmer", () => {
+  assert.ok(dcBusW / ribW >= 0.8, "DC bus should not look abruptly narrower than the connected rib waveguide");
+  assert.ok(dcTapW / dcBusW >= 0.6, "monitor tap should remain visibly related to the bus waveguide");
+  assert.ok(dcTapW < dcBusW, "monitor tap should remain slimmer than the bus waveguide");
   assert.match(component, /const dcGap = 0\.16;/);
-  assert.match(component, /const dcBusW = 0\.14;/);
-  assert.match(component, /const dcTapW = 0\.07;/);
+  assert.match(component, /const dcBusW = 0\.2;/);
+  assert.match(component, /const dcTapW = 0\.14;/);
   assert.match(component, /const dcCoupledZ = 0\.4 \+ dcBusW \/ 2 \+ dcGap \+ dcTapW \/ 2;/);
   assert.match(component, /const tx2DcCoupledZ = tx2Z - dcBusW \/ 2 - dcGap - dcTapW \/ 2;/);
   assert.match(component, /const hw = dcTapW \/ 2;/);
   assert.match(component, /const tx2DcHw = dcTapW \/ 2;/);
+  assert.doesNotMatch(component, /const dcBusW = 0\.14;/);
+  assert.doesNotMatch(component, /const dcTapW = 0\.07;/);
 });
 
 test("PIC optical path overlays stay on waveguide centerlines around rings and monitor taps", () => {
