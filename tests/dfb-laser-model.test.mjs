@@ -40,6 +40,14 @@ test("DFB output light stays attached to the active-region layer in explode view
   assert.match(component, /\{ key: "output", size: \[1\.5, 0\.4, 0\.5\], position: \[length \/ 2 \+ 0\.72, layerCenters\["MQW active region"\], cutawayOffset\], priority: 4 \}/);
 });
 
+test("DFB model describes the ridge as lateral confinement instead of the optical path", () => {
+  assert.match(component, /\["ridge", "#0891b2", "Ridge 侧向波导结构"\]/);
+  assert.match(component, /title: "Ridge 侧向波导结构"/);
+  assert.match(component, /它不是光从外部进入的通道/);
+  assert.match(component, /激光模式主要位于 MQW \/ SCH 附近/);
+  assert.match(component, /SCH \/ 包层提供垂直限制，ridge 提供横向限制/);
+});
+
 test("DFB model computes a responsive default camera frame from model bounds", () => {
   assert.match(component, /const modelViewRadius = model\.userData\.modelViewRadius;/);
   assert.match(component, /const defaultCameraDirection = new THREE\.Vector3\(4\.8, 3\.4, 5\.4\)\.normalize\(\);/);

@@ -17,7 +17,7 @@ const legendItems = [
   ["pCladding", "#7c3aed", "p-InP 包层"],
   ["contactCap", "#ef4444", "p+ 接触层"],
   ["grating", "#0d9488", "DFB 光栅 (DFB grating)"],
-  ["ridge", "#0891b2", "ridge"],
+  ["ridge", "#0891b2", "ridge 横向约束"],
   ["dielectric", "#64748b", "绝缘 / 钝化"],
   ["pMetal", "#f97316", "p-contact"],
   ["nContact", "#475569", "n-contact"],
@@ -36,7 +36,7 @@ const indexItems = [
   ["grating", "#0d9488", "DFB 光栅"],
   ["phase", "#1e293b", "相移区"],
   ["pCladding", "#7c3aed", "p-InP 包层"],
-  ["ridge", "#0891b2", "Ridge 波导"],
+  ["ridge", "#0891b2", "Ridge 侧向波导结构"],
   ["contactCap", "#ef4444", "p+ 接触层"],
   ["dielectric", "#64748b", "绝缘钝化"],
   ["currentWindow", "#22c55e", "电流窗口"],
@@ -124,8 +124,8 @@ const indexItems = [
     },
     ridge: {
       color: "#0891b2",
-      title: "Ridge 波导",
-      body: "ridge 是刻蚀后保留下来的脊形几何，表示 p-side 外延层中被保留的窄条区域。它通过横向等效折射率差和电流窗口，把光场和电流约束在有源区附近。"
+      title: "Ridge 侧向波导结构",
+      body: "ridge 是刻蚀后保留下来的 p-side 脊形结构，位于有源区上方。它不是光从外部进入的通道；激光模式主要位于 MQW / SCH 附近，并沿芯片长度方向传播。ridge 通过横向等效折射率差和电流窗口，把光学模式和注入电流限制在脊下方的有源区附近。"
     },
     dielectric: {
       color: "#64748b",
@@ -170,7 +170,7 @@ const indexItems = [
     mode: {
       color: "#0891b2",
       title: "腔内光场分布",
-      body: "腔内光场分布表示激光在芯片内部的空间强度分布。这个示意体沿腔长方向延伸，垂直方向被压得很薄，用来表达光主要被 SCH、包层和 ridge 波导限制在 MQW 有源区附近。它表示光场，不对应独立材料层。"
+      body: "腔内光场分布表示激光在芯片内部的空间强度分布。这个示意体沿腔长方向延伸，垂直方向被压得很薄，用来表达光主要位于 MQW / SCH 附近。它表示光场，不对应独立材料层；SCH / 包层提供垂直限制，ridge 提供横向限制。"
     },
     current: {
       color: "#22c55e",
