@@ -256,26 +256,26 @@ const {
 
   [data-theme="light"] {
     color-scheme: light;
-    --bg: #f8faf7;
+    --bg: #faf8f5;
     --surface: #ffffff;
-    --surface-2: #eef5f1;
-    --text: #16201b;
-    --muted: #65746d;
-    --border: #d7e1db;
-    --accent: #1d7a6b;
-    --accent-strong: #0f4f49;
+    --surface-2: #f3f0ea;
+    --text: #1e1b16;
+    --muted: #7a7262;
+    --border: #e6e0d6;
+    --accent: #8a6d3b;
+    --accent-strong: #5c461f;
   }
 
   [data-theme="dark"] {
     color-scheme: dark;
-    --bg: #0f1714;
-    --surface: #1a2621;
-    --surface-2: #1f2e28;
-    --text: #d9e8e1;
-    --muted: #7e9b8f;
-    --border: #283831;
-    --accent: #3db89e;
-    --accent-strong: #5dd4be;
+    --bg: #1a1712;
+    --surface: #242018;
+    --surface-2: #2d2820;
+    --text: #e4ded0;
+    --muted: #968c76;
+    --border: #2e2920;
+    --accent: #c8a060;
+    --accent-strong: #d4b878;
   }
 
   * {
@@ -288,7 +288,9 @@ const {
 
   body {
     margin: 0;
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
     color: var(--text);
     line-height: 1.7;
   }
