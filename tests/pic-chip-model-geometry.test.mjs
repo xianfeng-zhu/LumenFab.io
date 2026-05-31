@@ -206,13 +206,33 @@ test("PIC MZM RF electrodes follow widened active-region contacts", () => {
 });
 
 test("PIC MZM M1 contact routing stays below the RF electrode layer", () => {
-  assert.match(component, /const contactM1Y = cladTopY \+ heaterH \+ m1H \/ 2;/);
-  assert.match(component, /const contactViaTopY = cladTopY \+ heaterH \+ m1H;/);
+  assert.match(component, /const contactM1Y = m1CenterY;/);
+  assert.match(component, /const contactViaTopY = m1BaseY;/);
   assert.match(component, /const contactViaH = contactViaTopY - viaBaseY;/);
   assert.match(component, /position: \[vx, contactM1Y, z\]/);
   assert.match(component, /lM1\.add\(tagPart\(trace, "m1Interconnect", false, 4, "mzm"\)\);/);
   assert.doesNotMatch(component, /const rfPadY = viaTopY \+ m1H \/ 2;/);
   assert.doesNotMatch(component, /lRf\.add\(tagPart\(trace, "rfElectrode", false, 4, "mzm"\)\);/);
+});
+
+test("PIC metal stack separates heater M1 and RF layers with local vias", () => {
+  assert.match(component, /const heaterToM1Gap = 0\.06;/);
+  assert.match(component, /const m1ToRfGap = 0\.07;/);
+  assert.match(component, /const heaterBaseY = cladTopY;/);
+  assert.match(component, /const heaterCenterY = heaterBaseY \+ heaterH \/ 2;/);
+  assert.match(component, /const heaterTopY = heaterBaseY \+ heaterH;/);
+  assert.match(component, /const m1BaseY = heaterTopY \+ heaterToM1Gap;/);
+  assert.match(component, /const m1CenterY = m1BaseY \+ m1H \/ 2;/);
+  assert.match(component, /const m1TopY = m1BaseY \+ m1H;/);
+  assert.match(component, /const rfBaseY = m1TopY \+ m1ToRfGap;/);
+  assert.match(component, /const heaterToM1ViaH = m1BaseY - heaterTopY;/);
+  assert.match(component, /position: \[dopingX, heaterTopY \+ heaterToM1ViaH \/ 2, heaterZ1\]/);
+  assert.match(component, /const m1ToRfViaH = rfBaseY - m1TopY;/);
+  assert.match(component, /const addM1ToRfVias = \(z\) => \{/);
+  assert.match(component, /position: \[vx, m1TopY \+ m1ToRfViaH \/ 2, z\]/);
+  assert.doesNotMatch(component, /const rfBaseY = cladTopY \+ heaterH \+ m1H;/);
+  assert.doesNotMatch(component, /const heaterM1Y = cladTopY \+ heaterH \+ m1H \/ 2;/);
+  assert.doesNotMatch(component, /const viaToM1H = heaterH \+ m1H;/);
 });
 
 test("PIC directional coupler bus width stays close to connected waveguides while the monitor tap remains slimmer", () => {

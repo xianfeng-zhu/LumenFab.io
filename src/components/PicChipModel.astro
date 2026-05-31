@@ -571,11 +571,19 @@ const indexItems = [
 
     // === Layer 7: M1 interconnect ===
     const m1H = 0.09;
+    const heaterToM1Gap = 0.06;
+    const m1ToRfGap = 0.07;
+    const heaterBaseY = cladTopY;
+    const heaterCenterY = heaterBaseY + heaterH / 2;
+    const heaterTopY = heaterBaseY + heaterH;
+    const m1BaseY = heaterTopY + heaterToM1Gap;
+    const m1CenterY = m1BaseY + m1H / 2;
+    const m1TopY = m1BaseY + m1H;
 
     // === Layer 8: RF electrodes (GSG travelling-wave) ===
     const rfH = 0.10;
     const rfElectrodeW = 0.07;
-    const rfBaseY = cladTopY + heaterH + m1H;
+    const rfBaseY = m1TopY + m1ToRfGap;
     const addRfElectrode = (z, colorHex, priority = 0) => {
       const electrode = createBox({
         size: [armLen + 0.1, rfH, rfElectrodeW],
@@ -610,30 +618,30 @@ const indexItems = [
     for (const d of dropGeData) {
       const geTopY = geBaseY + dropGeH;
       // W via: Ge → M1
-      const viaH_drop = cladTopY + heaterH - geTopY;
+      const viaH_drop = m1BaseY - geTopY;
       lM1.add(tagPart(createBox({
         size: [0.06, viaH_drop, 0.06],
         position: [d.rx, geTopY + viaH_drop / 2, d.geZ],
         color: 0x78716c, metalness: 0.75, roughness: 0.25
       }), "m1Interconnect", false, 4, "microring"));
       // M1 stub
-      const m1StubY = cladTopY + heaterH + m1H / 2;
+      const m1StubY = m1CenterY;
       lM1.add(tagPart(createBox({
         size: [0.3, m1H, 0.08],
         position: [d.rx, m1StubY, d.geZ],
         color: 0xf97316, metalness: 0.65, roughness: 0.22
       }), "m1Interconnect", false, 4, "microring"));
       // Top via: M1 → bond pad
-      const topViaH = padBaseY - (cladTopY + heaterH + m1H);
+      const topViaH = padBaseY - m1TopY;
       lM1.add(tagPart(createBox({
         size: [0.06, topViaH, 0.06],
-        position: [d.rx, cladTopY + heaterH + m1H + topViaH / 2, d.geZ],
+        position: [d.rx, m1TopY + topViaH / 2, d.geZ],
         color: 0x78716c, metalness: 0.75, roughness: 0.25
       }), "m1Interconnect", false, 4, "microring"));
     }
 
     // Monitor PD W via + M1 stub (deferred — needs cladTopY)
-    const mpdViaH2 = cladTopY + heaterH - (siBase + 0.1);
+    const mpdViaH2 = m1BaseY - (siBase + 0.1);
     lM1.add(tagPart(createBox({
       size: [0.05, mpdViaH2, 0.05],
       position: [-1.685, mpdBaseY + mpdViaH2 / 2, 1.42],
@@ -641,18 +649,19 @@ const indexItems = [
     }), "m1Interconnect", false, 4));
     lM1.add(tagPart(createBox({
       size: [0.2, m1H, 0.06],
-      position: [-1.685, cladTopY + heaterH + m1H / 2, 1.42],
+      position: [-1.685, m1CenterY, 1.42],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     }), "m1Interconnect", false, 4));
     // Top via: monitor PD M1 → bond pad
+    const monitorTopViaH = padBaseY - m1TopY;
     lM1.add(tagPart(createBox({
-      size: [0.06, padBaseY - (cladTopY + heaterH + m1H), 0.06],
-      position: [-1.685, cladTopY + heaterH + m1H + (padBaseY - (cladTopY + heaterH + m1H)) / 2, 1.42],
+      size: [0.06, monitorTopViaH, 0.06],
+      position: [-1.685, m1TopY + monitorTopViaH / 2, 1.42],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4));
 
     // TX2 Monitor PD W via + M1 stub (deferred — needs cladTopY)
-    const tx2MpdViaH = cladTopY + heaterH - (siBase + 0.1);
+    const tx2MpdViaH = m1BaseY - (siBase + 0.1);
     lM1.add(tagPart(createBox({
       size: [0.05, tx2MpdViaH, 0.05],
       position: [-1.685, mpdBaseY + tx2MpdViaH / 2, -2.45],
@@ -660,13 +669,14 @@ const indexItems = [
     }), "m1Interconnect", false, 4));
     lM1.add(tagPart(createBox({
       size: [0.2, m1H, 0.06],
-      position: [-1.685, cladTopY + heaterH + m1H / 2, -2.45],
+      position: [-1.685, m1CenterY, -2.45],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     }), "m1Interconnect", false, 4));
     // Top via: TX2 monitor PD M1 → bond pad
+    const tx2MonitorTopViaH = padBaseY - m1TopY;
     lM1.add(tagPart(createBox({
-      size: [0.06, padBaseY - (cladTopY + heaterH + m1H), 0.06],
-      position: [-1.685, cladTopY + heaterH + m1H + (padBaseY - (cladTopY + heaterH + m1H)) / 2, -2.45],
+      size: [0.06, tx2MonitorTopViaH, 0.06],
+      position: [-1.685, m1TopY + tx2MonitorTopViaH / 2, -2.45],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4));
 
@@ -687,7 +697,7 @@ const indexItems = [
     }
 
     // W contact via: Ge detector → M1
-    const wViaH = cladTopY + heaterH - (geBaseY + geH);
+    const wViaH = m1BaseY - (geBaseY + geH);
     lM1.add(tagPart(createBox({
       size: [0.06, wViaH, 0.06],
       position: [geX, geBaseY + geH + wViaH / 2, rxZ],
@@ -697,15 +707,15 @@ const indexItems = [
     // M1 stub above Ge detector
     lM1.add(tagPart(createBox({
       size: [0.3, m1H, 0.08],
-      position: [geX, cladTopY + heaterH + m1H / 2, rxZ],
+      position: [geX, m1CenterY, rxZ],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     }), "m1Interconnect", false, 4));
 
     // Top via: M1 → bond pad
-    const topViaH = padBaseY - (cladTopY + heaterH + m1H);
+    const topViaH = padBaseY - m1TopY;
     lM1.add(tagPart(createBox({
       size: [0.06, topViaH, 0.06],
-      position: [geX, cladTopY + heaterH + m1H + topViaH / 2, rxZ],
+      position: [geX, m1TopY + topViaH / 2, rxZ],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4));
 
@@ -1279,7 +1289,7 @@ const indexItems = [
     // Offset slightly outward in Z to remain visible under GND electrodes
     const txHeater1 = createBox({
       size: [armLen - 0.5, heaterH, heaterW],
-      position: [dopingX, cladTopY + heaterH / 2, armZ1 - 0.03],
+      position: [dopingX, heaterCenterY, armZ1 - 0.03],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -1288,7 +1298,7 @@ const indexItems = [
 
     const txHeater2 = createBox({
       size: [armLen - 0.5, heaterH, heaterW],
-      position: [dopingX, cladTopY + heaterH / 2, armZ2 + 0.03],
+      position: [dopingX, heaterCenterY, armZ2 + 0.03],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -1298,18 +1308,18 @@ const indexItems = [
     // Heater W vias up to M1 level
     const heaterZ1 = armZ1 - 0.03;
     const heaterZ2 = armZ2 + 0.03;
-    const viaToM1H = heaterH + m1H;
+    const heaterToM1ViaH = m1BaseY - heaterTopY;
     const heaterVia1 = createBox({
-      size: [0.06, viaToM1H, 0.06],
-      position: [dopingX, cladTopY + viaToM1H / 2, heaterZ1],
+      size: [0.06, heaterToM1ViaH, 0.06],
+      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, heaterZ1],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
     });
     lHeater.add(tagPart(heaterVia1, "heater", false, 5, "mzm"));
     const heaterVia2 = createBox({
-      size: [0.06, viaToM1H, 0.06],
-      position: [dopingX, cladTopY + viaToM1H / 2, heaterZ2],
+      size: [0.06, heaterToM1ViaH, 0.06],
+      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, heaterZ2],
       color: 0x78716c,
       metalness: 0.75,
       roughness: 0.25
@@ -1317,13 +1327,12 @@ const indexItems = [
     lHeater.add(tagPart(heaterVia2, "heater", false, 5, "mzm"));
 
     // M1 traces from heater vias to bond pad vias
-    const heaterM1Y = cladTopY + heaterH + m1H / 2;
     const heaterPadX = 1.3 * xScale;
     const heaterTraceLen = heaterPadX - 0.5 * xScale;
     const heaterTraceCx = (0.5 * xScale + heaterPadX) / 2;
     const heaterM1Trace1 = createBox({
       size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, heaterM1Y, heaterZ1],
+      position: [heaterTraceCx, m1CenterY, heaterZ1],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
@@ -1331,7 +1340,7 @@ const indexItems = [
     lM1.add(tagPart(heaterM1Trace1, "m1Interconnect", false, 4, "mzm"));
     const heaterM1Trace2 = createBox({
       size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, heaterM1Y, heaterZ2],
+      position: [heaterTraceCx, m1CenterY, heaterZ2],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
@@ -1339,15 +1348,15 @@ const indexItems = [
     lM1.add(tagPart(heaterM1Trace2, "m1Interconnect", false, 4, "mzm"));
 
     // Top vias: M1 → bond pad (deferred — needs padBaseY)
-    const heaterTopViaH = padBaseY - (cladTopY + heaterH + m1H);
+    const heaterTopViaH = padBaseY - m1TopY;
     lM1.add(tagPart(createBox({
       size: [0.06, heaterTopViaH, 0.06],
-      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, heaterZ1],
+      position: [heaterPadX, m1TopY + heaterTopViaH / 2, heaterZ1],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4, "mzm"));
     lM1.add(tagPart(createBox({
       size: [0.06, heaterTopViaH, 0.06],
-      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, heaterZ2],
+      position: [heaterPadX, m1TopY + heaterTopViaH / 2, heaterZ2],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4, "mzm"));
 
@@ -1368,7 +1377,7 @@ const indexItems = [
     const tx2HeaterZ2 = tx2ArmZ2 + 0.03;
     const tx2Heater1 = createBox({
       size: [armLen - 0.5, heaterH, heaterW],
-      position: [dopingX, cladTopY + heaterH / 2, tx2HeaterZ1],
+      position: [dopingX, heaterCenterY, tx2HeaterZ1],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -1376,7 +1385,7 @@ const indexItems = [
     lHeater.add(tagPart(tx2Heater1, "heater", false, 5, "mzm"));
     const tx2Heater2 = createBox({
       size: [armLen - 0.5, heaterH, heaterW],
-      position: [dopingX, cladTopY + heaterH / 2, tx2HeaterZ2],
+      position: [dopingX, heaterCenterY, tx2HeaterZ2],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -1385,14 +1394,14 @@ const indexItems = [
 
     // TX2 heater W vias
     const tx2HeaterVia1 = createBox({
-      size: [0.06, viaToM1H, 0.06],
-      position: [dopingX, cladTopY + viaToM1H / 2, tx2HeaterZ1],
+      size: [0.06, heaterToM1ViaH, 0.06],
+      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, tx2HeaterZ1],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     });
     lHeater.add(tagPart(tx2HeaterVia1, "heater", false, 5, "mzm"));
     const tx2HeaterVia2 = createBox({
-      size: [0.06, viaToM1H, 0.06],
-      position: [dopingX, cladTopY + viaToM1H / 2, tx2HeaterZ2],
+      size: [0.06, heaterToM1ViaH, 0.06],
+      position: [dopingX, heaterTopY + heaterToM1ViaH / 2, tx2HeaterZ2],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     });
     lHeater.add(tagPart(tx2HeaterVia2, "heater", false, 5, "mzm"));
@@ -1400,13 +1409,13 @@ const indexItems = [
     // TX2 heater M1 traces
     const tx2HeaterTrace1 = createBox({
       size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, heaterM1Y, tx2HeaterZ1],
+      position: [heaterTraceCx, m1CenterY, tx2HeaterZ1],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     });
     lM1.add(tagPart(tx2HeaterTrace1, "m1Interconnect", false, 4, "mzm"));
     const tx2HeaterTrace2 = createBox({
       size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, heaterM1Y, tx2HeaterZ2],
+      position: [heaterTraceCx, m1CenterY, tx2HeaterZ2],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     });
     lM1.add(tagPart(tx2HeaterTrace2, "m1Interconnect", false, 4, "mzm"));
@@ -1414,12 +1423,12 @@ const indexItems = [
     // TX2 heater top vias
     lM1.add(tagPart(createBox({
       size: [0.06, heaterTopViaH, 0.06],
-      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, tx2HeaterZ1],
+      position: [heaterPadX, m1TopY + heaterTopViaH / 2, tx2HeaterZ1],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4, "mzm"));
     lM1.add(tagPart(createBox({
       size: [0.06, heaterTopViaH, 0.06],
-      position: [heaterPadX, cladTopY + heaterH + m1H + heaterTopViaH / 2, tx2HeaterZ2],
+      position: [heaterPadX, m1TopY + heaterTopViaH / 2, tx2HeaterZ2],
       color: 0x78716c, metalness: 0.75, roughness: 0.25
     }), "m1Interconnect", false, 4, "mzm"));
 
@@ -1473,8 +1482,8 @@ const indexItems = [
 
     // Contact vias from doped slab up through cladding to M1 level
     const viaBaseY = slabTopY;
-    const contactM1Y = cladTopY + heaterH + m1H / 2;
-    const contactViaTopY = cladTopY + heaterH + m1H;
+    const contactM1Y = m1CenterY;
+    const contactViaTopY = m1BaseY;
     const contactViaH = contactViaTopY - viaBaseY;
     const contactViaY = viaBaseY + contactViaH / 2;
     const viaXs = [-0.1, 0.5, 1.1].map(v => v * xScale); // three contacts along each strip
@@ -1545,11 +1554,27 @@ const indexItems = [
         lM1.add(tagPart(trace, "m1Interconnect", false, 4, "mzm"));
       }
     };
+    const m1ToRfViaH = rfBaseY - m1TopY;
+    const addM1ToRfVias = (z) => {
+      for (const vx of viaXs) {
+        const via = createBox({
+          size: [0.045, m1ToRfViaH, 0.045],
+          position: [vx, m1TopY + m1ToRfViaH / 2, z],
+          color: 0x78716c,
+          metalness: 0.75,
+          roughness: 0.25
+        });
+        lM1.add(tagPart(via, "m1Interconnect", false, 4, "mzm"));
+      }
+    };
     addSigTrace(arm1pZ); // arm1 p++
     addSigTrace(arm2nZ); // arm2 n++
     // Signal-side bridges — connect doping vias to RF signal electrode (Z=0.4)
     addM1Bridge(arm1pZ, txRfSignalZ); // arm1 p++ → signal
     addM1Bridge(arm2nZ, txRfSignalZ); // arm2 n++ → signal
+    addM1ToRfVias(txRfGnd1Z);
+    addM1ToRfVias(txRfSignalZ);
+    addM1ToRfVias(txRfGnd2Z);
 
     // === TX2 p-n junction doping for MZM phase arms ===
     const tx2Arm1nZ = tx2ArmZ1 - armWidth / 2 - dopingW / 2;
@@ -1584,6 +1609,9 @@ const indexItems = [
     addSigTrace(tx2Arm2nZ);
     addM1Bridge(tx2Arm1pZ, tx2RfSignalZ); // tx2 arm1 p++ → signal
     addM1Bridge(tx2Arm2nZ, tx2RfSignalZ); // tx2 arm2 n++ → signal
+    addM1ToRfVias(tx2RfGnd1Z);
+    addM1ToRfVias(tx2RfSignalZ);
+    addM1ToRfVias(tx2RfGnd2Z);
 
     const createOpticalPathCurve = (points) => {
       const curve = new THREE.CurvePath();
@@ -1719,11 +1747,10 @@ const indexItems = [
 
     // Electrical path (Ge → W via → M1 → bond pad → external)
     const elecGroup = new THREE.Group();
-    const m1CenterY = cladTopY + heaterH + m1H / 2;
     const padCenterY = padBaseY + padH / 2;
     const elecPoints = [
       new THREE.Vector3(geX, geBaseY + geH, rxZ),          // Ge top (start)
-      new THREE.Vector3(geX, cladTopY + heaterH, rxZ),       // W via top
+      new THREE.Vector3(geX, m1BaseY, rxZ),                 // W via top
       new THREE.Vector3(geX, m1CenterY, rxZ),                // M1 stub
       new THREE.Vector3(geX, padCenterY, rxZ),               // Al bond pad
       new THREE.Vector3(geX, padCenterY + 0.5, rxZ),         // external circuit
@@ -1748,7 +1775,7 @@ const indexItems = [
     const mpdElecGroup = new THREE.Group();
     const mpdElecPoints = [
       new THREE.Vector3(mpdX, mpdBaseY + mpdH, mpdZ),        // PD top
-      new THREE.Vector3(mpdX, cladTopY + heaterH, mpdZ),      // W via top
+      new THREE.Vector3(mpdX, m1BaseY, mpdZ),                // W via top
       new THREE.Vector3(mpdX, m1CenterY, mpdZ),               // M1 stub
       new THREE.Vector3(mpdX, padCenterY, mpdZ),              // Al bond pad
       new THREE.Vector3(mpdX, padCenterY + 0.5, mpdZ),        // external circuit
@@ -1775,7 +1802,7 @@ const indexItems = [
       const dGeTopY = geBaseY + dropGeH;
       const dPoints = [
         new THREE.Vector3(d.rx, dGeTopY, d.geZ),
-        new THREE.Vector3(d.rx, cladTopY + heaterH, d.geZ),
+        new THREE.Vector3(d.rx, m1BaseY, d.geZ),
         new THREE.Vector3(d.rx, m1CenterY, d.geZ),
         new THREE.Vector3(d.rx, padCenterY, d.geZ),
         new THREE.Vector3(d.rx, padCenterY + 0.5, d.geZ),
@@ -1833,7 +1860,7 @@ const indexItems = [
         new THREE.Vector3(heaterPadX, padCenterY, hz),
         new THREE.Vector3(heaterPadX, m1CenterY, hz),
         new THREE.Vector3(dopingX, m1CenterY, hz),
-        new THREE.Vector3(dopingX, cladTopY + heaterH, hz),
+        new THREE.Vector3(dopingX, heaterTopY, hz),
       ];
       const hCurve = new THREE.CatmullRomCurve3(hPoints);
       heaterElecCurves.push(hCurve);
@@ -2103,7 +2130,7 @@ const indexItems = [
     const tx2MpdElecGroup = new THREE.Group();
     const tx2MpdElecPoints = [
       new THREE.Vector3(tx2MpdX, mpdBaseY + mpdH, tx2MpdZ),
-      new THREE.Vector3(tx2MpdX, cladTopY + heaterH, tx2MpdZ),
+      new THREE.Vector3(tx2MpdX, m1BaseY, tx2MpdZ),
       new THREE.Vector3(tx2MpdX, m1CenterY, tx2MpdZ),
       new THREE.Vector3(tx2MpdX, padCenterY, tx2MpdZ),
       new THREE.Vector3(tx2MpdX, padCenterY + 0.5, tx2MpdZ),
@@ -2155,7 +2182,7 @@ const indexItems = [
         new THREE.Vector3(heaterPadX, padCenterY, hz),
         new THREE.Vector3(heaterPadX, m1CenterY, hz),
         new THREE.Vector3(dopingX, m1CenterY, hz),
-        new THREE.Vector3(dopingX, cladTopY + heaterH, hz),
+        new THREE.Vector3(dopingX, heaterTopY, hz),
       ];
       const hCurve = new THREE.CatmullRomCurve3(hPoints);
       tx2HeaterElecCurves.push(hCurve);
@@ -2243,12 +2270,12 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("TX 输出边缘耦合器", new THREE.Vector3(ecRX, ecY, outWgZ), facePX, { scale: 0.08 }));
 
     // Heaters — above heater top surface (heater strip too narrow for face label)
-    const heaterTopY = cladTopY + heaterH + eps;
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterTopY, heaterZ1), faceTop, { scale: 0.09 }));
-    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterTopY, heaterZ2), faceTop, { scale: 0.09 }));
+    const heaterLabelY = heaterTopY + eps;
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterLabelY, heaterZ1), faceTop, { scale: 0.09 }));
+    lHeater.add(createFaceLabel("TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterLabelY, heaterZ2), faceTop, { scale: 0.09 }));
     // M1 interconnect — above M1 top surface
-    const m1TopY = cladTopY + heaterH + m1H + eps;
-    lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1TopY, rxZ), faceTop, { scale: 0.10 }));
+    const m1LabelY = m1TopY + eps;
+    lM1.add(createFaceLabel("M1 互连", new THREE.Vector3(geX, m1LabelY, rxZ), faceTop, { scale: 0.10 }));
 
     // RF electrodes — on ILD top surface (electrode too narrow)
     const ildTopSurf = rfBaseY + rfH + eps;
@@ -2283,8 +2310,8 @@ const indexItems = [
     lSiDevice.add(createFaceLabel("TX2 输入边缘耦合器", new THREE.Vector3(ecLX, ecY, tx2Z), faceNX, { scale: 0.08 }));
     lSiDevice.add(createFaceLabel("TX2 光栅耦合器", new THREE.Vector3(gcCenterX, wgTopY, tx2GcZ), faceTop, { scale: 0.10 }));
     // TX2 heaters
-    lHeater.add(createFaceLabel("TX2 TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterTopY, tx2HeaterZ1), faceTop, { scale: 0.09 }));
-    lHeater.add(createFaceLabel("TX2 TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterTopY, tx2HeaterZ2), faceTop, { scale: 0.09 }));
+    lHeater.add(createFaceLabel("TX2 TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterLabelY, tx2HeaterZ1), faceTop, { scale: 0.09 }));
+    lHeater.add(createFaceLabel("TX2 TiN 加热器", new THREE.Vector3(dopingX - 0.32 * xScale, heaterLabelY, tx2HeaterZ2), faceTop, { scale: 0.09 }));
     // TX2 RF
     lTop.add(createFaceLabel("TX2 RF 电极 (GSG)", new THREE.Vector3(0.5, ildTopSurf, tx2Z), faceTop, { scale: 0.10 }));
     // TX2 heater bond pads
@@ -2299,7 +2326,7 @@ const indexItems = [
       { key: "ribWaveguide", size: [5.0, siRibH + 0.14, 0.5], position: [1.0, ribY, rxZ], priority: 5 },
       { key: "ribWaveguide", size: [2.8, siRibH + 0.14, 0.5], position: [-2.2, ribY, 0], priority: 5 },
       { key: "geDetector", size: [0.9, geH + 0.1, 0.45], position: [geX, geBaseY + geH / 2, rxZ], priority: 6 },
-      { key: "m1Interconnect", size: [0.5, m1H + 0.12, 0.2], position: [geX, cladTopY + heaterH + m1H / 2 + 0.04, rxZ], priority: 5 },
+      { key: "m1Interconnect", size: [0.5, m1H + 0.12, 0.2], position: [geX, m1CenterY + 0.04, rxZ], priority: 5 },
       { key: "rfElectrode", size: [armLen + 0.3, rfH + 0.14, mzmRfHitZ], position: [dopingX, rfBaseY + rfH / 2, 0.4], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [gcCenterX, ribY, rxZ], priority: 6 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [gcCenterX, ribY, -0.4], priority: 6 },
@@ -2312,7 +2339,7 @@ const indexItems = [
       { key: "ribWaveguide", size: [outWgLen + 0.1, siRibH + 0.14, 0.5], position: [outWgCx, ribY, outWgZ], priority: 5 },
       { key: "gratingCoupler", size: [2.2, 0.1, 0.7], position: [txOutputGcBranchX, ribY, outGcZ], priority: 6 },
       { key: "ribWaveguide", size: [1.0, siRibH + 0.14, 1.0], position: [txOutputGcBranchX, ribY, outGcWgZcenter], priority: 5 },
-      { key: "heater", size: [armLen + 0.1, heaterH + 0.12, 0.8], position: [dopingX, cladTopY + heaterH / 2 + 0.02, 0.4], priority: 6 },
+      { key: "heater", size: [armLen + 0.1, heaterH + 0.12, 0.8], position: [dopingX, heaterCenterY + 0.02, 0.4], priority: 6 },
       { key: "stripWaveguide", size: [dcLen + 0.14, stripH + 0.12, 0.4], position: [dcX, stripY, 0.4], priority: 5 },
       // TX2 hit targets
       { key: "ribWaveguide", size: [txWgLen + 0.1, siRibH + 0.14, 0.5], position: [txWgCx, ribY, tx2Z], priority: 5 },
@@ -2323,7 +2350,7 @@ const indexItems = [
       { key: "mmiWaveguide", size: [mmiLen + 0.2, mmiH + 0.14, mmiWidth + 0.2], position: [mmiCombinerCx, mmiY, tx2Z], priority: 5 },
       { key: "ribWaveguide", size: [armLen, siRibH + 0.14, armWidth + 0.1], position: [dopingX, ribY, tx2ArmZ1], priority: 5 },
       { key: "ribWaveguide", size: [1.9, siRibH + 0.14, armWidth + 0.1], position: [0.5, ribY, tx2ArmZ2], priority: 5 },
-      { key: "heater", size: [2.0, heaterH + 0.12, 0.8], position: [dopingX, cladTopY + heaterH / 2 + 0.02, tx2Z], priority: 6 },
+      { key: "heater", size: [2.0, heaterH + 0.12, 0.8], position: [dopingX, heaterCenterY + 0.02, tx2Z], priority: 6 },
       { key: "rfElectrode", size: [2.2, rfH + 0.14, mzmRfHitZ], position: [dopingX, rfBaseY + rfH / 2, tx2Z], priority: 5 },
       { key: "geDetector", size: [0.4, mpdH + 0.08, 0.26], position: [tx2MpdX, mpdBaseY + mpdH / 2, tx2MpdZ], priority: 6 },
     ];
