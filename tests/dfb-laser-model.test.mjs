@@ -69,12 +69,21 @@ test("DFB dielectric passivation wraps ridge sidewalls and leaves a central curr
   assert.match(component, /const dielectricGroup = new THREE\.Group\(\);/);
   assert.match(component, /const dielectricSidewallOffset = ridgeWidth \/ 2 \+ 0\.035;/);
   assert.match(component, /const dielectricSidewallLeft = createBox\(\{[\s\S]*?size: \[5\.6, 0\.3, 0\.06\],[\s\S]*?position: \[0, ridgeBaseY \+ 0\.15, cutawayOffset - dielectricSidewallOffset\]/);
-  assert.match(component, /const dielectricSidewallRight = dielectricSidewallLeft\.clone\(\);/);
+  assert.match(component, /const dielectricSidewallRight = cloneMeshWithMaterial\(dielectricSidewallLeft\);/);
   assert.match(component, /dielectricSidewallRight\.position\.z = cutawayOffset \+ dielectricSidewallOffset;/);
   assert.match(component, /const dielectricShoulderLeft = createBox\(\{[\s\S]*?size: \[5\.45, 0\.05, 0\.08\],[\s\S]*?position: \[0, topY \+ 0\.025, cutawayOffset - ridgeWidth \/ 2 \+ 0\.04\]/);
-  assert.match(component, /const dielectricShoulderRight = dielectricShoulderLeft\.clone\(\);/);
+  assert.match(component, /const dielectricShoulderRight = cloneMeshWithMaterial\(dielectricShoulderLeft\);/);
   assert.match(component, /dielectricShoulderRight\.position\.z = cutawayOffset \+ ridgeWidth \/ 2 - 0\.04;/);
   assert.match(component, /chip\.add\(tagPart\(dielectricGroup, "dielectric"\)\);/);
+});
+
+test("DFB mirrored mesh clones use independent materials so opacity can be restored", () => {
+  assert.match(component, /function cloneMeshWithMaterial\(mesh\) \{/);
+  assert.match(component, /clone\.material = Array\.isArray\(mesh\.material\)\n\s+\? mesh\.material\.map\(\(item\) => item\.clone\(\)\)\n\s+: mesh\.material\.clone\(\);/);
+  assert.match(component, /const dielectricRight = cloneMeshWithMaterial\(dielectricLeft\);/);
+  assert.match(component, /const dielectricSidewallRight = cloneMeshWithMaterial\(dielectricSidewallLeft\);/);
+  assert.match(component, /const dielectricShoulderRight = cloneMeshWithMaterial\(dielectricShoulderLeft\);/);
+  assert.match(component, /const facetBack = cloneMeshWithMaterial\(facetFront\);/);
 });
 
 test("DFB model computes a responsive default camera frame from model bounds", () => {

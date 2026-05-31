@@ -224,6 +224,14 @@ const indexItems = [
     return mesh;
   }
 
+  function cloneMeshWithMaterial(mesh) {
+    const clone = mesh.clone();
+    clone.material = Array.isArray(mesh.material)
+      ? mesh.material.map((item) => item.clone())
+      : mesh.material.clone();
+    return clone;
+  }
+
   function createCylinder({ radiusTop, radiusBottom, height, position, color, opacity = 1 }) {
     const mesh = new THREE.Mesh(
       new THREE.CylinderGeometry(radiusTop, radiusBottom, height, 32, 1, true),
@@ -517,7 +525,7 @@ const indexItems = [
       color: 0x94a3b8,
       opacity: 0.86
     });
-    const dielectricRight = dielectricLeft.clone();
+    const dielectricRight = cloneMeshWithMaterial(dielectricLeft);
     dielectricRight.position.z = cutawayOffset + 0.54;
 
     const dielectricSidewallLeft = createBox({
@@ -526,7 +534,7 @@ const indexItems = [
       color: 0x94a3b8,
       opacity: 0.84
     });
-    const dielectricSidewallRight = dielectricSidewallLeft.clone();
+    const dielectricSidewallRight = cloneMeshWithMaterial(dielectricSidewallLeft);
     dielectricSidewallRight.position.z = cutawayOffset + dielectricSidewallOffset;
 
     const dielectricShoulderLeft = createBox({
@@ -535,7 +543,7 @@ const indexItems = [
       color: 0x94a3b8,
       opacity: 0.86
     });
-    const dielectricShoulderRight = dielectricShoulderLeft.clone();
+    const dielectricShoulderRight = cloneMeshWithMaterial(dielectricShoulderLeft);
     dielectricShoulderRight.position.z = cutawayOffset + ridgeWidth / 2 - 0.04;
 
     dielectricGroup.add(
@@ -602,7 +610,7 @@ const indexItems = [
       color: 0x334155,
       opacity: 0.56
     });
-    const facetBack = facetFront.clone();
+    const facetBack = cloneMeshWithMaterial(facetFront);
     facetBack.position.x = -length / 2 - 0.025;
     chip.add(tagPart(facetFront, "facet"), tagPart(facetBack, "facet"));
 
