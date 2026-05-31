@@ -154,8 +154,8 @@ test("PIC model uses slimmer device geometry while preserving connected centerli
   assert.match(component, /const tx2InputZBranchLen = Math\.abs\(tx2Z - tx2GcZ\) - ribW;/);
   assert.match(component, /const rxEcZBranchLen = Math\.abs\(rxEcZ - rxZ\) - ribW;/);
   assert.match(component, /size: \[connLen, siRibH, ribW\]/);
-  assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen\);/);
-  assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, 0\.4, mmiWidth, ribW\);/);
+  assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen, "dc"\);/);
+  assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, 0\.4, mmiWidth, ribW, taperLen, "mzm"\);/);
 });
 
 test("PIC directional coupler bus width stays close to connected waveguides while the monitor tap remains slimmer", () => {
@@ -187,10 +187,10 @@ test("PIC directional coupler tapers occupy visible connector spans outside the 
   assert.match(component, /const txWgLen = dcRibEntryEndX - ecRightX;/);
   assert.match(component, /size: \[dcParallelEndX - dcParallelStartX, stripH, dcBusW\]/);
   assert.match(component, /position: \[\(dcParallelStartX \+ dcParallelEndX\) \/ 2, stripY, 0\.4\]/);
-  assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen\);/);
-  assert.match(component, /addTaper\(dcExitTaperCx, 0\.4, dcBusW, ribW, dcTaperLen\);/);
-  assert.match(component, /addTaper\(dcEntryTaperCx, tx2Z, ribW, dcBusW, dcTaperLen\);/);
-  assert.match(component, /addTaper\(dcExitTaperCx, tx2Z, dcBusW, ribW, dcTaperLen\);/);
+  assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen, "dc"\);/);
+  assert.match(component, /addTaper\(dcExitTaperCx, 0\.4, dcBusW, ribW, dcTaperLen, "dc"\);/);
+  assert.match(component, /addTaper\(dcEntryTaperCx, tx2Z, ribW, dcBusW, dcTaperLen, "dc"\);/);
+  assert.match(component, /addTaper\(dcExitTaperCx, tx2Z, dcBusW, ribW, dcTaperLen, "dc"\);/);
   assert.match(component, /const dcToMmiLen = mmiEdgeL - dcRibExitStartX;/);
   assert.doesNotMatch(component, /const txWgLen = dcApproachStartX - ecRightX;/);
   assert.doesNotMatch(component, /size: \[dcEndX - dcApproachStartX, stripH, dcBusW\]/);
@@ -229,16 +229,16 @@ test("PIC optical path overlays use segmented centerline curves at branches and 
 });
 
 test("PIC MZM optical overlays turn at splitter and combiner taper edges", () => {
-  assert.match(component, /const addAngledTaper = \(startX, startZ, endX, endZ, startW, endW\) => \{/);
-  assert.match(component, /const addTaper = \(cx, cz, startW, endW, length = taperLen\) =>/);
-  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, 0\.4, taperSplitCx \+ taperLen \/ 2, armZ1, mmiWidth, armWidth\);/);
-  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, 0\.4, taperSplitCx \+ taperLen \/ 2, armZ2, mmiWidth, armWidth\);/);
-  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, armZ1, mmiCombinerCx - mmiLen \/ 2, 0\.4, armWidth, mmiWidth\);/);
-  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, armZ2, mmiCombinerCx - mmiLen \/ 2, 0\.4, armWidth, mmiWidth\);/);
-  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, tx2Z, taperSplitCx \+ taperLen \/ 2, tx2ArmZ1, mmiWidth, armWidth\);/);
-  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, tx2Z, taperSplitCx \+ taperLen \/ 2, tx2ArmZ2, mmiWidth, armWidth\);/);
-  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, tx2ArmZ1, mmiCombinerCx - mmiLen \/ 2, tx2Z, armWidth, mmiWidth\);/);
-  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, tx2ArmZ2, mmiCombinerCx - mmiLen \/ 2, tx2Z, armWidth, mmiWidth\);/);
+  assert.match(component, /const addAngledTaper = \(startX, startZ, endX, endZ, startW, endW, deviceGroup = ""\) => \{/);
+  assert.match(component, /const addTaper = \(cx, cz, startW, endW, length = taperLen, deviceGroup = ""\) =>/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, 0\.4, taperSplitCx \+ taperLen \/ 2, armZ1, mmiWidth, armWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, 0\.4, taperSplitCx \+ taperLen \/ 2, armZ2, mmiWidth, armWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, armZ1, mmiCombinerCx - mmiLen \/ 2, 0\.4, armWidth, mmiWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, armZ2, mmiCombinerCx - mmiLen \/ 2, 0\.4, armWidth, mmiWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, tx2Z, taperSplitCx \+ taperLen \/ 2, tx2ArmZ1, mmiWidth, armWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, tx2Z, taperSplitCx \+ taperLen \/ 2, tx2ArmZ2, mmiWidth, armWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, tx2ArmZ1, mmiCombinerCx - mmiLen \/ 2, tx2Z, armWidth, mmiWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, tx2ArmZ2, mmiCombinerCx - mmiLen \/ 2, tx2Z, armWidth, mmiWidth, "mzm"\);/);
   assert.doesNotMatch(component, /addTaper\(taperSplitCx, \(0\.4 \+ armZ1\) \/ 2, mmiWidth, armWidth\);/);
   assert.doesNotMatch(component, /addTaper\(taperCombCx, \(0\.4 \+ armZ1\) \/ 2, armWidth, mmiWidth\);/);
   assert.doesNotMatch(component, /addTaper\(taperSplitCx, \(tx2Z \+ tx2ArmZ1\) \/ 2, mmiWidth, armWidth\);/);
@@ -283,6 +283,19 @@ test("PIC part selection preserves original material colors while changing visib
   assert.doesNotMatch(component, /object\.material\.color\.set\(partColor\(partKey\)\);/);
   assert.doesNotMatch(component, /object\.material\.color\.multiplyScalar\(0\.72\);/);
   assert.doesNotMatch(component, /object\.material\.emissive\.setHex\(partColor\(partKey\)\);/);
+});
+
+test("PIC device selection keeps taper connectors in their device groups", () => {
+  assert.match(component, /const addAngledTaper = \(startX, startZ, endX, endZ, startW, endW, deviceGroup = ""\) => \{/);
+  assert.match(component, /lSiDevice\.add\(tagPart\(mesh, "ribWaveguide", false, 4, deviceGroup\)\);/);
+  assert.match(component, /const addTaper = \(cx, cz, startW, endW, length = taperLen, deviceGroup = ""\) =>/);
+  assert.match(component, /addAngledTaper\(cx - length \/ 2, cz, cx \+ length \/ 2, cz, startW, endW, deviceGroup\);/);
+  assert.match(component, /addAngledTaper\(mmiSplitterCx \+ mmiLen \/ 2, 0\.4, taperSplitCx \+ taperLen \/ 2, armZ1, mmiWidth, armWidth, "mzm"\);/);
+  assert.match(component, /addAngledTaper\(taperCombCx - taperLen \/ 2, armZ1, mmiCombinerCx - mmiLen \/ 2, 0\.4, armWidth, mmiWidth, "mzm"\);/);
+  assert.match(component, /addTaper\(mmiSplitterCx - mmiLen \/ 2 - taperLen \/ 2, 0\.4, ribW, mmiWidth, taperLen, "mzm"\);/);
+  assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, tx2Z, mmiWidth, ribW, taperLen, "mzm"\);/);
+  assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen, "dc"\);/);
+  assert.match(component, /addTaper\(rxRingBusStartX - taperLen \/ 2, rxZ, ribW, rxRingBusW, taperLen, "microring"\);/);
 });
 
 test("PIC model defaults to a centered top-down camera view", () => {
