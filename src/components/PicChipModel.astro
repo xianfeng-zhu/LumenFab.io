@@ -418,16 +418,16 @@ const indexItems = [
     const ribStartX = -0.9 * xScale;
     const ribEndX = chipRightX - 0.3;
 
-    // Taper helper — reusable trapezoidal taper between two waveguide widths
+    // Taper helper — reusable trapezoidal transition from the left waveguide width to the right one.
     const taperLen = 0.15;
     const taperH = (stripRidgeH + ribRidgeH) / 2;
-    const addTaper = (cx, cz, wideW, narrowW) => {
-      const hwW = wideW / 2, hwN = narrowW / 2;
+    const addTaper = (cx, cz, startW, endW, length = taperLen) => {
+      const hwStart = startW / 2, hwEnd = endW / 2;
       const shape = new THREE.Shape();
-      shape.moveTo(-taperLen / 2, -hwW);
-      shape.lineTo( taperLen / 2, -hwN);
-      shape.lineTo( taperLen / 2,  hwN);
-      shape.lineTo(-taperLen / 2,  hwW);
+      shape.moveTo(-length / 2, -hwStart);
+      shape.lineTo( length / 2, -hwEnd);
+      shape.lineTo( length / 2,  hwEnd);
+      shape.lineTo(-length / 2,  hwStart);
       shape.closePath();
       const geom = new THREE.ExtrudeGeometry(shape, { steps: 1, depth: taperH, bevelEnabled: false });
       const mesh = new THREE.Mesh(geom, material(0x14b8a6, { roughness: 0.42, metalness: 0.10 }));
@@ -881,15 +881,21 @@ const indexItems = [
     const dcGap = 0.16;
     const dcBusW = 0.2;
     const dcTapW = 0.14;
+    const dcTaperLen = 0.36;
     const dcX = -1.8 * xScale;
     const dcStartX = dcX - dcLen / 2;
     const dcEndX = dcX + dcLen / 2;
-    const dcApproachStartX = dcStartX - 0.38;
+    const dcParallelStartX = dcStartX;
+    const dcParallelEndX = dcEndX;
+    const dcRibEntryEndX = dcParallelStartX - dcTaperLen;
+    const dcRibExitStartX = dcParallelEndX + dcTaperLen;
+    const dcEntryTaperCx = dcParallelStartX - dcTaperLen / 2;
+    const dcExitTaperCx = dcParallelEndX + dcTaperLen / 2;
 
     // TX input waveguide common X values (edge coupler → DC approach)
     const ecRightX = chipLeftX + 0.02;
-    const txWgLen = dcApproachStartX - ecRightX;
-    const txWgCx = (ecRightX + dcApproachStartX) / 2;
+    const txWgLen = dcRibEntryEndX - ecRightX;
+    const txWgCx = (ecRightX + dcRibEntryEndX) / 2;
 
     // TX2 main waveguide (rib) — from edge coupler to directional coupler
     const tx2Waveguide = createBox({
@@ -912,28 +918,28 @@ const indexItems = [
     lSiDevice.add(tagPart(txWaveguide, "ribWaveguide", false, 4));
 
     // Directional coupler — S-bend tap coupler
-    // Bus waveguide: extends to match S-bend approach start on both ends
+    // Bus waveguide: straight coupling section bracketed by visible rib↔strip tapers.
     // Coupled waveguide: S-bend approach → parallel gap → S-bend exit → monitor PD
     // Only ~1–5% of light couples across the narrow gap via evanescent coupling
     const dcBusWG = createBox({
-      size: [dcEndX - dcApproachStartX, stripH, dcBusW],
-      position: [(dcApproachStartX + dcEndX) / 2, stripY, 0.4],
+      size: [dcParallelEndX - dcParallelStartX, stripH, dcBusW],
+      position: [(dcParallelStartX + dcParallelEndX) / 2, stripY, 0.4],
       color: 0x14b8a6,
       roughness: 0.42,
       metalness: 0.12
     });
     lSiDevice.add(tagPart(dcBusWG, "stripWaveguide", false, 5, "dc"));
     // Rib→strip taper at DC entry, strip→rib taper at DC exit
-    addTaper(dcApproachStartX, 0.4, ribW, dcBusW);
-    addTaper(dcEndX, 0.4, dcBusW, ribW);
+    addTaper(dcEntryTaperCx, 0.4, ribW, dcBusW, dcTaperLen);
+    addTaper(dcExitTaperCx, 0.4, dcBusW, ribW, dcTaperLen);
     const dcCoupledZ = 0.4 + dcBusW / 2 + dcGap + dcTapW / 2;
 
     const dcCoupledY = stripY + 0.001;
     const dcCoupledPathPts = [
-      new THREE.Vector3(dcApproachStartX, dcCoupledY, dcCoupledZ),
-      new THREE.Vector3(dcEndX, dcCoupledY, dcCoupledZ),
-      new THREE.Vector3(dcEndX + 0.5, dcCoupledY, 0.88),
-      new THREE.Vector3(dcEndX + 0.72, dcCoupledY, 1.42),
+      new THREE.Vector3(dcParallelStartX, dcCoupledY, dcCoupledZ),
+      new THREE.Vector3(dcParallelEndX, dcCoupledY, dcCoupledZ),
+      new THREE.Vector3(dcParallelEndX + 0.5, dcCoupledY, 0.88),
+      new THREE.Vector3(dcParallelEndX + 0.72, dcCoupledY, 1.42),
     ];
     const dcCoupledCurve = new THREE.CatmullRomCurve3(dcCoupledPathPts);
     // Extrude rectangular cross-section along the S-bend path
@@ -951,7 +957,7 @@ const indexItems = [
 
     // Monitor PD at end of coupled waveguide — centred on S-bend endpoint
     const mpdH = 0.1;
-    const mpdX = dcEndX + 0.72;
+    const mpdX = dcParallelEndX + 0.72;
     const mpdZ = 1.42;
     const mpd = createBox({
       size: [0.24, mpdH, 0.16],
@@ -967,9 +973,9 @@ const indexItems = [
     }), "bondPad"));
 
     // TX waveguide from DC to MMI splitter (ends before input taper)
-    const mmiEdgeL = mmiSplitterCx - mmiLen / 2 - 0.15; // 0.15 = taperLen, room for input taper
-    const dcToMmiLen = mmiEdgeL - dcEndX;
-    const dcToMmiCx = (dcEndX + mmiEdgeL) / 2;
+    const mmiEdgeL = mmiSplitterCx - mmiLen / 2 - taperLen;
+    const dcToMmiLen = mmiEdgeL - dcRibExitStartX;
+    const dcToMmiCx = (dcRibExitStartX + mmiEdgeL) / 2;
     const txWaveguideDC = createBox({
       size: [dcToMmiLen, siRibH, ribW],
       position: [dcToMmiCx, ribY, 0.4],
@@ -985,21 +991,21 @@ const indexItems = [
     const tx2DcCoupledY = stripY + 0.001;
 
     const tx2DcBusWG = createBox({
-      size: [dcEndX - dcApproachStartX, stripH, dcBusW],
-      position: [(dcApproachStartX + dcEndX) / 2, stripY, tx2Z],
+      size: [dcParallelEndX - dcParallelStartX, stripH, dcBusW],
+      position: [(dcParallelStartX + dcParallelEndX) / 2, stripY, tx2Z],
       color: 0x14b8a6,
       roughness: 0.42,
       metalness: 0.12
     });
     lSiDevice.add(tagPart(tx2DcBusWG, "stripWaveguide", false, 5, "dc"));
-    addTaper(dcApproachStartX, tx2Z, ribW, dcBusW);
-    addTaper(dcEndX, tx2Z, dcBusW, ribW);
+    addTaper(dcEntryTaperCx, tx2Z, ribW, dcBusW, dcTaperLen);
+    addTaper(dcExitTaperCx, tx2Z, dcBusW, ribW, dcTaperLen);
 
     const tx2DcCoupledPathPts = [
-      new THREE.Vector3(dcApproachStartX, tx2DcCoupledY, tx2DcCoupledZ),
-      new THREE.Vector3(dcEndX, tx2DcCoupledY, tx2DcCoupledZ),
-      new THREE.Vector3(dcEndX + 0.5, tx2DcCoupledY, tx2DcCoupledZ - 0.24),
-      new THREE.Vector3(dcEndX + 0.72, tx2DcCoupledY, tx2DcCoupledZ - 0.78),
+      new THREE.Vector3(dcParallelStartX, tx2DcCoupledY, tx2DcCoupledZ),
+      new THREE.Vector3(dcParallelEndX, tx2DcCoupledY, tx2DcCoupledZ),
+      new THREE.Vector3(dcParallelEndX + 0.5, tx2DcCoupledY, tx2DcCoupledZ - 0.24),
+      new THREE.Vector3(dcParallelEndX + 0.72, tx2DcCoupledY, tx2DcCoupledZ - 0.78),
     ];
     const tx2DcCoupledCurve = new THREE.CatmullRomCurve3(tx2DcCoupledPathPts);
     const tx2DcShape = new THREE.Shape();
@@ -1016,7 +1022,7 @@ const indexItems = [
 
     // TX2 Monitor PD at end of coupled waveguide — centred on S-bend endpoint
     const tx2MpdZ = tx2DcCoupledZ - 0.78;
-    const tx2MpdX = dcEndX + 0.72;
+    const tx2MpdX = dcParallelEndX + 0.72;
     const tx2Mpd = createBox({
       size: [0.24, mpdH, 0.16],
       position: [tx2MpdX, mpdBaseY + mpdH / 2, tx2MpdZ],

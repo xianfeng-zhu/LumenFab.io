@@ -15,6 +15,8 @@ const taperLen = 0.15;
 const ribW = 0.24;
 const dcBusW = 0.2;
 const dcTapW = 0.14;
+const dcLen = 0.55;
+const dcTaperLen = 0.36;
 const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale;
 const tx2Z = -1.4;
 const mziMmiLen = 0.55;
@@ -151,7 +153,7 @@ test("PIC model uses slimmer device geometry while preserving connected centerli
   assert.match(component, /const tx2InputZBranchLen = Math\.abs\(tx2Z - tx2GcZ\) - ribW;/);
   assert.match(component, /const rxEcZBranchLen = Math\.abs\(rxEcZ - rxZ\) - ribW;/);
   assert.match(component, /size: \[connLen, siRibH, ribW\]/);
-  assert.match(component, /addTaper\(dcApproachStartX, 0\.4, ribW, dcBusW\);/);
+  assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen\);/);
   assert.match(component, /addTaper\(mmiCombinerCx \+ mmiLen \/ 2 \+ taperLen \/ 2, 0\.4, mmiWidth, ribW\);/);
 });
 
@@ -168,6 +170,28 @@ test("PIC directional coupler bus width stays close to connected waveguides whil
   assert.match(component, /const tx2DcHw = dcTapW \/ 2;/);
   assert.doesNotMatch(component, /const dcBusW = 0\.14;/);
   assert.doesNotMatch(component, /const dcTapW = 0\.07;/);
+});
+
+test("PIC directional coupler tapers occupy visible connector spans outside the straight coupling region", () => {
+  assert.ok(dcTaperLen >= 0.3, "DC taper needs enough length to be visible in the full-chip view");
+  assert.ok(dcTaperLen < dcLen, "DC taper should not dominate the straight coupling region");
+  assert.match(component, /const dcTaperLen = 0\.36;/);
+  assert.match(component, /const dcParallelStartX = dcStartX;/);
+  assert.match(component, /const dcParallelEndX = dcEndX;/);
+  assert.match(component, /const dcRibEntryEndX = dcParallelStartX - dcTaperLen;/);
+  assert.match(component, /const dcRibExitStartX = dcParallelEndX \+ dcTaperLen;/);
+  assert.match(component, /const dcEntryTaperCx = dcParallelStartX - dcTaperLen \/ 2;/);
+  assert.match(component, /const dcExitTaperCx = dcParallelEndX \+ dcTaperLen \/ 2;/);
+  assert.match(component, /const txWgLen = dcRibEntryEndX - ecRightX;/);
+  assert.match(component, /size: \[dcParallelEndX - dcParallelStartX, stripH, dcBusW\]/);
+  assert.match(component, /position: \[\(dcParallelStartX \+ dcParallelEndX\) \/ 2, stripY, 0\.4\]/);
+  assert.match(component, /addTaper\(dcEntryTaperCx, 0\.4, ribW, dcBusW, dcTaperLen\);/);
+  assert.match(component, /addTaper\(dcExitTaperCx, 0\.4, dcBusW, ribW, dcTaperLen\);/);
+  assert.match(component, /addTaper\(dcEntryTaperCx, tx2Z, ribW, dcBusW, dcTaperLen\);/);
+  assert.match(component, /addTaper\(dcExitTaperCx, tx2Z, dcBusW, ribW, dcTaperLen\);/);
+  assert.match(component, /const dcToMmiLen = mmiEdgeL - dcRibExitStartX;/);
+  assert.doesNotMatch(component, /const txWgLen = dcApproachStartX - ecRightX;/);
+  assert.doesNotMatch(component, /size: \[dcEndX - dcApproachStartX, stripH, dcBusW\]/);
 });
 
 test("PIC optical path overlays stay on waveguide centerlines around rings and monitor taps", () => {
