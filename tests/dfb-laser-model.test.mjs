@@ -48,6 +48,13 @@ test("DFB model describes the ridge as lateral confinement instead of the optica
   assert.match(component, /SCH \/ 包层提供垂直限制，ridge 提供横向限制/);
 });
 
+test("DFB model places optical activity controls after the cavity mode control", () => {
+  assert.match(
+    component,
+    /\["mode", "#0891b2", "腔内光场分布"\],\n  \["photonPool", "#f472b6", "有源区光子 \/ 波长选择"\],\n  \["braggSelection", "#38bdf8", "Bragg 波长选择"\],\n  \["output", "#60a5fa", "边发射输出光"\]/
+  );
+});
+
 test("DFB model computes a responsive default camera frame from model bounds", () => {
   assert.match(component, /const modelViewRadius = model\.userData\.modelViewRadius;/);
   assert.match(component, /const defaultCameraDirection = new THREE\.Vector3\(4\.8, 3\.4, 5\.4\)\.normalize\(\);/);
