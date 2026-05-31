@@ -275,6 +275,16 @@ test("PIC mobile touch gestures keep OrbitControls pinch zoom while desktop whee
   assert.doesNotMatch(component, /controls\.enableZoom = false;/);
 });
 
+test("PIC part selection preserves original material colors while changing visibility", () => {
+  assert.match(component, /const dimNonSelectedParts = \(partKey\) => \{/);
+  assert.match(component, /const isSelected = compoundKeys\[partKey\]/);
+  assert.match(component, /object\.material\.opacity = targetOpacity;/);
+  assert.match(component, /object\.material\.transparent = object\.userData\.baseTransparent \|\| object\.material\.opacity < 1;/);
+  assert.doesNotMatch(component, /object\.material\.color\.set\(partColor\(partKey\)\);/);
+  assert.doesNotMatch(component, /object\.material\.color\.multiplyScalar\(0\.72\);/);
+  assert.doesNotMatch(component, /object\.material\.emissive\.setHex\(partColor\(partKey\)\);/);
+});
+
 test("PIC model defaults to a centered top-down camera view", () => {
   assert.match(component, /const substrateCenter = new THREE\.Vector3\(chipCenterX, center\.y, 0\);/);
   assert.match(component, /child\.position\.sub\(substrateCenter\);/);

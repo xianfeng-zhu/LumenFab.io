@@ -2638,18 +2638,17 @@ const indexItems = [
           : (isCladding && isCladdingHidden ? 0 : Math.min(baseOpacity, dimLimit));
 
         if (isSelected) {
-          if (object.material.color) {
-            object.material.color.set(partColor(partKey));
-            object.material.color.multiplyScalar(0.72);
+          if (object.material.color && object.userData.baseColor !== undefined) {
+            object.material.color.setHex(object.userData.baseColor);
           }
           object.material.opacity = targetOpacity;
           object.material.transparent = object.userData.baseTransparent || object.material.opacity < 1;
           if (typeof object.userData.baseDepthWrite === "boolean") {
             object.material.depthWrite = object.userData.baseDepthWrite;
           }
-          if (object.material.emissive) {
-            object.material.emissive.setHex(partColor(partKey));
-            object.material.emissiveIntensity = 0.08;
+          if (object.material.emissive && object.userData.baseEmissive !== undefined) {
+            object.material.emissive.setHex(object.userData.baseEmissive);
+            object.material.emissiveIntensity = 0;
           }
           requestMaterialUpdate(object.material);
         } else {
