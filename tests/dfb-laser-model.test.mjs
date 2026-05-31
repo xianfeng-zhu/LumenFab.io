@@ -65,6 +65,18 @@ test("DFB model keeps default transparent structures legible", () => {
   assert.match(component, /new THREE\.Mesh\(geometry, transparent\(0x22c55e, 0\.42\)\)/);
 });
 
+test("DFB dielectric passivation wraps ridge sidewalls and leaves a central current window", () => {
+  assert.match(component, /const dielectricGroup = new THREE\.Group\(\);/);
+  assert.match(component, /const dielectricSidewallOffset = ridgeWidth \/ 2 \+ 0\.035;/);
+  assert.match(component, /const dielectricSidewallLeft = createBox\(\{[\s\S]*?size: \[5\.6, 0\.3, 0\.06\],[\s\S]*?position: \[0, ridgeBaseY \+ 0\.15, cutawayOffset - dielectricSidewallOffset\]/);
+  assert.match(component, /const dielectricSidewallRight = dielectricSidewallLeft\.clone\(\);/);
+  assert.match(component, /dielectricSidewallRight\.position\.z = cutawayOffset \+ dielectricSidewallOffset;/);
+  assert.match(component, /const dielectricShoulderLeft = createBox\(\{[\s\S]*?size: \[5\.45, 0\.05, 0\.08\],[\s\S]*?position: \[0, topY \+ 0\.025, cutawayOffset - ridgeWidth \/ 2 \+ 0\.04\]/);
+  assert.match(component, /const dielectricShoulderRight = dielectricShoulderLeft\.clone\(\);/);
+  assert.match(component, /dielectricShoulderRight\.position\.z = cutawayOffset \+ ridgeWidth \/ 2 - 0\.04;/);
+  assert.match(component, /chip\.add\(tagPart\(dielectricGroup, "dielectric"\)\);/);
+});
+
 test("DFB model computes a responsive default camera frame from model bounds", () => {
   assert.match(component, /const modelViewRadius = model\.userData\.modelViewRadius;/);
   assert.match(component, /const defaultCameraDirection = new THREE\.Vector3\(4\.8, 3\.4, 5\.4\)\.normalize\(\);/);

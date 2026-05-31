@@ -508,6 +508,9 @@ const indexItems = [
 
     const topY = ridgeBaseY + 0.34;
 
+    const dielectricGroup = new THREE.Group();
+    const dielectricSidewallOffset = ridgeWidth / 2 + 0.035;
+
     const dielectricLeft = createBox({
       size: [5.55, 0.09, 0.42],
       position: [0, topY + 0.045, cutawayOffset - 0.54],
@@ -516,7 +519,34 @@ const indexItems = [
     });
     const dielectricRight = dielectricLeft.clone();
     dielectricRight.position.z = cutawayOffset + 0.54;
-    chip.add(tagPart(dielectricLeft, "dielectric"), tagPart(dielectricRight, "dielectric"));
+
+    const dielectricSidewallLeft = createBox({
+      size: [5.6, 0.3, 0.06],
+      position: [0, ridgeBaseY + 0.15, cutawayOffset - dielectricSidewallOffset],
+      color: 0x94a3b8,
+      opacity: 0.84
+    });
+    const dielectricSidewallRight = dielectricSidewallLeft.clone();
+    dielectricSidewallRight.position.z = cutawayOffset + dielectricSidewallOffset;
+
+    const dielectricShoulderLeft = createBox({
+      size: [5.45, 0.05, 0.08],
+      position: [0, topY + 0.025, cutawayOffset - ridgeWidth / 2 + 0.04],
+      color: 0x94a3b8,
+      opacity: 0.86
+    });
+    const dielectricShoulderRight = dielectricShoulderLeft.clone();
+    dielectricShoulderRight.position.z = cutawayOffset + ridgeWidth / 2 - 0.04;
+
+    dielectricGroup.add(
+      dielectricLeft,
+      dielectricRight,
+      dielectricSidewallLeft,
+      dielectricSidewallRight,
+      dielectricShoulderLeft,
+      dielectricShoulderRight
+    );
+    chip.add(tagPart(dielectricGroup, "dielectric"));
 
     const currentWindow = createBox({
       size: [5.1, 0.06, 0.31],
