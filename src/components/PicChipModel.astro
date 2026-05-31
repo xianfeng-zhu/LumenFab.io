@@ -1326,26 +1326,25 @@ const indexItems = [
     });
     lHeater.add(tagPart(heaterVia2, "heater", false, 5, "mzm"));
 
-    // M1 traces from heater vias to bond pad vias
-    const heaterPadX = 1.3 * xScale;
-    const heaterTraceLen = heaterPadX - 0.5 * xScale;
-    const heaterTraceCx = (0.5 * xScale + heaterPadX) / 2;
-    const heaterM1Trace1 = createBox({
-      size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, m1CenterY, heaterZ1],
+    // Local M1 landing directly under each heater DC bond pad
+    const heaterPadX = dopingX;
+    const heaterM1LandingLen = 0.16;
+    const heaterM1Landing1 = createBox({
+      size: [heaterM1LandingLen, m1H, 0.08],
+      position: [heaterPadX, m1CenterY, heaterZ1],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
     });
-    lM1.add(tagPart(heaterM1Trace1, "m1Interconnect", false, 4, "mzm"));
-    const heaterM1Trace2 = createBox({
-      size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, m1CenterY, heaterZ2],
+    lM1.add(tagPart(heaterM1Landing1, "m1Interconnect", false, 4, "mzm"));
+    const heaterM1Landing2 = createBox({
+      size: [heaterM1LandingLen, m1H, 0.08],
+      position: [heaterPadX, m1CenterY, heaterZ2],
       color: 0xf97316,
       metalness: 0.65,
       roughness: 0.22
     });
-    lM1.add(tagPart(heaterM1Trace2, "m1Interconnect", false, 4, "mzm"));
+    lM1.add(tagPart(heaterM1Landing2, "m1Interconnect", false, 4, "mzm"));
 
     // Top vias: M1 → bond pad (deferred — needs padBaseY)
     const heaterTopViaH = padBaseY - m1TopY;
@@ -1406,19 +1405,19 @@ const indexItems = [
     });
     lHeater.add(tagPart(tx2HeaterVia2, "heater", false, 5, "mzm"));
 
-    // TX2 heater M1 traces
-    const tx2HeaterTrace1 = createBox({
-      size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, m1CenterY, tx2HeaterZ1],
+    // TX2 heater M1 landings
+    const tx2HeaterLanding1 = createBox({
+      size: [heaterM1LandingLen, m1H, 0.08],
+      position: [heaterPadX, m1CenterY, tx2HeaterZ1],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     });
-    lM1.add(tagPart(tx2HeaterTrace1, "m1Interconnect", false, 4, "mzm"));
-    const tx2HeaterTrace2 = createBox({
-      size: [heaterTraceLen, m1H, 0.08],
-      position: [heaterTraceCx, m1CenterY, tx2HeaterZ2],
+    lM1.add(tagPart(tx2HeaterLanding1, "m1Interconnect", false, 4, "mzm"));
+    const tx2HeaterLanding2 = createBox({
+      size: [heaterM1LandingLen, m1H, 0.08],
+      position: [heaterPadX, m1CenterY, tx2HeaterZ2],
       color: 0xf97316, metalness: 0.65, roughness: 0.22
     });
-    lM1.add(tagPart(tx2HeaterTrace2, "m1Interconnect", false, 4, "mzm"));
+    lM1.add(tagPart(tx2HeaterLanding2, "m1Interconnect", false, 4, "mzm"));
 
     // TX2 heater top vias
     lM1.add(tagPart(createBox({
@@ -1849,7 +1848,7 @@ const indexItems = [
     }
     chip.add(tagPart(txeGroup, "electricalPath", false, 0, "mzm"));
 
-    // Heater DC electrical paths (bond pad → M1 trace → W via → TiN heater)
+    // Heater DC electrical paths (bond pad → local M1 landing → W via → TiN heater)
     const heaterElecCurves = [];
     const heaterElecGlowSpheres = [];
     const heaterZs = [heaterZ1, heaterZ2];
@@ -1859,8 +1858,7 @@ const indexItems = [
         new THREE.Vector3(heaterPadX, padCenterY + 0.5, hz),
         new THREE.Vector3(heaterPadX, padCenterY, hz),
         new THREE.Vector3(heaterPadX, m1CenterY, hz),
-        new THREE.Vector3(dopingX, m1CenterY, hz),
-        new THREE.Vector3(dopingX, heaterTopY, hz),
+        new THREE.Vector3(heaterPadX, heaterTopY, hz),
       ];
       const hCurve = new THREE.CatmullRomCurve3(hPoints);
       heaterElecCurves.push(hCurve);
@@ -2171,7 +2169,7 @@ const indexItems = [
     }
     chip.add(tagPart(tx2TxeGroup, "electricalPath", false, 0, "mzm"));
 
-    // TX2 Heater DC electrical paths
+    // TX2 heater DC electrical paths
     const tx2HeaterElecCurves = [];
     const tx2HeaterElecGlowSpheres = [];
     const tx2HeaterZs = [tx2HeaterZ1, tx2HeaterZ2];
@@ -2181,8 +2179,7 @@ const indexItems = [
         new THREE.Vector3(heaterPadX, padCenterY + 0.5, hz),
         new THREE.Vector3(heaterPadX, padCenterY, hz),
         new THREE.Vector3(heaterPadX, m1CenterY, hz),
-        new THREE.Vector3(dopingX, m1CenterY, hz),
-        new THREE.Vector3(dopingX, heaterTopY, hz),
+        new THREE.Vector3(heaterPadX, heaterTopY, hz),
       ];
       const hCurve = new THREE.CatmullRomCurve3(hPoints);
       tx2HeaterElecCurves.push(hCurve);

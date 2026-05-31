@@ -277,6 +277,20 @@ test("PIC MZM heater M1 traces keep clearance from RF PN contact metal", () => {
   assert.doesNotMatch(component, /const tx2HeaterZ2 = tx2ArmZ2 \+ 0\.03;/);
 });
 
+test("PIC MZM heater DC pads use local M1 landings above heater vias", () => {
+  assert.match(component, /const heaterPadX = dopingX;/);
+  assert.match(component, /const heaterM1LandingLen = 0\.16;/);
+  assert.match(component, /size: \[heaterM1LandingLen, m1H, 0\.08\]/);
+  assert.match(component, /position: \[heaterPadX, m1CenterY, heaterZ1\]/);
+  assert.match(component, /position: \[heaterPadX, m1CenterY, heaterZ2\]/);
+  assert.match(component, /position: \[heaterPadX, m1CenterY, tx2HeaterZ1\]/);
+  assert.match(component, /position: \[heaterPadX, m1CenterY, tx2HeaterZ2\]/);
+  assert.match(component, /new THREE\.Vector3\(heaterPadX, m1CenterY, hz\),\n\s*new THREE\.Vector3\(heaterPadX, heaterTopY, hz\),/);
+  assert.doesNotMatch(component, /const heaterTraceLen = heaterPadX - 0\.5 \* xScale;/);
+  assert.doesNotMatch(component, /const heaterTraceCx = \(0\.5 \* xScale \+ heaterPadX\) \/ 2;/);
+  assert.doesNotMatch(component, /new THREE\.Vector3\(dopingX, m1CenterY, hz\),/);
+});
+
 test("PIC directional coupler bus width stays close to connected waveguides while the monitor tap remains slimmer", () => {
   assert.ok(dcBusW / ribW >= 0.8, "DC bus should not look abruptly narrower than the connected rib waveguide");
   assert.ok(dcTapW / dcBusW >= 0.6, "monitor tap should remain visibly related to the bus waveguide");
