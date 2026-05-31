@@ -30,3 +30,24 @@ Purpose: support the DFB laser 3D model interaction and animation choices in `sr
 - Show non-target colors fading inside the cavity rather than traveling out through the facet.
 - Keep the short blue output path at the emitting facet to represent the selected mode leaving the chip.
 - Use any layer-explode control as a structural inspection tool; keep functional overlays such as current path and output beam understandable when layers are separated.
+
+## Ridge / Waveguide Vertical Position Check
+
+Purpose: answer whether the 3D model should place the waveguide above the active region, and whether light "enters" that waveguide.
+
+Additional sources used:
+
+| Source | Type | URL | Key model-relevant point |
+|---|---|---|---|
+| RP Photonics Encyclopedia, "Laser Diodes" | professional encyclopedia | https://www.rp-photonics.com/laser_diodes.html | Edge-emitting laser diodes often use a double heterostructure that confines carriers and serves as a waveguide for the optical field. Index-guided laser diodes use a waveguide structure to guide laser light within the diode. |
+| MIT OCW 6.772 Lecture 21, "Laser Diodes II" | university lecture notes | https://ocw.mit.edu/courses/6-772-compound-semiconductor-devices-spring-2003/resources/lecture21v2/ | The vertical design separates carrier confinement and optical waveguide functions; the optical mode peaks near the center of the waveguide, while stripe/ridge structures define lateral confinement. |
+| RP Photonics Encyclopedia, "Distributed Feedback Lasers" | professional encyclopedia | https://www.rp-photonics.com/distributed_feedback_lasers.html | Semiconductor DFB lasers use an integrated grating, often a corrugated waveguide; the grating may be above the active region or laterally coupled at the sides. |
+| Farhan Rana, Cornell ECE 533, "Distributed Feedback Structures and Semiconductor DFB Lasers" | university lecture notes | https://courses.cit.cornell.edu/ece533/Lectures/handout13.pdf | DFB analysis treats the device as a waveguide mode perturbed by a periodic grating; example InGaAsP/InP DFB structures place SCH/QWs near the optical mode, with grating and cladding around that waveguide. |
+
+Takeaways:
+
+1. In a semiconductor laser, a waveguide is not a hollow track or separate pipe that external photons enter. It is the refractive-index and geometry structure that supports a guided optical mode inside the diode.
+2. The photons are generated in the active MQW region. Spontaneous emission components that overlap the guided mode and satisfy feedback conditions are amplified by stimulated emission; other components decay through loss, weak feedback, and gain competition.
+3. Vertically, the optical mode should sit around the SCH / waveguide core and overlap the MQW active region. The MQW itself can be much thinner than the full optical mode, so the visible optical-mode object should be centered near MQW/SCH rather than inside the upper ridge.
+4. The p-side ridge is a laterally patterned structure above the active region. It changes the lateral effective index and defines the current aperture, so the guided mode and current stay under the ridge near the active region.
+5. Therefore, a model can correctly show a solid ridge above the active region while showing the optical field and output beam at active-region height. The possible confusion is the label "Ridge waveguide": it should be explained as a lateral waveguide structure, not as the vertical location of the optical path.
