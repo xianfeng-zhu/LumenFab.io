@@ -634,15 +634,6 @@ const indexItems = [
     mode.position.set(0, layerCenters["MQW active region"], cutawayOffset);
     chip.add(tagPart(mode, "mode"));
 
-    const cutawayPlane = createBox({
-      size: [length + 0.1, topY + 0.18, 0.018],
-      position: [0, (topY + 0.05) / 2, cutawayOffset - 0.7],
-      color: 0x0f766e,
-      opacity: 0.12
-    });
-    cutawayPlane.name = "cutaway plane";
-    chip.add(cutawayPlane);
-
     chip.add(tagPart(createArrow([-2.2, topY + 0.58, cutawayOffset], [-2.2, topY + 0.22, cutawayOffset], 0x22c55e), "current"));
     chip.add(tagPart(createArrow([0, topY + 0.58, cutawayOffset], [0, topY + 0.22, cutawayOffset], 0x22c55e), "current"));
     chip.add(tagPart(createArrow([2.2, topY + 0.58, cutawayOffset], [2.2, topY + 0.22, cutawayOffset], 0x22c55e), "current"));

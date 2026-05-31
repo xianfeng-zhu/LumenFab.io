@@ -65,6 +65,12 @@ test("DFB model keeps default transparent structures legible", () => {
   assert.match(component, /new THREE\.Mesh\(geometry, transparent\(0x22c55e, 0\.42\)\)/);
 });
 
+test("DFB model does not render an unselectable cutaway reference plane", () => {
+  assert.doesNotMatch(component, /const cutawayPlane = createBox/);
+  assert.doesNotMatch(component, /cutawayPlane\.name = "cutaway plane"/);
+  assert.doesNotMatch(component, /chip\.add\(cutawayPlane\)/);
+});
+
 test("DFB dielectric passivation wraps ridge sidewalls and leaves a central current window", () => {
   assert.match(component, /const dielectricGroup = new THREE\.Group\(\);/);
   assert.match(component, /const dielectricSidewallOffset = ridgeWidth \/ 2 \+ 0\.035;/);
