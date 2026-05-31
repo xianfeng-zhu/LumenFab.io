@@ -56,11 +56,13 @@ test("DFB model places optical activity controls after the cavity mode control",
 });
 
 test("DFB model keeps default transparent structures legible", () => {
-  assert.match(component, /const mode = new THREE\.Mesh\(modeGeometry, transparent\(0x0891b2, 0\.62\)\);/);
-  assert.match(component, /position: \[0, topY \+ 0\.045, cutawayOffset - 0\.54\],[\s\S]*?opacity: 0\.64/);
-  assert.match(component, /position: \[0, topY \+ 0\.08, cutawayOffset\],[\s\S]*?opacity: 0\.5/);
-  assert.match(component, /position: \[length \/ 2 \+ 0\.025, \(topY \+ 0\.25\) \/ 2, 0\],[\s\S]*?opacity: 0\.36/);
-  assert.match(component, /position: \[length \/ 2 \+ 0\.07, \(topY \+ 0\.2\) \/ 2, cutawayOffset\],[\s\S]*?opacity: 0\.58/);
+  assert.match(component, /const mode = new THREE\.Mesh\(modeGeometry, transparent\(0x0891b2, 0\.76\)\);/);
+  assert.match(component, /position: \[0, topY \+ 0\.045, cutawayOffset - 0\.54\],[\s\S]*?opacity: 0\.86/);
+  assert.match(component, /position: \[0, topY \+ 0\.08, cutawayOffset\],[\s\S]*?opacity: 0\.72/);
+  assert.match(component, /position: \[length \/ 2 \+ 0\.025, \(topY \+ 0\.25\) \/ 2, 0\],[\s\S]*?opacity: 0\.56/);
+  assert.match(component, /position: \[length \/ 2 \+ 0\.07, \(topY \+ 0\.2\) \/ 2, cutawayOffset\],[\s\S]*?opacity: 0\.74/);
+  assert.match(component, /const beam = createCylinder\(\{[\s\S]*?opacity: 0\.5/);
+  assert.match(component, /new THREE\.Mesh\(geometry, transparent\(0x22c55e, 0\.42\)\)/);
 });
 
 test("DFB model computes a responsive default camera frame from model bounds", () => {
