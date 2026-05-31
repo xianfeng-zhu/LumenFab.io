@@ -18,7 +18,7 @@ const dcTapW = 0.14;
 const dcLen = 0.55;
 const previousDcTaperLen = 0.36;
 const dcTaperLen = 0.216;
-const mzmArmSeparation = 0.36;
+const mzmArmSeparation = 0.72;
 const mzmArmWidth = 0.14;
 const mzmDopingW = 0.08;
 const minMzmDopingGap = 0.05;
@@ -169,7 +169,7 @@ test("PIC MZM PN doping strips leave a visible gap between phase arms", () => {
     innerDopingGap >= minMzmDopingGap,
     `inner PN doping gap ${innerDopingGap.toFixed(3)} should remain visually separable`
   );
-  assert.match(component, /const mzmArmSeparation = 0\.36;/);
+  assert.match(component, /const mzmArmSeparation = 0\.72;/);
   assert.match(component, /const tx2ArmZ1 = tx2Z - mzmArmSeparation \/ 2;/);
   assert.match(component, /const tx2ArmZ2 = tx2Z \+ mzmArmSeparation \/ 2;/);
   assert.match(component, /const armZ1 = 0\.4 - mzmArmSeparation \/ 2;/);
