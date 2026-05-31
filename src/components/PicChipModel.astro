@@ -1286,10 +1286,12 @@ const indexItems = [
     lSiDevice.add(tagPart(txOutputGcGroup, "gratingCoupler"));
 
     // TX heaters above phase arms (thermal tuning / bias)
-    // Offset slightly outward in Z to remain visible under GND electrodes
+    // Keep heater metal centered on each phase arm so M1 heater routing stays isolated from PN/RF contact metal.
+    const heaterZ1 = armZ1;
+    const heaterZ2 = armZ2;
     const txHeater1 = createBox({
       size: [armLen - 0.5, heaterH, heaterW],
-      position: [dopingX, heaterCenterY, armZ1 - 0.03],
+      position: [dopingX, heaterCenterY, heaterZ1],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -1298,7 +1300,7 @@ const indexItems = [
 
     const txHeater2 = createBox({
       size: [armLen - 0.5, heaterH, heaterW],
-      position: [dopingX, heaterCenterY, armZ2 + 0.03],
+      position: [dopingX, heaterCenterY, heaterZ2],
       color: 0xeab308,
       metalness: 0.5,
       roughness: 0.3
@@ -1306,8 +1308,6 @@ const indexItems = [
     lHeater.add(tagPart(txHeater2, "heater", false, 5, "mzm"));
 
     // Heater W vias up to M1 level
-    const heaterZ1 = armZ1 - 0.03;
-    const heaterZ2 = armZ2 + 0.03;
     const heaterToM1ViaH = m1BaseY - heaterTopY;
     const heaterVia1 = createBox({
       size: [0.06, heaterToM1ViaH, 0.06],
@@ -1373,8 +1373,8 @@ const indexItems = [
     }), "bondPad", false, 0, "mzm"));
 
     // TX2 heaters above phase arms
-    const tx2HeaterZ1 = tx2ArmZ1 - 0.03;
-    const tx2HeaterZ2 = tx2ArmZ2 + 0.03;
+    const tx2HeaterZ1 = tx2ArmZ1;
+    const tx2HeaterZ2 = tx2ArmZ2;
     const tx2Heater1 = createBox({
       size: [armLen - 0.5, heaterH, heaterW],
       position: [dopingX, heaterCenterY, tx2HeaterZ1],

@@ -21,7 +21,9 @@ const dcTaperLen = 0.216;
 const mzmArmSeparation = 0.72;
 const mzmArmWidth = 0.14;
 const mzmDopingW = 0.08;
+const mzmHeaterTraceW = 0.08;
 const minMzmDopingGap = 0.05;
+const minMzmMetalClearance = 0.025;
 const mmiCombinerCx = (0.5 * 2 + 0.7) * xScale;
 const tx2Z = -1.4;
 const mziMmiLen = 0.55;
@@ -48,6 +50,14 @@ const zBends = [
   { startX: combiOutX, startZ: 0.4, endX: mziInputFaceX, endZ: mziPort1Z, y: 0 },
   { startX: combiOutX, startZ: tx2Z, endX: mziInputFaceX, endZ: mziPort2Z, y: 0 }
 ];
+
+const zClearance = (aCenter, aWidth, bCenter, bWidth) => {
+  const aMin = aCenter - aWidth / 2;
+  const aMax = aCenter + aWidth / 2;
+  const bMin = bCenter - bWidth / 2;
+  const bMax = bCenter + bWidth / 2;
+  return Math.max(bMin - aMax, aMin - bMax, 0);
+};
 
 test("PIC MZI input Z-bends are monotonic with horizontal endpoint tangents", () => {
   for (const spec of zBends) {
@@ -233,6 +243,38 @@ test("PIC metal stack separates heater M1 and RF layers with local vias", () => 
   assert.doesNotMatch(component, /const rfBaseY = cladTopY \+ heaterH \+ m1H;/);
   assert.doesNotMatch(component, /const heaterM1Y = cladTopY \+ heaterH \+ m1H \/ 2;/);
   assert.doesNotMatch(component, /const viaToM1H = heaterH \+ m1H;/);
+});
+
+test("PIC MZM heater M1 traces keep clearance from RF PN contact metal", () => {
+  const armZ1 = 0.4 - mzmArmSeparation / 2;
+  const armZ2 = 0.4 + mzmArmSeparation / 2;
+  const tx2ArmZ1 = tx2Z - mzmArmSeparation / 2;
+  const tx2ArmZ2 = tx2Z + mzmArmSeparation / 2;
+  const contactOffset = mzmArmWidth / 2 + mzmDopingW / 2;
+  const contactW = 0.08;
+  const clearances = [
+    zClearance(armZ1, mzmHeaterTraceW, armZ1 - contactOffset, contactW),
+    zClearance(armZ1, mzmHeaterTraceW, armZ1 + contactOffset, contactW),
+    zClearance(armZ2, mzmHeaterTraceW, armZ2 - contactOffset, contactW),
+    zClearance(armZ2, mzmHeaterTraceW, armZ2 + contactOffset, contactW),
+    zClearance(tx2ArmZ1, mzmHeaterTraceW, tx2ArmZ1 - contactOffset, contactW),
+    zClearance(tx2ArmZ1, mzmHeaterTraceW, tx2ArmZ1 + contactOffset, contactW),
+    zClearance(tx2ArmZ2, mzmHeaterTraceW, tx2ArmZ2 - contactOffset, contactW),
+    zClearance(tx2ArmZ2, mzmHeaterTraceW, tx2ArmZ2 + contactOffset, contactW)
+  ];
+
+  assert.ok(
+    Math.min(...clearances) >= minMzmMetalClearance,
+    `heater M1 should keep at least ${minMzmMetalClearance} clearance from PN/RF M1 metal`
+  );
+  assert.match(component, /const heaterZ1 = armZ1;/);
+  assert.match(component, /const heaterZ2 = armZ2;/);
+  assert.match(component, /const tx2HeaterZ1 = tx2ArmZ1;/);
+  assert.match(component, /const tx2HeaterZ2 = tx2ArmZ2;/);
+  assert.doesNotMatch(component, /const heaterZ1 = armZ1 - 0\.03;/);
+  assert.doesNotMatch(component, /const heaterZ2 = armZ2 \+ 0\.03;/);
+  assert.doesNotMatch(component, /const tx2HeaterZ1 = tx2ArmZ1 - 0\.03;/);
+  assert.doesNotMatch(component, /const tx2HeaterZ2 = tx2ArmZ2 \+ 0\.03;/);
 });
 
 test("PIC directional coupler bus width stays close to connected waveguides while the monitor tap remains slimmer", () => {
