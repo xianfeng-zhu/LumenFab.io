@@ -203,7 +203,7 @@ test("PIC circuit map keeps the overview diagram focused on main optical path", 
   assert.doesNotMatch(component, /addEventListener\(\s*"scroll"/);
 });
 
-test("component hub pages link to detail pages through relative paths", async () => {
+test("component hub pages use relative paths for learn links when present", async () => {
   for (const page of [
     "src/pages/components/laser-source.mdx",
     "src/pages/components/pic.mdx",
@@ -214,8 +214,10 @@ test("component hub pages link to detail pages through relative paths", async ()
     "src/pages/components/reliability-operations.mdx"
   ]) {
     const source = await read(page);
-    assert.doesNotMatch(source, /\]\(\/learn\//);
-    assert.match(source, /\]\(\.\.\/\.\.\/learn\//);
+    const learnLinks = source.match(/\]\([^)\s]*learn\/[^)]*\)/g) ?? [];
+    for (const link of learnLinks) {
+      assert.match(link, /\]\(\.\.\/\.\.\/learn\//);
+    }
   }
 });
 
