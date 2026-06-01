@@ -13,7 +13,13 @@ const checkedExtensions = new Set([
   ".mjs",
   ".ts"
 ]);
-const skippedDirectories = new Set([".astro", ".git", "dist", "node_modules"]);
+const skippedDirectories = new Set([
+  ".astro",
+  ".git",
+  "dist",
+  "node_modules",
+  "superpowers"
+]);
 const skippedFiles = new Set(["package-lock.json"]);
 
 const negative = "不" + "是";
