@@ -39,20 +39,24 @@ test("concept layout reads MDX frontmatter for title metadata", async () => {
 test("term notes clamp visible tooltips inside the viewport", async () => {
   const component = await read("src/components/TermNote.astro");
   assert.match(component, /\.term-note__tip/);
-  assert.match(component, /\.term-note\s*{\s*position:\s+relative/s);
-  assert.match(component, /\.term-note__tip\s*{[^}]*position:\s+absolute/s);
-  assert.match(component, /display:\s+none/);
-  assert.match(component, /left:\s+50%/);
-  assert.match(component, /--term-note-shift/);
   assert.match(component, /getBoundingClientRect/);
-  assert.match(component, /data-term-note-placement/);
+  assert.match(component, /document\.documentElement\.clientWidth/);
+  assert.match(component, /window\.innerHeight/);
+  assert.match(component, /viewportWidth - edgeGap - tipRect\.width/);
+  assert.match(component, /viewportHeight - edgeGap - tipRect\.height/);
+  assert.match(component, /note\.setAttribute\("data-term-note-placement", "below"\)/);
+  assert.match(component, /note\.removeAttribute\("data-term-note-placement"\)/);
+  assert.match(component, /note\.style\.setProperty\("--term-note-fixed-left"/);
+  assert.match(component, /note\.style\.setProperty\("--term-note-fixed-top"/);
+  assert.match(component, /display:\s+none/);
   assert.match(component, /\.term-note:hover \.term-note__tip/);
   assert.match(component, /display:\s+block/);
   assert.match(component, /@media \(max-width: 720px\)/);
   assert.match(component, /--term-note-fixed-left/);
   assert.match(component, /--term-note-fixed-top/);
-  assert.match(component, /mobileQuery\.matches/);
-  assert.match(component, /position:\s+fixed/);
+  assert.match(component, /\.term-note__tip\s*{[^}]*position:\s+fixed/s);
+  assert.match(component, /top:\s+var\(--term-note-fixed-top\)/);
+  assert.match(component, /left:\s+var\(--term-note-fixed-left\)/);
   assert.match(component, /width:\s+min\(20rem,\s+calc\(100vw - 2rem\)\)/);
 });
 
