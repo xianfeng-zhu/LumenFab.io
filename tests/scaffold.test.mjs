@@ -83,12 +83,16 @@ test("code blocks use readable light-theme styling", async () => {
   assert.match(layout, /color:\s+inherit\s+!important/);
 });
 
-test("concept page prose lists use the same readable width as paragraphs", async () => {
+test("concept page prose flow elements use the same readable width as paragraphs", async () => {
   const layout = await read("src/layouts/BaseLayout.astro");
   assert.match(layout, /p\s*{\s*max-width:\s+74ch;/);
   assert.match(
     layout,
     /\.concept-page\s*>\s*:where\(ul,\s*ol\):not\(\.stage-list\)\s*{[^}]*max-width:\s+74ch;/s
+  );
+  assert.match(
+    layout,
+    /\.concept-page\s*>\s*blockquote\s*{[^}]*max-width:\s+74ch;/s
   );
   assert.match(layout, /\.stage-list\s*{[^}]*display:\s+grid;/s);
 });
