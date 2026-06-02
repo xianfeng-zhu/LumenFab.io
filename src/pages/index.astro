@@ -16,8 +16,8 @@ import { sitePath } from "../lib/paths";
 
   <section>
     <div class="section-heading">
-      <p class="page-kicker">Structure</p>
-      <h2>按结构进入</h2>
+      <p class="page-kicker">Core devices</p>
+      <h2>核心器件</h2>
     </div>
     <div class="module-grid">
       <a class="module-card" href={sitePath("/components/laser-source/")}>
@@ -34,7 +34,15 @@ import { sitePath } from "../lib/paths";
         <h3>EIC / driver and receiver</h3>
         <p>Driver、TIA、控制电路和高速电接口决定电信号如何进入或离开光引擎。</p>
       </a>
+    </div>
+  </section>
 
+  <section>
+    <div class="section-heading">
+      <p class="page-kicker">System integration</p>
+      <h2>系统集成</h2>
+    </div>
+    <div class="module-grid">
       <a class="module-card" href={sitePath("/components/optical-io/")}>
         <h3>Optical interface / fiber coupling</h3>
         <p>把 PIC 里的光耦合到 fiber array、connector 或板级光路，决定插损和装配窗口。</p>
@@ -49,8 +57,8 @@ import { sitePath } from "../lib/paths";
 
   <section>
     <div class="section-heading">
-      <p class="page-kicker">Engineering loop</p>
-      <h2>制造与验证闭环</h2>
+      <p class="page-kicker">Manufacturing &amp; operations</p>
+      <h2>制造与运营</h2>
     </div>
     <div class="module-grid">
       <a class="module-card" href={sitePath("/components/manufacturing-test/")}>
