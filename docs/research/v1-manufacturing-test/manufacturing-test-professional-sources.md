@@ -1,6 +1,6 @@
 # Manufacturing and Test Professional Source Notes
 
-Date: 2026-05-24
+Date: 2026-05-24; updated 2026-06-02
 
 Purpose: source pack for `src/pages/components/manufacturing-test.mdx`. These notes support a reader-facing Chinese page about the verification chain for CPO optical engines, from wafer-level optical/electrical test and known-good-die screening through assembly, package-level electro-optic test, BER, aging, and yield feedback.
 
@@ -23,13 +23,31 @@ Keep out:
 
 ## Professional Sources
 
+## Downloaded Artifacts
+
+Saved under `docs/research/v1-manufacturing-test/downloads/`:
+
+| Source ID | Local file | Status |
+|---|---|---|
+| AIM-TAP | `aim-photonics-opto-electronic-testing-services.html` | downloaded web page |
+| TERADYNE-PHOTON-100 | `teradyne-photon-100.html` | downloaded web page |
+| FORMFACTOR-SIPHO-PROBE | `formfactor-silicon-photonics-wafer-probing.html` | downloaded web page |
+| ETHERNET-ALLIANCE-FEC | `ethernet-alliance-fec-compliance-testing.html` | downloaded web page |
+
+Notes:
+
+- A direct Keysight PDF download returned an HTML page in this environment, so it was discarded. The Keysight / Electronic Design TDECQ source is kept as a URL reference.
+
+## Professional Sources
+
 | Source | Type | URL | Key takeaways for the page |
 |---|---|---|---|
 | AIM Photonics, Test, Assembly and Packaging | Photonics manufacturing institute service page | https://www.aimphotonics.com/tap | Supports the idea that integrated photonics production needs wafer-scale, chip-scale, I/O attach, assembly, packaging, and opto-electronic test. Specific useful categories include wafer probing with optical / RF / DC access, passive optical insertion / propagation / spectral measurements, active optoelectronic measurements such as modulation, detector responsivity and laser LIV, telecom/datacom eye-diagram and BER testing, RF S-parameters, DC IV and leakage, and metrology such as SEM, X-ray, IR and acoustic microscopy. |
 | Teradyne Photon 100 | Test-equipment manufacturer technology page | https://www.teradyne.com/products/photon-100/ | Supports the high-volume manufacturing framing: silicon photonics and CPO need automated optical + electrical test across wafer, package, optical-engine and co-packaged-module insertions. Useful for explaining why test throughput and repeatability become productization issues, not only lab characterization issues. |
+| FormFactor, Autonomous Silicon Photonics wafer probing | Probe-system manufacturer technology page | https://www.formfactor.com/product/probe-systems/autonomous-assistants/autonomous-silicon-photonics/ | Supports the claim that optical wafer probing differs from electrical pad probing: fiber / fiber array does not contact the grating coupler or facet and must search for a maximum optical-power position. Useful for alignment, calibration, thermal probing and repeatability discussion. |
 | NIST, Optical probe for nondestructive wafer-scale characterization of photonic elements | Government research publication page | https://www.nist.gov/publications/optical-probe-nondestructive-wafer-scale-characterization-photonic-elements | Supports the claim that wafer-scale photonic characterization requires controlled optical coupling and precise probe positioning. The source describes nondestructive evanescent coupling and localized chip-scale / wafer-scale testing of nanophotonic devices. Use as research support for the special difficulty of wafer-level optical test. |
 | JEDEC JESD49B / JESD49, Procurement Standard for Semiconductor Die Products Including Known Good Die | Semiconductor standard | https://www.jedec.org/standards-documents/docs/jesd49b01 and https://standards.globalspec.com/std/14369207/jedec-jesd-49 | Supports the KGD concept: bare die products may be procured and used outside conventional packaged formats, and KGD exists because higher-level assemblies need confidence before die are built into expensive packages. Use for definition-level grounding, not for photonic-specific metrics. |
-| OIF, Co-Packaging Framework Document | Industry standards framework | https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf | Supports CPO system boundary: optical/electrical engines attached near ASICs, electrical interface options with future test points / methods / criteria, high-count engine integration yield pressure, optical connector loss distribution, single-mate mid-board connector risk, thermal pressure, and system-level reliability concerns. Local text exists at `../v1-light-source-laser-supply/downloads/oif-co-packaging-framework-fd-01-0.txt`. |
+| OIF, Co-Packaging Framework Document | Industry standards framework | https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf | Supports CPO system scope: optical/electrical engines attached near ASICs, electrical interface options with future test points / methods / criteria, high-count engine integration yield pressure, optical connector loss distribution, single-mate mid-board connector risk, thermal pressure, and system-level reliability concerns. Local text exists at `../v1-light-source-laser-supply/downloads/oif-co-packaging-framework-fd-01-0.txt`. |
 | OIF, External Laser Small Form Factor Pluggable Implementation Agreement | Industry implementation agreement | https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf | Supports optical test point, test-grade patch-cord characterization, ELSFP connector system testing, cyclic temperature, mixed flowing gas, shock, vibration, ESD, and host / module engagement concerns. Use only for external laser source and optical-interface test concepts. Local text exists at `../v1-light-source-laser-supply/downloads/oif-elsfp-01-0.txt`. |
 | PhotonHub, Silicon and Silicon Nitride PICs | European photonics infrastructure page | https://photonhub.eu/technology-platform/silicon-and-silicon-nitride-pics/ | Supports silicon / SiN PIC fabrication, optical and electrical characterization, coupling efficiency, bandwidth, and environmental / lifetime testing. Already captured in `../v1-pic-optical-circuit/pic-optical-circuit-professional-sources.md`. |
 | PhotonHub, Indium Phosphide PICs | European photonics infrastructure page | https://photonhub.eu/technology-platform/indium-phosphide-pics/ | Supports InP PIC testing with optical / electrical / RF characterization, modulation speed, insertion loss, and reliability under thermal and electrical stress. Already captured in `../v1-pic-optical-circuit/pic-optical-circuit-professional-sources.md`. |
@@ -76,7 +94,7 @@ Photonic manufacturing differs from pure electrical die testing because the meas
 
 Recommended sections:
 
-1. `Manufacturing and test 的流程边界`
+1. `Manufacturing and test 的流程范围`
 2. `为什么 CPO 会提高测试要求`
 3. `工作原理：测试链路怎样把风险逐层收敛`
 4. `制造测试路径：从 wafer 到 package-level BER`
