@@ -1,6 +1,6 @@
 # Reliability and Operations Professional Source Notes
 
-Date: 2026-05-24
+Date: 2026-05-24; updated 2026-06-02
 
 Purpose: source pack for `src/pages/components/reliability-operations.mdx`. These notes support reader-facing educational content about CPO optical-engine lifetime, drift, redundancy, serviceability, monitoring, and fault isolation. Do not paste source wording into the page.
 
@@ -8,7 +8,7 @@ Purpose: source pack for `src/pages/components/reliability-operations.mdx`. Thes
 
 Cover:
 
-- CPO reliability and operations boundary across laser source, PIC, EIC, optical I/O, package, thermal design, management firmware, and field maintenance.
+- CPO reliability and operations scope across laser source, PIC, EIC, optical I/O, package, thermal design, management firmware, and field maintenance.
 - Why CPO raises reliability and operations requirements compared with front-panel pluggable optics.
 - Failure-mechanism chains: laser aging, PIC drift, EIC heat, fiber contamination, package stress, and control-loop behavior.
 - Reliability verification path: component qualification, burn-in, accelerated aging, thermal cycling, optical connector qualification, package-level stress, and system monitoring.
@@ -21,13 +21,28 @@ Keep out:
 - Full optical connector mechanics, which belongs on `optical-io.mdx` and `packaging.mdx`.
 - Company ranking, investment analysis, or unreleased product claims.
 
+## Downloaded Artifacts
+
+Saved under `docs/research/v1-reliability-operations/downloads/`:
+
+| Source ID | Local file | Status |
+|---|---|---|
+| IEC-61300-3-35 | `iec-61300-3-35-page.html` | downloaded web page; committed with the Optical I/O rewrite because it also supports connector-cleaning content |
+| OIF-MGT-ELS | `oif-mgt-co-packaging-elsfp-01-0.pdf`, `oif-mgt-co-packaging-elsfp-01-0.txt` | downloaded and extracted |
+| TI-RELIABILITY | `ti-reliability-testing.html` | downloaded web page |
+| RP-PHOTONICS-LASER-DIODES | `rp-photonics-laser-diodes.html` | downloaded web page |
+
+Notes:
+
+- Corning's CPO fiber-infrastructure page blocked direct download with HTTP 403 in this environment. Keep it as an official URL reference.
+
 ## Professional Sources
 
 | Source | Type | URL | Key takeaways for the page |
 |---|---|---|---|
 | OIF, Co-Packaging Framework Document | Standards framework | https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf | Use as the main CPO reliability framing source. It states that co-packaged engines are less field-serviceable than front-panel pluggables, require component and system reliability frameworks, need instrumentation for pre-emptive service, and may need component/sub-system redundancy or reduced-throughput operation. It also supports the ELS tradeoff: failed lasers can be swapped at the faceplate and thermally separated from the switch ASIC, but extra insertion loss raises required laser output power. |
 | OIF, ELSFP Implementation Agreement | Standards implementation agreement | https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf | Use for field-replaceable external laser modules, CMIS/TWI management, thermal margin reporting, connector system tests, expected field life / temperature examples, laser-safety interlocks, and the recommended low-power path-loss verification before high-power operation. It explicitly links optical connector contamination at high optical power to permanent damage risk. |
-| OIF, Management of External Light Sources and Co-Packaged Optical Engines | Standards white paper | https://www.oiforum.com/wp-content/uploads/OIF-MGT-Co-Packaging-ELSFP-01.0.pdf | Use for the management boundary between host, ELS, and optical engine. It supports explaining external continuous-wave light as a managed resource, not just a passive optical input. |
+| OIF, Management of External Light Sources and Co-Packaged Optical Engines | Standards white paper | https://www.oiforum.com/wp-content/uploads/OIF-MGT-Co-Packaging-ELSFP-01.0.pdf | Use for the management interface among host, ELS, and optical engine. It supports explaining external continuous-wave light as a managed resource rather than a passive optical input. |
 | IEC 61300-3-35:2022 | International standard page | https://webstore.iec.ch/en/publication/64254 | Use for connector inspection framing: debris, scratches, and defects must be visually inspected and classified; inspection complements attenuation / return-loss measurements and does not replace them. Cleaning guidance is related to IEC TR 62627 documents. |
 | Telcordia GR-468-CORE references | Optoelectronic reliability standard family | https://resources.l-p.com/knowledge-center/gr-468-telcordia-standard-for-optical-component-reliability | Use only as a public secondary summary because the standard itself is paywalled. Supports the claim that optoelectronic components such as laser diodes and photodiodes are qualified with environmental stress, mechanical durability, damp heat, temperature cycling, and accelerated life testing. Avoid copying specific acceptance thresholds unless obtained from the official standard or a device vendor qualification report. |
 | Texas Instruments, Reliability testing | Semiconductor manufacturer reliability page | https://www.ti.com/quality-reliability/reliability/testing.html | Use for generic electronic qualification language: HTOL stresses devices at high temperature under operating conditions; temperature cycling subjects parts to transitions between extreme temperatures. Use to support EIC/package verification vocabulary without implying CPO-specific limits. |
@@ -87,7 +102,7 @@ Reliability and operations should be taught as an after-deployment system discip
 
 Recommended sections:
 
-1. `可靠性与运营的流程边界`
+1. `可靠性与运营的流程范围`
 2. `为什么 CPO 会提高可靠性与运营要求`
 3. `工作原理：失效怎样沿链路传播`
 4. `1. 激光器老化：从输出功率到电流余量`
