@@ -2,20 +2,20 @@
 layout: ../../layouts/ConceptLayout.astro
 title: Optical I/O / 光纤耦合
 chapter: 光引擎组件
-description: 解释 PIC 与 fiber array、edge coupler、grating coupler、lens、connector 和外置供光路径之间的接口条件。
+description: 解释 PIC 与光纤、光纤阵列、耦合器、透镜、连接器和外置供光路径之间的光学接口关系。
 ---
 
 import TermNote from "../../components/TermNote.astro";
 
-## Optical I/O 是接口层
+## Optical I/O 解决什么问题
 
-<TermNote label="Optical I/O" note="optical input/output，光输入输出接口。在光引擎中，它指芯片光路与封装、光纤、连接器之间的光学接口，覆盖 coupler、FAU、lens、connector 和相关测试边界。" /> 把 PIC 波导里的光学模式交给 fiber array、connector、package optical waveguide 或外置激光路径。它的主问题是接口能否低损耗、低反射、偏振可控、可装配、可检查并长期稳定。
+<TermNote label="Optical I/O" note="optical input/output，光输入输出接口。在光引擎中，它指 PIC 与光纤、光纤阵列、封装光路、连接器和外置供光路径之间的光学接口。" /> 负责把 PIC 波导中的片上导模交给封装和系统光路。它以一组连续光学接口的形式出现：耦合器、模场尺寸转换器、透镜、光纤阵列、插芯、连接器、尾纤和外置激光输入路径。
 
-这层接口与 [PIC / optical circuit](../pic/) 相邻。PIC 负责在芯片内路由、分光、调制、复用和探测；optical I/O 负责把片上光路交给封装和系统光路。光源见 [激光源](../laser-source/)；die placement、散热、应力和返修见 [Package integration](../packaging/)；光耦合测试、KGD 和封装后验证见 [Manufacturing and test](../manufacturing-test/)。
+这页重点解释片上光场怎样可靠地进入和离开封装光路。PIC 内部的分光、调制、复用和探测见 [PIC / optical circuit](../pic/)；激光产生和供光位置见 [激光源](../laser-source/)；裸片布局、散热、机械固定和返修见 [Package integration](../packaging/)；晶圆级测试、装配测试和封装后验证见 [Manufacturing and test](../manufacturing-test/)。
 
 ```text
 PIC waveguide
-→ spot-size converter / edge coupler or grating coupler
+→ spot-size converter / edge coupler / grating coupler
 → lens / fiber array / package optical path
 → ferrule / connector / pigtail
 → system fiber path
@@ -23,75 +23,77 @@ PIC waveguide
 
 相关基础页：[Waveguides and optical modes](../../learn/waveguides-and-optical-modes/)、[Refractive index and total internal reflection](../../learn/refractive-index-and-total-internal-reflection/)、[Interference, resonance, and loss](../../learn/interference-resonance-and-loss/)、[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)。
 
-## 模式转换是核心问题
+## 模式匹配：光纤不能直接贴上硅波导
 
-光纤耦合首先是 <TermNote label="光学模式" note="optical mode，满足波导或光纤边界条件的稳定光场分布。模式决定光场大小、形状、偏振和传播常数。" /> 的匹配问题。PIC 波导模式通常很小，并且由高折射率差强约束；标准通信单模光纤的 <TermNote label="MFD" note="mode-field diameter，模场直径。它描述单模光纤中主模式光场的有效直径，比几何芯径更能反映耦合时看到的光场大小。" /> 通常在 9-10 um 量级。两者直接相接会产生模式失配、反射、散射和对准敏感性。
+光纤耦合的底层物理问题是 <TermNote label="模式重叠" note="mode overlap，两个光场在横截面上的形状、尺寸、相位和偏振越一致，能量越容易从一个导波结构耦合到另一个导波结构。" />。硅光波导常把光强约束在亚微米到少数微米的横截面内；标准通信单模光纤的 <TermNote label="MFD" note="mode-field diameter，模场直径。它描述单模光纤主模式的有效光场直径，比几何纤芯直径更适合用来估算耦合效率。" /> 通常在 9-10 µm 量级。一个像“小光斑”的片上模式和一个像“大圆斑”的光纤模式直接相接，能量不会自动完整转移。
+
+模式不匹配会产生三类后果。第一，进入目标模式的能量减少，表现为 <TermNote label="插入损耗" note="insertion loss，光经过一个器件、接口或连接器后损失的功率，通常用 dB 表示。" />。第二，没有进入目标模式的光会散射、泄漏到衬底或包层，形成热和噪声风险。第三，折射率突变会让一部分光返回原路径，形成后向反射。
 
 | 差异 | PIC 波导 | 单模光纤 | 接口后果 |
 |---|---|---|---|
-| 模式尺寸 | 微米以下到少数微米，强约束 | MFD 约 9-10 um，弱约束 | 需要 taper、spot-size converter、SiN / polymer waveguide 或 lens |
-| 模式形状 | 椭圆或矩形近似，TE / TM 差异明显 | 近似圆形高斯分布 | 需要横向、纵向和偏振匹配 |
-| 折射率边界 | silicon、SiN、oxide、polymer 等材料突变 | glass core / cladding 弱折射率差 | 界面会带来 Fresnel reflection 和散射 |
-| 装配坐标 | die 边缘或表面耦合区 | FAU、ferrule、lens 固定 | 需要 pitch、角度、Z 高度和对准容差 |
+| 光场尺寸 | 亚微米到少数微米，强约束 | MFD 约 9-10 µm，弱约束 | 需要 taper、spot-size converter、SiN / polymer 过渡层或透镜 |
+| 光场形状 | 椭圆、矩形或非对称分布 | 近似圆形高斯分布 | 横向位置、端面角度和光束腰位置都要匹配 |
+| 偏振响应 | TE / TM 差异明显 | 光纤可支持不同偏振态 | 需要 PM fiber、偏振分集或低 PDL 设计 |
+| 折射率变化 | silicon、SiN、oxide、polymer 等材料突变 | glass core / cladding 弱折射率差 | 需要控制 Fresnel reflection、端面质量和胶水折射率 |
 
-模式越小，横向偏移、角度误差和间隙变化造成的损耗越大；模式越大，对准窗口通常更宽，也会增加器件长度、串扰、基底泄漏或封装空间。Optical I/O 的设计就是在低插损、宽带宽、低 PDL、宽装配窗口和高通道密度之间取平衡。
+设计者扩大片上模式时，会得到更宽的装配窗口；但模式变大也可能增加器件长度、基底泄漏、串扰或封装占用。Optical I/O 的工程取舍就在这里展开：低损耗、低反射、宽带宽、低偏振相关损耗和可量产装配必须一起成立。
 
-## Coupling 方案怎样选择
+## 边缘耦合器：沿芯片边缘做渐进扩束
 
-常见路线包括 edge coupling、grating coupling 和 lens / package optical path。它们解决的是不同系统约束。
+<TermNote label="边缘耦合器" note="edge coupler，从芯片边缘把片上波导模式耦合到光纤或封装光路的耦合结构。" /> 通常用在最终封装和高性能链路中。它的核心结构是 <TermNote label="反向锥形" note="inverse taper，波导宽度沿传播方向逐渐变窄，使高折射率波导对光的约束减弱，光场逐步扩展到周围低折射率区域。" />。当硅波导尖端足够窄时，光不再主要被硅条本身束缚，而是逐渐进入氧化硅、氮化硅或聚合物辅助结构。这个过程如果足够平缓，就接近 <TermNote label="绝热转换" note="adiabatic conversion，光场沿结构缓慢变化，从一个导模转换到另一个导模时尽量不激发辐射模或高阶模。" />。
 
-| 路线 | 适合的场景 | 主要约束 |
-|---|---|---|
-| Edge coupler | 宽带、低插损、高功率输入、WDM 或外置供光路径 | 需要高质量芯片边缘、FAU / lens 对准空间、端面处理和边缘 keepout |
-| Grating coupler | wafer-level test、表面 probing、早期 PDK 表征、垂直耦合封装 | 带宽、偏振、反射、方向性和上方散热空间 |
-| Lens-assisted path | 改变光束尺寸或方向，放大 working distance，连接封装光路 | 组件数量、焦距误差、表面反射、胶水定位和热漂移 |
-| Package optical waveguide / RDL | 把高密度 PIC 光口重新分配到封装边缘或连接器 | 材料损耗、热稳定、工艺成熟度和装配窗口 |
+边缘耦合的优势是低插损、宽带宽和较低的偏振相关损耗，适合 WDM 输出、高功率连续光输入和 CPO 光引擎的最终装配。专业综述和工程资料中常见的边缘耦合器可以做到 1-1.5 dB 量级的单端损耗，优秀实现可进一步降低；1 dB 对准容差常在几微米量级，具体取决于 spot-size converter、透镜光纤和端面工艺。
 
-**Edge coupler（边缘耦合器）** 的核心结构是反向锥形（inverse taper）——硅波导尖端缩窄到 &lt;180 nm，光场因波导太窄而向外膨胀进入周围 SiO₂ 或 SiN 包层；随后一个 SiN 波导或聚合物辅助层接住膨胀后的模式，沿 200–600 μm 长度渐进扩束到与单模光纤的模场匹配。这种绝热过渡天然是宽带的（>100 nm 1dB 带宽），典型插损 0.5–1.5 dB/端面，最优设计（SiN SSC + 折射率匹配）可做到 0.2 dB 以下。多尖端设计（2–10-tip）进一步放宽了对准容差和偏振相关损耗。代价是需要高质量芯片端面（深沟槽刻蚀或解理）、精密对准（直接耦合 1dB 横向容差仅 ±1–2.5 μm）、FAU 和光学胶配合，封装成本高于光栅方案。
+它的代价也很明确。芯片边缘需要深沟槽、解理、切割或抛光形成可用端面；光纤阵列或透镜需要从封装边缘接近耦合区；端面镀膜、折射率匹配胶、点胶固化和机械支撑会进入良率。边缘耦合器的版图指标不能单独看，必须和可装配端面、FAU 空间、出纤路径和清洁流程一起定义。
 
-**Grating coupler（光栅耦合器）** 是在硅波导自身上刻出周期性凹槽（利用浅刻蚀 ~70 nm，周期 600–1800 nm），光沿波导传播时每遇凹槽就有一小部分被向上散射，所有散射在 8–15° 角度上相位叠加形成衍射光束，由上方光纤接收。其核心优势是晶圆级测试——光纤从芯片上方即可对准，无需切割和端面加工。代价是性能：标准光栅的插损约 3–5 dB，1dB 带宽约 30–40 nm，对偏振敏感，标准结构因布拉格对称性存在 >5% 的后向反射。高级设计（切趾光栅、闪耀光栅、双层多晶硅覆盖光栅）可将插损压到 &lt;1 dB、带宽扩展到 >100 nm、后向反射压到 &lt;1%，但增加了工艺复杂度。
+## 光栅耦合器：从芯片表面访问光路
 
-**行业现状。** 标准做法是两者分工——晶圆级测试用光栅耦合器从上方快速筛选，最终组装用边缘耦合器满足链路预算。对于 OMA 预算仅约 5–6 dB 的典型 CPO 链路，光栅耦合器在最终组装中不具备可行性（发送+接收合计 6–10 dB 就已超预算）。近年趋势包括混合 GC+EC 结构（同一位置兼具测试与组装功能）、SiN 边缘耦合器（sub-1 dB 损耗成为 CPO 标准）和扩束微透镜（将对准容差放宽到 >±6 μm）。
+<TermNote label="光栅耦合器" note="grating coupler，在波导上形成周期性结构，使沿片上传播的光通过衍射向芯片表面出射，或把从表面入射的光耦合进波导。" /> 把片上传播的光转向芯片上方。周期性刻槽让每一小段光产生散射；当周期、有效折射率和入射角满足相位匹配时，这些散射场在某个方向上相干叠加，形成可被光纤接收的光束。常见测试配置会让光纤以小角度离开垂直方向，减小垂直反射直接返回波导的风险。
 
-## 装配容差怎样决定良率
+光栅耦合器的最大价值是晶圆级访问。芯片还没有切割、端面还没有加工时，探针台可以从上方用光纤阵列快速测量器件、环形谐振器、调制器、探测器和测试结构。对 PDK 表征、工艺监控和裸片分选来说，这个优势非常重要。
 
-实验室里单通道低损耗耦合，只能证明最佳位置存在。量产要证明的是多通道可以在可接受时间内重复找到位置，并在点胶、固化、热循环和运输后保持余量。
+光栅耦合的限制来自衍射本身。标准结构的 1 dB 带宽通常窄于边缘耦合器，对 TE / TM 偏振更敏感；向上、向下和后向散射会分走光功率；周期结构还可能引入后向反射。切趾光栅、背反射镜、双层结构、偏振分集光栅等方案可以改善损耗、带宽、方向性和偏振问题，但会增加工艺复杂度。实际项目中，光栅常用于晶圆级测试，最终高性能封装则更偏向边缘耦合或扩束耦合。
 
-| 装配变量 | 影响 |
+## 透镜和扩束路径：用光束尺寸换装配窗口
+
+当接口不能只靠片上 taper 解决时，封装会引入透镜、准直光路或扩束结构。<TermNote label="扩束" note="expanded beam，把光束尺寸放大后再传输或连接。光束变大后对横向偏移更不敏感，但会更依赖焦距、角度、表面质量和反射控制。" /> 的基本想法是用更大的光斑降低对准敏感性，让光束跨过更长的 working distance，或绕开封装结构限制。
+
+透镜路径会把问题从“一个耦合器的横向偏差”转化为“透镜位置、焦距、倾角、表面反射和热漂移”的组合问题。它能显著放宽横向容差，也会增加元件数量和装配步骤。对 CPO 来说，透镜和封装光路只有在可重复测量、可固定、可清洁并能通过温循后保持余量时，才是真正可制造的方案。
+
+## 光纤阵列把单通道问题放大成系统问题
+
+<TermNote label="FAU" note="fiber array unit，光纤阵列单元。它把多根光纤按规定 pitch 固定在 V-groove、玻璃块或插芯结构中，使多通道光纤能整体与 PIC 或封装光路对准。" /> 把单个耦合器的设计变成多通道装配。单通道低损耗并不等于整排光纤都低损耗，因为 FAU 同时带来 pitch、公差累积、端面角、光纤高度、平面度、插芯形变、胶水固化收缩和光纤应力。
+
+多通道对准要同时控制 x / y / z 位置以及 pitch / yaw / roll 角度。<TermNote label="主动对准" note="active alignment，在装配过程中实际注入或接收光信号，边测光功率边调整位置，直到损耗达到目标。" /> 精度高，但占用测试时间和设备；<TermNote label="被动对准" note="passive alignment，依靠机械基准、对准标记和工艺尺寸把器件放到目标位置，装配过程主要依赖前期建立的机械基准。" /> 速度快，但要求机械基准和前段工艺非常稳定。量产中的核心指标从寻找单通道最佳点，转向让多通道在可接受时间内稳定落入损耗窗口。
+
+| 装配变量 | 对 Optical I/O 的影响 |
 |---|---|
-| x / y / z alignment | 直接决定 coupling loss 和 channel-to-channel variation |
-| pitch / yaw / roll | 多通道 FAU 同时对准时尤其关键 |
-| active vs. passive alignment | active alignment 精度高但时间长；passive alignment 依赖机械基准和工艺一致性 |
-| epoxy / adhesive | 固化收缩、吸湿、CTE 和老化会引起长期漂移 |
-| thermal cycling | 改变 fiber attach、lens attach、edge coupler 相对位置 |
-| cleanliness | 颗粒、划伤和残留物会增加插损、反射和高功率损伤风险 |
+| x / y / z 位置 | 决定耦合损耗和通道间差异 |
+| pitch / yaw / roll | 多通道 FAU 同时对准时最容易放大误差 |
+| 端面角与抛光质量 | 影响后向反射、散射和接触重复性 |
+| 胶水与固化流程 | 固化收缩、吸湿和 CTE 差异会造成长期漂移 |
+| 温度循环 | 改变 FAU、透镜、端面和耦合器之间的相对位置 |
+| 光纤弯曲与应力释放 | 影响路径损耗、偏振状态和机械可靠性 |
 
-装配窗口通常用 1 dB / 3 dB alignment tolerance 描述，包括横向、纵向、间隙和角度。若窗口太窄，单颗器件指标再好，也会在量产中表现为吞吐低、长尾损耗大和返修困难。CPO 的高 lane count 放大了这个问题：一组 fiber array 中只要少数通道偏离，就可能拖累整颗 optical engine 的分档。
+## 连接器、反射和清洁会进入链路预算
 
-## Fiber array 与 connector 边界
+<TermNote label="回波损耗" note="return loss，接口或器件把光反射回入射方向的程度。回波损耗数值越大，通常表示反射越小。" /> 来自折射率突变和周期结构。fiber-air、fiber-glue、glue-facet、lens-air、grating、connector end-face 和 PIC facet 都可能把光送回系统。返回光会扰动激光器，增加相对强度噪声，影响 DFB 或外置激光的稳定性，也可能让环形谐振器、监测 PD 和接收链路出现多径误差。
 
-<TermNote label="FAU" note="fiber array unit，光纤阵列单元。它把多根光纤以规定 pitch 固定在玻璃、硅 V-groove 或 ferrule 结构中，使多通道光纤能一起与 PIC 或封装光路对准。" /> 把单个 coupler 的光学设计变成多通道系统接口。它决定 fiber pitch、端面角、光纤高度、平面度、polish quality、epoxy fillet、strain relief 和 connector compatibility。
+常见控制手段包括斜端面、AR coating、折射率匹配材料、低反射连接器、倾斜光栅、隔离器和合理的连接器清洁流程。IEC 61300-3-35 把连接器端面的 debris、scratches 和 defects 作为视觉检查对象，同时也提醒视觉检查不能替代插入损耗、回波损耗和端面几何测量。对高密度 CPO 来说，这不是维护小事：一个前面板或中板路径可以有数百根光纤，少数脏污通道就会吃掉系统余量。
 
-| 接口对象 | 要定义的条件 |
-|---|---|
-| fiber array | pitch、end-face angle、planarity、fiber height、V-groove / ferrule 结构 |
-| MT ferrule / MPO 类 connector | 插损、return loss、mating repeatability、cleaning access、blind-mate tolerance |
-| pigtail | fiber bend radius、strain relief、routing path、可追溯性 |
-| package edge | 出纤方向、heat sink / lid / retention keepout、front-panel 或 mid-board 路径 |
+高功率连续光路径更敏感。颗粒、冷凝和清洗残留物可能吸收光功率并造成端面或插芯永久损伤。因此，外置供光路径通常需要先检查和清洁，再用低安全功率验证路径损耗，路径合格后才进入工作功率。
 
-CPO 会让多通道 optical I/O 与散热器、retention frame、ELS input、board components 和机箱光纤管理争夺空间。接口定义越晚，越容易出现 PIC 光口、fiber array、package edge 和 connector 无法同时满足的问题。
+## 偏振必须对准 PIC 能处理的模式
 
-## 清洁、反射、偏振与运营
+硅光波导、光栅耦合器、环形谐振器、MZM 和 splitter 常对 TE / TM 模式敏感。进入 PIC 的光如果偏振轴不稳定，即使总功率足够，也可能表现为耦合损耗上升、通道不均、调制器工作点偏移或接收灵敏度下降。
 
-Optical I/O 的现场风险常来自接口表面。灰尘、冷凝、清洗残留、划伤、未完全插合和端面几何异常会增加 insertion loss 或 return loss。高功率外置供光路径中，污染物还可能吸收光功率并造成端面永久损伤。
+<TermNote label="PDL" note="polarization-dependent loss，偏振相关损耗。同一器件对不同偏振态产生不同损耗时，就会出现 PDL。" /> 描述器件本身对偏振的敏感性；<TermNote label="PER" note="polarization extinction ratio，偏振消光比。它常用于说明保偏路径中目标偏振轴与正交偏振轴的功率比例。" /> 描述保偏路径把光维持在目标偏振轴上的能力。外置激光路径常使用 <TermNote label="PM fiber" note="polarization-maintaining fiber，保偏光纤。它通过应力结构让两个正交偏振轴具有不同传播常数，从而帮助输入偏振相对某一轴保持稳定。" />、插芯方向标记和连接器旋转对准来控制偏振。
 
-反射来自折射率突变和周期结构。fiber-air、fiber-glue、glue-facet、lens-air、grating、connector end-face 和 PIC facet 都可能把光返回系统。返回光会扰动激光器、增加 RIN、影响 DFB / external laser 稳定性，或让 ring、monitor 和接收链路出现多径误差。常见控制手段包括 angled facet、AR coating、index-matching、倾斜 grating、低反射 connector 和必要的 isolator。
+保偏不是“光完全不变”。光纤弯曲、插芯旋转误差、连接器重复插拔、封装应力和温度变化都会影响偏振状态。Optical I/O 规格必须把 PDL、PER、ferrule keying 和偏振验收方法写清楚，否则问题会在系统调试时表现成难定位的功率波动。
 
-偏振决定光是否进入 PIC 期待的模式。硅光 waveguide、grating coupler、ring、MZM 和 splitter 常对 TE / TM 敏感。外置供光路径会使用 PM fiber、ferrule 方向标记和 PER 指标来保持偏振轴。旋转误差、应力双折射或 fiber routing 变化，会表现为输入功率下降、lane 间不均或调制器工作点异常。
+## 外置供光路径：连续光怎样进入 optical engine
 
-## 外置激光路径：PM fiber、盲插连接器与高功率边界
-
-外置激光源把 CW light 从 ELS / ELSFP 送到 optical engine。这个路径属于 optical I/O、package 和 operations 的共同边界。
+外置激光源把 <TermNote label="CW light" note="continuous-wave light，连续波光。CPO 外置供光路径通常把未调制的连续光送入 optical engine，再由 PIC 内部调制器加载数据。" /> 从 ELS 或 ELSFP 送到 optical engine。这个路径既是光学接口，也是封装和运营接口。
 
 ```text
 ELSFP / external laser source
@@ -101,26 +103,26 @@ ELSFP / external laser source
 → splitter and modulator array
 ```
 
-外置供光的好处是 laser 远离 ASIC 热源并可现场更换；代价是连接器、fiber routing、偏振、反射、功率安全和管理状态变得更重要。OIF ELSFP 语境强调低功率路径验证和清洁流程：未知清洁状态的高功率光路应先检查、清洁、低功率验证损耗，再进入工作功率。
+外置供光让激光器远离 ASIC 热源，并把激光源做成可现场更换对象；代价是光功率、偏振、连接器、清洁、反射和管理状态都要被系统看见。OIF ELSFP 语境中的 <TermNote label="MT ferrule" note="multi-fiber transfer ferrule，多芯光纤插芯。它把多根光纤固定在一个精密插芯中，常用于高密度并行光连接。" />、盲插光连接器、PM fiber 和低功率路径验证，说明外置供光是一条可检查、可验证、可维护的高功率光学接口。
 
-## Optical I/O 规格表
+## Optical I/O 需要交付哪些接口条件
 
-Optical I/O 最终要交付可验收的接口条件，coupler 仿真图只是其中一项证据。
+Optical I/O 最终交付的是可设计、可装配、可测试、可运营的接口条件，耦合器仿真图只是其中一项证据。
 
-| 规格项 | 应说明的内容 |
+| 规格项 | 应明确的内容 |
 |---|---|
 | coupler type | edge / grating / lens path、支持波段、偏振、PDK 模型和测试结构 |
-| loss budget | coupler loss、fiber-to-fiber loss、connector loss、channel variation、老化余量 |
-| return loss | facet、grating、connector 和 laser feedback 相关条件 |
+| loss budget | coupler loss、fiber-to-fiber loss、connector loss、通道差异和老化余量 |
+| return loss | facet、grating、connector、laser feedback 和验收方法 |
 | PDL / PER | TE / TM 支持、PM input、ferrule 方向和偏振验收 |
-| alignment tolerance | 1 dB / 3 dB 窗口、x/y/z、pitch/yaw/roll、active / passive alignment 策略 |
+| alignment tolerance | 1 dB / 3 dB 对准窗口、x/y/z、pitch/yaw/roll、active / passive alignment 策略 |
 | fiber / connector geometry | pitch、端面角、planarity、bend radius、blind-mate 和 cleaning access |
 | testability | wafer probing、reference coupler、loopback、package loss decomposition |
 | reliability | thermal cycling drift、humidity、adhesive aging、mechanical shock 和 fiber pull |
 
-## 与其他页面的边界
+## 与相邻页面的分工
 
-Optical I/O 向 PIC 交付 coupler type、pitch、模式尺寸、PDL、return loss 和 test structure；向 packaging 交付 FAU、connector、出纤空间、清洁和机械窗口；向 manufacturing-test 交付 loss decomposition、alignment log 和 package-level test 条件；向 reliability-operations 交付现场检查、清洁、低功率验证和高功率安全边界。
+Optical I/O 向 PIC 提供 coupler type、pitch、模式尺寸、PDL、return loss 和测试结构；向 Package integration 提供 FAU、连接器、出纤空间、清洁路径和机械窗口；向 Manufacturing and test 提供 loss decomposition、alignment log 和 package-level test 条件；向 Reliability and operations 提供现场检查、清洁、低功率验证和高功率安全策略。
 
 进一步阅读：
 
@@ -128,6 +130,7 @@ Optical I/O 向 PIC 交付 coupler type、pitch、模式尺寸、PDL、return lo
 - [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
 - [OIF: External Laser Small Form Factor Pluggable Implementation Agreement](https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf)
 - [Fraunhofer IZM: Fiber coupling and attachment to integrated waveguides](https://www.izm.fraunhofer.de/en/abteilungen/system_integrationinterconnectiontechnologies/arbeitsgruppen/wg-optical-interconnection-technology/waveguide-coupler.html)
-- [Ansys Optics: Edge coupler](https://optics.ansys.com/hc/en-us/articles/360042305354-Edge-coupler)
-- [Photonics: Grating Couplers on Silicon Photonics](https://pmc.ncbi.nlm.nih.gov/articles/PMC7407772/)
-- [Molex: ELSFP Interconnect System](https://www.molex.com/en-us/products/optical-solutions/elsfp-interconnect-system)
+- [Photonic Packaging, Applied Sciences 2016](https://www.mdpi.com/2076-3417/6/12/426)
+- [Edge Couplers in Silicon Photonic Integrated Circuits: A Review](https://www.mdpi.com/2076-3417/10/4/1538)
+- [Grating Couplers on Silicon Photonics](https://www.mdpi.com/2072-666X/11/7/666)
+- [IEC 61300-3-35:2022](https://webstore.iec.ch/en/publication/64254)

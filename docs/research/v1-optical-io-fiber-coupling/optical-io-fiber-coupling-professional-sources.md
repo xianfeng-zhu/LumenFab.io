@@ -1,6 +1,6 @@
 # Optical I/O / Fiber Coupling Professional Source Notes
 
-Date: 2026-05-24
+Date: 2026-05-24; updated 2026-06-02
 
 Purpose: source pack for `src/pages/components/optical-io.mdx`. These notes support reader-facing educational content about the interface between PICs, fiber arrays, package optical paths, connectors, and CPO optical power delivery. Do not paste source wording directly into the page.
 
@@ -8,7 +8,7 @@ Purpose: source pack for `src/pages/components/optical-io.mdx`. These notes supp
 
 Cover:
 
-- Optical I/O as the boundary where PIC waveguide modes become fiber, fiber-array, connector, or package optical-path modes.
+- Optical I/O as the interface where PIC waveguide modes become fiber, fiber-array, connector, or package optical-path modes.
 - Mode matching between sub-micron PIC waveguides, expanded spot-size converters, SiN / polymer redistribution waveguides, lenses, and single-mode or polarization-maintaining fibers.
 - Edge couplers, grating couplers, fiber array units, lensed fibers, microlenses, reflections, polarization, contamination, and alignment.
 - CPO-specific requirements: high channel count, compact fiber escape, low optical loss, manufacturable assembly, serviceability, field-replaceable external laser paths, and package-level test.
@@ -30,22 +30,30 @@ Keep out:
 | `OIF co-packaging framework optical interfaces pigtail connector fiber exit` | standards / framework | OIF Co-Packaging Framework Document | Use for CPO optical interface framing, pigtail/connectorized options, fiber exit and mid-board connector tradeoffs. |
 | `OIF ELSFP MT ferrule polarization maintaining fiber optical connector` | standards / vendor | OIF ELSFP IA, Molex ELSFP connector page | Use for ELSFP optical connector, MT ferrules, PM / SM fiber, blind-mate connection, polarization output definitions, inspection and cleaning. |
 | `Corning SMF-28 mode field diameter 1310 1550 datasheet` | manufacturer data sheet | Corning / Newport SMF-28 data | Use only as a representative SMF MFD reference to explain why PIC waveguide modes need expansion. |
+| `IEC 61300-3-35 fiber optic connector inspection debris scratches defects` | standards | IEC 61300-3-35 public page | Use for connector end-face inspection scope, debris / scratches / defects, and the reminder that visual inspection does not replace attenuation or return-loss measurement. |
 
 ## Source Summary
 
 | Source ID | Source | Type | Key use | Reliability | Status |
 |---|---|---|---|---|---|
 | IMEC-CPO-IO | imec, Interfacing silicon photonics for high-density co-packaged optics | Research institute / industry R&D article | CPO optical-interface requirements, SiN edge couplers, lensed-fiber tolerance limits, polymer optical redistribution, package-edge fiber interface | High | web reference |
-| IMEC-DATACENTER | imec, Silicon photonics technology for next-generation datacenter interconnects | Research institute article | Optical I/O module boundary and preference for broadband edge couplers in relevant datacenter cases | High | web reference |
+| IMEC-DATACENTER | imec, Silicon photonics technology for next-generation datacenter interconnects | Research institute article | Optical I/O module interface and preference for broadband edge couplers in relevant datacenter cases | High | web reference |
 | FRAUNHOFER-IZM | Fraunhofer IZM, Fiber coupling and attachment to integrated waveguides | Applied research institute service / capability page | Assembly and test equipment: automated IL/MFD characterization, edge and vertical coupling, adhesive placement and UV curing, fiber arrays, PM fibers, lensed fibers | High | web reference |
 | ANSYS-EDGE | Ansys Optics, Edge coupler | Engineering simulation documentation | Edge vs grating coupler distinction, SMF-28 to SOI edge-coupler design, modal overlap, effective-index / mode-size mismatch, substrate leakage and S-parameter extraction | Medium-high | web reference |
 | OIF-CPO-FD | OIF Co-Packaging Framework Document | Standards framework | CPO optical interface, pigtail and connectorized boundaries, fiber exit, mid-board connector tradeoffs, large fiber counts and connector insertion loss | High | existing downloaded text/PDF |
 | OIF-ELSFP | OIF External Laser Small Form Factor Pluggable Implementation Agreement | Standards implementation agreement | Blind-mate electro-optical connector, MT ferrules, PMF/SMF, fiber wavelength and polarization assignments, inspection and cleaning, high optical power handling | High | existing downloaded text/PDF |
-| OIF-MGT-ELS | OIF Management of External Light Sources and Co-Packaged Optical Engines | Standards white paper | ELS port, fiber delivery of CW light, passive fiber path fault isolation and host management boundary | High | existing downloaded text/PDF |
+| OIF-MGT-ELS | OIF Management of External Light Sources and Co-Packaged Optical Engines | Standards white paper | ELS port, fiber delivery of CW light, passive fiber path fault isolation and host management scope | High | existing downloaded text/PDF |
 | MOLEX-ELSFP | Molex ELSFP Interconnect System | Vendor connector page | Concrete connector implementation language for ELSFP, up to two 12-fiber MT ferrules, PM/SM fiber, blind-mate serviceability, PM fiber rotational alignment | Medium | web reference |
 | CORNING-SMF | Corning / Newport SMF-28 product data | Manufacturer / distributor data | Representative single-mode fiber MFD around 9-10 um and 125 um cladding diameter | Medium | web reference |
+| PHOTONIC-PACKAGING | Photonic Packaging, Applied Sciences 2016 | Peer-reviewed review | Fiber/PIC mode-size mismatch, edge and grating coupler assembly context, 10 um fiber mode vs sub-micron Si waveguide mode, typical GC angle and footprint | High | web reference |
 | EDGE-REVIEW | Edge Couplers in Silicon Photonic Integrated Circuits: A Review | Peer-reviewed review | Edge coupler strengths and limits: high efficiency, broad bandwidth, low polarization dependence; facet-only alignment and wafer-test limitations | High | web reference |
 | GRATING-REVIEW | Grating Couplers on Silicon Photonics: Design Principles, Emerging Trends and Practical Issues | Peer-reviewed review | Grating coupler principles and tradeoffs: vertical access, wafer-level testing, bandwidth and polarization considerations | High | web reference |
+| IEC-61300-3-35 | IEC 61300-3-35:2022 public product page | Standards public summary | Connector end-face cleanliness and defect inspection; visual inspection complements, but does not replace, insertion-loss and return-loss tests | High | downloaded web page |
+
+## Downloaded Artifacts
+
+- `downloads/imec-interfacing-silicon-photonics-cpo.html` - saved 2026-06-02 from imec's CPO optical-interface article for local reference.
+- `docs/research/v1-reliability-operations/downloads/iec-61300-3-35-page.html` - saved 2026-06-02 from IEC public product page and reused here for connector inspection language.
 
 ## Source Notes
 
@@ -236,6 +244,45 @@ Use in page:
 
 - Explain why a sub-micron silicon waveguide mode must be expanded or transformed before coupling to a fiber.
 
+### PHOTONIC-PACKAGING: Photonic Packaging, Applied Sciences 2016
+
+URL: https://www.mdpi.com/2076-3417/6/12/426
+
+Type: peer-reviewed review
+
+Publisher / organization: Applied Sciences / MDPI
+
+Date accessed: 2026-06-02
+
+What it supports:
+
+- Single-mode fiber fields are much larger than typical high-index silicon waveguide modes, so coupling is fundamentally a mode-overlap problem.
+- Edge couplers use inverse tapers and spot-size converters; grating couplers support vertical access and wafer-level probing.
+- Grating couplers are often used near a small off-normal angle and can have compact footprints suitable for wafer probing.
+
+Use in page:
+
+- Support the physical-principle section on mode matching and the comparison between edge and grating coupling.
+
+### IEC-61300-3-35: Fibre optic interconnecting devices and passive components - Basic test and measurement procedures
+
+URL: https://webstore.iec.ch/en/publication/64254
+
+Type: standards public product page
+
+Publisher / organization: IEC
+
+Date accessed: 2026-06-02
+
+What it supports:
+
+- Connector end-face inspection is concerned with debris, scratches and defects.
+- Visual inspection has defined objectives and criteria, but it does not replace attenuation, return-loss or end-face-geometry measurements.
+
+Use in page:
+
+- Support the connector and cleaning section, especially for serviceable ELS and high-power optical paths.
+
 ## Chapter Synthesis
 
 Main teaching claims:
@@ -257,10 +304,10 @@ Common misconceptions to prevent:
 - PM fiber only matters for coherent systems. In ELS / silicon photonics paths, polarization orientation can also be important.
 - CPO reduces packaging difficulty because the optics are closer to the ASIC. It reduces electrical reach but increases optical assembly pressure.
 
-Layer boundaries:
+Page handoff:
 
 - PIC page: on-chip waveguides, splitters, modulators, MUX / DEMUX, PD, heaters and PDK.
-- Optical I/O page: chip-to-fiber / chip-to-package optical mode conversion, alignment, fiber arrays, lenses, reflection, polarization and connector boundary.
+- Optical I/O page: chip-to-fiber / chip-to-package optical mode conversion, alignment, fiber arrays, lenses, reflection, polarization and connector interface.
 - Packaging page: die placement, substrate, thermal, mechanical, rework and system integration.
 - Manufacturing and test page: KGD, wafer-level and package-level test flow across components.
 
