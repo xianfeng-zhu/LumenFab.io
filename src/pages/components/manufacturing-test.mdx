@@ -9,7 +9,7 @@ import TermNote from "../../components/TermNote.astro";
 
 ## 制造测试是一条证据链
 
-Manufacturing and test 把 CPO 光引擎从“实验室里能工作”推进到“可制造、可分档、可交付”。它跨越 laser、PIC、EIC、optical I/O、package 和链路级行为，核心任务是在每一次成本明显升高之前，用测试证据决定放行、分档、返工或报废。
+Manufacturing and test 把 CPO 光引擎从“实验室里能工作”推进到“可制造、可分档、可交付”。它跨越 laser、PIC、EIC、光学接口、package 和链路级行为，核心任务是在每一次成本明显升高之前，用测试证据决定放行、分档、返工或报废。
 
 ```text
 incoming wafer / material inspection
@@ -23,7 +23,7 @@ incoming wafer / material inspection
 → yield analysis and process feedback
 ```
 
-激光器芯片级测试见 [激光源](../laser-source/)；片上光路、调制器和 PD 见 [PIC / optical circuit](../pic/)；driver、TIA、SerDes 和控制电路见 [EIC / driver and receiver](../eic/)；coupler、FAU 和连接器见 [Optical I/O / fiber coupling](../optical-io/)；多 die 布局、散热和返修策略见 [Package integration](../packaging/)。
+激光器芯片级测试见 [激光源](../laser-source/)；片上光路、调制器和 PD 见 [PIC / optical circuit](../pic/)；driver、TIA、SerDes 和控制电路见 [EIC / driver and receiver](../eic/)；coupler、FAU 和连接器见 [Optical interface / fiber coupling](../optical-io/)；多 die 布局、散热和返修策略见 [Package integration](../packaging/)。
 
 相关基础页：[Inside a transceiver](../../learn/inside-a-transceiver/)、[Tx path and Rx path](../../learn/tx-rx-path/)、[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/) 和 [Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)。
 
@@ -110,7 +110,7 @@ Assembly test 关注制造动作本身。die attach 影响空洞、热阻和 til
 
 <TermNote label="burn-in" note="老炼或老化筛选。它在规定温度、电应力或光功率条件下运行器件，用来提前暴露早期失效和异常漂移。" /> 与 stress screen 的目的，是在出厂前看到时间维度。OIF CPO framework 强调 CPO engine 靠近高价值 ASIC、现场服务空间受限，因此早期失效筛选和系统级可靠性框架会更重要。
 
-常见项目包括 HTOL、temperature cycling、temperature / humidity、mechanical shock、vibration、ESD、high-temperature storage、光功率老化和封装后复测。不同对象的关注点不同：laser 看输出功率、波长、阈值电流、RIN、SMSR 和漂移；PIC 看插损、谐振波长、heater headroom 和应力漂移；EIC 看漏电、时钟、均衡、功耗和热；Optical I/O 看 coupling loss、return loss、污染和光纤应力；package 看热阻、翘曲、bump fatigue 和胶材老化。
+常见项目包括 HTOL、temperature cycling、temperature / humidity、mechanical shock、vibration、ESD、high-temperature storage、光功率老化和封装后复测。不同对象的关注点不同：laser 看输出功率、波长、阈值电流、RIN、SMSR 和漂移；PIC 看插损、谐振波长、heater headroom 和应力漂移；EIC 看漏电、时钟、均衡、功耗和热；光学接口看 coupling loss、return loss、污染和光纤应力；package 看热阻、翘曲、bump fatigue 和胶材老化。
 
 出厂筛选不能替代现场运营。它提供初始基线、漂移斜率、批次风险和告警阈值的依据；运行中的 telemetry、告警和维护策略由 [Reliability and operations](../reliability-operations/) 展开。
 
@@ -131,7 +131,7 @@ Assembly test 关注制造动作本身。die attach 影响空洞、热阻和 til
 
 ## 与相邻页面的分工
 
-Manufacturing and test 把相邻页面的指标转成制造决策。激光源页面给出 L-I-V、光谱、温度和老化指标；PIC 页面给出插损、调制、探测、谐振和调谐指标；EIC 页面给出 driver、TIA、SerDes、功耗和管理接口指标；Optical I/O 页面给出耦合、反射、偏振和清洁指标；Package integration 页面给出贴装、互连、散热、机械和返修指标。测试页负责说明这些证据怎样在制造链里汇合。
+Manufacturing and test 把相邻页面的指标转成制造决策。激光源页面给出 L-I-V、光谱、温度和老化指标；PIC 页面给出插损、调制、探测、谐振和调谐指标；EIC 页面给出 driver、TIA、SerDes、功耗和管理接口指标；Optical interface 页面给出耦合、反射、偏振和清洁指标；Package integration 页面给出贴装、互连、散热、机械和返修指标。测试页负责说明这些证据怎样在制造链里汇合。
 
 进一步阅读：
 

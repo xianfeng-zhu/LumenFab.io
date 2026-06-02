@@ -11,7 +11,7 @@ import TermNote from "../../components/TermNote.astro";
 
 可靠性与运营关注光引擎投入数据中心后怎样维持可用状态。CPO 光引擎靠近高功耗 switch ASIC，光路更内收，局部温度场更复杂，现场可接触对象更少。一个器件逐渐退化，常常先表现为运行余量被消耗，再表现为误码、告警或链路中断。
 
-<TermNote label="telemetry" note="运行遥测数据。光引擎持续上报温度、电流、光功率、误码、告警、控制环路状态等指标，系统用这些数据判断健康状态和维护时机。" /> 是运营判断的基本输入。[激光源](../laser-source/)、[PIC / optical circuit](../pic/)、[EIC / driver and receiver](../eic/)、[Optical I/O / fiber coupling](../optical-io/)、[Package integration](../packaging/) 和 [Manufacturing and test](../manufacturing-test/) 的指标会在运行现场汇合。
+<TermNote label="telemetry" note="运行遥测数据。光引擎持续上报温度、电流、光功率、误码、告警、控制环路状态等指标，系统用这些数据判断健康状态和维护时机。" /> 是运营判断的基本输入。[激光源](../laser-source/)、[PIC / optical circuit](../pic/)、[EIC / driver and receiver](../eic/)、[Optical interface / fiber coupling](../optical-io/)、[Package integration](../packaging/) 和 [Manufacturing and test](../manufacturing-test/) 的指标会在运行现场汇合。
 
 相关基础页：[Why semiconductor lasers are temperature-sensitive](../../learn/why-semiconductor-lasers-are-temperature-sensitive/)、[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)、[Interference, resonance, and loss](../../learn/interference-resonance-and-loss/) 和 [Inside a transceiver](../../learn/inside-a-transceiver/)。
 
@@ -150,7 +150,7 @@ OIF CPO framework 提到组件或子系统冗余、multi-lane interconnect 的 l
 
 ## 与相邻页面的分工
 
-可靠性与运营把相邻页面的制造和器件指标转成运行判断。激光源页面解释输出功率、温度和老化机制；PIC 页面解释谐振、调谐和片上光路漂移；EIC 页面解释 driver、TIA、SerDes 和热噪声；Optical I/O 页面解释耦合、反射、偏振、清洁和高功率路径；Package integration 页面解释热路径、机械应力和返修能力；Manufacturing and test 页面提供出厂基线和筛选证据。
+可靠性与运营把相邻页面的制造和器件指标转成运行判断。激光源页面解释输出功率、温度和老化机制；PIC 页面解释谐振、调谐和片上光路漂移；EIC 页面解释 driver、TIA、SerDes 和热噪声；Optical interface 页面解释耦合、反射、偏振、清洁和高功率路径；Package integration 页面解释热路径、机械应力和返修能力；Manufacturing and test 页面提供出厂基线和筛选证据。
 
 进一步阅读：
 

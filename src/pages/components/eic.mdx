@@ -87,7 +87,7 @@ CPO（co-packaged optics，共封装光学）将光引擎从 PCB 边缘移到交
 EIC 与相邻模块的关系在网站其他页面有更详细的展开：
 
 - 光源的偏置和控制由 EIC 的 laser bias 电路完成，光源本身的原理和与 PIC 的耦合方式见 [激光源](../laser-source/)
-- 光纤与 PIC 之间的耦合方式（光栅耦合器、边缘耦合器、模场转换）见 [Optical I/O / fiber coupling](../optical-io/)
+- 光纤与 PIC 之间的耦合方式（光栅耦合器、边缘耦合器、模场转换）见 [Optical interface / fiber coupling](../optical-io/)
 - EIC 与 PIC 和 ASIC 的封装互连——bump 间距、interposer 材料、热管理、返修能力——见 [Package integration](../packaging/)
 - EIC 的 KGD 筛选、封装中间测试和 burn-in 策略见 [Manufacturing and test](../manufacturing-test/)
 
@@ -1546,7 +1546,7 @@ EIC 的设计从系统分工开始——补偿责任在 host 和光引擎之间�
 
 - [激光源](../laser-source/) —— 激光器偏置和控制由 EIC 的 laser bias 电路完成，光功率与波长稳定性是 EIC 控制环路的前置条件
 - [PIC 光集成电路](../pic/) —— 调制器电极和光电探测器是 EIC driver/TIA 的直接负载，寄生参数和温度特性必须在联合设计中同步考虑
-- [Optical I/O / fiber coupling](../optical-io/) —— 光纤与 PIC 的耦合效率直接影响 TIA 的灵敏度需求和动态范围预算
+- [Optical interface / fiber coupling](../optical-io/) —— 光纤与 PIC 的耦合效率直接影响 TIA 的灵敏度需求和动态范围预算
 - [Package integration](../packaging/) —— EIC/PIC/ASIC 在封装内的互连寄生、散热路径和返修能力决定实验室指标能否转化为量产性能
 - [Manufacturing and test](../manufacturing-test/) —— EIC 的 KGD 筛选、封装中间测试和 burn-in 是光引擎从样品走向量产的质量保障
 - [Reliability and operations](../reliability-operations/) —— EIC 的遥测粒度、告警覆盖和故障隔离能力直接影响现场运维中的可维护性

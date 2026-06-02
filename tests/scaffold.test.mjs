@@ -141,7 +141,7 @@ test("homepage is a CPO knowledge entry rather than a learning-path pitch", asyn
   assert.match(home, /CPO 光引擎拆解/);
   assert.match(home, /激光源/);
   assert.match(home, /PIC \/ optical circuit/);
-  assert.match(home, /Optical I\/O/);
+  assert.match(home, /Optical interface/);
   assert.match(home, /Manufacturing and test/);
   assert.match(home, /Reliability and operations/);
   assert.match(home, /\/components\/laser-source\//);

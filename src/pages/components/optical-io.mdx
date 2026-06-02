@@ -1,15 +1,17 @@
 ---
 layout: ../../layouts/ConceptLayout.astro
-title: Optical I/O / 光纤耦合
+title: Optical interface / 光纤耦合
 chapter: 光引擎组件
 description: 解释 PIC 与光纤、光纤阵列、耦合器、透镜、连接器和外置供光路径之间的光学接口关系。
 ---
 
 import TermNote from "../../components/TermNote.astro";
 
-## Optical I/O 解决什么问题
+## 光学接口解决什么问题
 
-<TermNote label="Optical I/O" note="optical input/output，光输入输出接口。在光引擎中，它指 PIC 与光纤、光纤阵列、封装光路、连接器和外置供光路径之间的光学接口。" /> 负责把 PIC 波导中的片上导模交给封装和系统光路。它以一组连续光学接口的形式出现：耦合器、模场尺寸转换器、透镜、光纤阵列、插芯、连接器、尾纤和外置激光输入路径。
+<TermNote label="光学接口" note="本页中的 optical interface，指 PIC 与光纤、光纤阵列、封装光路、连接器和外置供光路径之间的物理光学接口。" /> 负责把 PIC 波导中的片上导模交给封装和系统光路。它以一组连续光学接口的形式出现：耦合器、模场尺寸转换器、透镜、光纤阵列、插芯、连接器、尾纤和外置激光输入路径。
+
+行业里常把 <TermNote label="Optical I/O" note="optical input/output，光输入输出。行业语境中常指更高层的光互连 I/O、optical I/O chiplet 或 in-package optical interconnect，通常包含 PIC、EIC、光源、封装互连和系统接口。" /> 用于更大的光互连语境，例如 optical I/O chiplet 或 in-package optical interconnect。本页讲的是这类系统里的物理光学接口，重点是片上导模与光纤、封装光路、连接器和外置供光路径之间怎样耦合和验收。
 
 这页重点解释片上光场怎样可靠地进入和离开封装光路。PIC 内部的分光、调制、复用和探测见 [PIC / optical circuit](../pic/)；激光产生和供光位置见 [激光源](../laser-source/)；裸片布局、散热、机械固定和返修见 [Package integration](../packaging/)；晶圆级测试、装配测试和封装后验证见 [Manufacturing and test](../manufacturing-test/)。
 
@@ -36,7 +38,7 @@ PIC waveguide
 | 偏振响应 | TE / TM 差异明显 | 光纤可支持不同偏振态 | 需要 PM fiber、偏振分集或低 PDL 设计 |
 | 折射率变化 | silicon、SiN、oxide、polymer 等材料突变 | glass core / cladding 弱折射率差 | 需要控制 Fresnel reflection、端面质量和胶水折射率 |
 
-设计者扩大片上模式时，会得到更宽的装配窗口；但模式变大也可能增加器件长度、基底泄漏、串扰或封装占用。Optical I/O 的工程取舍就在这里展开：低损耗、低反射、宽带宽、低偏振相关损耗和可量产装配必须一起成立。
+设计者扩大片上模式时，会得到更宽的装配窗口；但模式变大也可能增加器件长度、基底泄漏、串扰或封装占用。光学接口的工程取舍就在这里展开：低损耗、低反射、宽带宽、低偏振相关损耗和可量产装配必须一起成立。
 
 ## 边缘耦合器：沿芯片边缘做渐进扩束
 
@@ -66,7 +68,7 @@ PIC waveguide
 
 多通道对准要同时控制 x / y / z 位置以及 pitch / yaw / roll 角度。<TermNote label="主动对准" note="active alignment，在装配过程中实际注入或接收光信号，边测光功率边调整位置，直到损耗达到目标。" /> 精度高，但占用测试时间和设备；<TermNote label="被动对准" note="passive alignment，依靠机械基准、对准标记和工艺尺寸把器件放到目标位置，装配过程主要依赖前期建立的机械基准。" /> 速度快，但要求机械基准和前段工艺非常稳定。量产中的核心指标从寻找单通道最佳点，转向让多通道在可接受时间内稳定落入损耗窗口。
 
-| 装配变量 | 对 Optical I/O 的影响 |
+| 装配变量 | 对光学接口的影响 |
 |---|---|
 | x / y / z 位置 | 决定耦合损耗和通道间差异 |
 | pitch / yaw / roll | 多通道 FAU 同时对准时最容易放大误差 |
@@ -89,7 +91,7 @@ PIC waveguide
 
 <TermNote label="PDL" note="polarization-dependent loss，偏振相关损耗。同一器件对不同偏振态产生不同损耗时，就会出现 PDL。" /> 描述器件本身对偏振的敏感性；<TermNote label="PER" note="polarization extinction ratio，偏振消光比。它常用于说明保偏路径中目标偏振轴与正交偏振轴的功率比例。" /> 描述保偏路径把光维持在目标偏振轴上的能力。外置激光路径常使用 <TermNote label="PM fiber" note="polarization-maintaining fiber，保偏光纤。它通过应力结构让两个正交偏振轴具有不同传播常数，从而帮助输入偏振相对某一轴保持稳定。" />、插芯方向标记和连接器旋转对准来控制偏振。
 
-保偏不是“光完全不变”。光纤弯曲、插芯旋转误差、连接器重复插拔、封装应力和温度变化都会影响偏振状态。Optical I/O 规格必须把 PDL、PER、ferrule keying 和偏振验收方法写清楚，否则问题会在系统调试时表现成难定位的功率波动。
+保偏光纤维持的是输入偏振轴的相对稳定性。光纤弯曲、插芯旋转误差、连接器重复插拔、封装应力和温度变化都会影响偏振状态。光学接口规格必须把 PDL、PER、ferrule keying 和偏振验收方法写清楚，否则问题会在系统调试时表现成难定位的功率波动。
 
 ## 外置供光路径：连续光怎样进入 optical engine
 
@@ -105,9 +107,9 @@ ELSFP / external laser source
 
 外置供光让激光器远离 ASIC 热源，并把激光源做成可现场更换对象；代价是光功率、偏振、连接器、清洁、反射和管理状态都要被系统看见。OIF ELSFP 语境中的 <TermNote label="MT ferrule" note="multi-fiber transfer ferrule，多芯光纤插芯。它把多根光纤固定在一个精密插芯中，常用于高密度并行光连接。" />、盲插光连接器、PM fiber 和低功率路径验证，说明外置供光是一条可检查、可验证、可维护的高功率光学接口。
 
-## Optical I/O 需要交付哪些接口条件
+## 光学接口需要交付哪些条件
 
-Optical I/O 最终交付的是可设计、可装配、可测试、可运营的接口条件，耦合器仿真图只是其中一项证据。
+光学接口最终交付的是可设计、可装配、可测试、可运营的接口条件，耦合器仿真图只是其中一项证据。
 
 | 规格项 | 应明确的内容 |
 |---|---|
@@ -122,7 +124,7 @@ Optical I/O 最终交付的是可设计、可装配、可测试、可运营的�
 
 ## 与相邻页面的分工
 
-Optical I/O 向 PIC 提供 coupler type、pitch、模式尺寸、PDL、return loss 和测试结构；向 Package integration 提供 FAU、连接器、出纤空间、清洁路径和机械窗口；向 Manufacturing and test 提供 loss decomposition、alignment log 和 package-level test 条件；向 Reliability and operations 提供现场检查、清洁、低功率验证和高功率安全策略。
+本页描述的接口条件向 PIC 提供 coupler type、pitch、模式尺寸、PDL、return loss 和测试结构；向 Package integration 提供 FAU、连接器、出纤空间、清洁路径和机械窗口；向 Manufacturing and test 提供 loss decomposition、alignment log 和 package-level test 条件；向 Reliability and operations 提供现场检查、清洁、低功率验证和高功率安全策略。
 
 进一步阅读：
 

@@ -19,11 +19,11 @@ Switch ASIC / host package
 → EIC / driver / TIA
 → PIC / modulator / PD / MUX
 → laser source or external CW light input
-→ fiber array / connector / optical I/O
+→ fiber array / connector / optical interface
 → heat spreader / lid / cold plate / chassis
 ```
 
-激光器结构见 [激光源](../laser-source/)；片上光路见 [PIC / optical circuit](../pic/)；driver、TIA 和电接口见 [EIC / driver and receiver](../eic/)；coupler、FAU 和连接器见 [Optical I/O / fiber coupling](../optical-io/)；KGD、封装级测试和量产筛选见 [Manufacturing and test](../manufacturing-test/)。
+激光器结构见 [激光源](../laser-source/)；片上光路见 [PIC / optical circuit](../pic/)；driver、TIA 和电接口见 [EIC / driver and receiver](../eic/)；coupler、FAU 和连接器见 [Optical interface / fiber coupling](../optical-io/)；KGD、封装级测试和量产筛选见 [Manufacturing and test](../manufacturing-test/)。
 
 相关基础页：[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)、[Inside a transceiver](../../learn/inside-a-transceiver/)、[SOI and Photonics-SOI](../../learn/soi-and-photonics-soi/)。
 
@@ -45,7 +45,7 @@ OIF 文档中的 <TermNote label="ASIC Host Boundary" note="OIF CPO 语境中的
 <TermNote label="封装平面布局" note="floorplan，在封装平面上安排 ASIC、PIC、EIC、光源、光纤阵列、连接器和散热结构的位置关系。" /> 是 CPO 封装的起点。每个对象都有理想位置，但这些理想位置会互相挤压。
 
 - EIC 希望贴近 PIC 的调制器电极和 PD pad，以降低 RF 路径损耗、寄生电容和时延偏斜。
-- PIC 需要一侧面对 EIC 的高速 pad / microbump，另一侧面对 optical I/O 的 coupler 或封装光路。
+- PIC 需要一侧面对 EIC 的高速 pad / microbump，另一侧面对光学接口的 coupler 或封装光路。
 - 激光源希望靠近 PIC 以降低光损耗，同时避开高温区域，并保留测试、分档和可替换策略。
 - FAU 和连接器希望靠近封装边缘，并保留光纤弯曲半径、应力释放、清洁和出纤空间。
 - Switch ASIC 希望 optical engine 围绕它高密度排布；冷板、lid 和 TIM 希望热路径短、直、接触稳定。
@@ -146,7 +146,7 @@ graph LR
     style ELS fill:#fffdf9,stroke:#d97706,stroke-width:2px
 ```
 
-Optical I/O 在封装页里承担系统接口角色：出纤方向、package edge、fiber bend radius、strain relief、blind-mate connector、cleaning access 和 front-panel / chassis routing。Edge coupler、grating coupler、lens 和 connector 的物理细节由 Optical I/O 页面展开。
+光学接口在封装页里承担系统接口角色：出纤方向、package edge、fiber bend radius、strain relief、blind-mate connector、cleaning access 和 front-panel / chassis routing。Edge coupler、grating coupler、lens 和 connector 的物理细节由 [Optical interface / fiber coupling](../optical-io/) 页面展开。
 
 ## KGD 与返修决定封装能承受多少风险
 
@@ -183,7 +183,7 @@ package yield
 |---|---|---|
 | ASIC ↔ substrate / interposer | channel loss、return loss、crosstalk、power integrity、BGA / LGA pitch | host / ASIC / board |
 | EIC ↔ PIC | RF path length、impedance、bump pitch、pad capacitance、ground return、skew | EIC 与 PIC |
-| PIC ↔ fiber array | coupling loss、alignment tolerance、PDL、back reflection、pitch、thermal drift | Optical I/O |
+| PIC ↔ fiber array | coupling loss、alignment tolerance、PDL、back reflection、pitch、thermal drift | Optical interface |
 | laser ↔ PIC | coupled power、PER、reflection tolerance、thermal resistance、wavelength margin | 激光源、PIC、operations |
 | package ↔ thermal solution | thermal resistance、junction temperature、hot spot、TIM void、lid flatness | system thermal |
 | package ↔ mechanical system | warpage、CTE match、shock / vibration、strain relief、socket force | mechanical / reliability |

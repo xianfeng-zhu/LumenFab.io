@@ -1,4 +1,4 @@
-# Optical I/O / Fiber Coupling Professional Source Notes
+# Optical Interface / Fiber Coupling Professional Source Notes
 
 Date: 2026-05-24; updated 2026-06-02
 
@@ -8,7 +8,7 @@ Purpose: source pack for `src/pages/components/optical-io.mdx`. These notes supp
 
 Cover:
 
-- Optical I/O as the interface where PIC waveguide modes become fiber, fiber-array, connector, or package optical-path modes.
+- Physical optical interfaces where PIC waveguide modes become fiber, fiber-array, connector, or package optical-path modes.
 - Mode matching between sub-micron PIC waveguides, expanded spot-size converters, SiN / polymer redistribution waveguides, lenses, and single-mode or polarization-maintaining fibers.
 - Edge couplers, grating couplers, fiber array units, lensed fibers, microlenses, reflections, polarization, contamination, and alignment.
 - CPO-specific requirements: high channel count, compact fiber escape, low optical loss, manufacturable assembly, serviceability, field-replaceable external laser paths, and package-level test.
@@ -37,7 +37,7 @@ Keep out:
 | Source ID | Source | Type | Key use | Reliability | Status |
 |---|---|---|---|---|---|
 | IMEC-CPO-IO | imec, Interfacing silicon photonics for high-density co-packaged optics | Research institute / industry R&D article | CPO optical-interface requirements, SiN edge couplers, lensed-fiber tolerance limits, polymer optical redistribution, package-edge fiber interface | High | web reference |
-| IMEC-DATACENTER | imec, Silicon photonics technology for next-generation datacenter interconnects | Research institute article | Optical I/O module interface and preference for broadband edge couplers in relevant datacenter cases | High | web reference |
+| IMEC-DATACENTER | imec, Silicon photonics technology for next-generation datacenter interconnects | Research institute article | Industry optical-I/O context and the preference for broadband edge couplers in relevant datacenter cases | High | web reference |
 | FRAUNHOFER-IZM | Fraunhofer IZM, Fiber coupling and attachment to integrated waveguides | Applied research institute service / capability page | Assembly and test equipment: automated IL/MFD characterization, edge and vertical coupling, adhesive placement and UV curing, fiber arrays, PM fibers, lensed fibers | High | web reference |
 | ANSYS-EDGE | Ansys Optics, Edge coupler | Engineering simulation documentation | Edge vs grating coupler distinction, SMF-28 to SOI edge-coupler design, modal overlap, effective-index / mode-size mismatch, substrate leakage and S-parameter extraction | Medium-high | web reference |
 | OIF-CPO-FD | OIF Co-Packaging Framework Document | Standards framework | CPO optical interface, pigtail and connectorized boundaries, fiber exit, mid-board connector tradeoffs, large fiber counts and connector insertion loss | High | existing downloaded text/PDF |
@@ -82,7 +82,7 @@ Boundaries:
 
 Use in page:
 
-- Main source for the CPO-specific argument that optical I/O has become a package-scale interface problem.
+- Main source for the CPO-specific argument that physical optical interfaces have become a package-scale interface problem.
 - Support discussion of SiN / polymer optical RDL, spot-size expansion, lateral tolerance and package-edge fiber relocation.
 
 ### FRAUNHOFER-IZM: Fiber coupling and attachment to integrated waveguides
@@ -107,7 +107,7 @@ Boundaries:
 
 Use in page:
 
-- Support manufacturing / assembly path and the statement that optical I/O is measured and assembled through active or automated alignment, adhesive dispense, curing and IL/MFD characterization.
+- Support manufacturing / assembly path and the statement that fiber-to-chip interfaces are measured and assembled through active or automated alignment, adhesive dispense, curing and IL/MFD characterization.
 
 ### ANSYS-EDGE: Edge coupler
 
@@ -126,7 +126,7 @@ What it supports:
 - Coupling efficiency depends on effective-index mismatch and mode-size mismatch between fiber and waveguide.
 - Edge-coupler simulation should account for fiber position, taper length, substrate leakage, reflections and packaging environment.
 
-Boundaries:
+Scope notes:
 
 - This is a simulation example, not a standard specification.
 - Do not present its exact geometry as the only edge-coupler design.
@@ -188,7 +188,7 @@ What it supports:
 
 Boundaries:
 
-- ELSFP is for external laser supply, not for every optical I/O path in a CPO system.
+- ELSFP is for external laser supply and should be distinguished from general chip-to-fiber interfaces in a CPO system.
 
 Use in page:
 
@@ -287,14 +287,14 @@ Use in page:
 
 Main teaching claims:
 
-- Optical I/O is the optical interface stack between PIC and the outside optical path: coupler, spot-size converter, fiber array, lens, connector, adhesive, alignment mark, package routing and test reference.
+- The physical optical interface stack between PIC and the outside optical path includes the coupler, spot-size converter, fiber array, lens, connector, adhesive, alignment mark, package routing and test reference.
 - The central physical problem is mode overlap. A PIC waveguide confines light into a small, high-index mode; a communication fiber carries a much larger, nearly circular mode. Couplers and package optics reshape one field into the other.
 - Edge couplers usually favor broadband, low-loss, lower-PDL operation, but they need facet access and precise assembly.
 - Grating couplers allow vertical access and wafer-level testing, but their diffractive nature brings bandwidth, polarization and upward/downward radiation tradeoffs.
 - FAU and lens assemblies convert a good coupler design into a manufacturable multi-channel interface. Pitch, angle, epoxy, cure shrinkage, thermal expansion and cleanliness directly affect loss and reliability.
 - Reflection is a system issue. Facets, fiber ends, gratings, lenses and connectors can send light back toward a laser or resonant PIC element, changing noise, SMSR, bias stability or receiver behavior.
 - Polarization is a first-order interface condition because many PIC waveguides and couplers are TE/TM sensitive; PM fibers and ferrule rotational alignment are common in external laser delivery paths.
-- CPO raises optical I/O requirements because it increases lane count and packaging density while reducing tolerance for rework, loss, thermal drift and service disruption.
+- CPO raises optical-interface requirements because it increases lane count and packaging density while reducing tolerance for rework, loss, thermal drift and service disruption.
 
 Common misconceptions to prevent:
 
@@ -307,7 +307,7 @@ Common misconceptions to prevent:
 Page handoff:
 
 - PIC page: on-chip waveguides, splitters, modulators, MUX / DEMUX, PD, heaters and PDK.
-- Optical I/O page: chip-to-fiber / chip-to-package optical mode conversion, alignment, fiber arrays, lenses, reflection, polarization and connector interface.
+- Optical interface page: chip-to-fiber / chip-to-package optical mode conversion, alignment, fiber arrays, lenses, reflection, polarization and connector interface.
 - Packaging page: die placement, substrate, thermal, mechanical, rework and system integration.
 - Manufacturing and test page: KGD, wafer-level and package-level test flow across components.
 
