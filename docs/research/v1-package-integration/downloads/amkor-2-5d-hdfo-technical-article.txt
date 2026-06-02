@@ -1,0 +1,387 @@
+Amkor’s 2.5D Package and HDFO – Advanced
+Heterogeneous Packaging Solutions
+John Lee, Sr. Director, Amkor Technology, Inc.
+Mike Kelly, VP, Adv Package & Technology Integration, Amkor Technology, Inc.
+Abstract:
+The latest wave of technology evolution is based on artificial intelligence (AI), deep learning, cloud computing
+and more. These leading-edge technologies all share a common feature: ultra high-speed computing integrated
+circuits (ICs). In addition to the advancement of the main chip itself to more advanced process nodes, it is possible
+to integrate heterogeneous chips with higher bandwidth memory (HBM), or higher transmission speeds, or other
+specific-function chips to push overall performance. To do this, the ultimate in heterogeneous chip integration
+packaging technology will play an essential role.
+This article introduces packaging technology platforms developed by Amkor including: 2.5D Through Silicon
+Via (TSV) interposer, Chip on Substrate (CoS), Chip on Wafer (CoW) and High-Density Fan-Out (HDFO) as well as
+developed electronic design automation (EDA) design flow and test solutions. To achieve mass production capability
+for these advanced packages, the article will also discuss the most advanced, highly-automated outsourced
+semiconductor assembly and test (OSAT) production factory: Amkor Technology Korea – K5. K5 with its high
+technology and top quality helps customers achieve their high-speed performance goals.
+
+1. Introduction
+What are some of today’s most remarkable and popular
+advanced technologies? There is a high probability that
+industry experts will cite one or more the following terms:
+artificial intelligence, deep learning, cloud computing,
+super computers and autonomous driving. These cuttingedge technologies are leading the way for incredible
+advancements. Moreover, they all have a common
+characteristic: high-speed, high performance ICs.
+Looking at the world’s technology giants, such as Google,
+Amazon, Intel, Nvidia and AMD, they all invest greatly
+in resource development. In China, artificial intelligence
+has already been incorporated into the nation’s top-level
+planning. In 2016, the “13th Five-Year National Science and
+Technology Innovation Plan” promulgated by the State
+Council specified this as an objective: “By 2020, the overall
+technology and application of artificial intelligence will be
+brought up to speed with the advanced level of the rest of
+the world. By 2025, artificial intelligence basic theory will
+see major breakthroughs, and by 2030, artificial intelligence,
+theory and application will lead the world.” At the same
+time, Chinese technology giants such as Baidu, Alibaba,
+Tencent, Huawei and others, will all expand by leaps and
+bounds. Furthermore, many start-up companies, such as
+Cambricon will have superior technology to invest in this
+
+flourishing technology wave. Investment agency Goldman
+Sachs Group has predicted that global AI hardware
+microchips including central processing units (CPUs),
+graphics processing units (GPUs), application-specific
+integrated circuits (ASICs), field-programmable gate arrays
+(FPGAs) and others, will grow at an annual compound rate
+of more than 40% in the coming years (see Figure 1).
+
+Figure 1. Worldwide AI computing hardware total available
+market (TAM). Source: Goldman Sachs 2018
+
+Originally published in China Integrated Circuits ▶ December 2018 ▶ © 2018 Amkor Technology, Inc.
+
+1
+
+The continuous advancements in algorithms, big data
+and high-performance microchips are driving the giant
+leap forward for this technology wave. Among these are
+advanced high-speed microchips, which follow Moore’s law,
+beginning with TSMC as the first to progress in advanced
+manufacturing. Components are constantly shrinking to 16
+nm/14 nm, 10 nm and 7 nm, with CMOS component speeds
+continuously increasing, and increasing gate counts. This is
+equivalent to integrating twice the number of components
+in the same amount of space every 18-24 months. It is
+truly astonishing. In addition to the increased speed of
+the main chips themselves, two additional key elements
+are trending. One is high bandwidth memory (HBM) to
+increase computing power, lower total system power and
+increase memory bandwidth – all at the same time. The
+other is Serializer/Deserializer or SerDes for receiving and
+transmitting high-speed information. SerDes IO blocks can
+be integrated into the main chip or can be fabricated as
+stand-alone chips. How can their high-speed performance
+be integrated together? Advanced 2.5D heterogeneous
+packaging technology fulfills this role.
+
+2. 2.5D Package Summary
+Why 2.5D Packaging?
+Today, 2.5D packaging is an advanced IC package which
+makes high speed integrations of different ICs possible.
+Its main features include the three structures shown in
+Figure 2:
+(1) Integration of HBM and SerDes microchips using microbump joining to an interposer
+
+The Benefits of 2.5D Packaging
+There are several major reasons to make such a
+complicated package structure. As shown in Figure 3, to
+meet the demand for increased processing speeds, memory
+location is trending towards closer and closer physical
+proximity to the CPU. After each package is singulated,
+it is mounted on the motherboard (printed circuit board
+or PCB), which, in many high-level applications, leads to
+System-in-Package (SiP) technology. For this packaging
+methodology, the memory and main CPU are connected on
+the substrate to form a FCBGA to progress towards the era
+of 2.5D packaging. With the new generation of HBM DRAM,
+the distance between logic and HBM has been minimized
+to <100 µm by directly connecting both ICs to a silicon (Si)
+interposer. The decreased distance means shorter time
+delays, better electronic signal quality, better opportunities
+for higher speeds and lower energy consumption.
+Another reason is that extremely high HBM data bandwidth
+is enabled using the silicon interposer approach, exceeding
+that from DDR4 or GDDR5/GDDR5X/GDDR6. HBM achieves
+this by using a much wider parallel bus than DDR4 or
+the GDDR offerings, at 1024 bits. HBM and HBM2 have
+approximately 4,000 input/output (I/O) and power
+connections, which means that connecting with the main
+chip requires a very high connection density. Traditional
+FCBGA substrate line width limits are already unable to
+satisfy this high-density connection and must be upgraded
+from FCBGA to silicon wafers as the basis for the 2.5D Si
+interposer connection.
+
+(2) Through silicon via (TSV) interposer connections to C4 or
+Large CuP
+(3) Package substrate
+
+Figure 3. Advanced packaging trends.
+
+Figure 2. Three key elements of advanced 2.5D packaging
+technology.
+
+2
+
+Another important trend is the SerDes for high-speed data
+transmission. A single-channel SerDes can reach 10 gigabits
+per second (Gbps), 28 Gbps, 56 Gbps and even up to 112
+Gbps. During high-speed data center applications, the main
+chip controls multiple SerDes channels. Along with the
+advancements in the main CPU and GPU manufacturing,
+SerDes design companies will also develop intellectual
+property (IP) for new manufacturing processes and provide
+microchip companies with designs that can be integrated
+into the main chip. However, with the high-speed and
+high-performance requirements, and comprehending the
+fact that SerDes drivers to not scale well to new silicon
+nodes, time to market pressures, and costs of new SerDes
+IP validation, the market is not uniformly heading towards
+integrated system on chip (SoC) designs.
+
+Originally published in China Integrated Circuits ▶ December 2018 ▶ © 2018 Amkor Technology, Inc.
+
+Some applications are now using package-level integration
+of main chips with multiple SerDes chips, using 2.5D
+heterogeneous packaging solutions.
+There are also yield considerations. In theory, the larger the
+surface area of a single microchip, the worse the yield. There
+is a huge yield difference as shown by the Bose-Einstein
+yield module: Y=1/(1+AD)^k, where Y represents yield, A
+represents the microchip’s surface area, D represents defect
+density, and k represents the difficulty layer factor. For a
+product that is powerful enough to require a large surface
+area, the predicted yield is low. However, during design, if
+the required area is divided into multiple smaller chips, then
+it achieves a higher yield and lower cost through the 2.5D
+heterogeneous integration package. This has already been
+demonstrated with FPGAs.
+
+3. TSV Si Interposer
+The high-speed microchip relies on TSV Si interposer
+technology for high-density connections. The main reason is
+that the TSV-bearing interposers can support signal routing
+layers (RDL) can be smaller than 2 µm/2 µm and can support
+a 40 µm micro bump. This means 10 times the density of an
+FCBGA substrate. It provides a shorter connecting distance
+and has better electronic signal quality, thereby achieving a
+heterogeneous microchip integration connection.
+Amkor’s TSV Si interposer is a wafer-level manufacturing
+process. The process begins with a 300-mm TSV-bearing
+wafer that is finished and received from the wafer foundry,
+where it is subsequently thinned with TSVs etched and filled,
+and finally given a protective layer on the back and solder
+bumps before singulation. This series of steps is commonly
+referred to as mid-end of line (MEOL) processing. The main
+process forms a cross-section from the upper layer micro
+bump connection pad to the lower layer FCBGA substrate
+connection solder bump as shown in Figure 4:
+
+4. Chip on Substrate (CoS) Packaging
+After the Si interposer intermediate module is finished,
+it is attached to the package substrate, and provides a
+heterogeneous, 2.5D package. Amkor began developing
+2.5D packaging in 2009, and in 2011, Xilinx released the
+industry’s first 2.5D FPGA Vertext-V7, of which, Amkor was
+one of the contributors. Amkor has already developed two
+main 2.5D package platforms, one is chip on substrate (CoS)
+and the other is chip on wafer (CoW). CoS was developed
+and completed first, and in 2014, when qualification
+was completed, mass production was initiated. The CoW
+platform has a new upgraded structure manufacturing
+process, and in 2018, it was officially mass produced.
+The CoS manufacturing process first connects the
+interposer to the substrate, and then it connects multiple
+microchips to the interposer to form a heterogeneous
+package (see Figure 5). Since the RDL is completed first in
+the manufacturing process, and then the chips are attached
+to the RDL interposer, the design has its own name –
+called RDL first, or die last. The advantage of this design is
+intermediate testing, where bad interposers or unfinished
+products could be marked and not used in the package to
+avoid losing valuable chips and attain a high yield. Packages
+with larger dimensions present greater challenges. Amkor
+has conducted much basic research in this field and has a
+rich production database and has already completed mass
+production for multiple products.
+
+Figure 5. CoS processing.
+
+Figure 4. Package cross section from front side (FS) pad to
+backside (BS) C4.
+
+Originally published in China Integrated Circuits ▶ December 2018 ▶ © 2018 Amkor Technology, Inc.
+
+3
+
+5. Chip on Wafer (CoW) Packaging
+
+6. HDFO Packaging
+
+CoW is the next generation of CoS and uses a silicon
+wafer as the substrate to achieve a wafer-level package
+technology. In comparison with CoS, CoW first combines the
+chips to the interposer, adds wafer-level molding and finally,
+they are connected to the flip chip (FC) substrate (see Figure
+6). The benefits of this technology include a better physical
+structure for accommodating very large die and larger
+overall interposer dimensions. Amkor has completed testing
+and is in mass production of this technology.
+
+HDFO packaging is the next step of integrated FCBGA
+technology for wafer-level packages without using TSV
+technology. To achieve this goal, microchips are attached
+and interconnected using µbump solder joints to a multilayer, fine-line RDL and BGAs to form an intermediate
+assembly, and then connected to the FCBGA substrate to
+complete the heterogeneous package (see Figure 7). This
+technology maintains high line density, good electronic
+signal quality, eliminates TSVs, and further lowers costs.
+The HDFO heterogeneous package is being used
+successfully in a variety of applications including networking
+and servers as well as in a variety of GPU and FPGA
+structures.
+
+(a)
+
+Figure 5. CoS processing.
+
+(b)
+Figure 7. HDFO packaging interconnects die (a) and then
+attaches the intermediate assembly to the substrate (b).
+
+4
+
+Originally published in China Integrated Circuits ▶ December 2018 ▶ © 2018 Amkor Technology, Inc.
+
+7. Testing
+Sophisticated testing is an essential part of advanced,
+complex and expensive heterogeneous packaging
+integration. From chip probe (CP), interposer probe testing,
+mid-test, final test (FT) and all the way to System-Level Test
+(SLT), there are no shortages of difficulties and challenges.
+These tests are all customized, and different products
+for different customers may have their own respective
+optimized process flows (see Figure 8).
+
+Figure 9. Eye diagram showing the performance of
+co-packaged CPU and HBM2.
+
+Figure 8. Overall test flow for advanced packages.
+
+8. Co-Design and Ecosystem
+For the 2.5D package design plan, the design flow and
+design methodology are very different from traditional
+package designs. For example, an HBM2 DRAM has 4,000
+bumps, a main chip may have tens of thousands of bumps,
+and multiple chips are connected through an interposer.
+To do this, the design, simulation for optimization and
+rule-checking need to be advanced. Addressing these
+challenges, Amkor has already developed OSAT industryleading Process Assembly Design Kits (PADKs) and a
+design flow, to achieve electronic design automation (EDA)
+connectivity with Cadence and Mentor Graphics.
+
+In addition to design, the complete ecosystem is an
+important part of advanced packages. Amkor has three
+cooperative Si interposer foundries, forming an ecosystem
+with the design company, design service company, IP
+company and system company, as well as upstream and
+downstream customers and manufacturers to optimize
+resources and create a win-win scenario. There are many
+success examples of joint development and joint releases
+based on this concept. These include:
+ff 2014: Open-Silicon/GLOBALFOUNDRIES/Amkor, jointly
+released 2.5D TSV achieving multi SiP functionality
+ff 2016: SK Hynix/eSilicon/Northwest Logic/Amkor/ Avery,
+jointly released “High-Bandwidth Memory White Paper:
+Start your HBM/2.5D Design Today”
+ff 2018: Samsung/eSilicon/Northwest Logic/ Amkor, jointly
+held conference to discuss “ASIC Unlock Deep Learning
+Innovation. Webinar: HBM2/2.5D Ecosystem for AI”
+
+The kits are introduced during the design stage to achieve
+a synchronous debugging design environment, to carry
+out comparisons between schematic and layout diagrams
+and to perform all Design Rule Checks (DRCs). This process
+achieves rigorous design verification and sign off. In
+addition, by extracting the design, interposer and substrate
+models, and implementing co-design and co-simulation,
+Design for Performance (DFP), Design for Cost (DFC) and
+Design for Manufacturing (DFM) are also achieved. Figure
+9 shows one example of a simulated eye diagram while the
+main chip and HBM2 are operating at a 2 GHz frequency.
+
+Originally published in China Integrated Circuits ▶ December 2018 ▶ © 2018 Amkor Technology, Inc.
+
+5
+
+9. Production Capacity
+
+10. Summary
+
+For advanced semiconductor packages, research and
+development capabilities alone are inadequate – stable
+and controllable production capacity are also required.
+As a pioneer in this area, Amkor has established a stateof-the-art manufacturing facility in Incheon, South Korea
+called K5. This is a clean wafer plant-grade (class 100)
+modern factory that can be used for producing wafer-level
+packages that includes automated guide vehicles (AGVs) and
+Advanced Planning and Scheduling (APS) (see Figure 10).
+These AGVs are controlled via APS and are able to self-drive
+to corresponding warehouse locations, load commodities,
+transport the commodities to corresponding platforms
+and choose the correct platform work recipe. This kind of
+automation greatly decreases the risk of human errors
+and mis-operations. Moreover, the manufacturing process
+parameters and measurement data are collected and stored
+in big data centers. This type of big data management and
+big data analysis has excellent traceability and is able to
+avoid the blind spots of traditional human engineering
+operations and human management. Undoubtedly, this
+advanced factory warehouse has received important
+positive reviews from customers and others.
+
+In the current wave of technological evolution, meeting
+the performance requirements of AI, deep learning, cloud
+computing and super computers requires heterogeneous
+packaging for high-speed microchips, as well as their
+corresponding HBM and ultra-high-speed SerDes ICs. Amkor
+meets these requirements with a variety of heterogeneous
+packaging technologies. These include 2.5D Si interposer,
+CoS, CoW, HDFO and other heterogeneous packaging
+technologies with optimized design process flows and
+testing solutions, and the most advanced and automated
+factories to help customers around the world achieve
+success.
+References
+Amkor Technology, Inc.: https://amkor.com/technology/
+Thank You
+The authors extend thanks to Ron Huemoeller, Curtis
+Zwenger, Ruben Fuentes and Debi Polo at Amkor
+Technology, Inc. and Emdrem Tan, Jack Chen, Kevin Yu,
+Jason Kao, Michael Chang, Elbert Liu, Annie Huang and
+Sophia Huang in the Amkor Greater China area marketing
+and sales department.
+About the Authors
+John Lee currently serves in the marketing and sales
+department of Amkor Greater China.
+
+Figure 10. Automated guide vehicles move product at various
+stages in the state-of-the art K5 manufacturing facility.
+
+Mike Kelly is Vice President of Advanced Product
+Development at Amkor Technology. He holds a Master of
+Science degree in Chemical Engineering from the University
+of Idaho and a Master of Science degree in Mechanical
+Engineering from the University of Washington.
+Key words: 2.5D, TSV, Interposer, CoS, CoW, HDFO,
+Heterogeneous Package, Amkor
+
+6
+
+Originally published in China Integrated Circuits ▶ December 2018 ▶ © 2018 Amkor Technology, Inc.
+
+
