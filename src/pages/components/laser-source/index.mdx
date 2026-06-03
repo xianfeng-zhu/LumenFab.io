@@ -1,0 +1,145 @@
+---
+layout: ../../../layouts/ConceptLayout.astro
+title: 激光源
+chapter: 光引擎组件
+description: 解释 AI 数据中心光互连中常见的 InP / III-V 半导体激光源：材料、外延、有源区、波导、DFB 光栅，以及 CW、DFB、EML、MWL 等器件能力。
+---
+
+import TermNote from "../../../components/TermNote.astro";
+import DfbLaserModel from "../../../components/DfbLaserModel.astro";
+
+## 0. 什么是 InP / III-V 半导体激光源
+
+AI 数据中心光互连链路中，光引擎需要一束稳定、低噪声的连续波光作为信号载波。这束光的起点是半导体激光器——将注入电流转化为相干光输出的 III-V 族光电子器件。本页以 InP 平台边发射 DFB 激光器为主线，覆盖从材料、外延、波导、光栅到芯片测试的完整制造路径，并最终连接到系统级应用约束。
+
+DFB（distributed feedback，分布式反馈）利用沿光传播方向分布的周期性光栅提供波长选择和光反馈；CW（continuous-wave，连续波）指激光器以持续输出方式工作。CW-DFB 激光器即采用 DFB 结构、作为稳定连续波光源运行的器件，是硅光引擎、CPO（co-packaged optics，共封装光学）和高密度可插拔光模块的主流供光方案。
+
+**在系统中的位置：**
+
+```text
+激光源 → 连续波光 → 耦合器 → PIC → 调制 → 光纤
+```
+
+从系统视角看，激光器是光链路的第一环。它的每一项输出参数都会沿链路向下传递，约束后续器件的设计选择：
+
+| 激光器参数 | 下游受影响的决策 |
+|-----------|-----------------|
+| 中心波长 | WDM 通道匹配、微环 / AWG 设计目标 |
+| 输出功率 | 链路功率预算、PIC 分光比、波导选材 |
+| RIN（相对强度噪声） | 接收端信噪比、调制消光比需求 |
+| SMSR（边模抑制比） | WDM 邻道串扰 |
+| 线宽 | 相干通信可用调制格式 |
+| 温漂系数 | 热调谐范围、TEC 需求 |
+| 长期老化漂移 | 链路寿命周期功率预算余量 |
+| 偏振 / PER | 耦合器选型、偏振分集方案 |
+| 模场尺寸与发散角 | 边缘耦合 vs 光栅耦合 |
+| 反馈容忍度 | 是否需要光隔离器 |
+
+<DfbLaserModel />
+
+**阅读索引：**
+
+| 章节 | 内容 |
+|------|------|
+| §1 | 结构分类地图——先看这里建立全局认知 |
+| §2 | 工作原理：电流如何变成稳定光 |
+| §3–8 | 制造路径：从 InP 衬底到激光器芯片 |
+| §9 | 器件评价指标 |
+| §10 | 从芯片到系统（含 CPO 约束） |
+
+光源封装布局见 [Package integration](../packaging/)；晶圆级测试与 known-good-die 见 [Manufacturing and test](../manufacturing-test/)；寿命与可靠性见 [Reliability and operations](../reliability-operations/)。
+
+## 1. 激光器里有什么：结构分类地图
+
+进入制造细节之前，先建立一张总装图。一颗 InP 边发射 DFB 激光器可以按物理结构拆为六类，下表给出每类的组成和作用，最右列标注对应详细章节：
+
+| 结构类别 | 包含什么 | 在激光器里的作用 | 对应章节 |
+|---------|---------|----------------|---------|
+| 衬底 | InP 单晶晶圆 | 外延生长的晶格模板；机械支撑；下侧电流路径 | §3 |
+| 外延层 | 包层、SCH、量子阱有源区、接触层 | 产生光增益；垂直方向光场限制；电流注入通道 | §4 |
+| 波导 | ridge waveguide / buried heterostructure | 横向光场与电流约束 | §5 |
+| 光栅 | DFB 周期性光栅、相移结构 | 波长选择与单模稳定 | §5 |
+| 电极与绝缘 | p/n 金属接触、介质钝化层、电流窗口 | 电流注入路径控制；抑制侧向漏电 | §6 |
+| 端面 | 解理面、AR/HR 镀膜 | 输出耦合；腔体边界反射控制 | §7 |
+
+## 2. 工作原理：电流如何变成稳定光
+
+### 2.1 注入与复合：电能进入有源区
+
+正向偏置下，电子和空穴通过 p-n / p-i-n 异质结构注入<TermNote label="有源区" note="半导体激光器中承担电光能量转换的增益区。电流注入后，电子和空穴在这里复合并通过受激辐射放大光；通信激光器常用量子阱或多量子阱来增强载流子限制和材料增益。" />。量子阱将有源区压缩到纳米级薄层，将载流子集中在一个窄区域内，提高复合概率和材料增益。注入的电子和空穴在量子阱中复合并释放光子——这是将电流转化为光的第一步。
+
+### 2.2 材料平台：InP / III-V 覆盖通信波段
+
+1310 nm / 1550 nm 对应的光子能量约为 0.95 eV / 0.80 eV，有源区需要提供接近这些能量的跃迁通道。InGaAsP、InAlGaAs 等直接带隙 III-V 合金通过成分设计和量子阱厚度将带隙调节至通信波段，同时保持晶格常数接近 InP 衬底，在 InP 上实现低缺陷外延生长。
+
+### 2.3 达到阈值：受激辐射超过损耗
+
+低电流时以自发辐射为主，光子方向、相位和波长分散，输出微弱。随着电流升高，受激辐射逐渐成为主导：已有光子诱导同频率、同相位、同方向的新光子。当光在一轮传播中获得的增益足以补偿吸收、散射和输出耦合等总损耗时，器件达到激光阈值；超过阈值后，输出功率快速上升。
+
+### 2.4 模式选择：波导、腔体与 DFB 光栅
+
+光在芯片中以<TermNote label="光学模式" note="optical mode，满足波导 Maxwell 方程和材料边界条件的稳定电磁场分布。它区别于几何光线，是光强、相位和偏振在芯片截面上的分布；这个分布决定光场与有源区、电流注入区和 DFB 光栅的重叠程度，从而影响阈值、效率、耦合和模式稳定性。" />沿波导传播。垂直方向，包层、SCH 和有源区通过折射率差将光场限制在有源区附近；横向，ridge waveguide 或 buried heterostructure 控制模式尺寸，并使光场与电流注入区域重叠；纵向，DFB 光栅通过周期性折射率扰动提供分布式反馈。光栅周期和波导有效折射率共同决定 Bragg 波长，相移设计进一步提高目标模式的阈值优势，使输出趋近稳定单一波长。
+
+### 2.5 现实约束：热、噪声与一致性
+
+高功率 CW 工作会增加结温，使带隙、折射率和增益峰随温度移动。载流子和光子数量的涨落表现为强度噪声（RIN），腔内自发辐射噪声和线宽增强效应影响线宽。外部反射光返回腔体时可能扰动单模输出。材料缺陷、欧姆接触质量、散热路径、片内一致性和老化筛选共同决定激光器能否长期维持稳定的输出功率和光谱质量。
+
+## 制造路径：从 InP 衬底到激光器芯片
+
+以下从 InP 衬底出发，依次经过外延、波导与光栅、电流注入、端面加工，最终在测试环节将每颗芯片的差异量化为可筛选的指标。完整制造路径拆为四个页面，建议按顺序阅读：
+
+<div class="page-cards">
+
+[**衬底与外延**](./substrate-epitaxy/) — InP 衬底为何是晶格模板，外延层如何沿模板生长并形成增益区
+
+[**波导、光栅与电流注入**](./waveguide-current/) — 光场约束、DFB 波长选择、欧姆接触、绝缘与电流约束
+
+[**端面工程**](./facet-engineering/) — 解理、腔长、端面清洗、钝化和 AR/HR 镀膜
+
+[**测试、指标与系统接口**](./testing-metrics/) — 芯片测试、器件评价指标、封装接口和 CPO 约束
+
+</div>
+
+光源封装布局见 [Package integration](../packaging/)；晶圆级测试与 known-good-die 见 [Manufacturing and test](../manufacturing-test/)；寿命与可靠性见 [Reliability and operations](../reliability-operations/)。
+
+## 11. 总结
+
+一颗 InP 激光源从高纯 InP 原料和 InP 衬底开始。衬底提供晶格模板；外延定义量子阱、包层和增益材料；光刻、刻蚀和再生长定义波导、DFB 光栅和电流通道；金属、绝缘和电流窗口决定电流如何进入有源区；解理和端面镀膜定义激光腔边界和出光端面；测试和筛选将每颗芯片的差异转化为可量化指标。最后，合格裸芯片才会进入封装，成为系统中可用的连续波光源。
+
+激光器看起来只是一颗能够发光的芯片，但它的输出波长、功率、效率、噪声和寿命，都是材料、微纳加工、端面工程、测试筛选和封装设计共同决定的结果。
+
+进一步阅读：[InP substrate](../../learn/inp-substrate/)、[Optical gain and threshold current](../../learn/optical-gain-and-threshold-current/)、[Distributed feedback and wavelength selection](../../learn/distributed-feedback-and-wavelength-selection/)、[InP / DFB laser principle](../../learn/inp-dfb-laser-principle/)。封装位置、ELSFP、光功率预算和可维护性见 [Package integration](../packaging/)。
+
+## 资料来源
+
+**基础原理**
+
+- [RP Photonics Encyclopedia: Laser Diodes](https://www.rp-photonics.com/laser_diodes.html)
+- [RP Photonics Encyclopedia: Distributed Feedback Lasers](https://www.rp-photonics.com/distributed_feedback_lasers.html)
+- [Cornell ECE 533: Distributed Feedback Structures and Semiconductor DFB Lasers](https://courses.cit.cornell.edu/ece533/Lectures/handout13.pdf)
+- [MIT OCW 6.772: Laser Diodes I](https://ocw.mit.edu/courses/6-772-compound-semiconductor-devices-spring-2003/resources/lecture19v2/)
+- [MIT OCW 6.772: Laser Diodes II / DFB and DBR Lasers](https://ocw.mit.edu/courses/6-772-compound-semiconductor-devices-spring-2003/resources/lecture21v2/)
+- [MIT OCW 3.46: Optical Amplifiers and Lasers](https://ocw.mit.edu/courses/3-46-photonic-materials-and-devices-spring-2006/resources/3_46lec11_lasers/)
+
+**InP 材料与工艺**
+
+- [Ioffe Institute NSM Archive: Basic Parameters of InP](https://www.ioffe.ru/SVA/NSM/Semicond/InP/basic.html)
+- [Ioffe Institute NSM Archive: Basic Parameters of GaInAsP](https://www.ioffe.ru/SVA/NSM/Semicond/GaInAsP/basic.html)
+- [UCSB / OFC 2017: Indium Phosphide Photonic Integrated Circuits](https://coldren.ece.ucsb.edu/sites/default/files/publications/indium-phosphide_photonic-interated-circuits.pdf)
+- [Freiberger Compound Materials: Technology](https://freiberger.com/en/technology/)
+- [Lim et al.: Fabrication techniques for grating-based optical devices](https://photonics.umd.edu/wp-content/uploads/pubs/ja-4/Lim_JVSTB_17_3208_1999.pdf)
+- [Georgia Tech: Semiconductor Laser Structures](https://bklein.ece.gatech.edu/laser-photonics/semiconductor-laser-structures/)
+- [OSTI: Analysis of current leakage in InGaAsP/InP buried heterostructure lasers](https://www.osti.gov/biblio/5774362)
+
+**测试、可靠性与器件指标**
+
+- [Coherent: 10 Gbps DFB Laser Diode Chip Datasheet](https://www.coherent.com/content/dam/coherent/site/en/resources/datasheet/networking/10gbps-dfb-laser-diode-chip-ds.pdf)
+- [Lumentum / Meta: High Power CW 1310nm DFB Lasers for Co-Packaged Optics](https://www.lumentum.com/sites/default/files/2025-12/high_power_cw_laser_for_co-packaged_optics_2022.pdf)
+
+**CPO 与连续光源应用**
+
+- [OIF: External Laser Small Form Factor Pluggable Implementation Agreement](https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf)
+- [OIF: Management of External Light Sources and Co-Packaged Optical Engines](https://www.oiforum.com/wp-content/uploads/OIF-MGT-Co-Packaging-ELSFP-01.0.pdf)
+- [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
+- [Frontiers of Optoelectronics: Co-packaged optics status, challenges, and solutions](https://link.springer.com/article/10.1007/s12200-022-00055-y)
+- [Furukawa Electric: Development of an External Laser Source for Co-Packaged Optics](https://www.furukawaelectric.com/en/rd/review/fr055/10.html)
