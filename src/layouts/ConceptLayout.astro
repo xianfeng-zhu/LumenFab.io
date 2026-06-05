@@ -5,10 +5,12 @@ interface Props {
   title?: string;
   description?: string;
   chapter?: string;
+  parentUrl?: string;
   frontmatter?: {
     title?: string;
     description?: string;
     chapter?: string;
+    parentUrl?: string;
   };
 }
 
@@ -16,12 +18,25 @@ const frontmatter = Astro.props.frontmatter ?? {};
 const title = Astro.props.title ?? frontmatter.title ?? "Untitled";
 const description = Astro.props.description ?? frontmatter.description;
 const chapter = Astro.props.chapter ?? frontmatter.chapter;
+const parentUrl = Astro.props.parentUrl ?? frontmatter.parentUrl;
+
+const segments = chapter ? chapter.split("/").map((s) => s.trim()) : [];
 ---
 
 <BaseLayout title={title} description={description}>
   <article class="concept-page">
     <header class="concept-header">
-      {chapter && <p class="page-kicker">{chapter}</p>}
+      {segments.length > 0 && parentUrl && (
+        <p class="page-kicker">
+          <a href={parentUrl}>{segments[0]}</a>
+          {segments.length > 1 && (
+            <span> / {segments.slice(1).join(" / ")}</span>
+          )}
+        </p>
+      )}
+      {segments.length > 0 && !parentUrl && (
+        <p class="page-kicker">{chapter}</p>
+      )}
       <h1>{title}</h1>
       {description && <p class="lede">{description}</p>}
     </header>
@@ -37,5 +52,40 @@ const chapter = Astro.props.chapter ?? frontmatter.chapter;
 
   .concept-header {
     margin-bottom: 2rem;
+  }
+
+  .page-kicker a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .page-kicker a:hover {
+    color: var(--accent);
+  }
+
+  :global(.page-nav) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+
+  :global(.page-nav) a {
+    color: var(--accent);
+    text-decoration: none;
+    line-height: 1.6;
+  }
+
+  :global(.page-nav) a:first-child {
+    margin-right: auto;
+  }
+
+  :global(.page-nav) a:last-child {
+    margin-left: auto;
+  }
+
+  :global(.page-nav) a:hover {
+    text-decoration: underline;
   }
 </style>
