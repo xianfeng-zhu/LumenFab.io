@@ -2,204 +2,414 @@
 layout: ../../layouts/ConceptLayout.astro
 title: Package integration
 chapter: 光引擎组件
-description: 解释 CPO 光引擎封装集成：ASIC Host Boundary、封装平面布局、封装基板 / 中介层、热-机械-光电耦合、光源位置、KGD、返修和接口合同。
+description: 解释 CPO 光引擎封装集成：封装架构分类、内部物理结构、光源位置选择、裸片贴装与互连、基板与中介层、光学接口、热与机械、代表性方案、KGD 与返修、接口合同。
 ---
 
 import TermNote from "../../components/TermNote.astro";
 
-## 封装集成把光引擎变成系统部件
+## 0. 什么是封装集成
 
-<TermNote label="Package integration" note="封装集成。它把多颗裸片、封装基板、光学接口、散热结构、机械固定和测试条件组织成可装配、可验证、可长期运行的产品形态。" /> 处理的是“这些部件怎样共同成立”。激光源、PIC、EIC、光纤阵列、连接器、封装基板、中介层、散热器和测试结构都已经有各自的设计目标；封装集成要把它们放进同一个空间、同一个温度场和同一套制造流程。
+半导体激光器、PIC、EIC、光纤阵列、连接器、基板、散热器——这些部件各自有各自的设计目标。封装集成的任务是把它们放进同一个空间、同一套温度场和同一条制造流程，让它们作为一个整体可靠工作。
 
-CPO 的直接动机是缩短 switch ASIC 与 optical engine 之间的高速电路径。电路径缩短以后，许多原本位于可插拔模块内部的约束会进入主封装附近：光纤如何出来、激光器放在哪里、EIC 怎样贴近 PIC、散热器如何压住热源、应力怎样传到波导、哪些裸片值得进入封装、失效后还能替换什么。
+从系统视角看，封装集成处在芯片制造和系统部署之间。它的上游是裸片（laser die、PIC die、EIC die）和基板材料，下游是交换机主板、散热系统和运维现场。封装设计必须同时回答机械、电学、光学和热学四类问题。
 
-```text
-Switch ASIC / host package
-→ high-performance substrate or interposer
-→ EIC / driver / TIA
-→ PIC / modulator / PD / MUX
-→ laser source or external CW light input
-→ fiber array / connector / optical interface
-→ heat spreader / lid / cold plate / chassis
+<TermNote label="共封装光学（CPO）" note="co-packaged optics。将光学引擎放在交换 ASIC 同一块封装基板上的架构。缩短高速电信号路径是 CPO 最直接的动机：可插拔模块中，从前面板到 ASIC 的 PCB 走线可能超过 200 mm；CPO 将这个距离压到 50 mm 以内，使更高速度、更低功耗的片外 I/O 驱动成为可能。" /> 之所以让封装变得格外关键，原因在于它把多个高价值、高精度、对温度和应力敏感的部件放在同一区域。成本压力也因此集中：一颗 switch ASIC 的价值远高于单个光模块，如果因为封装良率低或光纤对准偏移导致整个组件报废，损失被放大了很多倍。
+
+本页从封装架构的大分类讲起，逐层展开内部物理结构、光源位置选择、贴装互连、基板中介层、光学接口和热机械设计，最后收束到代表性方案和接口合同。
+
+激光器结构见 [激光源](../laser-source/)；片上光路见 [PIC / optical circuit](../pic/)；driver、TIA 和电接口见 [EIC / driver and receiver](../eic/)；耦合器和连接器见 [Optical interface / fiber coupling](../optical-io/)；晶圆级测试和老化筛选见 [Manufacturing and test](../manufacturing-test/)。
+
+## 1. 封装架构分类地图
+
+进入具体结构之前，先理清几种基本架构形态。它们的核心分歧在于"光引擎离 ASIC 有多近"以及"光引擎以什么方式接入系统"。
+
+| 架构形态 | 引擎位置 | 典型连接方式 | 核心优势 | 核心约束 |
+|---|---|---|---|---|
+| 前面板可插拔 | 交换机前面板，远离 ASIC | 标准光模块笼 + 电连接器 | 生态成熟、现场可更换、独立测试 | 长 PCB 走线损耗大，前面板密度瓶颈 |
+| 近封装光学（NPO） | ASIC 封装附近的 PCB 上 | Socket + 短 PCB 走线 | ASIC 封装风险隔离，引擎独立测试和返修 | 电径比深度 CPO 长，占 PCB 面积 |
+| 焊接式 CPO | 与 ASIC 同一封装基板上 | 焊接回流（BGA / 铜柱阵列） | 电径最短，密度最高 | 返修困难，KGD 和装配良率压力集中 |
+| 插座式 CPO | 与 ASIC 同一封装基板上 | LGA + 保持机构 | 可替换引擎，利于试产和返修 | 保持机构占面积，接触可靠性需额外验证 |
+| 3D 堆叠光学 | EIC/PIC 垂直堆叠在 ASIC 上方或下方 | 混合键合（hybrid bonding）/ SoIC | 电径极短，互连密度极高 | 工艺整合和散热路径最复杂 |
+
+OIF 的 CPO 框架文档将这几种形态统称为共封装组件（Co-Packaging Assembly, CPA）——一块高性能基板上集成了 ASIC 和一个或多个光引擎的多芯片模块。引擎与基板的连接方式是一个关键分叉点：
+
+**焊接方案**用 BGA 或铜柱阵列将引擎焊在基板上，电性能最接近理想，密度最高，但引擎一旦焊死，故障后几乎无法单独更换——整个基板组件一起报废。这是成本压力最大的选项，也是 KGD 概念最重要的场景。
+
+**插座方案**用 LGA（land grid array）加四角螺栓压缩，引擎可拆卸。OIF 框架文档分析了两种方案的取舍：插座可返修，但保持机构会吃掉基板可用面积，且压缩力分布不均匀时可能影响 LGA 接触电阻和基板平整度。在靠近光耦合区域，不均匀的机械压力还会透过基板传到光纤对准位置，造成插损漂移。
+
+**NPO** 是一个中间状态：引擎不放在 ASIC 基板上，而是放在附近的 PCB 区域，通过短走线连接。好处是 ASIC 封装不改，引擎独立测试和返修无压力；代价是电径比深度 CPO 长——约 20-50 mm vs 焊接式 CPO 的 &lt;5 mm——高速通道的损耗和阻抗不连续性相应增大。
+
+**3D 堆叠**把这道物理题推到了更极致的方向：TSMC 的 COUPE 方案用电芯片堆在光子芯片上，再通过 CoWoS 中介层与 ASIC 对接。混合键合的 bump pitch 可以做到几微米量级——比传统 microbump（~40 μm）密了近一个数量级，寄生电容和电感压到极低。代价是热提取路径变复杂：电芯片的发热要穿过光子芯片才能到达散热器，或者反过来——这要求光子芯片的热阻和光学温度敏感性在设计初期就被纳入联合仿真。
+
+## 2. 封装内部物理结构
+
+上一节讲的是"引擎放在哪里"的大选择。这一节进入封装内部，按从下到上的层叠顺序展开各层的作用、材料和工程约束。
+
+```
+光纤出线 / 前面板或中间板连接器
+        ↑
+封装外壳 / lid / stiffener
+        ↑
+散热器 / cold plate（经 TIM 耦合到芯片背面）
+        ↑
+芯片背面散热界面（裸露 Si 或金属化背面，接 TIM）
+        ↑
+┌──────────────────────────────────────────┐
+│  EIC die        PIC die       Laser die  │  ← 裸片层（多颗 die 并排或堆叠）
+│  (driver+TIA)   (modulator+PD)  (DFB)    │
+│      ↓ microbump / Cu pillar / bond      │
+├──────────────────────────────────────────┤
+│  中介层 / engine substrate               │  ← 局部高密度互连层
+│  (Si interposer, RDL, 或有机子基板)       │
+│      ↓ TSV / μbump / BGA                 │
+├──────────────────────────────────────────┤
+│  有机封装基板（organic substrate）         │  ← 全局布线层
+│  电源、地、高速差分、控制信号、BGA/LGA     │
+│      ↓ BGA / LGA                         │
+├──────────────────────────────────────────┤
+│  主板（host PCB）                         │
+└──────────────────────────────────────────┘
 ```
 
-激光器结构见 [激光源](../laser-source/)；片上光路见 [PIC / optical circuit](../pic/)；driver、TIA 和电接口见 [EIC / driver and receiver](../eic/)；coupler、FAU 和连接器见 [Optical interface / fiber coupling](../optical-io/)；KGD、封装级测试和量产筛选见 [Manufacturing and test](../manufacturing-test/)。
+这个堆叠的核心逻辑是分两级承担互连密度：**中介层**负责裸片之间的超高密度短线互连（微米级线宽），**封装基板**负责向主板过渡的全局布线和机械支撑（数十微米级线宽）。如果不分这两级，所有互连都用基板做——目前最先进的有机基板 line/space 约 8/8 μm，远不足以接住 microbump 的 30-40 μm pitch，更不提混合键合的几微米 pitch。
 
-相关基础页：[Why photonic packaging is hard](../../learn/why-photonic-packaging-is-hard/)、[Inside a transceiver](../../learn/inside-a-transceiver/)、[SOI and Photonics-SOI](../../learn/soi-and-photonics-soi/)。
+### 2.1 裸片层：并排还是堆叠
 
-## ASIC Host Boundary 表示系统分工
+裸片层是封装的核心。PIC、EIC 和激光器芯片的相对位置，决定了电径长度、光耦合路径和热分布。
 
-OIF 文档中的 <TermNote label="ASIC Host Boundary" note="OIF CPO 语境中的英文接口名，可理解为主机 ASIC / host package 与 optical engine、基板、管理和测试责任之间的系统分工与接口范围。" /> 帮助定义 optical engine 靠近 host 到什么程度，也帮助说明高速电接口、管理接口、供电、散热、返修和测试责任由谁承担。它常出现在系统框架图中，实际封装里对应的是多种物理实现：共同封装基板、socket、near-package optics 或前面板可插拔模块。
+**并排布局**是最常见的配置：PIC 和 EIC 放在同一平面，通过 microbump 或铜柱互连。PIC 一侧面对 EIC，另一侧面对光纤阵列或光耦合结构。这种布局工艺成熟，每颗 die 的热可以分别提取，但互连密度受限于并排间距——两颗 die 之间至少需要 50-100 μm 的物理间隙，加上 alignment 和 underfill 用地。
 
-| 架构形态 | 典型结构 | 主要收益 | 主要约束 |
-|---|---|---|---|
-| soldered CPO engine | optical engine 直接焊接到共同封装基板 | 电路径短、密度高、寄生可控 | 返修难度高，KGD 和装配良率压力集中 |
-| socketed engine | engine 通过 LGA / socket / 压紧固定结构接入 | 可替换性较好，适合试产和返修 | 机械结构占面积，接触可靠性和通道密度受限 |
-| near-package optics | engine 靠近 ASIC package，保留独立装配空间 | 主封装风险较低，维护空间较多 | 电路径长于深度 CPO，功耗收益较小 |
-| front-panel pluggable | 光模块位于前面板 | 可维护性和生态成熟度高 | PCB 高频损耗、前面板密度和功耗压力更大 |
+**垂直堆叠**是更紧凑的路线。TSMC COUPE 将 EIC 通过 SoIC 混合键合堆在 PIC 上方：PIC 在下方做光传输和调制，EIC 在上方做驱动和放大，信号垂直穿过键合界面，不需要水平走线。好处是路径最短（几十微米量级的垂直距离 vs 毫米量级的水平走线）、寄生参数最小；代价是热堆叠——上方的 EIC 发热要穿过下方的 PIC 才能到散热器，或者需要双面散热。
 
-封装架构的差异，本质上是在电路径长度、封装面积、接触可靠性、散热路径、可测试性、返修能力和现场服务之间分配工程余量。
+3D 堆叠的另一条路线是 **ASIC 在上、光引擎在下**：逻辑芯片在最上层贴近散热器，PIC/EIC 在下方，光从封装底部或侧边出。这种布局让发热最高的一方获得最直接的散热路径，但光纤出线方向和机械支撑设计更复杂。
 
-## 封装平面布局：电最短、光可出、热可走、力可控
+### 2.2 中介层：细间距过渡
 
-<TermNote label="封装平面布局" note="floorplan，在封装平面上安排 ASIC、PIC、EIC、光源、光纤阵列、连接器和散热结构的位置关系。" /> 是 CPO 封装的起点。每个对象都有理想位置，但这些理想位置会互相挤压。
+中介层的唯一任务是**桥接裸片到封装基板之间的 pitch 差距**。裸片侧的 bump pitch 可能是 30-55 μm，封装基板侧的 BGA pitch 通常是 0.4-1.0 mm——中间差了约一个数量级。中介层用多层细线 RDL 做 pitch 转换，把几十微米的 microbump 过渡到几百微米的 C4 bump 或 BGA。
 
-- EIC 希望贴近 PIC 的调制器电极和 PD pad，以降低 RF 路径损耗、寄生电容和时延偏斜。
-- PIC 需要一侧面对 EIC 的高速 pad / microbump，另一侧面对光学接口的 coupler 或封装光路。
-- 激光源希望靠近 PIC 以降低光损耗，同时避开高温区域，并保留测试、分档和可替换策略。
-- FAU 和连接器希望靠近封装边缘，并保留光纤弯曲半径、应力释放、清洁和出纤空间。
-- Switch ASIC 希望 optical engine 围绕它高密度排布；冷板、lid 和 TIM 希望热路径短、直、接触稳定。
+硅中介层是目前的主流方案。它本质是一片硅晶圆，上面做多层 Cu RDL（线宽 &lt;2 μm），需要时可以加 TSV（through-silicon via）穿透硅层连通到下方。Amkor 的资料显示硅中介层上的信号布线密度是 FCBGA 基板的约 10 倍，可实现 &lt;100 μm 的 die-to-die 间距。
+
+HDFO（high-density fan-out）是一条无 TSV 路线：用模塑料包住裸片，在重构晶圆表面直接做多层 RDL，省去硅中介层和 TSV 的成本。代价是布线密度略低于硅中介层，且塑封过程中引入的应力需要精细控制。
+
+有机中介层或局部 bridge（如 Intel EMIB）是第三条路：只在关键 die-to-die 通道区域放一小片高密度互连桥，其余区域仍用有机基板。这样兼顾了高密度和成本，但对贴装精度和桥与基板的 coplanarity 要求很高。
+
+### 2.3 封装基板：全局布线与机械底座
+
+封装基板承担电源分配、长距离高速信号布线、控制信号、BGA/LGA 接口和机械支撑。典型的 FCBGA 基板有 4-18 层积层，芯层是 BT 树脂或类似材料，各层之间通过 plated through-hole 和 microvia 互连。
+
+对 CPO 来说，基板还有一项隐藏任务：**承受多颗大尺寸芯片的热膨胀应力**。switch ASIC 的 die size 可能达到 20-30 mm 见方，加上硅中介层和多个光引擎，整体 CTE 失配和翘曲控制是基板选材的核心约束。基板太薄，高温回流时翘曲过大导致 BGA 焊接不良；基板太厚，散热路径阻抗增加。
+
+## 3. 光源位置：内置、外置还是异质集成
+
+激光源放在什么位置，是 CPO 封装架构的一个一级设计决策。四种基本选项各有其物理逻辑和系统后果。
+
+### 3.1 内置激光器
+
+激光器裸片直接贴装在光引擎基板上，靠近 PIC 的 edge coupler 或 grating coupler。光路短（百微米到毫米量级），不需要额外的光纤跳线或连接器，激光器到 PIC 的耦合损耗最低。好处很直接：少一个光连接点就少一个插损来源和潜在失效点。
+
+代价来自热。激光器的结温上限（通常 &lt;85°C 可靠工作，&lt;105°C 极限）远低于硅芯片。当它和几十上百瓦的 ASIC 共享同一块基板时，即使有热隔离设计，激光器的局部温度仍会被整体热环境推高。结温每上升 10°C，阈值电流上升、斜率效率下降、波长漂移约 1 nm——所有这些叠加后，激光器的工作窗口变窄，系统功率预算和热调谐范围必须留更大的余量。
+
+故障模式也不同。内置激光器一旦失效，引擎整体报废，没有现场更换的可能。这意味着激光器的老化筛选（burn-in）必须极度严格，出厂前要把早期失效全部拦截下来。
+
+### 3.2 外置激光器（ELS / ELSFP）
+
+外置激光器把光从封装外部送进来。OIF 定义的 <TermNote label="ELSFP" note="External Laser Small Form Factor Pluggable。一种可插拔外置激光源外形规格，通过盲配光电连接器向光引擎输送连续波光。它让我冷激光器可以在前面板独立更换，不与 ASIC 共享热环境。" /> 是目前最成熟的外置激光源标准。
+
+物理实现分为三个部分。**模块本体**：OSFP 风格的金属外壳，内部封装 DFB 激光器芯片、TEC（可选）、监控 PD、微控制器。模块通过盲配连接器与系统主板上的 host connector 对接——这个连接器同时承载光纤（光）和卡边触点（电）。**host connector** 安装在主板上，内部有两个可拆卸的 MT 插芯（12/24/36 芯），模块推入时先完成光对准（粗对准→导销导孔精细对准→端面接触），最后才接通电气触点——这个插合顺序确保"光路先通，电源后通"，是激光安全设计的一部分。**笼体（cage）** 固定在主板上，提供 EMI 屏蔽和 riding heatsink 的安装接口。
+
+ELSFP 的光学功率分为六档：LP（11 dBm）、MP（14 dBm）、HP（17 dBm）、VHP（20 dBm）、UHP（23 dBm）、SHP（26 dBm），每档公差 ±1.5 dB。以典型的 51.2T 交换机为例，8 个 ELSFP 模块通过保偏光纤向前面板盲配连接器输送 CW 光，一个 ELSFP 可以为一到多个光引擎供光。OIF 的 ELS 管理白皮书定义了 host 控制器如何管理 CW 光资源的分配、监测和故障隔离。
+
+外置的核心价值是**热解耦和可更换性**。激光器远离 ASIC 热区，可以用独立的低噪声散热方案维持较低结温，寿命和光谱稳定性更好。激光器故障后，用户从前面板直接更换模块，不需要动交换机内部。代价是光路上多了两个额外的连接点（ELSFP 输出端 + 引擎输入端），每多一个连接点就意味着额外的插损和潜在的反射源。OIF 框架文档估计外置方案的总光损耗比内置高出 2-3 dB，这部分损耗必须由更高的激光输出功率补偿。
+
+### 3.3 封装边缘激光器 / laser tile
+
+介于内置和外置之间的一道选项。激光器不和光引擎在同一基板上，而是放在封装边缘或独立的子基板（laser tile）上，通过短光纤或波导连接 PIC。好处是激光器获得了一定程度的热隔离和独立测试/筛选能力，同时光路比完全外置短。
+
+### 3.4 III-V 异质集成
+
+将 InP 增益材料直接键合到硅光晶圆上，在硅波导的正上方形成片上激光器。这是最短光路方案，不需要任何芯片间耦合——激光直接从键合的有源区进入下方的硅波导。
+
+这条路在物理上最优雅，在工程上最困难。InP 和 Si 的晶格常数差异约 8%，直接外延会产生高密度位错；键合方案（如晶圆级直接键合或 D2W 键合）绕过了外延困难，但引入了键合界面质量、热膨胀失配、光场从 III-V 到 Si 的过渡效率、键合良率以及与标准 CMOS 后道工艺的兼容性问题。目前研究和预研样品已展示出良好性能，量产成熟度仍落后于外置和内置方案。
+
+### 3.5 四种路线的取舍
+
+| | 内置激光器 | 外置 ELSFP | laser tile | 异质集成 |
+|---|---|---|---|---|
+| 光路长度 | 最短（百 μm） | 长（光纤 + 连接器） | 中（短光纤） | 最短（直接耦合） |
+| 耦合损耗 | 最低 | 高（+2–3 dB） | 中 | 极低（单片集成） |
+| 热环境 | ASIC 热区，结温高 | 独立散热，结温低 | 部分隔离 | 取决于堆叠位置 |
+| 可更换性 | 不可更换 | 现场可更换 | 封装级可更换 | 不可更换 |
+| 系统复杂度 | 引擎内部复杂度高 | 连接器 + 管理总线 | 二者之间 | 工艺整合复杂度高 |
+| 量产成熟度 | 中等 | 高（OIF IA 已定义） | 中等 | 研发到预研阶段 |
+
+目前的行业态势是：**外置激光源在大型 CPO 交换机中占据主导地位**。NVIDIA、Broadcom 等厂商的 CPO 交换机普遍采用 ELSFP 或类似前插式外置激光器方案。内置激光器更适合中等规模、不追求极高端口密度的应用。异质集成被视为长期方向，但短期内不会改变外置路径的量产地位。
+
+## 4. 裸片贴装与互连
+
+封装内部的多颗裸片需要互相连接，也需要连接到中介层或基板。互连方式决定了电径长度、寄生参数、I/O 密度和装配良率。
+
+### 4.1 倒装焊（flip-chip）
+
+倒装焊将裸片正面朝下，通过焊球或铜柱连接到基板。相比引线键合（wire bonding，金线或铝线从芯片边缘引出，线长 1-5 mm），倒装的互连长度可以从毫米级压缩到数十微米，信号电感从 nH 级降到 pH 级——这对 100G+ 电通道至关重要。
+
+标准倒装使用焊料 bump：高度 60-100 μm，直径 80-125 μm，回流时焊料熔化形成冶金连接。底部填充（underfill）是倒装不可或缺的配套步骤：专用环氧树脂通过毛细作用渗入芯片与基板之间的缝隙，固化后分担焊点的热膨胀应力。没有 underfill，焊点在几十到几百次温度循环后就会疲劳断裂。
+
+### 4.2 铜柱（copper pillar）
+
+当 bump pitch 缩小到 60 μm 以下时，纯焊料 bump 面临两个问题：回流时相邻 bump 可能短路（焊料熔化后横向扩展），以及电迁移（焊料在高电流密度下原子迁移形成空洞）。铜柱方案解决了这两个问题：主体是铜（高熔点、抗电迁移），只在顶端留一薄层焊料帽（SnAg）用于键合。铜不熔化，自带 standoff 高度，相邻 bump 不会桥接。
+
+Amkor 的技术资料显示铜柱直径可小至 20 μm，pitch 做到 30 μm inline 或 30/60 μm staggered。电迁移测试中 8000 小时后铜柱零失效，而同等条件下的 SnAg bump 已有明显失效分布。这对长期高温高电流工作下的可靠性是实质提升。
+
+### 4.3 微凸点（microbump）
+
+Microbump 是铜柱的进一步微缩版。pitch 通常 30-55 μm，用于 die-to-die 或 die-to-interposer 的高密度连接。由于 pitch 极细，对贴装精度、coplanarity 和 underfill 毛细填充能力的要求远超传统倒装。
+
+### 4.4 混合键合（hybrid bonding）
+
+混合键合是互连密度天花板。它在同一界面同时完成铜-铜直接连接和介质-介质键合，不需要焊料、不需要 underfill。键合表面经过 CMP 处理达到亚纳米级平整度，室温下靠范德华力预贴合，退火后铜原子扩散形成低阻连接。
+
+TSMC 的 SoIC 平台是混合键合的量产代表。2024 年报描述第一代 COUPE 为"电芯片通过 SoIC 键合在光子芯片上"。混合键合的 pitch 可以做到几微米量级——比 microbump 密约一个数量级，互连寄生几乎降到可忽略水平。
+
+混合键合的代价是极高的表面准备要求和工艺温度窗口。键合界面必须无颗粒、无污染，否则单个亚微米颗粒就能在周围形成数十微米的空洞（void），造成局部断路或高阻。对于光子芯片来说，键合过程中的热应力还可能通过基板传递到波导和调制器，改变有效折射率。这是一个工艺-光学联合优化问题。
+
+### 4.5 贴装流程概览
+
+典型的并排式 CPO 光引擎装配流程：
 
 ```text
-                 heat spreader / lid
-                         |
-Switch ASIC - substrate / interposer - EIC
-                                      | microbump / RF pads
-                                    PIC - edge coupler - fiber array
-                                      |
-                         internal laser or external CW input
+基板准备（清洁、助焊剂涂布）
+→ PIC 贴装（高精度贴片机，±1–3 μm 对准精度）
+→ EIC 贴装（并排或 stacking）
+→ 回流焊接（或无焊 hybrid bonding）
+→ 底部填充（毛细 underfill 或 NCP 预涂）
+→ 固化（温度曲线控制，避免过度收缩应力）
+→ 激光器贴装（通常在最后，因为激光器对高温最敏感）
+→ 光纤阵列对准与固定
+→ 光学测试（耦合效率、插损、PER）
+→ 电学测试（连续性、漏电、RF S-parameter）
 ```
 
-一个看似很短的 RF 路径，可能把 EIC 热源放到 PIC 温敏器件旁边；一个利于出纤的 FAU 位置，可能占掉散热器或压紧框架的空间；一个利于返修的 socket，可能增加电接触长度和封装面积。成熟的封装布局会把这些冲突量化为 lane loss、热阻、warpage、coupling tolerance、test access 和 rework path。
+## 5. 基板与中介层
 
-## 封装基板与中介层承担高密度互连
+第 2 节从结构角度描述了各层的位置。这一节从设计角度展开基板和中介层的选材逻辑。
 
-<TermNote label="封装基板" note="package substrate，封装中承载电源、地、高速线、控制信号、BGA / LGA 接口和机械支撑的基板。封装语境下通常不把 substrate 译成“衬底”。" /> 是 CPO 的电气和机械底座。它要承载高速差分线、电源和地、控制信号、测试点、BGA / LGA 接口、socket 或 engine attach 结构。封装基板的线宽 / 间距、介质损耗、平整度和热机械性质，会限制 optical engine 能靠近 ASIC 到什么程度。
+### 5.1 有机封装基板：成熟但密度受限
 
-<TermNote label="中介层" note="interposer，位于芯片与封装基板之间的高密度互连层，可用硅中介层、RDL、TSV 或局部 bridge 把细 pitch 接口过渡到封装基板。" />、bridge、fan-out / RDL 和 engine substrate 用来提高局部互连密度，并把细 pitch microbump 过渡到系统可装配尺度。
+有机基板是封装产业的"老黄牛"——几乎所有先进封装都在它上面搭建。核心层（core）通常是 BT 树脂浸渍玻璃纤维，上下积层（build-up）用 ABF 或类似介电材料，via 用激光钻孔 + 电镀填充。
 
-| 层级 | 主要作用 | CPO 关注点 |
-|---|---|---|
-| organic package substrate | 电源、地、高速线、BGA / LGA、机械支撑 | 大面积和成熟度较好；line / space 和 pitch 限制更强 |
-| silicon interposer | 高密度 die-to-die routing、TSV、细 pitch 过渡 | 密度高；成本、热、面积和应力需要权衡 |
-| bridge / local interconnect | 局部高密度互连 | 适合关键 die 间短通道；布局和贴装流程相关 |
-| fan-out / RDL | 重布线与 pitch 过渡 | 有利于多 die 重布线；翘曲和光学装配窗口要控制 |
-| engine substrate | 承载 PIC / EIC / laser 的子基板 | 直接影响 RF 路径、laser attach、fiber attach 和预组装测试 |
+对 CPO 而言，有机基板有两个天然局限。第一是线宽：最先进量产有机基板的 line/space 约 8/8 μm（2024-2025 水平），而硅光引擎的 microbump pitch 是 30-55 μm——几十微米的 bump 要扇出（fan-out）到几百微米的 BGA 球距，需要多级过渡。第二是平整度：基板在回流高温（~250°C）下的 warpage 可能达到数十微米，这个变形量对于 BGA 焊接是可控的（焊料可以填充几十微米的间隙），但对于边缘耦合器来说——1dB 横向对准容差仅 ±1-2.5 μm——这样的变形会把光直接丢掉。
 
-Amkor 的 flip-chip 和 2.5D/HDFO 资料、ASE 的 2.5D/3D 封装资料都指向同一件事：封装既要固定芯片，也要把多个裸片之间的互连密度、供电、散热和机械公差组织起来。
+### 5.2 硅中介层：高密度桥梁
 
-## 裸片贴装决定寄生、应力和良率
+硅中介层用半导体工艺做互连，线宽可以轻松做到 &lt;2 μm，多层 RDL 实现复杂的 die-to-die 走线和 power/ground 网格。TSV 穿过硅层（厚度 50-100 μm）连通上下，典型 TSV 直径 5-10 μm。
 
-<TermNote label="倒装互连" note="flip-chip，裸片正面朝下，通过焊球、铜柱或微凸点直接连接到基板或中介层，比引线键合路径更短、I/O 密度更高。" />、<TermNote label="铜柱" note="copper pillar，一种倒装凸点结构，常用于细 pitch、低电感和较好电迁移能力的高密度互连。" />、<TermNote label="微凸点" note="microbump，用于细 pitch die-to-die 或 die-to-interposer 连接的小尺寸凸点。" /> 和 <TermNote label="底填" note="underfill，填充在裸片与基板之间的聚合物材料，用于分担热膨胀差异带来的焊点应力。" /> 服务于同一目标：让更多 I/O 在更短距离内连接。
+硅中介层的代价来自半导体工艺本身。一片 300 mm 硅晶圆做中介层，光掩膜和工艺成本远高于有机基板。而且硅是热的良导体——这对散热有利（垂直热阻低），对光子器件则不利（热串扰大，ASIC 的热会透过硅中介层传导到 PIC 下方的波导，改变有效折射率）。
 
-短互连能降低寄生电感和寄生电容，对 100G 以上电通道、driver 到 modulator、PD 到 TIA 都很重要。高密度互连也把材料问题带到光学器件旁边：bump pitch、standoff、coplanarity、underfill modulus、CTE、electromigration 和 keepout zone 会共同影响 RF 性能、焊点可靠性、PIC 应力和光纤耦合稳定性。
+Amkor 的资料揭示了两种中介层集成流程。**CoS（Chip on Substrate）**：中介层先贴到有机基板上，测试通过后再贴芯片——可以在中介层阶段做中间测试，提前筛除不良中介层，避免把好芯片浪费在坏中介层上。**CoW（Chip on Wafer）**：多颗芯片先贴到整片中介层晶圆上，整体塑封后切割，再贴到有机基板——适合超大芯片和超大中介层，但芯片和中介层之间的良率被捆绑在一起。
 
-<TermNote label="混合键合" note="hybrid bonding，铜-铜直接连接与介质键合同时形成的高密度连接方式，可在更小间距下堆叠芯片并降低互连寄生。" /> 是更先进的垂直互连路线。TSMC 2024 Annual Report 对 SoIC 和 COUPE 的描述可作为技术例子：电芯片可通过 SoIC 与光子芯片堆叠，形成更短的 EIC-PIC 互连。它说明先进封装正在把光、电、热、机械和测试更紧地绑在一起；具体平台能力仍要按 PDK、封装规则、良率和客户产品来评估。
+### 5.3 HDFO 与局部桥：绕过 TSV 的路
 
-## 热路径和机械应力会改变光学指标
+高密度扇出（HDFO）放弃硅中介层，改为在模塑料重构晶圆上直接做 RDL。省掉 TSV 和硅晶圆的成本，但 RDL 的线宽密度和信号完整性略逊于硅中介层。适合对成本敏感但对密度要求没那么极端的场景。
 
-CPO 把多个热源放在同一区域：switch ASIC、EIC、激光器、PIC heater、power delivery 和控制电路都会改变温度场。热路径可以简化为：
+局部桥（如 Intel EMIB）的策略是"哪里需要放哪里"：只在关键 die-to-die 通道区域嵌入一小片高密度硅桥，其余区域仍用有机基板走线。这样既拿到高密度互连的好处，成本又不像全硅中介层那样高。前提是桥与基板的 coplanarity 必须高度精确，否则桥两端的 bump 连接不可靠。
+
+### 5.4 基板选材小结
+
+| 层级 | 典型材料/方案 | 线宽/间距 | 主要用途 | CPO 关注点 |
+|---|---|---|---|---|
+| 有机封装基板 | BT/ABF，4–18 层 | ~8/8 μm | 全局布线、电源/地、BGA、机械支撑 | 平整度、热膨胀匹配、层数/成本 |
+| 硅中介层 | Si + 多层 Cu RDL + TSV | &lt;2/2 μm | 高密度 die-to-die 互连、pitch 转换 | 成本、热传导/串扰、面积限制 |
+| HDFO | 模塑料 + 多层 RDL | ~2/2–5/5 μm | 无 TSV 的细间距重布线 | 塑封应力、翘曲、布线密度 |
+| 局部桥（bridge） | Si bridge 嵌入有机基板 | &lt;2/2 μm | 局部高密度通道 | coplanarity、贴装精度 |
+| engine 子基板 | 有机或陶瓷 | ~15/15 μm | 承载 PIC+EIC+laser 的预组装子模块 | RF 性能、测试接入、thermal path |
+
+## 6. 光学接口与光纤连接
+
+封装内的光路不会自己走到系统外面去。光纤与 PIC 的连接是封装设计中最难事后补救的部分——调制器偏了可以调偏置，微环偏了可以热调谐，耦合偏了，光直接丢了。
+
+### 6.1 耦合方式的选择
+
+PIC 那一页（§4）详细解释了光栅耦合器和边缘耦合器的物理原理。封装语境下需要处理的是：选定耦合方式后，光纤如何接近芯片，用什么固定，对准容差是多少，环境变化后能不能稳住。
+
+**边缘耦合**是 CPO 封装的首选。它的插损可达 0.5-1.5 dB/端面（最优 &lt;0.2 dB）、光学带宽 &gt;100 nm、偏振相关损耗低。但它是从芯片端面入射的——PIC 需要先切割出质量合格的端面（深沟槽刻蚀或解理），光纤从侧面接近并对准这个端面。1dB 横向对准容差仅 ±1-2.5 μm，水平和垂直两个方向同时满足。
+
+**光栅耦合**从芯片表面耦合，不需要切割端面，做晶圆级测试很方便。但标准光栅耦合器插损 3-5 dB，1dB 带宽仅 30-40 nm，后向反射 5% 以上。在 CPO 的 4 dB 光损耗预算约束下（OIF 框架文档给出的单模 CPO 链路预算），标准光栅耦合器在最终组装中很难成立——发送和接收各一个，合计 6-10 dB 已经超预算。高级光栅设计（TSMC COUPE 的 ~1.2 dB 方案配合 iFAU）可以把这个数字拉回可用范围。
+
+### 6.2 光纤阵列单元（FAU）
+
+量产中用光纤阵列单元（FAU, fiber array unit）做多通道同步对准：多根光纤（常见 4/8/12/16 根，多则 24/36 根）精密排列在 V 形槽（V-groove）中，各纤芯间距控制到亚微米精度。FAU 作为一个整体与 PIC 的耦合器阵列对准，一次性完成所有通道的连接。
+
+V-groove 通常用硅各向异性湿法刻蚀形成——利用硅晶体的 \{111\} 面作为刻蚀停止面，槽的角度和深度由晶面自然定义，精度远高于机械加工。光纤嵌入槽中后，用玻璃盖板或 UV 胶固定，FAU 端面经研磨和抛光处理。
+
+### 6.3 主动对准与被动对准
+
+**主动对准**：上电测光功率，实时搜索最大耦合位置，找到后固定。耦合效率可以达到物理最优，但速度慢——每组通道需要几秒到几十秒的搜索时间——对准设备昂贵，且占据了产线的产能瓶颈。当前的 6 自由度纳米定位台可以达到 20-50 nm 的定位精度，光功率重复性 0.02 dB。
+
+**被动对准**：靠机械特征（对准标记、V-groove、stop block）定位，不测光信号。速度快（自动化拾放），但对所有参与配合的零件提出了累计精度要求。PIC 上的对准标记到波导中心的偏移、FAU 的 V-groove 位置、光纤芯-包同心度、贴装设备的精度——每一项误差在宏观上累加。纯被动对准要达到 ±1 μm 的单模边缘耦合容差极其困难。
+
+量产中常见的是**分级对准策略**：粗对准靠机械特征（被动），中段靠视觉识别 fiducial mark（半自动），最后精调靠主动搜索峰值（主动）。Intel 2025 年公开的一种混合方案：在 PIC 上刻 V 形槽与 FAU 上的 V 形凸起配合，将自由度限制为只剩一个轴，然后只在这个轴上做主动搜索——显著缩短了对准周期。
+
+对准的最终精度需求取决于耦合器类型。单模边缘耦合的 1dB 容差约 ±1-2.5 μm；TSMC COUPE 的垂直宽带耦合器（VBC）将光束扩至 35-50 μm 后，容差放宽到 ±10 μm 左右——这使得可拆卸连接器在光学上成为可能，而不必永久粘死。准直光束路径的 Z 向（沿光轴）容差可达 50-100 μm，进一步放宽了装配公差。
+
+### 6.4 固定与长期稳定性
+
+对准之后必须固定。UV 固化胶是最常用方案：对准到位后，用紫外光照射胶层使其快速固化，锁定位置。胶的选择涉及折射率匹配（降低 Fresnel 反射）、热膨胀系数（温度变化时不引入应力导致漂移）、模量（太硬传递应力，太软位置不稳定）和长期老化。
+
+温度和湿度变化是光纤对准长期稳定的最大敌人。基板热胀冷缩、胶层吸湿膨胀、光纤弯曲应力释放——这些因素综合起来，对准位置可能在几个月到几年的运行中漂移。OIF 对 ELSFP 环境测试的要求包括温度循环（-40~85°C）、湿热（85°C/85%RH）、热冲击等，目的就是加速暴露这种漂移。
+
+### 6.5 盲配连接器与 ELSFP 光接口
+
+ELSFP 的光接口是盲配（blind-mate）的范本。所谓盲配，是指模块推入笼体时，光连接器在不可见的情况下自动对准并接触。OIF ELSFP IA 对此有详细机械定义：
+
+- 模块侧使用无弹簧的 unpinned MT 插芯，8° 角抛光，端面不带 AR 涂层
+- 主机侧使用带弹簧的 pinned MT 插芯，导销从主机侧插入模块侧导孔
+- 可选气隙插芯（air-gap ferrule）：在插芯端面四周加约 9 μm 厚的 spacer 薄膜，使得两插芯端面不物理接触而是保持一个受控的气隙，端面有 AR 涂层（反射率 ≤0.5%）进一步降低反射。优点是插入损耗可重复性更好、清洁要求更低、插合力与纤芯数量无关
+- 插合顺序：粗对准（连接器外壳结构）→ 导销/导孔精细对准 → 端面接触 → 最后接通电气触点（模块 presence pin 信号通知主机"光路已通"）——这个顺序确保不会在光路未通的情况下开启激光
+
+前面板连接器是光链路预算中一个常被低估的损耗来源。51.2T 交换机可能有 256-1024 根光纤从前面板进出，每一个连接器的插损都存在长尾——少数"运气差"的连接器损耗远高于标称值。OIF 框架文档因此强调 CPO 交换机应使用超低损耗连接器：单模最大 0.35 dB、多模最大 0.2 dB（使用寿命初期），配合严格的连接器清洁规程，否则在数百根光纤的规模下，长尾损耗会吃掉整个链路预算。
+
+## 7. 热管理与机械应力
+
+CPO 把多个热源放在同一小块区域内，热管理因此不只是"加个散热器"的问题——温度场会改变折射率、移动共振波长、增加激光器阈值、加速老化，而机械应力会直接变成光学问题。
+
+### 7.1 热源与热路径
+
+CPO 封装内部的热源从大到小大致是：switch ASIC（数十到数百瓦）>> EIC（每颗数瓦到十瓦）> 激光器（约 0.5-1.5 W 电功耗，其中大部分变热）≈ PIC 加热器阵列（数十到上百通道，合计可达数瓦）。
+
+热从结（junction）到外部环境的路径：
 
 ```text
 die junction
 → die attach / bumps / underfill / backside
-→ substrate / interposer / heat spreader
-→ TIM
+→ 基板 / 中介层 / heat spreader
+→ TIM（thermal interface material）
 → lid / cold plate / heat sink
-→ airflow or liquid loop
+→ 风冷（空气流过散热片）或液冷（冷板内液体循环）
 ```
 
-| 热源或应力源 | 封装关注点 | 可能影响 |
-|---|---|---|
-| switch ASIC | 高热通量、冷板接触、lid planarity | 限制 optical engine 放置区域和局部温度场 |
-| EIC | driver / TIA 发热，贴近 PIC | 调制器漂移、PD 噪声、RF 性能和 bump 可靠性 |
-| laser | 结温、热阻、输出功率和老化 | 波长漂移、PCE 下降、RIN 和寿命余量 |
-| PIC heater | 调谐功耗、热串扰、反馈控制 | WDM channel drift、ring lock、startup calibration |
-| underfill / epoxy / solder | CTE、固化收缩、模量和热循环 | solder fatigue、PIC stress、warpage、coupling drift |
-| fiber attach | 光纤弯曲、拉力、胶材和端面 | 插损变化、回波损耗、长期机械稳定性 |
+每一步的界面热阻都不可忽略。TIM 的厚度、填隙能力、长期稳定性直接影响散热效率。裸片到基板之间的 underfill 层虽然主要功能是分担应力，但因为夹在热源和散热面之间，其导热系数也会影响结温。
 
-光子封装里的机械应力会直接变成光学问题。微小位移能改变 edge coupler loss；局部应力能改变 waveguide effective index；underfill 或 epoxy 固化收缩能改变 FAU 与 coupler 的相对位置；socket retention force 能影响 LGA 接触，也能改变封装基板平整度。热、机械和光学需要在同一个验证闭环里处理。
+### 7.2 温度对光学的多重影响
 
-## 光源和出纤位置改变热、损耗和可维护性
+温度不会只影响一个参数。对激光器，结温上升→阈值电流增加→斜率效率下降→输出功率下降→波长红移（~0.1 nm/°C）。对 PIC，温度上升→硅折射率升高（dn/dT ≈ 1.86×10⁻⁴ K⁻¹）→微环共振波长红移（~0.1 nm/°C）→MZM 偏置点漂移→AWG 通道位置偏移。
 
-光源位置是封装架构选择。光源可以在 optical engine 内部、封装边缘、独立 laser tile、异质集成区域，或外置 ELS / ELSFP 模块中。
+这意味着激光器和 PIC 必须**联动热管理**。如果 ASIC 负载波动（流量高峰时发热大，空闲时发热小），基底温度随之波动，激光器和 PIC 跟着一起漂。MRM 的闭环锁频环路必须持续追赶这个波动，而追赶本身又在消耗热调谐功率——形成"加热 → 调谐补偿 → 再加热"的正反馈环路。这是 CPO 热设计的核心矛盾之一。
 
-| 光源放置 | 主要收益 | 主要代价 |
-|---|---|---|
-| optical engine 内部 | 光路短，连接器少，集成关系清晰 | laser 受 ASIC / EIC 热影响，KGD 与返修压力集中 |
-| 封装边缘或 laser tile | 兼顾短光路和局部热隔离 | 光耦合、热沉、测试和装配流程更复杂 |
-| 外置 ELS / ELSFP | 光源远离 ASIC 热源，可现场更换，便于独立管理 | 连接器、偏振、反射、安全、fiber routing 和光功率预算更复杂 |
-| III-V-on-Si / bonded laser | 光路最短，集成度高 | 工艺整合、可靠性、热和规模量产难度高 |
+外置激光器方案将这道约束拆成两个独立问题：激光器结温由 ELSFP 自身的散热方案保证，PIC 的温控由封装内热路径处理。两者不耦合，设计复杂度大幅降低。这也是 ELSFP 在大型 CPO 交换机中受欢迎的一个重要原因。
 
-```mermaid
-graph LR
-    subgraph Substrate_A ["Package Substrate Boundary：内置光源"]
-        direction LR
-        ASIC_A["Switch ASIC / host package"] <-->|short high-speed electrical path| OE_A["Optical engine<br/>PIC + EIC + internal laser"]
-        OE_A --> FAU_A["fiber array"]
-    end
+### 7.3 机械应力如何变成光学偏移
 
-    style Substrate_A fill:#f4f7f6,stroke:#1d7a6b,stroke-width:2px,stroke-dasharray:5,5
-```
+光子封装中，机械应力和光学行为之间没有防火墙。几个关键耦合：
 
-```mermaid
-graph LR
-    subgraph Substrate_B ["Package Substrate Boundary：外置光源"]
-        direction LR
-        ASIC_B["Switch ASIC / host package"] <-->|short high-speed electrical path| OE_B["Optical engine<br/>PIC + EIC"]
-        OE_B --> FAU_B["fiber array"]
-    end
+- **underfill/环氧收缩**：固化时体积收缩产生应力，透过 Si 传递到波导，改变材料的局部折射率（光弹效应）。对 MZM 来说，两臂应力不对称会引入额外的相位偏置；对微环来说，应力改变 n_eff，共振波长跟着飘。
+- **CTE 失配**：Si 的热膨胀系数约 2.6 ppm/°C，有机基板约 10-17 ppm/°C，铜约 16.5 ppm/°C。温度循环下，不同材料的膨胀差转化为焊点剪切应力、基板翘曲和裸片弯曲。边缘耦合器对准对芯片端面的微小位移极为敏感——1 μm 的端面位移就可能造成可测量的耦合损耗增加。
+- **socket 保持力**：LGA 插座的压缩力通常由四角螺栓提供，力的分布是否均匀取决于基板平整度、螺栓扭矩控制和保持硬件的机械刚度。不均匀的压力透过基板影响光纤对准——这是一个"机械力→光学指标"的间接链路，容易被忽视。
 
-    ELS["ELSFP / external laser source"] -->|CW light over fiber| OE_B
+### 7.4 热机械联合设计
 
-    style Substrate_B fill:#f4f7f6,stroke:#1d7a6b,stroke-width:2px,stroke-dasharray:5,5
-    style ELS fill:#fffdf9,stroke:#d97706,stroke-width:2px
-```
+CPO 的热和机械必须联合设计。典型的工程方法是多物理场仿真：把 ASIC 功耗图、TIM 特性、基板叠层、underfill 材料属性和光纤固定胶的参数放进同一个模型，同时计算温度分布、应力分布和光学指标偏移。Ansys 与 TSMC 合作为 COUPE 建立的多物理场仿真平台就是做这件事——光学、电学、热学、机械在同一套模型里耦合求解，各维度一起收敛，而不是各自算完再拼结果。
 
-光学接口在封装页里承担系统接口角色：出纤方向、package edge、fiber bend radius、strain relief、blind-mate connector、cleaning access 和 front-panel / chassis routing。Edge coupler、grating coupler、lens 和 connector 的物理细节由 [Optical interface / fiber coupling](../optical-io/) 页面展开。
+## 8. 代表性封装方案
 
-## KGD 与返修决定封装能承受多少风险
+下面几个方案展示封装架构选择的多样性——从外置激光到 3D 异质集成的不同路径都有工程实例。不做市场排名。
 
-CPO 封装的经济风险来自高价值部件聚集。switch ASIC、PIC、EIC、laser、fiber array、substrate 和 assembly 都有自身良率；这些良率会在封装级累乘。
+### 8.1 TSMC COUPE（3D 堆叠 + 外置激光）
+
+TSMC 在 2024 年报中描述了 COUPE（Compact Universal Photonic Engine）的基本架构：第一代将电芯片（EIC）通过 SoIC 混合键合堆叠在光子芯片（PIC）上方，两片芯片以小于几微米的 bump pitch 垂直互连。COUPE 引擎随后通过 CoWoS 中介层与 switch ASIC 和 HBM 集成在同一封装内。
+
+COUPE 的物理逻辑是"垂直互连代替水平走线"。EIC 的 driver 输出端在几十微米的垂直距离内到达 PIC 的调制器电极，不需要毫米级的水平走线——寄生电感和电容压到极低，电光带宽可以推到 110 GHz 以上。
+
+光栅耦合器是 COUPE 的一个值得关注的细节。TSMC 放弃了传统光栅耦合器的 3-5 dB 插损路线，开发了低插损光栅耦合器（~1.2 dB）配合集成光纤阵列单元（iFAU），使得光栅耦合在最终组装中具备可行性。这打破了"CPO 必须用边缘耦合器"的惯例，同时保留了光栅耦合器在晶圆级测试中的便利。
+
+### 8.2 OIF ELSFP（外置激光源标准接口）
+
+ELSFP 是一份行业互操作标准，不绑定任何一家厂商。它的价值在于定义了外置激光源与系统的标准接口——机械尺寸、盲配光连接器、电气引脚、管理协议、激光安全流程——使得不同厂商的 ELSFP 模块可以互换。
+
+机械上，ELSFP 采用 OSFP 风格的外壳，前面板外露不超过 127 mm（5 英寸）。支持 1x1 单笼、1x4 排笼和 belly-to-belly 双面配置，每排 19" 机架最多 16 个模块。插芯可以是 12/24/36 芯 MT，可配物理接触或气隙端面。硬件键控（7-bit keying）防止不同波长分配或光纤类型的模块插入不兼容的端口。
+
+管理上，ELSFP 通过 CMIS（Common Management Interface Specification）与主机通信。上电流程有严格的安全设计：先低功率（&lt;15 dBm）检测链路损耗→确认合格后主机才允许升到全功率→任何时刻失去 interlock 信号立即在 250 ms 内执行自动功率衰减（APR）。这些安全链路的设计使得光纤输出的总功率远超传统的 IEC 60825-1 Class 1 限制，但系统整体仍然满足 Hazard Level 1 的人眼安全要求。
+
+### 8.3 Broadcom Bailly：量产 CPO 交换机的工程样本
+
+Broadcom 的 TH5-Bailly 是迄今公开信息最完整的大规模 CPO 量产案例。核心架构：
+
+- **交换芯片**：StrataXGS Tomahawk 5，51.2Tbps 总带宽
+- **光引擎**：8 颗 Bailly SCIP 硅光引擎，每颗承载 6.4T-FR4（16 通道 × 400G）
+- **端口**：128 个 400G FR4，前面板 128 个双工 LC 连接器
+- **封装形态**：4RU 交换机，也可缩至 3RU（Delta 方案）
+- **散热**：8 台风扇风冷，也可液冷
+- **激光源**：可现场更换的插拔式激光源（PLS），每颗 PLS 支持 8 个 400G 端口
+
+Meta 在 ECOC 2025 上公布了实测数据：CPO 端口功耗 5.4 W/端口，比同速率可插拔光模块（15 W/端口）降低约 65%。激光器结温低于 50°C，而同等可插拔模块中激光器结温约 80°C——30°C 的温差直接转化为数倍的寿命提升和更稳定的波长输出。Meta 报告了超过 100 万设备小时的 400G 端口运行，未出现不可纠正的误码字。
+
+Bailly 的工程要点有几个：光引擎在基板上的返修能力（公开资料未披露具体返修率）、PLS 作为可更换激光源对系统可靠性的解耦、以及 4RU 风冷形态对数据中心部署的兼容性。Bailly 之后，Broadcom 已宣布第三、第四代 CPO 引擎正在研发，分别基于 200G/通道和 400G/通道电接口。
+
+### 8.4 Intel OCI chiplet：光学 I/O 标准化的另一条思路
+
+Intel 的路线侧重将光引擎做成可复用的 chiplet（OCI, Optical Compute Interconnect）。OFC 2026 展示的方案：每颗 OCI chiplet 支持 8 对光纤 × 16 波长 DWDM × 64Gbps NRZ = 8Tbps，端到端效率约 5 pJ/bit，带宽密度 &gt;1 Tbps/mm。
+
+与 Broadcom 的"引擎与 ASIC 深度共基板"路径不同，Intel 强调 chiplet 的标准化和可移植性——OCI 通过 UCIe 等 die-to-die 接口与不同的 XPU 通信，同一颗 OCI 设计可以搭配 Xeon CPU 或 Gaudi AI 加速器。封装上使用 EMIB（嵌入式多芯片互连桥）将 PIC 与 XPU 集成，不需要整片硅中介层。
+
+Intel 拥有业界最大规模的片上异质集成 InP-on-SOI 激光器部署数据：超过 616 万颗激光器、415 亿设备小时运行后，FIT 率 0.05——远低于 OIF 框架文档中 50 FIT 的激光源目标。如果这个可靠性水平在量产中持续保持，内置激光器方案的经济可行性将大幅改善。
+
+### 8.5 其他工程路线
+
+**Ranovus Odin**：单片集成硅光平台（Global Foundries 45SPCLO），在同一芯片上做调制器、driver、PD 和 TIA。每引擎 6.4Tbps，微环调制器面积仅 0.12 mm²（同功能 MZM 需要 1.2-2.4 mm²），能效 2.8-4.5 pJ/bit。Ranovus 同时支持集成 DFB 激光器和外置 ELSFP 两种配置，是内置/外置双兼容的代表方案。
+
+**Ayar Labs TeraPHY**：同样走微环调制 + 外置激光路线，但强调光学 I/O chiplet 的标准化——光引擎作为独立 chiplet，与不同 ASIC 搭配，不绑定某一家代工厂的封装方案。Ayar Labs 已与 TSMC COUPE 平台对接，将 TeraPHY 引擎集成到 CoWoS 中介层上，与 AI 加速器和 HBM 并排。
+
+**NVIDIA 首代 CPO 交换机**（2025-2026）：采用微环调制器方案，外置激光源。MRM 的紧凑尺寸和低驱动电压（0.6-1 Vpp）天然适合 CPO 高密度需求，代价是每颗微环需要独立热调谐锁定——数十路热调谐 DAC 和闭环固件是系统控制复杂度的主要来源。
+
+## 9. KGD、良率与返修
+
+CPO 封装的经济逻辑受良率支配。OIF 框架文档给出的可靠性目标是：光引擎（不含激光器）10 FIT，3.2T 激光源 50 FIT，系统整体 &lt;1146 FIT，寿命 6 年。这里的核心数学是良率乘法。
+
+### 9.1 良率乘法与 KGD 的价值
+
+多芯片封装的良率可以近似为各组件良率的乘积：
 
 ```text
-package yield
-≈ ASIC yield
-× PIC KGD yield
-× EIC KGD yield
-× laser KGD yield
-× substrate yield
-× assembly yield
-× optical alignment yield
-× package-level test yield
+Y_package ≈ Y_ASIC × Y_PIC × Y_EIC × Y_laser × Y_substrate × Y_assembly × Y_test
 ```
 
-<TermNote label="KGD" note="known good die，已知良品裸片。它表示裸片通过了约定覆盖范围内的测试筛选，适合进入更高价值的封装流程。" /> 的价值在于提前拦截风险。封装越贵、返修越难，封装前筛选越重要。PIC 需要 wafer-level optical test 和 die sort；EIC 需要电学、高速和管理接口测试；laser 需要功率、光谱、RIN、SMSR、热和老化分档；FAU 与 optical subassembly 需要插损、几何和端面质量检查。
+如果有 8 个光引擎并联，引擎层面还要再乘一遍。假设每个引擎的良率是 95%，8 个引擎并联后引擎层的良率就变成了 0.95⁸ ≈ 66%。这意味着约三分之一的封装会在引擎环节失效——在已经装好 switch ASIC、焊好基板的情况下。
 
-| 结构 | 返修能力 | 良率含义 |
-|---|---|---|
-| soldered engine | 拆卸风险高，返修空间有限 | 依赖 KGD、装配良率和 package-level test 覆盖 |
-| socketed engine | 可替换性较好 | retention、接触可靠性和面积换取返修能力 |
-| external laser / ELSFP | 光源可现场更换 | laser 良率与主封装解耦，光连接和管理更复杂 |
-| pre-assembled optical engine | 可在进入 ASIC package 前测试 | engine 成为可筛选子组件，增加子装配流程 |
+这就是 KGD（known good die）的用武之地。KGD 的意思是"这颗裸片在进入封装之前，已经通过了足够充分的测试，可以合理相信它是好的"。激光器需要 bar 级或 chip 级的 LIV、光谱、RIN 和老化筛选；PIC 需要晶圆级光探针测试（插损、调制器带宽、PD 响应度）；EIC 需要电学、高速和管理接口测试。封装越贵、返修越难，进入封装前拦截不良品的经济价值越大。
 
-成熟制造依赖数据闭环：wafer map、bump inspection、fiber alignment log、thermal test、BER / eye data、failure analysis 和 field return 数据要能回到设计规则、工艺窗口和供应链分档。
+### 9.2 返修策略
 
-## 接口合同让相邻团队可以并行工作
+返修能力是 CPO 架构选择的分水岭。焊接式引擎一旦焊死，局部加热拆卸的风险很高——热会传到周围的好芯片，可能导致焊点二次熔化、基板分层或裸片损伤。实践中焊接式引擎的返修成功率有限，多数情况下整块基板报废。
 
-封装页最终收束到一组接口合同。每个接口都有几何、电学、光学、热学和可靠性条件。
+插座式引擎的返修可行性好很多：拆下旧引擎、清洁 pads、装上新引擎、重新施加保持力。代价前面已经分析过——保持机构占面积、LGA 接触可靠性和压力均匀性需要额外验证。
+
+外置激光器（ELSFP）的返修最简单：它就是前面板的一个模块。拔出旧模块、插入新模块、管理系统重新识别和校准——几十秒内完成。这也是为什么在高价值、高密度交换机中，外置激光方案得到最多实际采用。
+
+### 9.3 测试反馈闭环
+
+CPO 封装的数据闭环比传统可插拔模块更复杂：wafer map→die sort→贴装检查→光纤对准记录→热测试→眼图/BER→burn-in→场返还失效分析，每个节点的数据都要反馈到前序工艺。例如，一批封装的边缘耦合损耗普遍偏高 0.5 dB，需要追溯是 PIC 端面质量批次性变差、还是光纤对准设备的校准漂移、还是固化胶的批次差异。没有这个反馈链，封装良率就停在"测出来才知道"的水平，无法前馈到设计规则和工艺窗口。
+
+## 10. 接口合同
+
+封装的最终交付是一组接口合同。每个子系统都给定一组可量化、可验证的边界条件，封装的任务是保证这些条件在装配和运行中持续成立。
 
 | 接口 | 典型指标 | 主要协作对象 |
 |---|---|---|
-| ASIC ↔ substrate / interposer | channel loss、return loss、crosstalk、power integrity、BGA / LGA pitch | host / ASIC / board |
-| EIC ↔ PIC | RF path length、impedance、bump pitch、pad capacitance、ground return、skew | EIC 与 PIC |
-| PIC ↔ fiber array | coupling loss、alignment tolerance、PDL、back reflection、pitch、thermal drift | Optical interface |
-| laser ↔ PIC | coupled power、PER、reflection tolerance、thermal resistance、wavelength margin | 激光源、PIC、operations |
-| package ↔ thermal solution | thermal resistance、junction temperature、hot spot、TIM void、lid flatness | system thermal |
-| package ↔ mechanical system | warpage、CTE match、shock / vibration、strain relief、socket force | mechanical / reliability |
-| package ↔ test / operations | KGD coverage、monitor telemetry、fault isolation、rework path、field replaceability | Manufacturing/Test 与 Reliability |
+| ASIC ↔ 基板/中介层 | channel loss、回波损耗、串扰、电源完整性、BGA/LGA pitch | host ASIC、基板设计 |
+| EIC ↔ PIC | RF 路径长度、特性阻抗、bump pitch、pad 电容、接地回路、skew | EIC 与 PIC |
+| PIC ↔ 光纤阵列 | 耦合损耗、对准容差、PDL、回波反射、光纤间距、温度漂移 | Optical interface |
+| 激光器 ↔ PIC | 耦合功率、PER、反射容忍度、热阻、波长余量 | 激光源、PIC、运维 |
+| 封装 ↔ 散热方案 | 热阻、结温、热点、TIM 空洞率、lid 平面度 | 系统热设计 |
+| 封装 ↔ 机械系统 | 翘曲、CTE 匹配、冲击/振动、光纤应力释放、socket 保持力 | 机械/可靠性 |
+| 封装 ↔ 测试/运维 | KGD 覆盖率、监测遥测、故障定位、返修路径、现场可更换性 | Manufacturing/Test 与 Reliability |
 
-判断一个 CPO 封装方案时，应看它能否在目标速率、光功率预算、热路径、机械稳定、KGD、返修和现场服务之间留下工程余量。单项材料或单张封装截面图都不足以说明方案成熟；可重复装配、可测试、可追溯和可运营，才是封装集成的最终交付。
+这些接口合同使得不同团队可以并行工作。ASIC 团队不必完全了解 PIC 上微环的热调谐算法，只要保证基板侧的电通道满足损耗和串扰预算；PIC 团队不必完全了解 EIC 的 driver 架构，只要保证调制器电极的阻抗和 pad 电容在约定范围内；光纤装配团队不必完全了解调制器的带宽，只要保证耦合损耗和 PDL 在约定窗口内。
 
-进一步阅读：
+成熟的 CPO 封装方案，需要在目标速率、光功率预算、热路径、机械稳定、KGD 覆盖和返修/服务之间留下工程余量，并且让这套余量在每个接口上都可测量、可追溯。单张截面图或单颗样品的测试数据不足以做出这个判断。
 
-- [OIF: Co-Packaging Framework Document](https://www.oiforum.com/wp-content/uploads/OIF-Co-Packaging-FD-01.0.pdf)
-- [OIF: External Laser Small Form Factor Pluggable Implementation Agreement](https://www.oiforum.com/wp-content/uploads/OIF-ELSFP-01.0.pdf)
-- [OIF: Management of External Light Sources and Co-Packaged Optical Engines](https://www.oiforum.com/wp-content/uploads/OIF-MGT-Co-Packaging-ELSFP-01.0.pdf)
-- [Amkor: Flip Chip Packaging](https://amkor.com/wp-content/uploads/2018/02/Flip_Chip_TS102.pdf)
-- [Amkor: Copper Pillar Flip Chip](https://amkor.com/wp-content/uploads/2018/02/Copper_Pillar_Flip_Chip_TS106.pdf)
-- [Amkor: 2.5D Package and HDFO technical article](https://amkor.com/wp-content/uploads/2018/12/Amkor_2.5D_Package_and_HDFO_Technical_Article_EN.pdf)
-- [ASE: Silicon Photonics](https://ase.aseglobal.com/silicon-photonics/)
-- [ASE: 2.5D and 3D IC Packaging](https://ase.aseglobal.com/3d-ic-packaging/)
-- [TSMC 2024 Annual Report](https://investor.tsmc.com/static/annualReports/2024/english/ebook/files/basic-html/page102.html)
-- [Ansys and TSMC Enable a Multiphysics Platform for Optics and Photonics](https://investors.ansys.com/news-releases/news-release-details/ansys-and-tsmc-enable-multiphysics-platform-optics-and-photonics/)
+---
+
+<p class="page-nav">
+  <a href="../eic/">← EIC / 驱动与接收</a>
+  <a href="../">↑ 组件总览</a>
+  <a href="../optical-io/">Optical interface / fiber coupling →</a>
+</p>
