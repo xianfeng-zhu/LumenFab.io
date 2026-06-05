@@ -1,0 +1,147 @@
+---
+interface Props { title?: string; caption?: string; }
+const {
+  title = "近封装光学（NPO）架构",
+  caption = "ASIC 通过 LGA 插座装在 PCB 中央，光引擎模块在 PCB 上 50–150 mm 外通过插座连接。激光由前面板 ELSFP 提供，经板上光纤路由到引擎。"
+} = Astro.props;
+const idx = [
+  ["pcb","#334155","主板 PCB"],["asicPkg","#1e40af","ASIC 封装"],["asicDie","#3b82f6","ASIC 裸片"],["asicHs","#94a3b8","ASIC 散热器"],["socketAsic","#78716c","LGA 插座"],["bolt","#57534e","保持螺栓"],["oe","#0d9488","光引擎模块"],["eic","#7c3aed","EIC 裸片"],["pic","#0d9488","PIC 裸片"],["elsfp","#f59e0b","ELSFP 激光源"],["fiber","#ef4444","板上光纤"],["trace","#f97316","PCB 走线"],
+];
+---
+<figure class="arch-model">
+  <div class="arch-model__viewport" data-arch-model>
+    <canvas aria-label={title}></canvas>
+    <div class="arch-model__controls">
+      <button type="button" data-arch-explode-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 1.5L11 5.5"/><path d="M3 8.5L7 12.5L11 8.5"/></svg>
+        <span>分层展开</span>
+      </button>
+    </div>
+  </div>
+  <div class="arch-model__index" aria-label="结构索引">
+    {idx.map(([k,c,l]) => <button type="button" data-arch-part-index={k} style={`--part-color: ${c}`}>{l}</button>)}
+  </div>
+  <div class="arch-model__info" data-arch-part-info aria-live="polite">
+    <strong data-arch-part-title>架构说明</strong>
+    <span data-arch-part-body>旋转模型观察各组件。NPO 的核心特征：ASIC 独立 LGA 插座封装 + PCB 上的光引擎模块 + 前面板 ELSFP 供光。</span>
+  </div>
+  <figcaption><strong>{title}</strong><span>{caption}</span></figcaption>
+</figure>
+
+<script>
+import*as THREE from"three";import{OrbitControls}from"three/examples/jsm/controls/OrbitControls.js";
+const ROOTS=document.querySelectorAll("[data-arch-model]");
+const PI={
+  pcb:{color:"#334155",title:"主板 PCB",body:"系统主板。ASIC LGA 插座和光引擎模块都装在同一块 PCB 上。NPO 中 ASIC 与引擎之间的电径约 50–150 mm——比可插拔短，比焊接式 CPO 长。"},
+  asicPkg:{color:"#1e40af",title:"ASIC 封装",body:"包含有机基板和 ASIC 裸片的独立 FCBGA 封装。与 CPO 不同，ASIC 封装不与光引擎共享基板——它通过自己的 LGA 插座独立连接到主板。"},
+  asicDie:{color:"#3b82f6",title:"ASIC 裸片",body:"网络交换芯片裸片，封装在独立的 FCBGA 载体内。功耗最大，也是最主要的散热对象。"},
+  asicHs:{color:"#94a3b8",title:"ASIC 散热器",body:"覆盖 ASIC 封装顶部的大型翅片散热器。NPO 的散热优势在于 ASIC 热源与光引擎热源物理分离，各自的散热方案互不干扰。"},
+  socketAsic:{color:"#78716c",title:"LGA 插座",body:"ASIC 封装与主板之间的 Land Grid Array 插座。不含焊球——通过平坦焊盘阵列 + 外部压力实现电气接触。可拆卸，便于 ASIC 的独立测试和返修。"},
+  bolt:{color:"#57534e",title:"保持螺栓",body:"LGA 插座四角的压缩螺栓。施加均匀压力使插座内的弹簧触点与焊盘可靠接触。螺栓扭矩直接影响接触电阻和信号完整性。"},
+  oe:{color:"#0d9488",title:"光引擎模块",body:"独立的表面贴装模块，包含 PIC + EIC 裸片和一个小子基板。通过插座或连接器装在 PCB 上，而非与 ASIC 共享基板。每个引擎可独立测试和返修。"},
+  eic:{color:"#7c3aed",title:"EIC 裸片",body:"电子集成电路（driver + TIA）。贴在光引擎模块的子基板上，紧邻 PIC 裸片。通过短 microbump 互连连接到 PIC。"},
+  pic:{color:"#0d9488",title:"PIC 裸片",body:"硅光子芯片。承载波导、调制器和探测器。一侧连接 EIC 接收驱动信号，另一侧通过边缘耦合器连接光纤阵列。激光由 ELSFP 通过板上光纤提供。"},
+  elsfp:{color:"#f59e0b",title:"ELSFP 激光源",body:"前面板可插拔的外置激光模块。OIF 标准定义，盲配光电连接器将 CW 光送入主板上的内部光纤路由网络，再分配到各光引擎。远离 ASIC 热区，可现场更换。"},
+  fiber:{color:"#ef4444",title:"板上光纤",body:"从前面板 ELSFP 到各光引擎模块的保偏光纤。在 PCB 表面路由，需考虑弯曲半径（≥30 mm）和应力释放。NPO 中光纤在板上的可见性是区别于 CPO 的视觉标志。"},
+  trace:{color:"#f97316",title:"PCB 高速走线",body:"ASIC LGA 插座到光引擎模块之间的 PCB 差分走线。50–150 mm，介于可插拔（200 mm）和焊接 CPO（<5 mm）之间。损耗约 3–8 dB。"},
+};
+const m=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.55,metalness:.05,...o});
+function box(w,h,d,c,opts={}){const{opacity=1,roughness=.55,metalness=.05}=opts;const mt=m(c,{transparent:opacity<1,opacity,roughness,metalness,...(opacity<1?{depthWrite:false}:{})});const me=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mt);return me;}
+function hb(w,h,d,x,y,z,k,p=2){const me=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));me.position.set(x,y,z);return t(me,k,true,p);}
+function t(o,k,hp=false,pri=0){o.userData={partKey:k,hitProxy:hp,selectionPriority:pri};return o;}
+
+for(const root of ROOTS){
+  const c=root.querySelector("canvas");if(!c)continue;
+  const sc=new THREE.Scene();sc.background=null;
+  const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.outputColorSpace=THREE.SRGBColorSpace;r.setPixelRatio(Math.min(devicePixelRatio,2));
+  const cam=new THREE.PerspectiveCamera(36,1.6,.5,50);cam.position.set(6,4.2,7.5);cam.lookAt(0,.3,0);
+  const ct=new OrbitControls(cam,r.domElement);ct.target.set(0,.3,0);ct.enableDamping=true;ct.dampingFactor=.08;ct.maxPolarAngle=Math.PI*.7;ct.update();
+  sc.add(new THREE.AmbientLight(0xffffff,.9));const kl=new THREE.DirectionalLight(0xffffff,1.6);kl.position.set(8,12,6);sc.add(kl);sc.add(new THREE.DirectionalLight(0xbae6fd,.55)).position.set(-4,3,-3);sc.add(new THREE.DirectionalLight(0xffffff,.45)).position.set(0,1.5,-6);
+  const chip=new THREE.Group();sc.add(chip);const ls=[];function al(k){const g=new THREE.Group();g.userData={layerKey:k,layerIndex:ls.length};ls.push(g);chip.add(g);return g;}
+  const lPcb=al("pcb"),lAsic=al("asic"),lOe=al("oe"),lElsfp=al("elsfp"),lFiber=al("fiber"),lTrace=al("trace");
+
+  let y=0;const pH=.2,pW=10,pD=6.5;
+  const pcb=box(pW,pH,pD,0x334155,{roughness:.8});pcb.position.set(0,y+pH/2,0);lPcb.add(t(pcb,"pcb"));y+=pH;
+
+  // ASIC LGA socket + bolts
+  const skH=.15,skW=3.5,skD=3.5;
+  const sk=box(skW,skH,skD,0x78716c,{roughness:.45,metalness:.4});sk.position.set(0,y+skH/2,-.3);lAsic.add(t(sk,"socketAsic"));
+  lAsic.add(hb(skW*1.1,skH*1.5,skD*1.1,0,y+skH/2,-.3,"socketAsic"));
+  // 4 corner bolts
+  for(const[bx,bz]of[[-1.5,-1.5],[-1.5,1.5],[1.5,-1.5],[1.5,1.5]]){
+    const bt=new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,skH+.15,8),m(0x57534e,{roughness:.3,metalness:.6}));bt.position.set(bx,y+skH/2,bz-.3);lAsic.add(t(bt,"bolt"));
+  }
+  // ASIC package on socket
+  const apH=.4,apW=3,apD=3;
+  const ap=box(apW,apH,apD,0x1e40af,{roughness:.4});ap.position.set(0,y+skH+apH/2,-.3);lAsic.add(t(ap,"asicPkg"));
+  lAsic.add(hb(apW*1.1,apH*1.1,apD*1.1,0,y+skH+apH/2,-.3,"asicPkg"));
+  const ad=box(1.6,.2,1.6,0x3b82f6,{roughness:.25});ad.position.set(0,y+skH+apH+.1,-.3);lAsic.add(t(ad,"asicDie"));
+  const ah=box(2.8,.6,2.8,0x94a3b8,{roughness:.45,metalness:.35});ah.position.set(0,y+skH+apH+.5,-.3);lAsic.add(t(ah,"asicHs"));
+  for(let fx=-1.2;fx<=1.2;fx+=.25){const f=box(.06,.3,2.8,0x94a3b8,{roughness:.4,metalness:.4});f.position.set(fx,y+skH+apH+.9,-.3);lAsic.add(f);}
+  const asicTop=y+skH+apH;
+
+  // PCB traces from ASIC socket area to OE modules
+  for(let tx=-2;tx<=2;tx+=.5){for(let tz=1.2;tz<=3;tz+=.3){const tr=box(.03,.01,.8,0xf97316,{roughness:.3,metalness:.5});tr.position.set(tx,y+pH+.01,tz);lTrace.add(tr);}}
+  lTrace.add(hb(5,.05,4,0,y+pH+.02,2.5,"trace",0));
+
+  // Optical engine modules (2 shown, near edges)
+  for(const[ox,oz,fx]of[[2.8,2.5,4.8],[-2.8,2.5,4.8]]){
+    const oesH=.15,oesW=1.2,oesD=.9;
+    const oes=box(oesW,oesH,oesD,0x475569,{roughness:.5});oes.position.set(ox,y+oesH/2,oz);lOe.add(oes);
+    // EIC+PIC on module substrate
+    const eic=box(.5,.12,.5,0x7c3aed,{roughness:.25});eic.position.set(ox-.25,y+oesH+.06,oz);lOe.add(t(eic,"eic"));
+    const pic=box(.55,.1,.5,0x0d9488,{roughness:.25});pic.position.set(ox+.25,y+oesH+.05,oz);lOe.add(t(pic,"pic"));
+    // module hit target
+    lOe.add(hb(oesW*1.3,oesH+.3,oesD*1.3,ox,y+oesH/2+.05,oz,"oe"));
+    // fiber from ELSFP area to module
+    const fb=box(.05,.03,fx-oz,0xef4444);fb.position.set(ox-.1,y+oesH+.2,(oz+fx)/2);lFiber.add(t(fb,"fiber"));
+  }
+
+  // ELSFP module at front panel
+  const ez=5,eh=.4,ew=1.5,ed=2;
+  const elsfp=box(ew,eh,ed,0xf59e0b,{roughness:.35,metalness:.35});elsfp.position.set(0,y+eh/2,ez);lElsfp.add(t(elsfp,"elsfp"));
+  lElsfp.add(hb(ew*1.2,eh*1.2,ed*1.2,0,y+eh/2,ez,"elsfp"));
+  // fiber from ELSFP to center routing
+  const fb2=box(.05,.03,ez-3.5,0xef4444);fb2.position.set(0,y+eh+.1,(ez+3.5)/2);lFiber.add(fb2);
+
+  for(const l of ls)l.userData.baseY=l.position.y;
+
+  // selection system (identical across all models)
+  const rc=new THREE.Raycaster();const pt=new THREE.Vector2();let sp="",ptd=null;const dt=5,ro=.06;
+  const sb=(o)=>{if(!o.material||o.userData._sb)return;o.userData._sb=true;o.userData._op=o.material.opacity??1;o.userData._tr=!!o.material.transparent;o.userData._dw=o.material.depthWrite;o.userData._cl=o.material.color?.getHex();o.userData._em=o.material.emissive?.getHex();};
+  const fig=root.closest("figure");const ib=fig?.querySelectorAll("[data-arch-part-index]")||[];const iT=fig?.querySelector("[data-arch-part-title]");const iB=fig?.querySelector("[data-arch-part-body]");const eb=fig?.querySelector("[data-arch-explode-toggle]");
+  const ss=(k)=>{if(!k||!PI[k])return;if(sp===k){cs();return;}sp=k;if(iT){iT.textContent=PI[k].title;iT.style.setProperty("--ptc",PI[k].color);}if(iB)iB.textContent=PI[k].body;for(const b of ib){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed",String(bp===k));}dm(k);};
+  const cs=()=>{sp="";if(iT){iT.textContent="架构说明";iT.style.removeProperty("--ptc");}if(iB)iB.textContent="旋转模型观察各组件。NPO 的核心特征：ASIC 独立 LGA 插座封装 + PCB 上的光引擎模块 + 前面板 ELSFP 供光。";for(const b of ib){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed","false");}chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;sb(o);o.material.opacity=o.userData.hitProxy?0:(o.userData._op??1);o.material.transparent=o.userData.hitProxy||!!o.userData._tr;if(typeof o.userData._dw==="boolean")o.material.depthWrite=o.userData._dw;if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;});};
+  const dm=(k)=>{chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;sb(o);if(o.userData.hitProxy){o.material.opacity=0;o.material.transparent=true;o.material.needsUpdate=true;return;}const sel=o.userData.partKey===k;const tgt=sel?Math.min(1,Math.max(o.userData._op??1,.82)):Math.min(o.userData._op??1,ro);if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);o.material.opacity=tgt;o.material.transparent=o.userData._tr||tgt<1;o.material.depthWrite=sel?(o.userData._dw??true):false;if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;});};
+  const fh=(hs)=>hs.filter(h=>h.object.userData.partKey).sort((a,b)=>{const d=(b.object.userData.selectionPriority||0)-(a.object.userData.selectionPriority||0);return d||a.distance-b.distance;})[0];
+  const pk=(e)=>{const rect=r.domElement.getBoundingClientRect();pt.x=((e.clientX-rect.left)/rect.width)*2-1;pt.y=-((e.clientY-rect.top)/rect.height)*2+1;rc.setFromCamera(pt,cam);const h=fh(rc.intersectObject(chip,true));if(h)ss(h.object.userData.partKey);};
+  c.addEventListener("pointerdown",e=>{if(e.button!==0)return;ptd={x:e.clientX,y:e.clientY};c.style.cursor="grabbing";});
+  c.addEventListener("pointermove",e=>{if(e.buttons===0){const rect=c.getBoundingClientRect();pt.x=((e.clientX-rect.left)/rect.width)*2-1;pt.y=-((e.clientY-rect.top)/rect.height)*2+1;rc.setFromCamera(pt,cam);c.style.cursor=fh(rc.intersectObject(chip,true))?"pointer":"grab";}});
+  c.addEventListener("pointerup",e=>{if(!ptd)return;const d=Math.hypot(e.clientX-ptd.x,e.clientY-ptd.y);if(d<dt)pk(e);ptd=null;c.style.cursor="grab";});
+  for(const b of ib){b.style.setProperty("--part-color",PI[b.getAttribute("data-arch-part-index")]?.color||"var(--border)");b.addEventListener("click",()=>ss(b.getAttribute("data-arch-part-index")));}
+  let ie=false;const eg=.7,es=.08;eb?.addEventListener("click",()=>{ie=!ie;eb.setAttribute("aria-pressed",String(ie));});
+  const rz=()=>{const{width}=root.getBoundingClientRect();const h=Math.max(380,Math.min(560,width*.6));root.style.setProperty("--mh",`${h}px`);r.setSize(width,h,false);cam.aspect=width/h;cam.updateProjectionMatrix();};
+  new ResizeObserver(rz).observe(root);rz();
+  const an=()=>{requestAnimationFrame(an);const et=ie?eg:0;for(let i=0;i<ls.length;i++){const cu=ls[i].userData._ey||0;const t=i*et;const n=cu+(t-cu)*es;ls[i].userData._ey=n;ls[i].position.y=(ls[i].userData.baseY||0)+n;}ct.update();r.render(sc,cam);};an();
+  document.addEventListener("astro:before-swap",()=>{r.dispose();},{once:true});
+}
+</script>
+<style>
+  .arch-model { margin: 2rem 0; }
+  .arch-model__viewport { position: relative; background: var(--sl-color-gray-1,#f8fafc); border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 8px; overflow: hidden; min-height: 380px; height: var(--mh,400px); }
+  .arch-model__viewport canvas { display: block; width: 100%; height: 100%; }
+  .arch-model__controls { position: absolute; bottom: 10px; left: 10px; display: flex; gap: 5px; z-index: 2; }
+  .arch-model__controls button { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: rgba(248,250,252,0.9); color: var(--sl-color-gray-5,#475569); cursor: pointer; backdrop-filter: blur(4px); transition: all 0.15s; }
+  .arch-model__controls button:hover { border-color: var(--sl-color-accent,#0d9488); color: var(--sl-color-accent,#0d9488); }
+  .arch-model__controls button[aria-pressed="true"] { background: var(--sl-color-accent,#0d9488); color: #fff; border-color: var(--sl-color-accent,#0d9488); }
+  .arch-model__index { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .arch-model__index button { padding: 3px 8px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: var(--sl-color-gray-1,#f8fafc); color: var(--sl-color-gray-5,#475569); cursor: pointer; transition: all 0.15s; }
+  .arch-model__index button:hover { border-color: var(--part-color,#0d9488); box-shadow: inset 0 0 0 1px var(--part-color,#0d9488); }
+  .arch-model__index button[aria-pressed="true"] { background: var(--part-color,#0d9488); color: #fff; border-color: var(--part-color,#0d9488); }
+  .arch-model__info { margin-top: 0.6rem; font-size: 0.82rem; color: var(--sl-color-gray-5,#475569); line-height: 1.55; }
+  .arch-model__info strong { display: block; color: var(--sl-color-gray-6,#334155); }
+  .arch-model__info strong::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--ptc,var(--sl-color-accent,#0d9488)); margin-right: 5px; vertical-align: middle; position: relative; top: -1px; }
+  figcaption { margin-top: 0.3rem; font-size: 0.75rem; color: var(--sl-color-gray-4,#94a3b8); text-align: center; }
+  figcaption strong { font-weight: 600; color: var(--sl-color-gray-5,#64748b); }
+  figcaption span { display: block; }
+</style>

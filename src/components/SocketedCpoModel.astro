@@ -1,0 +1,142 @@
+---
+interface Props { title?: string; caption?: string; }
+const {
+  title = "插座式 CPO 架构",
+  caption = "ASIC 和光引擎共享同一块封装基板，但引擎通过 LGA 插座 + 保持螺栓连接而非焊接。引擎可单独返修。可旋转，可分层展开。"
+} = Astro.props;
+const idx = [
+  ["pcb","#334155","主板 PCB"],["bga","#94a3b8","BGA 焊球"],["substrate","#475569","封装基板"],["asic","#1e40af","Switch ASIC"],["asicHs","#94a3b8","ASIC 散热器"],["socket","#78716c","LGA 插座框架"],["bolt","#57534e","保持螺栓"],["engine","#0d9488","光引擎模块"],["eic","#7c3aed","EIC 裸片"],["pic","#0d9488","PIC 裸片"],["fiber","#ef4444","光纤阵列"],["pad","#cbd5e1","LGA 接触焊盘"],
+];
+---
+<figure class="arch-model">
+  <div class="arch-model__viewport" data-arch-model>
+    <canvas aria-label={title}></canvas>
+    <div class="arch-model__controls">
+      <button type="button" data-arch-explode-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 1.5L11 5.5"/><path d="M3 8.5L7 12.5L11 8.5"/></svg>
+        <span>分层展开</span>
+      </button>
+    </div>
+  </div>
+  <div class="arch-model__index" aria-label="结构索引">
+    {idx.map(([k,c,l]) => <button type="button" data-arch-part-index={k} style={`--part-color: ${c}`}>{l}</button>)}
+  </div>
+  <div class="arch-model__info" data-arch-part-info aria-live="polite">
+    <strong data-arch-part-title>架构说明</strong>
+    <span data-arch-part-body>焊接式 CPO 与插座式 CPO 的核心区别：引擎通过 LGA 插座（非 BGA 焊接）连接基板。四个角的保持螺栓和插座框架是视觉上最明显的特征。</span>
+  </div>
+  <figcaption><strong>{title}</strong><span>{caption}</span></figcaption>
+</figure>
+
+<script>
+import*as THREE from"three";import{OrbitControls}from"three/examples/jsm/controls/OrbitControls.js";
+const ROOTS=document.querySelectorAll("[data-arch-model]");
+const PI={
+  pcb:{color:"#334155",title:"主板 PCB",body:"系统主板。封装通过底部 BGA 焊球连接到主板。插座式 CPO 的整个封装组件（基板 + ASIC + 引擎插座）作为一个整体焊在主板上。"},
+  bga:{color:"#94a3b8",title:"BGA 焊球阵列",body:"封装基板底面到主板顶面的焊球阵列。球距 0.4–1.0 mm，永久焊接。注意：ASIC 和整个封装基板都用 BGA 连接主板，只有光引擎模块使用 LGA 插座（在基板上方）。"},
+  substrate:{color:"#475569",title:"有机封装基板",body:"ASIC 和引擎插座的共同底座。4–18 层积层，承担电源分配、高速走线和全局机械支撑。插座式 CPO 的基板需要为每个引擎预留 LGA 焊盘区域和螺栓安装孔。"},
+  asic:{color:"#1e40af",title:"Switch ASIC 裸片",body:"位于基板中央。通过 BGA 或铜柱直接焊在基板上——ASIC 不走插座，因为它不需要频繁返修，且焊接的电性能优于插座。"},
+  asicHs:{color:"#94a3b8",title:"散热盖 / Lid",body:"覆盖 ASIC 和所有引擎上方的金属散热盖，通过 TIM 将热量统一导出。插座式引擎比焊接式略高（插座增加高度），lid 需要为此留出高度差。"},
+  socket:{color:"#78716c",title:"LGA 插座框架",body:"围绕每个引擎模块的金属框架，固定在基板上。内部含弹簧触点阵列或弹性互连介质。引擎放在框架内，被保持螺栓压紧后，引擎底面的 LGA 焊盘与基板表面的对应焊盘通过压力接触。注意：没有 underfill——那是永久粘接，与插座可返修的设计目的矛盾。"},
+  bolt:{color:"#57534e",title:"保持螺栓",body:"四角螺栓 + 弹簧垫圈，将引擎模块压紧在 LGA 插座内。螺栓扭矩需要精确控制——过小导致接触电阻大或断续，过大导致基板局部变形、影响相邻引擎的对准和光纤耦合。"},
+  engine:{color:"#0d9488",title:"光引擎模块",body:"包含 EIC 和 PIC 裸片的小型模块，放在 LGA 插座框架内，被保持螺栓压紧。可单独拆卸和更换——这是插座式相对于焊接式 CPO 的核心优势。"},
+  eic:{color:"#7c3aed",title:"EIC 裸片 (driver+TIA)",body:"贴在引擎模块基板上的电子 IC。紧邻 PIC，通过 microbump 互连。信号路径：ASIC→基板走线→插座触点→引擎模块基板→EIC→microbump→PIC。"},
+  pic:{color:"#0d9488",title:"PIC 裸片 (硅光子)",body:"光子集成电路。一侧通过 microbump 连接 EIC 接收驱动信号，另一侧连接光纤阵列。插座式方案中 PIC 的对准精度会受螺栓压力和基板平整度的影响——是良率的关键控制点。"},
+  fiber:{color:"#ef4444",title:"光纤阵列",body:"从 PIC 边缘耦合器向外引出。插座式方案中光纤通常固定在引擎模块上（而非基板），随引擎一起插拔。这对光纤连接器的可重复插拔精度提出了很高要求。"},
+  pad:{color:"#cbd5e1",title:"LGA 接触焊盘",body:"引擎模块底面和基板顶面的平坦金属焊盘阵列。不同于 BGA 的球形焊点，LGA 焊盘是平的——电气连接全靠螺栓施加的压力维持。焊盘表面通常镀金以防氧化。"},
+};
+const m=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.55,metalness:.05,...o});
+function box(w,h,d,c,opts={}){const{opacity=1,roughness=.55,metalness=.05}=opts;const mt=m(c,{transparent:opacity<1,opacity,roughness,metalness,...(opacity<1?{depthWrite:false}:{})});return new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mt);}
+function hb(w,h,d,x,y,z,k,p=2){const me=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));me.position.set(x,y,z);return t(me,k,true,p);}
+function t(o,k,hp=false,pri=0){o.userData={partKey:k,hitProxy:hp,selectionPriority:pri};return o;}
+
+for(const root of ROOTS){
+  const c=root.querySelector("canvas");if(!c)continue;
+  const sc=new THREE.Scene();sc.background=null;
+  const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.outputColorSpace=THREE.SRGBColorSpace;r.setPixelRatio(Math.min(devicePixelRatio,2));
+  const cam=new THREE.PerspectiveCamera(36,1.6,.5,50);cam.position.set(5.5,4.5,7);cam.lookAt(0,.4,0);
+  const ct=new OrbitControls(cam,r.domElement);ct.target.set(0,.4,0);ct.enableDamping=true;ct.dampingFactor=.08;ct.maxPolarAngle=Math.PI*.7;ct.update();
+  sc.add(new THREE.AmbientLight(0xffffff,.9));const kl=new THREE.DirectionalLight(0xffffff,1.6);kl.position.set(8,12,6);sc.add(kl);sc.add(new THREE.DirectionalLight(0xbae6fd,.55)).position.set(-4,3,-3);sc.add(new THREE.DirectionalLight(0xffffff,.45)).position.set(0,1.5,-6);
+  const chip=new THREE.Group();sc.add(chip);const ls=[];function al(k){const g=new THREE.Group();g.userData={layerKey:k,layerIndex:ls.length};ls.push(g);chip.add(g);return g;}
+  const lPcb=al("pcb"),lBga=al("bga"),lSub=al("substrate"),lDies=al("dies"),lSocket=al("socket"),lFiber=al("fiber");
+
+  let y=0;const ph=.2,pw=9.5,pd=6.5;
+  const pcb=box(pw,ph,pd,0x334155,{roughness:.8});pcb.position.set(0,y+ph/2,0);lPcb.add(t(pcb,"pcb"));y+=ph;
+  // BGA
+  const bh=.18;for(let bx=-3.5;bx<=3.5;bx+=.55){for(let bz=-2.2;bz<=2.8;bz+=.55){const s=new THREE.Mesh(new THREE.SphereGeometry(.08,6,4),m(0x94a3b8,{roughness:.3,metalness:.3}));s.position.set(bx,y+bh/2,bz);lBga.add(s);}}
+  lBga.add(hb(7,bh,5,0,y+bh/2,.5,"bga",1));y+=bh;
+  // Package substrate
+  const sh=.45,sw=7.5,sd=5.5;
+  const sub=box(sw,sh,sd,0x475569,{roughness:.5,metalness:.1});sub.position.set(0,y+sh/2,.3);lSub.add(t(sub,"substrate"));
+  lSub.add(hb(sw,sh*1.3,sd,0,y+sh/2,.3,"substrate",-1));y+=sh;
+  // ASIC die on substrate (soldered, no socket)
+  const ah=.28,aw=2.8,ad=2.8;
+  const asic=box(aw,ah,ad,0x1e40af,{roughness:.25});asic.position.set(0,y+ah/2,.3);lDies.add(t(asic,"asic"));
+  lDies.add(hb(aw*1.2,ah*1.2,ad*1.2,0,y+ah/2,.3,"asic"));
+  // ASIC heatsink
+  const hs=box(aw-.1,.5,ad-.1,0x94a3b8,{roughness:.45,metalness:.35});hs.position.set(0,y+ah+.25,.3);lDies.add(t(hs,"asicHs"));
+  // 4 engines with socket frames around ASIC
+  const engPos=[[-2.2,.3],[-2.2,-2.2],[2.2,.3],[2.2,-2.2]];
+  for(const[ex,ez]of engPos){
+    // Socket frame
+    const sfh=.12,sfw=1.4,sfd=1.1;
+    const sf=box(sfw,sfh,sfd,0x78716c,{roughness:.45,metalness:.45});sf.position.set(ex,y+sfh/2,ez);lSocket.add(t(sf,"socket"));
+    lSocket.add(hb(sfw*1.3,sfh*1.5,sfd*1.3,ex,y+sfh/2,ez,"socket"));
+    // 4 corner bolts
+    for(const[bx,bz]of[[-.6,-.45],[-.6,.45],[.6,-.45],[.6,.45]]){
+      const bt=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,sfh+.2,8),m(0x57534e,{roughness:.25,metalness:.6}));bt.position.set(ex+bx,y+sfh/2,ez+bz);lSocket.add(t(bt,"bolt"));
+      // bolt hit target
+      lSocket.add(hb(.2,sfh+.25,.2,ex+bx,y+sfh/2,ez+bz,"bolt",0));
+    }
+    // LGA pads under module (visible from side)
+    for(let px=ex-.4;px<=ex+.4;px+=.15){const p=box(.08,.02,.08,0xcbd5e1,{roughness:.2,metalness:.5});p.position.set(px,y-.01,ez);lSocket.add(t(p,"pad"));}
+    // Engine module on socket
+    const eh=.2,ew=1.1,ed=.85;
+    const eng=box(ew,eh,ed,0x0d9488,{roughness:.35});eng.position.set(ex,y+sfh+eh/2,ez);lDies.add(t(eng,"engine"));
+    lDies.add(hb(ew*1.3,eh*1.3,ed*1.3,ex,y+sfh+eh/2,ez,"engine"));
+    // EIC+PIC on module
+    const eic=box(.4,.1,.4,0x7c3aed,{roughness:.25});eic.position.set(ex-.2,y+sfh+eh+.05,ez);lDies.add(t(eic,"eic"));
+    const pic=box(.45,.08,.4,0x0d9488,{roughness:.25});pic.position.set(ex+.2,y+sfh+eh+.04,ez);lDies.add(t(pic,"pic"));
+    // fiber outward
+    const fd=ez>.3?-1:1;const fb=box(.05,.03,1.2,0xef4444);fb.position.set(ex+.2,y+sfh+eh+.1,ez+fd*.8);lFiber.add(t(fb,"fiber"));
+  }
+
+  for(const l of ls)l.userData.baseY=l.position.y;
+  const rc=new THREE.Raycaster();const pt=new THREE.Vector2();let sp="",ptd=null;const dt=5,ro=.06;
+  const sb=(o)=>{if(!o.material||o.userData._sb)return;o.userData._sb=true;o.userData._op=o.material.opacity??1;o.userData._tr=!!o.material.transparent;o.userData._dw=o.material.depthWrite;o.userData._cl=o.material.color?.getHex();o.userData._em=o.material.emissive?.getHex();};
+  const fig=root.closest("figure");const ib=fig?.querySelectorAll("[data-arch-part-index]")||[];const iT=fig?.querySelector("[data-arch-part-title]");const iB=fig?.querySelector("[data-arch-part-body]");const eb=fig?.querySelector("[data-arch-explode-toggle]");
+  const ss=(k)=>{if(!k||!PI[k])return;if(sp===k){cs();return;}sp=k;if(iT){iT.textContent=PI[k].title;iT.style.setProperty("--ptc",PI[k].color);}if(iB)iB.textContent=PI[k].body;for(const b of ib){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed",String(bp===k));}dm(k);};
+  const cs=()=>{sp="";if(iT){iT.textContent="架构说明";iT.style.removeProperty("--ptc");}if(iB)iB.textContent="焊接式 CPO 与插座式 CPO 的核心区别：引擎通过 LGA 插座连接基板。四个角的保持螺栓和插座框架是视觉标志。";for(const b of ib){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed","false");}chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;sb(o);o.material.opacity=o.userData.hitProxy?0:(o.userData._op??1);o.material.transparent=o.userData.hitProxy||!!o.userData._tr;if(typeof o.userData._dw==="boolean")o.material.depthWrite=o.userData._dw;if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;});};
+  const dm=(k)=>{chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;sb(o);if(o.userData.hitProxy){o.material.opacity=0;o.material.transparent=true;o.material.needsUpdate=true;return;}const sel=o.userData.partKey===k;const tgt=sel?Math.min(1,Math.max(o.userData._op??1,.82)):Math.min(o.userData._op??1,ro);if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);o.material.opacity=tgt;o.material.transparent=o.userData._tr||tgt<1;o.material.depthWrite=sel?(o.userData._dw??true):false;if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;});};
+  const fh=(hs)=>hs.filter(h=>h.object.userData.partKey).sort((a,b)=>{const d=(b.object.userData.selectionPriority||0)-(a.object.userData.selectionPriority||0);return d||a.distance-b.distance;})[0];
+  const pk=(e)=>{const rect=r.domElement.getBoundingClientRect();pt.x=((e.clientX-rect.left)/rect.width)*2-1;pt.y=-((e.clientY-rect.top)/rect.height)*2+1;rc.setFromCamera(pt,cam);const h=fh(rc.intersectObject(chip,true));if(h)ss(h.object.userData.partKey);};
+  c.addEventListener("pointerdown",e=>{if(e.button!==0)return;ptd={x:e.clientX,y:e.clientY};c.style.cursor="grabbing";});
+  c.addEventListener("pointermove",e=>{if(e.buttons===0){const rect=c.getBoundingClientRect();pt.x=((e.clientX-rect.left)/rect.width)*2-1;pt.y=-((e.clientY-rect.top)/rect.height)*2+1;rc.setFromCamera(pt,cam);c.style.cursor=fh(rc.intersectObject(chip,true))?"pointer":"grab";}});
+  c.addEventListener("pointerup",e=>{if(!ptd)return;const d=Math.hypot(e.clientX-ptd.x,e.clientY-ptd.y);if(d<dt)pk(e);ptd=null;c.style.cursor="grab";});
+  for(const b of ib){b.style.setProperty("--part-color",PI[b.getAttribute("data-arch-part-index")]?.color||"var(--border)");b.addEventListener("click",()=>ss(b.getAttribute("data-arch-part-index")));}
+  let ie=false;const eg=.7,es=.08;eb?.addEventListener("click",()=>{ie=!ie;eb.setAttribute("aria-pressed",String(ie));});
+  const rz=()=>{const{width}=root.getBoundingClientRect();const h=Math.max(380,Math.min(560,width*.6));root.style.setProperty("--mh",`${h}px`);r.setSize(width,h,false);cam.aspect=width/h;cam.updateProjectionMatrix();};
+  new ResizeObserver(rz).observe(root);rz();
+  const an=()=>{requestAnimationFrame(an);const et=ie?eg:0;for(let i=0;i<ls.length;i++){const cu=ls[i].userData._ey||0;const t=i*et;const n=cu+(t-cu)*es;ls[i].userData._ey=n;ls[i].position.y=(ls[i].userData.baseY||0)+n;}ct.update();r.render(sc,cam);};an();
+  document.addEventListener("astro:before-swap",()=>{r.dispose();},{once:true});
+}
+</script>
+<style>
+  .arch-model { margin: 2rem 0; }
+  .arch-model__viewport { position: relative; background: var(--sl-color-gray-1,#f8fafc); border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 8px; overflow: hidden; min-height: 380px; height: var(--mh,400px); }
+  .arch-model__viewport canvas { display: block; width: 100%; height: 100%; }
+  .arch-model__controls { position: absolute; bottom: 10px; left: 10px; display: flex; gap: 5px; z-index: 2; }
+  .arch-model__controls button { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: rgba(248,250,252,0.9); color: var(--sl-color-gray-5,#475569); cursor: pointer; backdrop-filter: blur(4px); transition: all 0.15s; }
+  .arch-model__controls button:hover { border-color: var(--sl-color-accent,#0d9488); color: var(--sl-color-accent,#0d9488); }
+  .arch-model__controls button[aria-pressed="true"] { background: var(--sl-color-accent,#0d9488); color: #fff; border-color: var(--sl-color-accent,#0d9488); }
+  .arch-model__index { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .arch-model__index button { padding: 3px 8px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: var(--sl-color-gray-1,#f8fafc); color: var(--sl-color-gray-5,#475569); cursor: pointer; transition: all 0.15s; }
+  .arch-model__index button:hover { border-color: var(--part-color,#0d9488); box-shadow: inset 0 0 0 1px var(--part-color,#0d9488); }
+  .arch-model__index button[aria-pressed="true"] { background: var(--part-color,#0d9488); color: #fff; border-color: var(--part-color,#0d9488); }
+  .arch-model__info { margin-top: 0.6rem; font-size: 0.82rem; color: var(--sl-color-gray-5,#475569); line-height: 1.55; }
+  .arch-model__info strong { display: block; color: var(--sl-color-gray-6,#334155); }
+  .arch-model__info strong::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--ptc,var(--sl-color-accent,#0d9488)); margin-right: 5px; vertical-align: middle; position: relative; top: -1px; }
+  figcaption { margin-top: 0.3rem; font-size: 0.75rem; color: var(--sl-color-gray-4,#94a3b8); text-align: center; }
+  figcaption strong { font-weight: 600; color: var(--sl-color-gray-5,#64748b); }
+  figcaption span { display: block; }
+</style>

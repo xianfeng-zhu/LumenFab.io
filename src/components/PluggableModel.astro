@@ -1,0 +1,188 @@
+---
+interface Props { title?: string; caption?: string; }
+const {
+  title = "前面板可插拔架构",
+  caption = "ASIC 独立封装在 PCB 中央，光模块插入前面板笼体。两者间靠 100–200 mm 的 PCB 走线连接。可旋转，可分层展开。"
+} = Astro.props;
+
+const indexItems = [
+  ["pcb", "#334155", "主板 PCB"],
+  ["asicPkg", "#1e40af", "ASIC 封装"],
+  ["asicDie", "#3b82f6", "ASIC 裸片"],
+  ["asicHs", "#94a3b8", "ASIC 散热器"],
+  ["cage", "#78716c", "模块笼体"],
+  ["module", "#d97706", "光模块外壳"],
+  ["dsp", "#7c3aed", "DSP 芯片"],
+  ["tosa", "#f59e0b", "TOSA (含激光器)"],
+  ["rosa", "#0d9488", "ROSA (含探测器)"],
+  ["fiber", "#ef4444", "光纤跳线"],
+  ["trace", "#f97316", "PCB 高速走线"],
+  ["connector", "#475569", "卡边连接器"],
+];
+---
+<figure class="arch-model">
+  <div class="arch-model__viewport" data-arch-model>
+    <canvas aria-label={title}></canvas>
+    <div class="arch-model__controls">
+      <button type="button" data-arch-explode-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 1.5L11 5.5"/><path d="M3 8.5L7 12.5L11 8.5"/></svg>
+        <span>分层展开</span>
+      </button>
+    </div>
+  </div>
+  <div class="arch-model__index" aria-label="结构索引">
+    {indexItems.map(([key, color, label]) => (
+      <button type="button" data-arch-part-index={key} style={`--part-color: ${color}`}>{label}</button>
+    ))}
+  </div>
+  <div class="arch-model__info" data-arch-part-info aria-live="polite">
+    <strong data-arch-part-title>架构说明</strong>
+    <span data-arch-part-body>旋转模型观察各组件。点击部件或下方索引按钮查看说明。使用「分层展开」可拉开各层。</span>
+  </div>
+  <figcaption><strong>{title}</strong><span>{caption}</span></figcaption>
+</figure>
+
+<script>
+  import * as THREE from "three";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+  const roots = document.querySelectorAll("[data-arch-model]");
+
+  const PI = {
+    pcb:{color:"#334155",title:"主板 PCB",body:"交换机系统主板。FR4 材料，数十层布线。ASIC 封装焊在中央，光模块笼体焊在前面板边缘。两者之间靠 100–200 mm 的差分走线连接——这条长路径是 CPO 架构要消除的核心瓶颈。"},
+    asicPkg:{color:"#1e40af",title:"ASIC 封装",body:"Switch ASIC 的 FCBGA 封装。包含有机基板（将细间距 die bump 扇出到 BGA 球距）和顶部的散热器。ASIC 功耗可达数百瓦，是整板最大热源。"},
+    asicDie:{color:"#3b82f6",title:"ASIC 裸片",body:"网络交换芯片裸片，封装在 FCBGA 载体中央。尺寸可达 20–25 mm 见方。通过封装基板和 BGA 焊球连接到主板。"},
+    asicHs:{color:"#94a3b8",title:"ASIC 散热器",body:"覆盖在 ASIC 封装顶部的翅片散热器。通常比光模块笼体上的 riding heatsink 更高、更大，有时带热管。风冷交换机中翅片方向与气流方向（前→后）一致。"},
+    cage:{color:"#78716c",title:"模块笼体",body:"焊在主板前面板边缘的金属笼。内部有卡边连接器供光模块插入。笼体同时提供 EMI 屏蔽、散热（通过 riding heatsink）和模块导向。一个 1RU 交换机可并排 32 个 QSFP-DD 笼体。"},
+    module:{color:"#d97706",title:"光模块 (QSFP-DD/OSFP)",body:"插入笼体的可插拔光模块，完整的电光转换单元。金属外壳内包含 DSP 芯片、TOSA（激光器+调制器）、ROSA（探测器+TIA）、电源管理电路。现场可更换，即插即用。"},
+    dsp:{color:"#7c3aed",title:"DSP / Retimer 芯片",body:"模块内的数字信号处理器。负责信号均衡、CDR（时钟数据恢复）、Gearbox（速率转换）和 FEC 编解码。是模块功耗的主要贡献者之一（约占总功耗 30–50%）。"},
+    tosa:{color:"#f59e0b",title:"TOSA（发射端）",body:"Transmitter Optical Sub-Assembly。包含 DFB 激光器芯片、调制器（EML 或硅光 MZM）、准直透镜、光隔离器（可选）和耦合光纤。将电信号转换为调制光信号送出。"},
+    rosa:{color:"#0d9488",title:"ROSA（接收端）",body:"Receiver Optical Sub-Assembly。包含光电探测器（PIN 或 APD）、TIA 跨阻放大器和耦合透镜。将接收到的光信号转换为电压信号送给 DSP 处理。"},
+    fiber:{color:"#ef4444",title:"光纤跳线",body:"从模块前面板的 LC 或 MPO 连接器引出，连接到光纤配线架或对端设备。单模光纤芯径 9 μm，多模 50 μm。弯曲半径通常 ≥30 mm。"},
+    trace:{color:"#f97316",title:"高速 PCB 走线",body:"ASIC 到笼体连接器之间的差分微带线或带状线。112 Gbps PAM4 信号在 FR4 上每英寸损耗约 1–1.5 dB，100–200 mm 的走线意味着 5–10 dB 的通道损耗——这部分损耗在 CPO 架构中被压缩到几乎为零。"},
+    connector:{color:"#475569",title:"卡边连接器",body:"笼体内部的电气接口。光模块的 PCB 金手指插入此连接器，实现电源、高速信号、控制信号（I2C/SPI）的接通。典型 QSFP-DD 连接器有 76 个引脚。"},
+  };
+
+  const partOrder = Object.keys(PI);
+  const material = (c, o={}) => new THREE.MeshStandardMaterial({color:c,roughness:0.55,metalness:0.05,...o});
+  const transparent = (c, op) => material(c,{transparent:true,opacity:op,depthWrite:false});
+
+  function box(w,h,d,c,opts={}) {
+    const {opacity=1,roughness=0.55,metalness=0.05}=opts;
+    const m = material(c,{transparent:opacity<1,opacity,roughness,metalness,...(opacity<1?{depthWrite:false}:{})});
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m); mesh.castShadow=false; return mesh;
+  }
+  function hitBox(w,h,d,x,y,z,key,pri=2) {
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+    mesh.position.set(x,y,z); return tag(mesh,key,true,pri);
+  }
+  function tag(o,k,hp=false,pri=0) { o.userData={partKey:k,hitProxy:hp,selectionPriority:pri}; return o; }
+
+  for (const root of roots) {
+    const canvas = root.querySelector("canvas"); if (!canvas) continue;
+    const scene = new THREE.Scene(); scene.background = null;
+    const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+    renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    const camera = new THREE.PerspectiveCamera(36,1.6,0.5,50); camera.position.set(6,4.5,7); camera.lookAt(0,0.2,0);
+    const controls = new OrbitControls(camera,renderer.domElement); controls.target.set(0,0.2,0); controls.enableDamping=true; controls.dampingFactor=0.08; controls.maxPolarAngle=Math.PI*0.7; controls.update();
+    scene.add(new THREE.AmbientLight(0xffffff,0.9));
+    const kl = new THREE.DirectionalLight(0xffffff,1.6); kl.position.set(8,12,6); scene.add(kl);
+    scene.add(new THREE.DirectionalLight(0xbae6fd,0.55)).position.set(-4,3,-3);
+    scene.add(new THREE.DirectionalLight(0xffffff,0.45)).position.set(0,1.5,-6);
+
+    const chip = new THREE.Group(); scene.add(chip);
+    const layers = []; function addLayer(key) { const g = new THREE.Group(); g.userData={layerKey:key,layerIndex:layers.length}; layers.push(g); chip.add(g); return g; }
+    const lPcb=addLayer("pcb"),lAsic=addLayer("asic"),lTraces=addLayer("trace"),lCage=addLayer("cage"),lModule=addLayer("module"),lFiber=addLayer("fiber");
+
+    let y=0;
+    const pcbH=0.2, pcbW=10, pcbD=6;
+    const pcb = box(pcbW,pcbH,pcbD,0x334155,{roughness:0.8}); pcb.position.set(0,y+pcbH/2,0); lPcb.add(tag(pcb,"pcb")); y+=pcbH;
+    // ASIC package
+    const asicSubH=0.3, asicSubW=3, asicSubD=3;
+    const asicPkg = box(asicSubW,asicSubH,asicSubD,0x1e40af,{roughness:0.4}); asicPkg.position.set(0,y+asicSubH/2,-0.5); lAsic.add(tag(asicPkg,"asicPkg"));
+    lAsic.add(hitBox(asicSubW*1.2,asicSubH*1.2,asicSubD*1.2,0,y+asicSubH/2,-0.5,"asicPkg"));
+    const asicDie = box(1.6,0.18,1.6,0x3b82f6,{roughness:0.25}); asicDie.position.set(0,y+asicSubH+0.09,-0.5); lAsic.add(tag(asicDie,"asicDie"));
+    const asicHs = box(2.8,0.6,2.8,0x94a3b8,{roughness:0.45,metalness:0.35}); asicHs.position.set(0,y+asicSubH+0.48,-0.5); lAsic.add(tag(asicHs,"asicHs"));
+    for (let fx=-1.2; fx<=1.2; fx+=0.25) { const f=box(0.06,0.3,2.8,0x94a3b8,{roughness:0.4,metalness:0.4}); f.position.set(fx,y+asicSubH+0.9,-0.5); lAsic.add(f); }
+    const asicTop = y+asicSubH;
+    // PCB traces from ASIC to front
+    for (let tz=-0.8; tz<=-0.2; tz+=0.2) {
+      for (let tx=-1.0; tx<=1.0; tx+=0.5) {
+        const t=box(0.03,0.01,2.2,0xf97316,{roughness:0.3,metalness:0.5}); t.position.set(tx,y+pcbH+0.01,1.6+tz*0.5); lTraces.add(t);
+      }
+    }
+    const traceHit = hitBox(2.5,0.05,4,0,y+pcbH+0.02,0.5,"trace",0); lTraces.add(traceHit);
+    // Cage at front edge
+    const cageZ=3.5, cageH=0.5, cageW=2.2, cageD=2.8;
+    const cage = box(cageW,cageH,cageD,0x78716c,{roughness:0.5,metalness:0.4}); cage.position.set(0,y+cageH/2,cageZ); lCage.add(tag(cage,"cage"));
+    lCage.add(hitBox(cageW*1.1,cageH*1.1,cageD*1.1,0,y+cageH/2,cageZ,"cage"));
+    // Cage heatsink
+    const cageHs = box(cageW-0.1,0.3,cageD-0.1,0x94a3b8,{roughness:0.4,metalness:0.4}); cageHs.position.set(0,y+cageH+0.15,cageZ); lCage.add(cageHs);
+    // Connector inside cage
+    const conn = box(0.2,cageH*0.6,cageD*0.7,0x475569,{roughness:0.3,metalness:0.5}); conn.position.set(0,y+cageH/2,cageZ-0.3); lCage.add(tag(conn,"connector"));
+    // Module inside cage
+    const modH=0.35, modW=cageW-0.25, modD=cageD-0.15;
+    const modShell = box(modW,modH,modD,0xd97706,{roughness:0.35,metalness:0.45}); modShell.position.set(0,y+modH/2+0.02,cageZ-0.05); lModule.add(tag(modShell,"module"));
+    lModule.add(hitBox(modW*1.1,modH*1.1,modD*1.1,0,y+modH/2+0.02,cageZ-0.05,"module"));
+    // DSP inside module
+    const dsp = box(0.5,0.12,0.5,0x7c3aed,{roughness:0.25}); dsp.position.set(0,y+modH-0.05,cageZ+0.4); lModule.add(tag(dsp,"dsp"));
+    // TOSA inside module (front)
+    const tosa = box(0.35,0.1,0.6,0xf59e0b,{roughness:0.25,metalness:0.2}); tosa.position.set(-0.3,y+modH-0.1,cageZ-0.9); lModule.add(tag(tosa,"tosa"));
+    // ROSA beside TOSA
+    const rosa = box(0.35,0.1,0.6,0x0d9488,{roughness:0.25,metalness:0.15}); rosa.position.set(0.3,y+modH-0.1,cageZ-0.9); lModule.add(tag(rosa,"rosa"));
+    // Fiber out front
+    const fiber = box(0.06,0.03,2,0xef4444); fiber.position.set(0,y+modH/2,cageZ+modD/2+1); lFiber.add(tag(fiber,"fiber"));
+
+    for (const l of layers) l.userData.baseY = l.position.y;
+
+    // ── Selection system ────────────────────────────
+    const raycaster = new THREE.Raycaster(); const pointer = new THREE.Vector2();
+    let selectedPart="", pointerDown=null; const dragThr=5, refOp=0.06;
+
+    const storeBase = (o) => { if(!o.material||o.userData._sb)return; o.userData._sb=true; o.userData._op=o.material.opacity??1; o.userData._tr=!!o.material.transparent; o.userData._dw=o.material.depthWrite; o.userData._cl=o.material.color?.getHex(); o.userData._em=o.material.emissive?.getHex(); };
+    const fig=root.closest("figure"); const idxBtns=fig?.querySelectorAll("[data-arch-part-index]")||[]; const infT=fig?.querySelector("[data-arch-part-title]"); const infB=fig?.querySelector("[data-arch-part-body]");
+    const explodeBtn=fig?.querySelector("[data-arch-explode-toggle]");
+
+    const setSel = (k) => { if(!k||!PI[k])return; if(selectedPart===k){clearSel();return;} selectedPart=k; if(infT){infT.textContent=PI[k].title;infT.style.setProperty("--ptc",PI[k].color);} if(infB)infB.textContent=PI[k].body;
+      for(const b of idxBtns){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed",String(bp===k));} dim(k); };
+    const clearSel = () => { selectedPart=""; if(infT){infT.textContent="架构说明";infT.style.removeProperty("--ptc");} if(infB)infB.textContent="旋转模型观察各组件。点击部件或下方索引按钮查看说明。使用「分层展开」可拉开各层。";
+      for(const b of idxBtns){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed","false");}
+      chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;storeBase(o);o.material.opacity=o.userData.hitProxy?0:(o.userData._op??1);o.material.transparent=o.userData.hitProxy||!!o.userData._tr;if(typeof o.userData._dw==="boolean")o.material.depthWrite=o.userData._dw;if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;}); };
+    const dim = (k) => { chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;storeBase(o);if(o.userData.hitProxy){o.material.opacity=0;o.material.transparent=true;o.material.needsUpdate=true;return;}const sel=o.userData.partKey===k;const tgt=sel?Math.min(1,Math.max(o.userData._op??1,0.82)):Math.min(o.userData._op??1,refOp);if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);o.material.opacity=tgt;o.material.transparent=o.userData._tr||tgt<1;o.material.depthWrite=sel?(o.userData._dw??true):false;if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;}); };
+    const findHit = (hs) => hs.filter(h=>h.object.userData.partKey).sort((a,b)=>{const d=(b.object.userData.selectionPriority||0)-(a.object.userData.selectionPriority||0);return d||a.distance-b.distance;})[0];
+    const pick = (e) => { const r=renderer.domElement.getBoundingClientRect(); pointer.x=((e.clientX-r.left)/r.width)*2-1; pointer.y=-((e.clientY-r.top)/r.height)*2+1; raycaster.setFromCamera(pointer,camera); const h=findHit(raycaster.intersectObject(chip,true)); if(h)setSel(h.object.userData.partKey); };
+    canvas.addEventListener("pointerdown",e=>{if(e.button!==0)return;pointerDown={x:e.clientX,y:e.clientY};canvas.style.cursor="grabbing";});
+    canvas.addEventListener("pointermove",e=>{if(e.buttons===0){const r=canvas.getBoundingClientRect();pointer.x=((e.clientX-r.left)/r.width)*2-1;pointer.y=-((e.clientY-r.top)/r.height)*2+1;raycaster.setFromCamera(pointer,camera);canvas.style.cursor=findHit(raycaster.intersectObject(chip,true))?"pointer":"grab";}});
+    canvas.addEventListener("pointerup",e=>{if(!pointerDown)return;const d=Math.hypot(e.clientX-pointerDown.x,e.clientY-pointerDown.y);if(d<dragThr)pick(e);pointerDown=null;canvas.style.cursor="grab";});
+
+    for(const b of idxBtns){b.style.setProperty("--part-color",PI[b.getAttribute("data-arch-part-index")]?.color||"var(--border)");b.addEventListener("click",()=>setSel(b.getAttribute("data-arch-part-index")));}
+
+    let isExploded=false; const explodeGap=0.7, explodeSpeed=0.08;
+    explodeBtn?.addEventListener("click",()=>{isExploded=!isExploded;explodeBtn.setAttribute("aria-pressed",String(isExploded));});
+
+    const resize=()=>{const{width}=root.getBoundingClientRect();const h=Math.max(380,Math.min(560,width*0.6));root.style.setProperty("--mh",`${h}px`);renderer.setSize(width,h,false);camera.aspect=width/h;camera.updateProjectionMatrix();};
+    new ResizeObserver(resize).observe(root); resize();
+
+    const animate=()=>{requestAnimationFrame(animate);const et=isExploded?explodeGap:0;for(let i=0;i<layers.length;i++){const c=layers[i].userData._ey||0;const t=i*et;const n=c+(t-c)*explodeSpeed;layers[i].userData._ey=n;layers[i].position.y=(layers[i].userData.baseY||0)+n;}controls.update();renderer.render(scene,camera);};
+    animate();
+    document.addEventListener("astro:before-swap",()=>{renderer.dispose();},{once:true});
+  }
+</script>
+<style>
+  .arch-model { margin: 2rem 0; }
+  .arch-model__viewport { position: relative; background: var(--sl-color-gray-1,#f8fafc); border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 8px; overflow: hidden; min-height: 380px; height: var(--mh,400px); }
+  .arch-model__viewport canvas { display: block; width: 100%; height: 100%; }
+  .arch-model__controls { position: absolute; bottom: 10px; left: 10px; display: flex; gap: 5px; z-index: 2; }
+  .arch-model__controls button { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: rgba(248,250,252,0.9); color: var(--sl-color-gray-5,#475569); cursor: pointer; backdrop-filter: blur(4px); transition: all 0.15s; }
+  .arch-model__controls button:hover { border-color: var(--sl-color-accent,#0d9488); color: var(--sl-color-accent,#0d9488); }
+  .arch-model__controls button[aria-pressed="true"] { background: var(--sl-color-accent,#0d9488); color: #fff; border-color: var(--sl-color-accent,#0d9488); }
+  .arch-model__index { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .arch-model__index button { padding: 3px 8px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: var(--sl-color-gray-1,#f8fafc); color: var(--sl-color-gray-5,#475569); cursor: pointer; transition: all 0.15s; }
+  .arch-model__index button:hover { border-color: var(--part-color,#0d9488); box-shadow: inset 0 0 0 1px var(--part-color,#0d9488); }
+  .arch-model__index button[aria-pressed="true"] { background: var(--part-color,#0d9488); color: #fff; border-color: var(--part-color,#0d9488); }
+  .arch-model__info { margin-top: 0.6rem; font-size: 0.82rem; color: var(--sl-color-gray-5,#475569); line-height: 1.55; }
+  .arch-model__info strong { display: block; color: var(--sl-color-gray-6,#334155); }
+  .arch-model__info strong::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--ptc,var(--sl-color-accent,#0d9488)); margin-right: 5px; vertical-align: middle; position: relative; top: -1px; }
+  figcaption { margin-top: 0.3rem; font-size: 0.75rem; color: var(--sl-color-gray-4,#94a3b8); text-align: center; }
+  figcaption strong { font-weight: 600; color: var(--sl-color-gray-5,#64748b); }
+  figcaption span { display: block; }
+</style>

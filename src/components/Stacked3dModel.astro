@@ -1,0 +1,167 @@
+---
+interface Props { title?: string; caption?: string; }
+const {
+  title = "3D 堆叠光学架构（TSMC COUPE）",
+  caption = "EIC 通过混合键合（SoIC）垂直堆叠在 PIC 上方，引擎与 ASIC、HBM 共享 CoWoS 硅中介层。可旋转，可分层展开，可剖面观察内部层叠。"
+} = Astro.props;
+const idx = [
+  ["pcb","#334155","主板 PCB"],["bga","#94a3b8","BGA 焊球"],["orgSub","#475569","有机基板"],["c4","#cbd5e1","C4 bump"],["interposer","#64748b","硅中介层 (CoWoS)"],["tsv","#fbbf24","TSV 硅通孔"],["asic","#1e40af","Switch ASIC"],["hbm","#3b82f6","HBM 内存"],["pic","#0d9488","PIC (光子芯片)"],["hybrid","#f59e0b","混合键合界面"],["eic","#7c3aed","EIC (电子芯片)"],["fau","#ef4444","垂直光耦合 (VBC/FAU)"],
+];
+---
+<figure class="arch-model">
+  <div class="arch-model__viewport" data-arch-model>
+    <canvas aria-label={title}></canvas>
+    <div class="arch-model__controls">
+      <button type="button" data-arch-explode-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5.5L7 1.5L11 5.5"/><path d="M3 8.5L7 12.5L11 8.5"/></svg>
+        <span>分层展开</span>
+      </button>
+      <button type="button" data-arch-section-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="12" height="12" rx="1"/><line x1="7" y1="1" x2="7" y2="13"/></svg>
+        <span>剖面视图</span>
+      </button>
+    </div>
+    <div class="arch-model__slider" data-arch-section-wrap hidden>
+      <input type="range" data-arch-section-slider min="-6" max="6" step="0.1" value="0">
+      <span>切面位置</span>
+    </div>
+  </div>
+  <div class="arch-model__index" aria-label="结构索引">
+    {idx.map(([k,c,l]) => <button type="button" data-arch-part-index={k} style={`--part-color: ${c}`}>{l}</button>)}
+  </div>
+  <div class="arch-model__info" data-arch-part-info aria-live="polite">
+    <strong data-arch-part-title>架构说明</strong>
+    <span data-arch-part-body>3D 堆叠的核心特征：EIC 通过混合键合直接叠在 PIC 上方（非并排），键合 pitch 可达几微米。使用「剖面视图」可切开观察内部层叠结构。</span>
+  </div>
+  <figcaption><strong>{title}</strong><span>{caption}</span></figcaption>
+</figure>
+
+<script>
+import*as THREE from"three";import{OrbitControls}from"three/examples/jsm/controls/OrbitControls.js";
+const ROOTS=document.querySelectorAll("[data-arch-model]");
+const PI={
+  pcb:{color:"#334155",title:"主板 PCB",body:"系统主板。整个 CoWoS 封装通过底部 BGA 焊球连接到主板。3D 堆叠架构中，所有高密度互连都在硅中介层内完成，PCB 只承担电源和低速信号。"},
+  bga:{color:"#94a3b8",title:"BGA 焊球阵列",body:"有机基板底面到主板的焊球连接。与 2D CPO 相同，球距 0.4–1.0 mm。"},
+  orgSub:{color:"#475569",title:"有机封装基板",body:"位于硅中介层下方。用于将 C4 bump 的间距进一步扇出到 BGA 球距。3D 堆叠中的有机基板比 2D CPO 中的更薄——高密度互连已由上方硅中介层承担。"},
+  c4:{color:"#cbd5e1",title:"C4 bump",body:"连接有机基板顶面与硅中介层底面的凸点阵列。pitch ~150 μm。注意：C4 bump 在硅中介层下方，不在中介层与芯片之间——中介层与芯片之间用的是 microbump。"},
+  interposer:{color:"#64748b",title:"硅中介层 (CoWoS)",body:"整个 3D 堆叠封装的互连中枢。多层 Cu RDL（线宽可达 2 μm 以下）在高密度芯片（PIC/EIC 堆叠、ASIC、HBM）之间布线。带 TSV 通孔实现上下垂直互连。是 TSMC CoWoS 平台的核心。"},
+  tsv:{color:"#fbbf24",title:"TSV 硅通孔",body:"穿透硅中介层的垂直导电孔。直径 5–10 μm，深 50–100 μm。将中介层正面的 RDL 信号引到背面的 C4 bump，再通过有机基板到主板。TSV 是 2.5D/3D 封装区别于纯 2D 封装的标志性结构。"},
+  asic:{color:"#1e40af",title:"Switch ASIC",body:"网络交换芯片，通过 microbump 贴在硅中介层上，与 COUPE 光引擎并排。ASIC 和光引擎之间的高速信号路径全部在硅中介层的 RDL 内完成——距离仅毫米级，损耗极低。"},
+  hbm:{color:"#3b82f6",title:"HBM 内存堆叠",body:"高带宽内存。多个 DRAM 芯片垂直堆叠，通过 TSV 互连，贴在硅中介层上 ASIC 旁边。HBM 与 ASIC 之间的 1024-bit 并行总线通过中介层的超高密度 RDL 实现。"},
+  pic:{color:"#0d9488",title:"PIC 光子芯片 (底层)",body:"超薄光子集成电路（~3–5 μm，原始 Si 衬底已完全去除）。通过 microbump 阵列贴在硅中介层上。波导、调制器和探测器在这一层。TDV（Through Dielectric Via）穿过 PIC 将电信号从下方中介层送到上方 EIC。"},
+  hybrid:{color:"#f59e0b",title:"混合键合界面 (SoIC)",body:"PIC 顶面与 EIC 底面之间的 Cu-Cu 直接键合层。无焊料、无 underfill。键合界面经过 CMP 达到亚纳米级平整度，室温预贴合后经 250°C 退火形成原子级连接。pitch 可至几微米——I/O 密度约是 microbump 的 10 倍。寄生电容降低约 85%。"},
+  eic:{color:"#7c3aed",title:"EIC 电子芯片 (上层)",body:"包含 driver、TIA 和 DSP 的电子芯片（先进逻辑工艺节点，如 N6）。约 50 μm 厚，通过 SoIC 混合键合直接叠在 PIC 上方。信号路径：ASIC→中介层 RDL→microbump→PIC 内 TDV→混合键合→EIC。垂直距离仅数十微米。"},
+  fau:{color:"#ef4444",title:"垂直光耦合 (VBC/FAU)",body:"COUPE 使用垂直宽带耦合器（VBC）或集成光纤阵列单元（iFAU）从上方耦合光。芯片表面的超构透镜将光束扩至 35–50 μm，垂直耦合，对准容差 ±10 μm。激光由外置 ELSFP 经光纤提供。"},
+};
+const m=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.55,metalness:.05,...o});
+function box(w,h,d,c,opts={}){const{opacity=1,roughness=.55,metalness=.05}=opts;const mt=m(c,{transparent:opacity<1,opacity,roughness,metalness,...(opacity<1?{depthWrite:false}:{})});return new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mt);}
+function hb(w,h,d,x,y,z,k,p=2){const me=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));me.position.set(x,y,z);return t(me,k,true,p);}
+function t(o,k,hp=false,pri=0){o.userData={partKey:k,hitProxy:hp,selectionPriority:pri};return o;}
+
+for(const root of ROOTS){
+  const c=root.querySelector("canvas");if(!c)continue;
+  const sc=new THREE.Scene();sc.background=null;
+  const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.outputColorSpace=THREE.SRGBColorSpace;r.localClippingEnabled=true;r.setPixelRatio(Math.min(devicePixelRatio,2));
+  const cam=new THREE.PerspectiveCamera(36,1.6,.5,50);cam.position.set(6,5,7);cam.lookAt(0,.5,0);
+  const ct=new OrbitControls(cam,r.domElement);ct.target.set(0,.5,0);ct.enableDamping=true;ct.dampingFactor=.08;ct.maxPolarAngle=Math.PI*.7;ct.update();
+  sc.add(new THREE.AmbientLight(0xffffff,.9));const kl=new THREE.DirectionalLight(0xffffff,1.6);kl.position.set(8,12,6);sc.add(kl);sc.add(new THREE.DirectionalLight(0xbae6fd,.55)).position.set(-4,3,-3);sc.add(new THREE.DirectionalLight(0xffffff,.45)).position.set(0,1.5,-6);
+  const chip=new THREE.Group();sc.add(chip);const ls=[];function al(k){const g=new THREE.Group();g.userData={layerKey:k,layerIndex:ls.length};ls.push(g);chip.add(g);return g;}
+  const lPcb=al("pcb"),lBga=al("bga"),lOrg=al("orgSub"),lC4=al("c4"),lInter=al("interposer"),lDies=al("dies"),lFau=al("fau");
+
+  let y=0;const ph=.2,pw=9.5,pd=6.5;
+  const pcb=box(pw,ph,pd,0x334155,{roughness:.8});pcb.position.set(0,y+ph/2,0);lPcb.add(t(pcb,"pcb"));y+=ph;
+  // BGA
+  const bh=.18;for(let bx=-3.5;bx<=3.5;bx+=.55){for(let bz=-2.2;bz<=2.8;bz+=.55){const s=new THREE.Mesh(new THREE.SphereGeometry(.08,6,4),m(0x94a3b8,{roughness:.3,metalness:.3}));s.position.set(bx,y+bh/2,bz);lBga.add(s);}}
+  lBga.add(hb(7,bh,5,0,y+bh/2,.5,"bga",1));y+=bh;
+  // Organic substrate
+  const oh=.3,ow=7.5,od=5.5;
+  const org=box(ow,oh,od,0x475569,{roughness:.5,metalness:.1});org.position.set(0,y+oh/2,.3);lOrg.add(t(org,"orgSub"));y+=oh;
+  // C4 bumps
+  for(let bx=-3;bx<=3;bx+=.4){for(let bz=-1.8;bz<=2.4;bz+=.4){const b=new THREE.Mesh(new THREE.CylinderGeometry(.06,.06,.08,8),m(0xcbd5e1,{roughness:.25,metalness:.4}));b.position.set(bx,y+.04,bz+.3);lC4.add(b);}}
+  lC4.add(hb(6.5,.1,4.5,0,y+.04,.3,"c4",1));y+=.1;
+  // Silicon interposer
+  const ih=.22,iw=6.5,id=4.5;
+  const inter=box(iw,ih,id,0x64748b,{roughness:.35,metalness:.15});inter.position.set(0,y+ih/2,.3);lInter.add(t(inter,"interposer"));
+  lInter.add(hb(iw,ih*1.3,id,0,y+ih/2,.3,"interposer"));
+  // TSV visual (vertical lines inside interposer)
+  for(let tx=-2.5;tx<=2.5;tx+=.5){for(let tz=-1.5;tz<=1.5;tz+=.5){const v=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,ih*.7,6),m(0xfbbf24,{roughness:.2,metalness:.5}));v.position.set(tx,y+ih/2,tz+.3);lInter.add(t(v,"tsv"));}}
+  y+=ih;
+
+  // Dies on interposer
+  // ASIC (left-center)
+  const ah=.3,aw=2.5,ad=2.5;
+  const asic=box(aw,ah,ad,0x1e40af,{roughness:.25});asic.position.set(-1.8,y+ah/2,.3);lDies.add(t(asic,"asic"));
+  lDies.add(hb(aw*1.2,ah*1.2,ad*1.2,-1.8,y+ah/2,.3,"asic"));
+  // HBM stack (right of ASIC)
+  const hbmH=.5,hbmW=1.2,hbmD=2;
+  const hbm=box(hbmW,hbmH,hbmD,0x3b82f6,{roughness:.25});hbm.position.set(.5,y+hbmH/2,.3);lDies.add(t(hbm,"hbm"));
+  lDies.add(hb(hbmW*1.3,hbmH*1.3,hbmD*1.3,.5,y+hbmH/2,.3,"hbm"));
+
+  // COUPE engine: PIC (bottom) + hybrid bond + EIC (top)
+  const coupeX=2.6,coupeZ=2.3;
+  // Microbumps under PIC
+  for(let bx=-.3;bx<=.3;bx+=.15){for(let bz=-.25;bz<=.25;bz+=.15){const mb=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.04,8),m(0xcbd5e1,{roughness:.3,metalness:.4}));mb.position.set(coupeX+bx,y+.02,coupeZ+bz);lDies.add(mb);}}
+  // PIC
+  const picH=.08,picW=.8,picD=.7;
+  const pic=box(picW,picH,picD,0x0d9488,{roughness:.25});pic.position.set(coupeX,y+picH/2+.04,coupeZ);lDies.add(t(pic,"pic"));
+  lDies.add(hb(picW*1.4,picH*1.5,picD*1.4,coupeX,y+picH/2+.04,coupeZ,"pic"));
+  // Hybrid bond interface (thin orange line)
+  const hbi=box(picW-.05,.015,picD-.05,0xf59e0b,{roughness:.2,metalness:.3});hbi.position.set(coupeX,y+picH+.06,coupeZ);lDies.add(t(hbi,"hybrid"));
+  // EIC on top
+  const eicH=.15,eicW=.7,eicD=.6;
+  const eic=box(eicW,eicH,eicD,0x7c3aed,{roughness:.25});eic.position.set(coupeX,y+picH+eicH/2+.07,coupeZ);lDies.add(t(eic,"eic"));
+  lDies.add(hb(eicW*1.4,eicH*1.5,eicD*1.4,coupeX,y+picH+eicH/2+.07,coupeZ,"eic"));
+  // FAU / micro-lens on top (small cylinder)
+  const fau=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,.1,12),m(0xef4444,{roughness:.4}));fau.position.set(coupeX,y+picH+eicH+.16,coupeZ);lFau.add(t(fau,"fau"));
+  lFau.add(hb(.4,.2,.4,coupeX,y+picH+eicH+.16,coupeZ,"fau"));
+
+  for(const l of ls)l.userData.baseY=l.position.y;
+
+  // ---- Selection system ----
+  const rc=new THREE.Raycaster();const pt=new THREE.Vector2();let sp="",ptd=null;const dt=5,ro=.06;
+  const sb=(o)=>{if(!o.material||o.userData._sb)return;o.userData._sb=true;o.userData._op=o.material.opacity??1;o.userData._tr=!!o.material.transparent;o.userData._dw=o.material.depthWrite;o.userData._cl=o.material.color?.getHex();o.userData._em=o.material.emissive?.getHex();};
+  const fig=root.closest("figure");const ib=fig?.querySelectorAll("[data-arch-part-index]")||[];const iT=fig?.querySelector("[data-arch-part-title]");const iB=fig?.querySelector("[data-arch-part-body]");const eb=fig?.querySelector("[data-arch-explode-toggle]");const sBt=fig?.querySelector("[data-arch-section-toggle]");const sSw=fig?.querySelector("[data-arch-section-wrap]");
+  const ss=(k)=>{if(!k||!PI[k])return;if(sp===k){cs();return;}sp=k;if(iT){iT.textContent=PI[k].title;iT.style.setProperty("--ptc",PI[k].color);}if(iB)iB.textContent=PI[k].body;for(const b of ib){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed",String(bp===k));}dm(k);};
+  const cs=()=>{sp="";if(iT){iT.textContent="架构说明";iT.style.removeProperty("--ptc");}if(iB)iB.textContent="3D 堆叠的核心特征：EIC 通过混合键合直接叠在 PIC 上方。使用「剖面视图」可切开观察内部层叠。";for(const b of ib){const bp=b.getAttribute("data-arch-part-index");b.style.setProperty("--part-color",PI[bp]?.color||"var(--border)");b.setAttribute("aria-pressed","false");}chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;sb(o);o.material.opacity=o.userData.hitProxy?0:(o.userData._op??1);o.material.transparent=o.userData.hitProxy||!!o.userData._tr;if(typeof o.userData._dw==="boolean")o.material.depthWrite=o.userData._dw;if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;});};
+  const dm=(k)=>{chip.traverse(o=>{if(!o.material||!o.userData.partKey)return;sb(o);if(o.userData.hitProxy){o.material.opacity=0;o.material.transparent=true;o.material.needsUpdate=true;return;}const sel=o.userData.partKey===k;const tgt=sel?Math.min(1,Math.max(o.userData._op??1,.82)):Math.min(o.userData._op??1,ro);if(o.material.color&&o.userData._cl!==undefined)o.material.color.setHex(o.userData._cl);o.material.opacity=tgt;o.material.transparent=o.userData._tr||tgt<1;o.material.depthWrite=sel?(o.userData._dw??true):false;if(o.material.emissive&&o.userData._em!==undefined){o.material.emissive.setHex(o.userData._em);o.material.emissiveIntensity=0;}o.material.needsUpdate=true;});};
+  const fh=(hs)=>hs.filter(h=>h.object.userData.partKey).sort((a,b)=>{const d=(b.object.userData.selectionPriority||0)-(a.object.userData.selectionPriority||0);return d||a.distance-b.distance;})[0];
+  const pk=(e)=>{const rect=r.domElement.getBoundingClientRect();pt.x=((e.clientX-rect.left)/rect.width)*2-1;pt.y=-((e.clientY-rect.top)/rect.height)*2+1;rc.setFromCamera(pt,cam);const h=fh(rc.intersectObject(chip,true));if(h)ss(h.object.userData.partKey);};
+  c.addEventListener("pointerdown",e=>{if(e.button!==0)return;ptd={x:e.clientX,y:e.clientY};c.style.cursor="grabbing";});
+  c.addEventListener("pointermove",e=>{if(e.buttons===0){const rect=c.getBoundingClientRect();pt.x=((e.clientX-rect.left)/rect.width)*2-1;pt.y=-((e.clientY-rect.top)/rect.height)*2+1;rc.setFromCamera(pt,cam);c.style.cursor=fh(rc.intersectObject(chip,true))?"pointer":"grab";}});
+  c.addEventListener("pointerup",e=>{if(!ptd)return;const d=Math.hypot(e.clientX-ptd.x,e.clientY-ptd.y);if(d<dt)pk(e);ptd=null;c.style.cursor="grab";});
+  for(const b of ib){b.style.setProperty("--part-color",PI[b.getAttribute("data-arch-part-index")]?.color||"var(--border)");b.addEventListener("click",()=>ss(b.getAttribute("data-arch-part-index")));}
+
+  let ie=false;const eg=.7,es=.08;eb?.addEventListener("click",()=>{ie=!ie;eb.setAttribute("aria-pressed",String(ie));});
+  // Section view
+  const clipp=new THREE.Plane(new THREE.Vector3(1,0,0),0);let iSec=false,secV=0;const sSlider=sSw?.querySelector("input");
+  sBt?.addEventListener("click",()=>{iSec=!iSec;sBt.setAttribute("aria-pressed",String(iSec));if(sSw)sSw.hidden=!iSec;if(!iSec){ie=false;if(eb)eb.setAttribute("aria-pressed","false");r.clippingPlanes=[];}});
+  sSlider?.addEventListener("input",()=>{secV=parseFloat(sSlider.value);});
+
+  const rz=()=>{const{width}=root.getBoundingClientRect();const h=Math.max(380,Math.min(560,width*.6));root.style.setProperty("--mh",`${h}px`);r.setSize(width,h,false);cam.aspect=width/h;cam.updateProjectionMatrix();};
+  new ResizeObserver(rz).observe(root);rz();
+  const an=()=>{requestAnimationFrame(an);const et=ie?eg:0;for(let i=0;i<ls.length;i++){const cu=ls[i].userData._ey||0;const t=i*et;const n=cu+(t-cu)*es;ls[i].userData._ey=n;ls[i].position.y=(ls[i].userData.baseY||0)+n;}if(iSec){r.clippingPlanes=[clipp];clipp.constant=-secV;}else{r.clippingPlanes=[];}ct.update();r.render(sc,cam);};an();
+  document.addEventListener("astro:before-swap",()=>{r.dispose();},{once:true});
+}
+</script>
+<style>
+  .arch-model { margin: 2rem 0; }
+  .arch-model__viewport { position: relative; background: var(--sl-color-gray-1,#f8fafc); border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 8px; overflow: hidden; min-height: 380px; height: var(--mh,400px); }
+  .arch-model__viewport canvas { display: block; width: 100%; height: 100%; }
+  .arch-model__controls { position: absolute; bottom: 10px; left: 10px; display: flex; gap: 5px; z-index: 2; }
+  .arch-model__controls button { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: rgba(248,250,252,0.9); color: var(--sl-color-gray-5,#475569); cursor: pointer; backdrop-filter: blur(4px); transition: all 0.15s; }
+  .arch-model__controls button:hover { border-color: var(--sl-color-accent,#0d9488); color: var(--sl-color-accent,#0d9488); }
+  .arch-model__controls button[aria-pressed="true"] { background: var(--sl-color-accent,#0d9488); color: #fff; border-color: var(--sl-color-accent,#0d9488); }
+  .arch-model__slider { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; z-index: 2; }
+  .arch-model__slider input { width: 160px; }
+  .arch-model__slider span { font-size: 0.68rem; color: var(--sl-color-gray-4,#94a3b8); }
+  .arch-model__index { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .arch-model__index button { padding: 3px 8px; font-size: 0.72rem; border: 1px solid var(--sl-color-gray-3,#cbd5e1); border-radius: 4px; background: var(--sl-color-gray-1,#f8fafc); color: var(--sl-color-gray-5,#475569); cursor: pointer; transition: all 0.15s; }
+  .arch-model__index button:hover { border-color: var(--part-color,#0d9488); box-shadow: inset 0 0 0 1px var(--part-color,#0d9488); }
+  .arch-model__index button[aria-pressed="true"] { background: var(--part-color,#0d9488); color: #fff; border-color: var(--part-color,#0d9488); }
+  .arch-model__info { margin-top: 0.6rem; font-size: 0.82rem; color: var(--sl-color-gray-5,#475569); line-height: 1.55; }
+  .arch-model__info strong { display: block; color: var(--sl-color-gray-6,#334155); }
+  .arch-model__info strong::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--ptc,var(--sl-color-accent,#0d9488)); margin-right: 5px; vertical-align: middle; position: relative; top: -1px; }
+  figcaption { margin-top: 0.3rem; font-size: 0.75rem; color: var(--sl-color-gray-4,#94a3b8); text-align: center; }
+  figcaption strong { font-weight: 600; color: var(--sl-color-gray-5,#64748b); }
+  figcaption span { display: block; }
+</style>

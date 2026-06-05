@@ -1,0 +1,839 @@
+---
+interface Props {
+  title?: string;
+  caption?: string;
+}
+
+const {
+  title = "CPO 封装结构模型",
+  caption = "可旋转，可分层展开。展示焊接式 CPO 封装从主板到散热盖的完整层叠结构与组件位置关系。垂直层厚经过示意化处理，属于 not to scale 教学模型。"
+} = Astro.props;
+
+const indexItems = [
+  ["pcb", "#334155", "主板 PCB"],
+  ["bga", "#94a3b8", "BGA 焊球"],
+  ["substrate", "#475569", "封装基板"],
+  ["asic", "#1e40af", "Switch ASIC"],
+  ["engine", "#0d9488", "光引擎 (PIC+EIC)"],
+  ["laser", "#f59e0b", "激光器裸片"],
+  ["eic", "#7c3aed", "EIC 芯片"],
+  ["interposer", "#64748b", "硅中介层"],
+  ["underfill", "#e2e8f0", "底部填充"],
+  ["fiber", "#ef4444", "光纤阵列"],
+  ["lid", "#94a3b8", "散热盖 / Lid"],
+  ["tim", "#d97706", "TIM 导热层"],
+];
+---
+
+<figure class="cpo-model">
+  <div class="cpo-model__viewport" data-cpo-arch-model>
+    <canvas aria-label={title}></canvas>
+    <div class="cpo-model__controls">
+      <button type="button" class="cpo-model__control-btn" data-cpo-explode-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 5.5L7 1.5L11 5.5"/>
+          <path d="M3 8.5L7 12.5L11 8.5"/>
+        </svg>
+        <span>分层展开</span>
+      </button>
+      <button type="button" class="cpo-model__control-btn" data-cpo-lid-toggle aria-pressed="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7C1 7 3 2 7 2C11 2 13 7 13 7C13 7 11 12 7 12C3 12 1 7 1 7Z"/>
+          <circle cx="7" cy="7" r="2.5"/>
+        </svg>
+        <span>透明散热盖</span>
+      </button>
+      <button type="button" class="cpo-model__control-btn" data-cpo-section-toggle aria-pressed="false">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <rect x="1" y="1" width="12" height="12" rx="1"/>
+          <line x1="7" y1="1" x2="7" y2="13"/>
+        </svg>
+        <span>剖面视图</span>
+      </button>
+    </div>
+    <div class="cpo-model__slider" data-cpo-section-slider-wrap hidden>
+      <input type="range" data-cpo-section-slider min="-6" max="6" step="0.1" value="0">
+      <span>切面位置</span>
+    </div>
+  </div>
+  <div class="cpo-model__index" aria-label="封装结构索引">
+    {indexItems.map(([key, color, label]) => (
+      <button type="button" data-cpo-part-index={key} style={`--part-color: ${color}`}>{label}</button>
+    ))}
+  </div>
+  <div class="cpo-model__info" data-cpo-part-info aria-live="polite">
+    <strong data-cpo-part-title>封装结构说明</strong>
+    <span data-cpo-part-body>旋转模型观察各层结构。点击模型中的部件或下方索引按钮，这里会显示它的作用。使用“分层展开”按钮可拉开各层观察内部。</span>
+  </div>
+  <figcaption>
+    <strong>{title}</strong>
+    <span>{caption}</span>
+  </figcaption>
+</figure>
+
+<script>
+  import * as THREE from "three";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+  const roots = document.querySelectorAll("[data-cpo-arch-model]");
+
+  const partInfo = {
+    pcb: {
+      color: "#334155",
+      title: "主板 PCB",
+      body: "交换机或服务器的系统主板。FR4 或类似材料，几十层布线，线宽数十微米级。BGA 焊球将上方的封装基板连接到主板。主板上还有供电、控制信号和光纤笼体等结构。"
+    },
+    bga: {
+      color: "#94a3b8",
+      title: "BGA 焊球阵列",
+      body: "连接封装基板底面与主板顶面的焊球阵列。球距 0.4–1.0 mm，永久焊接。承担电气连接、机械固定和部分热传导三重职责。BGA 是封装与系统的物理分界线——以上属于封装内部，以下是系统主板。"
+    },
+    substrate: {
+      color: "#475569",
+      title: "有机封装基板",
+      body: "4–18 层积层的有机载板，芯层 BT 树脂或 ABF 薄膜。将芯片的细间距 I/O 扇出到 BGA 球距，同时提供电源分配、高速走线和全局机械支撑。CPO 场景下 ASIC 和多个光引擎共享同一块基板。"
+    },
+    asic: {
+      color: "#1e40af",
+      title: "Switch ASIC 裸片",
+      body: "数据中心交换机的网络交换芯片，CPO 封装中最大的热源（数十至数百瓦）。位于封装基板中央，光引擎围绕它排布。与光引擎之间的高速电信号路径被压缩到 5 mm 以内。"
+    },
+    interposer: {
+      color: "#64748b",
+      title: "硅中介层",
+      body: "位于裸片与封装基板之间的高密度互连层。用硅晶圆制造，线宽可达 2 μm 以下，布线密度约为有机基板的 10 倍。将裸片侧的 microbump（30–55 μm pitch）过渡到封装基板侧的 C4 bump（~150 μm pitch）。可选带 TSV 实现正反面垂直互连。"
+    },
+    eic: {
+      color: "#7c3aed",
+      title: "EIC 裸片（电子 IC）",
+      body: "包含 modulator driver（驱动调制器）和 TIA（跨阻放大器，放大探测器信号）。贴在硅中介层上，紧邻 PIC 裸片，通过 microbump 互连。EIC 功耗约数瓦，是封装内仅次于 ASIC 的热源。"
+    },
+    engine: {
+      color: "#0d9488",
+      title: "光引擎（PIC 光子 IC）",
+      body: "承载波导、调制器、探测器、耦合器等光子结构的硅光芯片。光信号在这里完成调制（TX）或解调（RX）。一侧通过 microbump 连接 EIC 接收驱动信号，另一侧通过边缘耦合器连接光纤阵列将光信号送出封装。"
+    },
+    laser: {
+      color: "#f59e0b",
+      title: "激光器裸片（DFB 激光器）",
+      body: "提供连续波（CW）光载波的 III-V 族半导体芯片。内置方案中直接贴在引擎基板上，靠近 PIC 的边缘耦合器。激光器结温上限（<85°C）远低于硅芯片，需与 ASIC 热区保持隔离设计。"
+    },
+    underfill: {
+      color: "#e2e8f0",
+      title: "底部填充（Underfill）",
+      body: "注入裸片与基板之间的环氧树脂。固化后分担焊点所受的热膨胀剪切应力——无 underfill 时焊点在几十次温度循环后就会疲劳断裂。CPO 中 underfill 的模量和 CTE 若控制不当，会将应力传入波导层，改变有效折射率。"
+    },
+    fiber: {
+      color: "#ef4444",
+      title: "光纤阵列（FAU）",
+      body: "多根光纤精密排列在 V 形槽中，作为一个整体与 PIC 的边缘耦合器对准。1dB 横向对准容差仅 ±1–2.5 μm，是封装中对装配精度要求最高的步骤。对准后以 UV 固化胶固定。"
+    },
+    lid: {
+      color: "#94a3b8",
+      title: "散热盖 / Lid",
+      body: "覆盖所有裸片上方的金属盖板，通过 TIM 将芯片热量传导到外部散热器（风冷或液冷）。同时提供机械保护和封装刚度。通常为铜或铝材，表面可带散热片结构。"
+    },
+    tim: {
+      color: "#d97706",
+      title: "TIM 导热界面材料",
+      body: "填充在芯片背面与散热盖之间的导热介质。作用是填平微观间隙、降低界面热阻。厚度越薄越好（通常 <100 μm），但需要吸收各芯片的高度差异和装配公差。TIM 老化是长期可靠性的隐患——干涸、挤出或分层都会导致热阻上升。"
+    }
+  };
+
+  const partOrder = Object.keys(partInfo);
+  const partColor = (key) => Number.parseInt(partInfo[key].color.slice(1), 16);
+
+  const material = (color, opts = {}) =>
+    new THREE.MeshStandardMaterial({ color, roughness: 0.55, metalness: 0.05, ...opts });
+
+  const transparent = (color, opacity) =>
+    material(color, { transparent: true, opacity, depthWrite: false });
+
+  function createBox({ w, h, d, color, opacity = 1, roughness = 0.55, metalness = 0.05 }) {
+    const mat = material(color, {
+      transparent: opacity < 1, opacity, roughness, metalness,
+      ...(opacity < 1 ? { depthWrite: false } : {})
+    });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+    mesh.castShadow = false;
+    return mesh;
+  }
+
+  function createHitBox({ w, h, d, x, y, z, key, priority = 2 }) {
+    const mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(w, h, d),
+      new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+    );
+    mesh.position.set(x, y, z);
+    return tagPart(mesh, key, true, priority);
+  }
+
+  function tagPart(object, key, isHitProxy = false, priority = 0) {
+    object.userData.partKey = key;
+    object.userData.hitProxy = isHitProxy;
+    object.userData.selectionPriority = priority;
+    object.traverse(child => {
+      child.userData.partKey = key;
+      child.userData.hitProxy = isHitProxy;
+    });
+    return object;
+  }
+
+  for (const root of roots) {
+    const canvas = root.querySelector("canvas");
+    if (!canvas) continue;
+
+    // ── Scene ──────────────────────────────────────
+    const scene = new THREE.Scene();
+    scene.background = null;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const camera = new THREE.PerspectiveCamera(36, 1.6, 0.5, 50);
+    camera.position.set(5.5, 4.2, 7.5);
+    camera.lookAt(0, 0.6, 0);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0.6, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.maxPolarAngle = Math.PI * 0.7;
+    controls.update();
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.6);
+    keyLight.position.set(8, 12, 6);
+    scene.add(keyLight);
+    const fillLight = new THREE.DirectionalLight(0xbae6fd, 0.55);
+    fillLight.position.set(-4, 3, -3);
+    scene.add(fillLight);
+    const rimLight = new THREE.DirectionalLight(0xffffff, 0.45);
+    rimLight.position.set(0, 1.5, -6);
+    scene.add(rimLight);
+
+    // ── build model ────────────────────────────────
+    const chip = new THREE.Group();
+    scene.add(chip);
+
+    const layerGroups = [];
+    function addLayer(key) {
+      const g = new THREE.Group();
+      g.userData.layerKey = key;
+      g.userData.layerIndex = layerGroups.length;
+      layerGroups.push(g);
+      chip.add(g);
+      return g;
+    }
+
+    const lPcb      = addLayer("pcb");
+    const lBga      = addLayer("bga");
+    const lSubstrate= addLayer("substrate");
+    const lInterposer=addLayer("interposer");
+    const lDieLayer = addLayer("dieLayer");
+    const lUnderfill= addLayer("underfill");
+    const lFiber    = addLayer("fiber");
+    const lTim      = addLayer("tim");
+    const lLid      = addLayer("lid");
+
+    // Base Y values
+    let y = 0;
+    const pcbH = 0.25;
+    const pcbW = 9, pcbD = 6.5;
+
+    const bgaH = 0.2;
+    const subH = 0.5;
+    const subW = 7, subD = 5;
+
+    const interpH = 0.18;
+    const interpW = 5.5, interpD = 4;
+
+    const dieH = 0.3;
+    const asicW = 2.6, asicD = 2.6;
+
+    const engineW = 0.8, engineD = 0.65;
+    const eicW = 0.7, eicD = 0.55;
+    const laserW = 0.4, laserD = 0.4;
+
+    const ufH = 0.12;
+    const timH = 0.06;
+    const lidH = 0.45;
+
+    // ==== PCB ====
+    const pcb = createBox({ w: pcbW, h: pcbH, d: pcbD, color: 0x334155, roughness: 0.8, metalness: 0.1 });
+    pcb.position.set(0, y + pcbH/2, 0);
+    lPcb.add(tagPart(pcb, "pcb"));
+    y += pcbH;
+
+    // ==== BGA ====
+    const bgaPitch = 0.55;
+    const bgaR = 0.08;
+    const bgaGeom = new THREE.SphereGeometry(bgaR, 8, 6);
+    const bgaMat = material(0x94a3b8, { roughness: 0.4, metalness: 0.3 });
+    for (let bx = -3; bx <= 3; bx += bgaPitch) {
+      for (let bz = -2; bz <= 2; bz += bgaPitch) {
+        if (Math.abs(bx) < 2.5 && Math.abs(bz) < 2 && Math.random() > 0.15) continue; // sparse center cluster
+        const s = new THREE.Mesh(bgaGeom, bgaMat);
+        s.position.set(bx, y + bgaH/2, bz);
+        lBga.add(s);
+      }
+    }
+    const bgaGroupHit = tagPart(new THREE.Group(), "bga");
+    bgaGroupHit.position.set(0, y + bgaH/2, 0);
+    // Add a hit box for BGA
+    const bgaHit = createHitBox({ w: subW, h: bgaH, d: subD, x: 0, y: y + bgaH/2, z: 0, key: "bga", priority: 1 });
+    lBga.add(bgaHit);
+    y += bgaH;
+
+    // ==== Package substrate ====
+    const substrate = createBox({ w: subW, h: subH, d: subD, color: 0x475569, roughness: 0.5, metalness: 0.1 });
+    substrate.position.set(0, y + subH/2, 0);
+    lSubstrate.add(tagPart(substrate, "substrate"));
+    // substrate hit box on top surface for easy click
+    lSubstrate.add(createHitBox({ w: subW, h: subH * 1.5, d: subD, x: 0, y: y + subH/2, z: 0, key: "substrate", priority: -1 }));
+    y += subH;
+
+    // ==== Silicon interposer ====
+    const interposer = createBox({ w: interpW, h: interpH, d: interpD, color: 0x64748b, roughness: 0.35, metalness: 0.15 });
+    interposer.position.set(0, y + interpH/2, 0);
+    lInterposer.add(tagPart(interposer, "interposer"));
+    // fine RDL lines on top (decorative)
+    for (let rx = -2; rx <= 2; rx += 0.2) {
+      const rdl = createBox({ w: 0.02, h: 0.01, d: interpD - 0.4, color: 0xfbbf24, roughness: 0.3, metalness: 0.5 });
+      rdl.position.set(rx, y + interpH + 0.005, 0);
+      lInterposer.add(rdl);
+    }
+    y += interpH;
+
+    // ==== Dies layer ====
+    const dieBaseY = y;
+
+    // ASIC (center, large)
+    const asic = createBox({ w: asicW, h: dieH, d: asicD, color: 0x1e40af, roughness: 0.25, metalness: 0.1 });
+    asic.position.set(0, dieBaseY + dieH/2, 0);
+    lDieLayer.add(tagPart(asic, "asic"));
+    // ASIC hit box (slightly larger for easy click)
+    lDieLayer.add(createHitBox({ w: asicW * 1.3, h: dieH * 1.2, d: asicD * 1.3, x: 0, y: dieBaseY + dieH/2, z: 0, key: "asic" }));
+
+    // Optical engines around ASIC (4 engines: left, right, front, back)
+    const enginePositions = [
+      { x: -1.95, z: 0, rx: 0 },
+      { x: 1.95, z: 0, rx: 0 },
+      { x: 0, z: -1.9, rx: Math.PI / 2 },
+      { x: 0, z: 1.9, rx: Math.PI / 2 },
+    ];
+
+    const fiberLines = [];
+
+    for (const ep of enginePositions) {
+      // Engine group (PIC + EIC + laser)
+      const eg = new THREE.Group();
+      eg.position.set(ep.x, dieBaseY + dieH/2, ep.z);
+
+      // EIC (closer to ASIC)
+      const eicOffX = ep.x === 0 ? (ep.z > 0 ? -0.45 : 0.45) : (ep.x > 0 ? -0.45 : 0.45);
+      const eicOffZ = ep.z === 0 ? (ep.x > 0 ? -0.45 : 0.45) : 0;
+      const eic = createBox({ w: eicW, h: dieH * 0.85, d: eicD, color: 0x7c3aed, roughness: 0.3, metalness: 0.1 });
+      eic.position.set(eicOffX, 0, eicOffZ);
+      eg.add(tagPart(eic, "eic"));
+
+      // PIC (farther from ASIC)
+      const picOffX = ep.x === 0 ? (ep.z > 0 ? 0.42 : -0.42) : (ep.x > 0 ? 0.42 : -0.42);
+      const picOffZ = ep.z === 0 ? (ep.x > 0 ? 0.42 : -0.42) : 0;
+      const pic = createBox({ w: engineW, h: dieH * 0.75, d: engineD, color: 0x0d9488, roughness: 0.3, metalness: 0.05 });
+      pic.position.set(picOffX, 0, picOffZ);
+      eg.add(tagPart(pic, "engine"));
+
+      // Laser die (next to PIC, outer side)
+      const laserOffX = picOffX + (ep.x >= 0 && ep.z === 0 ? 0.5 : ep.x <= 0 && ep.z === 0 ? -0.5 : 0);
+      const laserOffZ = picOffZ + (ep.z > 0 && ep.x === 0 ? 0.5 : ep.z < 0 && ep.x === 0 ? -0.5 : 0);
+      const laser = createBox({ w: laserW, h: dieH * 0.5, d: laserD, color: 0xf59e0b, roughness: 0.25, metalness: 0.15 });
+      laser.position.set(laserOffX, 0, laserOffZ);
+      eg.add(tagPart(laser, "laser"));
+
+      // Microbumps between PIC and interposer (decorative)
+      for (let mbx = picOffX - 0.25; mbx <= picOffX + 0.25; mbx += 0.15) {
+        for (let mbz = picOffZ - 0.2; mbz <= picOffZ + 0.2; mbz += 0.15) {
+          const mb = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.04, 8), material(0xcbd5e1, { roughness: 0.3, metalness: 0.4 }));
+          mb.position.set(mbx, -dieH * 0.38, mbz);
+          eg.add(mb);
+        }
+      }
+
+      // Fiber from PIC outward
+      const fiberDir = { x: ep.x !== 0 ? (ep.x > 0 ? 1 : -1) : 0, z: ep.z !== 0 ? (ep.z > 0 ? 1 : -1) : 0 };
+      const fiberStartX = picOffX + fiberDir.x * engineW/2;
+      const fiberStartZ = picOffZ + fiberDir.z * engineD/2;
+      const fiberLen = 2.5;
+      const fiber = createBox({ w: Math.abs(fiberDir.x) * fiberLen + 0.06, h: 0.03, d: Math.abs(fiberDir.z) * fiberLen + 0.06, color: 0xef4444, roughness: 0.5, metalness: 0 });
+      fiber.position.set(
+        fiberStartX + fiberDir.x * fiberLen/2,
+        0,
+        fiberStartZ + fiberDir.z * fiberLen/2
+      );
+      if (Math.abs(fiberDir.x) * fiberLen < 0.1) {
+        fiber.scale.set(0.06 / fiberLen, 1, 1);
+        fiber.position.x = fiberStartX + fiberDir.x * 0.1;
+      }
+      if (Math.abs(fiberDir.z) * fiberLen < 0.1) {
+        fiber.scale.set(1, 1, 0.06 / fiberLen);
+        fiber.position.z = fiberStartZ + fiberDir.z * 0.1;
+      }
+      eg.add(fiber);
+      fiberLines.push(fiber);
+      if (ep.x > 0 || ep.z > 0) tagPart(fiber, "fiber");
+
+      lDieLayer.add(eg);
+    }
+
+    // Engine group hit target
+    const engHit = createHitBox({ w: engineW * 1.5, h: dieH, d: engineD * 1.5, x: 1.95 + 0.42, y: dieBaseY + dieH/2, z: 0, key: "engine" });
+    lDieLayer.add(engHit);
+
+    // ==== Underfill ====
+    // Visible as thin translucent layer wrapping the die edges
+    const underfill = createBox({ w: asicW + 0.25, h: ufH, d: asicD + 0.25, color: 0xe2e8f0, opacity: 0.5, roughness: 0.7 });
+    underfill.position.set(0, dieBaseY - 0.02, 0);
+    lUnderfill.add(tagPart(underfill, "underfill"));
+    // Engine underfills
+    for (const ep of enginePositions) {
+      const uf = createBox({ w: engineW + eicW + 0.5, h: ufH, d: Math.max(engineD, eicD) + 0.2, color: 0xe2e8f0, opacity: 0.45, roughness: 0.7 });
+      uf.position.set(ep.x, dieBaseY - 0.02, ep.z);
+      lUnderfill.add(uf);
+    }
+
+    const dieTopY = dieBaseY + dieH;
+
+    // ==== TIM ====
+    const timPlate = createBox({ w: interpW - 0.3, h: timH, d: interpD - 0.3, color: 0xd97706, opacity: 0.55, roughness: 0.8 });
+    timPlate.position.set(0, dieTopY + timH/2, 0);
+    lTim.add(tagPart(timPlate, "tim"));
+
+    // ==== Lid / Heat sink ====
+    const lidCover = createBox({ w: subW, h: lidH, d: subD, color: 0x94a3b8, roughness: 0.45, metalness: 0.35 });
+    lidCover.position.set(0, dieTopY + timH + lidH/2, 0);
+    lLid.add(tagPart(lidCover, "lid"));
+    // Fin ridges on top of lid
+    for (let fx = -3; fx <= 3; fx += 0.4) {
+      const fin = createBox({ w: 0.08, h: 0.35, d: subD - 0.4, color: 0x94a3b8, roughness: 0.4, metalness: 0.4 });
+      fin.position.set(fx, dieTopY + timH + lidH + 0.18, 0);
+      lLid.add(fin);
+    }
+
+    // ── Store base Y positions of layers for explode ──
+    for (const lg of layerGroups) {
+      lg.userData.baseY = lg.position.y;
+    }
+
+    // ── Lid toggle ──────────────────────────────────
+    const lidLayers = ["lid", "tim"];
+    const lidMeshes = [];
+    chip.traverse(obj => {
+      if (obj.userData.partKey && lidLayers.includes(obj.userData.partKey) && obj.material && !obj.userData.hitProxy) {
+        lidMeshes.push(obj);
+      }
+    });
+
+    let isLidHidden = true;
+    for (const mesh of lidMeshes) {
+      mesh.userData.baseOpacity = mesh.material.opacity ?? 1;
+      mesh.userData.baseTransparent = !!mesh.material.transparent;
+      mesh.userData.baseDepthWrite = mesh.material.depthWrite;
+      mesh.material.opacity = 0.12;
+      mesh.material.transparent = true;
+      mesh.material.depthWrite = false;
+      mesh.material.needsUpdate = true;
+    }
+
+    const toggleLid = () => {
+      isLidHidden = !isLidHidden;
+      for (const mesh of lidMeshes) {
+        if (isLidHidden) {
+          mesh.material.opacity = 0.12;
+          mesh.material.transparent = true;
+          mesh.material.depthWrite = false;
+        } else {
+          mesh.material.opacity = mesh.userData.baseOpacity;
+          mesh.material.transparent = mesh.userData.baseTransparent;
+          if (typeof mesh.userData.baseDepthWrite === "boolean") mesh.material.depthWrite = mesh.userData.baseDepthWrite;
+        }
+        mesh.material.needsUpdate = true;
+      }
+      if (lidBtn) lidBtn.setAttribute("aria-pressed", String(isLidHidden));
+    };
+
+    // ── Section / clipping plane ────────────────────
+    const clippingPlane = new THREE.Plane(new THREE.Vector3(1, 0, 0), 0);
+    renderer.localClippingEnabled = true;
+    let isSectionView = false;
+    let sectionSliderValue = 0;
+
+    // ── Raycaster / Selection ───────────────────────
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    let selectedPart = "";
+    let pointerDownState = null;
+    const dragThreshold = 5;
+    const referenceOpacity = 0.06;
+
+    // Store base materials before dimming
+    const storeBaseMaterial = (obj) => {
+      if (!obj.material || obj.userData.baseMatStored) return;
+      obj.userData.baseMatStored = true;
+      obj.userData.baseOpacity = obj.material.opacity ?? 1;
+      obj.userData.baseTransparent = !!obj.material.transparent;
+      obj.userData.baseDepthWrite = obj.material.depthWrite;
+      obj.userData.baseColor = obj.material.color?.getHex();
+      obj.userData.baseEmissive = obj.material.emissive?.getHex();
+    };
+
+    const setSelectedPart = (key) => {
+      if (!key || !partInfo[key]) return;
+      if (selectedPart === key) {
+        clearSelectedPart();
+        return;
+      }
+      selectedPart = key;
+      if (infoTitle && infoBody) {
+        infoTitle.textContent = partInfo[key].title;
+        infoTitle.style.setProperty("--part-title-color", partInfo[key].color);
+        infoBody.textContent = partInfo[key].body;
+      }
+      for (const btn of indexButtons) {
+        const bp = btn.getAttribute("data-cpo-part-index");
+        btn.style.setProperty("--part-color", partInfo[bp]?.color || "var(--border)");
+        btn.setAttribute("aria-pressed", String(bp === key));
+      }
+      dimNonSelected(key);
+    };
+
+    const clearSelectedPart = () => {
+      selectedPart = "";
+      if (infoTitle && infoBody) {
+        infoTitle.textContent = "封装结构说明";
+        infoTitle.style.removeProperty("--part-title-color");
+        infoBody.textContent = "旋转模型观察各层结构。点击模型中的部件或下方索引按钮，这里会显示它的作用。使用「分层展开」按钮可拉开各层观察内部。";
+      }
+      for (const btn of indexButtons) {
+        const bp = btn.getAttribute("data-cpo-part-index");
+        btn.style.setProperty("--part-color", partInfo[bp]?.color || "var(--border)");
+        btn.setAttribute("aria-pressed", "false");
+      }
+      chip.traverse(obj => {
+        if (!obj.material || !obj.userData.partKey) return;
+        storeBaseMaterial(obj);
+        const isLidPart = lidLayers.includes(obj.userData.partKey);
+        const baseOp = isLidPart && isLidHidden ? 0.12 : (obj.userData.baseOpacity ?? 1);
+        obj.material.opacity = obj.userData.hitProxy ? 0 : baseOp;
+        obj.material.transparent = obj.userData.hitProxy || (isLidPart && isLidHidden) || obj.userData.baseTransparent;
+        if (typeof obj.userData.baseDepthWrite === "boolean") obj.material.depthWrite = obj.userData.baseDepthWrite;
+        if (obj.material.color && obj.userData.baseColor !== undefined) obj.material.color.setHex(obj.userData.baseColor);
+        if (obj.material.emissive && obj.userData.baseEmissive !== undefined) {
+          obj.material.emissive.setHex(obj.userData.baseEmissive);
+          obj.material.emissiveIntensity = 0;
+        }
+        obj.material.needsUpdate = true;
+      });
+    };
+
+    const dimNonSelected = (key) => {
+      chip.traverse(obj => {
+        if (!obj.material || !obj.userData.partKey) return;
+        storeBaseMaterial(obj);
+        if (obj.userData.hitProxy) {
+          obj.material.opacity = 0;
+          obj.material.transparent = true;
+          obj.material.needsUpdate = true;
+          return;
+        }
+        const isSelected = obj.userData.partKey === key;
+        const isLidPart = lidLayers.includes(obj.userData.partKey);
+        const baseOp = isLidPart && isLidHidden ? 0.12 : (obj.userData.baseOpacity ?? 1);
+        const targetOp = isSelected
+          ? Math.min(1, Math.max(baseOp, 0.82))
+          : Math.min(baseOp, referenceOpacity);
+
+        if (obj.material.color && obj.userData.baseColor !== undefined)
+          obj.material.color.setHex(obj.userData.baseColor);
+        obj.material.opacity = targetOp;
+        obj.material.transparent = obj.userData.baseTransparent || obj.material.opacity < 1;
+        obj.material.depthWrite = isSelected
+          ? (obj.userData.baseDepthWrite ?? true)
+          : false;
+        if (obj.material.emissive && obj.userData.baseEmissive !== undefined) {
+          obj.material.emissive.setHex(obj.userData.baseEmissive);
+          obj.material.emissiveIntensity = 0;
+        }
+        obj.material.needsUpdate = true;
+      });
+    };
+
+    const findPartHit = (hits) =>
+      hits
+        .filter(h => h.object.userData.partKey)
+        .sort((a, b) => {
+          const d = (b.object.userData.selectionPriority || 0) - (a.object.userData.selectionPriority || 0);
+          return d || a.distance - b.distance;
+        })[0];
+
+    const pickPart = (e) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hits = raycaster.intersectObject(chip, true);
+      const hit = findPartHit(hits);
+      if (hit) setSelectedPart(hit.object.userData.partKey);
+    };
+
+    canvas.addEventListener("pointerdown", (e) => {
+      if (e.button !== 0) return;
+      pointerDownState = { x: e.clientX, y: e.clientY };
+      canvas.style.cursor = "grabbing";
+    });
+    canvas.addEventListener("pointermove", (e) => {
+      if (e.buttons === 0) {
+        pointer.x = ((e.clientX - canvas.getBoundingClientRect().left) / canvas.getBoundingClientRect().width) * 2 - 1;
+        pointer.y = -((e.clientY - canvas.getBoundingClientRect().top) / canvas.getBoundingClientRect().height) * 2 + 1;
+        raycaster.setFromCamera(pointer, camera);
+        const hits = raycaster.intersectObject(chip, true);
+        const hit = findPartHit(hits);
+        canvas.style.cursor = hit ? "pointer" : "grab";
+      }
+    });
+    canvas.addEventListener("pointerup", (e) => {
+      if (!pointerDownState) return;
+      const dist = Math.hypot(e.clientX - pointerDownState.x, e.clientY - pointerDownState.y);
+      if (dist < dragThreshold) pickPart(e);
+      pointerDownState = null;
+      canvas.style.cursor = "grab";
+    });
+
+    // ── Buttons & DOM queries ───────────────────────
+    const figure = root.closest("figure");
+    const indexButtons = figure ? figure.querySelectorAll("[data-cpo-part-index]") : [];
+    const infoTitle = figure ? figure.querySelector("[data-cpo-part-title]") : null;
+    const infoBody = figure ? figure.querySelector("[data-cpo-part-body]") : null;
+    const explodeBtn = figure ? figure.querySelector("[data-cpo-explode-toggle]") : null;
+    const lidBtn = figure ? figure.querySelector("[data-cpo-lid-toggle]") : null;
+    const sectionBtn = figure ? figure.querySelector("[data-cpo-section-toggle]") : null;
+    const sectionSliderWrap = figure ? figure.querySelector("[data-cpo-section-slider-wrap]") : null;
+
+    for (const btn of indexButtons) {
+      btn.style.setProperty("--part-color", partInfo[btn.getAttribute("data-cpo-part-index")]?.color || "var(--border)");
+      btn.addEventListener("click", () => setSelectedPart(btn.getAttribute("data-cpo-part-index")));
+    }
+
+    // ── Explode toggle ──────────────────────────────
+    let isExploded = false;
+    const explodeGap = 0.7;
+    const explodeSpeed = 0.08;
+
+    // ── Section toggle ──────────────────────────────
+    const sectionSlider = sectionSliderWrap ? sectionSliderWrap.querySelector("input") : null;
+    const handleSectionToggle = () => {
+      isSectionView = !isSectionView;
+      if (sectionBtn) sectionBtn.setAttribute("aria-pressed", String(isSectionView));
+      if (sectionSliderWrap) sectionSliderWrap.hidden = !isSectionView;
+      if (!isSectionView) {
+        isExploded = false;
+        if (explodeBtn) explodeBtn.setAttribute("aria-pressed", "false");
+      }
+    };
+    sectionBtn?.addEventListener("click", handleSectionToggle);
+    sectionSlider?.addEventListener("input", () => {
+      sectionSliderValue = Number.parseFloat(sectionSlider.value);
+    });
+
+    // ── Explode ─────────────────────────────────────
+    const handleExplodeToggle = () => {
+      if (isSectionView) {
+        isSectionView = false;
+        if (sectionBtn) sectionBtn.setAttribute("aria-pressed", "false");
+        if (sectionSliderWrap) sectionSliderWrap.hidden = true;
+        renderer.clippingPlanes = [];
+      }
+      isExploded = !isExploded;
+      if (explodeBtn) explodeBtn.setAttribute("aria-pressed", String(isExploded));
+    };
+    explodeBtn?.addEventListener("click", handleExplodeToggle);
+    lidBtn?.addEventListener("click", toggleLid);
+
+    // ── Resize ──────────────────────────────────────
+    const resize = () => {
+      const { width } = root.getBoundingClientRect();
+      const h = Math.max(400, Math.min(600, width * 0.6));
+      root.style.setProperty("--model-height", `${h}px`);
+      renderer.setSize(width, h, false);
+      camera.aspect = width / h;
+      camera.updateProjectionMatrix();
+    };
+    const observer = new ResizeObserver(resize);
+    observer.observe(root);
+    resize();
+
+    // ── Animation loop ──────────────────────────────
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      // Explode smooth lerp
+      const explodeTarget = isExploded ? explodeGap : 0;
+      for (let i = 0; i < layerGroups.length; i++) {
+        const cur = layerGroups[i].userData.explodeY || 0;
+        const tgt = i * explodeTarget;
+        const nxt = cur + (tgt - cur) * explodeSpeed;
+        layerGroups[i].userData.explodeY = nxt;
+        layerGroups[i].position.y = (layerGroups[i].userData.baseY || 0) + nxt;
+      }
+
+      // Section clipping
+      if (isSectionView) {
+        renderer.clippingPlanes = [clippingPlane];
+        clippingPlane.constant = -sectionSliderValue;
+      } else {
+        renderer.clippingPlanes = [];
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // ── Cleanup ─────────────────────────────────────
+    document.addEventListener("astro:before-swap", () => {
+      renderer.dispose();
+      observer.disconnect();
+    }, { once: true });
+  }
+</script>
+
+<style>
+  .cpo-model {
+    margin: 2rem 0;
+  }
+  .cpo-model__viewport {
+    position: relative;
+    background: var(--sl-color-gray-1, #f8fafc);
+    border: 1px solid var(--sl-color-gray-3, #cbd5e1);
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 380px;
+    height: var(--model-height, 400px);
+  }
+  .cpo-model__viewport canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .cpo-model__controls {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+    z-index: 2;
+  }
+  .cpo-model__control-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    border: 1px solid var(--sl-color-gray-3, #cbd5e1);
+    border-radius: 4px;
+    background: rgba(248, 250, 252, 0.9);
+    color: var(--sl-color-gray-5, #475569);
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: all 0.15s;
+  }
+  .cpo-model__control-btn:hover {
+    border-color: var(--sl-color-accent, #0d9488);
+    color: var(--sl-color-accent, #0d9488);
+  }
+  .cpo-model__control-btn[aria-pressed="true"] {
+    background: var(--sl-color-accent, #0d9488);
+    color: #fff;
+    border-color: var(--sl-color-accent, #0d9488);
+  }
+  .cpo-model__slider {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+  }
+  .cpo-model__slider input {
+    width: 160px;
+  }
+  .cpo-model__slider span {
+    font-size: 0.68rem;
+    color: var(--sl-color-gray-4, #94a3b8);
+  }
+  .cpo-model__index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .cpo-model__index button {
+    padding: 3px 8px;
+    font-size: 0.72rem;
+    border: 1px solid var(--sl-color-gray-3, #cbd5e1);
+    border-radius: 4px;
+    background: var(--sl-color-gray-1, #f8fafc);
+    color: var(--sl-color-gray-5, #475569);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cpo-model__index button:hover {
+    border-color: var(--part-color, #0d9488);
+    box-shadow: inset 0 0 0 1px var(--part-color, #0d9488);
+  }
+  .cpo-model__index button[aria-pressed="true"] {
+    background: var(--part-color, #0d9488);
+    color: #fff;
+    border-color: var(--part-color, #0d9488);
+  }
+  .cpo-model__info {
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--sl-color-gray-5, #475569);
+    line-height: 1.55;
+  }
+  .cpo-model__info strong {
+    display: block;
+    color: var(--sl-color-gray-6, #334155);
+  }
+  .cpo-model__info strong::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--part-title-color, var(--sl-color-accent, #0d9488));
+    margin-right: 5px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+  figcaption {
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-4, #94a3b8);
+    text-align: center;
+  }
+  figcaption strong {
+    font-weight: 600;
+    color: var(--sl-color-gray-5, #64748b);
+  }
+  figcaption span {
+    display: block;
+  }
+</style>
