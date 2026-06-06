@@ -1,0 +1,74 @@
+---
+const c = {
+  pcb:"#334155",bga:"#94a3b8",substrate:"#475569",asicDie:"#1e40af",
+  heatsink:"#94a3b8",engine:"#0d9488",eic:"#7c3aed",pic:"#0d9488",
+  fiber:"#ef4444",trace:"#f97316",socket:"#78716c",bolt:"#57534e",elsfp:"#d97706",
+};
+const summary = "ASIC 通过 LGA 插座独立封装在 PCB 上，光引擎模块放在附近 PCB 上（50–150 mm 外）。ELSFP 在前面板供光，通过板上光纤路由到各引擎。";
+---
+
+<figure class="pkg-diag">
+  <figcaption><strong>② NPO 近封装光学</strong><span>{summary}</span></figcaption>
+  <div class="pkg-diag__wrap">
+    <svg viewBox="0 0 960 135" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-l2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color={c.heatsink}/></linearGradient>
+      </defs>
+      <!-- PCB -->
+      <rect x="20" y="95" width="920" height="10" fill={c.pcb} rx="1"/>
+
+      <!-- ASIC with LGA socket -->
+      <rect x="80" y="74" width="80" height="21" fill={c.socket} rx="2"/>
+      <text x="120" y="88" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="600">LGA 插座</text>
+      <circle cx="84" cy="76" r="4" fill={c.bolt}/><text x="84" y="68" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text>
+      <circle cx="156" cy="76" r="4" fill={c.bolt}/><text x="156" y="68" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text>
+      <rect x="86" y="54" width="68" height="20" fill={c.substrate} rx="2"/>
+      <rect x="94" y="40" width="52" height="14" fill={c.asicDie} rx="2"/>
+      <text x="120" y="50" text-anchor="middle" font-size="8" fill="#fff" font-weight="600">ASIC</text>
+      <rect x="84" y="18" width="72" height="22" fill="url(#g-l2)" rx="2"/>
+
+      <!-- OE module left -->
+      <rect x="260" y="75" width="75" height="12" fill={c.substrate} rx="2"/>
+      <rect x="266" y="60" width="28" height="15" fill={c.eic} rx="2"/><text x="280" y="70" text-anchor="middle" font-size="7" fill="#fff">EIC</text>
+      <rect x="296" y="60" width="28" height="15" fill={c.pic} rx="2"/><text x="310" y="70" text-anchor="middle" font-size="7" fill="#fff">PIC</text>
+      <rect x="260" y="36" width="75" height="10" fill="url(#g-l2)" rx="1"/>
+      <path d="M160,84 L255,84" stroke={c.trace} stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="208" y="79" text-anchor="middle" font-size="7" fill={c.trace}>~50mm</text>
+
+      <!-- OE module right -->
+      <rect x="550" y="75" width="70" height="12" fill={c.substrate} rx="2"/>
+      <rect x="556" y="62" width="25" height="13" fill={c.eic} rx="2"/><text x="568" y="71" text-anchor="middle" font-size="6.5" fill="#fff">EIC</text>
+      <rect x="583" y="62" width="25" height="13" fill={c.pic} rx="2"/><text x="595" y="71" text-anchor="middle" font-size="6.5" fill="#fff">PIC</text>
+      <rect x="550" y="38" width="70" height="10" fill="url(#g-l2)" rx="1"/>
+      <!-- fiber from OEs out -->
+      <line x1="310" y1="68" x2="440" y2="68" stroke={c.fiber} stroke-width="1.5"/>
+      <line x1="595" y1="68" x2="720" y2="68" stroke={c.fiber} stroke-width="1.5"/>
+
+      <!-- ELSFP at front panel -->
+      <rect x="780" y="102" width="40" height="24" fill={c.elsfp} rx="4"/>
+      <text x="800" y="117" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="600">ELSFP</text>
+      <!-- Fiber from ELSFP to OEs -->
+      <path d="M780,114 L730,114 L730,68 L400,68" stroke={c.fiber} stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
+      <path d="M780,114 L750,114 L750,68 L625,68" stroke={c.fiber} stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
+      <!-- front panel -->
+      <line x1="825" y1="60" x2="825" y2="105" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+      <text x="825" y="55" text-anchor="middle" font-size="7" fill="#475569">前面板</text>
+      <line x1="820" y1="114" x2="826" y2="114" stroke={c.fiber} stroke-width="2"/>
+
+      <!-- legend -->
+      <rect x="20" y="118" width="8" height="8" fill={c.socket} rx="1"/><text x="32" y="125" font-size="7" fill="#64748b">LGA插座</text>
+      <rect x="82" y="118" width="8" height="8" fill={c.bolt} rx="1"/><text x="94" y="125" font-size="7" fill="#64748b">螺栓</text>
+      <rect x="130" y="118" width="8" height="8" fill={c.elsfp} rx="1"/><text x="142" y="125" font-size="7" fill="#64748b">ELSFP</text>
+      <rect x="190" y="118" width="8" height="8" fill={c.fiber} rx="1"/><text x="202" y="125" font-size="7" fill="#64748b">板上光纤</text>
+      <rect x="256" y="118" width="8" height="8" fill={c.trace} rx="1"/><text x="268" y="125" font-size="7" fill="#64748b">PCB走线</text>
+    </svg>
+  </div>
+</figure>
+<style>
+  .pkg-diag { margin: 1.8rem 0; }
+  .pkg-diag__wrap { background: var(--sl-color-gray-1,#f8fafc); border:1px solid var(--sl-color-gray-3,#cbd5e1); border-radius:8px; padding:10px 8px 6px; }
+  .pkg-diag__wrap svg { display:block; width:100%; height:auto; }
+  .pkg-diag figcaption { margin-bottom:.4rem; }
+  .pkg-diag figcaption strong { display:block; font-size:.82rem; font-weight:600; color:var(--sl-color-gray-6,#334155); text-align:center; }
+  .pkg-diag figcaption span { display:block; font-size:.7rem; color:var(--sl-color-gray-4,#94a3b8); text-align:center; }
+</style>

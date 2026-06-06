@@ -6,7 +6,11 @@ description: 解释 CPO 光引擎封装集成：封装架构分类、内部物�
 ---
 
 import TermNote from "../../components/TermNote.astro";
-import PackagingComparison from "../../components/PackagingComparison.astro";
+import PkgPluggable from "../../components/PkgPluggable.astro";
+import PkgNpo from "../../components/PkgNpo.astro";
+import PkgSolderedCpo from "../../components/PkgSolderedCpo.astro";
+import PkgSocketedCpo from "../../components/PkgSocketedCpo.astro";
+import PkgStacked3d from "../../components/PkgStacked3d.astro";
 
 ## 0. 什么是封装集成
 
@@ -118,7 +122,11 @@ OIF 的 CPO 框架文档将这几种形态统称为共封装组件（Co-Packagin
 
 **3D 堆叠**把这道物理题推到极致：EIC 通过混合键合（SoIC）直接叠在 PIC 上方，键合 pitch 可至几微米，寄生电容比 microbump 降低约 85%。COUPE 引擎再通过 CoWoS 硅中介层（带 TSV）与 ASIC 和 HBM 在同一封装内集成。代价是热堆叠和工艺整合复杂度最高。
 
-<PackagingComparison />
+<PkgPluggable />
+<PkgNpo />
+<PkgSolderedCpo />
+<PkgSocketedCpo />
+<PkgStacked3d />
 
 ## 2. 封装内部物理结构
 

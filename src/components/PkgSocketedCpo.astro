@@ -1,0 +1,47 @@
+---
+const c = {
+  pcb:"#334155",bga:"#94a3b8",substrate:"#475569",asicDie:"#1e40af",
+  heatsink:"#94a3b8",engine:"#0d9488",socket:"#78716c",bolt:"#57534e",fiber:"#ef4444",trace:"#f97316",
+};
+const summary = "ASIC 仍用 BGA 焊接，光引擎改用 LGA 插座 + 四角螺栓压紧。引擎可单独拆卸返修，但保持机构占用基板面积、增加引擎高度。";
+---
+
+<figure class="pkg-diag">
+  <figcaption><strong>④ 插座式 CPO</strong><span>{summary}</span></figcaption>
+  <div class="pkg-diag__wrap">
+    <svg viewBox="0 0 960 140" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="bg-d4" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.8" fill={c.bga}/></pattern>
+        <linearGradient id="g-l4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color={c.heatsink}/></linearGradient>
+      </defs>
+      <!-- PCB -->
+      <rect x="20" y="112" width="920" height="10" fill={c.pcb} rx="1"/>
+      <!-- BGA -->
+      <rect x="40" y="96" width="900" height="16" fill="url(#bg-d4)"/>
+      <!-- Shared substrate -->
+      <rect x="45" y="60" width="890" height="36" fill={c.substrate} rx="4"/>
+      <text x="490" y="82" text-anchor="middle" font-size="9" fill="#cbd5e1" font-weight="600">共享封装基板</text>
+      <!-- ASIC (BGA, no socket) -->
+      <rect x="385" y="40" width="210" height="20" fill={c.asicDie} rx="2"/>
+      <text x="490" y="53" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">ASIC (BGA 焊接)</text>
+
+      <!-- 4 socketed engines -->
+      <g transform="translate(60,36)"><rect x="0" y="24" width="138" height="14" fill={c.socket} rx="2"/><text x="69" y="33" text-anchor="middle" font-size="7" fill="#fff">LGA 插座框架</text><rect x="8" y="0" width="122" height="24" fill={c.engine} rx="2"/><text x="69" y="15" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="600">OE 1</text><circle cx="3" cy="2" r="4" fill={c.bolt}/><text x="3" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text><circle cx="135" cy="2" r="4" fill={c.bolt}/><text x="135" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text></g>
+      <g transform="translate(210,36)"><rect x="0" y="24" width="138" height="14" fill={c.socket} rx="2"/><text x="69" y="33" text-anchor="middle" font-size="7" fill="#fff">LGA 插座框架</text><rect x="8" y="0" width="122" height="24" fill={c.engine} rx="2"/><text x="69" y="15" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="600">OE 2</text><circle cx="3" cy="2" r="4" fill={c.bolt}/><text x="3" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text><circle cx="135" cy="2" r="4" fill={c.bolt}/><text x="135" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text></g>
+      <g transform="translate(640,36)"><rect x="0" y="24" width="138" height="14" fill={c.socket} rx="2"/><text x="69" y="33" text-anchor="middle" font-size="7" fill="#fff">LGA 插座框架</text><rect x="8" y="0" width="122" height="24" fill={c.engine} rx="2"/><text x="69" y="15" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="600">OE 3</text><circle cx="3" cy="2" r="4" fill={c.bolt}/><text x="3" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text><circle cx="135" cy="2" r="4" fill={c.bolt}/><text x="135" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text></g>
+      <g transform="translate(790,36)"><rect x="0" y="24" width="138" height="14" fill={c.socket} rx="2"/><text x="69" y="33" text-anchor="middle" font-size="7" fill="#fff">LGA 插座框架</text><rect x="8" y="0" width="122" height="24" fill={c.engine} rx="2"/><text x="69" y="15" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="600">OE 4</text><circle cx="3" cy="2" r="4" fill={c.bolt}/><text x="3" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text><circle cx="135" cy="2" r="4" fill={c.bolt}/><text x="135" y="-6" text-anchor="middle" font-size="6" fill={c.bolt}>螺栓</text></g>
+      <!-- TIM -->
+      <rect x="50" y="26" width="880" height="4" fill={c.trace} opacity="0.4"/>
+      <!-- Lid -->
+      <rect x="30" y="2" width="900" height="24" fill="url(#g-l4)" rx="3"/>
+      <text x="490" y="17" text-anchor="middle" font-size="9" fill="#475569" font-weight="600">散热盖 (Lid)</text>
+      <!-- Fiber -->
+      <line x1="60" y1="48" x2="20" y2="48" stroke={c.fiber} stroke-width="1.8"/>
+      <line x1="928" y1="48" x2="960" y2="48" stroke={c.fiber} stroke-width="1.8"/>
+      <!-- Legend -->
+      <rect x="20" y="126" width="8" height="8" fill={c.socket} rx="1"/><text x="32" y="133" font-size="7" fill="#64748b">LGA插座</text>
+      <rect x="90" y="126" width="8" height="8" fill={c.bolt} rx="1"/><text x="102" y="133" font-size="7" fill="#64748b">保持螺栓</text>
+    </svg>
+  </div>
+</figure>
+<style>.pkg-diag{margin:1.8rem 0}.pkg-diag__wrap{background:var(--sl-color-gray-1,#f8fafc);border:1px solid var(--sl-color-gray-3,#cbd5e1);border-radius:8px;padding:10px 8px 6px}.pkg-diag__wrap svg{display:block;width:100%;height:auto}.pkg-diag figcaption{margin-bottom:.4rem}.pkg-diag figcaption strong{display:block;font-size:.82rem;font-weight:600;color:var(--sl-color-gray-6,#334155);text-align:center}.pkg-diag figcaption span{display:block;font-size:.7rem;color:var(--sl-color-gray-4,#94a3b8);text-align:center}</style>
