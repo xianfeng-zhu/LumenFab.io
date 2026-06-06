@@ -45,6 +45,7 @@ const indexItems = [
 <script>
   import * as THREE from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+  import { setupTrackpadControls } from "../lib/trackpad-controls.mjs";
   const roots = document.querySelectorAll("[data-arch-model]");
 
   const PI = {
@@ -83,7 +84,7 @@ const indexItems = [
     const renderer = new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
     renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
     const camera = new THREE.PerspectiveCamera(36,1.6,0.5,50); camera.position.set(6,4.5,7); camera.lookAt(0,0.2,0);
-    const controls = new OrbitControls(camera,renderer.domElement); controls.target.set(0,0.2,0); controls.enableDamping=true; controls.dampingFactor=0.08; controls.maxPolarAngle=Math.PI*0.7; controls.update();
+    const controls = new OrbitControls(camera,renderer.domElement); controls.target.set(0,0.2,0); controls.enableDamping=true; controls.dampingFactor=0.08; controls.maxPolarAngle=Math.PI*0.7; controls.update(); const removeWheel = setupTrackpadControls(controls, camera, canvas);
     scene.add(new THREE.AmbientLight(0xffffff,0.9));
     const kl = new THREE.DirectionalLight(0xffffff,1.6); kl.position.set(8,12,6); scene.add(kl);
     scene.add(new THREE.DirectionalLight(0xbae6fd,0.55)).position.set(-4,3,-3);
@@ -164,7 +165,7 @@ const indexItems = [
 
     const animate=()=>{requestAnimationFrame(animate);const et=isExploded?explodeGap:0;for(let i=0;i<layers.length;i++){const c=layers[i].userData._ey||0;const t=i*et;const n=c+(t-c)*explodeSpeed;layers[i].userData._ey=n;layers[i].position.y=(layers[i].userData.baseY||0)+n;}controls.update();renderer.render(scene,camera);};
     animate();
-    document.addEventListener("astro:before-swap",()=>{renderer.dispose();},{once:true});
+    document.addEventListener("astro:before-swap",()=>{removeWheel();renderer.dispose();},{once:true});
   }
 </script>
 <style>

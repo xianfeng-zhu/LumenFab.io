@@ -74,6 +74,7 @@ const indexItems = [
 <script>
   import * as THREE from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+  import { setupTrackpadControls } from "../lib/trackpad-controls.mjs";
 
   const roots = document.querySelectorAll("[data-cpo-arch-model]");
 
@@ -201,6 +202,7 @@ const indexItems = [
     controls.dampingFactor = 0.08;
     controls.maxPolarAngle = Math.PI * 0.7;
     controls.update();
+    const removeWheel = setupTrackpadControls(controls, camera, canvas);
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.9));
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.6);
@@ -702,6 +704,7 @@ const indexItems = [
 
     // ── Cleanup ─────────────────────────────────────
     document.addEventListener("astro:before-swap", () => {
+      removeWheel();
       renderer.dispose();
       observer.disconnect();
     }, { once: true });

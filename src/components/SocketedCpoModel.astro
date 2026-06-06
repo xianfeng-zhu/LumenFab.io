@@ -29,7 +29,7 @@ const idx = [
 </figure>
 
 <script>
-import*as THREE from"three";import{OrbitControls}from"three/examples/jsm/controls/OrbitControls.js";
+import*as THREE from"three";import{OrbitControls}from"three/examples/jsm/controls/OrbitControls.js";import{setupTrackpadControls}from"../lib/trackpad-controls.mjs";
 const ROOTS=document.querySelectorAll("[data-arch-model]");
 const PI={
   pcb:{color:"#334155",title:"主板 PCB",body:"系统主板。封装通过底部 BGA 焊球连接到主板。插座式 CPO 的整个封装组件（基板 + ASIC + 引擎插座）作为一个整体焊在主板上。"},
@@ -55,7 +55,7 @@ for(const root of ROOTS){
   const sc=new THREE.Scene();sc.background=null;
   const r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.outputColorSpace=THREE.SRGBColorSpace;r.setPixelRatio(Math.min(devicePixelRatio,2));
   const cam=new THREE.PerspectiveCamera(36,1.6,.5,50);cam.position.set(5.5,4.5,7);cam.lookAt(0,.4,0);
-  const ct=new OrbitControls(cam,r.domElement);ct.target.set(0,.4,0);ct.enableDamping=true;ct.dampingFactor=.08;ct.maxPolarAngle=Math.PI*.7;ct.update();
+  const ct=new OrbitControls(cam,r.domElement);ct.target.set(0,.4,0);ct.enableDamping=true;ct.dampingFactor=.08;ct.maxPolarAngle=Math.PI*.7;ct.update();const rmW=setupTrackpadControls(ct,cam,c);
   sc.add(new THREE.AmbientLight(0xffffff,.9));const kl=new THREE.DirectionalLight(0xffffff,1.6);kl.position.set(8,12,6);sc.add(kl);sc.add(new THREE.DirectionalLight(0xbae6fd,.55)).position.set(-4,3,-3);sc.add(new THREE.DirectionalLight(0xffffff,.45)).position.set(0,1.5,-6);
   const chip=new THREE.Group();sc.add(chip);const ls=[];function al(k){const g=new THREE.Group();g.userData={layerKey:k,layerIndex:ls.length};ls.push(g);chip.add(g);return g;}
   const lPcb=al("pcb"),lBga=al("bga"),lSub=al("substrate"),lDies=al("dies"),lSocket=al("socket"),lFiber=al("fiber");
@@ -118,7 +118,7 @@ for(const root of ROOTS){
   const rz=()=>{const{width}=root.getBoundingClientRect();const h=Math.max(380,Math.min(560,width*.6));root.style.setProperty("--mh",`${h}px`);r.setSize(width,h,false);cam.aspect=width/h;cam.updateProjectionMatrix();};
   new ResizeObserver(rz).observe(root);rz();
   const an=()=>{requestAnimationFrame(an);const et=ie?eg:0;for(let i=0;i<ls.length;i++){const cu=ls[i].userData._ey||0;const t=i*et;const n=cu+(t-cu)*es;ls[i].userData._ey=n;ls[i].position.y=(ls[i].userData.baseY||0)+n;}ct.update();r.render(sc,cam);};an();
-  document.addEventListener("astro:before-swap",()=>{r.dispose();},{once:true});
+  document.addEventListener("astro:before-swap",()=>{rmW();r.dispose();},{once:true});
 }
 </script>
 <style>

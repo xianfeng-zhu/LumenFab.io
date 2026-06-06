@@ -6,11 +6,7 @@ description: 解释 CPO 光引擎封装集成：封装架构分类、内部物�
 ---
 
 import TermNote from "../../components/TermNote.astro";
-import PluggableModel from "../../components/PluggableModel.astro";
-import NpoModel from "../../components/NpoModel.astro";
-import CpoArchitectureModel from "../../components/CpoArchitectureModel.astro";
-import SocketedCpoModel from "../../components/SocketedCpoModel.astro";
-import Stacked3dModel from "../../components/Stacked3dModel.astro";
+import PackagingComparison from "../../components/PackagingComparison.astro";
 
 ## 0. 什么是封装集成
 
@@ -114,23 +110,15 @@ OIF 的 CPO 框架文档将这几种形态统称为共封装组件（Co-Packagin
 
 **前面板可插拔**是传统基线。ASIC 独立封装在 PCB 中央，光模块（QSFP-DD / OSFP）插入前面板笼体，激光器、PIC、EIC、DSP 全部集成在模块内部。ASIC 到模块的 PCB 走线长达 100–200 mm，每英寸损耗约 1–1.5 dB（112 Gbps PAM4）。优势是生态成熟、现场可更换；代价是前面板密度瓶颈和功耗压力越来越大。
 
-<PluggableModel />
-
 **焊接式 CPO** 用 BGA 或铜柱阵列将引擎焊在与 ASIC 共享的封装基板上，电径最短（&lt;5 mm），密度最高。引擎一旦焊死便无法单独更换，KGD 筛选压力集中。
-
-<CpoArchitectureModel />
 
 **插座式 CPO** 在同一块封装基板上为引擎提供 LGA 插座加四角螺栓压缩。引擎可拆卸返修，但保持机构占用基板面积，压缩力分布不均匀时会影响接触电阻和基板平整度，进而影响光纤对准。
 
-<SocketedCpoModel />
-
 **NPO**（近封装光学）将引擎放在 ASIC 封装附近的 PCB 上（而非共享基板），通过插座和短走线（20–50 mm）连接。ASIC 封装不改，引擎独立测试和返修无压力；代价是电径比深度 CPO 长，高速通道损耗和阻抗不连续性相应增大。
-
-<NpoModel />
 
 **3D 堆叠**把这道物理题推到极致：EIC 通过混合键合（SoIC）直接叠在 PIC 上方，键合 pitch 可至几微米，寄生电容比 microbump 降低约 85%。COUPE 引擎再通过 CoWoS 硅中介层（带 TSV）与 ASIC 和 HBM 在同一封装内集成。代价是热堆叠和工艺整合复杂度最高。
 
-<Stacked3dModel />
+<PackagingComparison />
 
 ## 2. 封装内部物理结构
 
