@@ -1,0 +1,2428 @@
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Indium-Phosphide Photonic-Integrated-Circuits
+Boston U
+
+Larry A. Coldren
+Fred Kavli Professor of Optoelectronics and Sensors
+ECE & Materials, UC-Santa Barbara
+
+Major contributions by:
+Meint Smit & Kevin Williams
+Vikrant Lal & Fred Kish
+Yuliya Akulova & Mike Larson
+L. Johansson & M. Mashanovitch
+Ben Yoo
+UCSB Collaborators
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+What’s the problem?
+Size, Weight, Power, Cost, Performance, Reliability
+Where?
+
+• Communication
+– Long haul
+– Metro, campus
+– Data centers, Supercomputers
+
+• Sensing/instrumentation
+• Computing
+
+OFC 2017
+
+Integration Platforms
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Indium Phosphide
+• Excellent active components
+• Mature technology
+• Propagation losses for passive elements
+• Foundries evolving
+
+Polymer Technology
+• Low loss
+• Passive waveguides
+• Modulators
+• No laser
+
+Silica on Silicon (PLC)
+• Excellent passive components
+• Mature technology
+• Lack of active elements
+
+Hybrid
+Solutions
+
+Silicon Photonics
+• Piggy-back on Si-CMOS
+technology
+• Integration with electronics?
+• Constantly improving
+performance
+• No laser
+
+“Heterogeneous Integration Technology”
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Introduction/Historical View—PICs
+
+OFC 2017
+
+ 1970’s - OEICs on GaAs for high-speed computing
+
+ 1980’s – InP photonics/fiber; integration & tunables for coherent  Reach
+ 1990’s – Widely-tunables, laser-mods, small-scale int. for WDM and cost
+ 1990’s – VCSELs for datacom and optical interconnection
+
+ 2000 - Bubble: Explosion of strange ideas, bandwidth-demand satisfied by
+DWDM  crash; but bandwidth needed by 2010.
+ 2000’s – InP PICs & PLCs expanded and matured; increasing use of VCSELs
+in high-speed datacom and computing interconnects
+ 2006+ – Emergence of Si-PICs with several different goals: low-cost OEICs;
+high-performance PICs; or stop Moore’s-Law saturation
+ 2008+ - Use of advanced modulation formats/coherent receivers for improved
+Spectral Efficiency —need for integration at both ends of links
+ 2010’s – Increased InP-PIC use; maturity of Si-photonics solutions; improved
+VCSEL performance; heterogeneous integration approaches
+ 2017 – Some delineations; InP-PICs for long-haul/metro; Si-photonics
+beginning to emerge in high-volume short-data/metro
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Motivation
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Communication Requires a Complex Network
+OFC 2017
+
+• The Ethernet ecosystem—it’s nearly all optical (fiber)
+• Need higher bandwidth & performance with lower SWAP-C
+
+Data is King
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Exponential network traffic growth is driven by high-bandwidth digital applications
+G4, Video-on-demand, HD-TV, wireless backhaul, cloud computing & services
+
+Scaling spectral efficiency through WDM, Coherent, ?
+W4G.1.pdf OFC 2017 © OSA 2017
+
+305 Tbit/s on a single
+fiber/SDM
+
+OFC 2017
+Network Demand
+
+[P.J.Winzer, IEEE Comm. Mag., June 2010]
+
+Coherent
+
+Tb/s
+
+0.8 dB/yr
+10
+
+1
+
+2.5 dB/yr
+
+100
+~ 5 THz bandwidth
+Gb/s
+
+Serial Interface Rates and WDM Capacities
+
+100
+
+10
+1
+1986
+
+Tx
+1990
+
+1994
+
+1998
+
+2002
+
+2006 2010
+
+2014
+
+2018
+
+~ 100 km of fiber
+
+Rx
+2022
+
+~10 Terabit/s WDM systems are now commercially available
+~100+ Terabit/s WDM systems have been demonstrated in research (Coherent)
+EDFA enabled WDM (wavelength division multiplexing)in 1990s
+Growth of WDM system capacities has noticeably slowed down
+Now “Space-Division-Multiplexing” (SDM) is being explored
+Courtesy P. Winzer
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Motivation for Photonic Integration
+
+OFC 2017
+
+• Reduced size, weight, power (SWAP)
+• Improved performance (coupling losses, stability, etc.)
+• Improved reliability (fewer pigtails, TECs, fiber alignment optics,
+etc…), although chip yield may not be highest
+• Cost (in volume)
+
+Horizontal and vertical integration possible
+- multiple functionality and arrays of chips in one
+After C. Joyner,
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Photonic integrated circuit (PIC) pros/cons
+
+OFC 2017
+
+• Small footprint
+
+ No lenses between elements
+ Strongly confining waveguides
+
+• Low power
+
+ Avoid 50-ohm lines (if close to electronics); only one cooler/PIC
+
+• Performance
+
+
+
+
+
+Cannot optimize components separately  need common design rules
+Only one input/output coupling, but still need mode X-former or optics
+Can usually avoid isolators on-chip, but still need at output
+Phase delays for interference and feedback stable and small
+
+• Low price (need large market to realize)
+
+
+
+
+
+Fewer touch points
+No mechanical adjustments—packaging still issue
+Less test equipment
+Less material
+
+Based on C. Doerr inputs, OFC 2014,
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+InP vs Si vs PLC
+Performance
+Building block
+
+InP
+
+Si
+
+TriPleX
+
+Performance
+
+Passive components
+Lasers
+Modulators
+Switches
+Optical amplifiers
+Detectors
+
+l
+lll
+lll
+lll
+lll
+lll
+
+ll
+
+lll
+
+
+
+
+
+ll
+lll
+
+l
+l
+
+lll Very good
+ll Good
+l Modest
+Challenging
+
+
+
+
+
+
+lll
+
+
+
+Footprint
+Chip cost
+CMOS compatibility
+Low cost packaging
+
+ll
+l
+
+lll
+ll
+ll
+1
+2
+ /ll
+
+l
+ll
+l
+ll
+
+JePPIX training Eindhoven
+
+Introduction
+
+
+
+1
+
+Endfire coupling (low refl.)
+
+2
+
+Vertical coupling (med. refl.)
+
+11
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+A PIC enabled revolution in Photonics
+
+A global photonics market development powered by integration
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Transceiver market history and projection
+Transceiver Market
+$12.000
+
+GaAs integrated
+GaAs discrete
+
+Sales ($ millions
+
+$10.000
+
+InP Integrated
+
+InP discrete
+$8.000
+
+Silicon Photonics
+
+$6.000
+
+$4.000
+
+$2.000
+
+$0
+2010
+
+Source LightCounting
+
+2011
+
+2012
+
+2013
+
+2014
+
+2015
+
+2016
+
+2017
+
+2018
+
+2019
+
+2020
+
+2021
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Metro Challenge
+
+OFC 2017
+
+Metro challenge: deliver full integration
+with good price, power, footprint, and
+performance in volume
+= InP
+
+Infinera 100G/500G
+
+Full-integration gap
+
+= Si
+
+DWDM
+Long Haul
+
+Partial integration
+(U2T, Oclaro, etc.)
+
+GaAs
+
+DWDM
+Metro
+
+Cisco/Lightwire CPAK
+Intel/Corning MPX
+
+Telecom
+Clients
+
+Luxtera AOCs
+
+Active
+Cables
+VCSEL
+Chip-to-Chip
+
+Data Center
+Clients
+
+EA Modulator
+Section
+
+p-InGaAs/InP Cap
+
+DFB Laser
+Section
+AR
+HR
+
+Selective-Area
+MOCVD Grown
+MQW-SCH
+
+Priorities
+All very important
+
+Priorities
+1. Performance
+2. Footprint
+3. Power
+4. Price
+
+Fe:InP
+Blocking
+
+EML
+
+n-InP Substrate
+InGaAsP
+Grating
+
+Priorities
+1. Price
+2. Power
+3. Footprint
+4. Performance
+
+Based on C. Doerr inputs, OFC 2014,
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Cost reductions through volumes
+
+# chips at 2mm2 / year
+100k
+
+1M
+
+10M
+
+100M
+
+1B
+
+PICs
+for
+telco
+New
+markets
+
+Silicon
+CMOS
+fabs
+
+• The existing (large) fabs and processes for Silicon may be a disadvantage
+• Need a mechanism to allow new applications to grow
+• Organically scale or a step change ?
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Moving to Interconnects
+Optical
+
+OFC 2017
+
+Copper
+Chip to Chip
+
+Metro &
+Long Haul
+0.1 – 80 km
+
+1 – 50 cm
+
+Intel
+Optical
+Products
+
+Billions
+
+50 – 100 cm
+
+Millions
+
+Rack to
+Rack
+
+Volumes
+
+Board to Board
+
+1 to 100 m
+
+Thousands
+2010
+
+Decreasing Distances
+
+16
+
+Drive optical to high
+volumes and low costs
+
+2025
+
+Moore’s Law for Photonics
+Scaling in Photonic ICs
+
+COBRA
+
+Other
+
+Photonics Research 3, 5, pp. B60-B68 (2015)
+https://www.osapublishing.org/prj/abstract.cfm?uri=prj-3-5-b60
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Indium Phosphide as the Materials
+Platform
+
+Indium Phosphide
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+III-V material
+
+Zincblende structure
+
+(two intersecting FCC lattices, one for In and one for P)
+
+Lattice constant = 5.87 A at 300K
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+InGaAsP/InP lattice-matched alloys
+
+OFC 2017
+
+InGaAsP latticematched to InP
+
+1.31
+1.55
+
+lg(mm) = 1.24/ Eg(eV)
+
+Integration Technology:
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Lateral waveguides/couplers
+
+OFC 2017
+
+Waveguide cross sections
+x
+
+InP
+InGaAsP
+
+y
+Deeply-etched Ridge
+
+Surface ridge
+
+Buried channel
+
+Higher index contrast
+
+MMI coupler
+
+WMMI
+
+WWG
+Pout
+
+Pin
+LTUNE
+
+LMMI
+
+Buried rib
+
+Integration Technology:
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Active-Passive (axial) Integration
+Desire lossless, reflectionless transitions between sections
+
+OFC 2017
+
+x
+z
+
+Vertical
+Twin-Guide
+
+Patterned Re-growth
+Low Passive Loss
+
+Low Passive Loss
+
+3 Bandgaps usually desired
+
+Integration Technology:
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Offset Quantum Well Process
+
+OFC 2017
+
+Active–Passive Region
+Definition
+
+Grating Formation
+
+InP/InGaAs Regrowth
+
+Metalization/Anneal
+
+Passivation/Implant
+
+InP Ridge Etch
+
+• Requires Single ‘Planar’ MOCVD Regrowth
+• Foundry compatible
+
+x
+y
+
+z
+
+Integration Technology:
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+QWI For Multiple-Band Edges/Single Growth
+
+OFC 2017
+
+Simple/robust QWI process
+– Ability to achieve multiple band
+edges with a single implant
+
+E. Skogen et al, “Post-Growth Control of the Quantum-Well Band Edge for the Monolithic
+Integration of Widely-Tunable Lasers and Electroabsorption Modulators,” JSTQE, 9 (5) pp 1-8
+(Sept, 2003).
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+InP integration platforms
+Integration Technology
+Dual waveguides
+(offset quantum
+wells)
+
+Design constraints
+Gain/mode overlap
+Carrier injection into the laser
+
+Bulk or MQW
+
+Other advantages/issues
+
+Coupling loss
+-
+
+l1
+
+l2
+
+l3
+
+l1
+
+l2
+
+l3
+
+QW intermixing
+
+Selective Area
+Growth (SAG)
+
+Regrowth
+
+Number of QWs and doping
+is shared between all
+functional sections
+Number of QWs and doping
+is shared between all
+functional sections
+
+None
+
+-
+
+-
+
+QW width is not optimum for
+laser and/or modulator;
+detuning control is difficult;
+shape of the QWs is affected
+by intermixing => modulator
+efficiency degradation
+QW width is not optimum for
+the laser/or modulator;
+transition regions;
+detuning control is difficult
+
+Regrowth can be combined with
+SAG to tailor waveguide thickness
+further (ex. spot size converter)
+
+ Regrowth integration is robust integration platform with ultimate design flexibility:
+ Optimization of material composition, number and width of the quantum wells, and doping
+© 2015 Lumentum Operations LLC
+
+25
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Early Active PICs—InP
+
+OFC 2017
+
+Partially transmissive mirrors (couplers) and active-passive integration needed
+
+ DBR gratings and vertical couplers
+-
+
+Tunable single frequency
+Combined integration technologies
+
+Y. Tohmori, Y. Suematsu, Y. Tushima, and S. Arai, “Wavelength
+tuning of GaInAsP/InP integrated laser with butt-jointed built-in
+DBR,” Electron. Lett., 19 (17) 656-7 (1983).
+
+EML = electroabsorption-modulated laser
+-
+
+Still in production today
+
+M. Suzuki, et al., J. Lightwave Technol., LT-5, pp. 1277-1285, 1987.
+DFB laser
+
+EAM
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Coherent Communication Motivated Photonic Integration
+OFC 2017
+
+• In the 1980’s coherent communication was widely investigated to increase receiver sensitivity and
+repeater spacing. It was also seen as a means of expanding WDM approaches because optical filters
+would not be so critical.
+Y. Yamamoto and T. Kimura, “Coherent optical fiber transmission systems,” IEEE J. Quantum Electron, vol. 17, no. 6, pp. 919-925, Jun. 1981.
+
+• This early coherent work drove early photonic integration efforts—Stability; enabled phase-locking
+
+T. L. Koch, U. Koren, R. P. Gnall, F. S. Choa, F. Hernandez-Gil, C. A. Burrus, M. G. Young, M. Oron, and B. I. Miller, “GaInAs/GaInAsP multiplequantum-well integrated heterodyne receiver,” Electron. Lett., vol. 25, no. 24, pp. 1621-1623, Nov. 1989
+
+Integrated Coherent Receiver
+(Koch, et al)
+
+• The EDFA enabled simple WDM repeaters
+• (just amplifiers) and coherent was put on the shelf
+• But, some aspects of Photonic Integration continued  e.g., Tunable Lasers
+
+Tunable Lasers
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+Mode Selection Filter
+
+Gain Medium
+
+Mirror-1
+
+Simple DBR:
+
+Output
+
+Mirror-2
+
+_
+
+Tune n, m
+
+ml/2 = nL
+
+Tunable DBR Lasers SGDBR
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+Mode Selection Filter
+
+Gain Medium
+
+Mirror-1
+
+Output
+
+ml/2 = nL
+
+Mirror-2
+
+Supermode (multiband) tuning
+
+Simple DBR:
+
+10
+
+2 1
+
+3
+
+-10
+
+Power
+
+Laser Emission, dBm
+
+0
+
+SGDBR:
+
+-20
+-30
+-40
+-50
+1
+
+Mirror Reflectivity
+
+• Uses vernier effect for multiband tuning
+• Δλ/λ = N x Δn/n by differential mirror tuning
+
+1570
+
+Reflectanse
+
+0.8
+
+1530 Back
+1540 1550 1560
+Wavelength (nm)
+Front
+
+0.6
+0.4
+0.2
+0
+
+29
+1530
+
+1540
+1550 1560
+Wavelength
+Wavelength (nm)
+
+1570
+
+Tunable Lasers:
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Sampled-Grating DBR: Monolithic and Integrable
+OFC 2017
+
+SGDBR+X widely-tunable transmitter:
+“Multi-Section Tunable Laser with Differing Multi-Element
+Mirrors,” US Patent # 4,896,325 (January 1990)
+• Foundation of PIC work at UCSB
+(UCSB’90--  Agility’99-’05  JDSU’05 Lumentum’15)
+10
+SG-DBR Laser
+
+Modulated
+Light Out
+Tunable over
+C or L-band
+
+Q waveguide
+
+Amplifier
+
+Front
+Mirror
+
+MQW active
+regions
+
+Gain Phase
+
+Rear
+Mirror
+
+Sampled
+gratings
+
+Laser Emission, dBm
+
+MZ Modulator
+
+0
+
+• Vernier tuning over 40+nm near 1550nm
+• SOA external to cavity provides power control
+• Currently used in many new DWDM systems (variations)
+• Integration technology for much more complex PICs
+
+-10
+-20
+-30
+-40
+-50
+
+ILMZ TOSA (~ 18mm)
+6 section InP chip
+
+JDSU
+
+2008
+
+J. S. Barton, et al,,” ISLC, TuB3,
+Garmish, (Sept, 2002)
+
+1530
+
+1540 1550 1560
+Wavelength (nm)
+
+1570
+
+Integration Example:
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+8 x 8 MOTOR Chip: (40 Gb/s per channel)
+
+OFC 2017
+
+• SOA – Mach-Zehnder Wavelength Converters
+• Quantum-well intermixing (QWI) to shift bandedge for low absorption in passive regions
+• Three different lateral waveguide structures for different curve/loss requirements
+• Single ‘blanket’ regrowth
+Surface Ridge
+Deeply-Etched Ridge
+
+Buried-Rib
+
+400 nm InP Layer
+150 nm InGaAs
+Contact Layer
+
+Wavelength converters
+
+AWGR
+
+2 μm Zn-doped InP
+Cladding
+
+QWI for active-passive
+integration interfaces
+450 nm UID InP
+
+Implant Buffer Layer
+
+30 nm 1.3Q Stop Etch
+30 nm InP Regrowth Layer
+105 nm 1.3Q Waveguide
+10 Quantum Wells and
+11 Barriers (InGaAsP)
+105 nm 1.3Q Waveguide
+1.8 μm n-type InP buffer
+
+Monolithic Tunable Optical Router
+See S. Nicholes, et al, “Novel application of quantum-well intermixing implant buffer layer to enable
+high-density photonic integrated circuits in InP,” IPRM ’09, paper WB1.2, Newport Beach (May, 2009)
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Commercial PIC Examples
+
+Widely Deployed Commercial “WDM” PICs
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+(~2009)
+
+EML’s:
+
+EA Modulator
+Section
+
+OFC 2017
+
+p-InGaAs/InP Cap
+
+DFB Laser
+Section
+AR
+HR
+
+Fe:InP
+Blocking
+n-InP Substrate
+
+Selective-Area
+MOCVD Grown
+MQW-SCH
+
+InGaAsP
+Grating
+
+into XFP transceivers, etc.
+
+
+
+Tunables & Selectable Arrays:
+SG-DBR Laser
+
+Modulated
+Light Out
+Tunable over
+C or L-band
+
+Q waveguide
+
+
+
+Amplifier
+
+Front
+Mirror
+
+MQW active
+regions
+
+G
+ain
+
+Phase
+
+Rear
+Mirror
+
+Sampled
+gratings
+
+
+
+
+
+1 x 12 DFB
+
+S-Bent
+
+MMI
+
+SOA
+
+20
+10
+
+Intensity [dBm]
+
+MZ
+Modulator
+
+0
+-10
+-20
+-30
+-40
+-50
+1520
+
+1530
+
+1540
+
+1550
+
+Wavelength [nm]
+
+1560
+
+1570
+
+courtesy of T. Koch
+
+InP PICs for datacenter transceivers
+EA or MZ Modulator
+OOK or HOM
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+DFB Laser
+
+T/Laser PdissmW
+15o C/60
+45o C/65
+82o C/120
+MQW
+
+Regrowth
+integration
+
+MQW active
+regions
+
+100G TOSA @ 28Gb/s
+ER>5dB, MM>40%, Vpp=1.2V
+
+CWDM4
+
+LR4
+
+ InP PIC technology enabled 100Gb/s QSFP28 CWDM4 and LR4 transceivers
+ Lossless integration of lasers with high efficiency modulators delivers high OMA and ER
+with low modulation voltage and low power dissipation
+ => continues to be technology choice for 28 and 53Gbaud PAM4 400 Gb/s transceivers
+© 2015 Lumentum Operations LLC
+
+34
+
+2004: First Commercial Large-Scale InP-Based PICs
+100 Gb/s (10 x 10Gb/s) Transmitter and Receiver PIC
+W4G.1.pdfOFC2017©OSA2017
+
+-20
+-30
+-40
+
+l1...l10
+
+-80
+1526
+
+35
+
+1530
+
+1534
+1538
+Wavelength (nm)
+
+© 2011 Infinera Corporation.
+
+1542
+
+10 x 10Gb/s
+Electrical Output
+PIN
+Photodiode
+Array
+
+PIN
+Photodiode
+Array
+Normalized Photoresponse (dB)
+
+Normalized Power (dB)
+
+-10
+
+-70
+
+CH10
+
+CH10
+
+0
+
+-60
+
+Optical
+Input
+
+l1... l10
+10 x 10Gb/s
+
+l1...l10
+
+10
+
+-50
+
+Optical
+Output
+
+CH1
+AWG De-Multiplexer
+
+AWG Multiplexer
+
+AWG De-Multiplexer
+
+l1... l10
+10 x 10Gb/s
+
+OPM Array
+
+VOA Array
+
+EAM Array
+
+Tunable DFB
+Array
+
+OPM Array
+
+Optical
+Input
+
+VOA Array
+
+CH10
+
+CH1
+
+EAM Array
+
+Multiplexer
+AWG
+DC Electrical
+Bias and Control
+
+CH10
+
+Optical
+Output
+
+Tunable DFB
+Array
+
+DC Electrical
+Bias and Control
+
+10 x 10Gb/s
+Electrical Input
+CH1
+
+10 x 10Gb/s
+Electrical Output
+
+10 x 10Gb/s
+Electrical Input
+CH1
+
+5
+0
+-5
+-10
+-15
+-20
+-25
+-30
+-35
+1528
+
+1533
+
+1538
+1543
+Wavelength (nm)
+
+1548
+
+W4G.1.pdfOFC2017©OSA2017
+
+100Gb/s InP PIC-Based Systems Lead Market
+2007 – 2011 Infinera PICs capture
+45% of All LH 10G ports*
+
+>1B Field Hours Without A Failure
+(100 Gb/s PIC Pairs: Tx+Rx)
+
+Field hours (M)
+
+60k
+50k
+40k
+30k
+20k
+10k
+
+>100 customers in >60 countries
+
+Field Hours (M)
+
+10 Gb/s Port Shipments
+
+100Gb/s (10 x 10Gb/s) PIC-Based Optical Transport System
+
+100 Gb/s (10 x 10 Gb/s)
+PIC-Pair Field Reliability
+
+Jan 2012
+645 M hours
+1.4 FIT
+
+1000
+
+0k
+2005
+
+2006
+
+2007
+
+2008
+
+2009
+
+2010
+
+2011
+
+Large-Scale PICs Enable:
+• 100 Gb/s per card (slot)
+• Integrated Switching for digital
+bandwidth management
+
+Jan 2006
+3.5M hours
+308 FIT
+
+0
+2004
+
+Jan 2014
+1.18 B hours
+0.78 FIT
+
+2006
+
+Jan 2008
+55 M hours
+42 FIT
+
+2008
+
+Jan 2010
+260 M hours
+3.5 FIT
+
+2010
+
+2012
+
+2014
+
+Data Capacity Scaling in The Network
+
+37
+
+© 2011 Infinera Corporation.
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Advanced Modulation Formats & Coherent Detection
+to increase Spectral Efficiency
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+W4G.1.pdfOFC2017©OSA2017
+
+2011: 500 Gb/s PM-QPSK Coherent PICs
+Tx PIC Architecture (5 x 114 Gb/s)
+
+Rx PIC Architecture (5x 114Gb/s)
+
+• > 450 Integrated Functions
+• 8 Different Integrated Functions
+
+39
+
+© 2011 Infinera Corporation
+
+• > 150 Integrated Functions
+• 7 Different Integrated Functions
+
+500 Gb/s PM-QPSK Coherent PICs
+
+40
+
+© 2011 Infinera Corporation
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+2016 : 1.2Tbps Extended C-Band tunable coherent
+32GBaud/16-QAM coherent Transceiver
+
+W4G.1.pdfOFC2017©OSA2017
+
+41
+
+© 2011 Infinera Corporation
+
+C-band Tunable Integrated Coherent Transmitter PIC
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+C- band MZ: 1528, 1546, 1567 nm
+
+InP PIC
+
+Narrow Linewidth Sampled-Grating DBR laser
+Two quadrature Mach-Zehnder modulators
+High power LO output
+3 SOAs
+– Independent power control for LO and each
+Tx polarization
+– VOAs
+ InP PIC technology is employed for 32 Gbaud
+100 and 200 Gb/s coherent pluggable modules
+
+
+
+
+
+© 2015 Lumentum Operations LLC
+
+42
+
+Narrow linewidth thermally-tuned SGDBR Laser
+ 70kHz linewidth and 50dB SMSR at +17dBm
+fiber power over 41nm range in C-band
+
+W4G.1.pdf OFC 2017 © OSA
+2017
+
+Instantaneous Linewidth
+
+Top View
+
+Light
+output
+
+AR
+
+SOA
+
+Filter
+
+InGaAsP
+MQW
+
+Front
+Mirror
+
+Sampled
+grating
+
+Gai Phase Back
+Mirror
+n
+
+Thermal
+isolation
+
+Side View
+
+Output Power and SOA Current
+
+Side Mode Suppression Ratio
+
+M.C. Larson et al.,
+OFC
+2015,
+M2D.1
+© 2015
+Lumentum
+Operations LLC
+
+43
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Tunable Interferometric Transmitter
+ Compact cavity (broadband HR back
+mirror used)
+ Dual output laser – natural fit for
+interferometric modulation
+ Lumped or traveling wave modulators
+ (Optional) SOAs for power balancing
+
+Gain
+
+Phase Control
+
+Sampled Mirror
+
+11/3/2016 – Paper THM2.1 – MWP 2016
+
+SOA
+
+Phase Modulator
+44
+
+1550 nm Widely Tunable
+Interferometric Transmitter
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+ 50 dB SMSR
+ 50 nm tuning range
+ 12.5 Gbps operation
+- 25 Gbps in development
+
+ Chirp control
+ 80+ km reach in SMF-28 fiber
+
+IPC 2016 - Waikoloa, Hawaii - Paper MA2.3
+
+45
+
+Quad Transmitter- Butt Joint Platform
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+ Monolithic InP QUAD C-Band tunable Tx PIC with single output waveguide
+ PIC operates at 55°C for reduced power consumption of TEC
+ Individual SOAs amplify output power and enable VOA and blanking
+ 12.5Gbps Electro-absorption modulators
+
+Wafer-Level Electrical and Optical Measurements
+11/3/2016 – Paper THM2.1 – MWP 2016
+
+CoC CW and RF Testing
+46
+
+Quad Transmitter– RF Performance
+
+Driver E-E
+12.5Gbps
+
+CoC E-O
+12.5Gbps
+
+11/3/2016 – Paper THM2.1 – MWP 2016
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+TOSA E-O, all Transmitters
+
+(Non-optimized impedance of driver -> CoC transition) 10Gbps
+
+47
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Research Examples
+
+48
+
+© 2011 Infinera Corporation
+
+Background:
+
+DARPA-PhASER
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Microwave Filtering - with Integrated Photonics
+
+Demonstrated reconfigurable photonic filter - using an active InGaAsP platform
+and deeply etched waveguides
+
+→ Novel filter characteristics – unmatched by electrical RF filters!
+(Optimum NF @ SOA gains to give near zero net filter insertion loss)
+LO Laser
+
+RF-in
+
+Modulator
+
+RF-out
+
+Carrier Laser
+
+Schematic
+
+2x2 Coupler
+
+Tunable Bandwidth
+
+Tunable Center Frequency
+
+*E J. Norberg, R S. Guzzon, J S. Parker, L A. Johansson and L A. Coldren, “Programmable Photonic
+Microwave Filters Monolithically Integrated in InP/InGaAsP”, J. Lightwave Technol, vol. 29, no. 11, 2011
+
+Erik Norberg
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Integration Platform – Saturation and Loss
+
+
+Passive loss reduces with increased CT-Layer
+thickness
+
+
+
+
+0.35 dB/mm passive waveguide loss using deeply
+etched waveguides (of which scattering loss 0.12
+dB/mm)
+
+Saturation power of 19 dBm (78 dB/cm gain)
+
+
+} Active
+
+}CT-Layer
+
+}Waveguide
+
+Highest Ps reported for ridge width ≤3 µm
+Standard
+OQW
+
+Erik Norberg
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Integration Platform – RF-linearity results
+
+
+RF-linearity improves with lower confinement
+material platform
+ Best RF-linearity reported for SOAs
+
+
+
+
+
+SOAs demonstate ~4 dB noise figure (w\o
+coupling loss)
+SOA demonstrates useful SFDR performance!
+
+
+Design devices with short SOAs (G small)
+α = 1.65
+α = 1.65
+α = 1.60
+α = 1.60
+
+}Waveguide
+
+SFDR of integrated tunable filter can be
+optimized by using low gain SOAs!**
+
+Ps=19 dBm
+Ps=19 dBm
+
+α = 1.87
+α = 1.87
+
+𝑃𝑂𝐼𝑃3−𝑜𝑝𝑡𝑖𝑐𝑎𝑙 =
+
+} Active
+
+}CT-Layer
+
+Ps=16 dBm
+
+Ps=16 dBm
+Ps=12 dBm
+
+2𝑃𝑠
+
+𝐺
+1 + 𝛼 2 /𝜁 2 𝐺 − 1
+
+Ps=12 dBm
+
+Device SFDR >115dB-Hz2/3 is
+predicted!**
+
+**Robert S. Guzzon, Erik J. Norberg, and Larry A. Coldren,”Spurious-Free Dynamic Range in Photonic
+Integrated Circuit Filters with Semiconductor Optical Amplifiers”, JQE, 48 (2) p269-278 (2012)
+
+Erik Norberg
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+1 THz, 100×10 GHz monolithically integrated InP OAWG with Built-in
+Adaptive RF-Photonic Passband Engineering
+
+F. M. Soares et al., IEEE PJ, 3, p 975 (2011)
+
+2D & 3D Photonic Integration
+
+53
+
+100ch x 10 GHz AWG Output Spectrum After
+Phase-Error Correction
+
+17dB
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+F. M. Soares et al., IEEE PJ, 3, p 975 (2011)
+
+2D & 3D Photonic Integration
+
+54
+
+64 channel O-CDMA encoder/decoder
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+64 channel
+25 GHz spacing
+16.8x11.4 mm2
+
+Testing WGs
+
+Phase shifters
+
+Bond pads
+
+Delay lines
+
+AWG
+SOA
+InP-chip
+16.8 x 11.4 mm2
+
+2D & 3D Photonic Integration
+UCDavis SPECTS O-CDMA
+
+55
+
+DARPA-SWEEPER
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+2D-Beam Sweeping
+
+OFC 2017
+
+• Our approach: 1D array + grating
+• Scaling as N + 1, not N2
+Phase Ctrl
+(lateral-steering) Grating Emitter Array
+
+Widely-tunable laser
+(longitudinal-steering)
+
+1 (wavelength)
+
+1xN
+lateral
+longitudinal
+
+N (number of waveguides)
+
+• Lateral beam-steering via phase-shifter array, ψ
+• Longitudinal beam-steering via wavelength-tuned grating diffraction, θ
+Mar. 21, OFC 2013
+
+-5-
+
+32 x N: Surface-emitting grating phased-array
+Optical Beam SWEEPER—PIC
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+y
+x
+M1
+
+T G
+
+M2
+
+P-A
+
+Splitter
+
+Tunable Laser
+
+PMs
+(32)
+
+SOAs
+(32)
+
+PDs
+(32)
+
+Phase
+shifter
+
+SOA
+
+Grating
+
+Integrated SGDBR tuning
+
+Monior
+
+3.5 mm
+
+Splitter
+
+• Grating duty-factor weighted to
+extend effective length
+• Nearly Gaussian shape
+
+Emitting
+Array
+
+Shuttering pre-amplifier
+
+Tunable laser
+
+EA
+
+On-Chip
+Monitor
+
+• Waveguide spacing varied to suppress
+lateral side lobes.
+
+Powers into 32 SOAs
+9.6 mm
+Surface ridge
+
+Deep ridge
+
+Surface ridge
+
+Deep ridge
+
+Surface
+ridge
+
+2D Beam Sweeping results (32 x N)
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Flip-chipped PIC-on-carrier
+
+110 good contacts
+
+• 2D beam steering demonstrated
+(1567nm, 5)
+
+(1524nm, 5)
+
+(1545nm, 0)
+
+Far-field beam profiles (x & y)
+
+(1524nm, -5)
+1.2 x 0.3°
+N ~ 120
+-20 dB sidelobes
+
+(1567nm, -5)
+
+InP Widely-tunable Coherent Receiver PIC
+(Phase-locked or Intradyne—also for Optical Synthesis)
+
+OFC 2017
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+SGDBR laser
+
+Signal input
+
+90 degree hybrid
+
+Four UTC photodetectors
+
+0.54mm
+
+4.3 mm
+
+20
+
+2
+
+10
+
+0
+
+•
+•
+•
+
+3
+
+1
+
+0
+
+50
+
+100
+
+Current / mA
+
+150
+
+Voltage / V
+
+Output power / mW
+
+30
+
+•
+
+90 deg hybrid
+
+•
+•
+•
+
+1x2 MMI couplers
+Directional couplers
+Phase shifters
+
+•
+
+0
+
+30 mW output power
+40 nm tuning range
+25 mA threshold current
+
+UTC photodetectors
+5
+
+Relative RF response / dB
+
+SG-DBR laser
+
+•
+
+0
+-5
+-10
+-15
+-20
+0
+
+No phase error
+4% power imbalance
+
+Mingzhi Lu, et. al., Optics Express, Vol. 20, Issue 9, pp. 9736-9741 (2012)
+
+•
+•
+
+1
+
+2
+Frequency / Hz
+
+3
+
+4
+
+10
+
+x 10
+
+29 GHz 3-dB bandwidth
+with -2V bias
+18 mA saturation current at
+-5V bias.
+
+Intradyne or Phase-locked Receivers for generic sensor,
+instrumentation, or short-reach communication application?
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Typical Intradyne receiver architecture
+
+(LO)
+
+But for short-modest reach:
+Homodyne receiver architecture
+
+“Analog Coherent”
+
+(Or Local
+Oscillator)
+
+(Or incoming
+Signal)
+
+ Use Phase-locked detection instead of power-hungry and costly Intradyne/ADC-DSP?
+•
+•
+
+•
+•
+
+Integrated Costa’s loop receivers with widely-tunable LOs have been explored
+High-speed A/Ds & DSPs require lots of power and are expensive to design, especially as data rate
+increases
+Short feedback loops narrow LO linewidth and enable rapid and robust phase locking.
+Some impairments can be removed with much slower, lower-power, lower-cost signal-processing.
+
+Phase Locked Coherent BPSK Receiver
+“Analog Coherent”
+OFC 2017
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OPLL + Costas Loop  1 cm2 footprint
+Fabricated by Mingzhi
+
+Loop filter and system
+designed by Hyunchul
+
+Designed by Eli using
+Teledyne 500nm HBT Process
+
+Photonic IC: SGDBR laser, optical hybrid, and un-balanced PDs
+Electronic IC: limiting amplifiers and phase & frequency detector (PFD)
+
+Hybrid loop filter: Feed-forward technique, op-amplifier and 0603 SMDs
+Mingzhi Lu, et. al., Optics Express, Vol. 20, Issue 9, pp. 9736-9741 (2012)
+
+BPSK Data Reception—BERs
+“Analog Coherent”
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+BER vs. OSNR (20Gb/s to 40Gb/s)
+Error-free up to 35Gb/s , < 1.0E-7 @ 40Gb/s
+
+•
+
+1.1GHz closed loop bandwidth
+
+•
+
+120ps loop propagation delay
+
+•
+
+100kHz SGDBR-linewidth (as ref. laser)
+
+•
+
+-100dBc/Hz@above 50kHz phase noise
+
+•
+
+600ns frequency pull-in time
+
+•
+
+<10ns phase lock time
+
+40Gb/s
+Back-to-back
+
+10Gb/s
+
+Mingzhi Lu, et. al., Optics Express, Vol. 20, Issue 9, pp. 9736-9741 (2012)
+
+OFC 2017
+
+Reduced-Linewidth Rapidly-Tunable Laser
+Optical Frequency Locked Loop
+
+Loop
+Filter
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+SGDBR Laser
+AMZ Filter
+Balanced Receiver
+
+Detectors
+AMZ
+SG-DBR
+3.5mm
+
+PIC
+
+• Laser – SGDBR (40 nm tunability)
+• Frequency Error Sensor – Asymmetric MZI
+• Filter FSR = 10 GHz
+
+•
+•
+
+Open loop > 5MHz linewidth
+Closed loop 150 kHz linewidth
+A. Sivananthan, et al, OFC, 2013
+
+Electronic-Photonic Integration
+W4G.1.pdf OFC 2017 © OSA 2017
+
+• Single-chip vs 2.5 or 3-D integration?
+
+Horizon 2020
+2016-2018
+wipe.jeppix.eu
+
+Connecting
+
+high performance foundry Silicon Electronics to
+high performance foundry InP photonic ICs
+Minimizing interconnects for speed and energy efficiency
+Simplifying assembly
+
+Hybrid integration technology
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+4.5mm
+
+VLSI chip
+Oracle VLSI
+(40nm CMOS)
+
+5.2mm
+
+Photonic
+chip
+Kotura
+modulator
+
+Hybrids
+
+Kotura
+detector
+
+Oracle detector &
+modulator
+
+Luxtera
+detector
+
+Tx
+
+Rx
+
+Tx-Rx
+
+Kotura-Oracle
+
+Luxtera-Oracle
+
+Oracle
+
+Assembled
+test vehicle
+
+H.Thacker et al ,ECTC 2011, pp.
+240-246, 2011.
+
+Approved for Public Release. Distribution Unlimited
+
+Ashok Krishnamoorthy, OFC (2014)
+
+65
+
+Hybrid integration scaling
+Parasitic from
+hybridizing
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Hybrid approach parasitics become
+smaller than device junction as pad
+shrinks
+Hybrid can outperform (monolithic)
+in speed, power, density, and TTM
+
+Optimization enables/requires
+electronics-photonics co-design
+3D (or Heterogeneous) integration 
+Integration
+
+Approved for Public Release. Distribution Unlimited
+
+Ashok Krishnamoorthy, OFC (2014)
+
+66
+
+3D Hybrid Integration for Silicon Photonics
+
+3D Hybrid Integration (Klamkin group)
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Boston University Slideshow Title Goes Here
+
+Silicon photonics
+chip
+
+ InP laser or PIC with integrated total internal
+reflection (TIR) turning mirror coupled to Si with
+grating coupler
+ Chips attached with standard IC bonding
+ Could be carried out at wafer level in backend step
+ P-side down bond to Si substrate for heat removal
+B. Song, et al., ECOC 2015
+B. Song, et al., Optics Express 2016
+
+InP laser array
+chip
+
+3D Hybrid Integration for Silicon Photonics
+
+Thermal Impedance Demonstration
+Laser bonded to oxide
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Laser bonded to substrate
+
+Boston University Slideshow Title Goes Here
+
+Thermal impedance = 18.63 C/W
+
+Thermal impedance = 6.19 C/W
+
+Factor of 3 improvement in thermal impedance
+Thermal impedance extraction as in: M. N. Sysak, et al., JSTQE, 2011
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Foundry/Fabrication Services
+
+69
+
+© 2011 Infinera Corporation
+
+Example InP-PIC Foundry/Fabrication Orgs.
+W4G.1.pdf OFC 2017 © OSA 2017
+
+OFC 2017
+
+Foundries/PDK
+• JePPIX* (broker: www.jeppix.eu)
+– HHI
+– Smart Photonics
+
+• AIM Photonics (via Infinera—available 2018—RF only)
+
+Custom Foundries/no PDK
+
+• Canadian Photonics Fabrication Centre
+• Global Communications Semiconductors
+
+Design/Fabrication Services
+• Freedom Photonics (design/fab/test)
+• Bright Photonics (design only)
+• UCSB (research fabrication facility only)
+*For more information, see:
+http://iopscience.iop.org/article/10.1088/0268-1242/29/8/083001
+
+Generic Integration
+
+W4G.1.pdf OFC 2017 © OSA
+2017
+
+Scanning Electron Microscope Images
+Phase Modulator
+
+Amplifier
+
+Deep etched waveguide
+
+Shallow etched waveguide
+
+Tunable
+DBR grating
+
+JePPIX training Eindhoven
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Introduction
+
+Polarization
+converter
+
+72
+
+Creating interferometers
+W4G.1.pdf OFC 2017 © OSA 2017
+
+MMI-couplers and filters
+MMI-reflectors
+AWG-demux
+ring filters
+
+polarisation splitters
+polarisation combiners
+polarisation independent
+differential delay lines
+
+Lasers cavities
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Fabry-Perot lasers
+tunable DBR lasers
+multiwavelength lasers
+
+picosecond pulse laser
+ring lasers
+
+> 25 mW output power
+< 100 kHz line width
+< 1 ps pulse width
+…
+
+Modulators and ROADMs
+phase modulator
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+> 40 GHz bandwidth
+> 50deg/V.mm
+
+amplitude modulator
+
+fast space switch
+polarisation independent 2x2 switch
+ultrafast switch
+WDM crossconnect
+WDM add-drop
+
+Application Specific Photonic ICs—JePPIX
+W4G.1.pdf OFC 2017 © OSA 2017
+
+Take-Aways
+OFC 2017
+
+W4G.1.pdf OFC 2017 © OSA 2017
+
+• PICs are desirable for modest to high volume communication,
+sensing and instrumentation functions, where size, weight, power
+and cost (SWAP-C) reductions are desired.
+• PICs are important because of the inherently stable phase
+relationships and possibly seamless interfaces between elements.
+• PICs generally bring better reliability once properly designed; yield
+and some aspects of performance may be compromised.
+
+• InP-PICs currently lead the market for Long-Haul and Metro
+communications; ‘heterogeneous integration,’ & Si-photonics
+expanding in datacom and metro.
+• For Electronic-Photonic integration, single-crystal (e.g. CMOS)
+integration may not be as desirable as heterogeneous (3D, 2.5D)
+integration (unless very high volume).
+
+

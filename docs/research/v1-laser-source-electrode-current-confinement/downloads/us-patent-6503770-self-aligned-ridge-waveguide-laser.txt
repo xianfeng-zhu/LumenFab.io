@@ -1,0 +1,867 @@
+USOO650377OB1
+
+(12) United States Patent
+H0 et al.
+
+(10) Patent No.:
+
+US 6,503,770 B1
+
+(45) Date of Patent:
+
+(54) SELF-ALIGNED FABRICATION METHOD
+
+5,059,552. A
+
+10/1991 Harder et al.
+
+FOR RIDGE-WAVEGUIDE
+
+5,208,183 A
+
+5/1993 Chen et al.
+
+SEMCONDUCTOR LASER
+
+5,474,954. A
+
+12/1995 Yang
+
+5,504,768 A
+
+4/1996 Park et al.
+
+5,658,823 A
+
+8/1997 Yang
+
+(75) Inventors: Chong-Long Ho, Taoyuan (TW);
+Chia-Ju Lin, Taoyuan (TW);
+Wen-Jeng Ho Taoyuan (TW);
+
+Jy-Wang Liaw. Taoyuan (TW)
+
+5,805.755 A * 9/1998 Amersfoort et al. .......... 372/48
+6,171,876 B1 * 1/2001 Yuang et al. ................. 438/22
+
+6,335,215 B1 * 1/2002 Yuang ......................... 438/22
+
+(73) Assignee: Chunghwa Telecom Co., Ltd.,
+Taoyuan (TW)
+
+* cited by examiner
+
+(*) Notice:
+
+Primary Examiner-Chandra Chaudhari
+Assistant Examiner-Craig Thompson
+
+Subject to any disclaimer, the term of this
+patent is extended or adjusted under 35
+
+Jan. 7, 2003
+
+U.S.C. 154(b) by 0 days.
+(21) Appl. No.: 10/139,346
+
+(74) Attorney, Agent, or Firm-Rabin & Berdo, P.C.
+(57)
+ABSTRACT
+
+(22) Filed:
+
+A Self-aligned fabrication method utilizes dielectric pla
+narization process for fabricating ridge waveguide Semicon
+
+May 7, 2002
+y /,
+
+51) Int. Cl.7 ................................................ H01L 21/00
+52) U.S. Cl. ............................................ 438/22:438/42
+(52)
+122;
+
+The dielectric planar
+Zaton proceSS StartS WItith
+ductOrlaSerS.
+1
+The
+planarization
+depositing
+pOSI ung a thick dielectric film onto the ridge-Structured
+9.
+
+(58) Field of Search ......................... 438/22–25, 29-32,
+438/42, 43–44, 689-693, 700-702
+
+Semiconductor wafer Surface, and then the resulting9. corru
+gated dielectric Surface is polished into a flat Surface in a
+
+(56)
+
+References Cited
+U.S. PATENT DOCUMENTS
+
+4,830.986 A
+
+5/1989 Plumb
+
+Self-terminated manner. This dielectric flat Surface is able to
+
+uniformly expose its Semiconductor ridge tops by an overall
+etch-back process.
+8 Claims, 17 Drawing Sheets
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 1 of 17
+11 O
+
+106 -
+
+PRIOR ART
+FIGIA
+
+106 -
+
+N N
+
+PRIOR ART
+FIG/B
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 2 of 17
+
+US 6,503,770 B1
+
+- 206
+
+-
+
+- 204
+
+R2O3
+200
+
+%
+
+2O7
+2O6
+- 205
+
+- 204
+
+- 203
+202
+- 201
+
+- 200
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 3 of 17
+
+- 208
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 4 of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 5 of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 6 of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 7 of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 8 of 17
+
+212a
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 9 of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 10 Of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 11 of 17
+- 308
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 12 of 17
+
+US 6,503,770 B1
+
+305
+
+304
+303
+3O2
+301
+
+---. 304
+
+- 303
+302
+- 301
+
+3OO
+
+FIG.3H
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 13 Of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 14 of 17
+
+US 6,503,770 B1
+
+- 31 Oa
+
+304
+- 303
+
+302
+
+- 301
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 15 Of 17
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+Sheet 16 of 17
+
+312a
+
+US 6,503,770 B1
+
+U.S. Patent
+
+Jan. 7, 2003
+
+3.
+
+Sheet 17 of 17
+
+US 6,503,770 B1
+
+9.
+
+6
+
+ve
+
+s
+
+US 6,503,770 B1
+1
+
+2
+In other patented cases, a Self-alignment concept was
+introduced and methods for implementing this concept can
+be classified into two categories, and both will lead to a
+typical device structure depicted in FIG. 1B, in which the
+whole ridge top is fully utilized for metal contact. In the first
+
+SELF-ALIGNED FABRICATION METHOD
+FOR RIDGE-WAVEGUIDE
+SEMCONDUCTOR LASER
+BACKGROUND OF THE INVENTION
+1. Field of the invention
+
+kind, such as in U.S. Pat. No. 4,830,986 and U.S. Pat. No.
+
+5,059,552, a photoresist mask was used to define and form
+a Semiconductor ridge. This photoresist mask on the ridge
+top was preserved until the entire wafer Surface was covered
+with an insulating dielectric film, Such as Silicon oxide
+
+The present invention relates to the fabrication of a
+Semiconductor laser, and in particular, a Self-aligned fabri
+cation method for ridge-waveguide Semiconductor laser.
+(SiOx) or silicon nitride (SiNx). Then the photoresist mask
+2. Description of the Prior Art
+chemically removed by (acetone, for instance) and the
+Referring to FIG. 1A and FIG. 1B, in which two conven was
+ohmic
+contact layer on the ridge top was revealed without
+tional Structures of a ridge-waveguide Semiconductor laser exposing
+Semiconductor Surfaces out of the dielectric
+arc shown. Both the epitaxial Structures consist of a Semi 15 film. Thisother
+scheme is called “self-alignment” by reason that
+conductor substrate 100(such as N-type semiconductor exposing of the ohmic contact layer does not require pro
+Substrate), a first Semiconductor waveguide layer 101, a first ceSSes of mask aligning and photolithography. Although
+Semiconductor confinement layer 102, a Semiconductor Such a Scheme can attain the aims of Simplifying the
+active layer region 103, a Second Semiconductor confine
+process and full utilization of the ohmic contact
+ment layer 104, a Second Semiconductor waveguide layer fabricating
+layer.
+Preservation
+photoresist mask necessitates low
+105, and a semiconductor ohmic contact layer 106. And, a temperature (100° ofC)thedielectric
+deposition which
+dielectric passivation layer 107a or 107b, a P-type metal causes degradation of the quality layer
+of the dielectric layer.
+electrode 108a or 108b, and a N-type metal electrode 109
+Besides, a Suitable undercut profile of the Semiconductor top
+are comprised in both Structures.
+ridge is required to facilitate photoresist mask's removal
+The fabrication of both structures starts with pattern 25 after deposition of the dielectric layer, and this complicates
+definition through Standard photolithography proceSS, fol the process.
+lowed by an etching process Such as reactive-ion etching
+In the second kind, Such as U.S. Pat. No. 5,208,183, U.S.
+
+(RIE) to form a semiconductor ridge along with a double
+
+Pat. No. 5,474,954, U.S. Pat. No. 5,658,823, and U.S. Pat.
+
+trench structure 110 shown in FIGS. 1A and 1B. The
+
+6,171,876, the planarization capability of the photoresist
+dielectric layer 107a or 107b is then deposited on the entire No.
+or
+polyimide
+utilized. AS photoresist or polyimide is
+wafer Surface to provide Semiconductor Surface passivation. Spun onto thewas
+ridge
+Structured wafer Surface, the flowing
+After a contact window on the ridge top is formed to expose nature results in a profile
+has a much thinner resist or
+the ohmic contact layer 106, the P-type metal electrode 108a polyimide on the ridge topthatthan
+on the rest of the wafer
+or 108b is formed so as to make contact with the semicon
+Surface.
+By
+Overall
+etch-back
+process,
+as RIE, the
+ductor contact layer 106. Finally, the N-type metal electrode 35 Semiconductor ridge top can be revealedSuch
+at
+first
+without
+109 is formed underneath the wafer after the wafer has been
+exposing other Semiconductor Surfaces. Therefore the entire
+lapped and polished.
+ridge top can be fully utilized for metal contact. The differ
+To reduce the threshold current for lasing action and to ence between using photoresist and polyimide is that after
+maintain Single-transverse mode operation, the ridge width exposing the ridge top, the polyimide layer is left on the
+W is usually limited to about 2 tum. Such a narrow ridge 40 wafer Surface and Serves as a dielectric planarization layer.
+causes problems when a contact window is to be opened on The P-metal with its bondpad is then directly formed
+top of it to expose the ohmic contact layer 106. The most thereon. Therefore using the polyimide will be a more
+direct way is to define the contact window 106 on the ridge Straightforward method. Besides, a Single-ridge Structure
+top through mask alignment and photolithography proceSS can be adopted for forming the ridge-waveguide Semicon
+as shown in FIG. 1A. However, the defined contact window 45 ductor laser by planarization of the polyimide. By So the
+should be narrower, a rather accurate mask alignment is metal coverage problem usually encountered in double
+required. Besides, even by doing So, the aim of perfect trench Structure can be avoided.
+utilization of the ohmic contact layer 106 is hard to attain
+However, the polyimide film, even cured, Still retains
+resulting in an non-optimized contact between metal and flexible
+property. During facet cleavage process, elongated
+Semiconductor.
+50
+polyimide
+film in the edge might interfere with the laser
+In View of the above description, it emerges a fact that the output Surface
+and affect the Structural property and unifor
+Semiconductor laser fabricated according to conventional mity.
+techniques has by no means an acceptable quality.
+Aiming at the above depicted defects, the present inven
+A number of alternative methods were proposed to expose
+is to propose a newly developed Self-aligned fabrication
+the Semiconductor contact layer of the ridge top more 55 tion
+method
+for ridge-waveguide Semiconductor laser capable of
+conveniently and to fully utilize the ridge top for metal eliminating
+existing defects.
+contact, Such as U.S. Pat. No. 4,830,986, U.S. Pat. No.
+5,059,552, U.S. Pat. No. 5,208,183, U.S. Pat. No. 5,474,954,
+U.S. Pat. No. 5,504,768, U.S. Pat. No. 5,258,823, and U.S.
+
+SUMMARY OF THE INVENTION
+
+The present invention teaches a Self-aligned fabrication
+Pat. No. 6,171,876. In U.S. Pat. No. 5,504,768, a P-type
+metal Stripe defining a Semiconductor ridge Structure region method for ridge-waveguide Semiconductor laser. This
+was deposited onto the wafer Surface at the beginning of the method can be applied by performing what is called “Self
+proceSS and then Served as the mask for Semiconductor ridge terminated oxide polish, abbreviated as STOP' technique
+etching, therefore ensured that the ridge top was fully followed by deposition of a thick oxide layer. Taking SiOx
+contacted. However, in the Successive process, a Stringent 65 for example, this thick oxide layer (thicker than the ridge
+mask-aligning process is required for overlaying metal to height) covers the entire wafer Surface. The oxide corruga
+precisely connect the P-type metal Stripe and the bondpad. tions due to deposition on the ridge-Structured wafer Surface
+60
+
+US 6,503,770 B1
+3
+are then polished down to a flat plane. The polishing proceSS
+
+removes the narrow oxide ridge (narrower than 10 um for
+instance) rapidly, while almost halts when the oxide Surface
+
+4
+plane that makes it possible to form a considerably flat SiOx
+Surface, and at the same time, the polishing behavior is
+almost halted as if it is self-terminated. This is the reason
+
+is flattened. Such behavior finally results in a rather flat why it is called STOP Subsequently, overall oxide etch-back
+oxide plane. The planarity therefore depends on the oxide to expose the uniform Semiconductor ridge tops is carried
+deposition mechanism rather than on the polishing process. out. A considerably flat wafer Surface can be obtained by
+RIE during overall oxide etch-back process, and an equally
+For achieving the object of the self-aligned fabrication leveled
+layer will appear along the circumference of
+method for ridge-waveguide Semiconductor laser described exposedSiOX
+Semiconductor
+tops. In the following, two
+above. The present invention utilizes a process of planariz preferred embodiments ridge
+are
+presented
+for introducing in
+ing a dielectric layer in which a dielectric layer of Sufficient detail the fabrication of the ridge-waveguide
+thickneSS is covered over a ridge-Structured Semiconductor laser by means of this Self-aligned method. Semiconductor
+wafer Surface, the oxide corrugations formed on the Surface
+In the first embodiment, the cross sectional views of the
+of the dielectric layer is then polished down to a flat plane Semiconductor
+laser in process are Schematically shown
+by the STOP technique, and followed by over-all etch-back
+from
+FIG.
+2A
+to FIG. 2N. FIG. 2A shows an epitaxial
+15
+proceSS for this planar dielectric layer, the ridge tops of the
+Structure of the Semiconductor laser based on an N-type
+Semiconductor laser can be exposed uniformly.
+BRIEF DESCRIPTION OF THE DRAWINGS
+
+The present invention and its advantages can better be
+understood by describing in detail the preferred embodi
+ments thereof with reference to the attached drawings in
+
+indium phosphide (InP) substrate 200 comprising (from top
+to bottom): an N-type InP waveguide layer 201. an N-type
+indium aluminum arsenide (In(0.52A10.48AS) confinement
+layer 202, an active region203 containing multiple quantum
+
+wells (MOWs), a second InC).52A10.48AS confinement layer
+
+204, a 1.5 uP-type InP waveguide layer 205, and a 0.2 tim
+high concentration P-type In().53Ga0.47AS contact layer
+FIG. 1A is a croSS Sectional view showing a conventional 206. The process starts with 2000 A SiNx layer 207 depo
+double-trench ridge-waveguide Semiconductor laser;
+25 sition by PECVD at 250 C., on the wafer surface, as shown
+FIG. 1B is a cross sectional view showing a conventional in FIG. 2B. Through conventional mask aligning photoli
+double-trench ridge-waveguide Semiconductor laser fabri thography process, a 2 um-wide photoresist pattern 208
+(FIG. 2C) is defined and serves as the etching mask for
+cated by prior Self-alignment techniques,
+etching process. The SiNX layer not underneath
+FIGS. 2A through 2N are cross sectional view of a Subsequent
+ridge-waveguide Semiconductor laser fabricated by the Self the resist mask is then removed by RIE using CF, gas as
+alignment technique in a first embodiment of the present shown in FIG.2D. After resist mask 208 removal, the device
+Structure is as shown in FIG. 2E. and the original 2 um wide
+invention;
+photoresist pattern is now transferred to a SiNX layer 207a.
+FIGS. 3A through 3P are cross sectional views of a
+wafer Surface cleaning and deoxidization, the Sample
+ridge-waveguide Semiconductor laser fabricated by the Self 35 After
+is
+loaded
+RIE proceSS chamber. Using the patterned
+alignment technique in a Second embodiment of the present SiNX layerintoas the
+an etching mask, and using 1 CH: 5H2 gas
+invention; and
+mixture, the semiconductor layer not underneath the SiNX
+FIG. 4 is a schematic view showing how SiOx ridge mask is etched to a depth of about 1.6-1.7 um So as to form
+Structure Surface varies as the Self-terminated polishing a semiconductor ridge structure as shown in FIG. 2F. The
+proceSS proceeds.
+40 etched layers include the whole InC).53Ga0.47AS contact
+layer 206 and a part of the P-type InP waveguide layer 205.
+DETAILED DESCRIPTION OF THE
+
+which:
+
+PREFERRED EMBODIMENT
+
+To obtain a well etched profile (i.e., a nearly vertical ridge
+edge and mirror like wafer Surface), the etching process
+
+The invention provides a self-aligned fabrication method needs to be interrupted for removing polymers and carbon
+for ridge-waveguide Semiconductor laser. More particularly, 45 ized byproducts generated during the etching proceSS by
+this self-aligned method utilizes STOP technique so as to using O and Argas mixture. After a semiconductor ridge
+planarize the ridge-Structured oxide Surface. The deposition Structure is etched out, and wafer Surface cleaning and
+of a SiOX layer by plasma enhanced chemical vapor depo de-oxidation process is accomplished, a 3000 A SiNx pas
+sition (PECVD) process will be taken as an example for Sivation layer 209 is deposited on the entire wafer surface by
+description of the present invention hereinafter.
+50 PECVD at 250° C., as shown in FIG. 2G.
+To this stage, the device is fabricated through well-known
+The application of STOP technique starts with deposition
+of a sufficiently thick dielectric layer. SiOx layer by PECVD Semiconductor process. In the following, a Self-aligned
+for instance. onto the entire ridge-Structured wafer Surface. process by STOP technique that is the key point of this
+To obtain a flat, whole SiOX Surface after polishing process, invention will be utilized.
+the SiOx thickness must be higher than the ridge height. Due 55 After surface passivation by SiOx deposition, the wafer is
+to conformal deposition nature of PECVD, the ridge transferred into another PECVD chamber, which allows for
+Structured wafer Surface transferS its topography over the rapid SiOx deposition (2750 A/min) at 350° C. After 3 um
+SiOX layer and results in a corrugated oxide Surface. By thick SiOx layer 210 deposition, as shown in FIG. 2H, the
+conventional polishing process, the corrugated oxide Surface thick SiOx layer covers the entire wafer Surface and forms
+will be polished down to a flat plane, that is, planarized. A 60 oxide ridges which Stem from the Semiconductor ridges. By
+key point in avoiding non-uniformity or over polishing is to conventional polishing process, which has adjustable load
+adjust the applied load to a proper value. Hence, the pol ing ability of for example, 0 to 1.5 kg, an Suitable load is
+ishing process removes the thickness of the narrow oxide exerted on the polished Surface. The applied load has certain
+ridge (narrower than 10 um for instance) rapidly, while relation with the polished area. In the present embodiment
+
+almost halts when a wide oxide surface (wider than 300 um 65 the exerted pressure is about 0.1 kg/cm. An oxide layer
+for instance) is reached. Such discriminated polishing 210a is planarized as shown in FIG. 2I. Unlike in the silicon
+
+behavior due to area difference results in a rather flat SiOX
+
+VLSI industry which requires rather precise polishing tools
+
+US 6,503,770 B1
+S
+
+6
+
+for planarization (e.g. chemical mechanical polish, CMP),
+
+circuit. In addition, too narrow trenches might cause non
+uniform etching. On the contrary, in the present invention,
+devices Starting from Single ridge and ending with pla
+narized wafer surface are free from these problems. There
+fore full potential of wet etch as mentioned above can be
+exploited.
+FIG. 3A shows the epitaxial structure of the semiconduc
+tor laser based on an N-type InP Substrate 300 comprising
+
+the equipment required by this invention can be those
+typically used for wafer backside lapping and polishing.
+With proper pressure exerting on the polished Surface, those
+narrow SiOx ridges can be polished down rapidly while
+larger SiOX Surface keeps almost unaltered. After all the
+SiOX ridges are planarized, simultaneously or Sequentially,
+the polishing process almost halts as if Self terminated and
+a flat and broad SiOx plane as shown in FIG. 2I is obtained.
+Then RIE process using CF, gas is utilized for overall
+etch-back to expose the top of InC).53Ga0.47AS contact layer
+
+(from bottom to top): an N-type InP waveguide layer 301, an
+
+N-type In().52A10.48AS confinement layer 302, an active
+region 303 containing multiple quantum wells, a Second
+uniformly. Due to lower etching rate for SiOx (about 3000 In0.52A10.48AS confinement layer 304, a 1.5 um thick
+A/min) than for SiNx (about 1000A/min) carried out in this P-type InP waveguide layer 305, and a 0.2 um thick high
+embodiment, the revealed top of a P-type INO.53Ga0.47AS concentration P-type INO.53Ga0.47AS contact layer 306.
+contact layer 206a will be lower than the surrounding SiOx 15 The process starts with a 1500 A SiNx layer 307 deposition
+210b by about 1000 A as shown in FIG. 2.J. Such scheme on the wafer surface by PECVD at 250° C., as shown in FIG.
+allows fully utilization of the Semiconductor ridge top for 3B. Through conventional mask aligning photolithography
+metal contact, while provides larger tolerance for excessive process, a 4 um wide photoresist pattern 308 (see FIG. 3C)
+etching.
+is defined on the SiNX Surface and Serves as the etching
+Following conventional processes are not directly related mask for Subsequent etching process. The SiNX layer not
+to this invention and are well-known in Semiconductor
+underneath the resist mask is then removed by RIE using
+industries. Nevertheless, the resulting planar device Struc CF, gas, as shown in FIG. 3D. After removing the resist
+mask 308, the device structure is as shown in FIG. 3E, and
+ture derived from the aforementioned STOP polishing tech
+nique and overall etch-back proceSS are helpful to the the resist pattern is transferred to the SiNX layer 307. After
+following processes and increase the processing yield.
+25 the wafer Surface has been cleaned and de-oxidized, the
+After uniform exposure of the IN0.53Ga0.47AS contact Sample is wet etched using the patterned SiNX layer as the
+layer tops, conventional mask photolithography proceSS is etching mask for ridge formation. A well mixed HPO :
+H2O: H2O (1:1:20) Solution, having an etching rate of about
+utilized to define the P-metal region, as illustrated in FIG.
+2K. Note that an inverse-tapered photoresist profile 211 is 0.25 um/min, and highly selective between INO.53Ga0.47AS
+necessary for the following metal lift-off process. 500 A Ti, and InP is used to remove the high concentration P-type
+500 A Pt, and 4000 A Au are deposited onto the wafer IN0.53Ga0.47As contact layer 306. The nearly isotropic
+Surface Successively, as shown in FIG. 2L. After metal etching inevitably cause S a Slightly undercut
+lift-off in acetone, which dissolves the photoresist pattern IN0.53Ga0.47As layer 306a as shown in FIG. 3F. After
+211 and removes a metal 212b adhering thereon, a metal SiNX mask removal by HF: HO (1:10) solution, the
+212a in contact with the exposed INO.53Ga0.47As layer is 35 IN0.53Ga0.47As layer 306a (see FIG.3G) now serves as the
+mask for P-type InP waveguide layer etching, which utilizes
+left as the P-metal electrode, as shown in FIG.2M. It should
+be emphasized again that the planar Structure obtained by a well-mixed HCl: HPO.(1:3) solution as an etchant. The
+the STOP polishing technique and the overall etch-back etching rate for InP is about 0.6 tim/min and is highly
+proceSS is ideal for forming Such P-type metal. On the Selective between INO.53 Ga.0.47AS and InP. After InP
+contrary, conventional double trench Structure might cause 40 etching, the device profile is configured as that shown in
+metal coverage and metal lift-off problems. After 20 sec. FIG. 3H. An InP layer 305a exhibits a slightly inverse
+rapid thermal annealing (RTA) at 420 C. in nitrogen gas tapered profile, which is a consequence of ridge orientation
+eous ambience, for P-metal contact annealing, wafer back parallel to the minor flat of the wafer in this embodiment.
+side is lapped and polished until the thickness of wafer 200a The inverse-tapered profile together with layer undercut
+remains about 100 um, and a 1000 A AuGeni alloy (84% 45 results in a profile with wider ridge top than the Semicon
+Au, 12% Ge, 4% Ni) and a 4000 AAu are deposited onto the ductor ridge top, while preserves the prescribed width for
+polished backside Serving as a N-metal electrode 213, as current injection into the active region (2 um in this
+shown in FIG. 2N. Finally another 20-sec RTA at 390° C. is embodiment). After the semiconductor ridge etching, a 3000
+performed for N-metal contact annealing. Both RTA pro A SiOx passivation layer 309 is deposited on the entire
+ceSSes are to reduce the ohmic contact resistance.
+50 wafer surface by PECVD at 250° C., as shown in FIG. 31.
+The second embodiment is described with the aid of the
+To this stage, the device is fabricated through well-known
+Schematic croSS Sectional views of the Semiconductor laser
+semiconductor process. In the following, the STOP tech
+shown in FIGS. 3A through 3P. This embodiment is different nique cooperated with overall etch back process will be
+from the previous one in that the laser ridge is formed by utilized So as to achieve the object of Self-aligning.
+chemical wet etch instead of dry etch carried out in the first 55 After SiOx surface passivation, the wafer is transferred
+embodiment. Wet etch process has the advantages over dry into another PECVD chamber, which allows for rapid SiOx
+etch process in that it is more Simple and time-Saving. deposition with a rate of 2750 A/min at 350° C. to form a 3
+Besides, wet etch can result in an undercut profile that has
+um thick SiOx layer 310 as shown in FIG. 3.J. This thick
+a wider contact area (about 4 um) on the ridge top contact SiOx layer covers the entire wafer surface and forms oxide
+Surface while preserve the required width of a narrower 60 ridges which stem from the underneath Semiconductor
+ridge-bottom (about 2 um) for current injection, therefore ridges. By the conventional polishing process described in
+reducing the contact resistance without generating unwanted the previous embodiment, the oxide Surface is planarized to
+transverse modes or increasing the threshold current. A a SiOx plane 310a shown in FIG.3K. Then RIE polish with
+conventional double-trench Structure requires the P-metal to CF, gas is used for overall etching back of the SiOx plane
+cover from the ridge top to the trench bottom, and if wet etch 65 until the INO.53Ga0.47As ohmic contact layer is on the
+proceSS is utilized for ridge formation, undercut or inverse Semiconductor ridge top and is uniformly exposed. To
+tapered profile might cause a high resistance or disconnected further increase the contact area of the electrode, the whole
+
+US 6,503,770 B1
+7
+INO.53Ga0.47AS contact layer 306a including its tapered
+side walls, in exposed, as shown in FIG. 3L. Therefore,
+contrary to the previous embodiment, the top of the contact
+layer is higher than the surrounding SiOX 310b.
+AS in previous embodiment, although the following pro
+ceSSes are not directly related to this invention, the planar
+device structure derived from the above steps of this inven
+tion facilitates the following processes.
+After uniform exposure of the IN0.53Ga0.47AS contact
+regions on the ridge top, the conventional photolithography
+proceSS is utilized to define the P-metal region, as shown in
+FIG. 3M. Note that an inverse-tapered resist profile is
+helpful for the following metal lift-off process. 500 ATi,500
+
+8
+bottom. Large resistance produces unwanted parasitic and
+heating effects, while disconnected circuit leads to padleSS
+device, both cut the yield down. The planar device Structure,
+on the contrary, is free from these problems, and Since the
+entire top can be fully utilized. or even over-utilized, for
+metal contact, contact resistance can be optimized, which
+results in less thermal effect. Besides, by using Stop
+technique, chemical wet etching, which is more convenient
+than dry etching process, is also welcome in forming the
+ridge Structure.
+
+(2)Best process uniformity: By applying STOP technique
+
+to planarize the ridge-Structured SiOX Surface, one can
+A Pt, and 4000 A Au are then deposited onto the wafer obtain a SiOx plane with its planarity decided by the oxide
+surface successively, as shown in FIG. 3N. After metal 15 deposition process which is typically Smaller than t1%
+lift-off with acetone, which dissolves a resist pattern 311 and (except at wafer edge). Consequently, best process unifor
+further removes a metal 312b adhering thereto thereby mity can be obtained.
+accomplishing metal lift-off. A remained metal 312a in
+(3)Potential for high-speed operation: Due to placing the
+contact with the exposed InC).53Ga0.47As layer serves as a
+P-type metal electrode, as shown in FIG. 3O. After 20sec metal pad on the thick SiOX layer, the parasitic capacitance
+RTA at 420 C. in nitrogen gas ambience for the P-metal generated thereby can be significantly reduced. Therefore a
+electrode, the wafer backside islapped and polished with the higher RC-limited bandwidth can be obtained.
+wafer thickness 300a downto about 100 um, and 1000 A
+(4)Potential for flip-chip bonding: The planar device
+AuGeni alloy and 4000 A Au are deposited onto the
+polished wafer backside for a N-metal electrode 313, as 25 Structure facilitates a P-Side-down flip-chip bonding process,
+shown in FIG. 3P. Finally, another 20 sec RTA at 390° C. is which is beneficial for heat dissipation for the Semiconduc
+performed for this N-type metal electrode. in both tor laser. Besides, flip-chip bonding also enables quasi
+embodiments, STOP technique is utilized for planarizing monolithic integration between Semiconductor lasers and
+corrugated SiOx surface. FIG. 4 shows how the SiOx other active/Passive optoelectronic devices.
+ridge-Structured Surface varies as the Self-terminated polish
+Many changes and modifications in the above-described
+ing process proceeds. A wafer 400 with corrugated SiOx
+
+Surface before polishing is exhibited in (A). AS in the above
+two embodiments, the initial height of the oxide ridges 403
+
+embodiments of the invention can, of course, be carried out
+
+without departing from the Scope thereof. Accordingly, to
+is about 1.6-1.7 um, which is far exceeding the uniformity promote the progress in Science and the useful arts, the
+that a conventional polishing machine can achieve (its um in 35 invention is disclosed and is intended to be limited only by
+typical). Therefore, as shown in (B), after beginning several the Scope of the appended claims.
+What is claimed is:
+minutes polishing with conventional polishing tools, in a
+specific range 401, the height of the SiOx ridges 403a are not
+1. A Self-aligned fabrication method for ridge-waveguide
+uniformly polished down. However, the pressure exerted on Semiconductor laser comprising the Steps of
+the polished Surface can be adjusted So that the polishing rate 40
+a) providing an epitaxially grown, multi-layered laser
+for a SiOx plane 402 is so slow that it approaches nearly
+Structure that further includes a Semiconductor
+Zero. On the contrary, due to rather small area of the SiOx
+Substrate, a first Semiconductor waveguide layer, a first
+ridge, the ridge height polishing rate can be comparatively
+Semiconductor confinement layer, a Semiconductor
+much faster that reaches about 0.15 um/min. Therefore, as
+active layer region, a Second Semiconductor confine
+the polishing process continues, the SiOX ridge will be 45
+completely polished down in Sequence without affecting the
+ment layer, a Second Semiconductor waveguide layer,
+and a Semiconductor ohmic contact layer;
+SiOx plane 402, as shown in (C) and (D). This means that
+after all the SiOX ridges are planarized, the polishing rate
+b) depositing a first dielectric layer on the entire Surface
+reduces to almost Zero as if Self-terminated. Consequently,
+of Said Semiconductor ohmic contact layer obtained
+the planarization uniformity depends much more on the 50
+from Step a;
+SiOX deposition process than the polishing process. Obvi
+c)
+forming a semiconductor ridge Structure by using
+ously the technique of the present invention is applicable for
+patterned
+Said first dielectric structure obtained from
+mass production that requires high processing uniformity
+Step
+b
+as
+an
+etching mask and performing an etching
+and yield.
+proceSS,
+It emerges from the description of the above two embodi 55 d) depositing a second dielectric layer on the entire
+ment that the invention has Several noteworthy advantages
+ridge-Structured wafer Surface obtained from Step c for
+over conventional techniques, in particular:
+Semiconductor Surface passivation;
+(1)Easy and reliable process: Conventional double-trench
+e)
+depositing a third dielectric layer on the entire Surface
+Structure requires at least three Steps of mask alignment
+of
+ridge-Structured and passivated wafer Surface
+60
+process, while only two are required by this Self-aligned
+obtained from Step d;
+method (i.e. ridge definition and P-metal definition).
+f) performing a planarization process to planarize said
+Besides, trench Structure may cause metal coverage problem
+third dielectric layer obtained from Step e,
+if the Semiconductor ridge has an inappropriate croSS Sec
+tional profile, Such as inverse-tapered or layer undercut.
+g) performing an overall etch-back process to uniformly
+Such problems may result in a large resistance along the 65
+reduce Said planarized dielectric layer thickneSS until
+Said ohmic contact layer on the Semiconductor ridge
+electrical path or even cause disconnected electrical path as
+top being uniformly exposed; and
+the metal film goes down from the ridge to the trench
+
+US 6,503,770 B1
+9
+h) depositing a first metal layer and a second metal layer,
+
+Said first metal layer being in contact with Said exposed
+ohmic contact layer on the Semiconductor ridge top
+obtained from Step g for Serving as an electrode on the
+wafer Surface, while Said Second metal layer being
+deposited on the polished wafer back Side for Serving as
+an electrode on the wafer back Side.
+
+2. The method of claim 1, wherein said first dielectric
+
+layer formed in step a is made of SiOX, SiNX, or SiOxNy.
+3. The method of claim 1, wherein Said etching proceSS
+for Semiconductor ridge Structure in Step c is formed by wet
+etch, or dry etch, or the above combination.
+
+10
+5. The method of claim 1, wherein the thickness of Said
+
+third dielectric layer formed in Step e is larger than its ridge
+height, and is made of SiOX or SiCOH.
+6. The method of claim 1, wherein said planarization
+process performed in Step f is by dielectric polishing proceSS
+using a polish equipment with an adjustable load.
+7. The method of claim 1, wherein said overall etching
+back process for Said planarized dielectric Surface in Step g
+is performed by wet etch, or dry etch, or the combination.
+8.The method of claim 1, further comprises a step Sub
+Sequent to Step c and prior to Step d, removing Said first
+dielectric layer which is used as an etching mask.
+
+4. The method of claim 1, wherein said second dielectric
+
+layer formed in step d is made of SiOX, or SiNX, or SiOxNy.
+
+k
+
+k
+
+k
+
+k
+
+k
+
+

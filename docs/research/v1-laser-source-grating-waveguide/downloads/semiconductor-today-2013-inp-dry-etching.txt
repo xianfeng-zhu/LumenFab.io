@@ -1,0 +1,442 @@
+82 Technology focus: Etch
+
+Dry etching of InP-based
+materials using a highdensity ICP plasma system
+Ligang Deng of Oxford Instruments
+Plasma Technology outlines how
+inductively coupled plasma technology
+can provide fast, accurate, low-damage
+etching of indium phosphide materials.
+
+D
+
+ry etching is now widely used in the fabrication
+of optoelectronic and electronic devices involving III-V materials, due to the need for careful
+control of the critical dimensions of components. Fast
+etch rates, repeatability, uniformity, clean chemistries,
+vertical profile and low device damage are some of the
+most desirable aspects of the etching processes.
+Inductively coupled plasma (ICP) etching is ideally
+suited to these requirements, since it provides high
+ion densities and hence fast etch rates, while allowing
+separate control of ion density and ion energy (giving
+a low damage capability).
+To meet these demands, Oxford Instruments Plasma
+Technology (OIPT) has developed a wide range of ICP
+etch processes for III-V semiconductors. This article
+focuses on etching processes for InP and
+related materials, discussing various etching
+chemistries and system requirements for different applications and providing an update of the
+latest new process developing results.
+
+Gas inlet with axially
+symmetric distribution
+
+Viewport for optical
+emission spectroscopy
+or laser interferometry
+
+Quartz or
+alumina tube
+
+Electrostatic
+shield
+
+Water-cooled
+RF coil antenna
+
+205mm
+diameter cryocooled/heated
+lower
+electrode with
+heliumassisted heat
+transfer
+
+Wafer
+clamping
+mechanism
+Sputter
+shield
+
+200mm diameter
+high conductance
+pumping port
+
+Figure 1. Schematic of PlasmaPro 100 ICP180.
+
+is monitored by measurement of the DC bias generated
+on the lower electrode, and is controlled mainly by the
+RF power supplied to this electrode.
+
+1. The ICP tool
+The system used for these processes is Oxford
+Instruments Plasma Technology’s PlasmaPro
+100 ICP etcher (OIPT CS1 hardware).
+A schematic of the etch chamber is given in
+Figure 1 and the full system is shown in
+Figure 2.
+RF power (13.56MHz) is applied to both the
+ICP source (up to 3000 Watts) and substrate
+electrode (up to 600 Watts) to generate the
+etch plasma. An electrostatic shield around the
+ICP tube is used to ensure that the ICP power
+is purely inductively coupled (i.e. ‘true-ICP’),
+hence eliminating sputtering of tube material
+and minimizing unnecessary high-energy ion
+damage to devices. Ion energy at the substrate Figure 2. PlasmaPro 100 ICP180.
+semiconductor TODAY Compounds&AdvancedSilicon • Vol. 7 • Issue 10 • December 2012/January 2013
+
+www.semiconductor-today.com
+
+Technology focus: Etch 83
+
+Figure 3. InP-based material etched using CH4/H2/Cl2 process. Etch rates of >1.5µm/min and selectivity of
+>15:1 is achieved.
+
+Wafers are loaded into the chamber via a load lock to
+maintain good stability of chamber vacuum and hence
+repeatability of etching results.
+The wafers being etched are either mechanically or
+electrostatically clamped to the temperature-controlled
+lower electrode. Helium is applied to the back of the
+wafers to provide good thermal conductance between
+the chuck and the wafer.
+Through the use of electrical heater elements and a
+coolant circulating circuit, the PlasmaPro 100 ICP has
+control of substrate table temperature to an accuracy
+of ±1°C over a temperature range of –5°C to +400°C.
+Substrate temperature has a marked effect on the etch
+result, as it controls the volatility of the etch species
+and hence influences the chemical component of the
+process, affecting not only etch rate, selectivity and
+profile but also surface roughness. The system can be
+operated over a pressure range from 1mT to 100mT,
+allowing accurate control process chamber pressure.
+
+2. InP-based material etching
+
+used CH4/H2 process increases. However, profile
+control becomes difficult due to increased undercutting.
+Addition of Cl2 to this mixture allows highly anisotropic
+etch profiles, due to the low volatility of InClx. This
+therefore allows accurate profile control through
+adjustment of the CH4/Cl2 ratio. Etch rates of
+>1.5µm/min and selectivity of >15:1 to SiO2 or SiNx
+masks can be achieved. Figure 3 shows a 10µm-deep
+mirror facet etched using this chemistry.
+This chemistry has the advantage that it etches a
+wide range of materials, i.e. those containing In, P,
+Ga, As, Al, Sb etc, with low selectivity (~0.5–1:1)
+between each other, hence etched profiles have no
+notching at interfaces between materials. It also
+produces less polymer contamination than the CH4/H2
+chemistry due to the lower CH4 content of this process
+and much faster etch rate. There is no additional wafer
+heating required, as the InP-based wafer is heated
+solely by the high-density plasma itself. With accurate
+control of the plasma parameters, process repeatability is better than ±3%, and no wafer clamping is
+required.
+This technique enables batch processing for highthroughput production applications (e.g. 4x2” wafers
+loaded per run), since the wafers can simply rest on a
+carrier plate and do not need to be individually
+clamped and helium cooled. Another variant of this
+process is the CH4/Ar/Cl2 chemistry, which has also
+
+2.1 High-rate etching of waveguide and mirror facet
+For high-rate etching of mirror facets and waveguides,
+the key requirements are fast etch rates to depths of
+up to 10µm and 5µm respectively, controllable etch
+depth, highly anisotropic profile, no notching at buried
+layers of InGaAsP (or similar), and smooth sidewalls
+and etched surface.
+CH4/H2/Cl2 chemistry
+is the most effective
+Table1. CH4/H2/Cl2 process performance summary.
+process for this kind
+Etch rate
+Selectivity Etched Etched surface
+of application. If the
+(nm/min)
+to
+SiO2
+profile and sidewall
+Uniformity
+temperature of the
+wafer is allowed to
+Single 2” wafer
+1500
+15:1
+90º±1
+smooth
+<±2.5%
+increase to near
+Single 4” wafer
+500
+8
+90º±1
+smooth
+<±4.0%
+200ºC, then the etch
+Batch 4x2” wafers
+500
+8
+90º±1
+smooth
+<±5.0%
+rate of the commonly
+www.semiconductor-today.com
+
+semiconductor TODAY Compounds&AdvancedSilicon • Vol. 7 • Issue 10 • December 2012/January 2013
+
+84 Technology focus: Etch
+
+Figure 4. Cl2/N2 etched waveguide.
+
+Figure 5. HBr waveguide etch.
+
+been shown to produce excellent etch results using this
+etch equipment.
+However, often the demands of production dictate that
+the chamber must stay as clean as possible, ideally
+with no polymer deposition, even at the expense of the
+etch anisotropy and sidewall smoothness if necessary.
+This requires that the process does not contain CH4.
+A common approach is to use a Cl2-based etch
+chemistry with a heated electrode (≥150ºC, in order to
+effectively remove the InClx etch product from the
+wafer surface). Accurate wafer temperature control
+is recommended for this process. If the sample temperature rises excessively, the InClx evaporates from
+the surface easily and hence produces undercutting.
+On the other hand, at too low a temperature, InClx is
+non-volatile, resulting in slow etch rates, low selectivity
+and surface roughness. Often N2 is added to increase
+the physical component of the etching and to passivate
+the surface, hence reducing surface roughness and
+improving profile control. Using this process, etch rates
+
+of >1µm/min and selectivity to SiO2 of >10:1 have
+been achieved. Figure 4 shows a typical 5µm-deep
+etch result. This is a H+-free process, which may create
+less damage to the device, as H+ often forms a passvation layer under the etched surface that may affect
+device performance.
+The CH4/H2/Cl2 and Cl2/N2 processes listed above can
+also be used to create device mesas, with either vertical
+or sloped profiles achieved by suitably adjusting
+process parameters.
+An alternative technique that allows processing at
+lower temperatures
+The HBr process can also of ~100–150ºC
+etch InP with photoresist involves the use of
+HBr chemistry, since
+as a mask, since it
+the etch product of
+requires lower
+InBrx becomes
+temperature compared
+volatile at a lower
+to Cl2 chemistry
+temperature than
+InClx. Figure 5
+shows a typical 5µm-deep etch result at an etch rate of
+0.8µm/min and a selectivity of >10:1 to SiO2. Again,
+good temperature control is recommended due to the
+sensitivity of etch results to wafer temperature.
+The HBr process can also etch InP with photoresist
+(PR) as a mask, as shown in Figure 6, since it requires
+lower temperature compared to Cl2 chemistry. Typically
+an etch rate of >1µm/min and a selectivity of 14:1 are
+achieved. This process required hard baking of the
+photoresist mask before etching in order to reduce
+photoresist burning. Advantages of this process include
+potential elimination of the use of hard masks and
+significantly reduced process complexity and cost.
+A Cl2/H2 process has been developed recently. In this
+process, the lower electrode is set at room temperature.
+The wafer is placed on top of a carrier wafer without
+additional thermal contact, or wafer clamping. The
+etch mechanism is similar to that of the CH4/H2/Cl2
+
+Figure 6. InP etches using photoresists as a mask.
+
+semiconductor TODAY Compounds&AdvancedSilicon • Vol. 7 • Issue 10 • December 2012/January 2013
+
+www.semiconductor-today.com
+
+Technology focus: Etch 85
+
+Figure 7. InP/InGaAs sample etched using Cl2/H2 process at room temperature.
+
+Figure 8 CH4/H2 grating etch.
+
+process — the wafer is heated by the plasma itself.
+The advantage of this process is the absence of CH4,
+therefore no polymer deposits in the chamber. It is a
+clean and also environmental friendly process. In this
+process, the gas ratio of Cl2/H2 is very important. High
+gas ratio leads to a high etch rate but also gives an
+undercut etching profile. Figure 7 shows the results of
+Cl2/H2 etch in ICP mode. The etch rate is 850nm/min
+with selectivity to nitride mask of > 10:1.
+2.2 InP grating etching or shallow etching
+Although the CH4/H2 InP etching process can be
+replaced by faster, cleaner etch chemistries in ICP
+mode for the majority of applications, it is still widely
+used for InP DFB (distributed feedback laser) grating
+etching, due to the requirements of shallow and
+accurately controlled etch depth (typically <200nm).
+Also, the frequent use of photoresist masks (often
+delicate e-beam resists) for grating definition requires
+room-temperature etching. In an ICP tool this process
+
+Figure 9. Shallow InP etch using CH4/H2 in RIE mode process: (a) single-step process showing some polymer
+deposit on etched top surface and sidewall; (b) two-step process, no more polymer residual on etched surface.
+www.semiconductor-today.com
+
+semiconductor TODAY Compounds&AdvancedSilicon • Vol. 7 • Issue 10 • December 2012/January 2013
+
+86 Technology focus: Etch
+
+Figure 10: Single 3” wafer shallow InP etch using
+CH4/H2 in ICP mode process, photoresist as a mask.
+
+following the etching in order to remove the residual
+polymer. Figure 9 shows the result of a RIE-mode shallow InP etch to a depth of less than 1000nm at an etch
+rate of 20~40nm/min.
+Due to the slow etch rate, the throughput is low in the
+RIE-mode process. Therefore, sometimes CH4/H2 etching
+in ICP mode is required in order to increase etch rate.
+Typically, using this type of chemistry to etch a single
+3” wafer achieves an etch rate of 100nm/min, a selectivity to PR mask of >10:1, and a uniformity of ±3%
+with a profile >80º, as shown in Figure 10.
+Working with Fraunhofer Heinrich Hertz Institute
+(FhG HHI) we have developed a batch process for
+three 3” wafers on a ICP380 tool. This process gives an
+etch rate of 100nm/min, a selectivity to PR mask of
+>10:1, and a uniformity of ±3% across wafer with a
+profile >80º, as shown in Figure 11 (profiles are taken
+at the centre and edge of the wafer/carrier).
+As can be seen, there is excellent process uniformity
+and etch rate over the three wafers using this CH4/H2based process chemistry. With an etch rate in the range
+of 100nm/min (10 times slower compared with chlorinecontaining processes), it can be used for applications
+where accurate control of the etched depth is required
+while maintaining a reasonably short processing time.
+
+is typically performed with no ICP power (i.e. only
+lower electrode power is applied), enabling a slow
+‘RIE mode’ of etching. Figure 8 shows the result of a
+RIE-mode grating etch in an ICP tool to a depth of
+100nm at an etch rate of 20nm/min.
+CH4/H2 process in RIE mode is used for shallow InP
+etch (etched depth less
+than 1000nm). Since it is a Table2. CH4/H2 process performance summary.
+room-temperature
+Batch Etch rate Selectivity to Etched
+process, photoresist can be
+size
+(nm/min) photo-resist
+profile
+used as mask. However,
+CH4/H2 forms a large
+ICP CH4/H2 1x 2”
+125
+>10:1
+>80º
+amount of polymer in the
+1x 3”
+110
+>10:1
+>80º
+chamber and also forms a
+3x3”
+100
+>10:1
+>80º
+deposit at the etched top
+RIE CH4/H2 1x2”
+20
+>10:1
+>80º
+surface and sidewall.
+1x3”
+15
+>10:1
+>80º
+Often a short O2 clean step
+3x3”
+12
+>10:1
+>80º
+is added into the process
+
+Uniformity (crosswafer or batch)
+<±3%
+<±3%
+<±5%
+<±2%
+<±3%
+<±4%
+
+Figure 11 Batch 3x3”-wafer shallow InP etch using CH4/H2 in an ICP-mode process, with photoresist as a
+mask (with kind permission of FGH HHI.)
+
+semiconductor TODAY Compounds&AdvancedSilicon • Vol. 7 • Issue 10 • December 2012/January 2013
+
+www.semiconductor-today.com
+
+Technology focus: Etch 87
+
+Figure 12. Controllable etch rate for shallow etching.
+
+The results for CH4/H2 processes in both RIE and ICP
+modes are listed in Table 2.
+CH4/H2/Cl2, Cl2/N2 and HBr in ICP-mode processes
+can also be used for shallow etch. If the sample is preheated to above 150ºC by the lower electrode, it has
+been shown that it is possible to reduce the etch rate
+
+from >1μm/min to 0.2μm/min by choosing low ICP
+power. A typical etched profile is shown in Figure 12.
+2.3 InP photonic crystal (PhC) etching
+The etching of an InP photonic crystal waveguide
+structure is very challenging, since it requires a high
+aspect ratio with feature sizes of less than 0.5µm.
+The most common structure is two-dimensional arrays
+of holes.
+All InP etch processes mentioned above can be
+employed to etch PhC. P Strasser from ZTH Zurich
+developed an etching process using the ICP180 tool.
+The conclusion from his work is that Cl2/N2/Ar is the
+best chemistry for PhC etch. This is a polymer-free
+process, and can also provide a square foot. The
+wafer temperature is set at above 200ºC. Cl2 is the
+etch gas, Ar is used as a dilute gas, and N2 gives
+passivation at the sidewall. An aspect ratio of >15:1
+was achieved. Figure 12 shows an etched depth of
+2.9µm, and an etch rate of 1.75µm/min achieved for
+190nm diameter holes, which gives an aspect ratio of
+~16:1. The small sample pieces have to be glued on to
+the carrier plate and backside helium cooling is
+required.
+
+3. Summary
+InP-based material etching is a vital technology for the
+fabrication of optoelectronic and electronic devices.
+OIPT’s PlasmaPro 100 ICP etcher (OIPT CS1 hardware)
+provides a wide range of III-V material etching
+solutions. Highly vertical (or controlled slope) etched
+profiles, smooth sidewalls, with good selectivity to
+oxide, nitride or a PR mask, as well as a controllable
+etch rate, can be achieved. ■
+Figure 13. PhC etched in InP. The holes have a
+diameter of 180nm, and the etched depth is 2.9µm
+(with kind permission of P Strasser etc,
+Communication Photonics Group, ETH Zurich).
+www.semiconductor-today.com
+
+Author:
+Dr Ligang Deng, Principal Applications Engineer,
+Oxford Instruments Plasma Technology
+www.oxford-instruments.com/plasma
+
+semiconductor TODAY Compounds&AdvancedSilicon • Vol. 7 • Issue 10 • December 2012/January 2013
+
+

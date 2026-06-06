@@ -1,0 +1,825 @@
+USOO70O881 OB2
+
+(12) United States Patent
+
+(10) Patent No.:
+US 7,008,810 B2
+(45) Date of Patent:
+Mar. 7, 2006
+
+HöSS et al.
+
+(54) METHOD FOR FABRICATING AT LEAST
+
+ONE MESA OR RIDGE STRUCTURE ORAT
+LEAST ONE ELECTRICALLY PUMPED
+REGION IN A LAYER OR LAYER
+
+FOREIGN PATENT DOCUMENTS
+DE
+
+101 47 791 A1
+
+9/2001
+
+(Continued)
+
+SEQUENCE
+
+OTHER PUBLICATIONS
+
+(75) Inventors: Christine Höss, Regensburg (DE);
+
+Andreas Weimar, Regensburg (DE);
+Andreas Leber, Regensburg (DE);
+Alfred Lell, Maxhiitte-Haidhof (DE);
+Helmut Fischer, Lappersdorf (DE);
+Volker Harle, Laaber (DE)
+
+(73) Assignee: Osram Opto Semiconductors GmbH,
+Regensburg (DE)
+(*) Notice:
+
+Subject to any disclaimer, the term of this
+patent is extended or adjusted under 35
+
+U.S.C. 154(b) by 134 days.
+(21) Appl. No.: 10/804,514
+Mar 19, 2004
+(22) Filed:
+Prior Publication Data
+(65)
+US 2004/0248334 A1
+
+Mar. 19, 2003
+
+(DE) ................................ 103 12 214
+
+(2006.01)
+257/E21034
+
+(58) Field of Classification Search .................. 438/39,
+438/951; 257/E21.025, E21.034
+See application file for complete Search history.
+U.S. PATENT DOCUMENTS
+
+4.296.386 A
+
+10/1981 Tijburg et al.
+
+(Continued)
+
+& Pavane
+
+(57)
+
+ABSTRACT
+
+Sacrificial layer (4) and of the layer or layer Sequence are
+
+Dec. 9, 2004
+
+References Cited
+
+(74) Attorney, Agent, or Firm-Cohen, Pontani, Lieberman
+
+is applied and patterned above the layer or layer Sequence.
+A mask layer is applied and patterned above the Sacrificial
+layer for definition of the mesa or ridge dimensions. The
+
+(52) U.S. Cl. ................. 438/39, 438/951; 257/E21.025;
+
+(56)
+
+Primary Examiner-George Fourson
+ASSistant Examiner Thanh V. Pham
+
+in a layer or layer Sequence, in which a sacrificial layer (4)
+
+(51) Int. Cl.
+HOIL 21/00
+
+(Continued)
+
+A method for fabricating at least one mesa or ridge Structure
+
+Foreign Application Priority Data
+
+(30)
+
+Tsuyoshi Tojyo, et al., “High-Power AlGainN Laser Diodes
+with High Kink Level and Low Relative Intensity Noise”,
+Jpn. J. Appl. Phys. vol. 41, pp. 1829-1833, Mar. 2002.
+
+removed So that the mesa or ridge Structure is formed in the
+
+layer or layer sequence. A part of the Sacrificial layer (4) is
+
+selectively removed from the side areas thereof which have
+been uncovered in the previous Step, So that a Sacrificial
+layer remains which is narrower in comparison with a layer
+that has remained above the Sacrificial layer as Seen from the
+layer or layer Sequence. A coating is applied at least to the
+Sidewalls of the Structure produced in the previous StepS. So
+that the Side areas of the residual Sacrificial layer are not
+completely overformed by the coating material. The Sacri
+
+ficial layer (4) is removed So that the layer that has remained
+
+above the Sacrificial layer as Seen from the layer or layer
+sequence is lifted off. A method is also disclosed for fabri
+cating at least one gain-controlled laser diode in a layer
+Sequence, in which method StepS analogous to those
+described above are employed.
+23 Claims, 6 Drawing Sheets
+
+US 7,008,810 B2
+Page 2
+U.S. PATENT DOCUMENTS
+
+4,751,708 A
+4949,352 A
+
+6/1988 Jackson et al.
+8/1990 Plumb
+
+5,139.968 A * 8/1992 Hayase et al. .............. 438/577
+5,426,658 A
+
+6,605,519 B1
+6,661,822 B1
+6,686,616 B1
+
+6/1995 Kaneno et al.
+8/2003 Lishan ....................... 438/555
+12/2003 Kubota et al.
+2/2004 Allen et al. ................. 257/280
+
+FOREIGN PATENT DOCUMENTS
+JP
+
+2001-015860
+
+1/2001
+
+OTHER PUBLICATIONS
+
+Shin-ya Nunoue et al., “Reactive Ion Beam Etching and
+Overgrowth Process in the Fabrication of InCaN Inner
+Stripe Laser Diodes”, Jpn. J.Appl. Phys. Vol. 37, pp. 1470
+1473, Mar. 1998.
+
+M. Kuramoto et al., “Reduction of Internal LOSS and
+
+Threshold Current in a Laser Diode with a Ridge by Selec
+
+tive Re-Growth (RiS-LD)”, phys.statisol.(a) 192, No. 2, pp.
+329-334 (2002).
+
+Masaru Kuramoto et al., “Novel-Ridge InGaN Multiple
+Quantum-Well Laser Diodes Fabricated by Selective Area
+Re-Growth on n-GaN Substrates”, Jpn. J. Appl. Phys. Vol.
+40, pp. L925-L927, Sep. 15, 2001.
+Akitaka Kimura et al., “Composition Control during Growth
+of AlGaN Cladding Layers for InCaN-MOW Lasers with
+
+Ridge Formed by Selective Re-growth (RiS-type Lasers)”,
+
+Mat. Res. Soc. Symp. Proc. vol. 693, Materials Research
+
+Society, pp. 14.5.1-14.5.6 (2002).
+
+Bulman G., et al. “InGaN/GaN laser diodes grown on
+6H-SiC", pp. 616-622, Aug. 1998.
+* cited by examiner
+
+U.S. Patent
+
+Mar. 7, 2006
+
+Sheet 1 of 6
+
+FIG 1A
+
+FIG 1B
+
+FIG 1 C
+
+2 N-3
+4
+
+- 5
+--7
+
+US 7,008,810 B2
+
+U.S. Patent
+
+Mar. 7, 2006
+
+Sheet 2 of 6
+
+FIG 1D
+
+FIG 1E
+
+US 7,008,810 B2
+
+U.S. Patent
+
+Mar. 7, 2006
+
+Sheet 3 of 6
+
+FIG 2A
+
+CNJCYD<r-oLON)
+
+FIG2B
+
+CNJCYD<rLOoN)
+
+<rGoN)CYDLCD
+
+US 7,008,810 B2
+
+U.S. Patent
+
+Mar. 7, 2006
+
+Sheet 4 of 6
+
+US 7,008,810 B2
+
+U.S. Patent
+
+Mar. 7, 2006
+
+Sheet 5 of 6
+
+US 7,008,810 B2
+
+U.S. Patent
+
+Mar. 7, 2006
+
+Sheet 6 of 6
+
+FIG 4A
+
+F-2
+
+US 7,008,810 B2
+
+US 7,008,810 B2
+1
+
+RELATED APPLICATION
+
+2
+quantum well structure (SQW structure) or a multiple quan
+tum well structure (MQW structure). Such layer sequences
+are known in principle to the perSon Skilled in the art and,
+therefore, are not explained in any further detail at this point.
+They are described for example in Nunoue et al., Jpn. J.
+Appl. Phys., Vol. 37 (1998), pp. 1470–1473, Part 1, No. 3B;
+Kuramoto et al., Jpn. J. Appl. Phys., Vol. 40 (2001, pp.
+
+This patent application claims the priority of German
+patent application 10312214.1, the disclosure content of
+which is hereby incorporated by reference.
+
+Symp. Proc. Vol. 693 (2002); Kuramoto et al., phys.stat. Sol.
+(a) 192, No. 2, 329-334 (2002); Tojyo et al., Jpn. J. Appl.
+Phys. 41, 1829 (2002) and Bulman et al., in Properties,
+
+FIELD OF THE INVENTION
+
+Semiconductors, 616, (1998) the disclosure contents of
+
+METHOD FOR FABRICATING AT LEAST
+ONE MESA OR RIDGE STRUCTURE OR AT
+LEAST ONE ELECTRICALLY PUMPED
+REGION IN A LAYER OR LAYER
+
+SEQUENCE
+
+L925–927, Part 2, No. 9A/B; Kimura et al., Mat. Res. Soc.
+
+Processing and Applications of Gallium Nitride and Related
+
+which is in this respect hereby incorporated by reference.
+The invention relates to a method for fabricating at least 15
+SUMMARY OF THE INVENTION
+one mesa or ridge Structure or at least one electrically
+pumped region in a layer or layer Sequence. It relates, in
+particular, to a method for fabricating at least one mesa or
+One object of the invention is to provide a method for
+ridge Structure on or in a Semiconductor layer Sequence fabricating at least one mesa or ridge Structure or at least one
+based-on nitride-III-V-compound Semiconductor material electrically pumped region in a layer or layer Sequence,
+for optoelectronic Semiconductor chips. Furthermore, the which method is Self-aligning and can be used to fabricate,
+invention relates, in particular, to a method for fabricating in particular, Structure widths of less than or equal to 2 um
+laser diodes based on nitride-III-V-compound Semiconduc in a technically simplified manner.
+tor material with waveguide widths of less than or equal to
+When mention is made hereinafter of sacrificial layer,
+25 covering layer and mask layer, they may be an individual
+2 lim.
+layer but also a Sequence of two or more layers which fulfill
+BACKGROUND OF THE INVENTION
+the function of the Sacrificial layer, the covering layer and
+the mask layer, respectively.
+Known methods for fabricating index-guided and gain
+The above-mentioned object and other objects are
+guided laser diode chips are described for example in DE attained in accordance with one aspect of the present inven
+101 47 791. With the lithography technique (contact print tion directed to a method for fabricating at least one mesa or
+ing) which is proposed and available there, it is possible to ridge Structure in a layer or layer Sequence, in which
+obtain laser diodes with waveguide widths <2 um only with Sidewalls of the mesa or ridge Structure are provided with a
+a high technical effort. During the opening of a 0.5 um wide coating applied after the uncovering thereof. A Sacrificial
+window in the SiO2 passivation, shunts increasingly occur in 35 layer is applied above the layer or layer Sequence and a mask
+the case of Small waveguide widths, said shunts arising as a layer is applied and patterned above the Sacrificial layer for
+result of alignment tolerances (0.5 um) and run-out effects definition of the mesa or ridge dimensions. The Sacrificial
+layer, and the layer or layer Sequence are partially removed
+(up to 2 um offset over a 2 in. wafer).
+In the case of the RiS method (Ridge by Selective to form the mesa or ridge Structure in the layer or layer
+regrowth) disclosed for example by Kuramoto et al., Jpn. J. 40 Sequence. A part of the Sacrificial layer is Selectively
+
+Appl. Phys., Vol. 40 (2001), pp. L925–927, Part 2, No.
+
+removed from the side areas thereof which have been
+
+9A/B; Kimura et al., Mat. Res. Soc. Symp. Proc. Vol. 693
+
+uncovered earlier, So that a Sacrificial layer remains which is
+(2002) and Kuramoto et al., phys. stat. Sol. (a) 192, No. 2, narrower in comparison with a layer that has remained
+329-334 (2002), the epitaxy is interrupted after the growth above the Sacrificial layer as Seen from the layer or layer
+of an upper waveguide. In a dielectric intermediate layer 45 Sequence. The coating is applied at least to the Sidewalls of
+(e.g. SiO2) Subsequently deposited above that, Strip-type the Structure produced in the above StepS. So that the Side
+windows are opened (patterning by means of photolithog areas of the residual Sacrificial layer are not completely
+raphy and etching). In the Second epitaxy Step, the cladding overformed by the coating material. The Sacrificial layer is
+layer of the waveguide and the contact layer grow in the then at least partially removed, So that the layer that has
+window Strips. This method requires a plurality of epitaxy 50 remained above the Sacrificial layer as Seen from the layer or
+Steps. A variation of the indeX guidance, which can be layer Sequence is lifted off.
+achieved in the case of a ridge waveguide laser by changing
+In this case, the covering layer may have the function of
+the etching depth, is difficult.
+an adhesion layer between mask layer and Sacrificial layer or
+A method for fabricating “InGaN Inner Stripe Laser the function of an etching Stop layer for the wet-chemical
+Diodes', which method is similar to the RiS method 55 etching of the Sacrificial layer, or both functions together. If
+described above, is described in Nunoue et al., Jpn. J. Appl. the mask layer requires neither an adhesion layer nor an
+etching Stop layer, the covering layer may be omitted.
+Phys., Vol. 37 (1998), pp. 1470–1473, Part 1, No. 3B.
+In contrast to a traditional lift-off technique, the Sacrificial
+The group of optoelectronic chips based on nitride-III-Vcompound Semiconductor material in the present case layer particularly preferably comprises a different material
+includes, in particular, those chips in which a Semiconductor 60 than photoresist. Possible materials for the sacrificial layer
+layer fabricated epitaxially, which generally comprises a are metals (such as gold, silver, aluminum, palladium,
+layer Sequence made of different individual layers, contains titanium), dielectrics (Such as aluminum oxide, Silicon
+at least one individual layer which has a material from the oxide, Silicon nitride), polymer layers (such as polyimide),
+nitride-III-V-compound Semiconductor material System In epitaxially grown layers (such as InN, AIN, GaP, GaAs, InP)
+
+AlGN where 0sXs 1,0sys1 and x+ys 1. The semi 65 or Suitable combinations of these materials.
+
+conductor layer may have, by way of example, a conven
+tional pn junction, a double heterostructure, a Single
+
+In order to produce a window in the coating toward the
+layer or layer Sequence, for example in order Subsequently
+
+US 7,008,810 B2
+3
+to apply an electrical connection metallization to the layer or
+layer Sequence in the window, the Sacrificial layer is pref
+erably completely removed from the layer or layer Sequence.
+The method is especially preferably suitable for fabricat
+ing the geometrical ridge waveguide Structure of a ridge
+waveguide laser diode chip, in particular based on InA
+
+l, GaN where 0sXs 1, 0sys 1 and x+y-1. Ridge
+
+waveguide Structures having a width of less than or equal to
+2 tim, in particular of less than or equal to 1.5 tim, can
+advantageously be realized in a Self-aligning manner by
+means of the method in a technically comparatively simple
+C.
+
+4
+widths with improved reproducibility (yield) and improved
+component characteristic data e.g. in the case of high power
+lasers and trapezoidal laserS.
+
+In the case of diverse Semiconductor laser chips (such as
+
+ridge lasers, Stripline lasers, trapezoidal lasers, high power
+
+lasers, etc.) with dry-etched and reflection-coated laser fac
+ets, the method makes it possible to produce Structures with
+an increased decoupling efficiency and to achieve Simplified
+fabrication processes through on-wafer reflection coating.
+
+In the case of diverse Semiconductor laser chips (ridge
+etc.) with passivated or absorbently coated chip Side edges,
+
+lasers, Stripline lasers, trapezoidal lasers, high power lasers,
+
+In an advantageous embodiment, the laser facets are the method makes it possible to produce Structures in which
+produced by means of dry etching and the coating contains undesirable ring modes are Suppressed by absorber layers.
+15 This advantageously leads to an increase in the component
+a reflective or antireflective layer System.
+Another aspect of the present invention is directed to a efficiency and to the reduction or avoidance of leakage
+method for fabricating at least one gain-controlled laser CurrentS.
+In the case of index-controlled and gain-controlled lasers,
+diode in a layer sequence, in particular based on InAlGa.
+x-yN where OSXS1,0sys 1 and X-ys 1. A Sacrificial layer it is possible, with the aid of the Sacrificial layer, to fabricate
+is applied above the layer Sequence and a mask layer is Semiconductor laser diodes with a laterally passivated ridge
+applied and patterned above the Sacrificial layer. The Sacri waveguide in a Self-aligning manner. The method makes it
+ficial layer is partially removed in the regions not covered by possible, in particular, to process index-controlled laser
+the mask layer. The Sacrificial layer is Selectively removed diodes with a small waveguide width (<2 um) in conjunction
+with high yield. It is possible to employ conventional
+from the side areas thereof which have been earlier uncov
+ered, So that a Sacrificial layer remains which is narrower in 25 photolithography techniques (for example by means of
+comparison with a layer that has remained above the Sacri contact printing). Waveguide structures having a Small width
+ficial layer as Seen from the layer Sequence, which narrower are necessary principally in the range of Short wavelengths,
+Sacrificial layer defines the electrically pumped region of the Since they allow expectation of kink-free operation (i.e., a
+laser diode. A coating is applied at least to the Sidewalls of diagram showing the optical output power VS. the electrical
+the Structure produced in the previous StepS. So that the side current has no kinks or Singularities which would indicate
+areas of the residual Sacrificial layer are not completely that undesired higher laser modes Start to oscillate in the
+overformed by the coating material. The Sacrificial layer is laser resonator) at low threshold currents.
+During the fabrication of Such laser Structures, a Sacrificial
+at least partially removed, So that the layer that has remained
+above the Sacrificial layer as Seen from the layer or layer 35 layer made of a metallic, dielectric or organic material is
+applied to the Semiconductor layer to be patterned, Said
+Sequence is lifted off.
+material
+being able to be etched or Stripped Selectively with
+The method is advantageously Suitable for fabricating
+to the Semiconductor layer material and with respect
+light-emitting diode chips with coated Side areas of the respect
+radiation-generating layer Sequence. The geometrical Struc to the etching mask. In this case, the Sacrificial layer may be
+ture of the radiation-generating layer Sequence and the 40 enclosed between other layers, e.g. current expansion
+coating are produced by means of a method according to the layer(s) and/or adhesion promoting layer(s). A material (e.g.
+SiN., metal, photoresist) applied above the Sacrificial
+invention. The method is suitable, in particular, for fabri SiO,
+layer
+is patterned by means of photolithography, for
+cating light-emitting diode chips having an edge length of
+to form an etching mask for the Semiconductor
+less than or equal to 2 um, in particular of less than or equal example,
+layer.
+Subsequent
+wet- or dry-chemical etching of the sac
+to 1.5 lim.
+layer causes an undercut on both Sides of the pat
+Semiconductor chips, in particular opto-Semiconductor 45 rificial
+terned ridge. Once the ridge waveguide has been fabricated
+chips (e.g. index-controlled laser diodes, LEDs, high power by
+or dry-chemical etching of the Semiconductor layer,
+lasers, detectors) with lateral coating can advantageously be it iswetpossible
+to apply a passivation layer (dielectric or
+fabricated in a Self-aligning manner by means of the method. organic) as a waveguide
+cladding layer and for electrical
+The method is based on the use of a so-called sacrificial 50 insulation over the whole area.
+
+layer, which may comprise one or more dielectric layers
+
+What is achieved by optimizing the sacrificial layer
+thickness, the undercut of the Sacrificial layer and also the
+thickness, the material and/or the deposition method for the
+passivation is that the Sacrificial layer is not completely
+The method can be used to realize a series of different 55 overformed laterally by the passivation. Etching or Stripping
+fundamental goals for improving in particular opto-Semi or mechanical influencing (e.g. ultrasound, compressed air,
+
+(SiO, Al-O, SiN, etc.), metallic layers (Au, Ag, Pd, Al),
+organic polymer layers, epitaxial layers (InN, GaAs, GaP,
+etc.) or a combination thereof.
+
+conductor chips (such as ridge waveguide laser chips, high
+power laser chips, trapezoidal laser chips, LED chips, etc.).
+
+mechanical wiping, etc.) of the Sacrificial layer through
+
+these lateral openings lifts off the overlying etching mask
+In the case of index-controlled Semiconductor laser chips and Simultaneously opens a window in the passivation on
+with electrically and optically passivated ridge Sidewalls, the 60 the ridge, through which the Semiconductor can be electri
+method makes it possible to achieve, inter alia, a reduction cally connected.
+of the power consumption and an increase in the yield by
+The method is advantageously Self-aligning. A shunt
+means of defined narrow ridge widths and also a reduction problem, which occurs over the entire wafer region in the
+of the fabrication effort.
+case of conventional methods for fabricating ridge lasers, is
+In the case of gain-controlled Semiconductor laser chips 65 thus eliminated to the greatest possible extent because
+and arrays with electrical insulation made of dielectric alignment tolerances virtually no longer play a part in the
+layers, the method enables, inter alia, Smaller Structural lithography. By minimizing the undercut of the Sacrificial
+
+US 7,008,810 B2
+S
+
+6
+
+layer (for example approximately 200-300 nm on both
+sides), the contact window in the passivation may become
+
+Saying that the method Sequences described do not in any
+case represent a complete fabrication process for the respec
+tive chip.
+In the exemplary embodiment illustrated diagrammati
+cally in FIGS. 1A to 1G, a metal layer Sequence, comprising
+
+almost as wide as the ridge waveguide. In conjunction with
+the p-type contact metallization described in DE 10147791
+
+A1 (DE 10147791A1 is in this respect hereby incorporated
+by reference) below the passivation, the electrical connec
+
+a Pt p-type contact metal layer 5 (thickness approximately
+40 nm), a sacrificial layer (or lift-off layer) 4 made of Au
+(thickness approximately 300 nm) and a covering layer 3
+made of Pt (thickness approximately 10 nm), is deposited
+(for example by means of vapor deposition or Sputtering)
+
+tion pad is optimized. In the case of p-side-down mounting,
+the thermal power loSS can advantageously be better dissi
+pated via the now wider metallization and the lifetime of the
+component is thereby increased. By Saving a photolithog
+raphy, a risk of fracture and a throughput time of the ridge
+
+over the whole area of an epitaxial layer Sequence 6 applied
+
+laser process decrease and the yield (principally of compo
+nents having Small waveguide widths) increases signifi
+
+on an SiC substrate (SiC wafer) 7 for a ridge waveguide
+
+cantly.
+
+laser diode chip based on InAlGaN where 0sxs 1,
+
+that it is not necessary to undertake the attempt (usually in
+vain) to lift off a structure coated above it.
+
+can be processed. A deep etching (for example by means of
+RIE) of the epitaxial layer sequence 6 is effected after the
+
+0sys 1 and X-ys 1. A first mask layer 2 applied over the
+In the case of Semiconductor lasers (e.g. high power 15 whole area thereof, said mask layer having a thickness of
+lasers; ridge lasers; trapezoidal lasers) with (dry-) etched and approximately 500 nm and being made of SiO2, is patterned
+Subsequently passivated or reflection-coated laser facets, the as a hard mask in a first photolithographic Step by means of
+Self-alignment technology provided by the method affords RIE (reactive ion etching), the ridge waveguide width being
+an optimum alignment of etched and Subsequently passi defined by a previously patterned Second mask layer 1, here
+Vated Structures. The method has the advantage that a developed and patterned photoresist layer having a thick
+although an etching mask and a lift-off mask may be ness of approximately 1.8 lum. In this respect, cf. FIGS. 1A
+arranged in a Self-aligning manner, they may comprise to 1C.
+different layer systems. Furthermore, a standard lift-off
+After the Stripping of the photoresist layer 1 and dry
+technique with photoresist may advantageously be used. etching of the Pt covering layer 3, the Au Sacrificial layer 4
+With the low-solvent mask (generally photoresist) which is 25 can be etched wet-chemically. In this case, a lateral undercut
+eroded during the dry etching process, it is advantageous of the sacrificial layer 4 limits the smallest ridge width which
+In the case of LED chips with passivated chip side areas,
+leakage currents are advantageously reduced or avoided,
+which leads to an improvement of component properties
+
+dry etching of the Pt p-type contact metal layer 5. In this
+respect, cf. FIG. 1D.
+Afterward, a passivation or insulating layer 8 made of
+
+(e.g. the breakdown strength). LED chips with passivation
+of the chip side areas (e.g. by application of dielectric
+
+SiO, having a thickness of approximately 250 nm is depos
+
+ited over the whole area by means of CVD or sputtering. The
+passivation layerS Such as Silicon dioxide, Silicon nitride, thickness of the Sacrificial layer 4, the thickness of the
+aluminum oxide) can be improved in terms of their electrical 35 passivation or insulating layer 8 and the CVD/sputtering
+(blocking) behavior.
+process are coordinated with one another in Such a way that
+Further advantages and advantageous refinements and the passivation or insulating layer 8 does not completely
+developments of the method emerge from the exemplary overform the Sacrificial layer 4, rather lateral Sidewalls are
+embodiments described below in conjunction with FIGS. 1 a 40 left free and accessible. In this respect, cf. FIG. 1E. This is
+to 3.
+accomplished primarily by Selecting a thickness for insulat
+ing layer 8.
+BRIEF DESCRIPTION OF THE DRAWINGS
+The lateral openingS 40 in the passivation or insulating
+layer 8, which are at the level of the sacrificial layer 4, make
+FIGS. 1A to 1G show sections through a layer sequence it possible, by means of wet-chemical etching of the Sacri
+for a ridge waveguide laser diode chip in different method 45 ficial layer 4, to lift off the latter together with the first mask
+Stages of a first exemplary embodiment;
+layer 2 and the second mask layer 1 and to uncover the Pt
+FIGS. 2A to 2G Show Sections through a layer Sequence p-type contact metal layer 5 through a window 80 in the
+for a Stripline laser diode chip in different method Stages of passivation or insulating layer 8, Said window being formed
+a Second exemplary embodiment;
+50 on the ridge in the process (FIG. 1F). Although use of
+FIG. 3 shows a Section through a ridge waveguide laser wet-chemical etching is preferred for the lift-off task, Vari
+ous etching, Stripping or mechanical influences can be
+with dry-etched mirror facets;
+FIGS. 4A to 4C show sections through a layer sequence applied (e.g., ultrasound, compressed air, mechanical wip
+for a light-emitting diode chip in different method Stages of ing) to the Sacrificial layer through lateral openings 40.
+After a Ti/Au connection metal layer 9 has been deposited
+a Second exemplary embodiment.
+55
+over the whole area, the p-type contact of the ridge
+waveguide laser diode chip is electrically connected via Said
+DETAILED DESCRIPTION OF THE
+
+window 80 (FIG. 1G). The Ti/Au metal layer 9 is subse
+
+INVENTION
+
+quently patterned by means of photolithography and etch
+
+In the various exemplary embodiments, identical or iden Ing.
+Thus, overall, only two lithography Steps are required for
+tically acting constituent parts are in each case provided with
+the same designations and reference Symbols. The drawings the ridge waveguide laser diode process.
+The method for fabricating a Stripline laser diode chip
+of FIGS. 1A to 4C are expressly not to scale. The layer
+thicknesses used in these drawings cannot be used to deduce based on InAlGaN where 0sXs 1, 0sys1 and
+the ratio of the real layer thicknesses. Furthermore, only the 65 x+ys 1, which method is illustrated in FIGS. 2A to 2G,
+Steps which are essential for explaining the invention are differs from the method described above in conjunction with
+described in the exemplary embodiments. It goes without FIGS. 1A to 1G essentially only by the fact that no deep
+60
+
+US 7,008,810 B2
+7
+8
+etching of the epitaxial layer Sequence 6 is effected for a
+d) Selective removal of a part of the sacrificial layer from
+the side areas thereof which have been uncovered in
+stripline laser diode chip. In this respect, cf. FIG. 2D.
+In the case of the ridge waveguide laser Structure which
+Step c), So that a sacrificial layer remains which is
+narrower in comparison with a layer that has remained
+is illustrated in FIG. 3, it is fabricated by a method essen
+tially according to the first exemplary embodiment described
+above the Sacrificial layer as Seen from the layer or
+layer Sequence;
+above (although cover layer 3 has been omitted). The ridge
+waveguide laser has mirror facets 60 defining the laser
+e) application of the coating at least to the Sidewalls of the
+resonator of the ridge waveguide laser which extends in a
+Structure produced in steps a) to d) so that the side areas
+lateral direction. Preferably, the mirror facets are formed by
+of the residual Sacrificial layer are not completely
+a dry etch process. Fabricating the mirror facets 60 by means 1O
+Overformed by the coating material; and
+of dry etching simplifies fabrication and handling, Since a
+f) at least partial removal of the Sacrificial layer, so that
+Scribing and breaking and possibly a thickness processing of
+the layer that has remained above the Sacrificial layer as
+the wafer can be obviated or effected only after an on-wafer
+Seen from the layer or layer Sequence is lifted off.
+facet coating.
+2.
+The
+method as claimed in claim 1, in which, in Step f),
+The action of the anisotropic dry etching component on 15 the Sacrificial layer is removed completely, to produce a
+the facets 60 is facilitated by thin etching masks given the window toward the layer or layer Sequence in the coating.
+Same coverage density of the components. If the dry etching
+3. The method as claimed in claim 2, in which an
+mask 2 is situated on an incipiently etched Sacrificial layer electrical connection metallization is applied to the layer or
+4, then the facets 60, dry-etched e.g. by means of CAIBE, layer Sequence in the window.
+can be reflection-coated or antireflection-coated with dielec
+4. A method for fabricating at least one ridge waveguide
+tric layer systems (lambda/4 layer (pair)(s)) whilst still laser diode chip based on InAlGaN where 0sxs 1,
+joined in the wafer. After the lift-off of the sacrificial layer 0sys 1 and X-ys 1, in which the geometrical ridge
+4, the bonding pads or the p-type metal layer are accessible waveguide Structure is fabricated by means of a method as
+for electrical connection.
+claimed in claim 1.
+The exemplary embodiment in accordance with FIGS. 4A 25 5. The method as claimed in claim 4, in which the width
+to 4C for fabricating a light-emitting diode chip InAlGa. of the ridge waveguide Structure is less than or equal to 2
+x-yN where 0SXS1,0sys 1 and X-ys 1 comprises a mask plm.
+layer 2 for mesa etching, which is situated on a Sacrificial
+6. The method as claimed in claim 4, in which, in step c),
+layer 4. A reflection-coated contact metallization 70 is the facets of the laser diode chip are produced by means of
+applied at the rear side of the SiC Substrate 7. cf. FIG. 4A. dry etching and the coating contains a reflective or antire
+The mesa patterning of the radiation-emitting epitaxial flective layer System.
+layer sequence 6 based on InAlGaN where 0sxs1,
+7. A method for fabricating at least one light-emitting
+0sys 1 and X-ys 1 is followed by the application of a diode chip with coating of the Side areas of the radiation
+dielectric passivation layer 8 to the four Side areas by generating layer Sequence, in which the geometrical Struc
+whole-area application of dielectric layers, e.g. made of 35 ture of the radiation-generating layer Sequence and the
+SiO, (FIG. 4B). The lift-off of the sacrificial layer 4 together coating are produced by means of a method as claimed in
+with the etching mask layer 2 results in the uncovering of the claim 1.
+p-type contact 5 for electrical connection and for the decou
+8. The method as claimed in claim 7, in which an edge
+pling of light (indicated by the arrows 11 in FIG. 4C).
+length
+of the light-emitting diode chip is less than or equal
+The scope of protection of the invention is not limited to 40 to 2 um.
+the examples given hereinabove. The invention is embodied
+9. A method for fabricating at least one gain-controlled
+in each novel characteristic and each combination of char
+laser diode in a layer Sequence, in particular based on
+acteristics, which particularly includes every combination of In AlGaN where 0sXs 1,0sys1 and x+ys 1, having
+any features which are Stated in the claims, even if this the following method steps:
+feature or this combination of features is not explicitly Stated 45 a) application of a sacrificial layer above the layer
+in the claims or in the examples.
+Sequence,
+Thus, by way of example, between the layer or layer
+b)
+application and patterning of a mask layer above the
+Sequence and the Sacrificial layer and between the Sacrificial
+Sacrificial
+layer;
+layer and the mask layer there may be present one or more
+c)
+partial
+removal
+of the Sacrificial layer in the regions not
+further layers which have additional functions, without the 50
+covered
+by
+the
+mask layer;
+respective method departing from the technical teaching
+d)
+Selective
+removal
+of a part of the sacrificial layer from
+provided by the present invention.
+the side areas thereof which have been uncovered in
+We claim:
+Step c), So that a sacrificial layer remains which is
+narrower in comparison with a layer that has remained
+1. A method for fabricating at least one mesa or ridge 55
+above the Sacrificial layer as Seen from the layer
+Structure in a layer or layer Sequence, in which Sidewalls of
+Sequence, which narrower Sacrificial layer defines the
+the mesa or ridge Structure are provided with a coating
+electrically pumped region of the laser diode;
+applied after the uncovering thereof, having the following
+e) application of a coating at least to the Sidewalls of the
+method steps:
+Structure produced in steps a) to d) so that the side areas
+a) application of a sacrificial layer above the layer or layer 60
+of the residual Sacrificial layer are not completely
+Sequence,
+Overformed by the coating material; and
+b) application and patterning of a mask layer above the
+f) at least partial removal of the Sacrificial layer, so that
+Sacrificial layer for definition of the mesa or ridge
+the layer that has remained above the Sacrificial layer as
+dimensions,
+Seen from the layer or layer Sequence is lifted off.
+c) partial removal of the sacrificial layer and of the layer 65
+or layer Sequence, to form the mesa or ridge Structure
+10. The method as claimed in claim 9, in which the width
+in the layer or layer Sequence;
+of the pumped region is less than or equal to 2 um.
+
+US 7,008,810 B2
+9
+11. The method as claimed in claim 9, in which, in step f),
+
+the Sacrificial layer is removed completely, So that a window
+toward the layer Sequence is produced in the coating.
+12. The method as claimed in claim 11, in which an
+
+electrical connection metallization is applied to the layer
+Sequence in the window.
+13. The method as claimed in claim 9, in which the
+
+Sacrificial layer comprises a metal, a dielectric, a polymer, an
+epitaxially grown material or a combination of these mate
+rials.
+
+14. The method as claimed in claim 9, in which step b)
+
+10
+18. The method as claimed in claim 1, in which step b)
+effects the application and patterning of a first mask layer
+above the Sacrificial layer and a Second mask layer above the
+first mask layer.
+19. The method as claimed in claim 1, in which a covering
+layer is applied before the application of the mask layer
+above the Sacrificial layer.
+20. The method as claimed in claim 4, in which the width
+
+of the ridge waveguide Structure, the edge length or, respec
+tively, the width of the pumped region is less than or equal
+to 1.5 lim.
+
+effects the application and patterning of a first mask layer
+above the Sacrificial layer and a Second mask layer above the
+21. The method as claimed in claim 8, in which the width
+first mask layer.
+of
+the ridge waveguide Structure, the edge length or, respec
+15
+15. The method as claimed in claim 9, in which a covering
+layer is applied before the application of the mask layer tively, the width of the pumped region is less than or equal
+above the Sacrificial layer.
+to 1.5 lim.
+16. The method as claimed in claim 10, in which the width
+The method of claim 1, wherein said partial removal
+of the ridge waveguide Structure, the edge length or, respec of22.
+the
+Sacrificial layer is done by anisotropic etching.
+tively, the width of the pumped region is less than or equal
+23. The method of claim 9, wherein said partial removal
+to 1.5 lim.
+of the Sacrificial layer is done by anisotropic etching.
+17. The method as claimed in claim 1, in which the
+Sacrificial layer comprises a metal, a dielectric, a polymer, an
+epitaxially grown material or a combination of these mate
+rials.
+
+

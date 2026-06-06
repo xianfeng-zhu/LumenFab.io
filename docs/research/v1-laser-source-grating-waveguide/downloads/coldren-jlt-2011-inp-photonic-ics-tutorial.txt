@@ -1,0 +1,1404 @@
+554
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+High Performance InP-Based Photonic
+ICs—A Tutorial
+Larry A. Coldren, Fellow, IEEE, Fellow, OSA, Steven C. Nicholes, Leif Johansson, Member, IEEE,
+Sasa Ristic, Member, IEEE, Robert S. Guzzon, Erik J. Norberg, and Uppiliappan Krishnamachari
+(Invited Tutorial)
+
+Abstract—The performance of relatively complex photonic integrated circuits (PICs) is now reaching such high levels that the
+long sought goal of realizing low-cost, –size, -weight, and -power
+chips to replace hybrid solutions seems to have been achieved for
+some applications. This tutorial traces some of the evolution of this
+technology that has led to an array of high-functionality InP-based
+PICs useful in optical sensing and communication applications. Examples of recent high-performance PICs that have arisen out of
+these developments are presented.
+Fundamental to much of this work was the development of integration strategies to compatibly combine a variety of components
+in a relatively simple fabrication process. For the UCSB work, this
+was initially based upon the creation of a single-chip widely tunable
+semiconductor laser that required the integration of gain, reflector,
+phase-tuning and absorber sections. As it provided most of the elements needed for many more complex PICs, their creation followed
+somewhat naturally by adding more of these same elements outside
+of the laser cavity using the same processing steps. Of course, additional elements were needed for some of the PICs to be discussed,
+but in most cases, these have been added without adding significant processing complexity. Generally, the integration philosophy
+has been to avoid patterned epitaxial growths, to use post-growth
+processing, such as quantum-well intermixing to provide multiple
+bandgaps, rather than multiple epitaxial regrowths, and to focus
+on processes that could be performed with vendor growth and implant facilities so that only basic clean room processing facilities
+are required.
+Index Terms—Photonic integrated circuits (PIC), quantum-well
+intermixing (QWI), tunable lasers, wavelength converters.
+
+I. INTRODUCTION
+
+H
+
+IGH-PERFORMANCE large-scale photonic integrated circuits (PICs) in InP have recently been created for transmitter, receiver, wavelength-conversion, and
+Manuscript received July 16, 2010; revised October 24, 2010; accepted December 09, 2010. Date of publication January 06, 2011; date of current version
+February 07, 2011. This work was supported by the DARPA MTO under various contracts. Device fabrication was done in the UCSB nanofabrication facility, part of the NSF funded NNIN network.
+L. A. Coldren is with the Department of Electrical and Computer Engineering
+and the Department of Materials, University of California, Santa Barbara, CA
+93106 USA (e-mail: coldren@engineering.ucsb.edu).
+S. C. Nicholes was with the Department of Materials, University of California, Santa Barbara, CA 93106 USA. He is now with Aurrion Photonics, Santa
+Barbara, CA 93117 USA.
+L. Johansson, S. Ristic, R. S. Guzzon, E. J. Norberg, and U. Krishnamachari
+are with the Department of Electrical and Computer Engineering, University of
+California, Santa Barbara, CA 93106 USA.
+Color versions of one or more of the figures in this paper are available online
+at http://ieeexplore.ieee.org.
+Digital Object Identifier 10.1109/JLT.2010.2100807
+
+Fig. 1. Network traffic growth.
+
+packet-switching applications [1]–[7]. Applications in coherent
+transmitters and receivers as well as in signal-processing circuits are also being explored [8]–[11]. Integration provides a
+reduction in system footprint, inter-element coupling losses,
+packaging cost, and usually power dissipation, as a single
+cooler can be used for multiple functions. Although yield issues
+must be addressed, reliability appears to improve once such
+issues are, because reliability is often related to packaging or
+other external factors once the inherent semiconductor failure
+mechanisms are satisfied [1], [2].
+Other motivations for photonic integration include the desire
+to eliminate or reduce the number of expensive and power-consuming optical-to-electronic-to-optical (OEO) conversions by
+performing some of processing in the optical domain. The simplest example might be optical amplification; more complex examples include tunable transceivers and wavelength converters
+[4]–[6], [12], [13] and all-optical switching and routing chips
+[3], [14].
+In order to justify the cost of designing the chip and refining
+the fabrication technology for a single unique PIC, however, one
+must assume some significant volume for the chip that is being
+produced. Otherwise, the cost might be difficult to recover. This
+can be somewhat ameliorated by chip designs that use exactly
+the same process, so that multiple chips can be placed on the
+same wafer, and produced simultaneously. In practice it seems
+that both issues are important to address. That is, generic design
+rules should be developed that can be used for a wide variety of
+PICs, and reasonable production volumes need to be identified.
+Production volumes might also be increased by trying to define
+a few general purpose PICs that can be used in a number of
+applications by a wide number of users.
+
+0733-8724/$26.00 © 2010 IEEE
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+Fig. 2. Two-section etched-groove laser formed by RIE.
+
+Fig. 3. Tunable DBR laser that also employed vertical coupling.
+
+The demand for PICs has been aided by the significant increase in network traffic in recent years as indicated by Fig. 1.
+The bandwidth on the optical fiber network is now growing by
+two orders of magnitude per decade due to the tremendous increase in data transmission. Some years ago, when efforts on
+photonic integration began, network traffic was only growing
+in each decade.
+by a factor of
+II. EARLY WORK
+Work on the InGaAsP/InP materials system was still developing in the early 1980s when some of the first efforts to monolithically integrate multiple elements together appeared. Fig. 2
+illustrates an early tunable two-section laser effort that used an
+etched groove as a partially transmissive mirror between the sections [15]. Such etched grooves provide a very compact mirror,
+but due to difficulty in reproducibly fabricating them, they were
+replaced by gratings for most applications. Recently, however,
+more work is reappearing on etched grooves using improved
+etching technology [16].
+Fig. 3 shows some of the first integration of active and passive sections using distributed Bragg reflectors (DBRs) in the
+InP system [17]. Multiple-regrowths were employed, and tunable single-frequency lasers were demonstrated, although with
+a very modest amount of tuning. The DBR work continued as an
+integration platform, but most of the work with grating devices
+began to focus on distributed feedback (DFB) lasers in which
+the grating is formed along the active region.
+Fig. 4 shows an electroabsorption-modulated laser (EML),
+first produced in the mid 1980s, but similar to those in production today [18]. It indicates the use of the preferred single-frequency DFB laser together with the integrated EA-modulator
+that uses the absorption shift of the bandedge with a reverse
+
+555
+
+Fig. 4. Early EML using DFB butt-jointed to EAM.
+
+bias. It also uses a butt-joint regrowth step to form the modulator next to the laser. Such EMLs are also formed by numerous
+other active-passive integration technologies [19], [20].
+Coherent technology was being widely explored in the 1980s
+because of its promise of increased transmission distance that
+should result from improved receiver sensitivity [21]. Er-doped
+fiber amplifiers (EDFAs) [22] had not been developed, and
+wavelength division multiplexing (WDM) was not very cost
+competitive because of the cost of WDM repeaters. These
+involved de-multiplexing and converting all of the wavelengths
+into the electrical domain, amplifying, demultiplexing again to
+a lower data rate, regenerating, multiplexing up to the higher
+data rate, modulating the information back onto different optical wavelengths, and multiplexing these back into the fiber
+again. Indeed, a complex and costly system that didn’t compete
+well with simply increasing the data rate or even adding more
+fiber.
+Thus, coherent approaches, which promised to perhaps
+double the repeater separation were very interesting, and they
+also offered the possibility of placing the WDM channels closer
+together, because the channel filtering would be done by a fixed
+IF filter in the RF-domain after heterodyne down-conversion
+by tuning the optical Local Oscillator (LO), much as in a radio.
+However, making an optical heterodyne receiver was quickly
+found to be very difficult to make stable using bulk components.
+But, if the components could be integrated on a single chip, perhaps many of the difficult issues would be solved. Thus, some
+efforts were initiated to explore this possibility. Fig. 5 illustrates
+the most successful of these [23]. It includes all of the optical
+components of a coherent receiver, including an integrated LO
+laser, a 3 dB coupler, and a balanced detector pair.
+Although the results from the chip of Fig. 5 were not extremely impressive, it did set a milestone on what could be accomplished by using photonic integration. Unfortunately, the
+work on PICs for coherent did not progress too much further
+than this, first because of an economic slow-down in the 1990
+timeframe, and then second, because of the appearance of the
+EDFA and improved optical multiplexers. These two technologies enabled practical WDM systems to expand to many wavelengths without the need to de-multiplex down to individual
+channels for electronic regeneration every 30 km or so. Thus,
+by the mid 1990’s dense WDM was being rapidly deployed [24]
+and work on coherent was being terminated.
+Both the coherent work and that on WDM identified a need
+for tunable lasers. For coherent, one desired local oscillators
+that could tune across the desired optical wavelength range of
+the receiver [25]. For WDM, universal sources [26] that could
+
+556
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+Fig. 7. Active-passive waveguide integration approaches.
+
+Fig. 5. Integrated coherent receiver chip.
+
+Fig. 6. Schematic of SG-DBR laser integrated with a semiconductor-opticalamplifier (SOA) and EAM.
+
+output any channel wavelength across the C-band—the central
+band of the EDFA used by fiber optic networks—were desired.
+Thus, so-called ‘widely-tunable’ lasers were desired—ones that
+could tune across 40 nm or more near 1550 nm. Such lasers were
+also desired in various sensing applications where the resolution
+was proportional to the wavelength span [27].
+Therefore, beginning in the 1980s and throughout the 1990s
+there was a lot of work on tunable lasers that continues even
+to this day [28]. The widely-tunable lasers became especially
+popular during the ‘telecom bubble times’ near the turn of the
+century. Many companies were formed, and some were successfully acquired, but only a few of the original technologies continue to be produced today. One of these, the sampled-grating
+DBR (SG-DBR) laser [29], as depicted in Fig. 6, is still at the
+heart of some products of the JDS-Uniphase Corporation [30].
+This single-chip widely-tunable SG-DBR laser, which
+contains gain, phase-tuning, absorber and mirror sections,
+integrates many of the basic building blocks needed in many
+more complex PICs. It utilizes two multielement (sampled)
+Distributed Bragg Reflector (DBR) mirrors to provide two
+differently spaced multi-peaked reflectors, so that only one
+peak from each mirror can line up for a particular current
+injection. As the currents into the mirrors are varied, different
+combinations of individual mirror peaks (typically spaced by
+6 or 7 nm) can be brought into alignment to extend the tuning
+bands.
+range over a number of
+In fact, since this laser was invented at UCSB [31], it became
+the starting point for much of the InP-based PIC work that has
+
+been carried out at UCSB over the past two decades. As illustrated in Fig. 6, an amplifier and electro-absorption modulator
+can be added external to the laser cavity by simply adding another gain section and passive section (same as phase-tuning
+section) along the same waveguide during the same fabrication
+process. For the EAM, the terminal is reverse biased to provide
+a reduction in the bandgap, and thus add absorption, whereas
+for the phase-tuning section, the terminal is forward biased to
+inject carriers into the waveguide, thereby reducing the index of
+refraction to tune to laser wavelength to smaller values.
+Of course, additional elements are needed for some of the
+PICs to be discussed, but in most cases, these can be added
+without adding significant processing complexity. Generally,
+the integration philosophy at UCSB has been to avoid patterned
+epitaxial growths, to use post-growth processing, such as
+quantum-well intermixing to provide multiple bandgaps, rather
+than multiple epitaxial regrowths, and to focus on processes that
+could be performed with vendor growth and implant facilities
+so that only basic clean room processing facilities are required.
+III. BASIC INTEGRATION TECHNOLOGY
+A. Active-Passive Axial Waveguide Integration
+Fig. 7 illustrates five different approaches to integrate regions
+with different absorption/gain properties together along a single
+waveguide. As these have been discussed previously in some detail [32], [75], we here will only focus on the right-most three
+that have been the object of most of our work. All of these can
+be formed with a single ‘blanket’ regrowth of semiconductor
+cladding, which does not involve any foreign masking material
+on the wafer surface to define the epitaxial growth dynamics
+as do the two left-most approaches. In fact, we have been successful in having these blanket regrowth steps done by multiple
+vendors with minimal development effort.
+Although we have previously [4] also included some discussion of the active-passive platforms that do not require even
+this type of simple regrowth, we have dropped the explicit discussion of approaches such as the vertical active-passive twin
+guide [33] here because of the large transition distances that
+are involved, and the resulting incompatibility with multiple
+active-passive interfaces desired in a high-functionality PIC.
+Single-material waveguide PICs are also similarly not considered because of the extreme limitations on their performance
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+Fig. 8. Lateral waveguide choices.
+
+and functionality. To summarize, the issues with regrowth
+that these approaches sought to avoid are avoided with our
+unpatterned blanket regrowth approach without making most
+the compromises.
+However, although it requires a patterned regrowth, it should
+be pointed out that the butt-joint approach does provide the maximum flexibility in choosing the properties of the two waveguide
+sections, as the properties of one can be almost totally divorced
+from the other, aside from the need to be nominally latticedmatched to InP. Thus, this approach is often used when no compromise in waveguide properties can be tolerated. Nevertheless,
+there is a price to pay in fabrication complexity, compatibility
+with other structures across a large PIC, and ultimately design
+flexibility and yield in using such patterned-growth processes.
+The ‘offset quantum-well’ configuration and its close cousin,
+the ‘dual-quantum-well’ active-passive geometry are both fabricated by an unpatterned regrowth of the upper cladding on a
+base wafer, which has had regions of the MQW-active region
+formed on top of a common waveguide removed where passive
+waveguides are to be formed. The dual-quantum-well approach
+has been used to enhance the performance of modulator sections
+placed in the ‘passive’ regions [34].
+The ‘quantum-well-intermixed’ (QWI) active-passive configuration [32], [75] is similarly fabricated with an unpatterned
+cladding regrowth, but in this case the common waveguide contains the MQW-active region, and the bandgap of the MQW region has been selectively increased by a patterned implant and
+one or more annealing steps to selectively intermix the quantumwell barriers and wells in regions that are to become passive, or
+perhaps modulator sections, if the shift is not as large. Shifts
+nm in the 1550 nm InGaAsP materials and are
+saturate
+easily controlled. Intermediate shifts, as for modulators, require
+careful calibration. The intermixing must also be done in the
+absence of other rapidly diffusing species in the wafer, such as
+zinc. Thus, as will be detailed in Section IV.D, QWI must be
+completed before a zinc-doped p-cladding is regrown.
+In all cases the interfaces between the active and passive regions are slanted with respect to the axes of the waveguides that
+will be eventually formed to prevent reflections back along the
+waveguide.
+B. Lateral Waveguide Choices & Mode Transformers
+In order to complete the waveguides after their active-passive nature is decided along a particular length, some lateral
+waveguiding geometry must be defined. Fig. 8 illustrates four
+possibilities.
+As indicated, they are arranged from the strongest waveguiding on the left to the weakest on the right. Correspondingly,
+the waveguide loss tends to go in the opposite direction, with
+the higher-contrast guides having the higher losses, assuming
+
+557
+
+Fig. 9. SEMs of deeply-etched ridge, surface-ridge, and buried-rib waveguides.
+Deep ridge is formed by ICP dry etching; surface-ridge by HCl wet etching; and
+buried-rib by dry etching followed by regrowth.
+
+Fig. 10. Lateral waveguide transitions. Relative power coupled versus distance
+from flare (surface-ridge/deep-ridge—left), or versus lateral misalignment (surface-ridge/buried-rib—right).
+
+similar surface roughness. This is also related to the fact that
+the stronger (higher-index-contrast) waveguides need to be
+smaller for single-mode operation.
+The deeply-etched ridge and surface-ridge types can be
+formed after epitaxial growth, whereas both the buried channel
+and buried rib must be defined prior to epitaxial regrowth.
+Dependent upon the type of active-passive technology used,
+this may require a special regrowth. Fig. 9 shows SEM cross
+sections of all but the buried channel type.
+The surface-ridge waveguide has been a relatively popular
+choice in the InGaAsP/InP system, both because of its ease of
+fabrication and the fact that crystallographic wet etches can be
+used to provide very smooth side walls along some directions in
+InP. For example, an InGaAs contact layer can serve as a mask
+for a strong HCl etch, which provides very smooth side walls
+direction, and it
+for InP-clad waveguides aligned with the
+will stop-etch on a quaternary waveguide layer [35]. However,
+this technique is not useful for waveguide orientations more than
+direction.
+a few degrees off of the
+For the deeply-etched ridge as well as most of the other
+waveguide types, dry-etching is generally used. Better pattern
+transfer is possible, and orientation dependencies are not as
+severe.
+A major issue to be addressed if two or more of the different lateral guides are to be used on the same PIC is transitioning between them along some waveguide path. Fig. 10
+gives simulated data and schematics for waveguide transitions
+between surface-ridge to deep-ridge and surface-ridge to buried
+rib guides [14]. As illustrated, in the first case the surface ridge
+flares and tapers before the deep ridge section [36]. In the second
+case, the surface ridge flares and butt couples to a tapering rib
+section.
+The other significant type of mode transformation that must
+be considered is that in coupling the PIC to a fiber. In this case
+the general problem is transforming the mode from an elliptical
+shape to a round one as well as increasing its diameter. We will
+
+558
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+2
+
+Fig. 12. 2 2 MMI design example. Schematic on the left; intensity distribution in center (keyed at far right); and plots of net power that would be transmitted if the MMI were terminated at the indicated length. Illustrated finally is
+a single input being split equally to the two outputs.
+
+Fig. 11. Compatible mode transformer design. Top—coupling vs lateral fiber
+displacement; middle—topview illustrating lateral taper; bottom-left—initial
+waveguide and mode cross section; bottom-right—final waveguide and mode
+cross section. The detailed material layer structure for these simulations will be
+given in Fig. 27.
+
+Fig. 13. SEM of compact 3 dB MMI coupler design. Waveguide width is 2 m
+and coupling length is 45 m.
+
+not consider butt-coupling to a fiber because that would require
+too much mode expansion, but if the mode can be transitioned to
+a circular cross section and increased in diameter by two or three
+times, we have found that the coupling loss to simple lensed
+dB to
+dB.
+fibers can be reduced from the typical
+Fig. 11 shows schematics of waveguide tapers as well as the
+theoretical mode shapes and resulting coupling losses for one
+mode transformer concept that can be incorporated into our
+blanket regrowth platform.
+C. Other Waveguide Elements
+Waveguide couplers and splitters are other important elements in Photonic ICs. Multimode interference couplers have
+become the most popular way to make 1 2 and 2 2 splitters
+because the waveguides are separated at the inputs and outputs
+and critical “Y-junctions” are avoided. Fig. 12 illustrates a
+design example for a 2 2 coupler.
+However, such standard MMI designs can become relatively
+large, and if one desires a more compact design, it is possible
+to collapse the structure by reducing the width and waveguide
+spacing, in effect approaching a zero-gap directional coupler.
+Fig. 13 illustrates a 3 dB coupler in which the coupling length
+is only 45 m [37].
+Another interesting and useful coupler is one with variable
+coupling. In order to obtain a very large range of coupling
+values, one approach is to use a miniature Mach–Zehnder modulator as the variable coupler [38]. Fig. 14 illustrates this. Here
+two 3 dB MMI 2 2 couplers are separated by intermediate
+phase modulated delay lines. When the phase of the delay
+lines is adjusted, the output power alternates between the two
+output waveguides. As can be observed nearly full extinction is
+
+Fig. 14. SEM of variable directional coupler; blow-up of input to MMI; plots
+of relative output power to the two output ports.
+
+possible on either output. Such couplers are especially useful
+in filter design [39].
+A Star coupler may be viewed as simply using a free-space
+region to enable one of several input guides to equally illuminate a number of output waveguides [40]. It can also be analyzed via the multimode interference technique. Fig. 15 illustrates a STAR coupler with 8 input and 34 output waveguides. This figure also shows a second device called an arrayed
+waveguide grating router (AWGR) [41], [76]. It is formed by
+placing a mirror-image STAR coupler at the opposite ends of the
+output waveguides of a first STAR coupler once the intermediate
+waveguide lengths have been adjusted to vary linearly across
+the array. With such a design the device becomes dispersive
+in wavelength and can function as a wavelength multiplexer or
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+Fig. 15. 8
+
+2 34 STAR coupler (top) and 8 2 8 AWGR (bottom).
+
+de-multiplexer in a WDM system [42], [43], and with multiple
+inputs such AWGRs can also serve as a wavelength-controlled
+switching fabric, since the wavelength at the input determines
+to which output the power will be switched. In a later section
+an array of wavelength converters integrated with an AWGR on
+a single chip to demonstrate this kind of switching architecture
+will be described.
+IV. TOWARD MORE COMPLEX PICS
+A. Motivation
+As indicated in Section II, by the mid1990s EDFAs and improvements in wavelength multiplexers were enabling the rapid
+expansion of WDM technology. Dozens of wavelengths could
+be sent over hundreds of kilometers at 2.5 Gb/s per channel
+without the need to demux down to single channels and regenerate in the electrical domain at lower data rates. This expensive
+OEO every 30 km or so could be avoided. Tunable lasers were
+on all of the roadmaps, because universal sources were needed,
+and other applications were being proposed. Wavelengths on
+fiber became channels between nodes.
+One problem that quickly arose was that as some wavelengths
+on some fibers became fully utilized, it was desired to change
+the information to another wavelength, but this meant OEO, because there was no other way to do this. So researchers began to
+look at means to do ‘wavelength conversion’ without the need
+to convert every bit of information into an electrical bit at some
+lower data rate and then convert it back up to the optical domain
+at a different wavelength again. Thus, research on optical wavelength conversion also began in the mid 1990s [44].
+At about the same time, it was realized that if one could
+change the wavelength of the optical data, one could also use
+a passive device, such as the newly devised AWGR to physically switch the data from one port to another, or from one fiber
+to another. Thus, still another set of ideas were generated in this
+direction [45].
+At UCSB, as we were doing leading research on widely-tunable lasers necessary for useful wavelength converters and such
+
+559
+
+Fig. 16. Crossbar switch using an array of wavelength converters as the active switching elements feeding an AWGR, which acts as the passive switching
+fabric.
+
+crossbar switches, we quickly got involved in these new directions, and proposed research on a monolithically integrated
+space switch based upon integrating an array of wavelength
+converters with an AWGR. Fig. 16 is taken from the original
+proposal to AFOSR in 1995 [46]. Significant features included
+novel wavelength converters consisting of SGDBRs directlymodulated by integrated photodiodes and a compact AWGR
+using corner reflectors in the waveguide array.
+The chip illustrated in Fig. 16 set about a number of years of
+research at UCSB. Most work on wavelength conversion at that
+time was using isolated SOAs [47], which consumed a lot of
+power and the results were not very impressive. These did not
+seem suitable for integration. This was the main reason we decided to go the route of integrating a detector that could directly
+drive the gain region of the laser. Our initial proposal included
+ideas about using avalanche photodetectors (APDs) for gain in
+the detector or ‘gain levered’ active regions in the SGDBR. Soon
+we realized that SOA preamplifiers as well as SOA post-amplifiers, as illustrated in Fig. 17, could be made to be fairly efficient,
+so these were also included in our designs [48], [77].
+As the research continued over several years the desired data
+rate for such wavelength converters and crossbar switches increased to 10 Gb/s, and then even to 40 Gb/s. Thus, the directlydriven approach of Fig. 17, was clearly inappropriate. It also
+tends to distort the signals, so external modulation approaches
+were soon found to be necessary. In fact, the work with a photocurrent-driven Mach–Zehnder modulator integrated with an
+SGDBR was published in the same time period [50] as the work
+in Fig. 17, as were the efforts to integrate nonlinear SOAs in the
+arms of Mach–Zehnder modulators with direct optical injection
+into them [51].
+Whether to use photodetectors driving modulators or directly
+inject the input optical signal into SOAs, which are within a
+modulator configuration for wavelength conversion still remains
+a topic of research [52]. The PD-modulator approach appears to
+require less real estate and power, and no filters are required
+to remove the input signal, but the nonlinear SOA approach is
+
+560
+
+Fig. 17. Directly-driven SOA-PD/SGDBR-SOA wavelength converter.
+Schematic and equivalent circuit, including eye patterns from input and output
+data at 2.5 Gb/s [49].
+
+Fig. 18. QWI-based widely-tunable 40 Gb/s transmitter [52].
+
+somewhat simpler to fabricate and may have higher yield in
+arrays.
+B. Transmitters, Wavelength Converters, and Other
+Mostly-Serial Integration Efforts
+Three more recent high-performance PIC efforts centered
+around SGDBR widely-tunable lasers will be briefly reviewed
+in this section. Then recent results with lattice filter PICs will
+be introduced. The first laser-based result illustrates the use of
+a quantum-well intermixing (QWI) integration platform for a
+40 Gb/s SGDBR-EAM transmitter, while the second two use
+the dual-quantum-well platform to demonstrate wavelength
+conversion at rates up to 40 Gb/s using direct photocurrent drive
+of either traveling wave EA or Mach–Zehnder modulators.
+Fig. 18 gives results for the QWI-based 40 Gb/s SGDBR/
+EAM transmitter [53]. As indicated by the photoluminescence
+plots, the initial unshifted PL peak at 1540 nm is shifted by about
+35 nm for the EAM and by about 95 nm for the other ‘passive’
+regions of the device, which also include the tuning sections of
+the SGDBR. This dual shift is accomplished by two annealing
+steps; the second is performed after removing the implanted material that supplies the diffusing vacancies from above the modulator region. (The ‘o-MQW’ photodetector region is not used
+in this device.)
+For the 175 m long EAM of the test device, the 3 dB bandwidth was 32 GHz, and the modulation efficiency was about
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+Fig. 19. Widely tunable, traveling-wave PD-EAM wavelength converter transparent to data format and bit rate. Photo, equivalent circuit, and eye diagrams
+from 5 to 40 Gb/s [12].
+
+20 dB/V over the 1536–1560 nm range, provided the DC bias
+was properly adjusted at each wavelength. The rf modulation
+was fixed at 2.5 V peak-peak for all wavelengths, and this prodB extinction (E.R.) for the 40 Gb/s eyes shown from
+vided
+1547 to 1565 nm.
+Fig. 19 illustrates an integrated optical wavelength converter
+that can also function as a transceiver, if the receive and transmit
+stages are operated independently. It integrates an all-photonic
+SOA-PIN receiver with an SGDBR-traveling-wave-EAM modulator [12]. The by-pass capacitor and termination resistor are
+also integrated, so it can be operated without any external rf
+connections.
+The all-photonic receiver includes a two-stage SOA preamplifier that incorporates both high-gain and high saturation
+power stages prior to a high-saturation power PIN photodiode.
+A signal monitoring port is also available. For wavelength-converter operation as depicted, a transmission line directly connects the photodiode to the velocity-matched traveling-wave
+EAM stage.
+For the device characterized in Fig. 19, less than 2 dB of
+power penalty was observed across a wavelength span of 1548
+to 1560 nm for all data rates and either RZ or NRZ modulation.
+led to about 1 dB of peaking in
+A termination resistance
+the optical-to-optical response in the 10 GHz range and a 3 dB
+GHz. Input levels were
+dBm, and the
+bandwidth
+to
+dBm across the waveoutput power varied from
+length range, so the device had near zero optical conversion loss.
+Extinction ratios were in the 7–8 dB range. Overall power dis1–1.5 Watt range, dependent upon the tuning
+sipation was
+current to the SGDBR mirrors at these conditions.
+The second photocurrent-driven wavelength converter
+example is shown in Fig. 20. In this case a series-push-pull configured Mach–Zehnder (MZ) modulator follows the SGDBR in
+the transmitter section [13].
+Use of the Mach–Zehnder modulator enables better chirp
+management compared to the EAM designs. A negatively
+chirped output can compensate for some of the natural fiber
+dispersion and extend the transmission distance. Transmission
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+Fig. 20. Widely tunable PD-MZ wavelength converter. Eyes from 1529 to 1561
+nm, schematic, and SEM of flared high-saturation power SOA-PD region [13].
+
+561
+
+Fig. 22. Wavelength selectable laser employing quarter-wave shifted DFBs and
+a 1/N combiner together with an SOA and an EAM [55].
+
+Fig. 21. Programmable lattice filter schematic and SEM of fabricated unit cell
+with expanded view of compressed MMI coupler. Data illustrates one of many
+possible filter responses from a single stage [55].
+
+up to 60 km was demonstrated with 2 dB power penalty at
+10 Gb/s.
+For the reported results, a termination resistor of 25 was
+used, and less than 2 dB of power penalty was observed over
+dBm for
+the wavelength range. The output levels were
+dBm.
+inputs
+The remaining example of a PIC that employs mostly serial
+integration is the programmable lattice filter element shown in
+Fig. 21. In this case no lasers are present, but it is desired to
+rapidly tune and reconfigure the characteristics of complex optical filters, so the filter does include a number of SOAs, phase
+shifters, and couplers, which in some cases may be variable
+couplers.
+Such filters may be interesting for adaptive dispersion control
+or equalization, but they appear to attract most interest as agile
+pre-filters for signal-processing applications. Fig. 21 shows a
+possible serial lattice configuration as well as an SEM of one
+unit cell of the proposed lattice filter [37]. The experimental
+result superimposes a zero resulting from the Mach–Zehnder
+response of the upper and lower branches with two adjacent
+poles of the ring resonator within the lower branch.
+GHz, and more reThe filter passband is tunable over
+cent examples have illustrated flat-topped bandpass characteristics, which result from coupling several stages together, programmable both in bandwidth and center frequency [54].
+C. Multichannel PICs and Other Mostly Parallel Integration
+Efforts
+The work emphasizing the parallel integration of a number
+of channels appeared in the mid 1990s with the emergence of
+
+Fig. 23. 8-channel receiver incorporating AWGR and PIN detector array with
+2 nm channel spacing [42].
+
+WDM. Fig. 22 shows a wavelength selectable laser [55], and
+Fig. 23 shows a multi-wavelength receiver [42]. The wavelength
+selectable laser, which employed a simple Star coupler with a
+1/N splitting loss, later evolved into a multi-channel transmitter
+by incorporating an EAM with each laser together with a lowloss multiplexer such as an AWGR.
+The wavelength selectable laser in the form shown competed
+with widely-tunable lasers, such as the SGDBR, by also using
+heating and cooling of the substrate to thermally tune the
+wavelength of the laser array to cover the wavelength ranges
+over the gaps between the room temperature values of the array,
+. Thus, eight or ten DFB lasers arrayed in this
+way might be able to cover over a 100 WDM channels using
+this approach. Such lasers are still being used in WDM systems
+today [56].
+Figs. 24 and 25 illustrate commercial PIC designs of Infinera
+that have been available in their products for several years.
+Shown are the PICs contained in their ten-channel 10 Gb/s
+transmitter and receiver modules, respectively [57]. As can be
+seen the transmitter PICs consist of a parallel array of ten DFB
+laser-based transmitter elements that feed an AWG multiplexer.
+
+562
+
+Fig. 24. Schematic and output spectra of Infinera 10
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+2 10 Gb/s transmitter PIC.
+
+2
+
+Fig. 26. Wavelength switched 8 8 crossbar switch/router: (a) MOTOR chip
+and (b) element of the wavelength converter array with various components
+labeled.
+
+Fig. 25. Schematic and superimposed response of the ten photodetectors as an
+input signal is swept across the wavelength band for the Infinera 10 10 Gb/s
+receiver PIC.
+
+2
+
+Each transmitter element contains a DFB laser that can be
+tuned by a small amount, an EA-modulator, a variable optical
+attenuator (VOA) to adjust the output power level, and an
+optical power monitor (OPM) behind the DFB.
+Infinera has also demonstrated analogous 40 40 Gb/s
+research results [58], and more recently, ten-channel polarization-multiplexed differential-quaternary-phase-shift-keying
+(PM-DQPSK) transmitter and receiver PICs operating at
+400 Gb/s for coherent communications [59]. These latter
+results will be reviewed in Section V below on Coherent PICs.
+D. Serial/Parallel Integration—The MOTOR Chip
+Some researchers and analysts have viewed the world of photonic integration as a complex plane with two axes: one labeled
+serial integration, the other parallel integration. Thus, one might
+chose to try to locate any particular PIC as some point in this
+plane, dependent upon how much serial versus parallel integration technology it contained. For example, the transmitter PICs
+of Figs. 6 and 18 might be considered entirely serial, the wavelength converters of Figs. 19 and 20 mostly serial with just a
+little parallel (a transmitter and receiver in parallel), and the
+transmitter and receiver PICs of Figs. 23 and 24 as mostly parallel with a little bit of serial.
+Now more controversially, some have even argued that serial
+is more interesting than parallel integration. After all, parallel is
+just putting a lot of the same thing side by side, and this is what
+one always does when using semiconductor planar-processing
+technology. Needless to say this latter statement is a little naïve,
+because in mostly parallel PICs the parallel channels are not
+quite the same, they all have to work, and they ultimately are all
+coupled together in some way. Nevertheless, we are amongst
+those who argue that serial integration is more interesting and
+sophisticated than parallel, mostly because we have tended to
+do more of it.
+
+In what follows we present a compromise position, a device
+that has a large amount of serial integration but a healthy amount
+of parallel integration as well. The MOnolithic Tunable Optical
+Router (MOTOR) chip basically has the same architecture as
+the crossbar chip proposed in Fig. 16, but it is much more sophisticated, it was actually fabricated, and it works at 40 Gb/s
+[7], [14].
+Fig. 26 illustrates both the MOTOR chip and the wavelength
+converter elements, which in this case are nonlinear-SOA-based
+wavelength converters. Although not included here, these can
+include packet header rewrite modulators in each—hence, the
+designation as a router. Again, an SGDBR laser within each
+wavelength converter provides the wide tunability of the outputs. The particular SOA-based wavelength converter employed
+uses a differential modulation technique specific to a ‘return-tozero’ (RZ) modulation format. That is, the input signal is split,
+and while one half is used to unbalance the MZ-modulator to
+allow light from the SGDBR to be emitted, the other is delayed a bit, and then used to rebalance the modulator to turn off
+the light in order to generate a pulse. The input light changes
+the index of refraction of the modulator arms by saturating the
+SOAs, thereby reducing their carrier densities, and increasing
+the indexes of refraction in these regions.
+As illustrated in Fig. 26 the MOTOR chip employed an 8 8
+AWGR, as also shown in Fig. 15 above, with 8 wavelength converters receiving 8 inputs and 8 outputs transmitted from the
+AWGR. The channel spacing was 200 GHz in the 1550 nm
+range. The AWGR employed waveguide tapers into and out of
+the Star couplers to reduce coupling losses.
+A QWI integration platform was chosen to provide active and
+passive regions throughout the device. Fig. 27 gives the details
+of the layer structures following the first and second epitaxial
+growth steps.
+There are actually two different types of ‘passive’ regions
+where the quantum-wells are intermixed. Both are formed at the
+same time. For the first, the unintentionally doped (UID) InP
+implant buffer layer remains (as shown) to separate the optical
+mode from the p-type doping in the upper cladding in order to
+minimize optical losses; for the second, this implant buffer layer
+is removed so that p-n junctions are formed for the modulator
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+563
+
+Fig. 29. MOTOR chip BER and output eyes for switching from input port 3 to
+any output port at 40 Gb/s RZ.
+
+Fig. 27. (a) Initial base epitaxial growth structure. (b) Final growth structure
+showing both an as-grown active MQW region and an intermixed passive MQW
+region wherein the implant buffer remains.
+
+Fig. 28. Waveguide architectures used in the MOTOR chip: (a) surface ridge
+waveguide; (b) deeply etched waveguide; and (c) buried rib waveguide.
+
+and phase-shift sections. The active sections include all of the
+SOAs, the absorbers, and the gain regions of the SGDBRs.
+As illustrated in Fig. 28, three different lateral waveguiding
+structures are incorporated within the MOTOR chip. For most
+of the wavelength converters, including the SGDBRs, the surface-ridge structure is used; for the short 11 ps “S-shaped” differential delay a deeply-etched waveguide was used to enable
+the sharp bends required; and for the AWGR, a buried-rib waveguide was employed to minimize losses. Importantly, all are
+formed with only a single ‘blanket’ regrowth step. The UID implant buffer was left on for both the deeply etched and buried-rib
+regions to further reduce optical losses.
+Chlorine-ICP dry etching is used to form the deeply-etched
+waveguide after regrowth, and methane-hydrogen-RIE is
+used for the slight etch into the quaternary waveguide for the
+buried-rib waveguide prior to regrowth. The surface ridge is
+formed by a combination of an initial ICP etch followed by
+an HCl-based “clean-up” etch to expose the smooth crystallographic ridge sidewalls as well as stop-etch on the quaternary
+waveguide.
+An example of the MOTOR chip’s operation is shown in
+Fig. 29. In this case random RZ data at 40 Gb/s is injected into
+
+port 3, and this wavelength converter is then sequentially adjusted to translate the data to various wavelengths so that it exits
+the device at each of its eight output ports.
+The bit-error-rate (BER) illustrates some slight pattern dependence that appears to be related to some saturation of the
+SOA preamplifiers. In other efforts, higher saturation power
+SOAs have been used [60], and this probably would address
+this issue. Also no anti-reflection coatings were applied to this
+device and this might have contributed to some pattern effects.
+dB@a BER of
+for this case.
+The power penalty was
+Under nominal bias conditions the MOTOR chip consumed
+about 2 W per channel. The signal insertion loss through the dedB, the majority of which were due to waveguide
+vice was
+transition and AWGR losses. Both of these numbers could be
+improved with further optimization using results that have been
+previously demonstrated. For example, at least 2 dB is attributed
+to each of the Star couplers in the AWGR. Crosstalk values bedB with the extween channels were generally better than
+ception of one input port, which appeared to suffer from some
+dB.
+defects that lowered its level to about
+V. BACK TO THE FUTURE—COHERENT PICS
+A. Motivation
+Referring back to Fig. 1, it may be apparent that meeting
+future demand for bandwidth is going to be a continuing
+challenge. Introductions of new and expanded services, such
+as HD-TV, Youtube, Facebook, programmed stock trading,
+and soon 3D-TV, have continued to maintain the extreme 100x
+increase/decade slope. Fig. 30 overlays some data for fiber
+capacity on this total demand curve for both research and
+commercial fiber links [61]. The straight lines indicate trends
+for commercial systems, which show that the tremendous
+growth in bandwidth, due to WDM adoption in the 1995–2002
+timeframe, has now saturated due to a limitation in the number
+of practical WDM channels as well as the data rate in each.
+To increase fiber capacity further we are now looking to improve the spectral efficiency (SE)—the net bits/s of data rate
+per Hz of bandwidth, or more simply the channel rate/channel
+spacing. This is being done with advanced modulation formats
+and coherent detection—really a step toward making optical
+communication closer to rf. Fig. 31 gives a set of tables that
+summarize the system evolution over the past few decades as
+
+564
+
+Fig. 30. Growth of research and commercial fiber link capacity data over the
+total network demand.
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+Fig. 32. Bidirectional QPSK link schematic showing transmitter and receiver
+circuits involved. I and Q outputs available from center of balanced detectors.
+The QPSK 4-phase constellation is also indicated over the complex plane.
+
+Fig. 31. System evolution, past and future.
+
+well as what a simple extrapolation might predict for the next
+[61].
+As might be immediately obvious, even with an extrapolation
+of the current rapid growth in fiber capacity, it does not meet the
+network demand by 2020, even if doubled or tripled by using the
+fiber S and L bands in addition to the standard C-band which is
+plotted in Fig. 30. Even worse, calculations show that we will
+due to limitations in fiber dynever be able to reach
+namic range because of its limited power handling capacity [62],
+seems more realistic for transmission dis[78]. An
+tances
+–
+km, typical of WDM systems.
+Having set these goals, it should be realized that even
+is nontrivial. Fig. 32 shows a bidirectional
+reaching
+by using quaternary phase-shift
+link that provides
+keying (QPSK) [63]. By adding dual polarization multiplexing
+, but this also
+(PM-QPSK) this can be doubled to
+doubles the number of components as well as requiring polarization splitters and combiners. The transmitters use a nested
+pair of Mach–Zehnder modulators (MZMs) following the laser
+source with one of the outputs delayed by 90 degrees before
+recombining with the other. The receivers split the signal, and
+after a 90 degree delay in one leg, combine both with the local
+oscillator laser in 2 2 couplers which illuminate balanced
+photodetector pairs. One pair provides the in-phase (I) output
+and the other the quadrature-phase (Q) output.
+B. Recent Telecom Experiments
+Infinera has demonstrated the integration of ten QPSK
+40 Gb/s transmitters consisting of DFB lasers followed by a
+
+Fig. 33. Infinera 10-channel QPSK transmitter PIC providing 400 Gb/s output
+together with received eye from one of the two I/Q channels.
+
+Fig. 34. Bell labs DQPSK modulator photo, schematic, and receiver output.
+
+nested MZM pair together with an AWG multiplexer. Fig. 33
+gives a schematic of their chip along with an eye diagram of
+one of the two received I/Q outputs [59].
+Doerr, et al., have also shown that it is possible to use different
+integrated modulator configurations in addition to the nested
+MZMs to generate QPSK and even more advanced modulation
+formats. Figs. 34 and 35 are examples. Fig. 33 shows a DQPSK
+modulator that uses two asymmetrical STAR couplers together
+with two EAMs to generate the 4-phase modulated constellation
+[64]. Also shown is the demodulated result at 20 Gb/s for one
+of the I or Q outputs.
+integrated on
+Fig. 35 shows a 16 QAM modulator
+InP also using STAR couplers and EAMs [65].
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+Fig. 35. Bell Labs 16 QAM modulator. Photo; mask layout (stretched); and
+1; BER(Q) = 9:3 10 ;
+experimental constellation. 10.7 Gbaud; 2
+BER(I) = very high due to shifting.
+
+0
+
+2
+
+Other high-level QAM work has shown 64-QAM results
+, but with a hybrid LiNbO —silica planar lightwave
+circuit, again with nested MZMs [66]. Much of the recent work
+on coherent appears to be aimed at reducing the basic data rates
+being transmitted along the fiber as well as into and out of the
+links while increasing the transmission spectral efficiency. This
+enables longer fiber runs before nonlinearities and dispersions
+of various kinds become problematic as well as somewhat
+simpler electronics at the ends, even though there are many
+more parallel elements at the ends.
+Fig. 36 shows a PIC transmitter circuit recently presented by
+Infinera that lowers the basic baud rate to 10 Gbaud, but adds polarization multiplexing to a 10-channel QPSK chip to get back
+to the 400 Gb/s chip rate [67], similar to that of Fig. 32. This is
+clearly a fairly complex chip, but it was shown to function on all
+channels. Also included is the architecture of the doubly nested
+MZM modulator tree together with a typical characteristic of
+the InP MZMs employed.
+Fig. 37 gives Infinera’s Roadmap for large-scale PIC transmitters on InP [67]. Although there are other competitive data
+points that could be added from other investigators, they have
+led in the area of scaling of InP-based highly-parallel transmitter
+PICs for telecommunications. As can be seen they predict that
+Tb/s by 2018 or so.
+transmitter PICs will have capacities
+It is worth mentioning at this point that 40 40 Gb/s transmitter and receiver chips were demonstrated a few years ago,
+as mentioned above [58], but evidently it was found that due to
+fiber transmission impairments, these were of little use in practical systems. Thus, they do not currently list this 1.6 Tb/s result
+on their most recent roadmap.
+C. Optical-Phase-Locked-Loops (OPLLs) Enabled by PIC
+Technology
+Coherent Receiver for RF Photonics Using Phase-Modulation: Microwave photonic links using intensity modulation tend
+
+565
+
+Fig. 36. Infinera PM-DQPSK transmitter chip concept together with a characteristic of the doubly-nested MZMs.
+
+Fig. 37. Infinera Roadmap for large-scale DWDM transmitter PICs.
+
+to be limited in dynamic range by the transmitter [68]. For direct
+modulation of a laser the modulation speed must be kept significantly lower than the relaxation resonance frequency of the
+laser, or nonlinearities result for any modest modulation depth
+as the carrier density becomes unclamped. For higher frequencies external modulation must be used. Unfortunately, there are
+no intensity modulators that inherently have a linear relationship between drive voltage and the optical output.
+If phase modulation is used, then linear modulators do exist
+with the basic linear electro-optic effect. Also, an effectively
+much deeper modulation can be imparted to the optical signal
+because one is not limited to simple on/off, which might be
+viewed as a 180 modulation, but one in principle could modulate to many times this level to enhance the potential signal/
+noise. However, now the problem of linearity in the link has
+been switched to the receiver, and this is the problem addressed
+by the circuit of Fig. 38 [69].
+
+566
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+Fig. 38. Coherent receiver for phase-modulated input. Feedback from balanced
+photodetector is directed to tracking modulator pair.
+
+Fig. 39. (top) Schematic of flip-chipping of electronic and photonic ICs &
+layout of PIC; (bottom) SEMs of waveguide crossing at beam splitter from top
+& cross section of etched-slot beam splitter.
+
+In Fig. 38 the negative feedback signal to the tracking modulator pair reduces the level of the interference signal on the
+detectors so that the output is reduced to the linear range. The
+differential pair also suppresses even order distortions that may
+exist in the semiconductor modulators as well as amplitude
+-modmodulation. This approach also enables the use of
+ulation depth since the signals leaving the differential tracking
+modulators are made to be almost in-phase even if hugely out
+of phase because of a large phase modulation prior to them.
+One major issue with this approach is that the tracking phase
+modulators must nearly instantly track the phase deviation detected in the diode pair. Thus, the delay must be very small.
+In fact, for the circuit to work in the GHz range, it has been
+ps are unacceptable. This not only calls
+found that delays
+for monolithic integration of both the electronics and photonics,
+it also demands the elimination of any unwanted signal paths
+between the two. Fig. 39 illustrates the flip-chip bonding configuration that has been implemented to eliminate all additional
+delays in the practical implementation of the circuit of Fig. 38.
+The coupler has also been implemented as a beam-splitter to
+further eliminate propagation delay in a directional coupler embodiment, which was first explored.
+Initial results from this configuration are shown in Fig. 40
+dB and a spur-free dy[70], [71]. A calculated link gain of
+with a transmitter
+namic range (SFDR) of 122 dB Hz
+V and only 2.8 mA on each photodetector is found. Also,
+
+Fig. 40. (top) Plots of fundamental and third-order distortion levels versus RF
+drive power. (bottom) Output versus frequency for various photocurrents as
+input power is increased.
+
+a peak-to-peak phase modulation depth of 1.62 was used for
+these results, demonstrating the ability to employ a significant
+modulation depth.
+With higher photocurrents it is anticipated that significantly
+higher SFDRs will be obtainable. However, in the embodiment
+used, there were no optical mode transformers at the inputs and
+the slot beam splitters were also rather lossy, so a significant
+power loss was experienced.
+Phase-Locked Tunable Lasers: Loop delay is also important
+for phase locking lasers together. Fig. 41 shows a chart of initial laser linewidth versus loop delay for various levels of phase
+error. Explicitly shown are lines that represent the phase error
+allowed for different types of digital multilevel phase and amplitude coding. The corresponding SNRs in the signal bandwidth are 9.5 dB (PSK), 12.5 dB (QPSK), 20 dB (16 QAM),
+and 26.2 dB (64 QAM).
+Widely tunable lasers as the SGDBR shown in Fig. 6 tend to
+have inherent linewidths in the 1–3 MHz range. Fig. 41 would
+ps for a correctable
+indicate a need for OPLL loop delay
+in a 64-QAM digital system. But, this would
+error rate of
+actually be a fairly distorted signal from a microwave photonics
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+Fig. 41. Laser linewidth versus OPLL loop delay to enable 10
+given modulation format.
+
+567
+
+error rate for
+
+perspective. Instead of an equivalent spectral efficiency of 6 bits/
+symbol, we would like to see the line for 10 or 12 bits/symbol,
+ps in the OPLL if
+which would again require a loop delay
+we started with the rather noisy SGDBR. So, again very tight
+integration is called for.
+Phase locking of semiconductor lasers is desired in order to
+make inexpensive arrays of coherent sources for such applications as phased-array LIDAR and other optical-coherence-tomography (OCT) and imaging applications. It is also desired to
+have temperature insensitive synthesized sources that are locked
+to an offset from some stable reference to allow much more efficient use of the spectrum as in the rf domain. As a result, some
+initial experiments have been done to demonstrate integrated
+OPLLs formed from a pair of widely-tunable SGDBRs together
+with most of the required optical elements.
+Fig. 42 describes a heterodyne experiment in which two
+SGDBR lasers are offset-locked together [72]. The circuit
+schematic shows that an integrated modulator is used to generate sidebands on the mixed signal, so that the OPLL can lock
+on one of these. In this case a 5 GHz fundamental offset locking
+is illustrated. With deep phase modulation of the on-chip modulator it is possible to generate a number of side bands and such
+GHz,
+modulators can be made with bandwidths up to
+so it is anticipated that such offset locking might be possible
+up to the THz range without having to generate rf higher than
+100 GHz.
+Fundamental offset locking as high at 20 GHz was demonstrated with the current set up. Although a balanced detector
+pair was available on the chip, the electronics used only had
+a single-input amplifier, so only a single detector was used,
+and this resulted in more AM and noise in the feedback loop
+than necessary. Nevertheless, a respectable phase error varirad was measured over the 2 GHz measurement
+ance
+window.
+
+Fig. 42. Circuit schematic; PIC schematic; heterodyne result; and SEM of InPbased PIC.
+
+Fig. 43. Vision of future LIDAR system-on-a-chip [74].
+
+Optics” (PICO) Center that involves five US universities [73].
+As illustrated with OPLLs it is anticipated that both chirping
+of the beam in frequency as well as sweeping it in angle will
+be possible by rapid control of the offset locking as outlined
+in Fig. 41. This will involve significant developments in the
+control/feedback electronics as well as in the PICs themselves.
+As also noted, it is anticipated that much of this work may
+migrate to the hybrid-Si integration platform.
+
+D. Future OPLL Directions
+Fig. 43 illustrates a cartoon of a futuristic LIDAR
+system-on-a-chip that will be one of the long-term research directions of a newly formed “Photonic Integration for Coherent
+
+VI. SUMMARY
+Some of the work that has led to current highly-functional,
+high-performance photonic integrated circuits (PICs) is re-
+
+568
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+viewed, including a few of the basic integration approaches.
+A number of recent medium-to-large scale PIC examples are
+presented along with a sampling of results from them. Current
+work on PICs for coherent communication and sensing applications is introduced and some examples of integrated optical
+phase locked loops for such applications is given. It is suggested
+that there are still many significant opportunities for further
+improvements in the cost, size, weight, power consumption
+and performance of future systems by employing photonic
+integration.
+ACKNOWLEDGMENT
+The authors would like to thank the many former and present
+UCSB students and colleagues that have performed much of the
+work presented herein and especially the collaboration of Profs.
+J. E. Bowers and D. J. Blumenthal on much of the research over
+the years. Materials supplied by Dr. C. Joyner of Infinera and
+Dr. C. Doerr of Acatel-Lucent are also gratefully acknowledged.
+REFERENCES
+[1] D. F. Welch, F. A. Kish, R. Nagarajan, C. H. Joyner, R. P. Schneider,
+V. G. Dominic, M. L. Mitchell, S. G. Grubb, T.-K. Chiang, D. Perkins,
+and A. C. Nilsson, “The realization of large-scale photonic integrated
+circuits and the associated impact on fiber-optic communication systems,” J. Lightw. Technol., vol. 24, no. 12, pp. 4674–4683, Dec. 2006.
+[2] M. K. Smit, E. A. J. M. Bente, M. T. Hill, F. Karouta, X. J. M. Leijtens,
+Y. S. Oei, J. J. G. M. van der Tol, R. Nötzel, P. M. Koenraad, H. S.
+Dorren, H. de Waardt, A. M. J. Koonen, and G. D. Khoe, “Current status
+and prospects of photonic IC technology,” in Proc. IEEE Conf. Indium
+Phosphide & Related Mater., Shimane, Japan, May 18–21, 2007, pp.
+3–6.
+[3] P. Bernasconi, W. Yang, L. Zhang, N. Sauer, L. Buhl, I. Kang, S. Chandrasekhar, and D. T. Neilson, “Monolithically integrated 40 Gb/s wavelength converter with multi-frequency laser,” presented at the OFC,
+Anaheim, CA, Mar. 7–11, 2005, paper PDP16.
+[4] J. Raring and L. Coldren, “40-Gb/s widely tunable transceivers,” IEEE
+J. Sel. Topics Quantum Electron., vol. 13, no. 1, pp. 3–14, Jan./Feb.
+2007.
+[5] V. Lal, M. L. Masanovic, J. A. Summers, G. F. Fish, and D. J. Blumenthal, “Monolithic wavelength converters for high-speed packetswitched optical networks,” IEEE J. Sel. Topics Quantum Electron.,
+vol. 13, no. 1, pp. 49–57, Jan./Feb. 2007.
+[6] M. Dummer, M. Sysak, A. Tauke-Pedretti, J. Raring, J. Klamkin, and
+L. A. Coldren, “Widely-tunable separate absorption and modulation
+wavelength converter with integrated microwave termination,” J.
+Lightw. Tech., vol. 26, no. 8, pp. 938–944, Apr. 2008.
+[7] S. C. Nicholes, M. L. Masanovic, E. Lively, L. A. Coldren, and D. J.
+Blumenthal, “An 8 8 monolithic tunable optical router (MOTOR)
+chip in InP,” in Proc. IPNRA, Honolulu, HI, Jul. 2009, paper IMB1.
+[8] N. Kikuchi, H. Sanjoh, Y. Shibata, T. Sato, K. Tsuzuki, E. Yamada, T.
+Ishibashi, and H. Yasaka, “80-Gbit/s InP DQPSK modulator with an
+n-pi-n structure,” in Proc. ECOC, Berlin, Germany, Sep. 2007, paper
+10.3.1.
+[9] A. Ramaswamy, L. A. Johansson, J. Klamkin, H.-F. Chou, C. Sheldon,
+M. J. Rodwell, L. A. Coldren, and J. E. Bowers, “Integrated coherent
+receivers for high linearity microwave photonic links,” J. Lightw.
+Technol., vol. 26, no. 1, pp. 209–216, Jan. 2008.
+[10] E. J. Norberg, R. S. Guzzon, S. C. Nicholes, J. S. Parker, and L. A.
+Coldren, “Programmable photonic filters fabricated with deeply etched
+waveguides,” in Proc. IPRM, Newport Beach, CA, May 2009, paper
+TuB2.1.
+[11] A. Agarwal, P. Toliver, R. Menendez, S. Etemad, J. Jackel, J. Young, T.
+Banwell, B. E. Little, S. T. Chu, and P. Delfyett, “Fully programmable
+ring-resonator-based integrated photonic circuit for phase coherent applications,” J. Lightw. Tech., vol. 24, no. 2, pp. 77–87, Jan. 2006.
+[12] M. Dummer, J. Klamkin, A. Tauke-Pedretti, and L. A. Coldren, “40
+Gb/s field-modulated wavelength converter for all-optical packet
+switching,” IEEE J. Sel. Topics Quantum Electron., vol. 15, no. 3, pp.
+494–503, May/Jun. 2009.
+
+2
+
+[13] A. Tauke-Pedretti, M. M. Dummer, M. N. Sysak, J. S. Barton, J.
+Klamkin, J. W. Raring, and L. A. Coldren, “Separate absorption
+and modulation Mach–Zehnder wavelength converter,” J. Lightw.
+Technol., vol. 26, no. 1, pp. 91–98, Jan. 2008.
+[14] S. C. Nicholes, M. L. Mašanović, B. Jevremović, E. Lively, L. A. Coldren, and D. J. Blumenthal, “An 8 8 InP monolithic tunable optical
+router (MOTOR) packet forwarding Chip,” J. Lightw. Technol., vol. 28,
+no. 4, pp. 641–650, Feb. 2010.
+[15] L. A. Coldren, B. I. Miller, K. Iga, and J. A. Rentschler, “Monolithic
+two-section GaInAsP/InP active-optical-resonator devices formed by
+RIE,” Appl. Phys. Letts., vol. 38, no. 5, pp. 315–317, Mar. 1981.
+[16] E. J. Norberg, J. S. Parker, U. Krishnamachari, R. S. Guzzon, and L.
+A. Coldren, “InGaAsP/InP based flattened ring resonators with etched
+beam splitters,” in Proc. IPNRA, Honolulu, HI, Jul. 2009, paper IWA1.
+[17] Y. Tohmori, Y. Suematsu, Y. Tushima, and S. Arai, “Wavelength
+tuning of GaInAsP/InP integrated laser with butt-jointed built-in
+DBR,” Electron. Lett., vol. 19, no. 17, pp. 656–657, 1983.
+[18] M. Suzuki, Y. Noda, H. Tanaka, S. Akiba, Y. Kushiro, and H. Isshiki,
+“Monolithic integration of InGaAsP/InP distributed feedback laser
+and electroabsorption modulator by vapor phase epitaxy,” J. Lightw.
+Technol., vol. 5, no. 9, pp. 1277–1285, Sep. 1987.
+[19] S. B. Kim, J. S. Sim, K. S. Kim, E. D. Sim, S. W. Ryu, and H. L.
+Park, “Selective-area MOVPE growth for 10 Gbit/s electroabsorption
+modulator integrated with a tunable DBR laser,” J. Cryst. Growth, vol.
+298, pp. 672–675, 2007.
+[20] C. Jany, C. Kazmierski, J. Decobert, F. Alexandre, F. Blache, O.
+Drisse, D. Carpentier, N. Lagay, F. Martin, E. Deroin, T. Johansen,
+and C. Jiang, “Semi-insulating buried heterostructure 1.55 m InGaAlAs electro-absorption modulated laser with 60 GHz bandwidth,”
+in Proc. ECOC, Berlin, Germany, Sep. 16–20, 2007, paper PD 2.7.
+[21] Y. Yamamoto and T. Kimura, “Coherent optical fiber transmission systems,” IEEE J. Quantum Electron., vol. QE-17, no. 6, pp. 919–925, Jun.
+1981.
+[22] R. J. Mears, L. Reekie, I. M. Jauncey, and D. N. Payne, “Low-noise
+erbium-doped fibre amplifier at 1.54 pm,” Electron. Lett., vol. 23, no.
+19, pp. 1026–1028, Sep. 1987.
+[23] T. L. Koch, U. Koren, R. P. Gnall, F. S. Choa, F. Hernandez-Gil, C.
+A. Burrus, M. G. Yung, M. Oron, and B. I. Miller, “GaInAs/GaInAsP
+multiple-quantum-well integrated heterodyne receiver,” Electron. Lett.,
+vol. 25, no. 24, pp. 1621–1623, Nov. 1989.
+[24] N. S. Bergano and C. R. Davidson, “Wavelength division multiplexing
+in long-haul transmission systems,” J. Lightw. Technol., vol. 14, no. 6,
+pp. 1299–1308, Jun. 1996.
+[25] Y. Kotaki and H. Ishika, “Wavelength tunable DFB and DBR lasers
+for coherent optical fibre communications,” Proc. Inst. Elect. Eng.—J.,
+vol. 138, no. 2, pp. 173–177, Apr. 1991.
+[26] B. Mason, S. L. Lee, M. E. Heimbuch, and L. A. Coldren, “Directly
+modulated sampled-grating DBR lasers for long-haul WDM communications,” IEEE Photon. Technol. Lett., vol. 9, no. 3, pp. 377–379, Mar.
+1997.
+[27] A. D. Kersey, “A review on recent developments in fiber optic sensor
+technology,” Opt. Fiber Technol., vol. 2, pp. 291–317, 1996.
+[28] L. A. Coldren, G. A. Fish, Y. Akulava, J. S. Barton, L. Johansson, and
+C. W. Coldren, “Tunable semiconductor lasers: A tutorial,” J. Lightw.
+Technol., vol. 22, no. 1, pp. 193–202, Jan. 2004.
+[29] V. Jayaraman, Z. Chuang, and L. A. Coldren, “Theory, design, and performance of extended tuning range semiconductor lasers with sampled
+gratings,” IEEE J. Quantum Electron., vol. 29, no. 6, pp. 1824–1834,
+Jun. 1993.
+[30] [Online]. Available: http://www.jdsu.com/products/optical-communications/products/tunable-transmission-modules.html
+[31] L. A. Coldren, “Multi-Section Tunable Laser With Differing MultiElement Mirrors,” U.S. Patent 4 846 325, Jan. 1990.
+[32] E. Skogen, J. W. Raring, G. B. Morrison, C. S. Wang, V. Lal, M. L.
+Mašanović, and L. A. Coldren, “Monolithically integrated active components’’ a quantum-well intermixing approach,” IEEE J. Sel. Top.
+Quantum Elec., vol. 11, no. 2, pp. 343–355, Mar./Apr. 2005.
+[33] V. M. Menon, F. Xia, and S. Forrest, “Photonic integration using asymmetric twin-waveguide (ATG) technology: Parts I & II,” IEEE J. Sel.
+Topics Quantum Electron., vol. 11, no. 1, pp. 17–42, Jan./Feb. 2005.
+[34] A. Tauke-Pedretti, M. N. Sysak, J. S. Barton, J. W. Raring, L. Johansson, and L. A. Coldren, “40 Gb/s series push-pull mach-zehnder
+transmitter on a dual-quantum-well integration platform,” IEEE
+Photon. Technol. Lett., vol. 18, no. 18, pp. 1922–1924, Sep. 2006.
+[35] L. A. Coldren, K. Furuya, and B. I. Miller, “On the formation of planaretched facets in GaInAsP/InP double heterostructures,” J. Electrochem.
+Soc., vol. 130, no. 9, pp. 1918–1926, Sep. 1983.
+
+2
+
+COLDREN et al.: HIGH PERFORMANCE INP-BASED PHOTONIC ICS—A TUTORIAL
+
+[36] J. H. den Besten, M. P. Dessens, C. G. P. Herben, X. J. M. Leijtens,
+F. H. Groen, M. R. Leys, and M. K. Smit, “Low-loss, compact, and
+polarization independent PHASAR demultiplexer fabricated by using
+a double-etch process,” IEEE Photon. Technol. Lett., vol. 14, no. 1, pp.
+62–64, Jan. 2002.
+[37] E. J. Norberg, R. S. Guzzon, S. C. Nicholes, J. S. Parker, and L. A. Coldren, “Programmable photonic lattice filters in InGaAsP-InP,” IEEE
+Photon. Technol. Lett., vol. 22, no. 2, pp. 109–111, Jan. 2010.
+[38] N. S. Lagali, M. R. Paiam, R. I. MacDonald, K. Worhof, and A.
+Driessen, “Analysis of generalized Mach–Zehnder interferometers for
+variable-ratio power splitting and optimized switching,” J. Lightw.
+Technol., vol. 17, no. 12, pp. 2542–2550, Dec. 1999.
+[39] R. S. Guzzon, E. J. Norberg, J. S. Parker, and L. A. Coldren, “Highly
+programmable optical filters integrated in InP-InGaAsP with tunable
+inter-ring coupling,” in Proc. IPR, 2010.
+[40] C. Dragone, “Efficient N N Star coupler based on Fourier optics,”
+Electron. Lett., vol. 24, no. 15, pp. 942–944, Jul. 1988.
+[41] C. Dragone, “An N*N optical multiplexer using a planar arrangement
+of two star couplers,” IEEE Photon. Technol. Lett., vol. 3, no. 9, pp.
+812–815, Sep. 1991.
+[42] J. B. D. Soole, M. R. Amersfoot, H. P. LeBlanc, N. C. Andreadakis,
+A. Rajhel, and C. Caneau, “Polarisation-independent monolithic eightchannel 2 nm spacing WDM detector based on compact arrayed waveguide demultiplexer,” Electron Lett., vol. 31, no. 15, pp. 1289–1291,
+1995.
+[43] M. Smit and C. van Dam, “PHASAR-based WDM-devices: Principles,
+design and applications,” IEEE J. Sel. Topics Quantum Electron., vol.
+2, no. 2, pp. 236–250, Jun. 1996.
+[44] T. Durhuus, C. Joergensen, B. Mikkelsen, and K. E. Stubkjaer, “Penalty
+free all-optical wavelength conversion by SOA’s in Mach–Zehnder
+configuration,” in Proc. ECOC’93, 1993, vol. 2, pp. 129–132.
+[45] S. L. Danielsen et al., “A photonic WDM packet switch with reduced
+complexity due to wavelength converters,” in Proc. Photon. Switching,
+Salt Lake City, UT, Mar. 1995, pp. 39–41.
+[46] L. A. Coldren, “Proposal to AFOSR (1995)—Later Incorporated into
+MOST,” 1996–2000.
+[47] S. J. B. Yoo, “Wavelength conversion technologies for WDM network
+applications,” J. Lightw. Technol., vol. 14, no. 6, pp. 955–966, Jun.
+1996.
+[48] Y.-H. Jan, G. Fish, L. A. Coldren, and S. DenBaars, “40 nm tuning
+range of a photonic integrated tunable InP/InGaAsP receiver with
+improved side-lobe suppression ratios,” in Proc. IEEE LEOS Annu.
+Meeting, San Francisco, CA, Nov. 1997, pp. 322–323.
+[49] J. M. Hutchinson, J. A. Henness, L. A. Johansson, J. S. Barton, M. L.
+Mashanovitch, and L. A. Coldren, “2.5 Gb/s wavelength conversion
+using monolithically-integrated photodetector and directly-modulated
+widely-tunable SGDBR laser,” in Proc. LEOS, Tucson, AZ, Oct. 2003,
+paper WU4.
+[50] J. S. Barton, M. L. Mašanović, M. N. Sysak, E. J. Skogen, J.
+M. Hutchinson, D. J. Blumenthal, and L. A. Coldren, “A novel
+monolithically-integrated widely-tunable wavelength converter based
+on a SGDBR-SOA-MZ transmitter and integrated photodetector,”
+in Proc. Photon. Switching, Versailles, France, Sep. 2003, paper
+PS.MoA9.
+[51] M. L. Masanovitch, V. Lal, J. S. Barton, E. J. Skogen, L. A. Coldren,
+and D. J. Blumenthal, “Monolithically-integrated Mach–Zehnder interferometer wavelength converter and widely tunable laser in InP,”
+IEEE Photon. Technol. Lett., vol. 15, no. 8, pp. 1117–1119, Aug.
+2003.
+[52] M. L. Mashanovitch, E. Burmeister, M. M. Dummer, B. Koch, S. C.
+Nicholes, J. S. Barton, B. Jevremovic, K. Nguyen, V. Lal, J. E. Bowers,
+L. A. Coldren, and D. J. Blumenthal, “Advanced photonic integrated
+technologies for optical routing and switching,” Proc. SPIE, vol. 7219,
+no. 0l, Feb. 2009.
+[53] J. W. Raring, L. A. Johansson, E. J. Skogen, M. N. Sysak, H. N.
+Poulsen, S. P. DenBaars, and L. A. Coldren, “40 Gb/s widely-tunable low-drive voltage electroabsorption-modulated transmitters,” J.
+Lightw. Technol., vol. 25, no. 1, pp. 239–248, Jan. 2007.
+[54] E. J. Norberg, R. S. Guzzon, J. S. Parker, L. A. Johansson, and L. A.
+Coldren, “A monolithic programmable optical filter for RF signal processing,” in Proc. MWP, Oct. 2010.
+[55] M. G. Young, U. Koren, B. I. Miller, M. Chien, T. L. Koch, D. M.
+Tennant, K. Feder, K. Dreyer, and G. Raybon, “Six wavelength laser
+array with integrated amplifier and modulator,” Electron. Lett., vol. 31,
+no. 21, pp. 1835–1836, Oct. 1995.
+
+2
+
+569
+
+[56] H. Hatakeyama, K. Naniwae, K. Kudo, N. Suzuki, S. Sudo, S. Ae,
+Y. Muroya, K. Yashiki, S. Satoh, T. Morimoto, K. Mori, and T.
+Sasaki, “Wavelength-selectable microarray light sources for S-, C-,
+and L-band WDM systems,” IEEE Photon. Technol. Lett., vol. 15, no.
+7, pp. 903–905, Jul. 2003.
+[57] R. Nagarajan, C. H. Joyner, R. P. Schneider, Jr., J. S. Bostak, T.
+Butrie, A. G. Dentai, V. G. Dominic, P. W. Evans, M. Kato, M.
+Kauffman, D. J. H. Lambert, S. K. Mathis, A. Mathur, R. H. Miles,
+M. L. Mitchell, M. J. Missey, S. Murthy, A. C. Nilsson, F. H. Peters, S. C. Pennypacker, J. L. Pleumeekers, R. A. Salvatore, R. K.
+Schlenker, R. B. Taylor, H.-S. Tsai, M. F. Van Leeuwen, J. Webjorn, M. Ziari, D. Perkins, J. Singh, S. G. Grubb, M. S. Reffle, D.
+G. Mehuys, F. A. Kish, and D. F. Welch, “Large scale photonic integrated circuits,” IEEE J. Sel. Topics Quantum Electron., vol. 11,
+no. 1, pp. 50–65, Jan./Feb. 2005.
+[58] R. Nagarajan, M. Kato, J. Pleumeekers, P. Evans, D. Lambert, A. Chen,
+V. Dominic, A. Mathur, P. Chavarkar, M. Missey, A. Dentai, S. Hurtt,
+J. Bäck, R. Muthiah, S. Murthy, R. Salvatore, C. Joyner, J. Rossi, R.
+Schneider, M. Ziari, H.-S. Tsai, J. Bostak, M. Kauffman, S. Pennypacker, T. Butrie, M. Reffle, D. Mehuys, M. Mitchell, A. Nilsson, S.
+Grubb, F. Kish, and D. Welch, “Large-scale photonic integrated circuits for long-haul transmission and switching,” J. Opt. Netw., vol. 6,
+no. 2, pp. 102–111, Feb. 2007.
+[59] S. W. Corzine, P. Evans, M. Kato, G. He, M. Fisher, M. Raburn, A.
+Dentai, I. Lyubomirsky, R. Nagarajan, M. Missey, V. Lal, A. Chen,
+J. Thomson, W. Williams, P. Chavarkar, S. Nguyen, D. Lambert, T.
+Butrie, M. Reffle, R. Schneider, M. Ziari, C. Joyner, S. Grubb, F. Kish,
+and D. Welch, “10-channel 40 Gb/s per channel DQPSK monolithically integrated InP-based transmitter PIC,” in Proc. OFC, San Diego,
+CA, Feb. 2008, paper PDP18.
+[60] J. Raring, E. J. Skogen, M. L. Mašanović, S. P. DenBaars, and L.
+A. Coldren, “Demonstration of high saturation power/high gain SOAs
+using quantum well intermixing based integration platform,” Electron.
+Lett., vol. 41, no. 24, pp. 1345–1346, Nov. 2005.
+[61] R. Tkach, “Optical network capacity: From glut to scarcity,” in Proc.
+OIDA Annu. Meeting, Santa Clara, CA, Dec. 1–2, 2009.
+[62] R. Essiambre et al., “Optical communications—A view to the future,”
+in Proc. ECOC, Brussels, Belgium, Sep. 2008.
+[63] B. Mason, in Proc. OIDA Annu. Meeting, Santa Clara, CA, Dec. 2009.
+[64] C. R. Doerr, L. Zhang, A. L. Adamiecki, N. J. Sauer, J. H. Sinsky,
+and P. J. Winzer, “Compact EAM-based InP DQPSK modulator and
+demonstration at 80 Gb/s,” in Proc. OFC, Anaheim, CA, Mar. 25–29,
+2007, paper PDP33.
+[65] C. R. Doerr, P. J. Winzer, L. Zhang, L. L. Buhl, and N. J. Sauer, “Monolithic InP 16-QAM modulator,” in Proc. OFC, San Diego, CA, Feb. 24,
+2008, paper PDP20.
+[66] A. Sano, T. Kobayashi, K. Ishihara, H. Masuda, S. Yamamoto, K.
+Mori, E. Yamazaki, E. Yoshida, Y. Miyamoto, T. Yamada, and H.
+Yamazaki, “240-Gb/s polarization-multiplexed 64-QAM modulation
+and blind detection using PLC-LN hybrid integrated modulator and
+digital coherent receiver,” in Proc. ECOC, Vienna, Austria, Sep.
+20–24, 2009, paper PD2.2.
+[67] C. Joyner, P. Evans, S. Corzine, M. Kato, M. Fisher, J. Gheorma, V.
+Dominic, P. Samra, A. Nilsson, J. Rahn, A. Dentai, P. Studenkov, M.
+Missey, D. Lambert, R. Muthiah, R. Salvatore, S. Murthy, E. Strzelecka, J. Pleumeekers, A. Chen, R. Schneider, R. Nagarajan, M. Ziari,
+J. Stewart, F. Kish, and D. Welch, “Current view of large scale photonic
+integrated circuits on Indium phosphide,” in Proc. OFC, San Diego,
+CA, Mar. 21–25, 2010, paper OWD3.
+[68] C. Cox, Analog Optical Links: Theory and Practice. Cambridge,
+U.K.: Cambridge Univ. Press, 2004.
+[69] H. F. Chou, A. Ramaswamy, D. Zibar, L. A. Johansson, J. E. Bowers,
+M. Rodwell, and L. A. Coldren, Fellow, “High-linearity coherent receiver with feedback,” IEEE Photon. Technol. Lett., vol. 19, no. 12, pp.
+940–942, Jun. 2007.
+[70] A. Ramaswamy, L. A. Johansson, U. Krishnamachari, S. Ristic, C.-H.
+Chen, M. Piels, A. Bhardwaj, L. A. Coldren, M. J. Rodwell, and J. E.
+Bowers, “Demonstration of a linear ultra-compact integrated coherent
+receiver,” in Proc. MWP, Oct. 2010.
+[71] U. Krishnamachari, S. Ristic, A. Ramaswamy, L. A. Johansson, C.-H.
+Chen, J. Klamkin, M. Piels, A. Bhardwaj, M. J. Rodwell, J. E. Bowers,
+and L. A. Coldren, “An ultra-compact integrated coherent receiver for
+high-linearity RF-photonic links,” in Proc. MWP, Oct. 2010.
+[72] S. Ristic, A. Bhardwaj, M. J. Rodwell, L. A. Coldren, and L. A. Johansson, “An optical phase-locked loop photonic integrated circuit,” J.
+Lightw. Technol., vol. 28, no. 4, pp. 526–538, Feb. 2010.
+
+2
+
+570
+
+JOURNAL OF LIGHTWAVE TECHNOLOGY, VOL. 29, NO. 4, FEBRUARY 15, 2011
+
+[73] L. Coldren, J. Bowers, M. Rodwell, L. Johansson, A. Yariv, T. Koch,
+J. Campbell, and R. Ram, Photonic Integration for Coherent Optics
+(PICO) part of DARPA CIPHER program, 2010.
+[74] Schematic supplied by A. Yariv as part of PICO project.
+[75] E. Skogen, J. Barton, S. Denbaars, and L. A. Coldren, “A
+quantum-well-intermixing process for wavelength-agile photonic
+integrated circuits,” IEEE J. Sel. Topics Quantum Electron., vol. 8, no.
+4, pp. 863–869, Jul./Aug. 2002.
+[76] M. Smit, “New focusing and dispersive planar component based on an
+optical phased array,” Electron. Lett., vol. 24, no. 7, pp. 385–386, Mar.
+1988.
+[77] Y.-H. Jan, G. Fish, L. A. Coldren, and S. DenBaars, “Widely tunable
+integrated filter/receiver with apodized grating-assisted codirectional
+coupler,” in Proc. SPIE Photon. West, San Jose, CA, Jan. 1998, paper
+3290–232.
+[78] R.-J. Essiambre, G. Kramer, P. J. Winzer, G. J. Foschini, and B. Goebel,
+“Capacity limits of optical fiber networks,” J. Lightw. Technol., vol. 28,
+no. 4, pp. 662–701, Feb. 2010.
+
+Larry A. Coldren (S’67–M’72–SM’77–F’82)
+received the Ph.D. degree in electrical engineering
+from Stanford University, Stanford, CA, in 1972.
+He is the Fred Kavli Professor of Optoelectronics
+and Sensors and Acting Richard A. Auhll Dean of
+Engineering at the University of California, Santa
+Barbara (UCSB). After 13 years in the research
+area at Bell Laboratories, he joined UCSB in
+1984, where he now holds appointments with the
+Department of Materials and the Department of
+Electrical and Computer Engineering. In 1990, he
+cofounded Optical Concepts, later acquired as Gore Photonics, to develop novel
+VCSEL technology, and, in 1998, he cofounded Agility Communications,
+later acquired by JDSU, to develop widely-tunable integrated transmitters. At
+Bell Labs, he initially worked on waveguided surface-acoustic-wave signal
+processing devices and coupled-resonator filters. He later developed tunable
+coupled-cavity lasers using novel reactive-ion etching (RIE) technology that
+he created for the then new InP-based materials. At UCSB, he continued
+work on multiple-section tunable lasers, in 1988 inventing the widely-tunable
+multi-element mirror concept, which is now used in some JDSU products.
+Near this same time period, he also made seminal contributions to efficient
+vertical-cavity surface-emitting laser (VCSEL) designs that continue to be
+implemented in practical devices to this day. More recently, his group has
+developed high-performance InP-based photonic integrated circuits (PICs)
+as well as high-speed VCSELs, and they continue to advance the underlying
+materials growth and fabrication technologies. He has authored or coauthored
+over a thousand journal and conference papers, seven book chapters and one
+textbook and has been issued 63 patents. He has presented dozens of invited
+and plenary talks at major conferences.
+Prof. Coldren is a Fellow of the IEE and a member of the National Academy
+of Engineering. He was a recipient of the 2004 John Tyndall and 2009 Aron
+Kressel Awards.
+
+Steven C. Nicholes received the B.S. degree in
+chemical engineering from Brigham Young University, Provo, UT, in 2005, and the Ph.D. degree in
+materials from the University of California, Santa
+Barbara (UCSB), in 2009.
+At UCSB, his research focused on the design, growth and fabrication of widely tunable
+semiconductor lasers and semiconductor optical
+amplifiers for large-scale photonic integrated circuits. In 2009, he joined Aurrion, LLC, Santa
+Barbara, where he focuses on the design of silicon
+photonic integrated circuits.
+
+Leif Johansson (M’04) received the Ph.D. degree
+in engineering from University College London,
+London, U.K., in 2002.
+He is currently a Research Scientist with the
+University of California, Santa Barbara. His current
+research interests include design and characterization of integrated photonic devices for analog and
+digital applications and analog photonic systems and
+subsystems.
+
+Sasa Ristic (M’02) received the Ph.D. degree
+in electrical and computer engineering from the
+University of British Columbia, Vancouver, BC,
+Canada, in 2007.
+He has been a Post-doctoral Fellow with the Department of Electrical and Computer Engineering,
+University of California, Santa Barbara, since 2007,
+supported in part by the Natural Sciences and
+Engineering Research Council of Canada (NSERC).
+His current research interests include design, fabrication, and characterization of integrated photonic
+devices and their applications.
+
+Robert S. Guzzon received the B.S. degrees in electrical engineering and physics from Lehigh University, Bethlehem, PA, in 2007. He is currently working
+toward the Ph.D. degree in electrical engineering at
+the University of California, Santa Barbara.
+His interests include large-scale photonic integration, particularly applied to microwave photonic
+signal processing. His current work focuses on the
+design and fabrication of versatile microwave filter
+systems to achieve improved tunability and noise
+performance.
+
+Erik J. Norberg received the B.S. and M.S. degrees
+in engineering nanoscience from Lund University,
+Lund, Sweden, in 2008. He is currently working
+toward the Ph.D. degree in electrical engineering at
+the University of California, Santa Barbara.
+His past research experience includes MOCVD
+growth and characterization of InP-based nanowires.
+He is currently working on the development of
+monolithically integrated programmable optical
+filters.
+
+Uppiliappan Krishnamachari received the B.S.
+degree in electrical engineering from the University of Illinois, Urbana-Champaign, in 2005. He
+is currently working toward the Ph.D. degree in
+electrical engineering at the University of California,
+Santa Barbara.
+His research interests include the design, fabrication, and characterization of InP-based photonic integrated circuits incorporating nanophotonic devices.
+His current efforts are focused on integrated coherent
+receivers using ultra-compact trench waveguide couplers for high linearity microwave photonic links.
+
+
