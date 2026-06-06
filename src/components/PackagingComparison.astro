@@ -116,23 +116,24 @@ const archs = [
         <path d="M130,94 L225,94" stroke={colors.trace} stroke-width="1.5" stroke-dasharray="5,3"/>
         <text x="178" y="89" text-anchor="middle" font-size="7" fill={colors.trace}>~50mm 走线</text>
 
-        <!-- ELSFP at front -->
-        <rect x="480" y="112" width="36" height="24" fill={colors.elsfp} rx="4"/>
-        <text x="498" y="127" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">ELSFP</text>
-        <line x1="516" y1="124" x2="535" y2="124" stroke={colors.fiber} stroke-width="2"/>
-        <line x1="535" y1="115" x2="535" y2="110" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
-        <text x="535" y="108" text-anchor="middle" font-size="6" fill="#475569">前面板</text>
-        <!-- Fiber route from ELSFP to OE -->
-        <path d="M480,124 L430,124 L430,88 L305,88" stroke={colors.fiber} stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
-
-        <!-- second OE on left -->
+        <!-- 2nd OE (right side) -->
         <rect x="620" y="85" width="60" height="12" fill={colors.substrate} rx="2"/>
         <rect x="626" y="72" width="22" height="13" fill={colors.eic} rx="2"/><text x="637" y="81" text-anchor="middle" font-size="6" fill="#fff">EIC</text>
         <rect x="650" y="72" width="22" height="13" fill={colors.pic} rx="2"/><text x="661" y="81" text-anchor="middle" font-size="6" fill="#fff">PIC</text>
         <rect x="620" y="48" width="60" height="10" fill="url(#g-lid)" rx="1"/>
         <line x1="650" y1="79" x2="730" y2="79" stroke={colors.fiber} stroke-width="1.5"/>
-        <!-- fiber from ELSFP to second OE -->
-        <path d="M516,124 L560,124 L560,56 L740,56 L740,79" stroke={colors.fiber} stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
+
+        <!-- ELSFP at front panel -->
+        <rect x="780" y="112" width="36" height="24" fill={colors.elsfp} rx="4"/>
+        <text x="798" y="127" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">ELSFP</text>
+        <!-- Fiber route from ELSFP to both OEs -->
+        <path d="M780,124 L750,124 L750,88 L305,88" stroke={colors.fiber} stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
+        <path d="M780,124 L770,124 L770,56 L740,56 L740,79" stroke={colors.fiber} stroke-width="1.2" fill="none" stroke-dasharray="4,3"/>
+        <!-- Front panel -->
+        <line x1="820" y1="70" x2="820" y2="115" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <text x="820" y="65" text-anchor="middle" font-size="7" fill="#475569">前面板</text>
+        <!-- fiber from ELSFP through front panel -->
+        <line x1="816" y1="124" x2="822" y2="124" stroke={colors.fiber} stroke-width="2"/>
       </g>
 
       <!-- ============================================================
