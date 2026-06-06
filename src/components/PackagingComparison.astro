@@ -69,19 +69,23 @@ const archs = [
         <!-- PCB traces long -->
         <path d="M110,98 L480,98 L480,82 L700,82" stroke={colors.trace} stroke-width="1.8" fill="none" stroke-dasharray="6,3"/>
         <text x="400" y="92" text-anchor="middle" font-size="7" fill={colors.trace}>~150 mm PCB 走线</text>
-        <!-- Cage + module (right) -->
-        <rect x="660" y="110" width="50" height="48" fill="none" stroke={colors.cage} stroke-width="1.8" rx="2"/>
-        <rect x="664" y="113" width="42" height="32" fill={colors.module} rx="3"/>
-        <text x="685" y="132" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">QSFP-DD</text>
-        <rect x="668" y="118" width="16" height="9" fill={colors.dsp} rx="1"/><text x="676" y="124" text-anchor="middle" font-size="5" fill="#fff">DSP</text>
-        <rect x="686" y="118" width="16" height="9" fill={colors.tosa} rx="1"/><text x="694" y="124" text-anchor="middle" font-size="5" fill="#fff">TOSA</text>
-        <rect x="668" y="130" width="34" height="10" fill={colors.rosa} rx="1"/><text x="685" y="137" text-anchor="middle" font-size="5" fill="#fff">ROSA</text>
-        <rect x="662" y="95" width="46" height="15" fill="url(#g-lid)" rx="1"/>
+        <!-- Cage + module (right), cage sits ON PCB -->
+        <rect x="660" y="95" width="50" height="38" fill="none" stroke={colors.cage} stroke-width="1.8" rx="2"/>
+        <rect x="664" y="98" width="42" height="28" fill={colors.module} rx="3"/>
+        <text x="685" y="115" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">QSFP-DD</text>
+        <rect x="668" y="102" width="16" height="8" fill={colors.dsp} rx="1"/><text x="676" y="108" text-anchor="middle" font-size="5" fill="#fff">DSP</text>
+        <rect x="686" y="102" width="16" height="8" fill={colors.tosa} rx="1"/><text x="694" y="108" text-anchor="middle" font-size="5" fill="#fff">TOSA</text>
+        <rect x="668" y="114" width="34" height="9" fill={colors.rosa} rx="1"/><text x="685" y="121" text-anchor="middle" font-size="5" fill="#fff">ROSA</text>
+        <!-- Card-edge connector -->
+        <rect x="675" y="126" width="20" height="4" fill={colors.substrate} rx="0.5"/>
+        <text x="685" y="134" text-anchor="middle" font-size="5" fill={colors.substrate}>卡边连接器</text>
+        <!-- Cage heatsink -->
+        <rect x="662" y="80" width="46" height="15" fill="url(#g-lid)" rx="1"/>
         <!-- Fiber out -->
-        <line x1="706" y1="128" x2="750" y2="128" stroke={colors.fiber} stroke-width="2"/>
+        <line x1="706" y1="112" x2="720" y2="112" stroke={colors.fiber} stroke-width="2"/>
         <!-- Front panel -->
-        <line x1="730" y1="70" x2="730" y2="110" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
-        <text x="730" y="65" text-anchor="middle" font-size="7" fill="#475569">前面板</text>
+        <line x1="725" y1="70" x2="725" y2="110" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
+        <text x="725" y="65" text-anchor="middle" font-size="7" fill="#475569">前面板</text>
       </g>
 
       <!-- ============================================================
