@@ -43,7 +43,7 @@ DFB laser 里的 `DFB` 只解决其中一部分问题：反馈和波长选择。
 
 InP 的价值在于它能承载通信波段的 III-V 异质结构：
 
-- [InP substrate](../inp-substrate/) 提供晶体底座、机械支撑和外延模板。
+- InP 衬底提供晶体底座、机械支撑和外延模板（详见 [衬底与外延](../../components/laser-source/substrate-epitaxy/)）。
 - InGaAsP / InAlGaAs 可以在 InP 上形成适合 1.3 / 1.55 micrometer 的有源层。
 - 多量子阱可以通过材料成分、阱厚和应变设计来调整 gain peak。
 - InP 平台能支撑 DFB laser、EML、SOA、PD 和部分 InP PIC 器件。
@@ -283,12 +283,12 @@ layer stack
 ## Read Next
 
 - [Light source / laser supply](../../components/laser-source/)：回到 CPO 光源系统边界。
-- [InP substrate](../inp-substrate/)：先理解 InP 衬底层。
+- [衬底与外延](../../components/laser-source/substrate-epitaxy/)：InP 衬底制造、外延层分工和工艺控制。
+- [波导、光栅与电流注入](../../components/laser-source/waveguide-current/)：DFB 光栅、Bragg 反馈和电流约束。
+- [测试、指标与系统接口](../../components/laser-source/testing-metrics/)：L-I-V 测试、阈值提取、器件指标和 CPO 约束。
 - [Direct vs indirect bandgap](../direct-vs-indirect-bandgap/)：理解为什么有些材料适合发光。
 - [PN junction and carrier injection](../pn-junction-and-carrier-injection/)：理解电流怎样注入载流子。
 - [Spontaneous vs stimulated emission](../spontaneous-vs-stimulated-emission/)：理解 LED 与 laser 的物理差别。
-- [Optical gain and threshold current](../optical-gain-and-threshold-current/)：理解 threshold 和增益/损耗平衡。
-- [Distributed feedback and wavelength selection](../distributed-feedback-and-wavelength-selection/)：更集中地看 DFB 选波长。
 - [Why semiconductor lasers are temperature-sensitive](../why-semiconductor-lasers-are-temperature-sensitive/)：理解温度为什么影响波长、阈值和寿命。
 
 ## Reference Anchors
