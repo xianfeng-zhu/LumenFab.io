@@ -17,6 +17,11 @@
 - When introducing technical terms, explain them in the flow of the argument. Prefer short inline explanations or `TermNote` annotations over separate glossary-like blocks.
 - Use `TermNote` for compact term explanations when a concept is likely unfamiliar to readers. Keep the term label in normal text color and let the component provide the underline annotation.
 - Distinguish concept levels carefully. For example, QW / MQW is an active-region concept; InP / GaAs / Si / SOI / TFLN are material or platform concepts; DFB / EML / PD are device concepts; MZM / MRM are modulator structures; LPO / CPO are system architecture or module-boundary concepts.
+- Never write directory-like sentences that describe the page's own structure ("本页从……讲起", "最后收束到……", "逐层展开……"). The reader does not need a table of contents in prose form.
+- Do not end sections with stacked cross-reference lists ("XX 见 A；YY 见 B；ZZ 见 C"). Cross-references belong inline, where the referenced concept is actually needed.
+- Use the established Chinese engineering term, not a literal translation from English. When unsure, consult Chinese textbooks, standards documents, or manufacturer Chinese-language material in the relevant domain.
+- Maintain a consistent register within each sentence. Do not mix formal expository tone with colloquial phrasing in the same clause.
+- Define a concept once, at its first occurrence. Use it directly thereafter without re-explaining.
 
 ## Page Structure And Explanation Method
 
