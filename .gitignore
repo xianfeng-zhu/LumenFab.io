@@ -5,3 +5,4 @@ dist/
 .superpowers/
 .DS_Store
 npm-debug.log*
+pkg-pluggable-diagram.png

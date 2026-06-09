@@ -11,48 +11,55 @@ const summary = "ASIC 独立封装在 PCB 中央，光模块插入前面板笼�
 <figure class="pkg-diag">
   <figcaption><strong>① 前面板可插拔</strong><span>{summary}</span></figcaption>
   <div class="pkg-diag__wrap">
-    <svg viewBox="0 0 960 130" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 960 320" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="bg-d" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.8" fill={c.bga}/></pattern>
-        <linearGradient id="g-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color={c.heatsink}/></linearGradient>
+        <pattern id="pg-bga" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.8" fill={c.bga}/></pattern>
+        <linearGradient id="pg-hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color={c.heatsink}/></linearGradient>
       </defs>
       <!-- PCB -->
-      <rect x="20" y="95" width="920" height="10" fill={c.pcb} rx="1"/>
+      <rect x="20" y="240" width="920" height="16" fill={c.pcb} rx="1"/>
       <!-- ASIC -->
-      <rect x="60" y="82" width="50" height="13" fill="url(#bg-d)"/>
-      <rect x="64" y="60" width="42" height="22" fill={c.substrate} rx="3"/>
-      <rect x="70" y="42" width="30" height="18" fill={c.asicDie} rx="2"/>
-      <text x="85" y="54" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">ASIC</text>
-      <rect x="58" y="20" width="54" height="22" fill="url(#g-l)" rx="2"/>
-      <text x="85" y="34" text-anchor="middle" font-size="7" fill="#475569">散热器</text>
+      <rect x="60" y="215" width="50" height="23" fill="url(#pg-bga)"/>
+      <rect x="62" y="160" width="46" height="55" fill={c.substrate} rx="4"/>
+      <rect x="68" y="110" width="34" height="50" fill={c.asicDie} rx="3"/>
+      <text x="85" y="140" text-anchor="middle" font-size="16" fill="#fff" font-weight="600">ASIC</text>
+      <rect x="54" y="60" width="62" height="50" fill="url(#pg-hs)" rx="3"/>
+      <text x="85" y="90" text-anchor="middle" font-size="13" fill="#475569">散热器</text>
       <!-- long trace -->
-      <path d="M110,90 L668,90" stroke={c.trace} stroke-width="2" fill="none" stroke-dasharray="6,3"/>
-      <text x="400" y="84" text-anchor="middle" font-size="8" fill={c.trace}>~150 mm PCB 走线</text>
+      <path d="M110,226 L668,226" stroke={c.trace} stroke-width="2.5" fill="none" stroke-dasharray="8,4"/>
+      <text x="400" y="216" text-anchor="middle" font-size="13" fill={c.trace}>~150 mm PCB 走线</text>
       <!-- host connector -->
-      <rect x="666" y="90" width="16" height="5" fill={c.substrate} rx="0.5"/>
+      <rect x="658" y="222" width="18" height="8" fill={c.substrate} rx="1"/>
       <!-- cage + module -->
-      <rect x="660" y="85" width="50" height="38" fill="none" stroke={c.cage} stroke-width="1.8" rx="2"/>
-      <rect x="664" y="88" width="42" height="28" fill={c.module} rx="3"/>
-      <text x="685" y="105" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">QSFP-DD</text>
-      <rect x="668" y="92" width="16" height="8" fill={c.dsp} rx="1"/><text x="676" y="98" text-anchor="middle" font-size="5" fill="#fff">DSP</text>
-      <rect x="686" y="92" width="16" height="8" fill={c.tosa} rx="1"/><text x="694" y="98" text-anchor="middle" font-size="5" fill="#fff">TOSA</text>
-      <rect x="686" y="103" width="16" height="9" fill={c.rosa} rx="1"/><text x="694" y="110" text-anchor="middle" font-size="5" fill="#fff">ROSA</text>
+      <rect x="652" y="155" width="62" height="110" fill="none" stroke={c.cage} stroke-width="2" rx="3"/>
+      <rect x="658" y="162" width="50" height="88" fill={c.module} rx="3"/>
       <!-- card-edge connector -->
-      <rect x="675" y="93" width="20" height="6" fill={c.substrate} rx="0.5"/>
-      <text x="685" y="110" text-anchor="middle" font-size="6" fill={c.substrate}>卡边连接器</text>
+      <rect x="664" y="168" width="24" height="14" fill={c.substrate} rx="1"/>
+      <text x="676" y="178" text-anchor="middle" font-size="9" fill={c.substrate}>卡边连接器</text>
+      <!-- DSP -->
+      <rect x="664" y="192" width="20" height="22" fill={c.dsp} rx="2"/>
+      <text x="674" y="206" text-anchor="middle" font-size="10" fill="#fff" font-weight="500">DSP</text>
+      <!-- TOSA -->
+      <rect x="688" y="192" width="18" height="22" fill={c.tosa} rx="2"/>
+      <text x="697" y="206" text-anchor="middle" font-size="10" fill="#fff">TOSA</text>
+      <!-- ROSA -->
+      <rect x="688" y="222" width="18" height="22" fill={c.rosa} rx="2"/>
+      <text x="697" y="236" text-anchor="middle" font-size="10" fill="#fff">ROSA</text>
+      <!-- module label -->
+      <text x="683" y="200" text-anchor="middle" font-size="10" fill="#fff" font-weight="600">QSFP-DD</text>
       <!-- cage heatsink -->
-      <rect x="662" y="70" width="46" height="15" fill="url(#g-l)" rx="1"/>
+      <rect x="654" y="130" width="58" height="25" fill="url(#pg-hs)" rx="2"/>
       <!-- fiber out -->
-      <line x1="706" y1="102" x2="720" y2="102" stroke={c.fiber} stroke-width="2"/>
+      <line x1="708" y1="214" x2="730" y2="214" stroke={c.fiber} stroke-width="3"/>
       <!-- front panel -->
-      <line x1="725" y1="60" x2="725" y2="100" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
-      <text x="725" y="55" text-anchor="middle" font-size="7" fill="#475569">前面板</text>
+      <line x1="738" y1="100" x2="738" y2="250" stroke="#475569" stroke-width="1.5" stroke-dasharray="6,6"/>
+      <text x="738" y="92" text-anchor="middle" font-size="13" fill="#475569">前面板</text>
       <!-- legend -->
-      <rect x="20" y="116" width="8" height="8" fill={c.asicDie} rx="1"/><text x="32" y="123" font-size="7" fill="#64748b">ASIC</text>
-      <rect x="68" y="116" width="8" height="8" fill={c.module} rx="1"/><text x="80" y="123" font-size="7" fill="#64748b">光模块</text>
-      <rect x="120" y="116" width="8" height="8" fill={c.trace} rx="1"/><text x="132" y="123" font-size="7" fill="#64748b">电走线</text>
-      <rect x="170" y="116" width="8" height="8" fill={c.cage} rx="1"/><text x="182" y="123" font-size="7" fill="#64748b">笼体</text>
-      <rect x="212" y="116" width="8" height="8" fill={c.fiber} rx="1"/><text x="224" y="123" font-size="7" fill="#64748b">光纤</text>
+      <rect x="20" y="290" width="12" height="12" fill={c.asicDie} rx="1"/><text x="36" y="300" font-size="12" fill="#64748b">ASIC</text>
+      <rect x="76" y="290" width="12" height="12" fill={c.module} rx="1"/><text x="92" y="300" font-size="12" fill="#64748b">光模块</text>
+      <rect x="138" y="290" width="12" height="12" fill={c.trace} rx="1"/><text x="154" y="300" font-size="12" fill="#64748b">电走线</text>
+      <rect x="198" y="290" width="12" height="12" fill={c.cage} rx="1"/><text x="214" y="300" font-size="12" fill="#64748b">笼体</text>
+      <rect x="250" y="290" width="12" height="12" fill={c.fiber} rx="1"/><text x="266" y="300" font-size="12" fill="#64748b">光纤</text>
     </svg>
   </div>
 </figure>
