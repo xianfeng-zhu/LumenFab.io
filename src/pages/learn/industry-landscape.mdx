@@ -1,0 +1,173 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: 行业格局与供应链
+chapter: 13. Industry Map
+description: AI 数据中心光互连行业现状：出货架构、光模块与激光器芯片厂商格局、技术路线演变、NPO 量产进展。
+---
+
+## 0. 行业格局概览
+
+AI 数据中心光互连行业在 2025–2026 年处于架构更迭期。三件事同时发生：传统可插拔光模块仍在以数千万只规模出货，并持续向 800G / 1.6T 迭代；CPO（共封装光学）在 Broadcom 和 NVIDIA 的推动下开始了第一批规模化部署；NPO（近封装光学）在 2026 年从 OIF 框架文档里的概念变成了多家厂商的实际产品。
+
+这一页不解释技术原理（技术细节见 [激光源](../components/laser-source/)、[PIC](../components/pic/)、[封装集成](../components/packaging/) 各页），只整理产业格局——哪些架构在出货、哪些厂商在哪个环节、趋势往什么方向走。
+
+## 1. 出货架构：谁在主导
+
+2025–2026 年数据中心光互连出货中，**前面板可插拔光模块占 97% 以上**，CPO 和 NPO 合计不到 1%。
+
+| 架构 | 2025–2026 出货规模 | 状态 |
+|------|-------------------|------|
+| 可插拔（DSP-based） | ~44–55 百万单位/年 | 绝对主流，QSFP-DD / OSFP 形态，400G / 800G 主力 |
+| LPO（线性驱动可插拔） | 小批量出货 | 去掉模块内 DSP 的可插拔变体，功耗更低，2026 年上量 |
+| CPO（共封装光学） | 数千到数万单位/年 | Broadcom Bailly 唯一量产 CPO 交换机（102.4T，2026 Q1 月度量产）；NVIDIA 紧随其后（Quantum-X / Spectrum-X CPO，2026 年目标量产） |
+| NPO（近封装光学） | 极少（试点到早期出货） | 2026 年冒出第一批产品（详见 §5），此前无独立量产品类 |
+
+上述架构沿"模块化 / 可维护性 ↔ 功耗 / 密度"轴的演变方向一致：可插拔最成熟、最灵活；LPO 去掉 DSP 以牺牲链路预算换取更低功耗；NPO 把引擎移近 ASIC 以缩短电径；CPO 把引擎和 ASIC 放进同一封装基板，电径最短、密度最高，但返修和标准化最难。
+
+架构定义和对比详见 [封装集成 §1](../components/packaging/#1-封装架构分类地图) 和 [封装集成 §1.1](../components/packaging/#11-npo-与-cpo-的分界线)。
+
+## 2. 光模块厂商：谁在出货
+
+以下排名依据 LightCounting 2026 年 5 月发布的 2025 年光模块销售额 TOP10。
+
+| 排名 | 厂商 | 国家 | 2025 年收入（估算） | 关键市场地位 |
+|------|------|------|-------------------|------------|
+| 1 | 中际旭创（Innolight） | 中国 | ~53 亿美元 | 全球龙头，800G 市占率超 40%，客户覆盖 Google、Meta、微软、Amazon、NVIDIA |
+| 2 | 新易盛（Eoptolink） | 中国 | ~35 亿美元 | 首次超越 Coherent，800G 市占约 25–30%，获 NVIDIA 2026 年大部分 200G 订单 |
+| 3 | Coherent（原 II-VI / Finisar） | 美国 | — | 传统光电巨头，电信端份额领先，自有激光器芯片产线 |
+| 4 | 光迅科技（Accelink） | 中国 | — | IDM 龙头，10G+ 光芯片自研自产，国内产业链最完整 |
+| 5 | 思科（Cisco / Acacia） | 美国 | — | 高速相干模块，Acacia DSP 和 PIC 自研 |
+| 6 | 海信宽带 | 中国 | — | 数据中心和接入网 |
+| 7 | 华工正源 | 中国 | — | 数据中心模块 |
+| 8 | 索尔思光电 | 中国 | — | 数据中心模块 |
+| 9 | Marvell | 美国 | — | DSP 和模块 |
+| 10 | 剑桥科技 | 中国 | — | 数据中心模块 |
+
+中国厂商占 7 席，前三名包揽两席。中际旭创和新易盛合计约 88 亿美元收入，超过全球光模块市场的半壁江山。
+
+2026 年竞争焦点在 **1.6T 光模块**的量产放量（中际旭创 2026 Q1 收入同比增长 207%）以及 **3.2T** 的早期验证。
+
+## 3. 产业链三层结构
+
+绝大多数光模块厂商是**集成商**——从外部采购激光器芯片和 DSP，完成光学耦合、封装、测试和固件，交付完整的可插拔模块。它们不生产激光器芯片。
+
+```
+上游：激光器芯片 →  中游：光模块集成  →  下游：系统和云厂商
+────────────────    ────────────────    ──────────────────
+Lumentum          中际旭创 (#1)       Google / Meta / MS
+Broadcom           新易盛 (#2)         Amazon / NVIDIA
+Mitsubishi         光迅科技 (#4)       阿里巴巴 / 腾讯
+Sumitomo           Coherent (#3)
+源杰科技            海信/华工/剑桥等
+Coherent
+```
+
+**例外**：Coherent 既做激光器芯片也做光模块（产业链垂直整合最深），但其自产 EML 产能不足以覆盖自己的模块出货，仍需大量外购。光迅科技有部分光芯片自研能力，但高端 EML 同样外购。
+
+DSP 芯片是另一组供应商（Broadcom、Marvell、MaxLinear、Credo），不在本页展开。
+
+## 4. 激光器芯片厂商：谁在供光源
+
+光模块内部使用的激光器按品类分三类。以下产能数据为 2026 年公开估算，不同来源的数值有差异，仅作规模量级参考。
+
+### 4.1 EML 芯片（InP DFB + EA 调制器，用于单模长距模块）
+
+| 厂商 | 2026 年产能（颗/年） | 主要客户 | 定位 |
+|------|---------------------|---------|------|
+| Broadcom | 5000–6000 万 | NVIDIA、中际旭创 | EML 产能最大，深度绑定 NVIDIA |
+| Mitsubishi（三菱电机） | 5000–6000 万 | 中际旭创、新易盛 | 非美系最大供应商，供应链安全关键 |
+| Lumentum | ~6000 万 | 中际旭创、新易盛、Google | 同时做 CW-DFB 和 EML，品类最全 |
+| Sumitomo（住友电工） | 2000–3000 万 | 中际旭创、Coherent | CW 表现更强 |
+
+EML 市场高度集中——四家美日厂商掌控绝大多数产能。200G EML 尤其紧缺：2025 Q3 全球出货仅数十万颗，2025 Q4 预计不足 200 万颗。这个紧缺直接推动了 SiPh + CW-DFB 方案的加速普及。
+
+国产 EML 刚起步。源杰科技 2025 年 100G EML 出货约 1000 万颗，2026 年规划扩至 3000 万颗；长光华芯 2025 年 100G EML 出货约 5000 万颗，国内市占约 30%。
+
+### 4.2 CW-DFB 芯片（用于 SiPh 硅光模块和 NPO，增长最快）
+
+| 厂商 | 2026 年产能（颗/年） | 主要客户 | 定位 |
+|------|---------------------|---------|------|
+| Sumitomo（住友电工） | ~5000 万 | 中际旭创、新易盛 | CW 产能最大 |
+| 源杰科技 | 5000–6000 万 | 中际旭创、NVIDIA（已签长约） | 国产替代主力，扩产最激进 |
+| Broadcom | 2000–3000 万 | NVIDIA、Google、中际旭创 | — |
+| Lumentum | ~2000 万 | Google、Coherent、中际旭创 | 部分自用（Cloud Light 模块） |
+
+CW-DFB 的供给格局比 EML 分散——住友和源杰领先，国产替代进展比 EML 领域快得多。CW-DFB 单价约 4 美元/颗，远低于 EML，2026 年暂无涨价压力。
+
+### 4.3 VCSEL 阵列（GaAs 850 nm，SR 短距多模）
+
+VCSEL 是最成熟的品类。**Coherent 和 Lumentum** 两家主导，Broadcom 也有供应。制造门槛最低、利润率最薄。
+
+## 5. 技术路线演变：SiPh 为什么在蚕食纯 InP
+
+可插拔模块内部的激光器方案见 [激光源 §10.3](../components/laser-source/testing-metrics/#103-可插拔光模块激光器在壳子里)。这里只总结产业趋势：
+
+- **SiPh（硅光子）渗透加速**：2025 年可插拔出货中 SiPh 约占 30%，预计 2030 年超过 60%
+- **替代逻辑**：EML 要求在 InP 晶圆上单片完成 DFB 光栅、有源区和 EA 调制区三段工艺，制造复杂、扩产慢。SiPh 把最难做的调制搬到硅上（CMOS 精度、大尺寸晶圆），InP 只做 CW 发光——工艺简化后产能更易扩张
+- **CW-DFB 需求爆发**：SiPh 模块的增长直接拉动 CW-DFB 芯片需求，2026 年全年预计出货约 2000 万颗
+- **国产光芯片崛起**：源杰科技 2026 年 CW-DFB 产能规划 5000–6000 万颗，已和 NVIDIA 签下 2025–2027 年 100 mW CW-DFB 长期供货协议。长光华芯、仕佳光子等也在加速扩产
+
+## 6. NPO 量产现状
+
+NPO 在 OIF 框架文档（2022）中被定义为"已封装 ASIC + 插座式引擎安装在同一基板上"。这个概念在 2024 年前基本停留在纸面上。2026 年发生了变化：
+
+| 厂商 | NPO 产品 | 状态（2026） |
+|------|---------|------------|
+| Ranovus | NPO 模块，基于 Odin 微环调制 SiPh 平台 | 已向多家美国云厂商出货 |
+| NewPhotonics | 1.6T NPO Chiplet，单片 SiPh flip-chip，激光器集成在芯片上 | OFC 2026 发布，已有客户 |
+| 新易盛（Eoptolink） | 6.4T NPO 光模块，32 通道 × 200G，SiPh | OFC 2026 发布 |
+| Lightelligence | NPO 光互连，符合 OIF 3.2T CPO 标准，贴近 GPU/NPU/Switch 共基板 | OFC 2026 展示 |
+| 阿里巴巴 | 3.2T NPO（Q3 2026 试点部署）；6.4T NPO（2027 年 9 月目标） | Beta 测试完成 |
+
+Ciena、Coherent、华为、腾讯也在 IPEC 2026 年 5 月的 NPO 专题会上公布了各自路线图。LightCounting 同期报告将 NPO 定位为"当前最实用的规模化部署方案"——比 CPO 保留了更多模块化特征，比可插拔更省电。
+
+**目前公开的 NPO 方案全部基于 SiPh + CW-DFB 激光器**，和新易盛、中际旭创的可插拔 SiPh 模块用的是同一类激光器芯片。NPO 没有创造出新的激光器品类——它用的是既有供应链里的同一批 InP CW-DFB 芯片。
+
+## 7. 对激光器芯片厂商的意义
+
+综合以上格局，一家做 InP DFB（CW 或 EML）激光器芯片的厂商面对的市场可以归纳为：
+
+| 下游产品 | 出货规模 | 用什么激光器 | 对芯片厂商的影响 |
+|---------|---------|------------|----------------|
+| 可插拔（DSP / LPO） | 97%+，数千万只/年 | VCSEL / DML / EML / CW-DFB | 最大客户群，CW-DFB 需求因 SiPh 渗透而快速增长 |
+| NPO | 刚起步，2026 年冒出 | CW-DFB（和可插拔 SiPh 同一品类） | 潜在增量，短期量小 |
+| CPO（外置 ELSFP） | 小批量，Broadcom为主 | CW-DFB（在 ELSFP 壳体内） | 潜在增量，芯片规格和可插拔同类 |
+
+可插拔、NPO、EL-based CPO 三种架构对激光器芯片的要求几乎没有品类级差异——要的都是 InP CW-DFB，都需要高功率、低 RIN、高 SMSR、高可靠性。真正的差异在模块级设计（散热、耦合、连接器），不在芯片级——详见 [封装集成 §3.6](../components/packaging/#36-外置-elsfp-下npo-与-cpo-对激光器的要求)。
+
+激光器芯片厂商的竞争主战场因此不在"CPO 还是 NPO"，而在 **CW-DFB 替代 EML** 的迁移速度，以及**国产替代海外供应商**的窗口——后者对源杰科技、长光华芯等国内厂商来说是更大的结构性机会。
+
+## 8. 本页与相关页面的分工
+
+| 页面 | 内容 |
+|------|------|
+| 本页 | 架构出货格局、产业链三层结构、厂商排名、技术路线演变、NPO 量产现状 |
+| [激光源 §10.3](../components/laser-source/testing-metrics/#103-可插拔光模块激光器在壳子里) | 可插拔模块内四种激光源的技术解释（VCSEL / DML / EML / SiPh+CW-DFB） |
+| [封装集成 §1](../components/packaging/#1-封装架构分类地图) | 五种封装架构的技术定义和分类 |
+| [封装集成 §1.1](../components/packaging/#11-npo-与-cpo-的分界线) | NPO 与 CPO 的本质区别（三条线 + 对比表） |
+| [封装集成 §3.6](../components/packaging/#36-外置-elsfp-下npo-与-cpo-对激光器的要求) | 外置 ELSFP 下 NPO 与 CPO 对激光器要求的差异 |
+
+## 资料来源
+
+**市场数据**
+
+- LightCounting, May 2026 Newsletter: NPO is pursuing an optimal balance between modularity and integration
+- LightCounting, 2025 Optical Transceiver Vendor TOP10
+- QYResearch, High-Speed Optical Transceiver Module Market Report, 2026
+- MarketsandMarkets, Data Center Optical Transceiver Market Report, 2026
+
+**供应链与厂商**
+
+- 中际旭创 2024–2025 年度报告
+- 新易盛 2024–2025 年度报告
+- 源杰科技产能规划公告
+- LightCounting, September 2025 Ethernet Optics Report
+- Yole Intelligence, Silicon Photonics Market Forecast, 2025
+
+**NPO 产品**
+
+- NewPhotonics: Industry-First Serviceable NPO Chiplet Solution, January 2026
+- Eoptolink: 6.4T NPO Optical Module at OFC 2026
+- Lightelligence: NPO Optical Interconnect at OFC 2026
+- IPEC NPO Webinar, May 2026 (Alibaba, Tencent, Ciena, Coherent, Huawei, Ranovus)
+- LightCounting, May 2026 Newsletter

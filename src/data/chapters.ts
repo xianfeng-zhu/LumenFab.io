@@ -88,6 +88,6 @@ export const chapters: Chapter[] = [
     id: "13",
     title: "13. Industry Map",
     purpose: "最后把技术层映射到供应链、公司和产业角色。",
-    path: "/learn/"
+    path: "/learn/industry-landscape/"
   }
 ];
