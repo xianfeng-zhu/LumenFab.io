@@ -9,8 +9,8 @@ export const chapters: Chapter[] = [
   {
     id: "00",
     title: "00. Start Here",
-    purpose: "给读者一张完整技术栈地图，说明网站如何阅读。",
-    path: "/learn/what-this-site-explains/"
+    purpose: "一张总装图：光链路做什么、内部怎么分层、各层有哪些方案。",
+    path: "/components/overview/"
   },
   {
     id: "01",
