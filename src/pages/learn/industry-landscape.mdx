@@ -9,7 +9,7 @@ description: AI 数据中心光互连行业现状：出货架构、光模块与�
 
 AI 数据中心光互连行业在 2025–2026 年处于架构更迭期。三件事同时发生：传统可插拔光模块仍在以数千万只规模出货，并持续向 800G / 1.6T 迭代；CPO（共封装光学）在 Broadcom 和 NVIDIA 的推动下开始了第一批规模化部署；NPO（近封装光学）在 2026 年从 OIF 框架文档里的概念变成了多家厂商的实际产品。
 
-这一页不解释技术原理（技术细节见 [激光源](../components/laser-source/)、[PIC](../components/pic/)、[封装集成](../components/packaging/) 各页），只整理产业格局——哪些架构在出货、哪些厂商在哪个环节、趋势往什么方向走。
+这一页不解释技术原理（技术细节见 [激光源](../../components/laser-source/)、[PIC](../../components/pic/)、[封装集成](../../components/packaging/) 各页），只整理产业格局——哪些架构在出货、哪些厂商在哪个环节、趋势往什么方向走。
 
 ## 1. 出货架构：谁在主导
 
@@ -24,7 +24,7 @@ AI 数据中心光互连行业在 2025–2026 年处于架构更迭期。三件�
 
 上述架构沿"模块化 / 可维护性 ↔ 功耗 / 密度"轴的演变方向一致。以 1.6T 端口为例，三档功耗对比：可插拔（含 DSP）约 30 W，NPO 约 9 W，CPO 约 &lt;2 W。NPO 的电径从可插拔的 20–30 cm 缩到 5–7 cm，功耗较可插拔降低约 50%，同时保留了引擎的独立测试和更换能力——这是它被定位为"可插拔到 CPO 之间的实用平衡方案"的物理基础。
 
-架构定义和对比详见 [封装集成 §1](../components/packaging/#1-封装架构分类地图) 和 [封装集成 §1.1](../components/packaging/#11-npo-与-cpo-的分界线)。
+架构定义和对比详见 [封装集成 §1](../../components/packaging/#1-封装架构分类地图) 和 [封装集成 §1.1](../../components/packaging/#11-npo-与-cpo-的分界线)。
 
 ## 2. 光模块厂商：谁在出货
 
@@ -100,7 +100,7 @@ VCSEL 是最成熟的品类。**Coherent 和 Lumentum** 两家主导，Broadcom 
 
 ## 5. 技术路线演变：SiPh 为什么在蚕食纯 InP
 
-可插拔模块内部的激光器方案见 [激光源 §10.3](../components/laser-source/testing-metrics/#103-可插拔光模块激光器在壳子里)。这里只总结产业趋势：
+可插拔模块内部的激光器方案见 [激光源 §10.3](../../components/laser-source/testing-metrics/#103-可插拔光模块激光器在壳子里)。这里只总结产业趋势：
 
 - **SiPh（硅光子）渗透加速**：2025 年可插拔出货中 SiPh 约占 30%，预计 2030 年超过 60%
 - **替代逻辑**：EML 要求在 InP 晶圆上单片完成 DFB 光栅、有源区和 EA 调制区三段工艺，制造复杂、扩产慢。SiPh 把最难做的调制搬到硅上（CMOS 精度、大尺寸晶圆），InP 只做 CW 发光——工艺简化后产能更易扩张
@@ -167,7 +167,7 @@ NPO 没有创造出新的激光器品类——它所使用的 CW-DFB 和 VCSEL �
 | NPO | 刚起步，2026 年冒出 | CW-DFB（和可插拔 SiPh 同一品类） | 潜在增量，短期量小 |
 | CPO（外置 ELSFP） | 小批量，Broadcom为主 | CW-DFB（在 ELSFP 壳体内） | 潜在增量，芯片规格和可插拔同类 |
 
-可插拔、NPO、EL-based CPO 三种架构对激光器芯片的要求几乎没有品类级差异——要的都是 InP CW-DFB，都需要高功率、低 RIN、高 SMSR、高可靠性。真正的差异在模块级设计（散热、耦合、连接器），不在芯片级——详见 [封装集成 §3.6](../components/packaging/#36-外置-elsfp-下npo-与-cpo-对激光器的要求)。
+可插拔、NPO、EL-based CPO 三种架构对激光器芯片的要求几乎没有品类级差异——要的都是 InP CW-DFB，都需要高功率、低 RIN、高 SMSR、高可靠性。真正的差异在模块级设计（散热、耦合、连接器），不在芯片级——详见 [封装集成 §3.6](../../components/packaging/#36-外置-elsfp-下npo-与-cpo-对激光器的要求)。
 
 激光器芯片厂商的竞争主战场因此不在"CPO 还是 NPO"，而在 **CW-DFB 替代 EML** 的迁移速度，以及**国产替代海外供应商**的窗口——后者对源杰科技、长光华芯等国内厂商来说是更大的结构性机会。
 
@@ -176,10 +176,10 @@ NPO 没有创造出新的激光器品类——它所使用的 CW-DFB 和 VCSEL �
 | 页面 | 内容 |
 |------|------|
 | 本页 | 架构出货格局、产业链三层结构、厂商排名、技术路线演变、NPO 量产现状 |
-| [激光源 §10.3](../components/laser-source/testing-metrics/#103-可插拔光模块激光器在壳子里) | 可插拔模块内四种激光源的技术解释（VCSEL / DML / EML / SiPh+CW-DFB） |
-| [封装集成 §1](../components/packaging/#1-封装架构分类地图) | 五种封装架构的技术定义和分类 |
-| [封装集成 §1.1](../components/packaging/#11-npo-与-cpo-的分界线) | NPO 与 CPO 的本质区别（三条线 + 对比表） |
-| [封装集成 §3.6](../components/packaging/#36-外置-elsfp-下npo-与-cpo-对激光器的要求) | 外置 ELSFP 下 NPO 与 CPO 对激光器要求的差异 |
+| [激光源 §10.3](../../components/laser-source/testing-metrics/#103-可插拔光模块激光器在壳子里) | 可插拔模块内四种激光源的技术解释（VCSEL / DML / EML / SiPh+CW-DFB） |
+| [封装集成 §1](../../components/packaging/#1-封装架构分类地图) | 五种封装架构的技术定义和分类 |
+| [封装集成 §1.1](../../components/packaging/#11-npo-与-cpo-的分界线) | NPO 与 CPO 的本质区别（三条线 + 对比表） |
+| [封装集成 §3.6](../../components/packaging/#36-外置-elsfp-下npo-与-cpo-对激光器的要求) | 外置 ELSFP 下 NPO 与 CPO 对激光器要求的差异 |
 
 ## 资料来源
 
