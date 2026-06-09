@@ -20,9 +20,9 @@ AI 数据中心光互连行业在 2025–2026 年处于架构更迭期。三件�
 | 可插拔（DSP-based） | ~44–55 百万单位/年 | 绝对主流，QSFP-DD / OSFP 形态，400G / 800G 主力 |
 | LPO（线性驱动可插拔） | 小批量出货 | 去掉模块内 DSP 的可插拔变体，功耗更低，2026 年上量 |
 | CPO（共封装光学） | 数千到数万单位/年 | Broadcom Bailly 唯一量产 CPO 交换机（102.4T，2026 Q1 月度量产）；NVIDIA 紧随其后（Quantum-X / Spectrum-X CPO，2026 年目标量产） |
-| NPO（近封装光学） | 极少（试点到早期出货） | 2026 年冒出第一批产品（详见 §5），此前无独立量产品类 |
+| NPO（近封装光学） | 试点到早期出货，2026 年冒出 | 多家厂商在 OFC 2026 发布产品（详见 §6），此前无独立量产品类 |
 
-上述架构沿"模块化 / 可维护性 ↔ 功耗 / 密度"轴的演变方向一致：可插拔最成熟、最灵活；LPO 去掉 DSP 以牺牲链路预算换取更低功耗；NPO 把引擎移近 ASIC 以缩短电径；CPO 把引擎和 ASIC 放进同一封装基板，电径最短、密度最高，但返修和标准化最难。
+上述架构沿"模块化 / 可维护性 ↔ 功耗 / 密度"轴的演变方向一致。以 1.6T 端口为例，三档功耗对比：可插拔（含 DSP）约 30 W，NPO 约 9 W，CPO 约 &lt;2 W。NPO 的电径从可插拔的 20–30 cm 缩到 5–7 cm，功耗较可插拔降低约 50%，同时保留了引擎的独立测试和更换能力——这是它被定位为"可插拔到 CPO 之间的实用平衡方案"的物理基础。
 
 架构定义和对比详见 [封装集成 §1](../components/packaging/#1-封装架构分类地图) 和 [封装集成 §1.1](../components/packaging/#11-npo-与-cpo-的分界线)。
 
@@ -109,19 +109,53 @@ VCSEL 是最成熟的品类。**Coherent 和 Lumentum** 两家主导，Broadcom 
 
 ## 6. NPO 量产现状
 
-NPO 在 OIF 框架文档（2022）中被定义为"已封装 ASIC + 插座式引擎安装在同一基板上"。这个概念在 2024 年前基本停留在纸面上。2026 年发生了变化：
+NPO 在 OIF 框架文档（2022）中被定义为"已封装 ASIC + 插座式引擎安装在同一基板上"。这个概念在 2024 年前基本停留在纸面上。2026 年发生了变化——OFC 2026（3 月）成了 NPO 产品的集中发布场，多家厂商展出实际硬件而非概念图。
+
+### 6.1 光引擎与模块厂商
 
 | 厂商 | NPO 产品 | 状态（2026） |
 |------|---------|------------|
-| Ranovus | NPO 模块，基于 Odin 微环调制 SiPh 平台 | 已向多家美国云厂商出货 |
-| NewPhotonics | 1.6T NPO Chiplet，单片 SiPh flip-chip，激光器集成在芯片上 | OFC 2026 发布，已有客户 |
-| 新易盛（Eoptolink） | 6.4T NPO 光模块，32 通道 × 200G，SiPh | OFC 2026 发布 |
-| Lightelligence | NPO 光互连，符合 OIF 3.2T CPO 标准，贴近 GPU/NPU/Switch 共基板 | OFC 2026 展示 |
-| 阿里巴巴 | 3.2T NPO（Q3 2026 试点部署）；6.4T NPO（2027 年 9 月目标） | Beta 测试完成 |
+| **光迅科技（Accelink）** | 全球首款 3.2T SiPh 单模 NPO，与国内头部云厂商完成全系统验证；同步展出 6.4T NPO（32×200G）和 3.2T VCSEL NPO（短距多模，50 m） | OFC 2026 展出，3.2T 已通过系统验证 |
+| **华工正源** | 与阿里云联合发布全球首款 3.2T NPO 模块，产品成熟度 80–90%；XPO MSA 创始成员 | OFC 2026 展出 |
+| **新易盛（Eoptolink）** | 6.4T NPO 光模块，32 通道 × 200G，SiPh | OFC 2026 发布 |
+| **易飞扬（GIGALIGHT）** | 1.6T DR16 NPO 线性硅光引擎，socket 式封装，LPO 直驱（去 DSP），16×100G PAM4，功耗 &lt;16 W，500 m 传输距离 | OFC 2026 演示，第二代 1.6T 和 3.2T NPO 研发中 |
+| **Ranovus** | NPO 模块，基于 Odin 微环调制 SiPh 平台 | 已向多家美国云厂商出货 |
+| **NewPhotonics** | NPC50503 1.6T NPO Chiplet，单片 SiPh flip-chip，激光器异质集成在芯片上，224 Gbps PAM4 | OFC 2026 发布，已有客户 |
+| **Lightelligence** | NPO 光互连，符合 OIF 3.2T CPO 标准，贴近 GPU/NPU/Switch 共基板 | OFC 2026 展示 |
+| **Lightmatter** | 2026 年 6 月加入 NVIDIA NVLink Fusion 生态，Passage® CPO/NPO 平台，3D 堆叠硅光引擎，双向光互连，声称减少 50% 光纤和连接器需求 | Computex 2026 发布 |
+| **剑桥科技** | 3.2T / 6.4T / 7.2T NPO/CPO 硅光引擎取得阶段性进展，ELSFP 外置光源研发中 | 研发阶段 |
+| **芯德半导体** | 全球第一代 NPO Daisy-Chain 样品交付，预计 2026 年中 NPO 新品量产导入 | 样品阶段 |
 
-Ciena、Coherent、华为、腾讯也在 IPEC 2026 年 5 月的 NPO 专题会上公布了各自路线图。LightCounting 同期报告将 NPO 定位为"当前最实用的规模化部署方案"——比 CPO 保留了更多模块化特征，比可插拔更省电。
+### 6.2 云厂商部署时间线
 
-**目前公开的 NPO 方案全部基于 SiPh + CW-DFB 激光器**，和新易盛、中际旭创的可插拔 SiPh 模块用的是同一类激光器芯片。NPO 没有创造出新的激光器品类——它用的是既有供应链里的同一批 InP CW-DFB 芯片。
+| 厂商 | 计划 |
+|------|------|
+| **阿里巴巴** | 3.2T NPO 测试完成，Q3 2026 试点部署；6.4T NPO Alpha 样品目标 2027 年 9 月 |
+| **腾讯** | 已验证 3.2T VCSEL NPO 和 SiPh NPO 方案，2026 Q4 正式推出 3.2T NPO 并扩展商业部署；Humboldt 交换机已商用部署 |
+| **锐捷网络** | 25.6T / 51.2T NPO 冷板式液冷交换机已商用 |
+
+### 6.3 制造产能布局
+
+- **CIG（剑桥工业集团）+ ML&S Group**：2026 年 3 月成立合资公司，投资 5600 万美元在德州达拉斯和墨西哥建 NPO 量产基地，聚焦 800G–6.4T NPO 方案、SiPh PIC 和 CW 激光器后端工艺，服务北美云厂商
+- **高明铁**：精密耦光设备受惠 NPO 光收发模组量产，2026 年全年营运看涨
+- **台积电 COUPE**：Gen1 2026 H2 量产，Gen2 2027 Q4 量产——COUPE 虽定位 CPO，其硅中介层和混合键合工艺同样支撑 NPO 引擎的高密度封装
+
+### 6.4 标准化进展
+
+- **ODCC**：已发布 3.2T NPO 规范
+- **OIF**：正在制定 6.4T / 12.8T NPO 标准，基础版本 2026 H2 定稿，正式版预计 2027 年
+- **IPEC**：2026 年 5 月与 LightCounting 联合举办 NPO 专题研讨会，Ciena、Coherent、华为、腾讯、阿里巴巴、Ranovus 公布路线图
+
+### 6.5 激光器方案与路线分歧
+
+目前公开的 NPO 方案全部基于 **SiPh + CW-DFB** 激光器（和可插拔 SiPh 模块是同一品类），但在 3.2T 档次出现了路线分歧：
+
+- **SiPh 路线**（光迅 3.2T NPO、新易盛 6.4T NPO）：带宽密度和通道数优势，适合 6.4T 以上。多通道 SiPh 调制器 + 单颗或多颗 CW-DFB 供光
+- **VCSEL 路线**（光迅 3.2T VCSEL NPO、腾讯已验证）：多模短距（~50 m），结构更简单、成本更低、无需外部 CW 激光器。VCSEL 阵列直接调制，适合机架内 GPU 互联
+
+行业共识是 3.2T 以下 VCSEL 可行，6.4T 以上 SiPh 占优。二者在未来 3–5 年内共存，不构成互相替代。
+
+NPO 没有创造出新的激光器品类——它所使用的 CW-DFB 和 VCSEL 芯片都在既有供应链内。NPO 的增量意义在于**扩大了这些既有芯片的市场容量**，对芯片厂商不构成重新设计产品的压力。
 
 ## 7. 对激光器芯片厂商的意义
 
@@ -164,10 +198,13 @@ Ciena、Coherent、华为、腾讯也在 IPEC 2026 年 5 月的 NPO 专题会上
 - LightCounting, September 2025 Ethernet Optics Report
 - Yole Intelligence, Silicon Photonics Market Forecast, 2025
 
-**NPO 产品**
+**NPO 产品与产业链**
 
-- NewPhotonics: Industry-First Serviceable NPO Chiplet Solution, January 2026
-- Eoptolink: 6.4T NPO Optical Module at OFC 2026
-- Lightelligence: NPO Optical Interconnect at OFC 2026
-- IPEC NPO Webinar, May 2026 (Alibaba, Tencent, Ciena, Coherent, Huawei, Ranovus)
+- 光迅科技，OFC 2026: 3.2T SiPh NPO 全系统验证
+- 华工正源，OFC 2026: 3.2T NPO 与阿里云联合发布
+- GIGALIGHT: 1.6T DR16 NPO Linear SiPh Engine, March 2026
+- Lightmatter: NVIDIA NVLink Fusion Ecosystem Partnership, June 2026
+- CIG + ML&S Group JV: NPO Manufacturing, March 2026
+- ODCC 3.2T NPO 规范
+- IPEC + LightCounting NPO Webinar, May 2026 (Alibaba, Tencent, Ciena, Coherent, Huawei, Ranovus)
 - LightCounting, May 2026 Newsletter
