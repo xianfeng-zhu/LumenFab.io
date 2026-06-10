@@ -1,51 +1,32 @@
 # Page Template
 
-Use this template for main content pages.
+## Core Structure
 
-```markdown
-# Page Title
+Each page should follow a problem-driven flow:
 
-## One-Sentence Answer
+1. **Start with why** — what problem does this concept solve, and why does the reader need to understand it at this point?
+2. **Explain the mechanism** — physical principle, material constraint, process step, or design tradeoff. Interleave physics and engineering naturally; don't force them into separate sections.
+3. **Connect cause to effect** — for each variable or process step, show how it flows to a device metric, system constraint, or reliability outcome.
+4. **Surface barriers** — end with what makes this layer hard to do well at scale: process control difficulty, yield sensitivity, reliability risk, know-how accumulation, or feedback loops from test data.
 
-State the concept directly.
+## Optional Sections
 
-## Why This Exists
+Use these only when they serve the page:
 
-Explain the problem this concept solves.
+- **Comparison table** — compress alternatives, tradeoffs, or competing approaches.
+- **Common misconceptions** — correct a widespread confusion that would otherwise block understanding.
+- **Key metrics** — when a page introduces measurable quantities the reader will encounter later.
 
-## Prerequisites
+## Page Navigation
 
-- Concept A
-- Concept B
+End every page with a navigation footer pointing to the previous and next page in sequence, plus a link back to the parent hub:
 
-## Physical Principle
-
-Explain the lowest useful physical mechanism.
-
-## Engineering Implementation
-
-Explain how the principle becomes a device, process, circuit, package, module, or system.
-
-## Key Metrics
-
-- Metric 1
-- Metric 2
-- Metric 3
-
-## Common Misconceptions
-
-- Misconception 1
-- Misconception 2
-
-## How It Connects
-
-Previous layer:
-
-Next layer:
-
-## Short Version
-
-Compress the page into 3-5 sentences.
+```html
+<p class="page-nav">
+  <a href="../previous/">← Previous</a>
+  <a href="../">↑ Hub</a>
+  <a href="../next/">Next →</a>
+</p>
 ```
 
 ## Writing Rules
