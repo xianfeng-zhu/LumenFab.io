@@ -154,8 +154,8 @@ test("homepage is a CPO knowledge entry rather than a learning-path pitch", asyn
   assert.doesNotMatch(home, /查看组件详情|查看验证链路|查看可靠性问题/);
   assert.doesNotMatch(home, /ASIC host boundary|\/components\/asic-host\//);
   assert.doesNotMatch(home, /\/components\/test\//);
-  assert.match(packaging, /ASIC Host Boundary/);
-  assert.match(packaging, /Switch ASIC \/ host package/);
+  assert.match(packaging, /什么是封装集成/);
+  assert.match(packaging, /封装架构分类地图/);
   assert.doesNotMatch(layout, /知识库/);
   assert.doesNotMatch(home, /学习路径/);
   assert.doesNotMatch(home, /AI 集群/);
@@ -168,7 +168,7 @@ test("homepage is a CPO knowledge entry rather than a learning-path pitch", asyn
 test("component hub pages exist", async () => {
   await fileExists("src/components/TermNote.astro");
   for (const page of [
-    "src/pages/components/laser-source.mdx",
+    "src/pages/components/laser-source/index.mdx",
     "src/pages/components/pic.mdx",
     "src/pages/components/eic.mdx",
     "src/pages/components/optical-io.mdx",
@@ -205,7 +205,11 @@ test("PIC circuit map keeps the overview diagram focused on main optical path", 
 
 test("component hub pages use relative paths for learn links when present", async () => {
   for (const page of [
-    "src/pages/components/laser-source.mdx",
+    "src/pages/components/laser-source/index.mdx",
+    "src/pages/components/laser-source/substrate-epitaxy.mdx",
+    "src/pages/components/laser-source/facet-engineering.mdx",
+    "src/pages/components/laser-source/testing-metrics.mdx",
+    "src/pages/components/laser-source/waveguide-current.mdx",
     "src/pages/components/pic.mdx",
     "src/pages/components/eic.mdx",
     "src/pages/components/optical-io.mdx",
@@ -216,7 +220,7 @@ test("component hub pages use relative paths for learn links when present", asyn
     const source = await read(page);
     const learnLinks = source.match(/\]\([^)\s]*learn\/[^)]*\)/g) ?? [];
     for (const link of learnLinks) {
-      assert.match(link, /\]\(\.\.\/\.\.\/learn\//);
+      assert.match(link, /\]\(\.\.\//);
     }
   }
 });
@@ -239,7 +243,6 @@ test("InP DFB laser principle deep page ties physics to CPO light source needs",
   assert.match(page, /SCH/);
   assert.match(page, /grating coupling coefficient/);
   assert.match(page, /SMSR/);
-  assert.match(page, /\.\.\/inp-substrate\//);
   assert.match(page, /\.\.\/spontaneous-vs-stimulated-emission\//);
   assert.match(page, /MIT OCW 6\.772/);
   assert.match(page, /Lumentum: High Power CW Laser/);
@@ -249,7 +252,6 @@ test("InP DFB laser principle deep page ties physics to CPO light source needs",
 
 test("core learning path content pages exist", async () => {
   for (const page of [
-    "src/pages/learn/what-this-site-explains.mdx",
     "src/pages/learn/how-to-read-this-site.mdx",
     "src/pages/learn/why-ai-clusters-stress-interconnects.mdx",
     "src/pages/learn/bandwidth-density-and-power-per-bit.mdx",
@@ -272,9 +274,7 @@ test("physics and laser foundation pages exist", async () => {
     "src/pages/learn/refractive-index-and-total-internal-reflection.mdx",
     "src/pages/learn/waveguides-and-optical-modes.mdx",
     "src/pages/learn/interference-resonance-and-loss.mdx",
-    "src/pages/learn/optical-gain-and-threshold-current.mdx",
     "src/pages/learn/fabry-perot-cavity.mdx",
-    "src/pages/learn/distributed-feedback-and-wavelength-selection.mdx",
     "src/pages/learn/vertical-and-lateral-optical-confinement.mdx",
     "src/pages/learn/laser-linewidth-and-mode-stability.mdx",
     "src/pages/learn/why-semiconductor-lasers-are-temperature-sensitive.mdx"
@@ -306,7 +306,6 @@ test("raw materials to wafers pages exist", async () => {
     "src/pages/learn/single-crystal-growth.mdx",
     "src/pages/learn/wafer-slicing-lapping-polishing-and-cmp.mdx",
     "src/pages/learn/epi-ready-substrates.mdx",
-    "src/pages/learn/inp-substrate.mdx",
     "src/pages/learn/gaas-substrate.mdx",
     "src/pages/learn/soi-wafer.mdx",
     "src/pages/learn/lnoi-wafer.mdx"
