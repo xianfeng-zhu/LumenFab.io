@@ -1,8 +1,8 @@
 ---
 const c = {
-  pcb:"#334155",bga:"#94a3b8",substrate:"#475569",asicDie:"#1e40af",
-  heatsink:"#94a3b8",engine:"#0d9488",eic:"#7c3aed",pic:"#0d9488",
-  fiber:"#ef4444",trace:"#f97316",socket:"#78716c",bolt:"#57534e",elsfp:"#d97706",
+  pcb: "#334155", substrate: "#475569", asicDie: "#1e40af",
+  heatsink: "#94a3b8", eic: "#7c3aed", pic: "#0d9488",
+  fiber: "#ef4444", trace: "#f97316", socket: "#78716c", bolt: "#57534e", elsfp: "#d97706",
 };
 const summary = "ASIC 通过 LGA 插座独立封装在 PCB 上，光引擎模块放在附近 PCB 上（50–150 mm 外）。ELSFP 在前面板供光，通过板上光纤路由到各引擎。";
 ---
@@ -10,65 +10,61 @@ const summary = "ASIC 通过 LGA 插座独立封装在 PCB 上，光引擎模块
 <figure class="pkg-diag">
   <figcaption><strong>② NPO 近封装光学</strong><span>{summary}</span></figcaption>
   <div class="pkg-diag__wrap">
-    <svg viewBox="0 0 960 240" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 960 260" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="g-npo" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color={c.heatsink}/></linearGradient>
+        <linearGradient id="g-npo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#cbd5e1"/>
+          <stop offset="100%" stop-color={c.heatsink}/>
+        </linearGradient>
       </defs>
 
-      <!-- ========== PCB（共享底板）========== -->
-      <rect x="20" y="195" width="920" height="12" fill={c.pcb} rx="1"/>
+      <!-- 系统主板 PCB — ASIC 和 OE 都在这块板上，但各自独立封装 -->
+      <rect x="20" y="220" width="920" height="18" fill={c.pcb} rx="2"/>
+      <text x="480" y="232" text-anchor="middle" font-size="11" fill="#94a3b8">系统主板 (PCB) — ASIC 与光引擎各自独立封装</text>
 
-      <!-- ========== ASIC package（左侧，独立封装）========== -->
-      <rect x="80" y="178" width="90" height="16" fill={c.socket} rx="2"/>
-      <text x="125" y="189" text-anchor="middle" font-size="8" fill="#fff" font-weight="600">LGA 插座</text>
-      <circle cx="84" cy="174" r="3.5" fill={c.bolt}/>
-      <circle cx="166" cy="174" r="3.5" fill={c.bolt}/>
-      <rect x="86" y="148" width="78" height="30" fill={c.substrate} rx="3"/>
-      <rect x="94" y="118" width="62" height="30" fill={c.asicDie} rx="3"/>
-      <text x="125" y="137" text-anchor="middle" font-size="12" fill="#fff" font-weight="600">ASIC</text>
-      <rect x="82" y="78" width="86" height="40" fill="url(#g-npo)" rx="3"/>
-      <text x="125" y="102" text-anchor="middle" font-size="11" fill="#475569">散热器</text>
+      <!-- ASIC 封装塔（左侧，独立） -->
+      <rect x="100" y="206" width="100" height="14" fill={c.socket} rx="2"/>
+      <text x="150" y="216" text-anchor="middle" font-size="8" fill="#fff">LGA 插座</text>
+      <circle cx="104" cy="202" r="3.5" fill={c.bolt}/>
+      <circle cx="196" cy="202" r="3.5" fill={c.bolt}/>
+      <rect x="110" y="174" width="80" height="32" fill={c.substrate} rx="3"/>
+      <text x="150" y="194" text-anchor="middle" font-size="8" fill="#cbd5e1">ASIC 封装基板</text>
+      <rect x="120" y="142" width="60" height="32" fill={c.asicDie} rx="3"/>
+      <text x="150" y="162" text-anchor="middle" font-size="12" fill="#fff" font-weight="600">ASIC</text>
+      <rect x="105" y="98" width="90" height="44" fill="url(#g-npo)" rx="3"/>
+      <text x="150" y="124" text-anchor="middle" font-size="10" fill="#475569">散热器</text>
 
-      <!-- ========== 电路径：~50 mm PCB 走线 ========== -->
-      <path d="M170,187 L295,187" stroke={c.trace} stroke-width="2" fill="none" stroke-dasharray="6,3"/>
-      <text x="232" y="183" text-anchor="middle" font-size="10" fill={c.trace}>~50 mm PCB 走线</text>
+      <!-- 电路径：PCB 走线 -->
+      <path d="M200,229 L400,229" stroke={c.trace} stroke-width="2.5" fill="none" stroke-dasharray="8,4"/>
+      <text x="300" y="224" text-anchor="middle" font-size="11" fill={c.trace}>~50 mm PCB 走线</text>
 
-      <!-- ========== 光引擎 1（右侧，也独立在 PCB 上）========== -->
-      <rect x="300" y="178" width="80" height="16" fill={c.substrate} rx="2"/>
-      <rect x="308" y="158" width="32" height="20" fill={c.eic} rx="2"/>
-      <text x="324" y="172" text-anchor="middle" font-size="9" fill="#fff">EIC</text>
-      <rect x="342" y="158" width="32" height="20" fill={c.pic} rx="2"/>
-      <text x="358" y="172" text-anchor="middle" font-size="9" fill="#fff">PIC</text>
-      <rect x="300" y="134" width="80" height="24" fill="url(#g-npo)" rx="2"/>
+      <!-- 光引擎封装塔（右侧，独立） -->
+      <rect x="400" y="206" width="100" height="14" fill={c.substrate} rx="2"/>
+      <text x="450" y="216" text-anchor="middle" font-size="8" fill="#cbd5e1">引擎封装基板</text>
+      <rect x="405" y="172" width="42" height="34" fill={c.eic} rx="2"/>
+      <text x="426" y="192" text-anchor="middle" font-size="10" fill="#fff">EIC</text>
+      <rect x="453" y="172" width="42" height="34" fill={c.pic} rx="2"/>
+      <text x="474" y="192" text-anchor="middle" font-size="10" fill="#fff">PIC</text>
+      <rect x="400" y="138" width="100" height="34" fill="url(#g-npo)" rx="2"/>
+      <text x="450" y="158" text-anchor="middle" font-size="10" fill="#475569">散热器</text>
 
-      <!-- ========== 光引擎 2 ========== -->
-      <rect x="480" y="178" width="80" height="16" fill={c.substrate} rx="2"/>
-      <rect x="488" y="158" width="32" height="20" fill={c.eic} rx="2"/>
-      <text x="504" y="172" text-anchor="middle" font-size="9" fill="#fff">EIC</text>
-      <rect x="522" y="158" width="32" height="20" fill={c.pic} rx="2"/>
-      <text x="538" y="172" text-anchor="middle" font-size="9" fill="#fff">PIC</text>
-      <rect x="480" y="134" width="80" height="24" fill="url(#g-npo)" rx="2"/>
+      <!-- 光纤出光 -->
+      <line x1="500" y1="189" x2="540" y2="189" stroke={c.fiber} stroke-width="2"/>
 
-      <!-- ========== 光纤出光 ========== -->
-      <line x1="340" y1="168" x2="420" y2="168" stroke={c.fiber} stroke-width="2"/>
-      <line x1="520" y1="168" x2="600" y2="168" stroke={c.fiber} stroke-width="2"/>
-
-      <!-- ========== ELSFP 前面板供光 ========== -->
-      <rect x="820" y="210" width="45" height="18" fill={c.elsfp} rx="4"/>
-      <text x="842" y="222" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">ELSFP</text>
-      <path d="M820,219 L750,219 L750,168 L420,168" stroke={c.fiber} stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
-      <path d="M820,219 L780,219 L780,168 L600,168" stroke={c.fiber} stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+      <!-- ELSFP 前面板供光 -->
+      <rect x="780" y="235" width="50" height="18" fill={c.elsfp} rx="4"/>
+      <text x="805" y="247" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">ELSFP</text>
+      <path d="M780,244 L540,244 L540,189" stroke={c.fiber} stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
 
       <!-- 前面板 -->
-      <line x1="880" y1="130" x2="880" y2="215" stroke="#475569" stroke-width="1.2" stroke-dasharray="4,4"/>
-      <text x="880" y="124" text-anchor="middle" font-size="10" fill="#475569">前面板</text>
-      <line x1="875" y1="219" x2="881" y2="219" stroke={c.fiber} stroke-width="2"/>
+      <line x1="850" y1="140" x2="850" y2="240" stroke="#475569" stroke-width="1.5" stroke-dasharray="6,4"/>
+      <text x="850" y="134" text-anchor="middle" font-size="11" fill="#475569">前面板</text>
 
       <!-- 图例 -->
-      <rect x="20" y="225" width="10" height="10" fill={c.socket} rx="1"/><text x="34" y="234" font-size="9" fill="#64748b">LGA插座</text>
-      <rect x="92" y="225" width="10" height="10" fill={c.elsfp} rx="1"/><text x="106" y="234" font-size="9" fill="#64748b">ELSFP</text>
-      <rect x="160" y="225" width="10" height="10" fill={c.fiber} rx="1"/><text x="174" y="234" font-size="9" fill="#64748b">光纤</text>
-      <rect x="228" y="225" width="10" height="10" fill={c.trace} rx="1"/><text x="242" y="234" font-size="9" fill="#64748b">PCB走线</text>
+      <rect x="20" y="248" width="10" height="10" fill={c.socket} rx="1"/><text x="34" y="257" font-size="9" fill="#64748b">LGA插座</text>
+      <rect x="92" y="248" width="10" height="10" fill={c.elsfp} rx="1"/><text x="106" y="257" font-size="9" fill="#64748b">ELSFP</text>
+      <rect x="160" y="248" width="10" height="10" fill={c.fiber} rx="1"/><text x="174" y="257" font-size="9" fill="#64748b">光纤</text>
+      <rect x="228" y="248" width="10" height="10" fill={c.trace} rx="1"/><text x="242" y="257" font-size="9" fill="#64748b">PCB走线</text>
     </svg>
   </div>
 </figure>

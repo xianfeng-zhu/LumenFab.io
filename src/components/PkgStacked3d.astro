@@ -1,8 +1,8 @@
 ---
 const c = {
-  pcb:"#334155",bga:"#94a3b8",substrate:"#475569",interposer:"#64748b",tsv:"#fbbf24",
-  asicDie:"#1e40af",heatsink:"#94a3b8",engine:"#0d9488",eic:"#7c3aed",pic:"#0d9488",
-  fiber:"#ef4444",trace:"#f97316",hybrid:"#f59e0b",hbm:"#3b82f6",c4bump:"#cbd5e1",elsfp:"#d97706",
+  pcb: "#334155", bga: "#94a3b8", substrate: "#475569", interposer: "#64748b", tsv: "#fbbf24",
+  asicDie: "#1e40af", heatsink: "#94a3b8", engine: "#0d9488", eic: "#7c3aed", pic: "#0d9488",
+  fiber: "#ef4444", trace: "#f97316", hybrid: "#f59e0b", hbm: "#3b82f6", c4bump: "#cbd5e1", elsfp: "#d97706",
 };
 const summary = "EIC 通过 SoIC 混合键合垂直叠在 PIC 上方。COUPE 引擎与 ASIC、HBM 共享 CoWoS 硅中介层（带 TSV），光从顶部垂直耦合（VBC），激光由 ELSFP 外置提供。";
 ---
@@ -10,7 +10,7 @@ const summary = "EIC 通过 SoIC 混合键合垂直叠在 PIC 上方。COUPE 引
 <figure class="pkg-diag">
   <figcaption><strong>⑤ 3D 堆叠光学 (TSMC COUPE)</strong><span>{summary}</span></figcaption>
   <div class="pkg-diag__wrap">
-    <svg viewBox="0 0 960 240" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 960 260" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="bg-3d" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.8" fill={c.bga}/></pattern>
         <pattern id="tsv-3d" width="12" height="10" patternUnits="userSpaceOnUse"><line x1="6" y1="0" x2="6" y2="7" stroke={c.tsv} stroke-width="1.5" opacity="0.5"/></pattern>
@@ -18,83 +18,84 @@ const summary = "EIC 通过 SoIC 混合键合垂直叠在 PIC 上方。COUPE 引
         <linearGradient id="g-3d" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#cbd5e1"/><stop offset="100%" stop-color={c.heatsink}/></linearGradient>
       </defs>
 
-      <!-- PCB -->
-      <rect x="20" y="195" width="920" height="12" fill={c.pcb} rx="1"/>
+      <!-- 系统主板 PCB -->
+      <rect x="20" y="220" width="920" height="18" fill={c.pcb} rx="2"/>
+      <text x="480" y="232" text-anchor="middle" font-size="11" fill="#94a3b8">系统主板 (PCB)</text>
       <!-- BGA -->
-      <rect x="40" y="180" width="880" height="14" fill="url(#bg-3d)"/>
+      <rect x="40" y="206" width="880" height="14" fill="url(#bg-3d)"/>
       <!-- 有机基板 -->
-      <rect x="50" y="165" width="860" height="15" fill={c.substrate} rx="2"/>
-      <text x="480" y="175" text-anchor="middle" font-size="7" fill="#cbd5e1">有机基板</text>
+      <rect x="50" y="190" width="860" height="16" fill={c.substrate} rx="2"/>
+      <text x="480" y="201" text-anchor="middle" font-size="7" fill="#cbd5e1">有机基板</text>
       <!-- C4 bumps -->
-      <rect x="55" y="155" width="850" height="10" fill="url(#c4-3d)"/>
-      <text x="480" y="162" text-anchor="middle" font-size="6.5" fill="#64748b">C4 bump</text>
+      <rect x="55" y="180" width="850" height="10" fill="url(#c4-3d)"/>
+      <text x="480" y="187" text-anchor="middle" font-size="6.5" fill="#64748b">C4 bump</text>
 
       <!-- CoWoS 硅中介层（共享） -->
-      <rect x="50" y="118" width="860" height="37" fill={c.interposer} rx="3"/>
-      <rect x="60" y="124" width="840" height="25" fill="url(#tsv-3d)"/>
-      <text x="480" y="142" text-anchor="middle" font-size="10" fill="#cbd5e1" font-weight="600">CoWoS 硅中介层 (带 TSV)</text>
+      <rect x="50" y="145" width="860" height="35" fill={c.interposer} rx="3"/>
+      <rect x="60" y="151" width="840" height="23" fill="url(#tsv-3d)"/>
+      <text x="480" y="167" text-anchor="middle" font-size="10" fill="#cbd5e1" font-weight="600">CoWoS 硅中介层 (带 TSV) — ASIC、HBM、光引擎共享</text>
 
-      <!-- ASIC（在中介层上） -->
-      <rect x="80" y="96" width="130" height="22" fill={c.asicDie} rx="2"/>
-      <text x="145" y="110" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">ASIC</text>
+      <!-- ASIC -->
+      <rect x="80" y="123" width="130" height="22" fill={c.asicDie} rx="2"/>
+      <text x="145" y="138" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">ASIC</text>
 
-      <!-- HBM（在中介层上） -->
-      <rect x="240" y="90" width="70" height="28" fill={c.hbm} rx="2"/>
-      <text x="275" y="108" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">HBM</text>
-      <rect x="320" y="90" width="70" height="28" fill={c.hbm} rx="2"/>
-      <text x="355" y="108" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">HBM</text>
+      <!-- HBM -->
+      <rect x="240" y="117" width="70" height="28" fill={c.hbm} rx="2"/>
+      <text x="275" y="135" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">HBM</text>
+      <rect x="320" y="117" width="70" height="28" fill={c.hbm} rx="2"/>
+      <text x="355" y="135" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">HBM</text>
 
-      <!-- 堆叠光引擎 1：EIC 叠在 PIC 上方 -->
-      <g transform="translate(620,58)">
+      <!-- 堆叠光引擎 1：EIC 垂直叠在 PIC 上方 -->
+      <g transform="translate(620,80)">
         <!-- C4 连接中介层 -->
-        <rect x="0" y="58" width="22" height="8" fill="url(#c4-3d)"/>
+        <rect x="0" y="63" width="22" height="8" fill="url(#c4-3d)"/>
         <!-- PIC -->
-        <rect x="2" y="42" width="90" height="16" fill={c.pic} rx="2"/>
-        <text x="47" y="53" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">PIC</text>
+        <rect x="2" y="46" width="90" height="17" fill={c.pic} rx="2"/>
+        <text x="47" y="57" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">PIC</text>
         <!-- 混合键合层 -->
-        <rect x="5" y="38" width="84" height="4" fill={c.hybrid} rx="0.5"/>
-        <text x="47" y="34" text-anchor="middle" font-size="6.5" fill={c.hybrid} font-weight="700">SoIC 混合键合</text>
+        <rect x="5" y="42" width="84" height="4" fill={c.hybrid} rx="0.5"/>
+        <text x="47" y="38" text-anchor="middle" font-size="6.5" fill={c.hybrid} font-weight="700">SoIC 混合键合</text>
         <!-- EIC（在上方） -->
-        <rect x="4" y="14" width="86" height="24" fill={c.eic} rx="2"/>
-        <text x="47" y="29" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">EIC</text>
+        <rect x="4" y="14" width="86" height="28" fill={c.eic} rx="2"/>
+        <text x="47" y="31" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">EIC</text>
       </g>
       <!-- VBC 垂直耦合出光 -->
-      <text x="665" y="50" text-anchor="middle" font-size="7" fill={c.fiber}>↑ VBC 垂直耦合</text>
-      <ellipse cx="665" cy="44" rx="9" ry="3" fill={c.fiber} opacity="0.4"/>
-      <path d="M665,58 L665,40" stroke={c.fiber} stroke-width="1.5"/>
-      <line x1="665" y1="40" x2="880" y2="40" stroke={c.fiber} stroke-width="1.5"/>
+      <text x="665" y="72" text-anchor="middle" font-size="7" fill={c.fiber}>↑ VBC 垂直耦合</text>
+      <ellipse cx="665" cy="66" rx="9" ry="3" fill={c.fiber} opacity="0.4"/>
+      <path d="M665,80 L665,62" stroke={c.fiber} stroke-width="1.5"/>
+      <line x1="665" y1="62" x2="880" y2="62" stroke={c.fiber} stroke-width="1.5"/>
 
       <!-- 堆叠光引擎 2 -->
-      <g transform="translate(780,58)">
-        <rect x="0" y="58" width="22" height="8" fill="url(#c4-3d)"/>
-        <rect x="2" y="42" width="80" height="16" fill={c.pic} rx="2"/>
-        <text x="42" y="53" text-anchor="middle" font-size="6.5" fill="#fff">PIC</text>
-        <rect x="5" y="38" width="74" height="4" fill={c.hybrid} rx="0.5"/>
-        <rect x="4" y="14" width="76" height="24" fill={c.eic} rx="2"/>
-        <text x="42" y="29" text-anchor="middle" font-size="6.5" fill="#fff">EIC</text>
+      <g transform="translate(780,80)">
+        <rect x="0" y="63" width="22" height="8" fill="url(#c4-3d)"/>
+        <rect x="2" y="46" width="80" height="17" fill={c.pic} rx="2"/>
+        <text x="42" y="57" text-anchor="middle" font-size="6.5" fill="#fff">PIC</text>
+        <rect x="5" y="42" width="74" height="4" fill={c.hybrid} rx="0.5"/>
+        <rect x="4" y="14" width="76" height="28" fill={c.eic} rx="2"/>
+        <text x="42" y="31" text-anchor="middle" font-size="6.5" fill="#fff">EIC</text>
       </g>
-      <text x="820" y="50" text-anchor="middle" font-size="7" fill={c.fiber}>↑ VBC</text>
-      <ellipse cx="820" cy="44" rx="8" ry="3" fill={c.fiber} opacity="0.4"/>
-      <path d="M820,58 L820,40" stroke={c.fiber} stroke-width="1.5"/>
+      <text x="820" y="72" text-anchor="middle" font-size="7" fill={c.fiber}>↑ VBC</text>
+      <ellipse cx="820" cy="66" rx="8" ry="3" fill={c.fiber} opacity="0.4"/>
+      <path d="M820,80 L820,62" stroke={c.fiber} stroke-width="1.5"/>
 
-      <!-- 中介层内部走线：ASIC ↔ 光引擎 -->
-      <path d="M210,137 L620,137" stroke={c.trace} stroke-width="1" fill="none" stroke-dasharray="3,2" opacity="0.5"/>
-      <text x="420" y="150" text-anchor="middle" font-size="8" fill={c.trace}>中介层内部 RDL 走线</text>
+      <!-- 中介层内部走线 -->
+      <path d="M210,162 L620,162" stroke={c.trace} stroke-width="1" fill="none" stroke-dasharray="3,2" opacity="0.5"/>
+      <text x="420" y="175" text-anchor="middle" font-size="8" fill={c.trace}>中介层内部 RDL 走线</text>
 
       <!-- TIM -->
-      <rect x="75" y="84" width="750" height="3" fill={c.trace} opacity="0.3"/>
+      <rect x="75" y="108" width="750" height="3" fill={c.trace} opacity="0.3"/>
 
       <!-- ELSFP 外置供光 -->
-      <rect x="400" y="210" width="160" height="16" fill={c.elsfp} opacity="0.15" rx="3"/>
-      <text x="480" y="221" text-anchor="middle" font-size="7" fill="#64748b">← ELSFP 外置供光</text>
-      <path d="M400,210 L400,175 L620,175 L620,108" stroke={c.fiber} stroke-width="1" fill="none" stroke-dasharray="4,3"/>
+      <rect x="400" y="240" width="160" height="14" fill={c.elsfp} opacity="0.15" rx="3"/>
+      <text x="480" y="250" text-anchor="middle" font-size="7" fill="#64748b">← ELSFP 外置供光</text>
+      <path d="M400,240 L400,200 L620,200 L620,143" stroke={c.fiber} stroke-width="1" fill="none" stroke-dasharray="4,3"/>
 
       <!-- 图例 -->
-      <rect x="20" y="226" width="10" height="10" fill={c.interposer} rx="1"/><text x="34" y="235" font-size="9" fill="#64748b">中介层</text>
-      <rect x="92" y="226" width="10" height="10" fill={c.hybrid} rx="1"/><text x="106" y="235" font-size="9" fill="#64748b">混合键合</text>
-      <rect x="180" y="226" width="10" height="10" fill={c.hbm} rx="1"/><text x="194" y="235" font-size="9" fill="#64748b">HBM</text>
-      <rect x="242" y="226" width="10" height="10" fill={c.eic} rx="1"/><text x="256" y="235" font-size="9" fill="#64748b">EIC</text>
-      <rect x="298" y="226" width="10" height="10" fill={c.pic} rx="1"/><text x="312" y="235" font-size="9" fill="#64748b">PIC</text>
+      <rect x="20" y="248" width="10" height="10" fill={c.interposer} rx="1"/><text x="34" y="257" font-size="9" fill="#64748b">中介层</text>
+      <rect x="92" y="248" width="10" height="10" fill={c.hybrid} rx="1"/><text x="106" y="257" font-size="9" fill="#64748b">混合键合</text>
+      <rect x="180" y="248" width="10" height="10" fill={c.hbm} rx="1"/><text x="194" y="257" font-size="9" fill="#64748b">HBM</text>
+      <rect x="242" y="248" width="10" height="10" fill={c.eic} rx="1"/><text x="256" y="257" font-size="9" fill="#64748b">EIC</text>
+      <rect x="298" y="248" width="10" height="10" fill={c.pic} rx="1"/><text x="312" y="257" font-size="9" fill="#64748b">PIC</text>
     </svg>
   </div>
 </figure>
