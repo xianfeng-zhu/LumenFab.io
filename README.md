@@ -1,8 +1,8 @@
 # LumenFab.io
 
-LumenFab.io is a Chinese learning site for AI data-center optics.
+LumenFab.io is a structured knowledge base for AI data-center optics.
 
-The site is organized as a first-principles learning path:
+The site is organized as a structured knowledge map:
 
 ```text
 Need for optical interconnects
@@ -62,7 +62,7 @@ Use `.glb` for compact single-file delivery when possible. Do not rely on Git LF
 
 ## Design Rules
 
-- Optimize for learning dependency, not supply-chain order.
+- Optimize for conceptual dependency, not supply-chain order.
 - Explain the problem before naming the component.
 - Separate physics, engineering, product, and company layers.
 - Treat packaging and test as a first-class chapter.

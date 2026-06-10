@@ -3,7 +3,7 @@ import { chapters } from "../data/chapters";
 import { sitePath } from "../lib/paths";
 ---
 
-<nav class="chapter-nav" aria-label="学习路径">
+<nav class="chapter-nav" aria-label="章节导航">
   {chapters.map((chapter) => (
     <a class="chapter-link" href={sitePath(chapter.path)}>
       <span>{chapter.title}</span>

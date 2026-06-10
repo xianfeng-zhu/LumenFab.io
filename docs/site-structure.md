@@ -2,7 +2,7 @@
 
 ## Positioning
 
-LumenFab.io is a structured Chinese learning path for AI data-center optical interconnects.
+LumenFab.io is a structured knowledge base for AI data-center optical interconnects.
 
 The goal is to help a reader build a mental model from first principles:
 
@@ -21,7 +21,7 @@ Why optical interconnects matter
 
 Do not organize the first version by industrial supply chain.
 
-Supply-chain order starts from raw materials, but a learner needs another order:
+Supply-chain order starts from raw materials, but a reader needs another order:
 
 1. Understand why electrical interconnects hit limits.
 2. Understand what an optical link does.
@@ -113,7 +113,7 @@ Suggested pages:
 
 Purpose: move laser physics earlier than material supply chain.
 
-Reason: readers should first know what a laser needs before learning why InP, GaAs, and silicon play different roles.
+Reason: readers should first know what a laser needs before understanding why InP, GaAs, and silicon play different roles.
 
 Core ideas:
 
@@ -249,7 +249,7 @@ Suggested pages:
 
 ### 10. Packaging And Test
 
-Purpose: make packaging and test a first-class learning unit.
+Purpose: make packaging and test a first-class topic.
 
 Reason: many photonic devices work as demos but fail as products because coupling, thermal design, test time, reliability, and yield are hard.
 
@@ -364,9 +364,9 @@ Every core page should answer:
 
 Use three navigation paths:
 
-- Learning path: chapter order from 00 to 13.
+- Chapter order: from 00 to 13.
 - Stack map: jump by layer, from physics to system.
 - Glossary: jump by term.
 
-The first version should prioritize the learning path.
+The first version should prioritize the chapter order.
 

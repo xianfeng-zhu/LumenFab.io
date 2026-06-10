@@ -1,6 +1,6 @@
 # Page Template
 
-Use this template for core learning pages.
+Use this template for main content pages.
 
 ```markdown
 # Page Title

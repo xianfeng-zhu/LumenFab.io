@@ -4,7 +4,7 @@ Last updated: 2026-05-19
 
 ## Current State
 
-Status: V1 site scaffold, core learning path 00-02, physics/laser foundations 03-04, material platforms 05, raw materials to wafers 06, and the CPO component-entry homepage are deployed. Light source / laser supply now has a deeper map page, and the first InP / DFB laser principle deep page is being added with a professional source pack.
+Status: V1 site scaffold, core content 00-02, physics/laser foundations 03-04, material platforms 05, raw materials to wafers 06, and the CPO component-entry homepage are deployed. Light source / laser supply now has a deeper map page, and the first InP / DFB laser principle deep page is being added with a professional source pack.
 
 Repository:
 
@@ -44,7 +44,7 @@ Completed plan:
 - Marked V1 scaffold plan as completed.
 - Built Astro + MDX site scaffold.
 - Added flexible concept page layout.
-- Added learning path navigation.
+- Added chapter navigation.
 - Added sample pages:
   - one-page optics stack
   - copper vs optical links
@@ -79,7 +79,7 @@ Completed plan:
   - `src/pages/learn/lane-channel-and-wavelength.mdx`
   - `src/pages/learn/inside-a-transceiver.mdx`
   - `src/pages/learn/dr-fr-lr-and-psm-wdm.mdx`
-- Updated learning path navigation for 00-02.
+- Updated chapter navigation for 00-02.
 - Added physics and laser foundations research note:
   - `docs/research/v1-physics-and-laser-foundations/03-04-semiconductor-optics-and-laser-physics.md`
 - Created physics and laser foundations implementation plan:
@@ -99,7 +99,7 @@ Completed plan:
   - `src/pages/learn/vertical-and-lateral-optical-confinement.mdx`
   - `src/pages/learn/laser-linewidth-and-mode-stability.mdx`
   - `src/pages/learn/why-semiconductor-lasers-are-temperature-sensitive.mdx`
-- Updated learning path navigation for 03-04.
+- Updated chapter navigation for 03-04.
 - Added material-platform professional source notes:
   - `docs/research/v1-material-platforms/05-material-platforms-professional-sources.md`
 - Created material-platform implementation plan:
@@ -112,7 +112,7 @@ Completed plan:
   - `src/pages/learn/silicon-nitride-low-loss-passive-platform.mdx`
   - `src/pages/learn/lnoi-and-tfln.mdx`
   - `src/pages/learn/why-no-single-material-wins-everything.mdx`
-- Updated learning path navigation for 05.
+- Updated chapter navigation for 05.
 - Added raw-materials-to-wafers professional source pack and visual assets:
   - `docs/research/v1-raw-materials-to-wafers/06-raw-materials-to-wafers-professional-sources.md`
   - `docs/research/v1-raw-materials-to-wafers/images/`
@@ -133,7 +133,7 @@ Completed plan:
 - Added public original SVG figures for 06:
   - `public/figures/06-raw-to-wafer-flow.svg`
   - `public/figures/06-engineered-substrate-stacks.svg`
-- Updated learning path navigation for 06.
+- Updated chapter navigation for 06.
 - Reworked homepage around CPO component entrances:
   - `Light source / laser supply`
   - `PIC / optical circuit`
@@ -207,7 +207,7 @@ Expected current baseline after InP / DFB laser principle page:
 - Keep content pages flexible; do not force every knowledge point into one rigid template.
 - Use GitHub Pages for deployment.
 - Do not configure a custom domain yet.
-- Treat 3D as a first-class future teaching capability.
+- Treat 3D as a first-class future explanation capability.
 - Use pre-generated `.glb` / `.gltf` assets later.
 - Use `@google/model-viewer` for simple model display.
 - Use Three.js later for complex guided scenes, exploded views, hotspots, and animations.
@@ -217,7 +217,7 @@ Expected current baseline after InP / DFB laser principle page:
 - Source packs should include useful visual references and saved image assets.
 - Third-party reference images should stay in gitignored `reference-images/` folders for redraw / 3D-model guidance unless a later review explicitly approves publication.
 - Public repo must not store copyrighted third-party figures without permission.
-- Keep company and investment mapping at the end of the learning path.
+- Keep company and investment mapping at the end of the chapter order.
 
 ## Open Notes
 

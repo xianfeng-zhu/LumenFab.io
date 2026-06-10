@@ -26,7 +26,7 @@
 ## Page Structure And Explanation Method
 
 - Define each page's boundary before expanding it: identify the main object, the supporting background, and the topics that belong on adjacent pages. Keep system architecture, packaging, manufacturing test, and reliability operations on their own pages unless they are needed as brief context.
-- Organize technical pages as learning paths rather than glossary collections. Prefer sequences such as physical principle -> material or structure -> process step -> device behavior -> measured metric -> downstream design implication.
+- Organize technical pages as structured explanations rather than glossary collections. Prefer sequences such as physical principle -> material or structure -> process step -> device behavior -> measured metric -> downstream design implication.
 - Make each section answer one clear question. Avoid paragraphs that merely list terms without explaining how they connect.
 - Prefer causal chains over isolated facts. A strong explanation often follows the pattern: structure or process choice -> physical effect -> device or system metric -> engineering consequence.
 - Start with the reader's intuition, then introduce the professional term, then explain why the term matters. Do not open dense sections with unexplained jargon.
