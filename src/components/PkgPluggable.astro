@@ -65,4 +65,13 @@ const summary = "ASIC 独立封装在 PCB 中央，光模块插入前面板笼�
   .pkg-diag figcaption { margin-bottom:.4rem; }
   .pkg-diag figcaption strong { display:block; font-size:.82rem; font-weight:600; color:var(--sl-color-gray-6,#334155); text-align:center; }
   .pkg-diag figcaption span { display:block; font-size:.7rem; color:var(--sl-color-gray-4,#94a3b8); text-align:center; }
+  /* 竖屏自动旋转 90°，让横向图在手机上完整展示 */
+  @media (orientation: portrait) and (max-width: 768px) {
+    .pkg-diag__wrap { position:relative; padding-bottom:220%; }
+    .pkg-diag__wrap svg {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%) rotate(90deg);
+      width:auto; height:55vw; max-width:none;
+    }
+  }
 </style>
