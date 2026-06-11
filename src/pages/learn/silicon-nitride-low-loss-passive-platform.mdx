@@ -2,71 +2,119 @@
 layout: ../../layouts/ConceptLayout.astro
 title: SiN as a low-loss passive platform
 chapter: 05. Material Platforms
-description: SiN 的价值在于低损耗、相位稳定和宽波段无源光路。
+description: 氮化硅的价值在于极低传输损耗、宽波段透明、无双光子吸收和低热光系数——它是低损耗无源光路、滤波、频率梳和外腔激光器的核心平台。
 ---
 
-## One-Sentence Answer
+import { sitePath } from "../../lib/paths";
+import TermNote from "../../components/TermNote.astro";
 
-Silicon nitride, SiN, 是低损耗无源光子平台，适合长光路、滤波、谐振和稳定相位，但通常需要其他平台提供光源和高速有源功能。
+## SiN 在材料平台中的位置
 
-## Why This Exists
+前面讨论了 Si 和 InP 各自的分工：硅擅长波导、调制和 CMOS 规模集成，但不擅长发光；InP 擅长高效发光和高速调制，但不擅长低损耗长光路。SiN 填补的是这两者之间的空白——当一个应用需要**极低传输损耗、宽带透明、热稳定**的无源光路时，SiN 是目前综合最优的集成光子学平台。
 
-硅光讨论里经常出现 SiN。它解决的主要问题是低损耗、长光路和相位稳定。当光要在芯片上走得更远、损耗更低、相位更稳定时，SiN 很有价值。
+SiN 的弱点在于它同样不发光（间接带隙），而且其折射率（~2.00）与二氧化硅（~1.44）的差小于硅（~3.48）与二氧化硅的差——这意味着 SiN 波导的弯曲半径不能像硅波导那样紧凑。但这个"弱点"也带来了 SiN 最核心的优势：**低折射率差→弱约束→侧壁散射损耗小→极低传输损耗**。
 
-## Physical Principle
+## 从材料特性到平台优势
 
-SiN 的折射率低于硅，但高于二氧化硅。它可以形成比硅波导更弱约束、更低散射损耗的波导结构。
+### 核心物理参数对比
 
-弱一些的光学约束通常意味着器件更大，但也可能带来：
+| 参数 | Si | Si₃N₄ | 含义 |
+|------|----|--------|------|
+| 折射率 n @1550 nm | ~3.48 | ~2.00 | SiN 约束比 Si 弱，但散射损耗更低 |
+| 热光系数 dn/dT | ~1.8×10⁻⁴ K⁻¹ | ~2.5×10⁻⁵ K⁻¹ | SiN 热稳定性约 **7 倍优于 Si** |
+| 非线性折射率 n₂ | ~4.5×10⁻¹⁸ m²/W | ~2.5×10⁻¹⁹ m²/W | SiN 的非线性弱于 Si，但无 TPA 问题 |
+| 双光子吸收 @1550 nm | 强 (~0.8 cm/GW) | **可忽略** | SiN 支持高功率无源运行 |
+| 透明窗口 | 1.1–5.5 μm | **0.25–8.3 μm** | SiN 覆盖可见光到中红外 |
 
-- lower propagation loss。
-- lower sensitivity to sidewall roughness。
-- better power handling。
-- lower phase drift in some passive circuits。
-- broad wavelength transparency, depending on process。
+### 低热光系数对系统设计的影响
 
-## Engineering Implementation
+Si 的热光系数约为 1.8×10⁻⁴ K⁻¹，意味着即使做同样的波导，温度变化 1°C 就会带来显著的相位漂移。SiN 的热光系数约 2.5×10⁻⁵ K⁻¹——**比 Si 低约 7 倍**。这使得 SiN 滤波器、复用器、谐振器等器件在温度变化时相位漂移小得多，可以实现**无源热稳定**（athermal）设计。对于数据中心的 WDM 复用/解复用器来说，这意味着不需要主动温度控制即可维持波长对准——这与面向 DWDM/CWDM 的系统设计直接相关。
 
-SiN 常见用途包括：
+### 无双光子吸收
 
-- low-loss routing。
-- delay line。
-- filter。
-- resonator。
-- frequency comb and nonlinear photonics in some platforms。
-- external-cavity laser 的低损耗反馈结构。
-- 和 silicon photonics 或 III-V gain chip 做混合集成。
+在 1550 nm 通讯波段，Si 存在显著的双光子吸收——强光下两个光子同时被吸收，产生自由载流子，进而引入额外的吸收损耗和非线性相位噪声。SiN 的带隙约 5 eV，从可见光到近红外波段都没有 TPA。因此 SiN 可以承载高功率光信号而不出现非线性损耗——这是频率梳、参量放大和超连续谱产生等应用的物理基础。
 
-在 AI 数据中心光互连语境里，SiN 需要被解释成“低损耗无源补充层”。它不是完整发射器平台，因为它本身没有高效原生增益。
+## 制造工艺：LPCVD 与 PECVD
 
-## Key Metrics
+SiN 集成光子学的制造工艺直接影响其光学性能。两种主流沉积方法各有取舍：
 
-- propagation loss。
-- bend radius。
-- coupling loss。
-- thermal sensitivity。
-- quality factor for resonators。
-- power handling。
-- integration compatibility with Si, InP, or TFLN。
+| 方法 | 温度 | 应力 | 传输损耗 | CMOS 兼容 |
+|------|------|------|---------|----------|
+| LPCVD | ~800°C | ~1 GPa 拉应力 | 可低至 **0.003 dB/cm** | 否（超出 BEOL 热预算） |
+| PECVD | ~350°C | ~300 MPa（可调） | ~0.7–1.8 dB/cm | 是 |
 
-## Common Misconceptions
+**LPCVD** 沉积的 Si₃N₄ 接近化学计量比，氢含量低、吸收损耗小。但其约 1 GPa 的拉应力限制了膜厚不能超过约 400 nm，否则会开裂。这一厚度限制对非线性色散工程和器件设计构成约束。
 
-- SiN 低损耗不等于它可以替代所有硅光功能。
-- SiN 不是原生激光平台。
-- 低损耗不等于封装简单。芯片到光纤、芯片到芯片的耦合仍然困难。
+**PECVD** 可在低温下沉积，与 CMOS 后道工艺兼容。其应力可通过气体比例调节，膜厚不受限。但 PECVD 薄膜含有较多 N-H 键，在 1550 nm 附近存在吸收峰，传输损耗通常高于 LPCVD。
 
-## How It Connects
+**双层的思路**：用薄层 LPCVD（~340 nm）做低损耗核心层，再用 PECVD（~400 nm）在其上沉积应力和厚度补偿层。这样可以同时获得 LPCVD 的低损耗和足够的厚度用于色散设计（McNulty et al., Nanophotonics 2025）。
 
-Previous layer: waveguides and optical modes 解释为什么折射率、约束和损耗相关。
+当前 LPCVD SiN 的传输损耗已经达到 **0.003 dB/cm（3 dB/m）**的水平（imec OFC 2025），比硅波导低近一个数量级。
 
-Next layer: modulation and PIC 会继续解释 SiN 怎样作为低损耗路由、滤波和外腔结构参与复杂 PIC。
+## 典型应用场景
 
-## Further Reading
+### 低损耗路由与延迟线
 
-- [imec: Silicon nitride-based photonics](https://www.imec-int.com/en/what-we-offer/development/silicon-nitride)
-- [imec: SiN co-integration with active silicon photonics](https://www.imec-int.com/en/press/imec-demonstrates-co-integration-its-high-quality-sin-waveguide-technology-its-active-silicon)
-- [LIGENTEC: Silicon nitride integrated photonics technology](https://www.ligentec.com/technology/)
+SiN 的传输损耗比硅波导低 1–2 个数量级，这意味着：
 
-## Short Version
+- 可以在芯片上走更长的光路而不显著损失光功率。
+- 延迟线（delay line）可以做到上百皮秒的延迟范围，用于光缓冲或信号同步。
+- 环路滤波器和谐振器可以实现更高的 Q 值。
 
-SiN 是低损耗无源光子平台。它适合把光稳定、低损耗地路由和处理，但不擅长自己产生通信光。它的常见价值来自和 Si、InP、TFLN 等平台组合。
+### WDM 滤波器与复用器
+
+SiN 的低热光系数使其在 WDM 复用/解复用场景中具有独特优势。SiN 阵列波导光栅或 Echelle 光栅可以在 20 nm 通道间隔的 CWDM 标准下实现无源热稳定——不对温度漂移敏感，省去了每个通道的 TEC 控温。
+
+结合反向设计，SiN 的 CWDM 4 通道复用器可以做到 **24×24 μm²** 的面积，插入损耗 −1.0 至 −1.7 dB，串扰 &lt;−13.3 dB（Pita Ruiz et al., 2025）。
+
+### 外腔激光器
+
+SiN 和 III-V 增益芯片的混合集成是 SiN 在光源领域最重要的应用模式。结构上，一个 InP RSOA（反射型半导体光放大器）与 SiN 无源芯片耦合，SiN 芯片上制作 Bragg 光栅或微环谐振器提供窄带反馈。这种设计的关键优势在于：
+
+- **波长稳定性**：SiN 的低热光系数使得外腔对温度不敏感，无需主动调谐即可在 80°C 范围内保持波长稳定。
+- **窄线宽**：SiN 外腔可以做得比单片 DFB 光栅长得多，从而压低 Schawlow-Townes 线宽。已实现的最优结果为 **3.75–7.77 Hz 本征线宽**（UCSB / Freedom Photonics），覆盖 60 nm 调谐范围。
+- **低阈值**：高品质 SiN 谐振器提供强反馈 → 最低 12 mA 阈值电流，>45 dB SMSR（MTU/STMicroelectronics）。
+
+对于 CPO 场景，SiN ECL 的窄线宽和热稳定性是其作为外置光源方案竞争力的物理基础——它比单片 InP DFB 更适合需要密集波分复用的场景。
+
+### 微环谐振器与频率梳
+
+SiN 是目前集成频率梳（Kerr microcomb）最成熟的无源平台。低传播损耗使微环 Q 值可达数百万；可忽略的 TPA 使其可以承载高泵浦功率而不会因非线性损耗降低转换效率。SiN 频率梳已实现倍频程覆盖（1300–2100 nm），泵浦功率仅需约 350 mW，重复频率从 GHz 到 THz 可设计。在数据中心语境中，频率梳的潜在价值是用单颗梳状光源替代多个分立 DFB 激光器，作为 WDM 链路的并行载波源。
+
+## 与其他平台的组合模式
+
+SiN 很少独立使用。在集成光子学中最常见的角色是"补充层"：
+
+| 组合模式 | SiN 的职责 | 其他平台的职责 |
+|---------|-----------|-------------|
+| SiN + SiPh | 低损耗路由、滤波、外腔 | 高速调制、探测、CMOS 电子集成 |
+| SiN + InP (ECL) | 窄带反馈、波长选择 | 光增益 |
+| SiN + TFLN | 无源分光/滤波 | 高速 Pockels 调制 |
+| SiN + 增益芯片 + 频率梳 | 频率梳产生 | 泵浦光源 |
+
+这也是当前主流代工厂（imec iSiPPP、Tower PH18、AIM Photonics、CEA-LETI等）的标准做法——在同一个 PIC 平台上集成 Si 和 SiN 两层工艺，让设计者根据功能需求选择合适的材料层。
+
+## 与硅光的对比总结
+
+| 对比维度 | Si（SOI） | Si₃N₄ |
+|---------|----------|--------|
+| 波导损耗 | 0.03–0.1 dB/cm | 0.003–0.15 dB/cm |
+| 弯曲半径 | 5–10 μm | 50–500 μm（取决于约束设计） |
+| 温度敏感度 | 高 (dn/dT ~1.8×10⁻⁴) | 低 (dn/dT ~2.5×10⁻⁵) |
+| 高速调制 | 可以（Si MZM/MRM） | 不可以（无 Pockels 效应） |
+| 高功率非线性 | 受 TPA 限制 | 理想（无 TPA） |
+| 代工成熟度 | 非常成熟 | 成熟，多个 MPW 可用 |
+
+SiN 不是取代 Si 或 InP，而是在它们力所不能及的地方出现——需要极低损耗的时候、需要热稳定的时候、需要高功率非线性的时候。
+
+## 资料来源
+
+- Blumenthal et al., "Silicon Nitride in Silicon Photonics", *Proc. IEEE* 106(12), 2209 (2018) — SiN 平台综述
+- Wilmart et al., "A Versatile Silicon-Silicon Nitride Photonics Platform", *Applied Sciences* 9(2), 255 (2019) — CEA-LETI Si-SiN 平台
+- Ozdemir et al., "Advancements in LPCVD SiN Waveguides: Achieving 3 dB/m Propagation Loss on 200 mm Wafers", OFC 2025 — 超低损耗 SiN
+- McNulty et al., "Overcoming stress limitations in SiN nonlinear photonics via a bilayer waveguide", *Nanophotonics* 14(23), 3921 (2025)
+- Pita Ruiz et al., "Ultra-Compact Silicon Nitride Devices for High-Density Integration", arXiv:2505.02662 (2025)
+- "Narrow-linewidth photonic wirebonded silicon nitride external cavity tunable laser", *Scientific Reports* (2026)
+- RP Photonics — Thermo-optic effect, Kerr effect
+- AIM Photonics — SiN Passive PIC MPW
+- imec — SiN co-integration with active silicon photonics
