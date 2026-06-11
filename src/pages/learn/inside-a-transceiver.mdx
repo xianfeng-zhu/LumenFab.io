@@ -2,58 +2,161 @@
 layout: ../../layouts/ConceptLayout.astro
 title: Inside a transceiver
 chapter: 02. Optical Link Overview
-description: 光模块是一个紧凑系统，里面同时有光器件、高速模拟电路、数字处理、电源、控制、封装和散热。
+description: 光模块内部是一个集成了高速电路、光子器件、电源、散热、固件和管理接口的紧凑系统。
 ---
 
-import ModelViewer from "../../components/ModelViewer.astro";
+import TermNote from "../../components/TermNote.astro";
 
-## One-Sentence Answer
+## 不只是"光纤插头"
 
-Transceiver 是一个把高速电子、光子器件、封装、供电、固件和管理接口压进小体积里的系统，范围远大于单只激光器或被动适配器。
+一个 QSFP-DD 或 OSFP 光模块，体积大约相当于一根手指，里面同时塞着：数字信号处理器（DSP）、高速模拟前端、激光器和调制器、光电探测器、多层 PCB、多路 DC/DC 电源、微控制器、固件、散热路径和光纤接口。把这些东西装进一个壳子里并让它稳定工作，不是简单的"把光变成电"。
 
-## Why This Exists
+把光模块当作一个完整的系统来理解，可以拆成五个维度：**物理布局**、**供电架构**、**信号流**、**散热路径**和**管理面**。最后再看不同架构变体（DSP、LPO、CPO）是怎么在这些维度上做取舍的。
 
-很多光模块讨论会直接跳到 EML、SiPh 或 DSP。更稳的方式是先看模块内部有哪些功能块，再理解每条技术路线改的是哪一块。
+## 物理布局：三个区域共用一根手指的空间
 
-## Engineering Implementation
+QSFP-DD 和 OSFP 是最主流的两种可插拔模块形态：
 
-一个 pluggable transceiver 通常包含：
+| 参数 | QSFP-DD | OSFP |
+|---|---|---|
+| 宽度 | 18.35 mm | 22.6 mm |
+| 高度 | 8.5 mm | 13.0 mm |
+| 深度 | ~100 mm | ~100–108 mm |
+| 电通道 | 8 lane | 8 lane |
+| 最大功耗 | ~14–15W（扩展至 25–30W） | ~16W（1.6T 扩展至 25W+） |
 
-- optical engine：laser、modulator、PD、lens、coupler、MUX/DEMUX。
-- analog front-end：driver、TIA、limiting amplifier 或 linear amplifier。
-- digital processing：DSP、retimer、CDR、equalization、gearbox、monitoring。
-- power：DC/DC rails、analog/digital power isolation、thermal budget。
-- control：CMIS、state machine、DOM/DDM、alarms、firmware revision。
-- packaging：shell、connector、heatsink contact、fiber receptacle、alignment structure。
+QSFP-DD 可以兼容 QSFP28/QSFP56 的笼子，端口密度更高。OSFP 更高更宽，牺牲约 20% 面板端口数换更大散热体积。
 
-<ModelViewer
-  model="/models/transceiver-exploded.glb"
-  title="光模块爆炸视图"
-  caption="未来展示外壳、PCB、DSP、driver/TIA、光引擎、光纤接口、散热路径和电连接器。"
-/>
+模块内部通常按功能分成三个区域：
 
-## Key Metrics
+1. **DSP 数字处理区**——最大的芯片，靠近金手指端，缩短与主机 SerDes 之间的电走线。
+2. **集成硅光引擎区**——调制器、driver、TIA、PD 靠近面板端，光纤尾纤从这里引出。
+3. **电源转换区**——DC/DC 转换器、滤波电容、去耦电容，有时做在单独的柔性电路板上。
 
-- module power。
-- thermal resistance。
-- electrical interface rate。
-- optical output power。
-- receiver sensitivity。
-- management interface compliance。
-- manufacturing yield。
+关键布局约束：DSP 是最大热源，必须单独导热到外壳；光引擎必须**热隔离**于 DSP，避免激光器波长被 DSP 的温升推偏。
 
-## Common Misconceptions
+PCB 通常是 10 层 HDI 板。顶部和底部的前排、后排高速信号各占一层，中间 L5-L6 是连续地平面作为参考层，防止 25-50 GHz 频段的谐振。激光钻孔连接表层到 L3/L8，埋孔连接 L3 到 L8。过孔中心距仅 0.5-0.6 mm。
 
-- 光模块不是“光纤插头”。它是小型光电系统。
-- DSP 不是所有模块唯一架构。LPO、linear receive、CPO 等会改变处理边界。
-- 封装不是最后一步。耦合、散热和测试决定模块能不能量产。
+## 供电架构：3.3V 进去，拆成五路出来
 
-## How It Connects
+模块从金手指只拿一个 3.3V（Vcc）。内部 DC/DC 转换器将它拆成多个电压轨：
 
-后面讲 EML、SiPh、LPO、CPO 时，都可以回到这个模块结构：那些路线本质上是在移动或重组某些功能块。
+| 电压轨 | 电压 | 供应对象 |
+|--------|------|---------|
+| DSP 数字核心 | 0.70–0.85V | DSP 逻辑门、FEC 编解码 |
+| DSP 模拟 | 0.80–1.10V | ADC、DAC、PLL |
+| 光接口 | 1.6–1.8V | laser driver、TIA、TOSA/ROSA |
+| MCU | 3.3V（直通） | 微控制器、I²C 管理 |
 
-## Further Reading
+一个 400G DR4/FR4 模块（~12W 总功耗）的大致功耗分配：
 
-- [QSFP-DD MSA](https://www.qsfp-dd.com/specification/)
-- [OIF CMIS](https://www.oiforum.com/technical-work/implementation-agreements-ias/common-management-interface-specification-cmis/)
-- [Analog Devices: powering QSFP-DD optical transceivers](https://www.analog.com/en/resources/technical-articles/how-to-power-your-qsfpdd-optical-transceiver.html)
+| 功能块 | 功耗 | 占比 |
+|--------|------|------|
+| DSP（含 FEC） | 4–6W | 40–50% |
+| 激光器 + TEC | 2–3W | 15–25% |
+| Laser driver | 1.0–1.5W | 10–12% |
+| TIA | 0.3–0.8W | 3–7% |
+| MCU + 辅助 | 0.5–1W | 5–8% |
+
+**模拟和数字供电必须隔离。** DSP 数字门在几十 GHz 频率翻转，注入到共享电源轨上的噪声会直接污染 TIA——TIA 要把微安级的 PD 电流转换成可用电压，对电源噪声极度敏感。隔离手段包括分开的电源平面（AVDD/DVDD）、星形接地、铁氧体磁珠、模拟电压轨后接 LDO。
+
+## 信号流：一个比特穿越模块的完整路径
+
+### 发射（Tx）方向
+
+```text
+Host ASIC SerDes → 金手指 → DSP(CDR+FEC编码+均衡+PAM4编码+DAC)
+→ Driver → 激光器/调制器 → 光纤
+```
+
+### 接收（Rx）方向
+
+```text
+光纤 → PD → TIA → DSP(ADC+均衡+FEC解码+CDR)
+→ 金手指 → Host ASIC SerDes
+```
+
+而延迟是架构选择的一个核心维度：
+
+| 架构 | 每跳延迟 | 说明 |
+|------|---------|------|
+| DSP-based | 8–10 ns | 主要来自 retiming + FEC 编解码流水线 |
+| LRO（Tx-only DSP） | ~5 ns | Rx 侧去掉 DSP，Tx 侧保留 |
+| LPO（无 DSP） | &lt;3 ns | 所有均衡搬到主机 SerDes |
+
+DSP 本身的延迟在 7nm 工艺下约 8-10 ns（老工艺可达 40+ ns）。Driver、TIA 和光纤传播的延迟都在亚纳秒量级，在模块内部不是瓶颈。
+
+## 散热路径：滑动界面是所有矛盾的聚焦点
+
+模块内部的热量从芯片开始，经过一系列界面才能散到空气中：
+
+```text
+芯片结 → 内部TIM垫片 → 模块外壳 → 骑乘式散热片（干滑动，无TIM）
+→ 散热片底座 → 散热片 → 机箱气流（2.5–7 m/s）
+```
+
+热阻最大的环节是**模块外壳和骑乘散热片之间的滑动接触面**——因为没有导热硅脂（TIM 经不起反复插拔），只能靠抛光铝面的干接触，接触热阻约 0.0004 K·m²/W。表面粗糙度、平整度和笼子弹片的压力直接决定了这个界面能传多少热。
+
+QSFP-DD 用骑乘式散热片（散热片固定在笼子上，模块插入后贴上去），每通道约 1.5W；OSFP 把散热片集成在模块本体上，省去了滑动界面，每通道可到 1.9W 以上。这就是为什么 OSFP 能支撑更高功耗的模块——不是因为它大，而是因为它避免了那个干滑动瓶颈。
+
+DSP 是最大热源（占模块功耗约 50%），散热必须优先保证 DSP 的结温不超标。激光器对温度更敏感（0.1 nm/°C），但功耗更小——它在热路径上需要的是隔离，而不是最大散热能力。
+
+## 管理面：CMIS 和模块的"自我意识"
+
+光模块不是一个哑设备。它内部有微控制器，通过 I²C 接口和主机通信，遵循 **CMIS（Common Management Interface Specification）** 标准（OIF 管理，当前版本 5.3）。
+
+CMIS 定义了模块持续上报的监控数据（DDM/DOM）：
+
+| 参数 | 精度 | 说明 |
+|------|------|------|
+| 壳温 | 1/256 °C | 最基础的热监控 |
+| 供电电压 | 0.1 mV | 检测供电异常 |
+| Tx 偏置电流 | 2 μA | 激光器老化趋势 |
+| Tx/Rx 光功率 | 0.1 μW | 光路衰减监测 |
+| 各 lane BER | — | 信号质量退化 |
+
+每个参数都有 **Warning** 和 **Alarm** 两级阈值。当 Tx 偏置电流持续上升而光功率不变，说明激光器效率在退化——运维可以在模块彻底失效前安排更换。
+
+CMIS 还定义了模块状态机（MSM）和数据路径状态机（DPSM），控制模块从上电到正常工作的每一阶段。模块通过 Application Advertising（AppSel）通告自己支持的链路类型（如 400GBASE-DR4、4×100G），主机自动适配——这是"即插即用"的协议基础。
+
+固件可以通过 CDB（Command Data Block）机制在系统不停机的情况下升级——不需要拔模块，不需要断业务。
+
+## 架构变体：同一个壳子里的不同取舍
+
+以上讨论的"标准 DSP 模块"只是其中一个形态。以 DSP 在模块内的位置为变量，可以排出一个光谱：
+
+| 维度 | DSP-Based | LRO（半重定时） | LPO（线性直驱） | CPO（共封装） |
+|------|-----------|----------------|----------------|-------------|
+| 模块内 DSP | Tx + Rx | Tx only | 无 | 无（移到 ASIC） |
+| 800G 功耗 | 13–17W | ~9–12W | 7–9W | ~4–5W/800G |
+| pJ/bit | ~16–20 | ~12 | ~7 | ~5.6–7 |
+| 延迟 | 最高 | 中 | 很低（&lt;3ns） | 最低 |
+| 传输距离 | 2km+ | ~2km | &lt;500m | 芯片内（&lt;1m） |
+| 热插拔 | 是 | 是 | 是 | 否 |
+| 可维护性 | 分钟级 | 分钟级 | 分钟级 | 小时-天级 |
+| 成熟度 | 已量产 | 兴起中 | 800G 出货中 | 2025 首产品 |
+
+LPO 把 DSP 完全拿掉，信号均衡和时钟恢复全部扔给主机 ASIC 的增强 SerDes。功耗降 30–50%，延迟从 ~10ns 缩到 &lt;3ns——但同时失去了 DSP 提供的信号再生和 FEC 余量，传输距离被限制在 500m 以内，且要求主机侧的 PCB 走线设计更加精密。
+
+CPO 走得更远——光引擎完全离开可插拔壳子，直接和交换 ASIC 封装在同一块基板上。电互连从 20-30 cm 缩到 &lt;1 cm，功耗再降一半，但失去了热插拔能力：一个光引擎失效意味着整台交换机需要下线更换。80% 的被退回 DSP 模块其实"没坏"（No Trouble Found），CPO 则彻底消灭了这个故障模式——代价是无法单独更换。
+
+这条光谱的核心逻辑是同一个：**把处理功能往外（主机）或往里（模块内）移动，换功耗、换延迟、换可维护性。** 每次移动对应的工程约束就是前面几节讲的——空间、供电、信号、散热、管理。架构变了，这五个维度的权重也跟着变。
+
+---
+
+本页只拆了光模块内部。激光器芯片的技术细节见 [激光源](/components/laser-source/)，PIC 和调制器见 [PIC / optical circuit](/components/pic/)，Driver/TIA 和电接口见 [EIC / driver and receiver](/components/eic/)，封装架构和散热设计见 [Package integration](/components/packaging/)，CPO 系统级分析见 [封装集成 §1](/components/packaging/#1-封装架构分类地图)。
+
+## 资料来源
+
+- QSFP-DD MSA: https://www.qsfp-dd.com/specification/
+- Analog Devices DS138: How to Power Your QSFP-DD Optical Transceiver
+- TE Connectivity: System Challenges of Next Gen IO (DesignCon 2018)
+- Molex: QSFP-DD Thermal Correlation Report
+- VitexTech: 800G Thermal and Power Planning Guide; LPO vs DSP; Latency in Optical Transceivers
+- EFFECT Photonics: Co-Designing Optics and Green Transceivers (2022)
+- OIF CMIS 5.3: https://www.oiforum.com/
+- OIF Co-Packaging Framework Document
+- Semianalysis: Co-Packaged Optics — Scaling with Light
+- LightCounting: AOCs, DACs, Linear Drive Pluggable and Co-Packaged Optics
+- Addon Networks: The Technological Journey of the OSFP
+- Juniper Networks: Form Factors reference
