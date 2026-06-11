@@ -2,69 +2,190 @@
 layout: ../../layouts/ConceptLayout.astro
 title: Why semiconductor lasers are temperature-sensitive
 chapter: 04. Laser Physics
-description: 温度会同时移动材料增益、折射率、阈值、电阻和腔体条件，所以激光器热管理是核心工程问题。
+description: 从 bandgap 收缩、载流子泄漏、非辐射复合和折射率温漂出发，推到 T₀、dλ/dT、自热正反馈和 CPO 系统级热约束。
 ---
 
-## One-Sentence Answer
+import TermNote from "../../components/TermNote.astro";
 
-半导体激光器对温度敏感，是因为温度会改变 bandgap、载流子分布、增益峰、折射率、阈值电流、波长和老化速度。
+## 温度从哪几个物理通道同时起作用
 
-## Why This Exists
+半导体激光器对温度敏感，不是某一个参数在变，而是**多个物理通道同时被温度驱动**，并且这些通道彼此耦合。从 InP DFB 激光器的角度看，温度上升至少同时触发五件事：
 
-封装与测试章节会反复讨论热路径、TEC、老化、burn-in 和模块校准。读者需要先知道：热是决定激光器能否稳定工作的物理变量。
+1. **Bandgap 收缩** → 增益峰红移，有源区对载流子的约束减弱。
+2. **载流子分布展宽** → 更多电子获得足够热动能逃出量子阱，泄漏电流指数上升。
+3. **非辐射复合加速** → Auger 复合和 IVBA 吸收随温度急剧增加，阈值电流和内部损耗同步恶化。
+4. **折射率改变** → 热光效应使 n_eff 增大，DFB 光栅的 Bragg 波长漂移。
+5. **电阻-自热正反馈** → 串联电阻产生焦耳热 → 结温升高 → 效率下降 → 需要更大电流 → 更多焦耳热。
 
-## Physical Principle
+下面逐一拆开，最后再把这些通道串起来，看它们如何从材料层面一路传导到 CPO 光引擎的系统设计。
 
-温度升高通常会带来几类变化：
+## Bandgap 随温度收缩
 
-- bandgap 改变，材料增益谱移动。
-- 载流子分布变宽，非辐射过程和泄漏更明显。
-- 折射率改变，腔体或光栅的共振条件移动。
-- 电阻和自热改变，形成电-热耦合。
-- 缺陷相关退化和材料扩散更容易影响寿命。
+半导体材料的带隙不是常数。晶格热膨胀和电子-声子耦合共同作用，使带隙随温度升高而缩小。这一关系由 Varshni 公式描述：
 
-这些变化叠加后，输出波长、阈值电流、效率和噪声都会变化。
+```text
+E_g(T) = E_g(0) − αT² / (T + β)
+```
 
-## Engineering Implementation
+对于 InGaAsP/InP 材料体系，α ≈ 4.9×10⁻⁴ eV/K，β ≈ 327 K 是**与组分无关**的常数（Adachi, 1992）。室温 300 K 附近，dE_g/dT ≈ −0.33 至 −0.40 meV/K。
 
-工程上常用手段包括：
+Bandgap 收缩的直接后果是**增益谱红移**——增益峰随温度移动的速度约为 **0.5 nm/K**。后面会看到，DFB 光栅的 Bragg 波长只以约 0.1 nm/K 移动，两者之间存在显著的速度差，这构成了温度范围内增益-腔体失配的基础。
 
-- TEC 控温。
-- 热沉和低热阻封装。
-- monitor photodiode 做功率反馈。
-- current derating。
-- 波长锁定或校准。
-- burn-in 和可靠性筛选。
+## 载流子泄漏：为什么阈值电流随温度指数上升
 
-对于外部 CW laser + SiPh，温度还会影响激光器和 PIC 之间的耦合、调制器工作点和 WDM channel 对准。
+### 热电子发射过势垒
 
-## Key Metrics
+量子阱对载流子的约束不是绝对的。电子在导带中按 Fermi-Dirac 分布占据能量态；温度升高时，分布的高能尾部展宽，更多电子获得足以越过异质结势垒的热动能，从量子阱逃逸到 SCH 层和包层。这一过程对温度呈 Arrhenius 型的指数依赖。
 
-- threshold current vs temperature。
-- wavelength drift。
-- slope efficiency vs temperature。
-- thermal resistance。
-- operating case temperature。
-- aging rate。
-- power stability。
+电子泄漏远大于空穴泄漏——电子的有效质量小、迁移率高，是泄漏电流的主导成分。这意味着**导带偏移（ΔE_c）的大小**直接决定了激光器的高温性能。
 
-## Common Misconceptions
+### InAlGaAs 与 InGaAsP 的分野
 
-- 温控不是只为了“不烧坏”，也是为了波长、效率、噪声和模式稳定。
-- 热问题不只在封装阶段出现，材料、外延、器件结构和驱动都会决定自热。
-- 高温能工作不等于能长期可靠量产。
+InGaAsP/InP 体系的导带偏移仅占带隙差的 **~40%**（ΔE_c ≈ 0.39ΔE_g，Forrest 1984）。大部分带隙差落在价带侧，对阻挡电子泄漏贡献有限。
 
-## How It Connects
+InAlGaAs/InP 体系则把约 **72%** 的带隙差分配给导带。这一差异的工程后果非常直接：在 85°C 下，同等结构的 1.55 μm 四量子阱激光器，InGaAsP 有源区的阈值电流约为 87.7 mA，InAlGaAs 只有 37.4 mA——**相差 2.3 倍**（Evans, SPIE 1998）。
 
-Previous layer: linewidth and mode stability show what thermal drift can disturb.
+这也解释了为什么面向非制冷或高温工作的激光器（包括 CPO 外置光源中常用的高功率 CW-DFB）越来越多地选用 InAlGaAs 有源区。
 
-Next layer: material platforms explain why InP, GaAs and Si 的热、带隙和集成角色不同。
+### 特征温度 T₀
 
-## Further Reading
+阈值电流对温度的敏感性由特征温度 T₀ 概括：
 
-- [RP Photonics Encyclopedia, article on Laser Diodes](https://www.rp-photonics.com/laser_diodes.html)
-- [RP Photonics Encyclopedia, article on Distributed Feedback Lasers](https://www.rp-photonics.com/distributed_feedback_lasers.html)
+```text
+J_th(T) ∝ exp(T / T₀)
+```
 
-## Short Version
+T₀ 越高，阈值对温度越不敏感。理想激光器的 T₀ → ∞。InGaAsP/InP 多量子阱激光器在 1.3–1.55 μm 波段的 T₀ 通常在 **55–80 K** 之间；InAlGaAs/InP 可以做到 **70–100 K**，经过优化的结构甚至超过 140 K。
 
-温度会同时影响材料、载流子、腔体和封装。半导体激光器的热管理直接决定波长稳定、功耗、寿命和量产一致性。
+T₀ 之所以这么低，根本原因在下一节。
+
+## 非辐射复合：Auger 与 IVBA 的温度加速
+
+### Auger 复合
+
+Auger 复合是一个三载流子过程：一对电子-空穴复合释放的能量不产生光子，而是传递给第三个载流子，再通过声子耗散为热。InGaAsP 中主要有两个通道：
+
+- **CHCC**：复合能量交给导带中的另一个电子。激活能约 0.45–0.55 eV（1.55 μm）。
+- **CHSH**：复合能量交给自旋-轨道分裂带中的一个空穴。当 E_g ≈ Δ（自旋-轨道分裂能）时，该通道特别高效——而 1.55 μm 的 InGaAsP 恰好接近这一条件，激活能仅约 60–120 meV。
+
+Auger 复合率对温度呈指数依赖：C_Auger ∝ exp(−E_a/kT)。室温下，1.55 μm InGaAsP 激光器的阈值电流中，Auger 复合可以贡献高达 **94%**。
+
+这也是为什么 1.55 μm 器件的 T₀（~55–65 K）系统性低于 1.3 μm 器件——窄带隙降低了 Auger 过程的能量阈值，指数因子变得更宽松。
+
+### IVBA（子带间价带吸收）
+
+有源区内的高浓度空穴可以吸收光子，从重空穴带跃迁到自旋-轨道分裂带——这直接增大了内部光损耗 α_i。IVBA 系数与空穴浓度成正比：α_IVBA ≈ k_p · p，其中 k_p ≈ 20×10⁻¹⁸ cm²（1.55 μm）。温度升高时准费米能级向价带深处移动，参与 IVBA 的空穴态密度增加，内部损耗随之上升。
+
+对于 InGaAsP/InP 激光器，α_i 从 20°C 的 ~15 cm⁻¹ 升至 80°C 的 ~22 cm⁻¹——直接拉低斜率效率。
+
+### 斜率效率与 T₁
+
+斜率效率的温度敏感性由 T₁ 描述：η_slope(T) ∝ exp(−T/T₁)。InGaAsP/InP 的 T₁ 通常在 80–120 K 范围。T₁ 主要由 IVBA 和自由载流子吸收决定，阈值以上载流子浓度被钳制后，Auger 对斜率效率的影响减弱，但 IVBA 的损耗效应仍然存在。
+
+<TermNote label="T₀ 和 T₁" note="T₀ 描述阈值电流的温度敏感性，T₁ 描述斜率效率的温度敏感性。两者共同决定激光器在高温下的输出功率：功率下降同时来自阈值抬升和效率降低，分别对应这两个特征温度。" />
+
+## 折射率温漂与 0.1 nm/°C 的来历
+
+DFB 激光器的波长不由材料增益峰直接决定，而由光栅的 Bragg 条件决定：
+
+```text
+λ_B = 2 · n_eff · Λ
+```
+
+其中 n_eff 是波导模式的有效折射率，Λ 是光栅周期。温度同时改变这两项：
+
+| 效应 | 系数 | 贡献占比 |
+|------|------|---------|
+| 热光效应 dn_eff/dT | ~2×10⁻⁴ K⁻¹（InP）；~3.0×10⁻⁴ K⁻¹（GaInAsP, 1.6 μm） | **~95%** |
+| 热膨胀 dΛ/dT | α_InP ≈ 4.6×10⁻⁶ K⁻¹ | ~5% |
+
+代入 1.55 μm InP DFB 激光器的典型参数（n_eff ≈ 3.2，Λ ≈ 242 nm）：
+
+```text
+dλ_B/dT = 1550 nm × (9.4×10⁻⁵ + 4.6×10⁻⁶) ≈ 0.15 nm/K（计算值）
+```
+
+实测值约为 **0.1 nm/K**（Sakai et al., IEEE JQE 1982），一致性很好。热光效应的物理根源仍然是 bandgap 收缩——通过 Kramers-Kronig 关系，吸收边的红移转换为折射率的上升。
+
+关键对比：增益峰以 **~0.5 nm/K** 红移，Bragg 波长只以 **~0.1 nm/K** 红移。两者的速度差意味着在温度扫描中，激光器的增益峰和腔模之间会出现**逐渐增大的失配**——这是高温下输出功率下降的又一个独立贡献。
+
+## 自热正反馈：电阻怎样把电流变成额外的温升
+
+以上讨论假设"温度"是一个外部给定的条件。但激光器自己也在发热。
+
+串联电阻 R_s（包括接触电阻、体电阻和异质结势垒电阻）在驱动电流 I 下产生焦耳热 I²R_s。这部分热量通过芯片和封装的热路径向外传导。结温的升高量为：
+
+```text
+T_j = T_case + R_th × P_diss
+```
+
+其中 R_th 是热阻。epi-down 贴装的 InP ridge 波导激光器，R_th 通常在 30–60 K/W；异质集成在硅衬底上的器件（BCB 键合），R_th 可以高达 115–360 K/W（Abdi 2025）。
+
+自热形成了一个**正反馈环**：电流 → 焦耳热 → T_j ↑ → I_th ↑, η ↓ → 需要更大电流维持光功率 → 更多焦耳热。极端情况下，当 dP_diss/dT_j 超过 1/R_th 时，热失控发生，器件在毫秒级时间内烧毁。
+
+这也是为什么 CPO 场景中激光器不能简单地"靠得更近、堆得更密"——每一台激光器都是一个局部热源，而热耦合会直接转化为波长漂移和功率衰减。
+
+## 工程手段：TEC、APC 与材料选择
+
+面对上述物理机制，工程上积累了三类应对策略。
+
+### TEC 主动控温
+
+蝶形封装内部集成 Peltier 元件和热敏电阻，通过 PID 闭环将激光器芯片稳定在设定温度（通常 25°C）。单级 TEC 可以实现 ±0.01–0.03°C 的稳定性，对应波长稳定性约 ±0.003 nm——足以满足 DWDM 需求。但代价是额外消耗 2–5 W 功率，且 TEC 本身也是热源，需要更大的散热路径。高端应用中采用双级 TEC：内环精细控温，外环预调节环境温度波动，可实现 ±0.001 nm 级别的长期波长稳定性。
+
+### APC 功率反馈
+
+背向出光面集成的 monitor photodiode 捕获一小部分光功率，通过误差放大器反馈调节激光器偏置电流，维持恒定平均光功率。APC 的有效带宽在 DC 至 ~100 kHz，可以实现 ±0.1–0.5 dB 的长期功率稳定性。但 APC 只稳功率、不稳波长——波长控制仍然是 TEC 的职责。
+
+### 材料选择
+
+当应用场景不允许 TEC（例如功耗或空间受限），材料体系的选择就成为决定性因素。前面已经讨论过：InAlGaAs 有源区凭借 ~72% 的导带偏移，在 85°C 下阈值电流仅为同等 InGaAsP 器件的 40% 左右。这是非制冷激光器设计的核心杠杆。
+
+## 从 0.1 nm/°C 到 CPO 架构选择
+
+把以上物理机制映射到系统层面，问题的尺度变得非常具体。
+
+InP DFB 激光器的 0.1 nm/°C 意味着：在 0–60°C 的前面板工作温度范围内，波长漂移可达 **6 nm**。CWDM4 的信道间隔为 20 nm，每信道公差约 ±6.5 nm——6 nm 漂移勉强落在公差边缘，几乎没有设计余量。LAN-WDM（~4.5 nm 间隔）和 DWDM（0.8 nm 间隔）则完全不可接受，必须依赖 TEC。
+
+CPO 场景放大了这一矛盾。一台 51.2 Tbps 交换 ASIC 的功耗约 835 W，壳温 80–105°C。激光器需要维持在 70–85°C 以下才能保证寿命和性能——两者之间只有 15–35°C 的温差需要在毫米级距离内维持。ASIC 对光引擎的热串扰（CT3）是三类热串扰中占主导地位的一项。
+
+这正是行业转向**外置激光源（ELS/ELSFP）**的物理驱动力——把激光器从高温封装中移出，放到可以独立散热的前面板位置。架构选择不是凭空而来的，它的因果链可以一路追溯到 InGaAsP 量子阱里的 Auger 复合系数和导带偏移比。
+
+## 因果链总结
+
+从物理根源到系统架构，温度敏感性的传导路径如下：
+
+```text
+T ↑
+├→ bandgap 收缩 (Varshni) → 增益峰红移 (~0.5 nm/K)
+│   └→ 增益-腔体失配 → 高温输出功率下降
+├→ 载流子分布展宽 → 热电子发射过势垒 → 泄漏电流 ↑
+│   └→ T₀ 压低 (InGaAsP ~55–80 K, InAlGaAs ~70–100 K)
+├→ Auger 复合加速 (∝e^(−Ea/kT)) + IVBA 增强
+│   ├→ 阈值电流指数上升
+│   └→ α_i 增大 → T₁ 压低 (80–120 K) → 斜率效率下降
+├→ 热光效应 dn/dT (~2×10⁻⁴/K) + 热膨胀
+│   └→ dλ/dT ≈ 0.1 nm/°C → WDM 栅格对齐风险
+└→ 自热 I²R_s → R_th → T_j 进一步上升
+    └→ 正反馈 → 极端情况热失控
+        └→ CPO: ASIC 800+W 热串扰 → ELSFP 架构外移激光器
+```
+
+这条链解释了为什么"温度"在半导体激光器领域不是一个环境变量，而是贯穿材料、器件、封装和系统架构的核心设计约束。
+
+## 资料来源
+
+- Varshni, *Physica* 34, 149 (1967) — bandgap 温度依赖公式
+- Adachi, *Physical Properties of III-V Semiconductor Compounds* (Wiley, 1992) — InGaAsP/InP Varshni 参数
+- Ioffe NSM: https://www.ioffe.ru/SVA/NSM/Semicond/InP/bandstr.html
+- Forrest et al., *Appl. Phys. Lett.* 45, 1199 (1984) — InGaAsP/InP ΔE_c = 0.39ΔE_g
+- Stubkjaer et al., *Electron. Lett.* 16(23), 895 (1980) — GaInAsP dn/dT 测量
+- Sakai et al., *IEEE JQE* 18(8), 1272 (1982) — 1.5 μm DFB 激光器 dλ/dT 实测
+- Dutta & Nelson, *Appl. Phys. Lett.* 38, 407 (1981) — Auger 复合与 InGaAsP 阈值温度依赖
+- Henry et al., *IEEE JQE* 19, 947 (1983) — IVBA 对 InGaAsP 激光器热行为的影响
+- Evans et al., *SPIE* Vol. 3284 (1998) — InAlGaAs vs InGaAsP 高温性能对比
+- Al-Muhanna et al., *IEEE JSTQE* 9, 582 (2003) — InAlGaAs T₀ 理论研究
+- Irikawa et al., *Jpn. J. Appl. Phys.* 39, 1730 (2000) — Auger + 热电子泄漏耦合理论
+- Abdi et al., *J. Phys. Photonics* 7 (2025) — 异质集成 DFB 热阻测量
+- Yang et al., *Adv. Photon. Nexus* (2026) — CPO 热管理综述
+- Lumentum ELSFP: https://www.lumentum.com/products/external-laser-source-els-module-ultra-high-power-laser
