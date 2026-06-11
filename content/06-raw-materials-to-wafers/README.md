@@ -16,7 +16,8 @@ Planned pages:
 - Single-crystal growth
 - Wafer slicing and polishing
 - CMP and epi-ready substrate
-- InP substrate
+- InP substrate *(done: /learn/inp-substrate/)*
+- InP substrate supply chain *(done: /learn/inp-substrate-supply-chain/, cross-listed with 13)*
 - GaAs substrate
 - SOI wafer
 - LNOI wafer

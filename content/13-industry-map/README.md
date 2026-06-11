@@ -11,7 +11,7 @@ Core questions:
 Planned pages:
 
 - Layer-by-layer supply chain
-- Raw materials and substrates
+- Raw materials and substrates *(partially done: /learn/inp-substrate-supply-chain/)*
 - Epitaxy and III-V manufacturing
 - Lasers and optical devices
 - SiPh foundry and PIC platforms
