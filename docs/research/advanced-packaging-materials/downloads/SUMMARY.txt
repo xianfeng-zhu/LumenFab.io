@@ -1,0 +1,105 @@
+===============================================================================
+SUMMARY OF DOWNLOADED DOCUMENTS
+Advanced Semiconductor Packaging Materials & Equipment
+===============================================================================
+Download date: 2026-06-13
+Destination: /home/litter/code/LumenFab.io/docs/research/advanced-packaging-materials/downloads/
+Total: 53 PDF files | Total size: ~190 MB
+===============================================================================
+
+--- CORNING (Glass Carriers for Packaging) [4 files] ---
+01-corning-carrier-solutions-standard-glass-carrier.pdf  (2.1 MB)
+  - Carrier Solutions Standard Glass Carriers datasheet
+  - Grades: SG 3.4, SG 7.8, SG 9.0 | CTE 3.4-10.0 ppm/K | Wafers 100-450mm, Panels up to 600x600mm
+02-corning-advanced-packaging-carrier-pi-sheet.pdf  (3.0 MB)
+  - Advanced Packaging Carriers Product Information Sheet (SG-HS and SG-HC grades)
+03-corning-advanced-packaging-carriers-product-info.pdf  (3.0 MB)
+  - Advanced Packaging Carriers product info (alternate version)
+04-corning-semiconductor-glass-wafers-pi-sheet.pdf  (1.1 MB)
+  - Semiconductor Glass Wafers PI Sheet (CTE 3.2/7.6/8.0/8.5 ppm/K, 100-450mm)
+
+--- SCHOTT (Glass Wafers for Packaging) [5 files] ---
+05-schott-mempax-datasheet.pdf  (115 KB)  - MEMpax (CTE 3.3 ppm/K, Si-matched)
+06-schott-d263m-datasheet.pdf  (683 KB)  - D 263 M (CTE 7.2 ppm/K)
+07-schott-d263t-eco-datasheet.pdf  (253 KB) - D 263 T Eco
+08-schott-borofloat33-datasheet.pdf  (207 KB) - BOROFLOAT 33 (CTE 3.3 ppm/K)
+10-schott-flexinity-structured-glass.pdf  (85 KB) - Flexinity structured glass
+
+--- AGC (Glass Substrates) [1 file] ---
+12-agc-en-a1-datasheet-abrisa.pdf  (1.4 MB) - EN-A1 alkali-free boro-aluminosilicate glass
+
+--- AJINOMOTO / ABF [1 file] ---
+14-substrate-materials-abf-flipchip.pdf  (6.0 MB) - Substrate materials technical presentation incl. ABF
+
+--- ASE GLOBAL (VIPack, FOCoS) [1 file] ---
+17-chipscale-review-jul-aug-2022.pdf  (37 MB) - ChipScale Review (ASE VIPack/FOCoS content)
+
+--- AMKOR TECHNOLOGY (SWIFT, SLIM, HDFO, etc.) [28 files] ---
+18-amkor-corporate-overview.pdf  (4.2 MB) - Corporate overview
+19-amkor-linecard.pdf  (9.5 MB) - Product line card (all tech)
+19-amkor-s-swift-packaging.pdf  (812 KB) - S-SWIFT technical paper
+20-amkor-test-services-brochure.pdf  (4.2 MB) - Test services
+21-amkor-automotive-brochure.pdf  (9.9 MB) - Automotive packaging
+22-amkor-design-center-brochure.pdf  (2.4 MB) - Design center
+23-amkor-sip-ts101.pdf  (2.2 MB) - SiP technical summary
+24-amkor-swift-ds110.pdf  (1.4 MB) - SWIFT datasheet
+25-amkor-dsmbga-ds841.pdf  (407 KB) - DSMBGA datasheet
+26-amkor-wlfo-ldfo-wlcsp-ds701.pdf  (1.7 MB) - WLFO/LDFO/WLCSP datasheet
+27-amkor-wlcsp-ds720.pdf  (808 KB) - WLCSP datasheet
+28-amkor-aip-aop-ts116.pdf  (741 KB) - Antenna-in-Package
+29-amkor-optical-sensor-ts113.pdf  (577 KB) - Optical sensor tech
+30-amkor-swift-ts110-cn.pdf  (1.6 MB) [CN]
+31-amkor-swift-ts110-kr.pdf  (1.7 MB) [KR]
+32-amkor-swift-ts110-jp.pdf  (1.6 MB) [JP]
+33-amkor-meptec-report-en.pdf  (5.6 MB) [EN]
+34-amkor-meptec-report-cn.pdf  (819 KB) [CN]
+35-amkor-meptec-report-jp.pdf  (1.4 MB) [JP]
+36-amkor-meptec-report-kr.pdf  (867 KB) [KR]
+37-amkor-linecard-cn.pdf  (9.8 MB) [CN]
+38-amkor-linecard-jp.pdf  (10 MB) [JP]
+39-amkor-linecard-kr.pdf  (9.8 MB) [KR]
+40-amkor-test-services-cn.pdf  (7.3 MB) [CN]
+41-amkor-test-services-jp.pdf  (6.0 MB) [JP]
+42-amkor-test-services-kr.pdf  (6.0 MB) [KR]
+43-amkor-automotive-kr.pdf  (8.6 MB) [KR]
+44-amkor-automotive-jp.pdf  (8.7 MB) [JP]
+45-amkor-automotive-cn.pdf  (8.9 MB) [CN]
+
+--- RESONAC / SHOWA DENKO (Semiconductor Materials) [1 file] ---
+46-resonac-dicing-die-bonding-film.pdf  (200 KB) - Dicing Die Bonding Film (FH/HR series)
+
+--- KLA (Packaging Inspection/Metrology) [3 files] ---
+50-kla-icos-t3-t7-brochure.pdf  (1.2 MB) - ICOS T3/T7 inspection system
+51-kla-icos-t3-t7-v2.pdf  (1.1 MB) - ICOS T3/T7 (alternate version)
+52-kla-icos-t890-brochure.pdf  (1.2 MB) - ICOS T890 inspection system
+
+--- EV GROUP (Temporary Bonding / Debonding) [1 file] ---
+54-evg-semicon-korea-2025-ir-layerrelease.pdf  (418 KB) - IR LayerRelease for HBM/3D DRAM
+
+--- EVATEC (PVD Equipment) [1 file] ---
+56-evatec-clusterline600.pdf  (4.1 MB) - CLUSTERLINE 600 PVD system
+
+--- INDIUM CORPORATION (TIMs, Die Attach) [3 files] ---
+57-indium-solder-tim-pds.pdf  (391 KB) - Solder TIM PDS-100407
+58-indium-heat-spring-tim-pds.pdf  (1.5 MB) - Heat-Spring TIM PDS-100326
+59-indium-tim-general-datasheet.pdf  (165 KB) - General TIM datasheet
+
+--- HENKEL (Underfill) [1 file] ---
+60-henkel-uf-8830s-fine-pitch-underfill.pdf  (101 KB) - LOCTITE ECCOBOND UF 8830S
+
+--- SUMITOMO BAKELITE (Molding Compounds) [1 file] ---
+57-sumitomo-bakelite-eme-catalog.pdf  (792 KB) - SUMIKON EME epoxy molding compound catalog
+
+--- APPLIED MATERIALS (Packaging Equipment) [1 file] ---
+61-amat-pvd-advanced-substrate.pdf  (3.1 MB) - PVD Technology for Advanced Substrate EMI Shielding
+
+===============================================================================
+Sources that blocked automated download / require registration:
+- MacDermid Alpha Systek SAP brochures (403 blocks)
+- ASE Global technology briefs (require form submission)
+- Onto Innovation equipment brochures (corporate site with JS-heavy pages)
+- ACM Research / Manz AG panel-level packaging equipment
+- Panasonic molding compounds detailed specs
+- Hitachi Chemical / additional Reso nac products
+- Namics detailed die-attach paste datasheets beyond U8443-14
+===============================================================================

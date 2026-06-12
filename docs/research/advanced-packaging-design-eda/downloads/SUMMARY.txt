@@ -1,0 +1,100 @@
+=============================================================================
+SUMMARY OF DOWNLOADED PACKAGING DOCUMENTS
+Advanced Packaging Design & EDA Research Library
+Date: 2026-06-13
+=============================================================================
+
+Total archive size: ~2.0 GB
+Total files: 200+ (PDFs, ZIP, images, GitHub workshop)
+
+=============================================================================
+1. IEEE HIR (Heterogeneous Integration Roadmap)
+=============================================================================
+Directory: HIR/
+Size: ~179 MB
+
+  - HIR_1.0_Full_2019.pdf (88 MB) -- COMPLETE 617-page roadmap, all 23 chapters
+    Chapters include: Overview, HPC, IoT, Medical, Automotive, Aerospace,
+    Mobile, Single/Multi-Chip, Photonics, Power, MEMS, 5G, Co-Design,
+    Modeling & Simulation, Materials, Emerging Devices, Test, Supply Chain,
+    Security, Thermal, SiP/Module, 2D/3D Interconnects, WLP
+  - HIR_1.0_Full_2019.zip (84 MB) -- same with active navigation + search
+  - HIR_2023_Chen_Presentation.pdf (723 KB) -- Overview of all 24+ chapters
+  - HIR_ESTC_2020_ChrisBailey.pdf (1.4 MB) -- Chris Bailey HIR overview
+  - HIR_Symp_2023_SEMI.pdf (248 KB) -- 2023 Symposium SEMI presentation
+  - HPC_2023_Workshop.pdf (4.8 MB) -- HPC & Data Centers chapter workshop
+  - WLP_Workshop_2023.pdf (467 KB) -- Wafer-Level Packaging workshop
+
+=============================================================================
+2. IEEE IRDS (International Roadmap for Devices and Systems) -- 2024 Edition
+=============================================================================
+Directory: IRDS/
+Size: ~24 MB
+
+  - IRDS_2024_Prologue.pdf (287 KB)
+  - IRDS_2024_Executive_Summary.pdf (9.0 MB) -- OVERVIEW of entire roadmap
+  - IRDS_2024_EPT_Part1.pdf (2.7 MB) -- EXECUTIVE PACKAGING TUTORIAL Part 1
+  - IRDS_2024_EPT_Part2.pdf (795 KB) -- EXECUTIVE PACKAGING TUTORIAL Part 2
+  - IRDS_2024_ESHS_ESSF.pdf (2.1 MB) -- Environmental Sustainability
+  - IRDS_2024_WP_AMC.pdf (643 KB) -- Autonomous Machine Computing white paper
+  - IRDS_2024_Litho.pdf (1.4 MB) -- Lithography and Patterning
+  - IRDS_2024_OSC.pdf (2.7 MB) -- Outside System Connectivity
+  - IRDS_2024_BC.pdf (3.3 MB) -- Beyond CMOS
+  - IRDS_2024_SA.pdf (1.2 MB) - Systems and Architectures
+
+=============================================================================
+3. Chip Scale Review Magazine (2021-2026) -- ALL AVAILABLE ISSUES
+=============================================================================
+Directory: ChipScaleReview/
+Size: ~1.3 GB -- 31 issues, 6 years
+
+  2026 (Volume 30): Winter, Spring
+  2025 (Volume 29): Jan/Feb, Mar/Apr, May/Jun, Jul/Aug, Sep/Oct
+  2024 (Volume 28): Jan/Feb, Mar/Apr, May/Jun, Jul/Aug, Sep/Oct, Nov/Dec
+  2023 (Volume 27): Jan/Feb, Mar/Apr, May/Jun, Jul/Aug, Sep/Oct, Nov/Dec
+  2022 (Volume 26): Jan/Feb, Mar/Apr, May/Jun, Jul/Aug, Sep/Oct, Nov/Dec
+  2021 (Volume 25): Jan/Feb, Mar/Apr, May/Jun, Jul/Aug, Sep/Oct, Nov/Dec
+
+=============================================================================
+4. UCIe Specifications (Whitepapers)
+=============================================================================
+Directory: UCIe/
+Size: ~3.4 MB
+
+  - UCIe_1.1_Whitepaper.pdf (1.0 MB)
+  - UCIe_2.0_Whitepaper.pdf (835 KB)
+  - UCIe_3.0_Whitepaper.pdf (554 KB)
+  - UCIe_Open_Chiplet_Ecosystem_Whitepaper.pdf (1.1 MB)
+
+=============================================================================
+5. Design Rules & Guidelines
+=============================================================================
+  - Europractice_Chiplet_Design_Rules_v1.7.pdf (2.1 MB)
+  - Tyndall_Photonics_Packaging_Design_Rules_v1.7.pdf (1.4 MB)
+  - PHIX_Design_Guidelines.pdf (1.5 MB)
+  - Swiss_PIC_Design_Guidelines_v12.pdf (674 KB)
+  - ASP_DAC_2025_Chiplet_Packaging_Tutorial.pdf (2.5 MB)
+
+=============================================================================
+6. Other Publications
+=============================================================================
+  - ChipletSummit_2025_Nikoukary.pdf (3.1 MB)
+  - Frontiers_Warpage_FOWLP_2025.pdf (3.3 MB)
+  - MKS_Advanced_Packaging_Handbook.pdf (7.3 MB)
+  - SIITME_2025_Keynote_Metzler.pdf (2.1 MB)
+
+=============================================================================
+7. GitHub -- Semiconductor Packaging Workshop
+=============================================================================
+Directory: GitHub_Semiconductor_Packaging_Workshop/ (65 MB)
+
+=============================================================================
+8. Resources NOT Downloaded
+=============================================================================
+  - BoW specs (OCP blocks automated downloads; available manually)
+  - SEMI MRHIEP report (403 error from semi.org)
+  - SemiEngineering eBook (requires free registration)
+  - Siemens EDA eBook (requires registration)
+  - IMAPS magazines (requires navigating IMAPS website)
+  - JEDEC standards (all paid)
+  - Yole/IDTechEx/TechSearch full reports (paid)
