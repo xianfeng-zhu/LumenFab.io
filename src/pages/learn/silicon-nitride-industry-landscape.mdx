@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: 氮化硅代工格局与市场应用
+chapter: 13. Industry Map
+description: 氮化硅在 AI 数据中心光互连中的代工平台格局、市场规模、NPO/CPO 应用现状与趋势。
+---
+
+## 市场规模
+
+SiN 光子学市场 2025 年约 **$700M**，预计 2033 年达到 **~$1B**（CAGR ~4%）。其中**数据中心光互连**占 60% 以上，是绝对主力；**LiDAR** 和**量子计算**增速最快（部分细分 CAGR 超过 40%）。
+
+SiN 在行业中扮演的角色是**无源基础设施层**——它很少单独做一颗芯片，而是嵌入到更大的 PIC 生态中。**2026 年的量主力是 NPO（近封装光学）**，Google 已下达 1200 万只 NPO 光模块订单（用于 TPU v7/v8），NVIDIA Rubin 平台同样采用 NPO 路线。CPO 大规模部署预计在 2028+（TrendForce 预测 2026 年 CPO 渗透率仅 0.55%，2030 年达 35.74%）。NPO 和 CPO 长期并存，但两者都需要 SiN 做无源路由层——NPO 先量，CPO 后量，SiN 的需求在两个方向上都是刚性的。这个更大的生态（PIC + NPO + CPO）预计 2036 年达到 $500 亿（IDTechEx）。
+
+OFC 2026 上成立的三个 MSAs（Open CPX、OCI、XPO）全部将 SiN 作为无源光路层的基础假设。当前制约不在物理性能（损耗已做到 0.03 dB/cm），而在制造良率和异质集成成本。
+
+## 谁在用 SiN
+
+在需要低损耗无源路由的 CPO/NPO 引擎中，SiN 的采用已是行业架构层面的标配。以下为主要平台和已知用户：
+
+| 厂商/平台 | SiN 用法 | 量产状态 | 是否公开确认 |
+|----------|---------|---------|------------|
+| **TSMC COUPE** | PECVD SiN（前端路由）+ PIFO 背面多层 SiN（长距互联） | 2025 年量产，NVIDIA/Broadcom 首批客户 | ✅ IEDM 2024, OFC 2025 |
+| **NVIDIA** | Rubin NPO/CPO 引擎在 COUPE 上流片 → 用 SiN | 2026 年 NPO 批量出货 | ⚠️ 基于代工厂平台推定 |
+| **Broadcom** | Bailly CPO 交换机在 COUPE 上流片 → 用 SiN | 2026 Q1 月度量产 | ⚠️ 基于代工厂平台推定 |
+| **Google** | TPU NPO 模块（中际旭创/新易盛供应） | 2026 Q3 交付 | ❓ 具体材料栈未公开 |
+| **华为** | Hi-ONE NPO 引擎（自研） | 已部署 | ❓ 具体材料栈未公开 |
+
+**注意**：TSMC COUPE 生态内的用户（NVIDIA、Broadcom）可以确认用 SiN。其他厂商（中际旭创、新易盛、华为）的模块是否含 SiN 层，取决于其具体设计和代工厂选择——目前没有公开证据。
+
+更广泛的硅光收发器并非全部用 SiN：简单的 800G DR4 设计，路由短、无 WDM 滤波，纯 SOI 即够用。SiN 的必要性在路由超过约 2 cm、需要 WDM 滤波或高 Q 谐振器时才成立。
+
+## 代工平台格局
+
+| 代工厂 / 平台 | 方法 | 晶圆 | 传输损耗 | 特点 |
+|-------------|------|------|---------|------|
+| **LIGENTEC** | LPCVD | 200 mm | &lt; 0.1 dB/cm（量产），纪录 &lt; 0.5 dB/m | 商业化最成熟，AN 高约束技术，400–4000 nm 透明窗口 |
+| **imec iSiPP** | LPCVD | 200 mm | 可低至 0.03 dB/cm（3 dB/m） | SiN + SiPh 共集成，OFC 2025 超低损耗报道 |
+| **TSMC COUPE** | PECVD（前端）+ 背面多层 SiN | 300 mm | 前端 0.14–0.21 dB/cm，PIFO 背面 0.02 dB/cm | 65nm CMOS 产线，6 层金属互连，NVIDIA/Broadcom 合作，2026 目标 6.4T CPO |
+| **LioniX TriPleX** | LPCVD 变体 | 200 mm | 可低至 0.1 dB/m（单条纹），常规 &lt;0.1 dB/cm（ADS） | 多层 SiN/SiO₂ 交替沉积抵消应力，最低损耗纪录保持者 |
+| **Tower PH18** | PECVD | 200 mm（300 mm 规划中） | 标准 ~1.0–2.0 dB/cm；Anello 共同开发工艺可至 0.005 dB/cm | CMOS 后道兼容，SiPh + SiN 共集成，与 NVIDIA 合作 1.6T |
+| **CEA-LETI** | LPCVD | 200 mm | ~0.03 dB/cm（3 dB/m） | Si₃N₄-800 平台（800 nm 厚），MPW 可通过 EUROPRACTICE 获取 |
+| **Columbia/Cornell（McNulty 2025）** | LPCVD + PECVD 双层 | 研究阶段 | — | LPCVD（~340 nm）低损耗核心 + PECVD（~400 nm）应力补偿，非量产 |
+
+选哪家取决于需求：追求最低损耗走 LPCVD 路线（LIGENTEC、LioniX），追求 CMOS 产线规模和单片集成看 TSMC 或 Tower。需要多项目晶圆（MPW）服务可关注 AIM Photonics（300 mm PECVD，多个损耗等级 &lt;0.2–0.325 dB/cm）或 EUROPRACTICE（CEA-LETI）。
+
+## 与相邻页面的分工
+
+| 页面 | 内容 |
+|------|------|
+| 本页 | SiN 市场规模、代工格局、NPO/CPO 应用现状、谁在用 |
+| [氮化硅：低损耗无源光子平台](../silicon-nitride-low-loss-passive-platform/) | SiN 材料特性、物理原理、制造工艺、典型应用场景、平台组合模式 |
+| [AI 数据中心光互连格局](../industry-landscape/) | 出货架构、光模块与激光器厂商排名、技术路线演变、NPO 量产厂商 |
+
+## 资料来源
+
+- Ozdemir et al., "Advancements in LPCVD SiN Waveguides: Achieving 3 dB/m Propagation Loss on 200 mm Wafers", OFC 2025
+- TSMC, EPIC-BOE Platform, IEDM 2024; COUPE SiN specifications, OFC 2025
+- LIGENTEC — AN Technology platform specifications
+- LioniX International — TriPleX platform specifications
+- Tower Semiconductor — PH18 platform, Anello partnership
+- CEA-LETI — Si₃N₄-800 MPW platform
+- McNulty et al. (Columbia/Cornell), "Overcoming stress limitations in SiN nonlinear photonics via a bilayer waveguide", *Nanophotonics* 14(23), 3921 (2025)
+- AIM Photonics — SiN Passive PIC MPW
+- TrendForce, CPO Penetration Rate Forecast, March 2026
+- IDTechEx, "Silicon Photonics and Photonic Integrated Circuits 2026-2036"
+- LightCounting, May 2026 Newsletter
+- 广发通信, Google NPO 订单研报, April 2026

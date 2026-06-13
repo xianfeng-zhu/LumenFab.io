@@ -143,25 +143,7 @@ TSMC 的 0.015 dB 已低到在系统级链路预算中可以忽略——光在 S
 
 SiN 不是取代 Si 或 InP，而是在它们力所不能及的地方出现——需要极低损耗的时候、需要热稳定的时候、需要高功率非线性的时候。
 
-## 行业应用规模
-
-SiN 光子学市场 2025 年约 **$700M**，预计 2033 年达到 **~$1B**（CAGR ~4%）。其中**数据中心光互连**占 60% 以上，是绝对主力；**LiDAR** 和**量子计算**增速最快（部分细分 CAGR 超过 40%）。
-
-SiN 在行业中扮演的角色是**无源基础设施层**——它很少单独做一颗芯片，而是嵌入到更大的 PIC 生态中。**2026 年的量主力是 NPO（近封装光学）**，Google 已下达 1200 万只 NPO 光模块订单（用于 TPU v7/v8），NVIDIA Rubin 平台同样采用 NPO 路线。CPO 大规模部署预计在 2028+（TrendForce 预测 2026 年 CPO 渗透率仅 0.55%，2030 年达 35.74%）。NPO 和 CPO 长期并存，但两者都需要 SiN 做无源路由层——NPO 先量，CPO 后量，SiN 的需求在两个方向上都是刚性的。这个更大的生态（PIC + NPO + CPO）预计 2036 年达到 $500 亿（IDTechEx）。OFC 2026 上成立的三个 MSAs（Open CPX、OCI、XPO）全部将 SiN 作为无源光路层的基础假设。当前制约不在物理性能（损耗已做到 0.03 dB/cm），而在制造良率和异质集成成本。
-
-## 代工资源
-
-| 代工厂 / 平台 | 方法 | 晶圆 | 传输损耗 | 特点 |
-|-------------|------|------|---------|------|
-| **LIGENTEC** | LPCVD | 200 mm | &lt; 0.1 dB/cm（量产），纪录 &lt; 0.5 dB/m | 商业化最成熟，AN 高约束技术，400–4000 nm 透明窗口 |
-| **imec iSiPP** | LPCVD | 200 mm | 可低至 0.03 dB/cm（3 dB/m） | SiN + SiPh 共集成，OFC 2025 超低损耗报道 |
-| **TSMC COUPE** | PECVD（前端）+ 背面多层 SiN | 300 mm | 前端 0.14–0.21 dB/cm，PIFO 背面 0.02 dB/cm | 65nm CMOS 产线，6 层金属互连，NVIDIA/Broadcom 合作，2026 目标 6.4T CPO |
-| **LioniX TriPleX** | LPCVD 变体 | 200 mm | 可低至 0.1 dB/m（单条纹），常规 &lt;0.1 dB/cm（ADS） | 多层 SiN/SiO₂ 交替沉积抵消应力，最低损耗纪录保持者 |
-| **Tower PH18** | PECVD | 200 mm（300 mm 规划中） | 标准 ~1.0–2.0 dB/cm；Anello 共同开发工艺可至 0.005 dB/cm | CMOS 后道兼容，SiPh + SiN 共集成，与 NVIDIA 合作 1.6T |
-| **CEA-LETI** | LPCVD | 200 mm | ~0.03 dB/cm（3 dB/m） | Si₃N₄-800 平台（800 nm 厚），MPW 可通过 EUROPRACTICE 获取 |
-| **Columbia/Cornell（McNulty 2025）** | LPCVD + PECVD 双层 | 研究阶段 | — | LPCVD（~340 nm）低损耗核心 + PECVD（~400 nm）应力补偿，非量产 |
-
-选哪家取决于需求：追求最低损耗走 LPCVD 路线（LIGENTEC、LioniX），追求 CMOS 产线规模和单片集成看 TSMC 或 Tower。需要多项目晶圆（MPW）服务可关注 AIM Photonics（300 mm PECVD，多个损耗等级 &lt;0.2–0.325 dB/cm）或 EUROPRACTICE（CEA-LETI）。
+关于市场规模、代工平台格局、NPO/CPO 应用现状，见 [氮化硅代工格局与市场应用](../silicon-nitride-industry-landscape/)。
 
 ## 资料来源
 
