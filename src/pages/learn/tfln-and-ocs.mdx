@@ -2,16 +2,16 @@
 layout: ../../layouts/ConceptLayout.astro
 title: TFLN and OCS
 chapter: 05 / 09 / 12. 交叉专题
-description: TFLN 利用 Pockels 效应实现亚纳秒电光切换，将 MZI 级联成交换矩阵后，可以在数据中心里按需重构 GPU 之间的光路拓扑。
+description: TFLN 利用 Pockels 效应实现纳秒级电光切换，将 MZI 级联成交换矩阵后，可以在数据中心里按需重构 GPU 之间的光路拓扑。
 ---
 
-数据中心光网络从静态配线走向可编程光电路交换（Optical Circuit Switching, OCS），开关材料的选择决定了重配置的速度上限。TFLN（thin-film lithium niobate, 薄膜铌酸锂）是候选材料之一。它把 Pockels 效应的亚纳秒响应、波导损耗低于 0.1 dB/cm、以及 V_π 约 2-3V 的 CMOS 兼容驱动电压放在同一个芯片上——这让光开关有机会在响应速度上追赶电开关，同时保留光路的带宽透明性。
+数据中心光网络从静态配线走向可编程光电路交换（Optical Circuit Switching, OCS），开关材料的选择决定了重配置的速度上限。本页聚焦 TFLN 如何构建光开关和交换矩阵，以及在数据中心里的系统级应用。TFLN 材料本身的物理性质、制造工艺和代工格局见 [薄膜铌酸锂：高速电光材料平台](../thin-film-lithium-niobate/)。
 
 ## TFLN 的开关物理
 
-TFLN 做开关的核心机制是 Pockels 效应。铌酸锂（LiNbO₃）的晶格在外加电场下改变极化状态，通过 r₃₃ 系数（约 31 pm/V）改变折射率。这个效应属于二阶非线性光学效应，有三个特征：材料响应时间在飞秒量级、相位变化与电场成正比、电极仅加电场不流电流——静态功耗近乎为零。
+TFLN 做开关的核心机制是 Pockels 效应。铌酸锂（LiNbO₃）的晶格在外加电场下改变极化状态，通过 r₃₃ 系数（约 31 pm/V）改变折射率。这个效应属于二阶非线性光学效应，有三项工程关键特征：材料响应时间在飞秒量级、相位变化与电场成正比、电极仅加电场不流电流——静态功耗近乎为零。
 
-薄膜化是让 Pockels 效应进入实用开关尺度的一步。传统体铌酸锂调制器需要厘米级电极和十几伏驱动电压。通过 Smart Cut 工艺（离子注入加直接键合）将铌酸锂减薄到 300 nm–1 µm 并转移到氧化硅埋层上，光模场与电极的重叠显著增强，半波电压 V_π 可降至 1.4–3V（Zhang et al., Nature, 2018：20 mm 器件 V_π=1.4V，10 mm 器件 V_π=2.3V），调制带宽超过 100 GHz。
+薄膜化后将 V_π 从体材料的 5–10 V 降至 1.4–3V（Zhang et al., Nature, 2018），调制带宽超过 100 GHz，使单个 MZI 开关的切换进入纳秒级。
 
 TFLN 作为开关材料的能力，在同其他光开关技术并列时更清楚：
 
@@ -98,30 +98,15 @@ TFLN 的纳秒级开关速度让控制面的粒度选择成为可能。当系统
 
 控制面的瓶颈不在 TFLN 开关速度本身——电极充电时间低于 1 ns，占端到端配置延迟（约 12 µs）的不到 0.01%。真正的约束在另外三个维度：光路冲突（两条光路不能同时占用同一端口，GPU 越多冲突概率越高）、拓扑搜索复杂度（在大规模矩阵中找到无冲突的多条光路是 NP-hard 的图着色问题）、光路建立开销（激光器重锁定和接收端 CDR 重同步需要微秒级时间，切换过频会降低有效带宽）。
 
-## TFLN 的量产状态
+## 当前局限
 
-TFLN 代工生态截至 2025 年已经初步成型。
-
-**HyperLight（美国）** 由 Nature 2018 论文合著者 Mian Zhang 创立（第一作者为 Cheng Wang），已完成 3700 万美元 B 轮融资。6 英寸量产线已在运行，8 英寸中试线启动中，110 GHz 调制器保持 TFLN 速度记录。HyperLight 定位为器件供应商——交付经过测试的调制器芯片，而非空白晶圆。
-
-**CCRAFT / CSEM（瑞士）** 是欧盟首条开放式 TFLN 代工线。CLN600 PDK 已发布，2025 年 9 月首次多项目晶圆（MPW）流片，采用标准代工服务模式。
-
-**Lightium（瑞士）** 定位 8 英寸代工服务，种子轮 700 万美元，2025 年初开放。
-
-TFLN 晶圆的主流制造工艺是 Smart Cut。波导传播损耗从早期的 10–17 dB/cm 降至 2025 年的低于 0.2 dB/cm，实验室记录约 0.03 dB/cm。主要晶圆供应商包括 NanoLN（中国，4–6 英寸）、Soitec（法国，6 英寸）和 NGK（日本）。
-
-TFLN 代工生态与 SiPh 的差距仍然显著。与 SiPh 的异质集成——TFLN 提供电光和开关功能，Si 或 SiN 波导处理无源路由，InP 提供光源——是当前活跃的工程方向。
-
-## 当前限制
-
-TFLN 量产成熟度低于 MEMS 和 SiPh：截至 2025 年 HyperLight 和 CCRAFT 拥有运行中的生产线，晶圆尺寸以 4–6 英寸为主（SiPh 主流为 8–12 英寸）。针对 TFLN 级别切换精度的生产级 SDN 控制器尚未出现——现有 Orion 面向的是 MEMS 的毫秒级重配置周期。光路建立开销（激光重锁定、CDR 重同步）需要系统级优化才有望匹配纳秒级开关速度。TFLN MZI 的相移器长度（厘米级）也比 InP 和 SiPh 的毫米级器件占用更多芯片面积，对高密度集成构成制约。
+TFLN OCS 从原理验证到规模部署仍面临几项工程挑战：针对纳秒级切换精度的生产级 SDN 控制器尚未出现（现有 Google Orion 面向 MEMS 毫秒级重配置周期）；光路建立开销（激光器重锁定、接收端 CDR 重同步在微秒级）需系统级优化才能匹配纳秒级开关速度；TFLN MZI 的相移器为厘米级，比 InP 和 SiPh 的毫米级器件占用更多芯片面积。TFLN 材料制造和代工方面的限制见 [薄膜铌酸锂：高速电光材料平台](../thin-film-lithium-niobate/)。
 
 ## Further Reading
 
-- [Nature 2018: Integrated lithium niobate electro-optic modulators operating at CMOS-compatible voltages](https://www.nature.com/articles/s41586-018-0551-y)
-- [Nature Reviews Physics 2025: Integrated electro-optics on thin-film lithium niobate](https://www.nature.com/articles/s42254-025-00825-5)
 - [SIGCOMM 2022: Jupiter Evolving](https://dl.acm.org/doi/10.1145/3544216.3544265)
 - [SIGCOMM 2023: Lightwave Fabrics](https://dl.acm.org/doi/10.1145/3603269.3604836)
 - [Lumorph (arXiv 2025): Reconfigurable Optical Circuit Switches for ML Training](https://arxiv.org/abs/2501.18169)
 - [PCCL (arXiv 2025): Photonic Circuit-Switched Collective Communication](https://arxiv.org/abs/2509.15450)
-- [COUDER (Columbia): Robust Topology Design for Optical Circuit Switched Data Centers](https://ar5iv.labs.arxiv.org/html/2010.00090)
+- [COUDER (Columbia University): Robust Topology Design for Optical Circuit Switched Data Centers](https://ar5iv.labs.arxiv.org/html/2010.00090)
+- [Nature 2018: Integrated lithium niobate electro-optic modulators operating at CMOS-compatible voltages](https://www.nature.com/articles/s41586-018-0551-y)
