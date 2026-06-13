@@ -57,17 +57,6 @@ SiN 集成光子学的制造工艺直接影响其光学性能。两种主流沉�
 
 **PECVD** 可在低温下沉积，与 CMOS 后道工艺兼容<TermNote label="CMOS BEOL 热预算" note="CMOS 制成后，后续工艺步骤的温度不能超过约 400–450°C（BEOL 热预算上限），否则金属互连会熔化、掺杂分布会扩散偏移。LPCVD 的 800°C 远超此限，只能在 CMOS 制造前完成；PECVD 的 350°C 在预算内，可以在 CMOS 上方直接沉积。" />。其应力可通过气体比例调节，膜厚不受限。但 PECVD 薄膜含有较多 N-H 键，在 1550 nm 附近存在吸收峰，传输损耗通常高于 LPCVD。
 
-### 主要代工厂与平台
-
-| 代工厂 / 平台 | 方法 | 晶圆 | 传输损耗 | 特点 |
-|-------------|------|------|---------|------|
-| **LIGENTEC** | LPCVD | 200 mm | &lt; 0.1 dB/cm（量产），纪录 &lt; 0.5 dB/m | 商业化最成熟，AN 高约束技术，400–4000 nm 透明窗口 |
-| **imec iSiPPP** | LPCVD | 200 mm | 可低至 0.003 dB/cm（3 dB/m） | SiN + SiPh 共集成，OFC 2025 超低损耗报道 |
-| **LioniX TriPleX** | LPCVD 变体 | 150 mm | dB/m 量级 | 多层 SiN/SiO₂ 交替沉积，低应力 |
-| **Tower PH18** | PECVD | 200 mm | ~0.7–1.8 dB/cm | CMOS 后道兼容，SiPh + SiN 共集成 |
-| **CEA-LETI** | LPCVD + PECVD 双层 | 200 mm | 研究阶段 | LPCVD（~340 nm）做低损耗核心 + PECVD（~400 nm）补偿应力与厚度，非量产（McNulty et al., 2025） |
-
-选哪家取决于需求：追求最低损耗走 LPCVD 路线（LIGENTEC、imec），追求 CMOS 单片集成看 PECVD（Tower），需要多项目晶圆（MPW）服务可关注 AIM Photonics 的 SiN 无源 MPW。
 
 ## 典型应用场景
 
@@ -124,6 +113,18 @@ SiN 很少独立使用。在集成光子学中最常见的角色是"补充层"�
 | 代工成熟度 | 非常成熟 | 成熟，多个 MPW 可用 |
 
 SiN 不是取代 Si 或 InP，而是在它们力所不能及的地方出现——需要极低损耗的时候、需要热稳定的时候、需要高功率非线性的时候。
+
+## 代工资源
+
+| 代工厂 / 平台 | 方法 | 晶圆 | 传输损耗 | 特点 |
+|-------------|------|------|---------|------|
+| **LIGENTEC** | LPCVD | 200 mm | &lt; 0.1 dB/cm（量产），纪录 &lt; 0.5 dB/m | 商业化最成熟，AN 高约束技术，400–4000 nm 透明窗口 |
+| **imec iSiPPP** | LPCVD | 200 mm | 可低至 0.003 dB/cm（3 dB/m） | SiN + SiPh 共集成，OFC 2025 超低损耗报道 |
+| **LioniX TriPleX** | LPCVD 变体 | 150 mm | dB/m 量级 | 多层 SiN/SiO₂ 交替沉积，低应力 |
+| **Tower PH18** | PECVD | 200 mm | ~0.7–1.8 dB/cm | CMOS 后道兼容，SiPh + SiN 共集成 |
+| **CEA-LETI** | LPCVD + PECVD 双层 | 200 mm | 研究阶段 | LPCVD（~340 nm）做低损耗核心 + PECVD（~400 nm）补偿应力与厚度，非量产（McNulty et al., 2025） |
+
+选哪家取决于需求：追求最低损耗走 LPCVD 路线（LIGENTEC、imec），追求 CMOS 单片集成看 PECVD（Tower）。需要多项目晶圆（MPW）服务可关注 AIM Photonics 的 SiN 无源 MPW。
 
 ## 资料来源
 
