@@ -10,7 +10,7 @@ import TermNote from "../../components/TermNote.astro";
 
 ## SiN 在材料平台中的位置
 
-在集成光子学中，Si 和 InP 各有短板：Si 不发光，InP 波导损耗高。当一个应用需要**极低传输损耗、宽带透明、热稳定**的无源光路时，这两者都不理想。SiN 填补的正是这个空白。相比其他主流无源平台，它在传输损耗（低至 0.003 dB/cm）、热稳定性（dn/dT 约为 Si 的 1/7）和功率承受能力（通信波段无 TPA）三个维度上同时具有显著优势，没有其他单一无源平台能在这三个指标上同时达到同一水平。本节先展开低损耗的物理来源，后续各节分别覆盖热稳定（低热光系数）、宽带透明（无双光子吸收）以及它们支撑的典型应用。
+在集成光子学中，Si 和 InP 各有短板：Si 不发光，InP 波导损耗高。当一个应用需要**极低传输损耗、宽带透明、热稳定**的无源光路时，这两者都不理想。SiN 填补的正是这个空白。相比其他主流无源平台，它在传输损耗（低至 0.03 dB/cm）、热稳定性（dn/dT 约为 Si 的 1/7）和功率承受能力（通信波段无 TPA）三个维度上同时具有显著优势，没有其他单一无源平台能在这三个指标上同时达到同一水平。本节先展开低损耗的物理来源，后续各节分别覆盖热稳定（低热光系数）、宽带透明（无双光子吸收）以及它们支撑的典型应用。
 
 SiN 同样不发光——它和 Si 一样是间接带隙材料，不能做原生光源。因此 SiN 在系统中的角色始终是"补充层"而非"替代层"，通常与 III-V 增益材料或 Si 调制器搭配使用。
 
@@ -22,7 +22,7 @@ SiN 的另一项"表面弱点"是折射率不高：SiN（~2.00）与包层 SiO�
 
 - **低折射率差**：根据 Payne-Lacey 散射模型，侧壁粗糙度引起的散射损耗正比于介电反差的平方。SiN/SiO₂ 的介电反差（n_core² − n_clad²）约为 Si/SiO₂ 的 1/18——仅这一项，散射源强度就比 SOI 弱一个数量级以上。
 - **弱约束**：折射率差小意味着光模场更"松散"，模场直径更大。电场在粗糙侧壁处的强度大幅下降，模场对同一个物理粗糙度"感觉"到的扰动更少。
-- **乘积效应**：散射损耗同时被两个独立因子压低——介电反差平方和侧壁场强。两者乘积使 SiN 波导的侧壁散射损耗可比 SOI 低约两个数量级，这也是 LPCVD SiN 能做到 0.003 dB/cm（3 dB/m）的物理基础。
+- **乘积效应**：散射损耗同时被两个独立因子压低——介电反差平方和侧壁场强。两者乘积使 SiN 波导的侧壁散射损耗可比 SOI 低约两个数量级，这也是 LPCVD SiN 能做到 0.03 dB/cm（3 dB/m）的物理基础。
 
 ## 从材料特性到平台优势
 
@@ -50,22 +50,22 @@ SiN 集成光子学的制造工艺直接影响其光学性能。两种主流沉�
 
 | 方法 | 温度 | 应力 | 传输损耗 | CMOS 兼容 |
 |------|------|------|---------|----------|
-| LPCVD | ~800°C | ~1 GPa 拉应力 | 可低至 **0.003 dB/cm** | 否（超出 BEOL 热预算） |
-| PECVD | ~350°C | ~300 MPa（可调） | ~0.7–1.8 dB/cm | 是 |
+| LPCVD | ~800°C | ~1 GPa 拉应力 | 可低至 **0.03 dB/cm** | 否（超出 BEOL 热预算） |
+| PECVD | ~350°C | ~300 MPa（可调） | ~1.0–3.75 dB/cm | 是 |
 
 **LPCVD** 是当前高性能 SiN 光子学的**行业主力**。沉积的 Si₃N₄ 接近化学计量比，氢含量低、吸收损耗小。但其约 1 GPa 的拉应力限制了膜厚不能超过约 400 nm，否则会开裂——这对非线性色散工程和器件设计构成直接约束。
 
 **PECVD** 可在低温下沉积，与 CMOS 后道工艺兼容<TermNote label="CMOS BEOL 热预算" note="CMOS 制成后，后续工艺步骤的温度不能超过约 400–450°C（BEOL 热预算上限），否则金属互连会熔化、掺杂分布会扩散偏移。LPCVD 的 800°C 远超此限，只能在 CMOS 制造前完成；PECVD 的 350°C 在预算内，可以在 CMOS 上方直接沉积。" />。其应力可通过气体比例调节，膜厚不受限。但 PECVD 薄膜含有较多 N-H 键，在 1550 nm 附近存在吸收峰，传输损耗通常高于 LPCVD。
 
-**路线选择**：TSMC COUPE 选择了 PECVD 路线（前端 SiN 损耗 0.14–0.21 dB/cm），优先保证 65nm CMOS 产线的全兼容，再通过背面 PIFO 多层 SiN（0.02 dB/cm）弥补长距离路由的损耗需求。imec iSiPPP 则走 LPCVD 路线（0.003 dB/cm），用工艺兼容性换取极致损耗。两条路都走到了量产，取舍点不同。
+**路线选择**：TSMC COUPE 选择了 PECVD 路线（前端 SiN 损耗 0.14–0.21 dB/cm），优先保证 65nm CMOS 产线的全兼容，再通过背面 PIFO 多层 SiN（0.02 dB/cm）弥补长距离路由的损耗需求。imec iSiPP 则走 LPCVD 路线（0.03 dB/cm），用工艺兼容性换取极致损耗。两条路都走到了量产，取舍点不同。
 
 ### 两类晶圆，两种集成方式
 
 SiN 并非总是长在 SOI 晶圆上。行业里存在两个流派：
 
-**纯 SiN 平台**：在普通硅片上热氧化一层 SiO₂（~2–8 μm）做下包层，再沉积 SiN 波导层。芯片上只有 SiN 波导，没有 Si 器件层——纯无源。代表为 LIGENTEC（200 mm）、LioniX TriPleX（150 mm）。晶圆成本约 $300/片，远低于 SOI。
+**纯 SiN 平台**：在普通硅片上热氧化一层 SiO₂（~2–8 μm）做下包层，再沉积 SiN 波导层。芯片上只有 SiN 波导，没有 Si 器件层——纯无源。代表为 LIGENTEC（200 mm）、LioniX TriPleX。晶圆成本约 $50–100/片，远低于 SOI。
 
-**Si + SiN 双层平台**：在 SOI 晶圆上额外沉积 SiN 层。Si 器件层负责调制和探测，SiN 层负责低损耗路由。代表为 imec iSiPPP、Tower PH18、TSMC COUPE。晶圆成本约 $1000/片，但一颗芯片上同时拥有有源和无源能力。
+**Si + SiN 双层平台**：在 SOI 晶圆上额外沉积 SiN 层。Si 器件层负责调制和探测，SiN 层负责低损耗路由。代表为 imec iSiPP、Tower PH18、TSMC COUPE。晶圆成本约 $300–700/片，但一颗芯片上同时拥有有源和无源能力。
 
 两种路线对应两种场景：纯 SiN 用于频率梳、量子、传感和外腔反馈——这些场景不需要片上调制器；Si + SiN 双层用于 CPO 引擎和数据中心光模块——需要同一芯片上既有调制又有低损耗路由。
 
@@ -73,17 +73,17 @@ SiN 并非总是长在 SOI 晶圆上。行业里存在两个流派：
 
 ### 低损耗路由与延迟线
 
-SiN 的传输损耗比硅波导低 1–2 个数量级。**在真实 CPO 光引擎中，单 lane 的总波导路径通常在 1.5–3 cm**——从输入耦合器经分光树、分配到各调制器、再汇总到输出，这一路累积下来，Si 波导（0.5 dB/cm）已经吃掉 1–2.5 dB，而 SiN（0.03 dB/cm）只吃 0.05–0.09 dB。当路径超过 2 cm 或带上 WDM 滤波器等额外器件时，SiN 从"更好"变成"不用不行"。
+SiN 的传输损耗比硅波导低 1–2 个数量级。**在真实 CPO 光引擎中，单 lane 的总波导路径通常在 1.5–3 cm**——从输入耦合器经分光树、分配到各调制器、再汇总到输出，这一路累积下来，Si 波导（1.5 dB/cm，代工厂标准 strip 波导）已经吃掉 2.3–4.5 dB，而 SiN（0.03 dB/cm）只吃 0.05–0.09 dB。当路径超过 2 cm 或带上 WDM 滤波器等额外器件时，SiN 从"更好"变成"不用不行"。
 
-**延迟线**是另一个极端。1 ns 的光延迟需要约 8.6 cm 的光程，10 ns 需要 86 cm。这些用螺旋结构挤在几 mm² 的面积上：
+**延迟线**是另一个极端。1 ns 的光延迟需要约 8.6 cm 的光程，10 ns 需要 86 cm。这些用螺旋结构挤在几 mm² 的面积上。延迟线对损耗最为敏感，因此通常使用优化的超低损耗 SiN 波导（~0.005 dB/cm，LIGENTEC 纪录；LioniX 更可达 ~0.001 dB/cm）：
 
-| 延迟目标 | 光程 | Si 损耗（0.5 dB/cm） | SiN 损耗（0.003 dB/cm） |
-|---------|------|---------------------|------------------------|
-| 100 ps | 8.6 cm | **4.3 dB** | 0.026 dB |
-| 1 ns | 86 cm | **43 dB**（不可用） | 0.26 dB |
-| 10 ns | 8.6 m | — | 2.6 dB |
+| 延迟目标 | 光程 | Si 损耗（0.06 dB/cm，最优） | SiN 损耗（0.005 dB/cm） |
+|---------|------|--------------------------|------------------------|
+| 100 ps | 8.6 cm | 0.52 dB | 0.04 dB |
+| 1 ns | 86 cm | 5.2 dB | 0.43 dB |
+| 10 ns | 8.6 m | 52 dB（不可用） | 4.3 dB |
 
-SiN 的 0.003 dB/cm 使得米级延迟线在芯片上成为可能——这在光缓冲、信号同步和微波光子学中是独一无二的能力。
+即使 10 ns 延迟在超低损耗 SiN 上也可行——这在光缓冲、信号同步和微波光子学中是独一无二的能力。
 
 ### WDM 滤波器与复用器
 
@@ -116,7 +116,7 @@ SiN 很少独立使用。在集成光子学中最常见的角色是"补充层"�
 | SiN + TFLN | 无源分光/滤波 | 高速 Pockels 调制 |
 | SiN + 增益芯片 + 频率梳 | 频率梳产生 | 泵浦光源 |
 
-这也是当前主流代工厂（imec iSiPPP、Tower PH18、TSMC COUPE、AIM Photonics、CEA-LETI 等）的标准做法——在同一个 PIC 平台上集成 Si 和 SiN 两层工艺，让设计者根据功能需求选择合适的材料层。
+这也是当前主流代工厂（imec iSiPP、Tower PH18、TSMC COUPE、AIM Photonics、CEA-LETI 等）的标准做法——在同一个 PIC 平台上集成 Si 和 SiN 两层工艺，让设计者根据功能需求选择合适的材料层。
 
 ### Si ↔ SiN 层间耦合：光如何从一层过渡到另一层
 
@@ -134,7 +134,7 @@ TSMC 的 0.015 dB 已低到在系统级链路预算中可以忽略——光在 S
 
 | 对比维度 | Si（SOI） | Si₃N₄ |
 |---------|----------|--------|
-| 波导损耗 | 0.03–0.1 dB/cm | 0.003–0.15 dB/cm |
+| 波导损耗 | 0.06–3 dB/cm | 0.001–3.75 dB/cm |
 | 弯曲半径 | 5–10 μm | 50–500 μm（取决于约束设计） |
 | 温度敏感度 | 高 (dn/dT ~1.8×10⁻⁴) | 低 (dn/dT ~2.5×10⁻⁵) |
 | 高速调制 | 可以（Si MZM/MRM） | 不可以（无 Pockels 效应） |
@@ -147,29 +147,32 @@ SiN 不是取代 Si 或 InP，而是在它们力所不能及的地方出现—�
 
 SiN 光子学市场 2025 年约 **$700M**，预计 2033 年达到 **~$1B**（CAGR ~4%）。其中**数据中心光互连**占 60% 以上，是绝对主力；**LiDAR** 和**量子计算**增速最快（部分细分 CAGR 超过 40%）。
 
-SiN 在行业中扮演的角色是**无源基础设施层**——它很少单独做一颗芯片，而是嵌入到更大的 CPO 和 PIC 生态中。这个更大的生态（PIC + CPO）预计 2036 年达到 $500 亿（IDTechEx）。OFC 2026 上成立的三个 MSAs（Open CPX、OCI、XPO）全部将 SiN 作为无源光路层的基础假设。当前制约不在物理性能（损耗已做到 0.003 dB/cm），而在制造良率和异质集成成本。
+SiN 在行业中扮演的角色是**无源基础设施层**——它很少单独做一颗芯片，而是嵌入到更大的 CPO 和 PIC 生态中。这个更大的生态（PIC + CPO）预计 2036 年达到 $500 亿（IDTechEx）。OFC 2026 上成立的三个 MSAs（Open CPX、OCI、XPO）全部将 SiN 作为无源光路层的基础假设。当前制约不在物理性能（损耗已做到 0.03 dB/cm），而在制造良率和异质集成成本。
 
 ## 代工资源
 
 | 代工厂 / 平台 | 方法 | 晶圆 | 传输损耗 | 特点 |
 |-------------|------|------|---------|------|
 | **LIGENTEC** | LPCVD | 200 mm | &lt; 0.1 dB/cm（量产），纪录 &lt; 0.5 dB/m | 商业化最成熟，AN 高约束技术，400–4000 nm 透明窗口 |
-| **imec iSiPPP** | LPCVD | 200 mm | 可低至 0.003 dB/cm（3 dB/m） | SiN + SiPh 共集成，OFC 2025 超低损耗报道 |
+| **imec iSiPP** | LPCVD | 200 mm | 可低至 0.03 dB/cm（3 dB/m） | SiN + SiPh 共集成，OFC 2025 超低损耗报道 |
 | **TSMC COUPE** | PECVD（前端）+ 背面多层 SiN | 300 mm | 前端 0.14–0.21 dB/cm，PIFO 背面 0.02 dB/cm | 65nm CMOS 产线，6 层金属互连，NVIDIA/Broadcom 合作，2026 目标 6.4T CPO |
-| **LioniX TriPleX** | LPCVD 变体 | 150 mm | dB/m 量级 | 多层 SiN/SiO₂ 交替沉积，低应力 |
-| **Tower PH18** | PECVD | 200 mm | ~0.7–1.8 dB/cm | CMOS 后道兼容，SiPh + SiN 共集成 |
-| **CEA-LETI** | LPCVD + PECVD 双层 | 200 mm | 研究阶段 | LPCVD（~340 nm）做低损耗核心 + PECVD（~400 nm）补偿应力与厚度，非量产（McNulty et al., 2025） |
+| **LioniX TriPleX** | LPCVD 变体 | 200 mm | 可低至 0.1 dB/m（单条纹），常规 &lt;0.1 dB/cm（ADS） | 多层 SiN/SiO₂ 交替沉积抵消应力，最低损耗纪录保持者 |
+| **Tower PH18** | PECVD | 200 mm（300 mm 规划中） | 标准 ~1.0–2.0 dB/cm；Anello 共同开发工艺可至 0.005 dB/cm | CMOS 后道兼容，SiPh + SiN 共集成，与 NVIDIA 合作 1.6T |
+| **CEA-LETI** | LPCVD | 200 mm | ~0.03 dB/cm（3 dB/m） | Si₃N₄-800 平台（800 nm 厚），MPW 可通过 EUROPRACTICE 获取 |
+| **Columbia/Cornell（McNulty 2025）** | LPCVD + PECVD 双层 | 研究阶段 | — | LPCVD（~340 nm）低损耗核心 + PECVD（~400 nm）应力补偿，非量产 |
 
-选哪家取决于需求：追求最低损耗走 LPCVD 路线（LIGENTEC、imec），追求 CMOS 产线规模和单片集成看 TSMC（PECVD + 背面多层）或 Tower。需要多项目晶圆（MPW）服务可关注 AIM Photonics 的 SiN 无源 MPW。
+选哪家取决于需求：追求最低损耗走 LPCVD 路线（LIGENTEC、LioniX），追求 CMOS 产线规模和单片集成看 TSMC 或 Tower。需要多项目晶圆（MPW）服务可关注 AIM Photonics（300 mm PECVD，多个损耗等级 &lt;0.2–0.325 dB/cm）或 EUROPRACTICE（CEA-LETI）。
 
 ## 资料来源
 
 - Blumenthal et al., "Silicon Nitride in Silicon Photonics", *Proc. IEEE* 106(12), 2209 (2018) — SiN 平台综述
 - Wilmart et al., "A Versatile Silicon-Silicon Nitride Photonics Platform", *Applied Sciences* 9(2), 255 (2019) — CEA-LETI Si-SiN 平台
 - Ozdemir et al., "Advancements in LPCVD SiN Waveguides: Achieving 3 dB/m Propagation Loss on 200 mm Wafers", OFC 2025 — 超低损耗 SiN
-- McNulty et al., "Overcoming stress limitations in SiN nonlinear photonics via a bilayer waveguide", *Nanophotonics* 14(23), 3921 (2025)
+- McNulty et al. (Columbia/Cornell), "Overcoming stress limitations in SiN nonlinear photonics via a bilayer waveguide", *Nanophotonics* 14(23), 3921 (2025)
 - Pita Ruiz et al., "Ultra-Compact Silicon Nitride Devices for High-Density Integration", arXiv:2505.02662 (2025)
 - "Narrow-linewidth photonic wirebonded silicon nitride external cavity tunable laser", *Scientific Reports* (2026)
 - RP Photonics — Thermo-optic effect, Kerr effect
-- AIM Photonics — SiN Passive PIC MPW
-- imec — SiN co-integration with active silicon photonics
+- LioniX International — TriPleX SiN platform, &lt;0.1 dB/cm to 0.1 dB/m waveguide loss
+- AIM Photonics — 300 mm PECVD SiN Passive PIC MPW, multi-tier loss &lt;0.2–0.325 dB/cm
+- imec — iSiPP SiN co-integration with active silicon photonics, OFC 2025: 3 dB/m LPCVD SiN
+- TSMC — COUPE / EPIC-BOE platform, OFC 2025 / IEDM 2024 SiN specifications
