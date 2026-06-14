@@ -1,0 +1,152 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: 薄膜铌酸锂产业链格局
+chapter: 13. Industry Map
+description: 薄膜铌酸锂从 LNOI 晶圆到 TFLN 代工的全球产业格局：晶圆供应商高度集中、代工生态正在形成、市场规模高速增长。
+---
+
+## 产业链概览
+
+薄膜铌酸锂产业链实际是**四层**，不是两层。从矿石到封装的调制器芯片，每一层由不同玩家主导：
+
+```
+Li₂CO₃ + Nb₂O₅
+      │
+      ▼
+┌─────────────────────────────┐
+│ 第一层：铌酸锂单晶生长        │  提拉法拉晶 → 切片 → 抛光 → LN 体单晶晶圆
+│ 天通、住友、Koike、G&H 等     │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│ 第二层：LNOI 薄膜晶圆         │  Smart Cut / 离子切片：LN 薄膜转移到 SiO₂/Si
+│ NanoLN（>90%）、Soitec 等    │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│ 第三层：TFLN 代工 / 器件制造  │  用 LNOI 晶圆做调制器芯片（不做晶体）
+│ HyperLight、CCRAFT、Lightium │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│ 第四层：模块封装与集成         │
+│ Jabil、海信、联泰等           │
+└─────────────────────────────┘
+```
+
+**关键结构特征**：第三层（TFLN 代工）不做第一层（晶体生长），这和台积电不自己长硅单晶是同一个逻辑。晶体生长是重资产、长周期的上游环节，代工的核心竞争力在 PDK 和器件集成。
+
+## 第一层：铌酸锂单晶生长
+
+铌酸锂单晶全部由专业晶体厂商用提拉法（Czochralski）生长，**没有纯卖 boule 不加工晶圆的中间商**——每家有晶体生长能力的公司都会继续往下做到切片和抛光。
+
+| 晶体厂商 | 所在地 | 最大晶圆尺寸 | 定位 |
+|---------|--------|------------|------|
+| **天通股份（TDG，600330）** | 中国 | 12 英寸 | 中国龙头，~50% 中国市场份额，自研提拉炉。已进 NVIDIA/Apple/华为供应链。唯一具备 8 英寸量产能力的中国厂商，全球唯二有 12 英寸能力（与日本并列） |
+| **住友金属矿山（SMM）** | 日本 | 6 英寸 | 老牌 LN/LT 晶体商，SAW 级晶圆品质标杆 |
+| **Koike（小池，科毅科）** | 日本 | 4–6 英寸 | SAW 衬底 >40% 全球份额，2026.4 被 ORIX 收购 |
+| **Gooch & Housego（G&H）** | 美国/英国 | 300 mm 通光孔径 | 年产 >70 吨 LN 晶体，美国唯一规模级 LN 晶体商。2026.2 获 Raytheon/AFRL 支持启动美国本土 TFLN 晶圆生产 |
+| **CETC 26所（重庆）** | 中国 | 4–6 英寸 | 军工背景，40+ 年提拉经验，也制造晶体生长炉 |
+| **CETC 46所（天津）** | 中国 | 4–6 英寸 | 中国最早一批 LN 晶圆供应商 |
+| **南智芯材（苏州）** | 中国 | 12 英寸（研发） | 南大祝世宁团队衍生，2025 年拉出 12 英寸光学级 LN 晶体，Pre-A 轮 |
+| **Yamaju Ceramics** | 日本 | 6 英寸 | MgO 掺杂 LN，高损伤阈值，PPLN 应用 |
+| **安徽晶硕 / 杭州沙龙 / OST** | 中国 | 3–8 英寸 | 中小规模，同时卖 boule 和抛光晶圆 |
+
+LN 单晶市场规模 2024 年约 **$1.97 亿**，预计 2031 年达到 **$3.86 亿**（CAGR 10.6%）。第一层和第二层合计构成了 TFLN 代工厂的全部原料来源。
+
+## 第二层：LNOI 薄膜晶圆
+
+LNOI 晶圆的主流制造方法是从 SOI 移植的离子注入 + 键合 + 热剥离（类似 Smart Cut 技术路径）。全球市场 2024 年约 **$7400 万**，预计 2031 年达到 **$5.5 亿**（CAGR ~33%，QYResearch）。
+
+### 供应商格局与产能
+
+| 供应商 | 所在地 | 晶圆尺寸 | 当前产能（2025–2026） | 份额 |
+|--------|--------|---------|----------------------|------|
+| **NanoLN（济南晶正）** | 中国 | 3–6 英寸量产，8 英寸小批量 | **~1–2 万片/年**（现有产线已饱和）。10 万片/年新线正在调试。新基地规划目标 **50 万片/年** | **>90%**（收入份额，2024） |
+| **Novel Si（上海新硅聚合）** | 中国 | 6 英寸量产，8 英寸认证中（良率目标 >80%） | 一期+二期 **~12 万片/年**（等效 6 英寸），三期规划 +24 万片/年 | 中国第二 |
+| **NGK** | 日本 | 4–6 英寸量产，8 英寸 OFC 2026 首次展出 | 未公开。评估为小量，服务高端科研/军用客户，定价高于 NanoLN ~20% | 日本主力 |
+| **Soitec**（ELENA 项目） | 法国 | 150 mm（6 英寸）商用，200 mm 在研 | 中试规模，尚未形成可统计的市场收入 | 欧洲唯一 |
+| **CHIPX（上海交大无锡）** | 中国 | 6 英寸 | **1.2 万片/年**，2025.6 建成，中国首条 TFLN 光子芯片中试线，良率 >95% | 新进入者 |
+| **Partow Technologies** | 美国 | 3–6 英寸 | 研发/原型规模（3 人、2000 sq ft），不做量产 | — |
+
+### 产能数据的几个注意点
+
+**NanoLN 的 1–2 万片 vs Novel Si 的 12 万片——份额和产能为什么看起来矛盾？** NanoLN 产能只有 1–2 万片/年却占 >90% 收入份额，这有两个可能解释：（1）Novel Si 的 12 万片是等效 6 英寸的名义产能，实际出货远低于此——它在 2025 年营收仅 ~1 亿 RMB；（2）NanoLN 的产品以大尺寸（6–8 英寸）为主，单价远高于小尺寸晶圆，所以出货量份额可能低于收入份额。
+
+**一片 LNOI 晶圆 ≠ 一颗 TFLN 芯片。** 一片晶圆上可以做出多颗芯片。QYResearch 统计的全球 TFLN 芯片产能是 45 万颗/年（2024），实际出货 41.3 万颗（利用率 91.8%），均价 ~$230/颗。LNOI 晶圆的出货量远小于芯片出货量。
+
+**8 英寸迁移是当前产能瓶颈。** 行业 8 英寸良率目前 15–60%（均值 ~60%），交期长。NanoLN 和 NGK 在 8 英寸上走得最快，但大规模量产预计要到 2027–2028 年。8 英寸量产将降低单器件成本约 40%。
+
+Top 3（NanoLN、Novel Si、NGK）合计占全球 **~98%**，但绝对市场规模很小——全球 LNOI 晶圆出货量估计在 13–20 万片/年（2024–2025）。
+
+### 供应风险
+
+- **供应商高度集中**：NanoLN 一家占 >90% 全球 LNOI 晶圆收入。当前产能仅 1–2 万片/年，产线已饱和，任何中断都会冲击整个 TFLN 产业
+- **地缘因素**：全球 TFLN 代工厂（瑞士、法国、美国）的 LNOI 晶圆几乎全部从中国进口。美国已启动本土化应对——G&H 2026.2 获 Raytheon/AFRL 支持生产 US-based TFLN 晶圆，Amethyst Research 获海军 SBIR 研发国产 LN 晶体
+- **8 英寸迁移是当前产能瓶颈**：行业 8 英寸良率 15–60%，交期长。NanoLN 和 NGK 走在最前，大规模量产预计 2027–2028
+- **欧洲自主化起步**：ELENA 项目（€500 万，Horizon 2020）2025 年中结题，建立了欧洲第一条 LNOI 供应链（Soitec + CEA-Leti），但目前尚未形成可统计的市场收入
+
+## 第三层：TFLN 代工与器件制造
+
+TFLN 代工市场 2025 年约 **$2600 万**，预计 2032 年达到 **$6–6.45 亿**（CAGR ~50%）。目前仍处于从研究向早期量产过渡的阶段。
+
+| 代工厂/公司 | 所在地 | 定位 | 晶圆 | 状态（2025–2026） |
+|-----------|--------|------|------|-----------------|
+| **HyperLight** | 美国 | 器件供应商，交付封装调制器芯片。UMC + Wavetek 合作量产 | 6 英寸量产，8 英寸在试 | 145 GHz 商用调制器，1.6T-DR8 演示 |
+| **CCRAFT**（CSEM 衍生） | 瑞士 | 全球首条开放式 TFLN 代工线 | 150 mm LNOI（Soitec 供应），规划 200 mm | CLN600 PDK 已发布，2025.9 首次 MPW，已交付千片 |
+| **Lightium** | 瑞士 | 开放式 200 mm TFLN 代工服务 | 200 mm | $7M 种子轮，PDK 已发布 |
+| **LIGENTEC + X-FAB** | 瑞士/德国 | TFLN 异质集成到 SiN 和 SOI 平台 | 200 mm（X-FAB 产线） | 2026.1 宣布合作，V_πL ~3.8 V·cm, BW >110 GHz |
+
+### 代工层的两个特点
+
+**晶圆供应依赖中国。** CCRAFT、Lightium、HyperLight 的 LNOI 晶圆几乎全部来自 NanoLN 或 Soitec（Soitec 本身也刚起步）。这不是短期问题——即使 Soitec 逐步扩产，NanoLN 的主导地位在未来 3–5 年难以撼动。
+
+**开放代工刚刚开始。** 2025 年之前，TFLN 制造基本上是 HyperLight 一家独大的封闭模式（自己设计、自己流片、交付封装好的调制器）。CCRAFT 2025 年 9 月启动首次 MPW，标志着开放代工生态的起点。Lightium 和 LIGENTEC+X-FAB 紧随其后，TFLN 代工正在从"只有一家"变成"多个选择"——和 2010 年代的 SiPh 代工生态演变路径高度相似。
+
+## 器件 vs 代工的商业模式分化
+
+| 模式 | 代表 | 特点 |
+|------|------|------|
+| **垂直整合器件商** | HyperLight | 自己设计、自己流片、交付封装调制器芯片。客户不接触工艺 |
+| **开放代工厂** | CCRAFT、Lightium | 提供 PDK 和 MPW，客户自己设计、代工厂制造。类比 imec/Tower 在 SiPh 中的角色 |
+| **异质集成平台** | LIGENTEC + X-FAB | 不单独卖 TFLN，而是把 TFLN 嵌入 SiN/SOI 平台，客户在同一芯片上用多种材料 |
+
+三种模式对应三种客户需求：要现成调制器找 HyperLight，要自己设计 TFLN 芯片找 CCRAFT/Lightium，要在 SiN 平台里加一块 TFLN 做调制找 LIGENTEC。
+
+## 与相邻页面的分工
+
+| 页面 | 内容 |
+|------|------|
+| 本页 | 完整四层产业链：单晶生长 → LNOI 晶圆 → TFLN 代工 → 模块集成，市场数据，地缘风险 |
+| [薄膜铌酸锂：高速电光材料平台](../thin-film-lithium-niobate/) | TFLN 材料物理、单晶生长与 Smart Cut 制造工艺、器件性能 |
+| [TFLN and OCS](../tfln-and-ocs/) | TFLN 在光电路交换中的应用：MZI 开关、交换矩阵、Google OCS 部署 |
+| [氮化硅代工格局与市场应用](../silicon-nitride-industry-landscape/) | SiN 代工格局（TFLN 的常见异质集成伙伴） |
+
+## 资料来源
+
+- QYResearch, "Global Lithium Niobate on Insulator (LNOI) Wafer Market", 2025–2026
+- HengCe Research, "Ion-sliced Lithium Niobate on Insulator Wafer Market", 2025
+- Global Info Research, "LNOI + LTOI Combined Market", 2025
+- Soitec / CEA-Leti, ELENA Project Final Results (Horizon 2020 GA 101016138), June 2025
+- NGK, OFC 2026 Exhibition — 8-inch TFLN Bonded Wafer
+- NGK, NEDO Post-5G R&D Project Selection (FY2025-2027)
+- QYResearch, "Global TFLN Chip Market Report", 2025 — 全球 TFLN 芯片产能 45 万颗/年，均价 $230/颗
+- NanoLN CEO 胡文 — 新基地 50 万片/年目标，多家媒体采访 (搜狐、证券时报, 2023–2025)
+- Novel Si — 一期+二期 12 万片/年产能，Eastmoney 研报, April 2026
+- CHIPX (上海交大无锡) — 1.2 万片/年 TFLN 中试线投产，The Quantum Insider, June 2025
+- Partow Technologies — 公司规模与产品线, 官方网站
+- CCRAFT — CLN600 PDK, MPW Schedule, 2025
+- Lightium — 200 mm TFLN Foundry Service, 2025
+- HyperLight — 110 GHz / 145 GHz TFLN Modulator Specifications, 2025–2026
+- G&H — US-based TFLN wafer production announcement, Raytheon/AFRL "Mastermind" program, February 2026
+- Amethyst Research — US Navy SBIR Phase I for domestic LN crystal supply, 2025
+- TDG/Tiantong — 12-inch optical-grade LN crystal, June 2025; 2025 annual report
+- Nanzhi Xincai — 12-inch LN crystal, Pre-A financing, August 2025
+- Koike — ORIX acquisition, April 2026
+- Sumitomo Metal Mining — LN/LT crystal product specifications
+- Bordui et al., "Compositional uniformity in growth and poling of large-diameter lithium niobate crystals", *J. Cryst. Growth* 113(1-2), 61-68 (1991)
+- Trauth & Grabmaier, "The shape of the crystal/melt interface during the growth of lithium niobate crystals by the Czochralski technique", *J. Cryst. Growth* (1991)
+- X-FAB + LIGENTEC — TFLN-on-SiN/SOI Partnership Announcement, January 2026
