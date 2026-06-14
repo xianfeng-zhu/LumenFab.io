@@ -7,68 +7,71 @@ description: 薄膜铌酸锂从 LNOI 晶圆到 TFLN 代工的全球产业格局�
 
 ## 产业链概览
 
-薄膜铌酸锂从矿石到数据中心机柜，经过五层，每一层产出的物理形态不同：
-
 ```
-层 0：原料                  Li₂CO₃ + Nb₂O₅
+                        Li₂CO₃ + Nb₂O₅
+                              │  提拉法单晶生长
+                              ▼
+                    LN 体单晶晶圆（天通、住友、Koike、G&H 等）
                               │
-                              ▼
-层 1：LN 体单晶晶圆          天通、住友、Koike、G&H 等
-    （提拉法拉晶 → 切片 → 抛光）  │
-                              │ 卖 LN 体单晶晶圆
-                              ▼
-层 2：LNOI 薄膜晶圆          NanoLn（>90% 收入份额）、Soitec、NGK、Novel Si
-    （Smart Cut / 离子切片）    │
-                              │ 卖 LNOI 薄膜晶圆
-                              ▼
-              ┌───────────────┼───────────────┐
-              │               │               │
-层 3：TFLN 芯片/组件         AFR            HyperLight      冠盈半导体
-    （设计 + 流片 + 封装）    │（珠海）        │（美国）        │（Innolight×天通 JV）
-              │               │               │               │
-              │    AM70       │   TFLN PIC    │   TFLN 芯片    │
-              │   （封装组件）  │   （裸 chiplet）│               │
-              │               │               │               │
-              ▼               ▼               ▼               ▼
-              │               │               │               │
-层 4：光模块集成        Innolight          Eoptolink      Lintel
-    （加激光器、DSP、封装）    │（自研 TFLN）    │（成都 10 条线） │
-              │               │               │               │
-              │   1.6T DR8    │   1.6T DR4    │   800G/1.6T   │
-              │   光模块       │   光模块       │   光模块       │
-              │               │               │               │
-              ▼               ▼               ▼               ▼
-              └───────────────┼───────────────┘
-                              │
-层 5：最终用户                ▼
-              ┌───────────────┼───────────────┐
-              │               │               │
-           Google           NVIDIA           Meta
-        （买模块，不碰芯片）  （买模块 + 直采    （买模块，测试中）
-                             AFR AM70 芯片）
-                             │
-                             │ 另有独立通道：
-                             │ HyperLight→UMC 产线→
-                             │ TFLN chiplet → NVIDIA
-                             │ （为 3.2T 准备）
+                    ┌─────────┴─────────┐
+                    │ 抛光后直接供          │ Smart Cut 离子切片
+                    ▼                      ▼
+              冠盈半导体              LNOI 薄膜晶圆
+          （Innolight×天通 JV）      （NanoLN >90%、Soitec、NGK）
+                    │                      │
+                    │              ┌───────┴───────┐
+                    │              │               │
+                    ▼              ▼               ▼
+              TFLN 芯片          AFR             HyperLight
+              （自供自用）      （珠海）          （美国）
+                    │              │               │
+                    │         AM70 封装组件    TFLN PIC chiplet
+                    │         （带 RF 接头+光纤） （裸 chiplet）
+                    │              │               │
+                    │              │          UMC/Wavetek 代工
+                    │              │               │
+                    ├──────────────┼───────────────┤
+                    │              │               │
+                    ▼              ▼               ▼
+                  Innolight      Eoptolink       Broadcom
+               （模块集成）     （模块集成）     （卖 Taurus DSP）
+                    │         （成都自研 TFLN 线）  │
+                    │              │          （验证 TFLN，不自己用）
+                    │              │               │
+                    ├──────────────┼───────────────┤
+                    │              │               │
+                    ▼              ▼               ▼
+                  Google        NVIDIA          模块厂商
+               （买模块，不碰芯片）（买模块+直采芯片）（用 Taurus DSP 做 TFLN 模块）
 
-  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+                  另有独立通道：
+                  AFR ──AM70──→ NVIDIA（5000+ 颗直采，H1 2025）
+                  HyperLight/UMC ──chiplet──→ NVIDIA（为 3.2T 准备）
+
+  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
   不在主链上但关键的参与者：
 
-  Broadcom          卖 Taurus 3nm DSP（merchant chip）
-                    Bailly CPO 交换机只用 SiPh，不用 TFLN
-                    验证 TFLN 是为了让模块厂商更容易做 TFLN 模块
-
-  CCRAFT / Lightium  开放 TFLN 代工厂（欧洲）
-                    提供 PDK + MPW，不做自己的芯片产品
+  CCRAFT / Lightium    欧洲开放 TFLN 代工厂
+                       Soitec LNOI → CCRAFT/Lightium → 欧洲客户（尚在早期）
+  Lintel（联特科技）     800G/1.6T TFLN 模块送样 Google/Meta/xAI
 ```
 
-**几条关键的现实**：
+**图读法**：从顶部的矿石开始往下走。LNOI 层后分三列——AFR（中国最大）、HyperLight（美国 chiplet）、冠盈半导体（Innolight 自供）。到模块层又汇合到 Innolight 和 Eoptolink，再分发给 Google 和 NVIDIA。Broadcom 在旁路——它卖 DSP，验证 TFLN 但不自用。图中各公司的详细介绍见后续各层的表格。
 
-- **最终用户基本不碰 TFLN 芯片本身**。Google、Meta 买的是封装好的光模块，模块里面有没有 TFLN 是模块厂商的选择。只有 NVIDIA 同时在芯片层面直采 TFLN（AFR AM70 + HyperLight chiplet），是为 3.2T 世代做准备。
-- **Eoptolink 不是纯集成商**。它自己在成都有 10 条 TFLN 调制器产线，约 50% 的 TFLN 自供。剩下从 HyperLight（主供）和 AFR 外购。
-- **Innolight 走合资自供路线**。与天通合资冠盈半导体，用天通的晶圆自产 TFLN 芯片。同时少量外购 AFR。
-- **AFR 卖的是封装好的调制器组件**（AM70），带 RF 接头和光纤尾纤，不是裸 die。它另有裸 die 产品线但不叫 AM70。
+### 不在主链上但关键的参与者
+
+| 公司 | 做什么 | 跟 TFLN 的关系 |
+|------|--------|--------------|
+| **Broadcom** | 卖 Taurus 3nm DSP（merchant chip） | 验证 TFLN 是为了让模块厂商更容易做 TFLN 模块。自己的 Bailly CPO 交换机只用 SiPh |
+| **CCRAFT** | 开放 TFLN 代工厂（瑞士，150→200 mm） | 欧洲路线：Soitec LNOI 晶圆 → CCRAFT 代工 → 欧洲客户。2026 年 5 次 MPW 排满 |
+| **Lightium** | 开放 TFLN 代工厂（瑞士，200 mm） | 同上欧洲路线，定位 200 mm 开放代工 |
+| **Eoptolink 自研线** | 成都 10 条 TFLN 产线 | 约 50% TFLN 自供，不依赖外部芯片商 |
+
+### 关键现实
+
+- **最终用户基本不碰 TFLN 芯片本身**。Google、Meta 买封装好的光模块，模块用不用 TFLN 是模块厂商的选择。只有 NVIDIA 在芯片层面直采 TFLN，为 3.2T 世代做准备
+- **AFR 卖的是封装好的调制器组件**（AM70），带 RF 接头和光纤尾纤，不是裸 die。另有裸 die 产品线但不叫 AM70
+- **Eoptolink 不是纯集成商**——自己产 50% 的 TFLN 调制器，剩下的从 HyperLight 和 AFR 外购
 
 ## 第一层：铌酸锂单晶生长
 
