@@ -10,8 +10,8 @@ description: 薄膜铌酸锂是目前最快的集成电光调制材料，利用 
 
 在集成光子学的材料地图中，每种材料各有专长和短板。铌酸锂（LiNbO₃）的独特位置在于：它是目前唯一同时具备**纯电光效应、飞秒级本征响应、&gt;100 GHz 带宽和 CMOS 兼容驱动电压**的材料平台。
 
-- **Si**：无 Pockels 效应（中心对称晶体）→ 调制靠载流子耗尽，速度受限于载流子迁移率，带宽 ~30–50 GHz
-- **InP**：靠电吸收和载流子效应调制，速度快但非线性强、损耗高（~3–5 dB/cm），需要温控
+- **Si**：无 Pockels 效应（中心对称晶体）→ 调制靠载流子耗尽，速度受限于载流子迁移率。商用调制器带宽 ~50–60 GHz，研究已展示 >110 GHz
+- **InP**：靠电吸收和载流子效应调制，速度快但非线性强。无源波导损耗 ~0.4–0.7 dB/cm，有源调制器损耗 ~5–15 dB/cm，需要温控
 - **SiN**：无电光效应 → 不能做高速调制器
 - **BTO（钛酸钡）**：Pockels 系数表面值远高于 LN（r₄₂=481 pm/V），但频率色散剧烈（330 GHz 时降至 191），且多畴不稳定、直流偏压漂移
 - **EO 聚合物**：r₃₃ 可达 50–150 pm/V，但长期稳定性差
@@ -35,21 +35,33 @@ Pockels 效应有三个工程关键特征：
 
 ### 为什么必须薄膜化
 
-体铌酸锂调制器用了半个世纪，但它有一个根本局限：折射率对比太低。在体 LN 上做波导，靠钛扩散或质子交换在表面局部掺杂，让那一小块的折射率比周围高一点（Δn ~0.02）。约束这么弱，光模场散到直径 ~10 μm，做调制器时电极被迫离光模场很远——电场和光的重叠面积只有一小部分，结果是 V_π 高达 5–10 V，调制器长到几厘米。
+体铌酸锂调制器用了半个世纪，但它有一个根本局限：折射率对比太低。在体 LN 上做波导，靠钛扩散或质子交换在表面局部掺杂，让那一小块的折射率比周围高一点（Δn_e ~0.04，Δn_o ~0.02，各向异性）。约束这么弱，光模场散到直径 ~10 μm，做调制器时电极被迫离光模场很远——电场和光的重叠面积只有一小部分，结果是 V_π 高达 5–10 V，调制器长到几厘米。
 
 TFLN 把 LN 放在 SiO₂ 上（Δn ~0.7），产生了质的飞跃：
 
 | 参数 | 体 LN | TFLN | 提升倍数 |
 |------|-------|------|---------|
-| 折射率对比 | ~0.02 | ~0.7 | >30× |
-| 弯曲半径 | 厘米级 | &lt;50 μm | >100× |
-| 调制器长度 | 5–10 cm | 3–10 mm | ~10× |
-| EO 带宽 | 30–40 GHz | 100–170 GHz | 3–5× |
+| 折射率对比 | ~0.02–0.04 | ~0.7 | >15× |
+| 弯曲半径 | 1–3 cm | &lt;50 μm | >200× |
+| 调制器长度 | 3–10 cm | 3–10 mm | ~10× |
+| EO 带宽 | 30–60 GHz | 100–170 GHz | 2–5× |
 | V_π | 5–10 V | 1–4 V | 2–5× |
 | V_π·L 积 | ~20–30 V·cm | ~1.5–3 V·cm | ~10× |
-| 波导损耗 | ~0.5 dB/cm | 0.027–0.3 dB/cm | 2–20× |
+| 波导损耗 | ~0.2–0.5 dB/cm | 0.03–0.5+ dB/cm | 视工艺而定 |
 
 高折射率对比是单点最关键的改变——它让光模场从 ~10 μm 缩到亚微米，与电极的距离大幅缩短，电光重叠增强了一个数量级。
+
+### 从 Pockels 效应到器件
+
+有了电控折射率的能力，怎样把它变成一个实际器件？最经典的结构是 **Mach-Zehnder 干涉仪（MZI）**，它同时是调制器和光开关的基础：
+
+1. **分束**：输入光在第一个耦合器被分成两束等功率的相干光，分别走上下两个波导臂
+2. **调相**：在其中一臂（或两臂推挽）的 TFLN 波导两侧放置金属电极。加电压 → LN 折射率变 → 这一臂的光程变 → 相位偏移。相位偏移量与电压成正比（Pockels 效应的线性特征）
+3. **干涉**：两束光在输出端耦合器重新相遇。如果两臂相位差为 0，光全部从 Bar 口输出；如果相位差为 π（对应 V_π），光全部从 Cross 口输出。中间电压对应中间光强——这就是强度调制
+
+同一个 MZI 结构，用连续变化的电压驱动就是**调制器**（把电信号波形印到光上），用两个离散电压（0 和 V_π）驱动就是**光开关**（把光在两条路径之间来回切）。推挽（push-pull）结构让两臂的相位向相反方向推，同样电压下相位差翻倍，V_π 减半。行波电极让电信号和光信号沿波导同步传播，避免了 RC 常数对带宽的限制——这是 TFLN 能到 170 GHz 的工程基础。
+
+MZI 是 Pockels 效应的直接应用，但不是 LN 的全部。下一节讲的材料参数中，χ⁽²⁾ 非线性还可以用来做频率转换（周期极化路线），而 LN 的低损耗和高折射率对比也支撑纯无源器件（微环滤波器等）。这些在后面各节分别展开。
 
 ## 材料基本参数
 
@@ -57,7 +69,7 @@ TFLN 把 LN 放在 SiO₂ 上（Δn ~0.7），产生了质的飞跃：
 |------|-----|------|
 | 晶体结构 | 三方晶系，点群 3m | 非中心对称 |
 | 折射率 @1550 nm | n_o ≈ 2.21, n_e ≈ 2.14 | 负单轴晶体 |
-| 透明窗口 | 350–5000 nm | 紫外到中红外 |
+| 透明窗口 | 350–5200 nm | 紫外到中红外 |
 | r₃₃ @633 nm | ~31 pm/V | 电信波段 ~28 pm/V |
 | 热光系数 dn_e/dT | +39×10⁻⁶ /K | 各向异性，n_o 方向小得多 |
 | 居里温度 | ~1140–1210°C | |
@@ -75,7 +87,7 @@ TFLN 的制造分两大阶段：先做铌酸锂体单晶并切成晶圆，再用
 
 **Congruent 组成：为什么 LN 能长出大晶体。** 很多晶体在生长时会"变心"——先长出来的部分和后长出来的部分成分不一样，晶体越大、越往后不均匀。LN 避开了这个问题。铌酸锂有一个特殊的"congruent 组成"（约 48.4 mol% Li₂O / 51.6 mol% Nb₂O₅），在这个比例下熔体和从中析出的固体的成分完全一致。这意味着从第一克到最后一克，晶体的化学成分不变。这是 LN 能做大型商用 boule 的物理基础。
 
-**提拉生长。** 多晶料装入铂金坩埚（铂金不跟熔融 LN 反应），加热到约 1250°C 融化。一根定向 LN 籽晶（通常沿 Z 轴）从上方降下来接触熔体表面，然后缓慢向上提拉——熔体在籽晶下方凝结、跟着籽晶一起长。先拉一段细颈把位错挤出去，之后放大到目标直径（3–6 英寸），以每小时 1–3 毫米的速度持续提拉，同时坩埚和晶体反向旋转（5–30 rpm）维持熔体搅拌和温度均匀。全程通缓慢氧气流以防 LN 还原变色。一块 boule 可达 7–10 公斤。
+**提拉生长。** 多晶料装入铂金坩埚（铂金不跟熔融 LN 反应），加热到约 1250°C 融化。一根定向 LN 籽晶（通常沿 Z 轴）从上方降下来接触熔体表面，然后缓慢向上提拉——熔体在籽晶下方凝结、跟着籽晶一起长。先拉一段细颈把位错挤出去，之后放大到目标直径（3–6 英寸），以每小时 5–7 毫米的速度持续提拉（标准 congruent LN；掺杂或近化学计量比 LN 需降至 1–3 mm/h），同时坩埚和晶体反向旋转（5–30 rpm）维持熔体搅拌和温度均匀。全程通缓慢氧气流以防 LN 还原变色。一块 boule 通常 2–4 公斤，最大可达 7–10 公斤。
 
 **极化与切片。** 刚从炉子里出来的 LN 晶体是多畴的——内部铁电畴方向杂乱。在接近居里温度（~1142°C）时沿 Z 轴加一个微弱电场（~0.5 V/cm），将所有畴统一排列，冷却后晶体成为单畴——这就是极化（poling）。之后用金刚石锯沿指定方向切成晶圆片，抛光到光学级表面。以 x-cut 为例，就是让 x 轴垂直于切割面。
 
@@ -85,11 +97,11 @@ TFLN 的制造分两大阶段：先做铌酸锂体单晶并切成晶圆，再用
 
 TFLN 的起点是一块体铌酸锂单晶，终点是一片 LNOI 晶圆（LiNbO₃ 薄膜 / SiO₂ / Si 衬底的三层结构）。中间靠的是从 SOI 行业移植过来的 Smart Cut（晶体离子切片）技术。整个流程分四步：
 
-**第一步：离子注入。** 取一块高质量的 LN 单晶晶圆（施主晶圆），从表面注入 He⁺ 离子。离子在晶体中穿行一段距离后停在一个特定深度——这个深度决定了最终薄膜的厚度。注入的 He⁺ 在这个深度形成一个布满微小缺陷的"弱化层"——晶体结构在这里被故意损伤，为后续的裂开做准备。施主表面以下、弱化层以上的那一层，就是将来的薄膜。
+**第一步：离子注入。** 取一块高质量的 LN 单晶晶圆（施主晶圆），从表面注入 He⁺ 离子（更优化的工艺使用 He⁺/H⁺ 共注入以降低剂量和热预算）。离子在晶体中穿行一段距离后停在一个特定深度——这个深度决定了最终薄膜的厚度。注入的离子在这个深度形成一个布满微小缺陷的"弱化层"——晶体结构在这里被故意损伤，为后续的裂开做准备。施主表面以下、弱化层以上的那一层，就是将来的薄膜。
 
 **第二步：晶圆键合。** 注入后的施主晶圆翻面，与一片带 SiO₂ 层的硅衬底（受主晶圆）面对面贴合。两片晶圆的表面预先用氧等离子体活化——表面悬挂键变得极度活跃，室温下直接接触即形成共价键，无需胶水。此时两片晶圆已经牢牢粘在一起：LN 施主在上，SiO₂/Si 在下。
 
-**第三步：热剥离。** 把键合好的晶圆对加热到 220–500°C。注入在弱化层里的 He 原子受热聚集形成微泡，微泡长大、合并，最终在弱化层处将 LN 晶体沿水平方向"撕开"。撕开后，大部分 LN 施主晶圆脱落（可重复使用——一块施主能剥几十次），留下一层亚微米厚的 LN 薄膜牢固键合在 SiO₂/Si 衬底上。
+**第三步：热剥离。** 把键合好的晶圆对加热到 220–350°C。注入在弱化层里的 He 原子受热聚集形成微泡，微泡长大、合并，最终在弱化层处将 LN 晶体沿水平方向"撕开"。撕开后，大部分 LN 施主晶圆脱落（可重复使用多次），留下一层亚微米厚的 LN 薄膜牢固键合在 SiO₂/Si 衬底上。
 
 **第四步：退火与抛光。** 剥离面的粗糙度仍然较高（纳米级坑洼）。在 300–520°C 下退火，修复注入和剥离过程中引入的晶格损伤，恢复 LN 的晶体质量。最后用 CMP（化学机械抛光）将表面粗糙度降至 1 nm 以下——这一步直接决定波导损耗的起点。
 
@@ -107,12 +119,49 @@ TFLN 的起点是一块体铌酸锂单晶，终点是一片 LNOI 晶圆（LiNbO�
 
 膜厚均匀性 3–5%。商业供应以 150 mm（6 英寸）为主，200 mm 已在示范阶段。
 
+### 波导刻蚀：从 LNOI 晶圆到光路
+
+有了 LNOI 晶圆，下一步是在 LN 薄膜里刻出波导——这是所有 TFLN 器件的公共起点。
+
+刻蚀流程：先在 LN 表面蒸镀一层约 120 nm 的铬（Cr）作为硬掩模（光刻胶撑不住 LN 刻蚀的选择比），光刻出波导图案 → 用 Ar 基 ICP-RIE 刻蚀 LN 薄膜，刻深 ~200–350 nm → 去掉 Cr 掩模 → 沉积 SiO₂ 上包层覆盖波导。
+
+刻出来的波导截面是 **ridge（脊形）结构**——没有刻到底，保留了底部的 LN 平板层：
+
+```
+         ┌───┐  ← ridge 宽 ~1–3 μm
+         │LN │  ← 刻蚀深度 ~200–350 nm
+  ═══════╧═══╧══════  ← LN 平板层 ~100–300 nm
+  ───────────────────  ← SiO₂ 下包层 ~2–8 μm
+  ───────────────────  ← Si 衬底
+```
+
+平板层不是工艺偷懒——它是刻意保留的设计参数。光模场一部分在 ridge 里走，一部分漏到平板里。平板越薄，模场越紧，弯曲可以更小但侧壁散射会更大；平板越厚，模场越松散，损耗更低但弯曲半径变大。这是个可调的工程权衡。
+
+### 波导之后的路线分岔
+
+波导刻完、上包层盖好之后，下一步做什么取决于目标器件：
+
+**做调制器：** 在上包层上开接触孔 → 蒸镀金 GSG 行波电极（信号线在波导正上方或侧边，地线在两侧）→ 退火修复刻蚀造成的晶格损伤、恢复 r₃₃ → 划片 → 端面抛光。得到一颗带 RF 电极的调制器芯片。
+
+调制器的作用是把电信号变成光信号——数据中心交换机输出的 0/1 电比特流，通过调制器印到激光载波上，变成光脉冲沿光纤发出去。TFLN 调制器是目前最快的选择（>110 GHz），支撑 1.6T 和未来的 3.2T 光模块。
+
+**做光开关：** 工艺流程和调制器几乎相同（同样是 MZI + 电极），但目标不同——调制器处理的是高速数据比特，光开关处理的是"光走哪条路"。TFLN 开关的 &lt;3 ns 切换速度意味着可以在 GPU 集群中按每次集合通信操作重新配置光路拓扑，加速训练。
+
+**做 PPLN 频率转换器：** 波导刻蚀之前就需要做周期极化（对 LN 薄膜施加周期电场，翻转铁电畴方向）→ 然后刻波导 → 盖上包层，不需要 RF 电极。
+
+频率转换器利用 LN 的非线性光学效应，把一束光的频率变成另一个频率。用途包括：将可见光波段的量子比特转换到电信波段（1550 nm，便于在光纤里长距离传输而几乎无损耗）、产生纠缠光子对做量子计算、或做倍频将红外激光转为可见光。
+
+**做微环谐振器 / 滤波器：** 盖上包层就够了，连电极都不需要。微环谐振器是一个闭合的光环路，只有特定波长的光能在里面共振——本质上是一个波长选择器。做 WDM 滤波器时，一串微环可以分别选出不同波长的通道，把一根光纤的带宽拆成多路并行使用。
+
+一条 LNOI 产线上可以做出这三类器件，差异在后半段工艺——这正是 TFLN 代工厂（CCRAFT、Lightium）提供 MPW 服务的基础：客户设计自己的器件，代工厂在公共的波导刻蚀之后按不同金属化需求分岔处理。
+
 ### 波导损耗演进
 
 | 年代 | 损耗 | 技术 | 代表 |
 |------|------|------|------|
 | 2010–2019 | 1–10 dB/cm | 早期刻蚀，侧壁粗糙 | |
-| 2018 | **0.027 dB/cm** | 飞秒激光 + CMP，EBL 记录 | Wu et al. |
+| 2018 | **0.027 dB/cm** | 飞秒激光光刻 + CMP | Wu et al. |
+| 2019 | **0.06 dB/cm（6 dB/m）** | EBL + HSQ 硬掩模，可见光波段 | Desiatov et al. (Loncar) |
 | 2020–2023 | 0.1–0.5 dB/cm | DUV 光刻，工艺优化 | |
 | 2024 | **0.013 dB/cm（1.3 dB/m）** | EBL，超宽波导 (3–5 μm) Q=2900 万 | Harvard (Loncar) |
 | 2025 | **&lt;2 dB/m（&lt;0.02 dB/cm）** | 商用 CMOS 产线 | HyperLight/Xanadu |
@@ -128,23 +177,37 @@ EBL 能拿记录但不可量产。DUV 光刻（0.1–0.15 dB/cm）是制造级�
 |------|---------|-------------|
 | V_π | **1.0 V**（容性负载电极，研究） | 1.4 V（HyperLight） |
 | V_π·L 积 | **1.02 V·cm**（ITO 复合电极） | 1.5–3 V·cm |
-| EO 带宽 | **170–175 GHz**（研究） | >110 GHz（HyperLight 商用） |
-| 数据速率 | **2.02 Tb/s**（PS-144QAM, 320 Gbaud, 125 km） | 1.6 Tbps（4×400G IM/DD） |
+| EO 带宽 | **170 GHz**（研究） | >110 GHz（HyperLight 商用） |
+| 数据速率 | **2.02 Tb/s**（PS-144QAM, 320 Gbaud, 125 km，研究） | 1.6 Tbps（4×400G IM/DD，演示） |
 | 插入损耗 | ~1.8 dB（片上） | 4.5 dB（封装后，光纤到光纤） |
 
 ### 光开关
 
 已展示的 2×2 TFLN MZI 开关：**&lt;3 ns 切换**、~1.3 dB 片上插损、串扰 &lt;-45 dB。单开关元件损耗可低至 ~0.02 dB（HyperLight/Xanadu, 2025）。
 
+### 非线性光学与周期极化
+
+Pockels 效应是二阶非线性（χ⁽²⁾）在低频电场下的表现，但 LN 的 χ⁽²⁾ 不止能做电光调制——它还能做**频率转换**。两束不同频率的光在 LN 中相遇，χ⁽²⁾ 将它们耦合，产生和频或差频。这是 Si 和 SiN（中心对称、χ⁽²⁾=0）完全做不到的。
+
+频率转换的效率取决于相位匹配——参与转换的光必须步伐一致，否则累积的波会互相抵消。普通光纤和体 LN 靠双折射做相位匹配，自由度有限。TFLN 通过**周期极化（periodic poling）**实现准相位匹配：在波导上周期性翻转铁电畴的极化方向，每当转换光和泵浦光之间差出一个 π 相位时，翻转一次 χ⁽²⁾ 的符号，把即将走散的光重新拉回同步。翻转周期通常在微米量级，对应电信波段的典型互作用长度。
+
+周期极化 TFLN（PPLNOI）相比体 LN PPLN 的优势来自薄膜化——模场更紧，非线性互作用强度提升一个数量级以上。这使得：
+
+- **倍频（SHG）**：泵浦功率需求从瓦级降至百毫瓦级，归一化转换效率可达数千 %/W/cm²
+- **自发参量下转换（SPDC）**：产生纠缠光子对，是量子光源的核心
+- **差频产生（DFG）和光参量放大（OPA）**：在量子频率转换（将量子比特波长从可见光转换到电信波段）中不可替代
+
+PPLNOI 在当前的主要限制是周期极化的一致性和长度——传统极化长度大多 &lt;10 mm，2025 年已有 70 mm 连续极化的展示。
+
 ## 与其他电光材料对比
 
 | 平台 | V_π·L (V·cm) | 3dB 带宽 (GHz) | Pockels 系数 (pm/V) | 每比特能耗 | 成熟度 |
 |------|-------------|---------------|-------------------|-----------|--------|
-| **TFLN** | **1.0–2.2** | **70–145** | r₃₃=31 | **0.3–0.8 pJ/bit** | 早期量产 |
-| SiPh（载流子耗尽） | 1.5–3.0 | 30–50 | 无 Pockels | 1–2 pJ/bit | 成熟 |
-| InP（量子阱） | 2–5 | 50–100 | r₄₁=10–12 | 1.5–3 pJ/bit | 成熟 |
+| **TFLN** | **1.0–2.2** | **70–170** | r₃₃=31 | **0.3–0.8 pJ/bit** | 早期量产 |
+| SiPh（载流子耗尽） | 0.2–1.0 | 50–60 | 无 Pockels | 1–2 pJ/bit | 成熟 |
+| InP（量子阱） | 2–5 | 50–100 | r₄₁≈1.4 | 1.5–3 pJ/bit | 成熟 |
 | 等离子激元 | 0.07–0.3 | >150 | — | fJ/bit | 研究 |
-| 体 LN | 4–10 | ~40 | r₃₃=31 | — | 成熟 |
+| 体 LN | 4–10 | 30–60 | r₃₃=31 | — | 成熟 |
 
 TFLN 在带宽和能耗两个维度同时领先——这是数据中心从 800G 向 1.6T 升级时最核心的两个指标。InP 的唯一独占优势是能做激光器，但 TFLN 作为调制器不需要这个。
 
@@ -164,16 +227,16 @@ TFLN 不发光，需要和其他材料配合。当前活跃的两大方向：
 
 **TFLN + Si**：LIGENTEC + X-FAB 在 200 mm SOI 晶圆上集成 TFLN（2026 年 1 月宣布）。微转印 TFLN-on-Si 环形调制器已展示。
 
-层间耦合损耗已做到 **&lt;0.07 dB/过渡**（1550 nm），异质集成的光学代价越来越小。
+层间耦合损耗仿真已低至 **&lt;0.07 dB/过渡**（1550 nm，FDTD 优化设计）；实验演示值 ~0.2–1.8 dB/过渡，取决于具体实现方案。
 
 ## 当前限制
 
-- **刻蚀困难**：LN 的各向异性导致侧壁倾斜 45–75°，影响模场约束。原子层刻蚀（HBr/BCl₃/Ar）正在解决
+- **刻蚀困难**：LN 的物理溅射刻蚀受再沉积效应和掩模选择比限制，侧壁倾斜 32–80°（常见 45–70°），影响模场约束。原子层刻蚀（HBr/BCl₃/Ar，1.04 nm/周期）正在解决
 - **晶圆尺寸**：以 4–6 英寸为主，SiPh 主流 8–12 英寸。8 英寸迁移可降低器件成本约 40%
 - **供应链集中**：NanoLN 一家占 >90% 全球 LNOI 晶圆收入，ELENA 项目刚建立欧洲替代供应
-- **周期极化一致性**：批次间重复性差，大多数器件 &lt;10 mm 长
-- **量产良率**：高 Q 微腔的最优报告良率 89.6%，超低损耗一致性仍困难
-- **控制面基础设施缺失**：针对 TFLN 纳秒级切换精度的生产级 SDN 控制器尚未出现
+- **周期极化一致性**：传统 PPLN 器件长度多 &lt;10 mm，2025 年已展示 70 mm 连续极化，批次间重复性仍在改善
+- **量产良率**：高 Q 微腔良率 89.6%（对应损耗 &lt;20 dB/m 的微环；损耗 &lt;10 dB/m 时良率仅 ~16.7%），超低损耗一致性仍困难
+- **光交换控制面**：TFLN 电光开关已达 &lt;3 ns 切换，但光子交换网络的 SDN 编排与纳秒级快速控制的深度融合仍在发展中
 
 ## 与相邻页面的分工
 
@@ -187,12 +250,27 @@ TFLN 不发光，需要和其他材料配合。当前活跃的两大方向：
 ## 资料来源
 
 - Wang, Zhang, Loncar et al., "Integrated lithium niobate electro-optic modulators operating at CMOS-compatible voltages", *Nature* 562, 101–104 (2018)
-- Zhu, Hu, Loncar et al., "Integrated electro-optics on thin-film lithium niobate", *Nature Reviews Physics* 7, 237–254 (2025). arXiv: 2404.06398
-- Wu et al., "Low-loss Lithium Niobate on Insulator (LNOI) Waveguides", arXiv: 1810.09985 (2018) — 0.027 dB/cm 记录
-- Shams-Ansari et al., "Reduced Material Loss in Thin-film Lithium Niobate Waveguides", *APL Photonics* (2022). arXiv: 2203.17133 — 0.2 dB/m 材料极限损耗
-- HyperLight — 110 GHz / 145 GHz TFLN modulator specifications, 2025–2026
+- Hu, Zhu, Loncar et al., "Integrated electro-optics on thin-film lithium niobate", *Nature Reviews Physics* 7, 237–254 (2025). arXiv: 2404.06398
+- Wu et al., "Low-loss Lithium Niobate on Insulator (LNOI) Waveguides", arXiv: 1810.09985 (2018); *Nanomaterials* 8(11), 910 — 0.027 dB/cm 记录
+- Desiatov, Shams-Ansari, Zhang, Wang, Loncar, "Ultra-low-loss integrated visible photonics using thin-film lithium niobate", *Optica* 6(3), 380 (2019) — 6 dB/m 可见光波段记录
+- Shams-Ansari et al., "Reduced Material Loss in Thin-film Lithium Niobate Waveguides", *APL Photonics* 7, 081301 (2022). arXiv: 2203.17133 — 0.2 dB/m 材料极限损耗
+- Zhu, Hu, Lu, Warner et al. (Loncar), "Ultra-high Q Thin Film Lithium Niobate Resonators", EIPBN 2024 — Q=2930 万, 1.3 dB/m
+- Xanadu / HyperLight, "First TFLN photonic circuits fabricated in commercial CMOS foundry", press release, July 2025 — &lt;2 dB/m, 0.02 dB 开关元件损耗
+- Zhao, Lin, Gao et al. (Cheng), "Low-loss periodically poled lithium niobate waveguides", *Optics Letters* 50(13), 4310 (2025) — PLACE 技术 0.11 dB/cm
+- Bordui et al., "Compositional uniformity in growth and poling of large-diameter lithium niobate crystals", *J. Cryst. Growth* 113(1-2), 61–68 (1991) — congruent 组成 48.38 mol% Li₂O
+- Sanchez-Dena et al., "Lithium Niobate Single Crystals and Powders Reviewed", *Crystals* 10(11), 973 & 990 (2020) — 晶体生长综述
+- Chelladurai et al., "Barium Titanate and Lithium Niobate Permittivity and Pockels Coefficients from MHz to Sub-THz Frequencies", arXiv: 2407.03443 — BTO r₄₂ 频率色散
+- Zhou et al., "Segmented-Electrode Thin-Film Lithium Niobate I/Q Modulator", *Laser & Photonics Reviews* (2026) — 2.02 Tb/s, PS-144QAM, 320 Gbaud
+- Meng et al., "High Performance TFLN Modulator with ITO Composite Electrode", *Laser & Photonics Reviews* (2024). arXiv: 2311.05119 — V_π·L 1.02 V·cm
+- Juneghani et al., *Advanced Photonics Research* (2023) — 170 GHz EO 带宽（外推）
+- Niels, Vanackere et al., "Centimetre-Scale Micro-Transfer Printing of TFLN with Silicon Photonics", *Optical Materials Express* 15, 531 (2025). arXiv: 2412.15157 — 微转印
+- Tan et al., "Micro-Transfer Printed TFLN-on-Silicon Ring Modulator", *ACS Photonics* 11, 1920 (2024)
+- Chen et al., "Directional atomic layer etching of lithium niobate using Br-based plasma", arXiv: 2511.01825 (2025) — HBr/BCl₃/Ar ALE
+- Shi et al., "High-yield and Reproducible Fabrication of High-Q Optical Micro-resonators on TFLN", *J. Phys.: Conf. Ser.* 2988, 012002 (2025) — 微腔良率 89.6%
+- Bollmers et al., "70 mm continuous periodic poling in TFLN", *Nanophotonics* (2025) — 长距离周期极化
+- HyperLight — 110 GHz / 145 GHz TFLN modulator specifications, 2025–2026 (hyperlightcorp.com)
 - CCRAFT — CLN600 PDK, MPW schedule, 2025
 - Lightium — 200 mm TFLN foundry service, 2025
-- X-FAB + LIGENTEC — TFLN-on-SiN/SOI partnership announcement, Jan 2026
-- NanoLN / Soitec / NGK — LNOI wafer supplier specifications
+- X-FAB + LIGENTEC — TFLN-on-SiN/SOI partnership announcement, January 2026
+- NanoLn / Soitec / NGK — LNOI wafer supplier specifications
 - ELENA Project — European LNOI wafer supply chain establishment, Horizon 2020, 2025
