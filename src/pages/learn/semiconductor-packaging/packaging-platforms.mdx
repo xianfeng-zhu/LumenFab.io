@@ -1,0 +1,609 @@
+---
+layout: ../../layouts/ConceptLayout.astro
+title: 封装平台对比：CoWoS / InFO / SoIC / EMIB / I-Cube / X-Cube
+chapter: 00. 半导体封装
+---
+
+import TermNote from "../../components/TermNote.astro";
+
+## 概览：先进封装平台格局
+
+先进封装市场在 2024 年达到约 **460 亿美元**（同比增长 19%），预计 2030 年将突破 **794 亿美元**（CAGR 9.5%），主要由 AI 加速器、HPC、Chiplet 架构和高带宽存储器（HBM）驱动（Yole Group, 2025）。台积电凭借 3DFabric 系列占据 AI 芯片 2.5D 封装市场 **>90%** 的份额，但英特尔和三星正加速追赶，OSAT 厂商也在产能溢出中扮演日益重要的角色。
+
+---
+
+## 1. TSMC 3DFabric 总览
+
+< TermNote label="3DFabric" note="TSMC 先进封装品牌总称，涵盖 CoWoS、InFO、SoIC 三大支柱，于 2020 年 IEEE EDPS 正式推出。" /> 是台积电为其全部先进封装技术设立的统一品牌，包含三大支柱：
+
+| 支柱 | 主要技术 | 核心应用 |
+|------|---------|---------|
+| < TermNote label="CoWoS" note="Chip-on-Wafer-on-Substrate，2.5D 异构集成平台，通过中介层连接逻辑芯片与 HBM。" /> | CoWoS-S / CoWoS-R / CoWoS-L | HPC / AI 加速器 2.5D 集成 |
+| < TermNote label="InFO" note="Integrated Fan-Out，晶圆级扇出封装，无需传统封装基板。" /> | InFO-PoP / InFO-oS / InFO_UHD | 移动 AP、网络、基带 |
+| < TermNote label="SoIC" note="System on Integrated Chips，TSMC 的 3D 无凸点混合键合堆叠技术。" /> | SoIC-X / SoIC-P / SoIC-mH | 3D 芯片堆叠（CPU+Cache、SoC 堆叠） |
+
+TSMC 在 **Foundry 2.0** 战略下，定位为"可信的技术与产能合作伙伴"——不仅提供裸晶，更利用先进封装构建完整的多芯片系统。2024 年，TSMC 制造的芯片覆盖了 **6560 亿美元**半导体市场中的约 **2500 亿美元**，公司目标到 2030 年覆盖预计 **1 万亿美元**市场中的 5000 亿美元（占比从 38% 提升至 50%）。
+
+**先进封装在 TSMC 的战略角色：**
+- 延续摩尔定律收益：将来自不同工艺节点的 Chiplet 整合在同一封装中
+- 突破光罩极限（~858 mm²）：通过多芯片集成实现物理上更大的处理器
+- 缩短互连距离，降低系统级功耗
+- 通过"工艺+封装"垂直整合形成竞争护城河
+
+---
+
+## 2. CoWoS 家族深度展开
+
+CoWoS 是 TSMC 的 2.5D 异构集成平台，于 2012 年首次推出，现已成为 AI 加速器的主导封装技术，在 AI 芯片 2.5D 封装市占率预估 >90%。
+
+### 2.1 CoWoS-S：全硅中介层
+
+< TermNote label="CoWoS-S" note="CoWoS-Silicon Interposer，使用完整单晶硅中介层 + TSV，密度最高但成本最高。" /> 使用完整单晶硅中介层（Silicon Interposer）搭配 < TermNote label="TSV" note="Through Silicon Via，穿透硅通孔，提供硅中介层中的垂直电气连接。" /> 实现高密度互连。
+
+**关键规格：**
+- 中介层材料：完整单晶硅
+- 互连密度：~10⁶ 连接/mm²
+- 中介层金属层数：10+ 层，次微米线宽/线距
+- 最大中介层面积：~3.3x 光罩极限（~2,700 mm²）
+- HBM 支持：最多 8 个 HBM3 / HBM3e 堆叠
+- 信号延迟：1-2 ps/mm（CoWoS 家族最低）
+- 嵌入式深沟槽电容（< TermNote label="eDTC" note="Embedded Deep Trench Capacitor，嵌入式深沟槽电容，用于改善电源传输质量。" />）集成
+- 成熟良率：>98%
+
+**优点：**互连密度和信号完整性最高；与逻辑芯片的 CTE 匹配最佳（均为硅材料）；2012 年至今量产验证成熟。
+
+**缺点：**面积受扫描仪光罩场限制（单次曝光 ~858 mm²，拼接最大 3.3x）；圆形晶圆切割为中介层时存在"圆-方"几何损失；全硅中介层成本高昂；大尺寸良率挑战大。
+
+**主要产品：**NVIDIA H100/H200（Hopper）、AMD MI300 系列（与 SoIC 合用）、Google TPU v4/v5。
+
+**现状：**仍在量产，但 TSMC 正积极将客户迁移至 CoWoS-L，其占 CoWoS 产能比例持续下降。
+
+### 2.2 CoWoS-R：有机 RDL 中介层
+
+< TermNote label="CoWoS-R" note="CoWoS-RDL Interposer，使用全有机聚合物 + 铜 RDL，不使用硅中介层或 TSV，成本最低。" /> 使用全有机聚合物（Organic Polymer）中介层 + 铜 < TermNote label="RDL" note="Redistribution Layer，重分布层，将芯片 I/O 焊盘重新布线到封装上的其他位置。" />，不含硅中介层和 TSV，是 CoWoS 家族中成本最低的变体。
+
+**关键规格（ECTC 2025 发布）：**
+- 中介层材料：有机聚合物 + Cu RDL（无 Si，无 TSV）
+- RDL 层数：最多 9 层
+- 最小 L/S：1.4 µm / 1.4 µm（ECTC 2025 公告）
+- 微孔临界尺寸（Via CD）：低至 3 µm
+- 最大封装尺寸：5.5x 光罩（66x68 mm，2025 年量产）
+- CoW 组装良率：>99.5%
+- 封装级良率：>99%
+- HBM 支持：典型 2-4 个 HBM 堆叠
+- 信号延迟：10-20 ps/mm（高于 CoWoS-S/L）
+- 热导率：0.2-0.5 W/m-K（需先进散热方案）
+
+**散热创新（ECTC 2025 论文）：**
+- 铟金属 TIM（热界面材料）热导率 >80 W/m-K
+- 支持高达 1866W TDP 封装
+- IMC-Si（集成微通道硅）直接液冷在 10 LPM 流量下可处理高达 3.4 kW TDP
+- 5.5x 光罩大封装翘曲控制方案
+
+**优点：**成本最低（比 CoWoS-S 低约 70%）；有机材料的柔韧性缓解 CTE 失配应力；面积不受光罩限制；无需 TSV 工艺。
+
+**缺点：**互连密度较低（~10⁴-10⁵ 点/mm²）；信号延迟较高；需要先进散热方案。
+
+**主要产品：**Broadcom 定制 AI ASIC、边缘 AI 处理器、网络芯片。
+
+**现状：**量产中，占据 TSMC CoWoS 产能约 6.9%（2025 Q4 预估），服务成本敏感或大尺寸设计。
+
+### 2.3 CoWoS-L：局部硅桥混合中介层
+
+< TermNote label="CoWoS-L" note="CoWoS-Local Silicon Interconnect，混合方案：将局部硅桥（LSI）嵌入有机 RDL 基板，在关键信号路径提供高密度互连。" /> 采用混合方案——小型 < TermNote label="LSI" note="Local Silicon Interconnect，局部硅互连桥接片，嵌入有机 RDL 中为关键路径（SoC-to-HBM、SoC-to-SoC）提供硅级互连密度。" /> 桥接芯片嵌入有机 RDL 基板，形成重构中介层（Reconstituted Interposer）。LSI 为关键信号路径（SoC-to-SoC、SoC-to-HBM）提供高密度互连，RDL 负责全局布线以控制成本。
+
+**历史来源：**基础论文发表于 ECTC 2023（Yu-Chen Hu, Chih-Ta Shen 等，TSMC）。
+
+**关键规格：**
+- 中介层架构：重构中介层 = LSI 桥接片 + 有机 RDL
+- LSI-1：双大马士革铜，0.8/0.8 µm L/S，2 µm 厚度
+- LSI-2：半加成工艺铜 RDL + 聚酰亚胺介质，2/2 µm L/S，2.3 µm 厚度
+- < TermNote label="TIV" note="Through Insulator Via，穿过绝缘体的通孔，比传统 TSV 具有更低的插入损耗。" />：插入损耗低于传统 TSV
+- 新一代 eDTC：电容密度 1100 nF/mm²（一代的 3 倍）
+- 2023 年最大演示中介层：~2,500 mm²（3x 光罩）
+- 2024-2025：3.5x 光罩首度量产；5.5x 光罩开发中
+- 2030 年目标：8-10x 光罩中介层
+
+**2025 量产状态：**
+- 3.5x 光罩 CoWoS-L：2024 年起量产量产
+- 5.5x 光罩 CoWoS-L：开发中，2025-2026 年进入量产
+- 2030 目标：8-10x 光罩
+
+**优点：**性能接近 CoWoS-S（LSI 提供硅级互连密度）；成本接近 CoWoS-R（比 CoWoS-S 低约 50-60%）；突破硅中介层面积极限；设计灵活。
+
+**缺点：**制造工艺更复杂（嵌入 LSI 芯片）；需要纳米级对准精度；作为较新技术，量产记录较短。
+
+**战略重要性：**在 Semicon Taiwan 2024 上，TSMC 高性能封装总监 Hou Shang-yung 明确表示 CoWoS-L 是未来主要方向，将取代 CoWoS-S 用于高端 AI 应用。CoWoS-L 预计占 2025 Q4 总 CoWoS 产能的 **~54.6%**。
+
+**主要产品：**NVIDIA B200/GB200（Blackwell）、NVIDIA R100（Rubin，计划）、AMD MI350/MI450 系列。
+
+### 2.4 CoWoS-L 的 LSI 架构：与 EMIB 的概念趋同
+
+CoWoS-L 的 LSI（局部硅互连）架构与 Intel EMIB 在概念上高度相似，都采用"局部高密度桥接片 + 全局有机布线"的混合策略。但两者也存在本质差异：
+
+| 对比维度 | CoWoS-L（TSMC） | EMIB（Intel） |
+|---------|----------------|--------------|
+| **桥接片位置** | 嵌入有机 RDL 中介层内部 | 嵌入有机封装基板内部 |
+| **中介层结构** | 有中介层（重构中介层 RI） | 无中介层（桥接片直嵌基板） |
+| **桥接片布线层** | LSI-1: 0.8/0.8 µm（双大马士革）；LSI-2: 2/2 µm（SAP） | 45 µm 间距 |
+| **垂直互连** | TIV（Through Insulator Via） | TSV（在新型 EMIB-T 中引入） |
+| **集成层级** | 晶圆级中介层制造 | 封装级基板嵌入 |
+| **最大封装面积** | 3.5x → 5.5x → 8-10x 光罩（目标 2030） | 演示 12x 光罩（>10,000 mm²） |
+
+值得注意的趋势是：CoWoS-L 在 EMIB-T（加入 TSV）方向演进，而 EMIB-T 在桥接片中引入 TSV——两套技术正从不同起点向相似的"局部桥接 + 全局布线 + 垂直互连"混合架构收敛。
+
+### 2.5 CoWoS 三型对比表
+
+| 属性 | CoWoS-S | CoWoS-R | CoWoS-L |
+|------|---------|---------|---------|
+| **中介层** | 全硅（单片） | 有机 RDL | LSI 桥接片 + RDL |
+| **互连密度** | ~10⁶/mm² | ~10⁴-10⁵/mm² | 关键路径 ~10⁶ / RDL ~10⁴-10⁵ |
+| **最大中介层（当前）** | 3.3x 光罩（~2,700 mm²） | 5.5x 光罩（量产） | 3.5x（2024 量产）/ 5.5x（2025） |
+| **信号延迟** | 1-2 ps/mm | 10-20 ps/mm | ~1-2 ps/mm（LSI 路径） |
+| **成本水平** | 最高 | 最低（比 CoWoS-S 低约 70%） | 中等（比 CoWoS-S 低约 50-60%） |
+| **HBM 支持** | 最多 8 个 HBM | 2-4 个 HBM | 最多 12 个 HBM3E / HBM4 |
+| **功耗能力** | 中等 | 1866W+（先进散热） | kW 级 |
+| **2025 Q4 产能占比** | ~38.5% | ~6.9% | ~54.6% |
+| **主要客户** | AMD、Google | Broadcom、网络客户 | NVIDIA、AMD |
+| **代表产品** | H100/H200、MI300、TPU v4/v5 | 定制 ASIC、边缘 AI | B200/GB200、R100、MI350 |
+
+---
+
+## 3. CoWoS 的两种组装流程：CoS vs. CoW
+
+< TermNote label="CoS" note="Chip-on-Substrate，先将已知合格芯片（KGD）贴装到基板上，再组装到封装基板。测试在贴装后进行。" />（Chip-on-Substrate）和 < TermNote label="CoW" note="Chip-on-Wafer，先将芯片贴装到晶圆级中介层上，经测试合格后再切割并贴装到基板。测试在中介层晶圆上进行。" />（Chip-on-Wafer）是 CoWoS 的两种主要组装策略，核心区别在于测试插入点和良率策略。
+
+| 属性 | CoS（Chip-on-Substrate） | CoW（Chip-on-Wafer） |
+|------|------------------------|---------------------|
+| **流程** | 芯片 → (测试) → 贴装到基板 → (测试) → 组装到封装基板 | 芯片 → 贴装到中介层晶圆 → 晶圆级测试 → 切割 → 贴装到封装基板 |
+| **测试插入点** | 芯片贴装到基板后进行部分测试 | 在中介层晶圆上完成所有芯片贴装后统一测试 |
+| **良率策略** | 使用已知合格芯片，基板级修复较难 | 晶圆级测试可覆盖更多缺陷，整片吞吐更高 |
+| **适用场景** | 低频 I/O、较低复杂度设计 | 高密度互连、多 HBM 集成、大批量 AI 芯片 |
+| **典型应用** | 传统多芯片模块 | CoWoS-S/L 的 AI 加速器 |
+
+CoW 流程是当前 AI 芯片量产的优选方案：在中介层晶圆上同时完成 GPU/ASIC 和 HBM 的贴装，晶圆级测试可一次性验证所有互连质量，再切割成单个封装。这种方式在 HBM 数量多、互连密度高的场景中显著提升整体良率和产出效率。
+
+---
+
+## 4. InFO 家族
+
+< TermNote label="InFO" note="Integrated Fan-Out，TSMC 的晶圆级集成扇出封装技术，约 2016-2017 年推出，使用高密度 RDL 和 TIV 实现互连，无需传统封装基板。" /> 是 TSMC 的晶圆级集成扇出封装平台，大约于 2016-2017 年推出。它使用高密度 RDL 和 TIV 实现互连，无需传统封装基板。InFO 与 CoWoS 和 SoIC 并列构成 3DFabric 组合。
+
+### 4.1 InFO-PoP（Package-on-Package）
+
+< TermNote label="InFO-PoP" note="InFO Package-on-Package，业界首个 3D 晶圆级扇出封装，实现逻辑与存储器垂直堆叠，无需有机中介层基板。" /> 是业界首个 3D 晶圆级扇出封装，实现逻辑芯片（如移动 AP）与 DRAM 的垂直堆叠，无需有机中介层基板。
+
+**关键特性：**
+- 无有机基板、无 C4 凸点（与传统 FC-PoP 不同）
+- 更薄的封装外形（对移动设备至关重要）
+- 更优电气性能（互连路径更短）
+- 更好的散热性能
+- 使用高密度 RDL 和 TIV 实现芯片间互连
+
+**历史意义：**
+- 苹果 iPhone 7（A10 Fusion 处理器）首次采用
+- 此后所有苹果 A 系列芯片和 M 系列均使用 InFO-PoP
+- 验证了晶圆级扇出在高容量消费市场的可行性
+
+### 4.2 InFO-oS（on Substrate）
+
+< TermNote label="InFO-oS" note="InFO on Substrate，多芯片通过 InFO 工艺集成在有机基板上，面向不需要 CoWoS 级密度的多芯片模块。" /> 面向多芯片模块，适用于不需要 CoWoS 级密度的场景。
+
+**关键规格：**
+- 高密度 RDL：最小 2/2 µm 线宽/线距
+- 最小 I/O 间距：40 µm
+- 最小 C4 凸点间距：130 µm
+- 封装尺寸：>2x 光罩，基板 >65x65 mm
+- 应用：5G 网络、HPC 多 Chiplet 集成
+
+### 4.3 InFO_UHD（超高密度）
+
+< TermNote label="InFO_UHD" note="InFO Ultra-High-Density，使用亚微米（sub-micron）RDL 的超高密度 InFO 变体，面向高带宽 Chiplet 互连。" /> 提供亚微米 RDL 线宽/线距，面向需要高于标准 InFO 但不必采用全 CoWoS 方案的场景。TSMC 预计 2025 H2 推出 InFO-2.5D 作为 CoWoS 的中档替代方案。
+
+**InFO 关键对比：**
+
+| 变体 | 核心特征 | 主要应用 | 代表客户 |
+|------|---------|---------|---------|
+| InFO-PoP | 逻辑 + 存储器垂直堆叠，最薄外形 | 手机 AP、平板 SoC | Apple（A 系列、M 系列） |
+| InFO-oS | 多芯片 RDL 扇出，中等密度 | 5G 基带、网络、HPC | 网络 / 基带芯片 |
+| InFO_UHD | 亚微米 RDL，接近 CoWoS 密度 | 高带宽 Chiplet 集成 | HPC / AI |
+
+---
+
+## 5. SoIC：3D 无凸点混合键合
+
+< TermNote label="SoIC" note="System on Integrated Chips，TSMC 的 3D 芯片堆叠技术，通过铜-铜直接混合键合实现无凸点连接，是 TSMC 增长最快的封装平台。" /> 是 TSMC 真正的 3D 芯片堆叠技术，采用铜-铜直接混合键合（Hybrid Bonding）。TSMC 将其描述为"业界首个具有异构集成能力的高密度 3D 芯片堆叠技术"。SoIC 是 TSMC 封装组合中增长最快的平台。
+
+### 5.1 SoIC-X：铜-铜混合键合
+
+< TermNote label="SoIC-X" note="SoIC 的 Cu-Cu 直接混合键合变体，无焊料微凸点，实现最高密度垂直互连。芯片面对面或面对背堆叠。" /> 采用无凸点混合键合（Cu-Cu 直接键合），芯片可面对面或面对背堆叠，无需焊料微凸点。
+
+**间距路线图（IEDM 2024 TSMC 教程）：**
+
+| 代次 | 键合间距 | TSV 间距最小值 | ESD 需求 | 状态 |
+|------|---------|---------------|---------|------|
+| Gen 1 | 9 µm | 9 µm | 10V | 量产（AMD 3D V-Cache, MI300） |
+| Gen 2 | 6 µm | 6 µm | 5V | 已验证，2024 年进入量产 |
+| Gen 3 | 4.5 µm | 4.5 µm | 3V | 开发中 |
+| 未来 | 3 µm | -- | -- | 2027 年目标 |
+
+**关键技术特征：**
+- 10 µm 间距时互连密度：~10,000 I/O / mm²
+- 走线长度：~0.01 mm（vs. CoWoS/InFO 的 0.5-10 mm）
+- 无需底部填充（介电-介电键合本身即为填充物）
+- 双面铜焊盘在热压缩下共膨胀并熔合
+- 极低的插入损耗和高能效
+
+### 5.2 SoIC-P：微凸点
+
+< TermNote label="SoIC-P" note="SoIC Microbump 变体，使用传统微凸点进行垂直堆叠，成本低于混合键合。间距 16-25 µm。" /> 使用传统微凸点进行垂直堆叠，面向成本敏感、不需要最高互连密度的 3D 堆叠场景。间距 25 µm 至 16 µm。
+
+### 5.3 SoIC-mH
+
+< TermNote label="SoIC-mH" note="SoIC Molding Horizontal 变体，2.5D 水平放置方案，芯片封装在模塑化合物中而非垂直堆叠，结合 InFO 式 RDL 互连。" /> （Molding Horizontal）是一种 2.5D 方案：芯片并排放置并封装在模塑化合物中，而非垂直堆叠。结合 InFO 式 RDL 互连。
+
+**关键客户：**Apple M5 Pro / Max / Ultra（预计 2025-2026）。苹果已从统一内存架构转向使用 SoIC-mH 封装的分体 CPU/GPU 设计。
+
+### 5.4 混合键合技术细节
+
+**简化工艺流程：**
+1. 芯片表面经 CMP 平坦化至纳米级平整度
+2. 铜焊盘略低于介电表面（形成 recess）
+3. 表面经等离子体清洗和活化
+4. 室温下介电面键合
+5. 退火使铜膨胀，形成熔合的 Cu-Cu 连接
+6. 最终形成类似单晶片的界面——无焊料、无底部填充
+
+**混合键合 vs. 微凸点（SoIC-P）：**
+
+| 对比维度 | 混合键合（SoIC-X） | 微凸点（SoIC-P） |
+|---------|------------------|-----------------|
+| 互连密度 | 10-100 倍更高 | 基准 |
+| 每比特功耗 | 3-5 倍更低 | 基准 |
+| 散热路径 | 直接 Cu-Cu 路径 | 焊料接缝（热阻更高） |
+| 可靠性 | 无焊料疲劳 | 焊料接缝寿命受限 |
+| 堆叠厚度 | 更薄（无凸点高度） | 需要凸点空间 |
+
+### 5.5 COUPE：硅光集成平台
+
+< TermNote label="COUPE" note="Compact Universal Photonic Engine，TSMC 基于 SoIC 堆叠技术的硅光集成平台，实现共封装光学（CPO）。" /> 是 TSMC 基于 SoIC 堆叠技术打造的硅光子集成平台，面向共封装光学（CPO）。
+
+**代际演进：**
+- **COUPE 1.0：**电芯片堆叠在光子 IC 上（EIC-on-PIC），采用 SoIC 混合键合
+- **COUPE 2.0：**将光学引擎进一步与交换 ASIC 集成
+
+**应用场景：**
+- 超高端网络交换机
+- NVIDIA Rubin 架构互连（替代铜缆收发器，功耗降低 5 倍）
+- 目标：2025 年底实现 1.6T 光传输，2026 年配合 NVIDIA 路线图实现量产发货
+
+### 5.6 SoIC 产能爬坡
+
+SoIC 是 TSMC 增长最快的封装平台，其产能正在快速扩张：
+
+| 时间 | 月产出（约） | 增长率 |
+|------|------------|-------|
+| 2024 年中 | ~2,000 片 | 初始爬坡 |
+| 2024 年底 | ~4,000-5,000 片 | 年内翻倍 |
+| 2025 | ~10,000 片 | +100% YoY |
+| 2026 | ~20,000-26,000 片 | +100-160% YoY |
+| 2027 | ~40,000 片 | +54% YoY |
+| 2028 | ~65,000 片 | +62% YoY |
+
+截至 2025 年，预计约 30 个客户 SoIC 设计将在 2026-2027 年进入量产。主要客户包括 AMD（3D V-Cache, MI300）、Apple（M5 SoIC-mH）、NVIDIA（Rubin）和 Broadcom（6 µm 间距设计）。
+
+### 5.7 SoIC 与 CoWoS 的协同使用
+
+SoIC 和 CoWoS 并非互斥，而是互补的。典型的高端 AI 处理器架构为：**SoIC 堆叠 + CoWoS 中介层**。
+
+以 AMD MI300 为例：CPU Chiplet 与 3D V-Cache 通过 SoIC 混合键合垂直堆叠，然后这些堆叠体（以及 GPU 模块）一并放置在 CoWoS-S 硅中介层上，通过中介层实现与 HBM 的高带宽互连。
+
+NVIDIA 的 Rubin（R100）延续这一路线：Vera CPU 和 Blackwell GPU 通过 SoIC 堆叠，再放置在 CoWoS-L 中介层上，实现 12-16 个 HBM4 堆叠的高密度集成。
+
+这种两层架构充分发挥了 SoIC 的垂直密度优势（Chiplet 间超高带宽）和 CoWoS 的水平扩展优势（多 HBM、大型中介层布线）。
+
+---
+
+## 6. Intel：EMIB 与 Foveros
+
+### 6.1 EMIB（嵌入式多芯片互连桥接）
+
+< TermNote label="EMIB" note="Embedded Multi-die Interconnect Bridge，Intel 的 2.5D 技术，将小型硅桥嵌入有机封装基板中，仅在高密度互连需要的位置放置桥接片，成本低于全硅中介层。" /> 将小型硅桥接片嵌入有机封装基板中，仅在需要高密度互连的位置放置桥梁（而非全中介层）。2017 年起实现 HVM。
+
+**关键规格：**
+- 桥接片间距：低至 **45 µm**
+- 首个大规模产品：Stratix 10 FPGA
+- 也被用于 NVIDIA H100 的 HBM 集成（在 CoWoS-S 产能紧张时）
+- **EMIB-T（新）：**在嵌入式桥接片中加入 TSV，改善 HBM4 和 UCIe 信号完整性
+
+**Clearwater Forest（288 核 Xeon）：**使用 12 个 EMIB 桥接片连接 17 个 Tile——为商用处理器中 Tile 数量最多者。
+
+**大封装能力演示：**16 个计算 Tile + 24 个 HBM5 芯片，硅总面积 >10,000 mm²（12x 光罩）。
+
+**制造与客户：**
+- EMIB 产线部署在 Amkor 韩国工厂
+- Intel $7B 马来西亚封装设施已投入运营
+- 外部客户：Amazon Trainium、MediaTek；Google TPU 评估中；Apple 和 Qualcomm "正在评估"
+- **战略转变：**最初客户因 CoWoS 产能不足而选择 EMIB，现在部分设计主动选择 EMIB
+
+### 6.2 Foveros
+
+< TermNote label="Foveros" note="Intel 的 3D 堆叠技术，使用有源中介层（Active Interposer）——中介层本身包含逻辑电路，且集成 TSV 实现垂直互连。" /> 是 Intel 的 3D 堆叠技术，采用有源中介层（Active Interposer），中介层本身包含逻辑电路。
+
+**Foveros Direct：**混合键合变体，与 TSMC SoIC 竞争。
+
+**EMIB 3.5D：**EMIB + Foveros 的组合方案，在 Foveros 有源中介层上再通过 EMIB 扩展水平互连，实现超高密度 3D+2.5D 混合架构。
+
+**现状：**Meteor Lake（CPU Tile 在基础中介层上）量产。
+
+### 6.3 Intel 对比表
+
+| 技术 | 类型 | 互连密度 | 量产时间 | 代表产品 |
+|------|-----|---------|---------|---------|
+| **EMIB** | 2.5D 局部硅桥 | 45 µm 间距 | 2017 | Stratix 10 FPGA、Clearwater Forest、H100（外部） |
+| **Foveros** | 3D 有源中介层 + TSV | 微凸点 | 2023 | Meteor Lake |
+| **Foveros Direct** | 3D 混合键合 | 亚 10 µm | 开发中 | 下一代 |
+| **EMIB 3.5D** | EMIB + Foveros | 混合 | 开发中 | 高端 HPC |
+
+---
+
+## 7. Samsung：I-Cube 与 X-Cube
+
+< TermNote label="Samsung I-Cube / X-Cube" note="三星先进封装系列：I-Cube 为 2.5D（S 硅中介层/E 嵌入式桥接片），X-Cube 为 3D（TCB 微凸点/HCB 混合键合）。" />
+
+### 7.1 I-CubeS（2.5D 硅中介层）
+
+< TermNote label="I-CubeS" note="Samsung 的 2.5D 硅中介层方案，与 CoWoS-S 直接竞争，支持 3x 光罩面积和 8 个 HBM3。" /> 硅中介层方案，与 CoWoS-S 直接竞争：3x 光罩面积、8 个 HBM3。
+
+### 7.2 I-CubeE（嵌入式桥接片）
+
+< TermNote label="I-CubeE" note="I-Cube Embedded Bridge，嵌入式硅桥 + FO-PLP（扇出面板级封装），支持 3 逻辑芯片 + 12 个 HBM3，量产验证中。" /> 嵌入式硅桥 + FO-PLP（扇出面板级封装），支持 3 逻辑芯片 + 12 个 HBM3，量产验证中（2025）。
+
+**H-Cube：**针对 6+ HBM 堆叠大封装的子母板式翘曲管理方案。
+
+### 7.3 X-Cube（3D 堆叠）
+
+| 变体 | 技术 | 间距 | 状态 |
+|------|-----|------|------|
+| < TermNote label="X-Cube TCB" note="Samsung 的 3D 微凸点堆叠技术，使用热压键合（TCB），于 2024 年进入量产。" />（热压键合） | 微凸点 3D 堆叠 | 25-40 µm | 2024 年量产 |
+| < TermNote label="X-Cube HCB" note="Samsung 的 3D 混合键合（Hybrid Cu Bonding），与 TSMC SoIC-X 竞争，4 µm 间距进入量产验证。" /> | 混合键合 | 4 µm | 2025 年量产验证，目标 2026 年量产 |
+
+### 7.4 三星的关键优势与客户
+
+三星的独特优势在于**存储器-晶圆代工-封装一体化**：三星同时生产 HBM 存储器、进行晶圆代工、并提供先进封装服务。这一组合为其赢得了 **Tesla AI6 芯片的 ~165 亿美元全包订单**（代工 + 封装 + 测试）。
+
+---
+
+## 8. 三大厂商竞争格局总览
+
+| 维度 | TSMC（3DFabric） | Intel（ASAT） | Samsung（HIT/AVP） |
+|------|-----------------|--------------|-------------------|
+| **2.5D 平台** | CoWoS-S / CoWoS-R / CoWoS-L | EMIB（嵌入式桥接） | I-Cube S / I-Cube E |
+| **3D 平台** | SoIC（混合键合 + 微凸点） | Foveros、Foveros Direct | X-Cube（微凸点 + 混合键合） |
+| **下一代** | CoPoS（玻璃面板）、SoW | EMIB-T（含 TSV）、玻璃基板 | HPB（玻璃）、FOPLP |
+| **AI 芯片 2.5D 市占率** | **>90%** | 个位数 % | 个位数 % |
+| **高端封装单价** | ~$900-1000（Rubin 级） | ~$100s | 中档 |
+| **最大光罩倍数** | 3.5-5.5x | 12+（EMIB-T 概念） | ~3x（I-Cube S） |
+| **存储器集成** | 外部 HBM（SK 海力士/三星/美光） | 外部 HBM | 自产 HBM（战略优势） |
+
+**市场结构（2024 年，Yole Group）：**先进封装市场整体约 $460 亿美元，其中 Intel ~$65 亿、Amkor ~$53 亿、ASE/SPIL ~$53 亿、TSMC ~$50 亿、Samsung ~$31 亿。预测 2030 年达 ~$794 亿（CAGR 9.5%）。晶圆代工/IDM 封装份额预计从 2025 年的约 39% 增长至 2029 年的约 42%。
+
+**关于 Intel 玻璃基板的说明：**Intel 已暂停内部玻璃核心基板开发（CEO Lip-Bu Tan 确认），将转向从专业供应商采购现成方案，理由为财务风险降低、运营成本优化和更快的上市时间。
+
+---
+
+## 9. TSMC CoPoS：面板级封装的未来
+
+< TermNote label="CoPoS" note="Chip-on-Panel-on-Substrate，TSMC 下一代先进封装平台，从圆形晶圆转向矩形玻璃面板，是 CoWoS 以来最大的封装技术变革。" /> 是 TSMC 的下一代先进封装平台，从传统的圆形 300mm 晶圆转向矩形玻璃面板。这一转型被认为是 CoWoS 以来最具影响力的封装技术变革。
+
+### 9.1 核心技术原理
+
+**核心思路：**将 CoWoS 从晶圆级扩展到面板级处理。核心使能技术是从圆形硅中介层转向矩形玻璃面板 + 玻璃通孔（TGV）。
+
+**关键驱动力：**
+- 面积利用率：圆形晶圆约 57% → 矩形面板 87%+
+- 尺寸扩展：面板可达 515x510 mm（vs. 300mm 晶圆直径），可用面积增加 300%+
+- 成本降低：310mm 面板节省 15-25%，全尺寸 515x510 mm 可降 40%+
+- 突破光罩限制：实现 >9.5x 至 14x 光罩尺寸（2028-2029 年目标）
+
+**常见误解澄清（Ming-Chi Kuo 及行业分析）：**
+- CoPoS 不使用玻璃中介层；互连功能由芯片侧 RDL 和玻璃核心基板的 TGV+ABF 增层结构共同承担
+- 玻璃不替代 ABF；两者在"三明治"结构中并存
+- 芯片不直接放置在玻璃上；芯片贴装在玻璃核心之上的 ABF 表面
+
+**三明治结构（自底向上）：**
+1. PCB / 系统板
+2. C4 凸点 / BGA
+3. 玻璃核心基板 + TGV + ABF 增层
+4. 微凸点
+5. 芯片（ASIC/GPU + HBM）贴装在 ABF 表面，通过 RDL 互连
+
+### 9.2 玻璃基板规格路线图
+
+| 格式 | 尺寸 | 用途 | 状态 |
+|------|-----|------|------|
+| 试产/测试 | 250 x 250 mm | 工艺开发、设备认证 | 进行中（2025-2026） |
+| 试验线 | 310 x 310 mm | 试验线及早期生产 | 计划 2026 年 |
+| 量产 | 515 x 510 mm | 全规模 HVM | 目标 2028-2029 年 |
+| 超大面板 | 750 x 620 mm | 超 CoPoS 未来 | 2027-2028 探索期 |
+
+### 9.3 通孔技术比较
+
+| 属性 | TGV（玻璃通孔） | TSV（硅通孔） |
+|------|---------------|-------------|
+| 深宽比 | >10:1（理论可达 50:1） | ~10:1 |
+| 孔径 | <10 µm | 5-20 µm |
+| 介电损耗 | 更低 | 中等 |
+| 制造方式 | 超快激光诱导深蚀刻 | DRIE 干法刻蚀 |
+| 成本潜力 | 面板级显著降低 | 晶圆级中等 |
+
+**TGV 工艺挑战：**无空洞电镀填充、面板级 CMP 平坦化、激光钻孔均匀性是当前核心难点。
+
+### 9.4 时间线
+
+| 时间 | 里程碑 |
+|------|-------|
+| 2024 | 可行性研究完成 |
+| 2025 | 设备认证、310x310 mm 工艺开发 |
+| 2026 H1 | 试验线设备交付（台湾彩钰厂） |
+| 2026 H2 | 试验线全面建成 |
+| 2026.06 | TSMC 董事长 C.C. Wei 确认："CoPoS 试验线已建成，还需 2-3 年达到有意义规模" |
+| 2027 | 小批量客户送样验证 |
+| 2028 H2 | 在台湾嘉义 AP7 量产启动 |
+| ~2030 | 首批全规格量产产品面市 |
+
+**首位预期采用者：**NVIDIA 的 "Feynman" AI 芯片，目标封装尺寸 >9.5x 光罩。
+
+---
+
+## 10. InFO 扩展：SoW（System-on-Wafer）
+
+< TermNote label="SoW" note="System-on-Wafer，TSMC 在 2025 技术研讨会上宣布的晶圆级集成新类别，在 3DFabric 组合中专注大规模 AI 集成。" /> 是 TSMC 在 2025 技术研讨会上宣布的全新晶圆级集成类别，属于 3DFabric 组合中的 InFO 扩展。
+
+**SoW-P（Chip-first）：**芯片先放置在晶圆上，再在其周围构建 RDL。面向移动/边缘 AI，<100W 每模块，预计 2027 年量产。
+
+**SoW-X（Chip-last）：**先在晶圆级构建中介层，再将芯片放置其上。关键指标：
+- 设计尺寸可达标准光罩的 **40x**
+- 计算性能比当前 CoWoS 方案提升 **40x**
+- 支持最多 **60 个 HBM** 堆叠
+- ~1700W 每晶圆 TDP
+- 260 TB/s 芯片间带宽
+- 预计 **2027 年** 量产
+
+SoW-X 本质上将整个服务器机架封装进一个晶圆级封装中，代表 AI 计算封装密度的终极形态。
+
+---
+
+## 11. CoWoS 产能扩张与制造布局
+
+TSMC 正在大规模扩建先进封装产能以应对 AI 需求爆发。
+
+### CoWoS 月产能爬坡
+
+| 年份 | 月产能（约，片） | 年增长率 |
+|------|---------------|---------|
+| 2023 | ~15,000 | 基线 |
+| 2024 | ~35,000-40,000 | ~2.5x |
+| 2025 | ~70,000-95,000 | ~5-6x（相对 2023） |
+| 2026 目标 | ~115,000-150,000 | ~1.5-2x |
+| 2027 目标 | ~175,000 | 持续增长 |
+| 2028 目标 | ~220,000 | 持续增长 |
+
+**2025 Q4 按变体产能占比：**CoWoS-L ~54.6%、CoWoS-S ~38.5%、CoWoS-R ~6.9%。
+
+### 扩产厂区
+
+| 厂区 | 地点 | 技术 | 状态 |
+|------|-----|------|------|
+| AP3 | 台湾龙潭 | CoWoS | 运营中 |
+| AP5 | 台湾台中 | CoWoS | 预计 4Q25-1Q26 产能爬坡 |
+| AP6 | 台湾竹南 | SoIC、先进封装 | 运营中，2Q25/4Q25 扩产 |
+| AP7 | 台湾嘉义 | CoWoS（P2/P3）、SoIC、CoPoS（P4/P5） | 大规模建设；设备加速安装至 2025.08 |
+| AP8 | 台湾台南 | CoWoS | P1 运营中，P2 建设中，量产 H2 2025 |
+| 亚利桑那 | 美国凤凰城 | SoIC（先）、CoPoS（后） | 两座封装厂规划中，建设目标 2028 |
+
+### 投资规模
+
+TSMC 2026 年资本支出：**$520-560 亿美元**（含封装扩建）。设备供应商包括 KLA、TEL、Screen、Applied Materials、DISCO 及约 13 家台湾供应商。OSAT 合作伙伴（ASE/SPIL、Amkor）正建设"TSMC 类似"的 CoWoS 产能，预计 2028 年达到约总产能的 **~20%**。
+
+---
+
+## 12. OSAT 的角色与 CoWoS 产能溢出
+
+< TermNote label="OSAT" note="Outsourced Semiconductor Assembly and Test，外包半导体封装测试厂商，如 ASE、Amkor、JCET。" /> 在 TSMC CoWoS 产能持续紧张的背景下，OSAT 厂商正在承接部分中低复杂度封装业务，形成"TSMC 主导 + OSAT 合作"的新格局。
+
+| OSAT | 相关技术 | CoWoS 溢出角色 |
+|------|---------|--------------|
+| **ASE**（含 SPIL） | FOWLP、2.5D/3D、FO-EB（嵌入式桥接） | 建设中约 **~20%** CoWoS 产能（2028 年目标） |
+| **Amkor** | SLIM（混合 RDL）、SWIFT（扇出）、硅中介层 | EMIB 组装合作（Intel）；CoWoS-S/R 溢出产能 |
+| **JCET** | NSEB（无硅嵌入式桥接） | $15 亿先进封装投资宣布 |
+
+**产能分工逻辑：**
+- **CoWoS-L 留在 TSMC：**LSI 桥接片的纳米级对准精度要求极高，TSMC 掌握核心工艺
+- **CoWoS-S/R 向 OSAT 外溢：**成熟工艺、中等复杂度，OSAT 可通过设备投资和技术导入承接
+- **OSAT 格局影响：**ASE/SPIL 和 Amkor 合计约占 CoWoS 产能的 **~20%**（2028 年），主要覆盖成熟节点和成本敏感客户
+
+**行业趋势：**先进封装格局正从"TSMC 独家"走向"TSMC 主导 + OSAT 合作伙伴 + Intel/Samsung 替代选择"的多极格局。OSAT 产业 2025 Q2 同比增长 11%，由 ASE 和 KYEC 引领。高通量、低复杂度的封装需求持续向 OSAT 外溢。
+
+---
+
+## 13. 关键客户封装选择一览
+
+| 客户 | 历史选择 | 当前主流 | 下一代方向 |
+|------|---------|---------|-----------|
+| **NVIDIA** | H100 → CoWoS-S | B200/GB200 → **CoWoS-L** | R100 → CoWoS-L + SoIC；Feynman → CoPoS |
+| **AMD** | MI300 → CoWoS-S + SoIC（3D V-Cache） | MI350 → **CoWoS-L** | MI450 → CoWoS-L + SoIC |
+| **Apple** | A 系列 → **InFO-PoP** | M 系列 → InFO-PoP | M5 Pro/Max/Ultra → **SoIC-mH** |
+| **Broadcom** | 定制 AI ASIC → **CoWoS-R** | 定制 AI ASIC → CoWoS-R | 下一代 → SoIC（6 µm 间距混合键合） |
+| **Google** | TPU v4/v5 → **CoWoS-S** | TPU v6/v7 → CoWoS | TPU v9（N2 工艺）→ **SoIC** |
+| **AWS** | Trainium 2 → 传统封装 | Trainium 3 → **CoWoS-R** | Trainium 4 → **SoIC** |
+
+### 客户详情
+
+**NVIDIA：**CoWoS 产能的最大消费者，预计消耗 2026 年 TSMC CoWoS 总产出约 **59%**（2027 年降至约 53%）。H100（Hopper）使用 CoWoS-S，Blackwell（B200/GB200）迁移至 CoWoS-L，Rubin（R100，2026 年量产）将使用 CoWoS-L + SoIC 混合键合。Rubin 规格：3nm N3P、~3360 亿晶体管、4x 光罩尺寸、12-16 个 HBM4、22 TB/s 带宽、约 100 petaflops FP4。Vera CPU 为 88 核自研 ARM 核心。NVIDIA 预定了 TSMC 2026 年超过一半的 CoWoS 产能，形成战略级产能瓶颈。
+
+**AMD：**首个商用 SoIC 采用者（MI300 的 3D V-Cache）。MI300 同时使用 CoWoS-S 和 SoIC，MI350 系列向 CoWoS-L 迁移。预计占 TSMC 2026 年 CoWoS 分配的约 9%（2027 年增至约 11%）。
+
+**Apple：**InFO-PoP 最长期的客户（自 iPhone 7 / A10，2016 年）。M5 Pro/Max/Ultra 预计采用 SoIC-mH 封装（2025-2026）。AP7 P1 的 WMCM（晶圆级多芯片模块）可能服务可折叠 iPhone（2026 H2）。
+
+**Broadcom：**为 Google/Meta 定制 AI ASIC，使用 CoWoS-R 提供成本效益方案。与 TSMC 合作开发 6 µm 间距面对面混合键合 SoIC。预计 2027 年占 TSMC CoWoS 分配的约 20%。
+
+**其他客户：**Google（TPU）、Meta、AWS、xAI、MediaTek 均发出紧急/溢价订单。MediaTek 于 2026 年进入 ASIC 市场并有大额预订。
+
+---
+
+## 14. 路线图与未来趋势
+
+### TSMC 先进封装路线图（2025-2030+）
+
+| 年份 | CoWoS | InFO/SoW | SoIC | CoPoS | 关键使能技术 |
+|------|-------|----------|------|-------|------------|
+| **2025** | CoWoS-L 3.5x HVM、5.5x 开发；产能 70-95k WPM | SoW-P 认证；InFO-2.5D | SoIC Gen2（6 µm）HVM、Gen3（4.5 µm）开发；产能 ~10k WPM | 试验线建设（310mm 面板） | 铟 TIM、IMC-Si 液冷 |
+| **2026** | CoWoS-L 5.5x HVM；产能 115-150k WPM | SoW-P 测试芯片 | SoIC Gen3（4.5 µm）；产能 20-26k WPM | 试验线完成；小批量送样 | CPO 1.6T 量产发货 |
+| **2027** | 9.5x 光罩开发；产能 ~175k WPM | **SoW-X HVM**（40x 光罩，40x 性能） | SoIC 3 µm 开发；~30 个设计；产能 ~40k WPM | 客户验证；小批量认证 | 共封装光学 |
+| **2028-2029** | CoWoS-L 8-10x 光罩；产能 ~220k WPM | SoW-X 爬坡 | SoIC 3 µm HVM；产能 ~65k WPM | **CoPoS HVM**（310→515mm）；9.5-14x 光罩 | 玻璃基板、SiC 中介层 |
+| **2030+** | 与 CoPoS 并存 | 更大 SoW 格式 | 亚 3 µm 间距 | 全规 HVM；750x620mm 超面板 | 2D 晶体管 + CFET + 3D 封装 |
+
+### 技术收敛趋势
+
+1. **三大平台向混合架构收敛：**
+   - CoWoS-L 已经使用嵌入式桥接片（LSI）——概念上类似 EMIB
+   - EMIB-T 在桥接片中加入 TSV——概念上类似 CoWoS-L 的 LSI+TSV
+   - I-CubeE 结合嵌入式桥接片与面板级处理
+   - 获胜方案似乎都是 **"局部高密度桥接片 + 全局 RDL/扇出"**
+
+2. **封装与工艺技术不可分割：**
+   - TSMC 的 N2（2nm GAA 纳米片）和 A16（1.6nm 背面供电）均与封装协同优化
+   - AMD 的"SoIC + CoWoS"组合正成为高端 AI 处理器模板
+   - 3 µm 间距的 3D 堆叠可实现 N2/A16 计算芯片与旧节点缓存/存储器的集成
+
+3. **关键行业拐点：**
+   - CoWoS → CoPoS 转型（2028-2029）：CoWoS 以来最大的封装技术变革
+   - 混合键合达到 3 µm 间距（使能 A16 N2P 级 3D 堆叠）
+   - 共封装光学替代铜缆互连（机架级功耗降低 5 倍）
+   - 晶圆级集成（SoW）用于大规模 AI 训练（当前性能的 40 倍）
+
+### 开放挑战
+
+- **CoPoS 制造就绪度：**TGV 均匀性、面板级翘曲控制、设备成熟度
+- **混合键合良率：**亚微米间距下的颗粒污染控制极为苛刻
+- **散热管理：**kW 级封装需要集成液冷（IMC-Si、直接芯片液冷）
+- **供应链约束：**TSV 产能、TGV 设备、ABF 基板持续紧张
+- **成本优化：**CoWoS-L 高端封装 $900-1000/个，加上芯片和存储器成本，系统总成本持续攀升
+- **竞争加剧：**Intel EMIB 吸引更多设计；三星 Tesla AI6 订单证明替代方案可行性
+
+---
+
+## 15. 平台选择决策框架
+
+| 应用场景 | 推荐封装平台 | 关键考量 |
+|---------|------------|---------|
+| 旗舰 AI 训练芯片（>8 HBM，kW 级 TDP） | CoWoS-L + SoIC | 最高互连密度、最大 HBM 数、kW 级散热 |
+| 中高端 AI 推理 / ASIC（4-8 HBM） | CoWoS-L / CoWoS-S | 密度与成本平衡 |
+| 成本敏感型 AI ASIC（2-4 HBM） | CoWoS-R | 成本优先，面积灵活 |
+| 手机 / 平板 AP | InFO-PoP | 薄型化、消费级成本 |
+| 高性能 Chiplet 互连 | SoIC-X（垂直） / CoWoS-L（水平） | 带宽密度 > 成本 |
+| 光引擎 / CPO 集成 | CoWoS / SoIC + SiPh | 信号完整性、光-电协同 |
+| 下一代超大封装（>9.5x 光罩） | CoPoS（2028+） | 面板级面积扩展、玻璃基板 |
+
+> **注：**以上所有数据与声明均来自 TSMC 公开披露、EETC/IEEE 会议论文、TrendForce、Yole Group、Ming-Chi Kuo 等分析师报告及行业新闻（详见研究笔记 `02-tsmc-packaging-platforms.md` 和 `01-advanced-packaging-overview.md` 中的完整文献列表）。
