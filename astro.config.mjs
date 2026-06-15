@@ -22,7 +22,7 @@ export default defineConfig({
       rehypePlugins: [
         rehypeSlug,
         [rehypeAutolinkHeadings, {
-          behavior: "append",
+          behavior: "prepend",
           properties: {
             className: ["heading-anchor"],
             ariaHidden: "true",
@@ -30,7 +30,7 @@ export default defineConfig({
           },
           content: {
             type: "text",
-            value: " #"
+            value: "#"
           }
         }]
       ]

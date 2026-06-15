@@ -363,14 +363,28 @@ const {
     margin-top: 2.5rem;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+  }
+
   h2,
   h3 {
     scroll-margin-top: 1.5rem;
   }
 
   .heading-anchor {
+    position: absolute;
+    left: -1.1em;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--muted);
     font-weight: 400;
+    font-size: 0.9em;
     text-decoration: none;
     opacity: 0;
     transition: opacity 160ms ease;
