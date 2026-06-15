@@ -368,6 +368,29 @@ const {
     scroll-margin-top: 1.5rem;
   }
 
+  .heading-anchor {
+    color: var(--muted);
+    font-weight: 400;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+
+  h1:hover .heading-anchor,
+  h2:hover .heading-anchor,
+  h3:hover .heading-anchor,
+  h4:hover .heading-anchor,
+  h5:hover .heading-anchor,
+  h6:hover .heading-anchor {
+    opacity: 1;
+  }
+
+  .heading-anchor:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
   p {
     max-width: 74ch;
   }
