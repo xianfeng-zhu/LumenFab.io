@@ -243,6 +243,39 @@ const {
         });
       }
     </script>
+    <script>
+      document.addEventListener("click", (e) => {
+        const link = e.target.closest('a[href^="#"]');
+        if (!link) return;
+        const hash = link.getAttribute("href");
+        if (hash === "#" || !hash) return;
+        const target = document.querySelector(hash);
+        if (!target) return;
+
+        e.preventDefault();
+
+        const offset = 24;
+        const start = window.scrollY;
+        const end = target.getBoundingClientRect().top + start - offset;
+        if (Math.abs(end - start) < 8) return; // tiny jump, let native handle
+
+        const duration = 280;
+        const startTime = performance.now();
+
+        function scroll(now) {
+          const elapsed = now - startTime;
+          const t = Math.min(elapsed / duration, 1);
+          const ease = 1 - Math.pow(1 - t, 2.5); // ease-out
+          window.scrollTo(0, start + (end - start) * ease);
+          if (t < 1) requestAnimationFrame(scroll);
+        }
+
+        requestAnimationFrame(scroll);
+
+        // update URL hash without jumping again
+        history.replaceState(null, "", hash);
+      });
+    </script>
   </body>
 </html>
 
@@ -280,10 +313,6 @@ const {
 
   * {
     box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
   }
 
   body {
