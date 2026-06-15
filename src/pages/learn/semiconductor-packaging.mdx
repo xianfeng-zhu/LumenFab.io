@@ -17,13 +17,13 @@ import TermNote from "../../components/TermNote.astro";
 
 ## 阶段 0：建立坐标系
 
-### [封装基础：互连技术与承载层次](./semiconductor-packaging/overview/)
+### [封装基础：互连技术与承载层次](./overview/)
 
 封装在全半导体链条中处在什么位置；DIP → BGA → 2.5D → 3D 的历史演进路径；bumping、RDL、TSV、hybrid bonding 四大核心技术各自解决什么问题；承载层次（主板 → 封装基板 → 中介层 → 裸片）的物理逻辑。
 
 **读完你应该能回答：** 为什么芯片上的 microbump pitch 只有 30–55 μm，封装底部的 BGA pitch 却有 0.4–1.0 mm——差了 25 倍，这个间距是怎么过渡过来的？
 
-### [IC 基板：封装的地基](./semiconductor-packaging/substrate-technology/)
+### [IC 基板：封装的地基](./substrate-technology/)
 
 Core vs. coreless 基板架构；BT 树脂与 ABF 薄膜的材料差异；SAP 与 mSAP 制造工艺的完整流程；基板线宽 roadmap（8/8 → 5/5 → 2/2 μm）；主要基板制造商（Unimicron、Ibiden、Shinko、AT&S）的能力对照。
 
@@ -33,7 +33,7 @@ Core vs. coreless 基板架构；BT 树脂与 ABF 薄膜的材料差异；SAP �
 
 ## 阶段 1：理解主流封装平台
 
-### [封装平台对比：CoWoS / InFO / SoIC / EMIB / I-Cube](./semiconductor-packaging/packaging-platforms/)
+### [封装平台对比：CoWoS / InFO / SoIC / EMIB / I-Cube](./packaging-platforms/)
 
 TSMC 3DFabric 家族（CoWoS-S/R/L、InFO-PoP/oS、SoIC）的完整纵向对比；Intel EMIB 与 Foveros 的定位差异；Samsung I-Cube / X-Cube 的路线选择；OSAT（ASE、Amkor、JCET）在生态中的角色；NVIDIA/AMD/Apple/Broadcom 分别用哪种封装。
 
@@ -43,7 +43,7 @@ TSMC 3DFabric 家族（CoWoS-S/R/L、InFO-PoP/oS、SoIC）的完整纵向对比�
 
 ## 阶段 2：深入前沿——以 CoPoS 为例
 
-### [CoPoS 深度剖析：从晶圆到面板的范式转移](./semiconductor-packaging/copos-deep-dive/)
+### [CoPoS 深度剖析：从晶圆到面板的范式转移](./copos-deep-dive/)
 
 CoPoS（Chip-on-Panel-on-Substrate）的核心架构：玻璃核心载板的 ABF/玻璃/ABF 三层结构；TGV（through-glass via）的成孔与填铜工艺；为什么玻璃不是中介层、不取代 ABF、芯片不直接放在玻璃上；面板级封装与晶圆级封装的经济学对比（面积利用率、拼接成本、reticle limit）；NVIDIA Feynman 与 9.5× reticle 的工程意义。
 
@@ -53,19 +53,19 @@ CoPoS（Chip-on-Panel-on-Substrate）的核心架构：玻璃核心载板的 ABF
 
 ## 阶段 3：补齐工程约束链
 
-### [可靠性与失效模式](./semiconductor-packaging/reliability/)
+### [可靠性与失效模式](./reliability/)
 
 JEDEC 测试标准体系（JESD22、JESD47）；焊点疲劳（热循环 Coffin-Manson）、电迁移（Black 模型）、应力空洞、分层、芯片开裂、腐蚀的物理机制；2.5D/3D 特有的 TSV pumping、microbump EM、hybrid bonding 界面可靠性；玻璃基板的 TGV 铜老化和界面裂纹；加速寿命试验与失效预测模型。
 
 **读完你应该能回答：** 回流焊 250°C 高温 → 室温 → 芯片运行时 85°C，这个循环走几千次之后，封装最先在哪一层坏？
 
-### [信号、电源与热完整性](./semiconductor-packaging/signal-power-thermal/)
+### [信号、电源与热完整性](./signal-power-thermal/)
 
 封装中的信号损耗预算（224G PAM4 通道、插损串扰、via 影响）；PDN 设计与供电瓶颈（1000A+ 电流下的 IR drop、深沟槽电容、背面供电）；热路径与 TIM 选型（junction-to-case 热阻、In TIM 81 W/mK；多芯片封装热串扰）。
 
 **读完你应该能回答：** 为什么 AI 芯片的供电电流已经大到电源完整性成为封装的顶层约束？
 
-### [封装材料](./semiconductor-packaging/packaging-materials/)
+### [封装材料](./packaging-materials/)
 
 底填材料（CUF vs. MUF vs. NCP/NCF，填充能力与 warpage 控制）；TIM 等级别与供应商（grease/gel/PCM/solder/graphite，Honeywell/Shin-Etsu/Indium）；塑封料（EMC，Sumitomo Bakelite/Kyocera/Resonac）；贴装材料（solder、烧结银/铜、die attach film）；RDL 介质（PI/PBO/BCB/ABF）；封装玻璃（Corning/SCHOTT/AGC 产品型号与性能参数）。
 
@@ -75,13 +75,13 @@ JEDEC 测试标准体系（JESD22、JESD47）；焊点疲劳（热循环 Coffin-
 
 ## 阶段 4：拓宽产业视野
 
-### [FOPLP 面板级封装全景](./semiconductor-packaging/foplp-landscape/)
+### [FOPLP 面板级封装全景](./foplp-landscape/)
 
 FOPLP vs. FOWLP 的根本差异；三种工艺流程（chip-first face-down、chip-first face-up、RDL-first）；Samsung ePLP 从 Exynos 到 W1000 的量产演进；ASE/SPIL VIPack 平台的双尺寸策略；Amkor HPLT 的 650mm 玻璃面板路线；Innolux 等面板厂商跨入封装的趋势；面板级封装设备生态与产能建设。
 
 **读完你应该能回答：** FOPLP 和 CoPoS 都是"面板级"，但它们的架构逻辑和商业定位有何不同？
 
-### [封装设计、EDA 与产业经济](./semiconductor-packaging/design-cost-market/)
+### [封装设计、EDA 与产业经济](./design-cost-market/)
 
 封装设计流程与工具链（Cadence/Synopsys/Siemens，STCO 方法论）；成本建模（CoWoS vs. CoPoS 成本分解，面板级 vs. 晶圆级经济性，良率乘法）；市场规模与产业格局（先进封装 ~$46B → ~$79B by 2030，AI 驱动 CoWoS 产能扩张，ABF 基板供需与供应商格局）。
 
