@@ -1,10 +1,10 @@
 ---
-layout: ../../layouts/ConceptLayout.astro
+layout: ../../../layouts/ConceptLayout.astro
 title: 封装设计、EDA 与产业经济
 chapter: 00. 半导体封装
 ---
 
-import TermNote from "../../components/TermNote.astro";
+import TermNote from "../../../components/TermNote.astro";
 
 ## 0. 封装设计：连接芯片与系统的桥梁
 
@@ -179,7 +179,7 @@ CoWoS-S（全硅中介层）> CoWoS-L（硅 + RDL 混合）> CoWoS-R（纯 RDL�
 
 **组装与测试成本：**
 - <TermNote label="KGD" note="Known Good Die，已知良好裸片。在封装前对裸片进行充分测试，确保只有已知合格的裸片进入封装流程，以避免复合良率损失" /> 测试增加 Die 成本但防止复合良率损失。
-- 微凸点键合在 <50 μm 间距时需要精密对位设备。
+- 微凸点键合在 &lt;50 μm 间距时需要精密对位设备。
 - 最终测试复杂度随 Die 数量和接口数量线性增长。
 
 ### 3.2 CoWoS vs. CoPoS vs. CoWoP 成本对比
@@ -202,7 +202,7 @@ CoPoS（Chip-on-Panel-on-Substrate）是台积电 2025 年公布的 CoWoS 面板
 | 维度 | 硅中介层（2.5D） | FOWLP | FOPLP |
 |------|:---------------:|:-----:|:-----:|
 | 相对成本 | 最高 | 中等 | 最低 |
-| 最小 L/S | <2 μm | 2–5 μm | 3–8 μm |
+| 最小 L/S | &lt;2 μm | 2–5 μm | 3–8 μm |
 | 最大封装尺寸 | 光罩受限 | ~30×30 mm | 300×300 mm+ |
 | 产能（vs. 硅中介层） | 1×（晶圆级） | ~1.5×（晶圆级） | ~3–5×（面板级） |
 | 成本节约（vs. 硅中介层） | — | ~40% | ~60% |
@@ -390,7 +390,7 @@ ABF 基板是先进封装中最大的单一成本项，且长期供应紧张。
 |------|:----:|:--------:|----------|
 | Intel | 2025 | 2026–2027 | 首款玻璃基板商用 CPU（Xeon 6，2026 年）；互连密度目标 10× |
 | TSMC（CoPoS） | 2026 | 2028–2029 | 310×310 mm 面板格式；NVIDIA 为战略合作伙伴 |
-| Samsung Electro-Mechanics | 2026 | 2027 | 向 Apple 送样；510×515 mm 面板；Via 位置精度 <2 μm |
+| Samsung Electro-Mechanics | 2026 | 2027 | 向 Apple 送样；510×515 mm 面板；Via 位置精度 &lt;2 μm |
 | SKC / Absolics | 2025 | 2026–2027 | 投资最激进（$1.2T 韩元）；厚度减少 25%，能效提升 30% |
 | BOE（京东方） | 2025 | 2027–2029 | 中试线；2027 年初量生产，2029 年扩产 |
 
