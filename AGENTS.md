@@ -60,7 +60,19 @@
 
 ## Verification
 
-- After content or code changes, run the relevant checks before committing.
-- For normal page/content edits, run `npm test` and `npm run build`.
+- After every edit to an `.mdx` file, run `npm run build` before telling the user the work is done. Do not skip this step — MDX files have parser-level traps (see below) that are invisible in source and only caught at build time. The build takes ~10 seconds.
+- For other content/code changes, run `npm test` and `npm run build` before committing.
 - If the local dev server is running, verify the changed page in the browser when the change affects presentation or reading flow.
 - Commit and push after each completed change unless the user explicitly says not to push.
+
+### MDX traps
+
+The `<` character starts a JSX tag in MDX. If it appears in prose (comparisons, inequalities, units), the parser will try to interpret what follows as a component name and fail. Common offenders:
+
+| Text in source | Fix |
+|---|---|
+| `<2V`, `<10 mW`, `<1 pJ/bit` | 写成 `低于 2V`、`不到 10 mW` |
+| `a < b` in code span | Use backtick code span with language tag: `` `a < b` `` |
+| `&lt;` entity reference | Avoid — write prose around it instead |
+
+After editing an MDX file, also check: no bare `<` immediately followed by a letter or digit.
