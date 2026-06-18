@@ -1,0 +1,311 @@
+Towards a multi-input astrophotonic AWG spectrograph
+Pradip Gatkinea , Sylvain Veilleuxa,b , Yiwen Huc , Joss Bland-Hawthornd , and Mario Dagenaisc
+a
+
+Department of Astronomy, University of Maryland, College Park, Maryland 20742, USA
+Joint Space-Science Institute, University of Maryland, College Park, Maryland 20742, USA
+c
+Department of Electrical and Computer Engineering, University of Maryland, College Park,
+Maryland 20742, USA
+d
+Sydney Institute for Astronomy and Sydney Astrophotonic Instrumentation Labs, School of
+Physics, The University of Sydney, New South Wales 2006, Australia
+
+arXiv:1905.13241v1 [astro-ph.IM] 30 May 2019
+
+b
+
+ABSTRACT
+Astrophotonics is the new frontier technology to make suitable diffraction-limited spectrographs for the next
+generation of large telescopes. Astrophotonic spectrographs are miniaturized, robust and cost-effective. For
+various astronomical studies, such as probing the early universe, observing in near infrared (NIR) is crucial.
+Therefore, our research group is developing moderate resolution (R ∼ 1500) on-chip photonic spectrographs in
+the NIR bands (J Band: 1.1−1.4 µm; H band: 1.45−1.7 µm). To achieve this, we use the concept of arrayed
+waveguide gratings (AWGs). We fabricate the device using a silica-on-silicon substrate. The waveguides on this
+AWG are 2 µm wide and 0.1 µm high Si3 N4 core buried inside a 15 µm thick SiO2 cladding.
+To make the maximal use of astrophotonic integration such as coupling the AWGs with multiple single-mode
+fibers coming from photonic lanterns or fiber Bragg gratings (FBGs), we require a multi-input AWG design. In
+a multi-input AWG, the output spectrum due to each individual input channel overlaps to produce a combined
+spectrum from all inputs. This on-chip combination of light effectively improves the signal-to-noise ratio as
+compared to spreading the photons to several AWGs with single inputs. In this paper, we present the design and
+simulation results of an AWG in the H band with three input waveguides (channels). The resolving power of
+individual input channels is ∼1500, while the overall resolving power with three inputs together is ∼500, 600, 750
+in three different configurations simulated here. The device footprint is only 16 mm × 7 mm. The free spectral
+range of the device is ∼9.5 nm around a central wavelength of 1600 nm. For the standard multi-input AWG, the
+relative shift between the output spectra due to adjacent input channels is about 1.6 nm, which roughly equals
+one spectral channel spacing. In this paper, we discuss ways to increase the resolving power and the number of
+inputs without compromising the free spectral range or throughput.
+Keywords: Astrophotonics, Arrayed Waveguide Gratings (AWGs), near-infrared (NIR), H band, spectrometer
+
+1. INTRODUCTION
+The field of photonics emerged as a revolution in telecommunication industry in the last two decades. This technology has since found widespread applications in fundamental and applied sciences. The photonic approach is
+geared to solve to some of the major challenges in observational astronomy.1–3 As larger and larger ground- and
+space-based telescopes are being proposed and built, the volume, mass, and cost of the associated conventional
+optical instruments scale roughly as the cube of the diameter of the telescope.1 Maintaining the mechanical and
+thermal stability over such large volumes and across different optical elements of an instrument is challenging.
+For space telescopes, it is particularly crucial to keep the payload size and weight minimal. The astrophotonic
+devices are miniaturized and hence, reduce the size and mass of astronomical instrumentation by several orders
+of magnitude while keeping the costs substantially lower.2, 4, 5
+Further author information: (Send correspondence to P. Gatkine)
+E-mail: pgatkine@astro.umd.edu
+
+The power of guiding the light and manipulating it on a micro/nano scale in photonics has imparted immense
+flexibility to a wide variety of astronomical instruments.2, 3 These instruments include spectrographs,6–9 spatial/spectral filters10 , Bragg gratings,11, 12 precision wavelength calibrators,13 interferometers,14 nullers,15 beam
+combiners etc. Along with these instruments, the technology of coupling the inherently multi-mode astronomical light into these primarily single-mode photonic devices has taken a quantum leap. Some of the prominent
+light-carrying and -coupling devices/technologies include: photonic lanterns,16, 17 pupil remappers,15 fiber hexabundles18 and multi-core fibers.19 This development is further augmented by the improvements in the adaptive
+optics (eg. SCExAO20 ), especially in the near-infrared, enabling a reduction in the number of modes required to
+efficiently collect the starlight into a multi-/few-mode fiber.21 All of these recent developments described above
+are ushering the field of astronomical instrumentation to the photonic era.
+
+1.1 Scientific Motivation
+The photonic spectrograph described here is designed for a specific scientific exploration. Studying the galaxy
+evolution and the composition of galaxies in the first few billion years of the universe is a unsolved question, which
+demands deep observations using large area telescopes and efficiently dispersing the collected light to study the
+signatures of various atomic and ionic species that reveal the composition, physical conditions and kinematics
+of the material in, around, and between galaxies.22–25 Most of these signatures are in the rest-frame ultraviolet
+(UV) wavelengths. Due to accelerating expansion of the universe, this UV light from the first few billion years
+of the universe gets redshifted to near-infrared (NIR) light in the observed frame. It is therefore important
+to focus the investigation of early universe in J and H bands (1150-1350 nm and 1450-1650 nm respectively).
+The resolving power needs to be high enough to enable meaningful scientific investigation but at the same time
+it is necessary to maintain a high signal-to-noise ratio, especially since these distant objects tend to be faint.
+Therefore a moderate resolution (λ/δλ ∼1500) is required. This kind of exploration requires large telescopes
+(>8 m aperture) and the volume of associated conventional spectrographs scales with the telescope aperture in a
+superlinear fashion.1, 2 These large-scale instruments face major challenges in mechanical and thermal stability
+of the optical components. Therefore, implementation of a compact integrated photonic spectrograph is of
+particular interest in this case.
+
+Figure 1. Analogy between conventional grating spectrograph (left) and arrayed waveguide gratings (right), from Gatkine
+et al. 2016
+
+1.2 Arrayed Waveguide Grating Spectrograph (AWG)
+Among various photonic solutions, arrayed waveguide gratings is a particularly promising approach owing to a
+well-developed design methodology from telecommunication industry and relative ease of fabrication. An arrayed
+waveguide grating is, in principle, similar to a conventional diffraction grating spectrograph, as shown in Fig 1.9
+The input light is guided through the input waveguides to the free propagation region (FPR), which illuminates
+
+the array of waveguides with the same phase. The array is constructed such that the path difference between
+adjacent waveguides is a fixed multiple (i.e. the spectral order) of the wavelength. This light interferes in the
+output free propagation region leading to constructive interference peaks at the output FPR interface depending
+on the wavelength. Multiple spectral orders overlap at the output FPR interface depending on the designed free
+spectral range of the device. The output FPR can either be sampled by output waveguides (as shown in Fig. 1)
+to measure the spectral composition of the light in specific discrete channels, or the output FPR can be exposed
+and the overlapping orders can be separated by a low resolution cross disperser (as shown in Fig. 2). This
+approach gives a more continuous picture of the spectral information, as required in most of the astronomical
+explorations.
+
+2. AN INTEGRATED PHOTONIC SPECTROGRAPH
+The AWG spectrograph described here is the principal component of the integrated astrophotonic spectrograph
+in the near-IR for the scientific exploration described above using ground-based telescopes. Ground-based nearIR spectroscopy, especially at moderate resolutions is challenging since the near-IR sky gives a bright background
+from the narrow atmospheric OH-emission lines.11, 26, 27 For a moderate resolution spectrograph, it is important
+to selectively eliminate these OH-lines prior to dispersion to minimize the noise. We have developed waveguide
+Bragg gratings (WBGs) to introduce notch filters in the light path to selectively eliminate the OH-emission lines
+prior to dispersion step in the AWGs.11, 12 These on-chip devices operate in single-mode waveguides, while the
+telescope illumination is multimode in nature due to atmospheric turbulence. A photonic lantern will be used
+to efficiently capture and guide the light into several single mode fibers/waveguides.17, 28 The multimode light
+from the telescope is efficiently coupled into multimode fibers. The photonic lanterns adiabatically taper the
+multimode fiber into several single-mode fibers (the number depends on quality of the telescope beam). These
+single-mode fibers will feed the integrated chip with WBGs and AWG on it. Various spectral orders of the
+dispersed AWG light are separated in the orthogonal direction using a compact low-resolution cross dispersion
+setup and thus the 2D spectrum will be imaged onto the detector. The schematic of this integrated spectrograph
+is shown in Fig. 2. This design provides the modularity to stack several of these integrated photonic chips fed
+by separate lanterns for multi-object spectroscopy or taking spectra of the different wavebands simultaneously
+using dedicated photonic chips for that particular waveband.
+
+Figure 2. A schematic of the full setup of an integrated photonic spectrograph with OH-suppression
+
+2.1 A Few-input AWG
+In Gatkine et al. 2017, we demonstrated a single-input, moderate resolution (R∼1000), high-throughput (peak
+overall throughput ∼ 25%), broad-band AWG designed for H-band (1450−1550 nm). However, capturing the
+
+Figure 3. The CAD of the designed multi-input AWG. The input waveguides are on the left and the output is sampled
+by 5 waveguides. There are 34 waveguides in the array. The footprint of the chip is 16 mm × 7 mm
+Table 1. Summary of the AWG design
+
+Parameters
+1. Spectral resolution for each input (λ/δλ)
+2. Free spectral range for each input
+
+Design value
+∼1500
+∼9.5 nm
+
+1. Waveguide cross-section
+
+2.0 × 0.1 µm
+
+2. Number of waveguides
+
+34
+
+3. FPR length
+
+200 µm
+
+4. ∆L
+
+172 µm
+
+5. Separation between waveguides at array-FPR interface
+
+6 µm
+
+6. Output waveguide spacing
+
+6 µm
+
+7. Footprint
+
+16 mm × 7 mm
+
+telescope light in a single mode fiber is not highly efficient since the beam is not diffraction limited (unlike the
+case for radio telescopes) due to atmospheric turbulence.29 Thanks to the recent developments in adaptive optics
+(eg. SCExAO), it is possible to achieve near-diffraction limited performance, thus allowing efficient coupling of
+light into a few-mode fiber in near-IR.30 In this paper, we are exploring the case of a three-input spectrograph as
+a test-bench to understand the challenges of a multi-input AWG from an astronomical perspective and propose
+solutions to effectively combine the light from multiple inputs to achieve a high signal-to-noise ratio spectrum.
+
+2.2 Design
+The AWG design is similar to the AWG in Gatkine et al. 2017, but with three input waveguides (instead of one)
+at the same spatial separation as designed for the output waveguides. This spatial separation is chosen since it
+is the standard in wavelength division multiplexing application in telecommunication industry where the AWG
+approach originated.31 The detailed design, throughput and wavelegnth response of the single-input AWG are
+described in Gatkine et al. 2017. The physical parameters of the current multi-input AWG are described in
+Table 1. The design free spectral range of the AWG is 9.5 nm, thus covering the entire H-band in roughly 23
+spectral orders. The size of the AWG chip is 16 mm × 7 mm.
+
+Figure 4. Simulation results: Each plot shows the normalized throughput of the central output channel in red, green and
+blue when input 1, 2, and 3 are illuminated respectively. The three cases show the effect of bringing the input waveguides
+progressively closer by changing the waveguide separation from 3 times the waveguide width (i.e.6 µm) to 2 times (4 µm)
+and further to 1.5 times (3 µm).
+
+2.3 Simulation
+The AWG was simulated using Rsoft software32 to study the characteristics of a representative spectral order
+centered around 1600 nm. There are 3 input waveguides for this AWG and the output FPR is sampled by 5
+output waveguides. In the spectral domain, each of the ‘discrete’ output waveguides are separated by ∆λ ∼
+1.6 nm (by design) in all the spectral orders. This is also called ‘channel spacing. The AWG is simulated by
+illuminating each input waveguide one by one and calculating the response at each of the output waveguides.
+Here, we will focus on the central output channel of the AWG (as shown in Fig.3) and explore how the wavelength
+response changes with various modifications in the input waveguides. For simplicity, we vary the input waveguide
+separation progressively as shown in Fig. 4.
+
+2.4 Results
+Each off-center input gives an output spectrum that is shifted in wavelength by an amount (say, dλ) proportional
+to the offset from the central input waveguide. This dλ shift leads to degradation of the resolving power roughly
+by a factor of number of input waveguides × dλ/∆λ, where ∆λ is the channel spacing as described in the
+above paragraph (in this case, ∼1.6 nm). The goal is to keep this shift minimal to reduce the degradation from
+the design resolving power. This way, the desired resolution can be achieved without increasing the intrinsic
+resolution of the AWG by a large factor (to compensate for the degradation).
+Towards that objective, we employ the idea of minimizing the separation between the input waveguides to
+the maximum possible extent. We demonstrate this idea from the simulation described in Fig. 4. The waveguide
+separation and the effect on the resolving power degradation is summarized in Fig. 4 and Table 2. It is clear
+from these simulations that feeding the input light to the AWGs using a compact assembly of waveguides is a
+
+very effective approach for minimizing the central wavelength shift and thereby obtaining the desired resolution
+with minimal need of compensation.
+We are currently developing a photonic spectrograph with a compact input feed to incorporate a few single
+mode fibers emanating from the photonic lantern attached to an AO-corrected telescope’s focus. This demonstration will work as a stepping stone for fabrication and physically implementation of a higher resolution AWG
+(by increasing the spectral order) whose final resolution (including the resolution degradation) will be ∼1500.
+Table 2. Summary of the AWG simulations
+
+AWG case
+
+Resolving power degradation factor
+
+1. Input waveguide separation: 6µm, taper width: 4µm
+
+1/3
+
+2. Input waveguide separation: 4µm, taper width: 4µm
+
+1/2.5
+
+3. Input waveguide separation: 3µm, taper width: 3µm
+
+1/2
+
+ACKNOWLEDGMENTS
+The authors thank the University of Maryland NanoCenter for the fabrication expertise and the astrophotonics
+group at University of Sydney and Maquarie University for providing a comprehensive overview of new developments in photonics. The authors thank Prof. Stuart Vogel for his suggestions. The authors acknowledge the
+financial support for this project from the W. M. Keck Foundation, National Science Foundation, and NASA.
+
+REFERENCES
+[1] Bland-Hawthorn, J. and Kern, P., “Astrophotonics: a new era for astronomical instruments,” Optics Express 17(3), 1880–1884 (2009).
+[2] Bland-Hawthorn, J. and Leon-Saval, S. G., “Astrophotonics: molding the flow of light in astronomical
+instruments,” Optics express 25(13), 15549–15557 (2017).
+[3] Ellis, S., Kuhlmann, S., Kuehn, K., Spinka, H., Underwood, D., Gupta, R., Ocola, L., Liu, P., Wei, G.,
+Stern, N., et al., “Astrophotonics: the application of photonic technology to astronomy,” in [Integrated
+Optics: Physics and Simulations III], 10242, 102420O, International Society for Optics and Photonics
+(2017).
+[4] Blind, N., Coarer, E. L., Kern, P., and Gousset, S., “Spectrographs for astrophotonics,” arXiv preprint
+arXiv:1707.01669 (2017).
+[5] Bland-Hawthorn, J. and Horton, A., “Instruments without optics: an integrated photonic spectrograph,”
+in [Ground-based and Airborne Instrumentation for Astronomy ], 6269, 62690N, International Society for
+Optics and Photonics (2006).
+[6] Cvetojevic, N., Jovanovic, N., Betters, C., Lawrence, J., Ellis, S., Robertson, G., and Bland-Hawthorn,
+J., “First starlight spectrum captured using an integrated photonic micro-spectrograph,” Astronomy &
+Astrophysics 544, L1 (2012).
+[7] Cvetojevic, N., Jovanovic, N., Bland-Hawthorn, J., Haynes, R., and Lawrence, J., “Miniature spectrographs: characterization of arrayed waveguide gratings for astronomy,” in [SPIE Astronomical Telescopes+
+Instrumentation], 77394H–77394H, International Society for Optics and Photonics (2010).
+[8] Gatkine, P., Veilleux, S., Hu, Y., Bland-Hawthorn, J., and Dagenais, M., “Arrayed waveguide grating
+spectrometers for astronomical applications: new results,” Optics Express 25(15), 17918–17935 (2017).
+[9] Gatkine, P., Veilleux, S., Hu, Y., Zhu, T., Meng, Y., Bland-Hawthorn, J., and Dagenais, M., “Development
+of high-resolution arrayed waveguide grating spectrometers for astronomical applications: first results,” in
+[Advances in Optical and Mechanical Technologies for Telescopes and Instrumentation II ], 9912, 991271,
+International Society for Optics and Photonics (2016).
+
+[10] Huss, G., Leproux, P., Reynaud, F., and Doya, V., “Spatial filtering efficiency of single-mode optical fibers for
+stellar interferometry applications: phenomenological and numerical study,” Optics communications 244(16), 209–217 (2005).
+[11] Zhu, T., Hu, Y., Gatkine, P., Veilleux, S., Bland-Hawthorn, J., and Dagenais, M., “Arbitrary on-chip optical
+filter using complex waveguide bragg gratings,” Applied Physics Letters 108(10), 101104 (2016).
+[12] Hu, Y.-W., Zhang, Y., Gatkine, P., Bland-Hawthorn, J., Veilleux, S., and Dagenais, M., “An efficient
+approach to characterize low loss waveguides using bragg gratings,” in [CLEO: Science and Innovations],
+JW2A–65, Optical Society of America (2018).
+[13] Murphy, M. T., Udem, T., Holzwarth, R., Sizmann, A., Pasquini, L., Araujo-Hauck, C., Dekker, H.,
+D’Odorico, S., Fischer, M., Hänsch, T., et al., “High-precision wavelength calibration of astronomical spectrographs with laser frequency combs,” Monthly Notices of the Royal Astronomical Society 380(2), 839–847
+(2007).
+[14] Labadie, L., Berger, J.-P., Cvetojevic, N., Haynes, R., Harris, R., Jovanovic, N., Lacour, S., Martin, G.,
+Minardi, S., Perrin, G., et al., “Astronomical photonics in the context of infrared interferometry and highresolution spectroscopy,” in [Optical and Infrared Interferometry and Imaging V], 9907, 990718, International Society for Optics and Photonics (2016).
+[15] Jovanovic, N., Tuthill, P. G., Norris, B., Gross, S., Stewart, P., Charles, N., Lacour, S., Ams, M., Lawrence,
+J., Lehmann, A., et al., “Starlight demonstration of the dragonfly instrument: an integrated photonic
+pupil-remapping interferometer for high-contrast imaging,” Monthly Notices of the Royal Astronomical Society 427(1), 806–815 (2012).
+[16] Birks, T. A., Gris-Sánchez, I., Yerolatsitis, S., Leon-Saval, S., and Thomson, R. R., “The photonic lantern,”
+Advances in Optics and Photonics 7(2), 107–167 (2015).
+[17] Leon-Saval, S. G., Argyros, A., and Bland-Hawthorn, J., “Photonic lanterns: a study of light propagation
+in multimode to single-mode converters,” Optics Express 18(8), 8430–8439 (2010).
+[18] Bland-Hawthorn, J., Bryant, J., Robertson, G., Gillingham, P., OByrne, J., Cecil, G., Haynes, R., Croom,
+S., Ellis, S., Maack, M., et al., “Hexabundles: imaging fiber arrays for low-light astronomical applications,”
+Optics Express 19(3), 2649–2661 (2011).
+[19] Lindley, E., Min, S.-S., Leon-Saval, S., Cvetojevic, N., Lawrence, J., Ellis, S., and Bland-Hawthorn, J.,
+“Demonstration of uniform multicore fiber bragg gratings,” Optics express 22(25), 31575–31581 (2014).
+[20] Martinache, F., Guyon, O., Lozi, J., Garrel, V., Blain, C., and Sivo, G., “The subaru coronagraphic extreme
+ao project,” in [AIP Conference Proceedings], 1158(1), 319–322, AIP (2009).
+[21] Horton, A. J. and Bland-Hawthorn, J., “Coupling light into few-mode optical fibres i: The diffraction limit,”
+Optics Express 15(4), 1443–1453 (2007).
+[22] Gnedin, N. Y. and Ostriker, J. P., “Reionization of the universe and the early production of metals,” The
+Astrophysical Journal 486(2), 581 (1997).
+[23] Robertson, B. E., Ellis, R. S., Dunlop, J. S., McLure, R. J., and Stark, D. P., “Early star-forming galaxies
+and the reionization of the universe,” Nature 468(7320), 49 (2010).
+[24] Tanvir, N., Levan, A., Fruchter, A., Fynbo, J. P. U., Hjorth, J., Wiersema, K., Bremer, M., Rhoads, J.,
+Jakobsson, P., O’Brien, P., et al., “Star formation in the early universe: beyond the tip of the iceberg,” The
+Astrophysical Journal 754(1), 46 (2012).
+[25] Gatkine, P., Veilleux, S., Cucchiara, A., and Cenko, B., “Cgm-grb: A survey of the circumgalactic medium
+around grb hosts,” in [American Astronomical Society Meeting Abstracts ], 231 (2018).
+[26] Ellis, S. and Bland-Hawthorn, J., “The case for oh suppression at near-infrared wavelengths,” Monthly
+Notices of the Royal Astronomical Society 386(1), 47–64 (2008).
+[27] Trinh, C. Q., Ellis, S. C., Bland-Hawthorn, J., Lawrence, J. S., Horton, A. J., Leon-Saval, S. G., Shortridge,
+K., Bryant, J., Case, S., Colless, M., et al., “Gnosis: the first instrument to use fiber bragg gratings for oh
+suppression,” The Astronomical Journal 145(2), 51 (2013).
+[28] Spaleniak, I., Gross, S., Jovanovic, N., Williams, R. J., Lawrence, J. S., Ireland, M. J., and Withford, M. J.,
+“Multiband processing of multimode light: combining 3d photonic lanterns with waveguide bragg gratings,”
+Laser & Photonics Reviews 8(1) (2014).
+
+[29] Shaklan, S. and Roddier, F., “Coupling starlight into single-mode fiber optics,” Applied Optics 27(11),
+2334–2338 (1988).
+[30] Jovanovic, N., Cvetojevic, N., Schwab, C., Norris, B., Lozi, J., Gross, S., Betters, C., Singh, G., Guyon, O.,
+Martinache, F., et al., “Efficiently feeding single-mode fiber photonic spectrographs with an extreme adaptive optics system: on-sky characterization and preliminary spectroscopy,” in [Ground-based and Airborne
+Instrumentation for Astronomy VI], 9908, 99080R, International Society for Optics and Photonics (2016).
+[31] Smit, M. K. and Van Dam, C., “Phasar-based wdm-devices: Principles, design and applications,” IEEE
+Journal of Selected Topics in Quantum Electronics, 2 (2) (1996).
+[32] BeamPROP. https://https://optics.synopsys.com. AWG Utility from Synposys.
+
+

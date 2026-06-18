@@ -1,0 +1,23 @@
+# Free spectral range
+Source: https://www.rp-photonics.com/free_spectral_range.html
+Author: Dr. Rüdiger Paschotta (RP Photonics)
+Date accessed: 2026-06-18
+
+## Definition
+Frequency spacing of the axial (longitudinal) modes of an optical resonator. Also called axial/longitudinal mode spacing.
+
+## Formulas
+- Empty standing-wave resonator of length L:
+  Δν = c / (2L)
+- Ring resonator: factor of 2 removed (no double pass):
+  Δν = c / L  (empty)
+- Standing-wave resonator filled with dispersive medium:
+  Δν = c / (2 ng L)
+  where ng is the group index.
+- Waveguide resonator: calculate group index using frequency-dependent effective refractive index.
+- More generally, FSR = inverse of round-trip group delay.
+
+## Practical Relevance
+- In a Fabry–Pérot interferometer, FSR limits the optical frequency range usable as a spectrometer.
+- A large FSR is obtained by making the resonator shorter, but this also increases resonance bandwidth (lower spectral resolution) unless finesse is increased by reducing losses.
+- For tunable single-frequency lasers, FSR often limits the mode-hop-free tuning range.

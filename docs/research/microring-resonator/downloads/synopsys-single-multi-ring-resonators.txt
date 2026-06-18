@@ -1,0 +1,34 @@
+# Single- and Multi-Stage Ring Resonators
+Source: https://www.synopsys.com/photonic-solutions/product-applications/photonic-integrated-circuits/single-multi-ring-resonators.html
+Publisher: Synopsys (OptSim Circuit)
+Date accessed: 2026-06-18
+
+## Summary
+A ring resonator is an important component in silicon photonics. It is made up of an optical waveguide in a loop fashion with a coupling mechanism.
+
+## Resonance Wavelength
+λ_res = (neff L) / m
+where m is a non-zero positive integer, L is the optical round-trip length of the ring, and neff is the effective index of the waveguide.
+
+## Free Spectral Range
+FSR = λ² / (ng L)
+Group refractive index can be used for more accurate values.
+
+## Finesse
+Finesse = FSR / FWHM
+where FWHM is the full-width-half-maximum of a resonance.
+
+## Quality Factor
+Q = resonance frequency / FWHM
+
+## Example Circuit Values
+- Single-stage ring resonator simulated with OptSim Circuit.
+- Measured FSR matches analytical value.
+- Finesse ≈ 10.9
+- Q-factor ≈ 650
+
+## Cascaded Ring Resonators
+OptSim Circuit allows modeling of PICs that are cascaded (multi-stage). Cascading rings can be used to tailor filter response.
+
+## Reference
+W. Bogaerts et al., "Silicon microring resonators," Laser & Photonics Reviews, vol. 6, no. 1, pp. 47-53, 2012.

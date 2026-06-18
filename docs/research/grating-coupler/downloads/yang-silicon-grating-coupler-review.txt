@@ -1,0 +1,677 @@
+物理学报
+
+Acta Phys. Sin.
+
+Vol. 62, No. 18 (2013) 184214
+
+硅基光栅耦合器的研究进展*
+杨彪 李智勇 肖希 Nemkova Anastasia
+
+余金中 俞育德†
+
+( 中国科学院半导体研究所, 集成光电子学国家重点实验室, 北京 100083 )
+( 2013年4月15日收到; 2013年5月7日收到修改稿 )
+
+硅基光子集成芯片的研究近年来发展迅速, 已成为信息技术领域中最热门的研究方向之一, 光通信、光互连、
+光传感等相关研发应用机构高度关注其发展, 并积极介入. 硅基光子集成芯片中, 光栅耦合器作为光信号的输入和
+输出装置受到极大重视, 尤其在封装和测试等环节体现出极具价值的技术优势. 本文主要分析了光栅耦合器的工作
+原理、基本特性及国内外的发展现状和趋势, 同时也概括了本课题组近期在该方向上的研究成果.
+
+关键词: 光栅耦合器, 耦合效率, 绝缘体上硅, 光子集成
+PACS: 42.79.Gn, 42.82.Et, 42.79.Dj
+
+DOI: 10.7498/aps.62.184214
+
+采用片上混合集成的光增益材料. 因此, 光子集成
+
+1 光栅耦合器的应用背景
+
+芯片在片内和片外都需要高效率、 大带宽、 易集
+成的光耦合结构. 常用的两种耦合方式一般采用端
+
+大数据时代正步入现实. 而传统的电互连 [1,2]
+
+面水平耦合结构或者片上垂直耦合结构. 相比于其
+
+由于电子物理特性的局限, 其技术发展日益面临
+
+他各种光耦合器, 光栅耦合器利用片上光波导的垂
+
+数据传输快速膨胀的需求挑战, 在带宽拓展、传输
+
+直衍射光场实现光信号输入或输出芯片, 具有易于
+
+延迟、 损耗控制、 信噪提升等方面亟待根本性突
+
+在线片上测试、 不需要晶圆或芯片预处理、 也没
+
+破[3,4] , 这促使研究人员开始寻找新的解决方案. 硅
+
+有严格的空间限制等优点, 成为硅基光子集成领域
+
+基光子器件采用光传输信号, 相比于电子, 光子传
+
+的研究热点. 随着 CMOS 工艺精度的逐步提高, 微
+
+输速度远大于电子运动速度, 而且光传递信号的机
+
+米级别甚至是纳米级别的硅基波导器件也逐渐摆
+
+理是波阻抗变换, 这种变换消耗的能量很低, 在传
+
+脱工艺的限制, 光栅耦合器也逐渐显示出其特有的
+
+输时信号不易发生畸变, 在大带宽条件下可以获得
+
+技术优势, 本文主要阐述了近几年来光栅耦合器的
+
+更大的传输容量. 而且硅基光子器件还具有与互
+
+发展现状和未来趋势.
+
+补金属氧化物半导体 (CMOS) 工艺兼容、尺寸小、
+通讯波段透明、抗辐射等优点. 正是由于具备大带
+
+2 光栅耦合器的基本原理
+
+宽、低延迟、低能耗、低串扰等优势 [5] , 基于硅光
+子集成的光通信、 光互连和光传感等新兴信息技
+
+光栅耦合器是一种衍射结构. 布拉格条件可用
+
+术展现出构建新型信息硬件的发展趋势, 正成为新
+
+于描述光栅中入射光和衍射光波矢之间的关系 (图
+
+一代信息系统和网络的重要基础.
+
+1(a)). 对于周期性的衍射结构, 布拉格条件为
+
+对于硅基光子集成芯片而言, 不容忽视的一个
+关键问题是光信号的输入与输出 [6] . 尤其是硅作为
+间接带隙材料, 发光效率还未能达到实用要求, 现
+
+Kz = Kin,z + mK
+
+(m = 0, ±1, ±2, ±3, · · · ).
+
+(1)
+
+对于光栅结构的布拉格条件则可以表示为
+
+有技术手段需要从光子芯片外部引入独立光源或
+
+Kz = β + mK
+
+(m = 0, ±1, ±2, ±3, · · · ),
+
+(2)
+
+* 国家重点基础研究发展计划 (批准号: 2011CB301701)、中国科学院知识创新工程重要方向项目 (批准号: KGCX2-EW-102) 和国家自然科学基
+金 (批准号: 61107048, 61275065) 资助的课题.
+† 通讯作者. E-mail: yudeyu@semi.ac.cn
+c 2013 中 国物 理学会 Chinese Physical Society
+⃝
+
+http://wulixb.iphy.ac.cn
+184214-1
+
+物理学报
+
+Acta Phys. Sin.
+
+Vol. 62, No. 18 (2013) 184214
+
+其中 β 为波导中入射波的波矢, 考虑到光向外衍
+
+比例较大, 垂直耦合的损耗非常大. 而光栅设计时
+
+射 |K| = k0 n1 . 当 Kz = β 时, 一级衍射垂直于光栅
+
+采用失谐态, 一级衍射与光栅表面法线的夹角约为
+
+表面, 二级衍射的传播方向与入射波相反, 也就是
+
+8◦ —12◦ , 可有效降低二级衍射能量比值, 增强一级
+
+谐振态 (图 1(b)). 在这种情况下, 二级衍射的能量
+
+衍射光强、提高耦合效率 (图 1(c)).
+
+图 1 (a) 周期结构的布拉格条件; (b) 谐振态; (c) 失谐态
+
+衍射光场与光纤光场的重叠积分
+∫∫
+
+∫∫
+
+η3 =
+Re
+
+E × Hfib
+
+E ×H
+
+∫∫
+
+Efib × Hfib
+
+,
+
+其中 E, H 分别为衍射光场的电场与磁场分布;
+Efib , Hfib 分别为光纤中归一化的高斯模场分布.
+
+3 光栅耦合器的类型和特性
+硅基光栅耦合器件可分为一维结构和二维结
+图2
+
+构, 根据光栅单元的周期、占空比、刻蚀深度、刻
+
+光栅耦合器中光场的传播
+
+蚀角度的不同又可分为均匀光栅耦合器、 非均匀
+布拉格条件给出了理想状态下光栅的耦合方
+
+光栅耦合器以及闪耀光栅耦合器等. 作为硅基光子
+
+程, 由此确定可能的衍射光方向. 实际应用中, 对于
+
+集成芯片中的耦合功能器件, 光栅耦合器的主要研
+
+长度有限的光栅结构, 衍射光谱有了一定宽度, 而
+
+究内容包括耦合效率、耦合角度、工作波长带宽、
+
+结构设计中引入的啁啾变化可进一步展宽衍射光
+
+偏振相关性等.
+
+谱, 这对于实现宽带光栅耦合器非常有利. 光栅结
+构的宽度也对衍射的方向性和强度有一定影响, 其
+
+3.1 高效率非均匀耦合结构
+
+特性分析需要采用高精度的数值计算方法, 如有
+限时域差分 (FDTD) 等. 图 2 所示为光栅耦合器的
+经典模型, 其中光栅耦合器的耦合效率是由衍射强
+度、 方向性效率和耦合光场重叠积分三个部分共
+同决定的. 耦合效率 η = η1 η2 η3 , 其中,
+衍射强度
+
+均匀光栅耦合器是指每个光栅的单元周期、
+占空比、刻蚀深度均为恒定值, 狭缝一般垂直于界
+面. 均匀周期型光栅耦合器的衍射模场呈指数衰
+减[7] , 而单模光纤的模场为高斯分布, 两者的重叠
+积分 η3 受到限制, 故耦合效率受到很大的影响, 很
+难实现高效耦合. 尽管有很多增强耦合效率的方法,
+
+η1 = 1 − R − T,
+
+如增加多层介质反射镜 [8]、 金属反射镜 [9]、 覆盖
+层[10,11] 以及利用 slot 效应的大占空比光栅结构 [12]
+
+方向性效率
+
+η2 =
+
+Pup
+,
+Pup + Pdown
+
+等, 这些方法或者减小反射, 或者增强方向性, 或
+者减小光栅耦合器与光纤之间的反射损耗, 但是这
+184214-2
+
+物理学报
+
+Acta Phys. Sin.
+
+Vol. 62, No. 18 (2013) 184214
+
+种衰减的衍射模场与光纤模场的重叠积分较小, 耦
+
+期光栅耦合器对精细加工要求高的问题, 2013 年
+
+合效率受到很大限制. 均匀光栅耦合器的优点是与
+
+OFC/NFOEC 会议上有研究人员提出了双深度刻蚀
+
+CMOS 工艺兼容, 工艺相对简单; 而且, 对均匀结构
+
+的方法 [16] , 如图 3(a) 所示, 这种方法利用几对浅刻
+
+的研究比较全面, 加工方法比较成熟.
+
+蚀的光栅来代替前端窄细凹槽的光栅对. 由于刻蚀
+深度较浅, 为了达到与深刻蚀光栅相同的耦合强度,
+必须增大凹槽的宽度, 由此来降低工艺上难度, 这
+篇报道中最小的凹槽宽度为 135 nm, 耦合损耗约为
+1.5 dB.
+
+3.2 垂直耦合结构
+一直以来, 为了降低二阶反射, 从而提高耦合
+效率, 光栅耦合器的衍射方向呈 10◦ 左右的偏角, 但
+是这种偏角不仅对实际应用形成了限制, 而且也造
+成了封装的困难, 阻碍了器件的大规模集成. 垂直
+耦合成为了继耦合效率之后限制光栅耦合器实用
+化的另一待解难题. 而对于 0◦ 偏角, 也就是垂直耦
+合的需求显得更为迫切.
+无论是均匀光栅耦合器还是非均匀光栅耦合
+器, 垂直耦合的难题一直没有得到很好的解决. 谐
+振态下存在二阶反射, 二阶反射大大降低了耦合效
+率. 失谐态下, 二阶反射消失, 耦合效率增大, 但是
+无法实现垂直耦合. 从布拉格关系可以看出, 要想
+实现垂直耦合, 必须消除或者降低二阶反射, 已知
+的方法为增加分布式布拉格反馈 (DBR) 反射镜 [17] ,
+
+图 3 (a) 双深度刻蚀光栅耦合器示意图; (b) 双深度刻蚀光栅
+结构测试结果
+
+DBR 反射镜的反射光与二阶反射光干涉相消. 本
+
+非均匀光栅耦合器 [13] 有效地解决了这一模
+
+课题组通过增加 DBR 反射镜实现耦合效率 40%的
+
+场失配的问题. 所谓非均匀光栅耦合器, 是指周期
+
+垂直耦合, 其效率接近没有 DBR 反射镜时的耦合
+
+和占空比甚至刻蚀深度随光传播方向改变的一种
+
+效率 (44%). 但由于工艺偏差, 只能减弱二阶反射,
+
+准周期结构. 由于这种结构不再保持严格的周期
+
+无法完全消除, 耦合效率曲线会出现起伏震荡; 而
+
+性, 其衍射因子随着光栅单元结构的改变而产生对
+
+且 DBR 反射镜参数的工艺控制很难, 耦合器与反
+
+应的变化, 因此衍射模场也不再呈现指数衰减, 在
+
+射镜的间距改变 100 nm 就可以使干涉相消变成干
+
+理论上可实现衍射光场呈现高斯分布. 据已有的报
+
+涉相长, 由高效耦合变成极大损耗. 因此, 还需要进
+
+道, 衍射模场呈现高斯型的非均匀光栅耦合器结构
+
+一步研究和改进 DBR 反射镜型光栅结构.
+
+可以采用一组由窄变宽的狭缝构成, 刻蚀深度也由
+
+最理想的消除二阶反射的方法是闪耀光栅, 闪
+
+浅变深, 这种由波导缓变为光栅的结构降低了反射
+
+耀光栅的狭缝并不是垂直于晶圆表面, 而是相对
+
+损耗, 这对提高耦合效率很有帮助. 由于工艺上的
+
+光栅平面的法线方向存在一个闪耀角, 衍射模场
+
+难题, 这种光栅耦合器结构从理论提出以后发展缓
+
+为总衍射模场的叠加 [18] . 但是闪耀光栅的加工要
+
+慢. 一种常用控制刻蚀深度的方法是利用等离子
+
+求很高, 与 CMOS 工艺不兼容. 针对工艺上的难题,
+
+刻蚀的负载 (迟滞) 效应, 优化刻蚀深度与狭缝宽度
+
+本课题组提出了一种缓变阶梯型闪耀光栅耦合器,
+
+的对应关系 [14] . 随着工艺水平的提高, 50 nm 以下
+
+用多阶梯结构替代闪耀光栅的倾斜面 [19] , 如图 4
+
+的精细结构也可以实现, 本课题组制作的非均匀光
+
+所示. 2011 年科研人员提出的非对称亚光栅结构
+
+栅耦合器的最小线宽约为 40 nm, 实验测量得到的
+
+从理论上可以垂直耦合, 同时耦合效率也没有太
+
+单端耦合损耗仅为 0.85 dB[15] . 为了解决非均匀周
+
+大损失[20] .
+
+184214-3
+
+物理学报
+
+Acta Phys. Sin.
+
+Vol. 62, No. 18 (2013) 184214
+
+的光栅耦合器是另一种解决方案, 如图 5 所示. 不
+同偏振态的光在光栅耦合器中实现分离, 在其中一
+路, TM 模转为 TE 模, 不同波导路径中均以 TE 模
+传输, 最后由另一个二维光子晶体光栅耦合器接收.
+相比于前一种方法工艺难度相对降低, 这种光栅耦
+合器要求两路波导器件完全相同, 否则在合成时会
+出现失真.
+弧形光栅耦合器 (如图 6 所示) 能有效增大集
+成度. 为了降低光栅与波导之间的模式失配, 光栅
+耦合器与传输波导的间距通常大于 100 µm. 弧形
+光栅耦合器利用了圆形或者椭圆形结构的光学聚
+图 4 缓变阶梯型闪耀光栅耦合器结构示意图
+
+焦特性, 所有的弧形线条有一共同的焦点, 波导放
+置在这个焦点处, 这大大降低了光栅区域与波导之
+
+3.3 二维光栅耦合器
+
+间的间距, 相比于非弧形光栅, 弧形光栅耦合器与
+
+二维光栅耦合器大致可分为两种, 一种是类似
+光子晶体结构的光栅耦合器, 另一种是弧形光栅耦
+合器.
+
+波导的间距一般在为 20 µm 以下. 弧形光栅耦合器
+在增大集成密度的同时, 与波导之间的附加损耗也
+有所降低. 已报道的弧形光栅耦合器的耦合效率为
+1.25 dB[21] .
+
+图 5 2D 光子晶体光栅耦合器
+
+二维光子晶体光栅耦合器是为了解决光栅波
+导内的偏振问题提出的. 由于两种传输模式 (TE,
+TM 模) 在光栅耦合器中的传输特性差异大, 一般
+的光栅耦合器只能传输一种模式, 对另一种模式的
+传输损耗比较大. 通常用波导双折射来描述偏振相
+关性, 定义为 TE 模与 TM 模的有效折射率或者群
+TM
+折射率差, ∆n = nTE
+eff − neff . 理想状态下的偏振相关
+
+图 6 (a) 带锥形区的弧形光栅耦合器; (b) 不带锥形区的弧形
+光栅耦合器
+
+性为 0, 即零双折射. 但是, 由于无法精确控制波导
+的尺寸, 微小的尺寸偏差就会导致偏振相关性的变
+化. 此外, 偏振相关性还与波导外界的热、 压力等
+
+3.4 大带宽啁啾光栅
+
+相关, 实现偏振不敏感的难度很大. 二维光子晶体
+184214-4
+
+无限长的均匀光栅, 具有波长选择性的特点.
+
+物理学报
+
+Acta Phys. Sin.
+
+而在实际应用中, 光栅长度是有限的, 这造成了光
+
+Vol. 62, No. 18 (2013) 184214
+
+的增加主要是由啁啾量决定的.
+
+谱的展宽, 这种展宽有一定的限度. 由于非均匀光
+
+香港大学在制备亚波长波导光栅耦合器件时
+
+栅耦合器的光栅结构参数并不是固定值, 根据布拉
+
+采用了 “鱼骨形” 结构, 如图 7 所示. 相比于普通的
+
+格公式, 其衍射波也不再保持单一的波长. 非均匀
+
+光栅结构, 这种鱼骨形结构光栅耦合器的 3 dB 带宽
+
+光栅耦合器中的啁啾结构, 就是为了提高带宽而提
+
+有所增加, 同时降低了背向反射 [22] . 在 1530 nm 附
+
+出的. 相比均匀光栅耦合器, 啁啾光栅增加了一个
+
+近达到了 90 nm, 同时弧形光栅降低了传输损耗, 理
+
+啁啾量的概念, 通常是光栅单元周期的变化. 带宽
+
+论结果为 1.7 dB, 已测的光栅耦合损耗为 3.5 dB[23] .
+
+图 7 (a) 纳米孔光栅结构; (b) “鱼骨形” 光栅结构; (c) 弧形 “鱼骨形” 结构
+
+本组研制的啁啾光栅采用的是周期均匀变化
+
+础上, 通过覆盖多层介质膜降低反射损耗 [11] (图 8),
+
+的啁啾结构, 光栅周期呈线性变化, 模拟表明在
+
+利用 slot 效应增大特定衍射强度 [12] , 设计非均匀
+
+700 nm 的光栅平均周期, 200 nm 的啁啾量及光栅
+
+周期结构实现衍射光场高斯场化等方法 [15] (图 9),
+
+周期数为 20 时, 啁啾光栅的 3 dB 带宽增加到 140
+
+耦合效率不断提高, 从常规均匀光栅耦合器的 44%,
+
+nm, 并保证了中心波长在 1550 nm 附近. 实验测得
+
+提高至多层介质膜光栅结构的 65%. 2012 年, 非均
+
+的 3 dB 带宽为 120 nm, 与模拟结果相近.
+
+匀光栅结构的耦合效率测量值已达到了 81.8%.
+在垂直耦合方面, 通过增加 DBR 反射镜, 一端
+
+4 本课题组的研究进展
+
+的二阶反射与 DBR 反射光干涉相消, 成功实现了
+
+本课题组采用与 CMOS 工艺兼容的加工方法,
+
+垂直耦合 (10(a)); 此外还通过缓变阶梯结构来代替
+
+先后制备了多种类型的光栅耦合器. 其中, 在提高
+
+闪耀光栅的倾斜面, 模拟结果显示阶梯光栅的阶梯
+
+耦合效率方面, 在优化均匀光栅结构参数 [24] 的基
+
+数为 5 时, 就可近似实现 “闪耀” 功能.
+
+图 8 (a) 多层介质膜结构光栅结构示意图; (b) 测试结果
+
+184214-5
+
+物理学报
+
+Acta Phys. Sin.
+
+Vol. 62, No. 18 (2013) 184214
+
+图 9 (a) 非均匀周期光栅结构扫描电镜 (SEM) 图; (b) 测试结果
+
+图 10 (a)DBR 反射镜光栅 SEM 图; (b) 啁啾型光栅 SEM 图; (c) 2D 光栅 SEM 图
+
+表1
+结构
+常规均匀光栅
+
+5 光栅耦合器的前景
+
+本课题组 6 种光栅结构的测试结果
+时间 耦合效率/% 3 dB 带宽/nm
+
+[24]
+
+特点
+
+光栅耦合器最大的优势在于其测试和集成方
+
+2009
+
+44
+
+45
+
+多层介质膜光栅 [11] 2012
+
+65
+
+—
+
+非均匀周期光栅
+
+2012
+
+81.8
+
+55
+
+带反射镜光栅
+
+2009
+
+40
+
+70
+
+垂直耦合
+
+极大地增加了系统设计的灵活性, 更适合大规模集
+
+啁啾光栅
+
+2010
+
+32
+
+120
+
+大带宽
+
+成. 在已报道的混合光电集成研究中, 光栅耦合器
+
+2D 光栅
+
+2010
+
+31.6
+
+60
+
+偏振无关
+
+与其他耦合方式相比, 性能改善非常显著. 随着研
+
+[15]
+
+高耦合效率
+
+面, 相较于端面耦合器, 光栅耦合器无需抛光, 没有
+严格的空间限制, 对准容差大、加工要求相对简单,
+
+在提高带宽方面, 通过制备均匀啁啾光栅结构
+(图 10(b)), 将 3 dB 带宽提高到了 120 nm. 同时, 还
+
+究工作的深入和制备工艺技术的不断发展, 光栅耦
+合器的耦合效率、 工作波长、 偏振模式等特性将
+
+制备了二维光栅结构 (图 10(c)), 实现了非垂直偏振
+
+会继续提升, 可以预期高效率、大带宽、垂直耦合
+
+无关耦合.
+
+的光栅耦合器将会沿着实用化的方向迅速发展并
+
+表 1 给出了近年来本课题组研制的 6 种光栅
+结构的特点及测试结果.
+
+键单元.
+
+[1] Kobrinsky M J, Block B A, Zheng J F, Barnett B C, Mohanmed E,
+Reshotko M, Robertson F, List S, Young I, Cadien K 2004 Intel Technol. J. 8 129
+[2] O’Connor I, Gaffiot F 2004 Ultra Low-Power Electronics and Design
+(New York: Springer) pp21–29
+[3] Jalali B, Fathpour S 2006 J. Lightwave Technol. 24 4600
+[4] Soref R 2006 IEEE J. Sel. Top. Quant. 12 1678
+
+趋向成熟, 成为硅基光子集成领域中不可或缺的关
+
+[5] Miller D A 1997 Int. J. Optoelectron. 11 155
+[6] Bolten J, Hofrichter J, Moll N, Schöenberger S, Horst F, Offrein B J,
+Wahlbrink T, Mollenhauer T, Kurz H 2009 Microelectron. Eng. 86
+1114
+[7] Chen X, Li C, Tsang H K 2008 IEEE Photon. Technol. Lett. 20 1914
+[8] van Laere F, Roelkens G, Ayre M, Schrauwen J, Taillaert D, van
+Thourhout D, Krauss T F, Baets R 2007 J. Lightwave Technol. 25 151
+
+184214-6
+
+物理学报
+
+Acta Phys. Sin.
+
+[9] Selvaraja S K, Vermeulen D, Schaekers M, Sleeckx E, Bogaerts W,
+Roelkens G, Dumon P, van Thourhout D, Baets R 2009 Lasers and
+Electro-Optics/International Quantum Electronics Conference Munich, June 2–4. 2009 p1
+[10] Roelkens G, Vermeulen D, van Laere F, Selvaraja S, Scheerlinck S,
+Taillaert D, Bogaerts W, Dumon P, van Thourhout D, Baets R 2010 J.
+Nanosci. Nanotechnol. 10 1551
+[11] Anastasia N, Xiao X, Yang B, Chu T, Yu J Z, Yu Y D 2012 Chin. Phys.
+Lett. 19 114213
+[12] Zhou L, Li Z Y, Zhu Y, Li Y T, Fan Z C, Han W H, Yu Y D, Yu J 2010
+Chin. Phys. B 19 124214
+[13] Taillaert D, Bienstman P, Baets R 2004 Opt. Lett. 29 2749
+[14] Tang Y, Wang Z, Wosinski L, Westergren U, He S 2010 Opt. Lett. 35
+1290
+[15] Zhang C, Sun J H, Xiao X, Sun W M, Zhang X J, Chu T, Yu J Z, Yu Y
+D 2013 Chin. Phys. Lett. 30 014207
+
+Vol. 62, No. 18 (2013) 184214
+[16] Li C, Zhang H J, Yu M B, Lo G 2013 Optical Fiber Communication
+Conference Anaheim, March 17, 2013
+[17] Ura S, Murata S, Awatsuji Y, Kintaka K 2008 Opt. Express 16 12207
+[18] Van Laere F, Kotlyar M V, Taillaert D, van Thourhout D, Krauss T F,
+Baets R 2007 IEEE Photon. Technol. Lett. 19 396
+[19] Zhou L, Li Z Y, Hu Y T, Xiong K, Fan Z C, Han W H, Yu Y D, Yu J Z
+2011 Chin. Phys. B 20 074212
+[20] Yang J B, Zhou Z P, Jia H H, Zhang X A, Qin S Q 2011 Opt. Lett. 36
+2614
+[21] Mekis A, Gloeckner S, Masini G, Narasimha A, Pinguet T, Sahni S,
+De Dobbelaere P 2011 IEEE J. Sel. Top. Quant. 17 597
+[22] Cheng Z, Chen X, Wong C, Xu K, Fung C K, Chen Y, Tsang H K 2012
+Opt. Lett. 37 1217
+[23] Cheng Z, Chen X, Wong C Y, Xu K, Ki T H 2012 Opt. Lett. 37 5181
+[24] Zhu Y, Xu X J, Li Z Y, Zhou L, Han W H, Fan Z C, Yu Y D, Yu J Z
+2010 Chin. Phys. B 19 5
+
+The progress of silicon-based grating couplers∗
+Yang Biao Li Zhi-Yong Xiao Xi Nemkova Anastasia Yu Jin-Zhong Yu Yu-De†
+( National Key Laboratory for Optoelectronic Integration, Institute of Semiconductors, Chinese Academy of Sciences, Beijing 100083, China )
+( Received 15 April 2013; revised manuscript received 7 May 2013 )
+
+Abstract
+Silicon-based photonic integrated chips recently have attracted great attention and actively intervened in many applications such
+as optical communications, optical interconnects, and optical sensing for relevant research institutions. Photonic integrated circuits
+are the key block to build information infrastructures. Among of them, grating couplers play an important role in silicon photonics,
+due to high efficient optical coupling on/off photonic chips. Also, they have many advantages in high density photonic packaging and
+on-wafer testing, such as large alignment tolerances and no requirements for wafer scribing or chip polishing. This review focuses on
+the principles and performances of grating couplers on silicon-on-insulator substrates. In this article, we also discuss the state-of-art
+and the trends in the near future, with a summary of our achievements over the last few years.
+
+Keywords: grating couplers, coupling efficiency, silicon-on-insulators, integrated optics
+PACS: 42.79.Gn, 42.82.Et, 42.79.Dj
+
+DOI: 10.7498/aps.62.184214
+
+* Project supported by the National Basic Research Program of China (Grant No. 2011CB301701), the Main Direction Program of Knowledge Innovation of Chinese Academy of Sciences (Grant No. KGCX2-EW-102), and the National Natural Science Foundation of China (Grant Nos. 61107048,
+61275065).
+† Corresponding author. E-mail: yudeyu@semi.ac.cn
+
+184214-7
+
+

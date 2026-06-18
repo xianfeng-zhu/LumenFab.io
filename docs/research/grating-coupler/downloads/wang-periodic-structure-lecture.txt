@@ -1,0 +1,198 @@
+Periodic Structure
+Wei-Chih Wang
+Department of Power Mechanical Engineering
+National TsingHua University
+W.Wang
+
+Suggested Reading Materials
+• An excellent (and free!) book on nonlinear
+optical fibers by J.D. Joannopoulos, S.G.
+Johnson, J.N. Winn, and R.D. Meade,
+Photonic Crystals: Molding the Flow of
+Light. Chapter 9 discusses photonic-crystal
+fibers.
+W.Wang
+w.wang
+
+Materials Covered
+• Bragg grating
+• Grating Coupler
+• Long period grating
+• Photonic crystal
+• Metamaterial
+
+W.Wang
+
+Grating Coupler
+
+The light coupled into the thin film is achieved by the fact that the diffracted
+incident light is phase-matched to a mode of the film. Grating couplers viewed
+as surface-wave to leaky-wave converter (output coupler)
+
+W.Wang
+w. wang
+
+Because of its periodic nature, the grating perturbs the
+waveguide modes in the region underneath the grating, thus
+causing each one of them to have a set of spatial harmonics
+with z-direction propagation constants given by
+
+The fundamental factor is approximately equal to the of the
+particular mode in the waveguide region not covered by the
+grating. Because of the negative values of v, the phase
+matching condition m=kn1sinm (continuity of tangential field
+component) can now be satisfied so that
+
+W.Wang
+w. wang
+
+Why grating coupler?
+1. A simple reproducible and permanent coupler compatible with
+planar device technology.
+2. The grating coupler can also be used on high-index
+semiconductor waveguide where it is difficult to obtain
+suitable prism material.
+
+W.Wang
+w. wang
+
+Example
+Grating:  = 0.4m on a GaAs planar waveguide
+o = 1.15m
+Propagation constant for the lowest-order mode in the waveguide:
+o=3.6k
+Assume 1st _order coupling, || = 1, what incident angle should the
+Light make in order to coupe to the lowest-order mode?
+W.Wang
+w. wang
+
+Assignment
+Grating:  = 0.4m on a SiO planar waveguide
+o = 1.310m
+Propagation constant for the lowest-order mode in the waveguide:
+o=3.6k
+Assume 1st _order coupling, || = 1, what incident angle should the
+Light make in order to coupe to the lowest-order mode?
+At what 0 do we start to need higher-order coupling?
+W.Wang
+w. wang
+
+Photonic Crystal
+W.Wang
+w.wang
+
+W.Wang
+
+M. Ramakrishnan,
+Sensors, 2016
+
+Photonic Crystal Fiber
+
+W.Wang
+
+Metamaterial
+
+12
+
+Stealth?
+Alien Technology?
+Material for making Potter’s invisible
+cloak?
+Coated absorbing material?
+
+13
+
+What’s a Metamaterial?
+• Meta-?
+– Alloy?
+– Concrete?
+
+• Artificially engineered materials
+– V.G.Veselago (1968) Theory
+– J.B.Pendry (1996, 1998) –ε (thin wires)
+– J.B.Pendry (1999) –μ (split-ring resonator)
+– D.R.Smith (2000) LHM (combo)
+
+• Applications
+– Wave manipulation: -n, cloaking, superlens, transformation
+optics
+
+Ortwin Hess. Optics: arewell to
+Flatland
+Nature 455, 299 (2008).
+
+• How to categorize it?
+
+Electromagnetic response
+From the electromagnetic point-of-view, an atom is just an
+electric or magnetic, polarizable dipole.
+
+Electromagnetic response
+A material is a collection of electric and magnetic dipoles.
+Homogenization allows this collection to be continuous.
+
+What are metamaterials?
+Maxwell’s equations do not know about atoms or molecules —
+all they know are magnetic and electric dipoles!
+We can use any object to create a dipole response, and use
+that object to form an artificial material, or metamaterial.
+
+Circuit Metamaterials
+
+Circuit Metamaterials
+
+Metamaterial Response
+
+Epsilon-Negative (ENG)
+Metamaterials
+• Frequency dispersive Drude Model
+
+z
+x
+
+y
+
+21
+
+Mu-Negative (MNG)
+Metamaterials
+• Frequency dispersive Lorentz Model
+
+S Linden et al. Science 2004;306:1351-1353
+
+22
+
+Double negative (DNG)
+metamaterials
+
+23
+
+Terahertz
+
+24
+
+What is TeraHertz?
+Terahertz(THz) Gap
+
+• THz radiation (EM wave)
+– THz wave (0.1 THz to 10THz, 30mm to 3mm)
+– Non-ionizing & non-destructive (frequency is low)
+– Penetrate most of dielectric material (fabric, plastic or tissue)
+– Several absorption lines for water
+– Rotational & vibrational frequencies of most molecules
+
+Confidential
+
+25
+
+Physical Limitations of
+Existing THz sources
+
+THz Applications
+L‐3 Communications Security
+& Detection Systems, Inc.
+
+Based on Imaging or Spectrum
+measurement !
+
+

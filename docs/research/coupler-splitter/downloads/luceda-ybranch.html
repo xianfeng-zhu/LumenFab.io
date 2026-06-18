@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Y-branch &mdash; Luceda Academy 2026.06 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/css/luceda_theme.css?v=1652cfa4" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/graphviz.css?v=eafc0fe6" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/pagefind-ui.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/css/custom_search.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/sg_gallery-dataframe.css?v=e5fbc548" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../../../_static/theme_overrides.css?v=734b9d9c" />
+
+  
+    <link rel="shortcut icon" href="../../../../../../../../_static/academy_hat.png"/>
+    <link rel="canonical" href="https://docs.lucedaphotonics.com/pdks_sources/si_fab/si_fab/ipkiss/si_fab/components/y_branch/doc/index.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../../../../_static/documentation_options.js?v=5088dc72"></script>
+        <script src="../../../../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../../../../../../_static/pagefind-ui.js"></script>
+        <script src="../../../../../../../../_static/js/custom_search.js"></script>
+        <script src="../../../../../../../../_static/searchtools.js?v=d19c4805"></script>
+        <script src="../../../../../../../../_static/language_data.js?v=e49ba422"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../../../../../../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../../../../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../../../search.html" />
+    <link rel="next" title="si_fab.all.YBranch" href="../../../api/si_fab.all.YBranch.html" />
+    <link rel="prev" title="Waveguides" href="../../waveguides/doc/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../../../index.html">
+            
+              <img src="../../../../../../../../_static/luceda_academy_darkbg_transparent.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                LUCEDA 2026.06
+              </div>
+<div role="search">
+    <form id="rtd-search-form" class="wy-form">
+        <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    </form>
+</div>
+
+<dialog id="search-dialog" style="padding: 0; border: 0;">
+    <div id="search-frame">
+        <div id="pagefind-search"></div>
+    </div>
+</dialog>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../about.html">About Luceda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../support.html">Support</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../training/getting_started/0_installation/index.html">Setting up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../training/getting_started/2_circuit_layout/index.html">Circuit layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../training/getting_started/3_canvas_schematic_capture/index.html">Schematic capture in IPKISS Canvas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../training/getting_started/4_circuit_simulation/index.html">Circuit simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../training/getting_started/5_component_layout/index.html">Component layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../training/getting_started/6_component_models/index.html">Component models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Learn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../learn/ipkiss.html">IPKISS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../learn/drc.html">DRC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../learn/awg_designer.html">AWG Designer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../learn/ip_manager.html">IP Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../learn/circuit_analyzer.html">Circuit Analyzer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../learn/simulation_links.html">Simulation links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../links/ipkisseda/index.html">Link for Siemens EDA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../examples/application_examples.html">Application examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../ipkiss/samples/index.html">Sample gallery</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../api_documentation/api_reference.html">API References</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../../../../../api_documentation/la_design_kits.html">LA Design Kits</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../../../../../docs/index.html">SiFab</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html">Components</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../metal/bondpad/doc/index.html">Bondpad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dir_coupler/doc/index.html">Directional coupler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../metal/wire/doc/index.html">Electrical Trace Templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../grating_coupler/doc/index.html">Grating coupler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../edge_coupler/doc/index.html">Edge coupler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../heater/doc/index.html">Heaters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../modulator/mzm/doc/index.html">Mach-Zehnder modulator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../mmi/doc/index.html">Multimode interferometer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../racetrack_resonator/doc/index.html">Racetrack Resonator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../phase_shifter/doc/index.html">Phase shifters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../resistor/doc/index.html">Resistor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../metal/rf/doc/index.html">RF pads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../spiral/doc/index.html">Spiral waveguide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../metal/via/doc/index.html">Via</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../crossing/doc/index.html">Waveguide crossing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../waveguides/doc/index.html">Waveguides</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Y-branch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../fixed_bend/doc/index.html">Waveguide bends</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../technology/doc/index.html">Technology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../si_fab_awg/doc/index.html">AWG components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../../../docs/tests.html">Test coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../../../pdks/siepic/siepic.html">Luceda PDK for SiEPIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../../../pdks/siepic_shuksan/siepic_shuksan.html">Luceda PDK for SiEPIC Shuksan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../../../pdks/cornerstone_sin/cornerstone_sin.html">Luceda PDK for CORNERSTONE SiN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../../../pdks/cornerstone/cornerstone.html">Luceda PDK for CORNERSTONE SOI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../../cornerstone_ge_on_si/cornerstone_ge_on_si/docs/source/index.html">Welcome to the Luceda PDK for Germanium-on-Silicon documentation!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../../tyndall_packaging/doc/index.html">Luceda ADK for Tyndall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../../../../pdks/phix_packaging/phix_packaging.html">Luceda ADK for PHIX</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../schemas/index.html">Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../../../history/index.html">Release notes / changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../../../index.html">Luceda Academy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../../../../../api_documentation/la_design_kits.html">LA Design Kits</a></li>
+          <li class="breadcrumb-item"><a href="../../../../../../docs/index.html">SiFab</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Components</a></li>
+      <li class="breadcrumb-item active">Y-branch</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="y-branch">
+<h1>Y-branch<a class="headerlink" href="#y-branch" title="Link to this heading"></a></h1>
+<p>SiFab contains two Y-branches:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ybranch"><span class="std std-ref">YBranch</span></a>: a fully parametric Y-branch, with one input and two outputs.</p></li>
+<li><p><a class="reference internal" href="#ybranch-optimized"><span class="std std-ref">YBranchOptimized</span></a>: a 1x2 Y-branch optimized using inverse design, with locked properties.</p></li>
+</ul>
+<p>The section <a class="reference internal" href="#sim-regen-ybranch"><span class="std std-ref">Simulation and regeneration of the data files</span></a> explains how to simulate and regenerate the simulation data of a Y-branch.</p>
+<section id="ybranch">
+<span id="id1"></span><h2>YBranch<a class="headerlink" href="#ybranch" title="Link to this heading"></a></h2>
+<p>This is a Y-branch with fully customisable layout.
+This class has a circuit model where the following parameters can be provided to perform a circuit simulation of the Y-branch: <code class="docutils literal notranslate"><span class="pre">center_wavelength</span></code>, <code class="docutils literal notranslate"><span class="pre">transmission</span></code>, <code class="docutils literal notranslate"><span class="pre">reflection_in</span></code> and <code class="docutils literal notranslate"><span class="pre">reflection_out</span></code>.</p>
+<p><strong>Reference</strong></p>
+<p>Click on the name of the component below to see the complete PCell reference.</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/si_fab.all.YBranch.html#si_fab.all.YBranch" title="si_fab.all.YBranch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">si_fab.all.YBranch</span></code></a></p></td>
+<td><p>Splitter in the form of a Y-branch with 1 input and 2 outputs.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">si_fab</span><span class="w"> </span><span class="kn">import</span> <span class="nb">all</span> <span class="k">as</span> <span class="n">pdk</span>
+
+<span class="n">length</span> <span class="o">=</span> <span class="mf">5.0</span>
+
+<span class="n">y_branch</span> <span class="o">=</span> <span class="n">pdk</span><span class="o">.</span><span class="n">YBranch</span><span class="p">(</span><span class="n">bend_length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="n">bend_height</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">lv</span> <span class="o">=</span> <span class="n">y_branch</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+<span class="n">lv</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../../../../../../_images/example_ybranch_layout.png" class="plot-directive" src="../../../../../../../../_images/example_ybranch_layout.png" />
+</figure>
+<section id="model">
+<h3>Model<a class="headerlink" href="#model" title="Link to this heading"></a></h3>
+<p>For the Y-branch, we use the following model:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{c}
+S[in_1, out_1] &amp;=&amp;  S[out_1, in_1] &amp;=&amp; t \\
+S[in_1, out_2] &amp;=&amp;  S[out_2, in_1] &amp;=&amp; t \\
+S[in_1, in_1]  &amp;=&amp; r_1 \\
+S[out_1, out_1]  &amp;=&amp; S[out_2, out_2] &amp;=&amp; r_1 &amp;=&amp; r_2
+\end{array}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(t\)</span> is the transmission (through), <span class="math notranslate nohighlight">\(r_1\)</span> is the reflection at the input and <span class="math notranslate nohighlight">\(r_2\)</span> is the reflection at the output.
+<span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(r_1\)</span>, <span class="math notranslate nohighlight">\(r_2\)</span> are dispersive with respect to wavelength.</p>
+</section>
+<section id="simulation">
+<span id="ybranch-simulation"></span><h3>Simulation<a class="headerlink" href="#simulation" title="Link to this heading"></a></h3>
+<p>Stand-alone simulations of the <code class="docutils literal notranslate"><span class="pre">YBranch</span></code> PCell can be performed by applying the simulation recipe of the Y-branch on a parametric layout.
+Usually, this is done to explore the component behaviour when the parameters are changed, or to optimize it.
+As simulations can take time to complete, it is best to organise and save all the simulation results in one folder for later inspection.
+This allows us to run long simulations once and process the data later.</p>
+<p><strong>Reference</strong></p>
+<p>Click on the name of the function below to see the complete PCell reference.</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd.html#si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd" title="si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd</span></code></a></p></td>
+<td><p>It simulates a Y-branch using the link to ANSYS Lumerical FDTD and returns the transmission and reflection.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">si_fab/components/y_branch/doc/example_ybranch_simulation.py</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">si_fab</span><span class="w"> </span><span class="kn">import</span> <span class="nb">all</span> <span class="k">as</span> <span class="n">pdk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">si_fab.components.y_branch.simulation.simulate_lumerical</span><span class="w"> </span><span class="kn">import</span> <span class="n">simulate_ybranch_by_lumerical_fdtd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ipkiss3.simulation.circuit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_smatrix_units</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ipkiss3</span><span class="w"> </span><span class="kn">import</span> <span class="nb">all</span> <span class="k">as</span> <span class="n">i3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">inspect</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Inspect the simulation</span>
+<span class="n">resimulate</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Resimulate</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Plot the simulation result</span>
+
+<span class="n">wl_start</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">wl_end</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">length</span> <span class="o">=</span> <span class="mf">5.0</span>
+
+<span class="n">project_folder</span> <span class="o">=</span> <span class="s2">&quot;./ybranch_sim&quot;</span>  <span class="c1"># Name of the project</span>
+<span class="n">smatrix_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_folder</span><span class="p">,</span> <span class="s2">&quot;smatrix.s3p&quot;</span><span class="p">)</span>  <span class="c1"># Path where the smatrix is saved</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">project_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">project_folder</span><span class="p">)</span>
+
+<span class="n">y_branch</span> <span class="o">=</span> <span class="n">pdk</span><span class="o">.</span><span class="n">YBranch</span><span class="p">(</span><span class="n">bend_length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="n">bend_height</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">lv</span> <span class="o">=</span> <span class="n">y_branch</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">lv</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_folder</span><span class="p">,</span> <span class="s2">&quot;ybranch_sim_layout.png&quot;</span><span class="p">),</span>
+    <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Note that these simulation results are artificial results as they&#39;re based on fictional technology</span>
+<span class="c1"># and components. They only serve demonstration purposes.</span>
+
+<span class="k">if</span> <span class="n">resimulate</span><span class="p">:</span>
+    <span class="n">smatrix</span> <span class="o">=</span> <span class="n">simulate_ybranch_by_lumerical_fdtd</span><span class="p">(</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">lv</span><span class="p">,</span>
+        <span class="n">project_folder</span><span class="o">=</span><span class="n">project_folder</span><span class="p">,</span>
+        <span class="n">wavelengths</span><span class="o">=</span><span class="p">(</span><span class="n">wl_start</span><span class="p">,</span> <span class="n">wl_end</span><span class="p">,</span> <span class="n">n_points</span><span class="p">),</span>
+        <span class="n">inspect</span><span class="o">=</span><span class="n">inspect</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">smatrix</span><span class="o">.</span><span class="n">to_touchstone</span><span class="p">(</span><span class="n">smatrix_path</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+    <span class="n">smatrix</span> <span class="o">=</span> <span class="n">convert_smatrix_units</span><span class="p">(</span>
+        <span class="n">i3</span><span class="o">.</span><span class="n">device_sim</span><span class="o">.</span><span class="n">SMatrix1DSweep</span><span class="o">.</span><span class="n">from_touchstone</span><span class="p">(</span><span class="n">smatrix_path</span><span class="p">),</span>
+        <span class="n">to_unit</span><span class="o">=</span><span class="s2">&quot;um&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">smatrix</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span>
+        <span class="n">term_pairs</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="s2">&quot;out1&quot;</span><span class="p">),</span>  <span class="c1"># transmission 1</span>
+            <span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="s2">&quot;out2&quot;</span><span class="p">),</span>  <span class="c1"># transmission 2</span>
+            <span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="s2">&quot;in1&quot;</span><span class="p">),</span>  <span class="c1"># reflection</span>
+        <span class="p">],</span>
+        <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;dB&quot;</span><span class="p">,</span>
+        <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">save_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_folder</span><span class="p">,</span> <span class="s2">&quot;model.png&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<img alt="../../../../../../../../_images/ybranch_sim_layout.png" class="align-center" src="../../../../../../../../_images/ybranch_sim_layout.png" style="width: 70%;" />
+<img alt="../../../../../../../../_images/model2.png" class="align-center" src="../../../../../../../../_images/model2.png" style="width: 90%;" />
+</section>
+</section>
+<section id="ybranchoptimized">
+<span id="ybranch-optimized"></span><h2>YBranchOptimized<a class="headerlink" href="#ybranchoptimized" title="Link to this heading"></a></h2>
+<p>This Y-branch inherits from <code class="docutils literal notranslate"><span class="pre">YBranch</span></code>.
+All the properties are locked, because the layout has been optimized to obtain maximum transmission at 1550 nm wavelength.
+The optimization of this component has been performed using an inverse design simulation with Ansys Lumerical FDTD.
+The layout was re-implemented in IPKISS.
+We also provide a simulation recipe that launches a validation simulation using the Luceda Link for Ansys Lumerical.
+After the simulation, a fitting is performed of the transmission and reflections as a function of wavelength.
+The fitting coefficients for <span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(r1\)</span>, <span class="math notranslate nohighlight">\(r2\)</span> are stored and used by Caphe (IPKISS’ circuit simulator) to calculate the S-matrix and perform a circuit simulation.</p>
+<p><strong>Reference</strong></p>
+<p>Click on the name of the component below to see the complete PCell reference.</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/si_fab.all.YBranchOptimized.html#si_fab.all.YBranchOptimized" title="si_fab.all.YBranchOptimized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">si_fab.all.YBranchOptimized</span></code></a></p></td>
+<td><p>This Y-branch is the result of an inverse optimization process performed using Ansys Lumerical FDTD.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">si_fab</span><span class="w"> </span><span class="kn">import</span> <span class="nb">all</span> <span class="k">as</span> <span class="n">pdk</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="n">y_branch</span> <span class="o">=</span> <span class="n">pdk</span><span class="o">.</span><span class="n">YBranchOptimized</span><span class="p">()</span>
+<span class="n">lv</span> <span class="o">=</span> <span class="n">y_branch</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+<span class="n">lv</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">annotate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">cm</span> <span class="o">=</span> <span class="n">y_branch</span><span class="o">.</span><span class="n">CircuitModel</span><span class="p">()</span>
+<span class="n">wavs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">smatrix</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">get_smatrix</span><span class="p">(</span><span class="n">wavelengths</span><span class="o">=</span><span class="n">wavs</span><span class="p">)</span>
+<span class="n">smatrix</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span>
+    <span class="n">term_pairs</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="s2">&quot;out1&quot;</span><span class="p">),</span>  <span class="c1"># transmission 1</span>
+        <span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="s2">&quot;out2&quot;</span><span class="p">),</span>  <span class="c1"># transmission 2</span>
+        <span class="p">(</span><span class="s2">&quot;in1&quot;</span><span class="p">,</span> <span class="s2">&quot;in1&quot;</span><span class="p">),</span>  <span class="c1"># reflection</span>
+    <span class="p">],</span>
+    <span class="n">scale</span><span class="o">=</span><span class="s2">&quot;dB&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="../../../../../../../../_images/example_ybranch_optimized_00.png" class="plot-directive" src="../../../../../../../../_images/example_ybranch_optimized_00.png" />
+</figure>
+<figure class="align-default">
+<img alt="../../../../../../../../_images/example_ybranch_optimized_01.png" class="plot-directive" src="../../../../../../../../_images/example_ybranch_optimized_01.png" />
+</figure>
+</section>
+<section id="simulation-and-regeneration-of-the-data-files">
+<span id="sim-regen-ybranch"></span><h2>Simulation and regeneration of the data files<a class="headerlink" href="#simulation-and-regeneration-of-the-data-files" title="Link to this heading"></a></h2>
+<p>The simulation data of <code class="docutils literal notranslate"><span class="pre">YBranchOptimized</span></code> (or of any other Y-branch class you optimize yourself) obtained with Lumerical FDTD can be regenerated.
+This can be done with the <code class="docutils literal notranslate"><span class="pre">regenerate_ybranch()</span></code> function using the script <code class="docutils literal notranslate"><span class="pre">regenerate_ybranch_optimized.py</span></code> contained in <em>si_fab/components/y_branch/regeneration</em>.
+The user can specify the following options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ybranch_class</span></code>: the Y-branch to regenerate.
+The name should not contain parentheses ().</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wavelengths</span></code>: Tuple representing the wavelength range for the simulation and for the plots.
+The tuple must be in the format (min, max, number of points).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">center_wavelength</span></code>: the center wavelength of the component.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resimulate</span></code>: boolean.
+If True, the Y-branch will be simulated at all the <code class="docutils literal notranslate"><span class="pre">wavelengths</span></code>.
+A fitting of the transmission as a function of wavelength is performed and the results are stored in a file in <em>data/component_name.json</em>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot</span></code>: boolean.
+If True, it plots the results of the simulation.</p></li>
+</ul>
+<p><strong>Reference</strong></p>
+<p>Click on the name of the functions below to see the complete API reference of the simulation and regeneration recipes.</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../../api/si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd.html#si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd" title="si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">si_fab.components.y_branch.simulation.simulate_lumerical.simulate_ybranch_by_lumerical_fdtd</span></code></a></p></td>
+<td><p>It simulates a Y-branch using the link to ANSYS Lumerical FDTD and returns the transmission and reflection.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../../api/si_fab.components.y_branch.regeneration.regen_utils.regenerate_ybranch.html#si_fab.components.y_branch.regeneration.regen_utils.regenerate_ybranch" title="si_fab.components.y_branch.regeneration.regen_utils.regenerate_ybranch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">si_fab.components.y_branch.regeneration.regen_utils.regenerate_ybranch</span></code></a></p></td>
+<td><p>It regenerates the simulation fitting data and/or the plots of the optimized Y-splitter.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above simulation results are artificial results as they’re based on fictional technology
+and components. These only serve demonstration purposes.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../waveguides/doc/index.html" class="btn btn-neutral float-left" title="Waveguides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../api/si_fab.all.YBranch.html" class="btn btn-neutral float-right" title="si_fab.all.YBranch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Luceda Photonics.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-43898285-6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-43898285-6', {
+          'anonymize_ip': true,
+      });
+    </script> 
+
+<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "786e9fb07c2341e8b5dd43b4b5f202d3"}'></script><!-- Cloudflare Pages Analytics --></body>
+</html>

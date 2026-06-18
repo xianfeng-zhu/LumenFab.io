@@ -1,0 +1,32 @@
+# Intel: A 3D-integrated 8λ x 32 Gbps/λ Silicon Photonic Microring-based DWDM Transmitter
+Source: https://community.intel.com/t5/Blogs/Tech-Innovation/Data-Center/Intel-s-New-Integrated-Photonics-Milestone-Detailed-in-Best/post/1479670
+Publisher: Intel Labs (CICC 2023 best-paper nominee)
+Date accessed: 2026-06-18
+
+## Summary
+Intel Labs presented a silicon photonic microring-based dense wavelength-division multiplexing (DWDM) transmitter. It integrates all photonic and electronic components needed for co-packaging with bandwidth-intensive compute silicon.
+
+## Why Ring Resonators for Optical I/O
+- Silicon photonics-based optical I/O is promising for off-chip I/O bandwidth in data-intensive computing.
+- Ring resonator-based transceiver architectures are attractive due to small footprint and suitability for DWDM, enabling energy-efficient bandwidth scaling.
+
+## Demonstrated Performance
+- Simultaneous modulation of eight 200 GHz-spaced wavelengths at 32 Gbps/λ
+- Aggregate bandwidth: 256 Gbps/fiber
+- Better than 4.9 dB extinction ratio (ER) across all 8 channels
+- <1 dB difference in optical modulation amplitude
+- 28% higher bandwidth than prior work
+- Per-channel transmitter electronics power (excluding heater): 43 mW at 32 Gbps => 1.35 pJ/bit
+
+## Architecture
+- Flip-chip integrated silicon photonic integrated circuit (PIC) + electronic IC (EIC)
+- PIC contains:
+  - Multi-wavelength source: hybrid III-V/silicon DFB laser array (8 wavelengths, 200 GHz spacing, centered at 1310 nm)
+  - Modulator bank: 8 cascaded microring modulators (MRMs), each with integrated heater
+  - Semiconductor optical amplifier (SOA) after modulator bank
+- EIC contains:
+  - Thermal control unit (TCU) that senses MRM photocurrent and drives heater to stabilize lock point
+  - Clock receiver, pattern generator, high-swing MRM drivers
+
+## Takeaway for Page
+Illustrates a real-world, high-volume silicon-photonics use case where microring resonators are the enabling building block for DWDM transceivers / optical I/O.

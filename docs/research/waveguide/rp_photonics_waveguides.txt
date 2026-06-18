@@ -1,0 +1,43 @@
+# RP Photonics Encyclopedia – Waveguides
+URL: https://www.rp-photonics.com/waveguides.html
+
+Definition: spatially inhomogeneous transparent structures for guiding light.
+
+## What are Waveguides?
+An optical waveguide is a spatially inhomogeneous structure for guiding light, i.e. for restricting the spatial region in which light can propagate. Usually, a waveguide contains a region of increased refractive index, compared with the surrounding medium (called cladding). However, guidance is also possible with other physical mechanisms, e.g. by the use of reflections at metallic interfaces, or with photonic crystal structures. Some waveguides also involve plasmonic effects at metals.
+
+Figure 1: Two different kinds of waveguides. Planar waveguides guide light only in the vertical direction, whereas channel waveguides guide in two dimensions.
+
+Most waveguides exhibit two-dimensional guidance, thus restricting the extension of guided light in two dimensions and permitting propagation essentially only in one dimension. An example is the channel waveguide shown in Figure 1. The most important type of two-dimensional waveguide is the optical fiber. There are also one-dimensional waveguides, called planar waveguides.
+
+## Waveguide Fabrication
+Planar waveguides can be fabricated on various crystal and glass materials with epitaxy or with polishing methods. Channel waveguides on semiconductor, crystal and glass materials can be made with lithographic methods in combination with, e.g., epitaxy, ion exchange, or thermal indiffusion. Optical fibers can be fabricated by drawing from a preform. Waveguides can also be written into transparent media with focused and pulsed laser beams.
+
+A wide range of material platforms for the fabrication of channel waveguides has been developed, each one with adapted methods for fabrication steps: silica-based, silicon, III–V semiconductors, polymers, lithium niobate, chalcogenide glasses, hybrid waveguides.
+
+## Waveguide Modes
+For waveguides with large extents, geometrical optics is often used for describing the propagation of injected light. Such a description, however, becomes invalid when interference effects occur, and this is particularly the case for very small waveguide dimensions. In that case, a wave description of the light is required — normally on the basis of Maxwell's equations.
+
+It is common to consider the field distribution for a given optical frequency and polarization in a plane perpendicular to the propagation direction. Of special interest are those distributions which do not change during propagation, apart from a common phase change. Such field distributions are associated with so-called waveguide modes. Each mode has a so-called propagation constant, the real part of which quantifies the phase delay per unit propagation distance.
+
+The modes of waveguides with radially symmetric refractive index profile and low index contrast can be described as LP modes. The lowest-order mode (LP01) has an intensity profile which is similar to that of a Gaussian beam.
+
+A waveguide with a small transverse spatial extension and/or a small refractive index difference may be able to guide only a single transverse mode and is then called a single-mode waveguide. Multimode waveguides support several or many guided modes.
+
+## Waveguide Dispersion
+Confinement of light in a waveguide leads to wave vectors which are tilted against the propagation direction. This affects the phase delay per unit length and thus the chromatic dispersion properties (waveguide dispersion).
+
+## Plasmonic Waveguides for Nano Optics
+For various applications it is of great interest to strongly localize light in waveguides to dimensions far below the optical wavelength. Dielectric waveguides exhibit limitations here. Plasmonic waveguides use nanometer-scale metallic structures to guide light and can obtain much more localized field distributions, but with typically high propagation losses.
+
+## Applications
+- Optical fibers for communications
+- Transporting light between components on photonic integrated circuits
+- High-intensity nonlinear devices
+- Waveguide lasers and amplifiers
+- Mode cleaners
+- Sensors using evanescent-field interaction
+- Splitting/combining light in integrated optical interferometers
+
+## Summary (from article)
+An optical waveguide is a structure used to guide light, typically by confining it within a core material with a higher refractive index than the surrounding cladding. The most common example is the optical fiber. Waveguides can be fabricated from various materials using techniques like fiber drawing, lithography, and laser writing. Light propagates through a waveguide in specific patterns called modes. A waveguide can be single-mode or multimode. Waveguide confinement introduces waveguide dispersion. Waveguides are essential for optical fiber communications, photonic integrated circuits, lasers and amplifiers, and sensors.

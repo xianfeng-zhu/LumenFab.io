@@ -1,0 +1,1324 @@
+SILICON GRATING COUPLERS FOR LOW LOSS COUPLING BETWEEN
+OPTICAL FIBER AND SILICON NANOWIRES
+
+A Thesis
+Submitted to the Faculty
+of
+Purdue University
+by
+Justin C. Wirth
+
+In Partial Fulfillment of the
+Requirements for the Degree
+of
+Master of Science in Electrical and Computer Engineering
+
+December 2011
+Purdue University
+West Lafayette, Indiana
+
+ii
+
+ACKNOWLEDGMENTS
+
+I would like to thank Prof. Andrew Weiner and Prof. Minghao Qi for introducing
+me to research as an undergraduate student, and for guiding and mentoring me along this
+process. Additionally, my thanks go out to all of my very helpful group mates, and
+particularly to Leo T. Varghese, Li Fan, and Dan Leaird, without whom this work would
+not have been possible. I would also like to thank my wonderful family for their love and
+support.
+
+iii
+
+TABLE OF CONTENTS
+
+Page
+LIST OF TABLES ...............................................................................................................v
+LIST OF FIGURES ........................................................................................................... vi
+ABSTRACT....................................................................................................................... ix
+1. INTRODUCTION ....................................................................................................... 1
+1.1
+1.2
+
+Narrative of the Problem ...................................................................................... 1
+Objective and Overview ....................................................................................... 4
+
+2. GRATING COUPLER SIMULATION AND DESIGN ............................................. 5
+2.1
+
+Grating Coupler Theory and Operation ............................................................... 5
+2.1.1 Overview ................................................................................................. 5
+2.1.2 Coupling theory ....................................................................................... 6
+2.1.3Curved grating couplers ........................................................................... 7
+2.2 Simulation Methods ............................................................................................. 9
+2.2.1 Design and simulation constraints ........................................................... 9
+2.2.2 CAMFR ................................................................................................. 10
+2.2.3 Validity check ........................................................................................ 12
+2.3 Effects of Design Parameters ............................................................................. 14
+2.3.1Buried oxide layer.................................................................................. 14
+2.3.2Silicon top layer ..................................................................................... 15
+2.3.3Grating etch depth and the polynomial fit method ................................ 16
+2.3.4Grating periodicity ................................................................................. 19
+2.3.5Fill factor ............................................................................................... 21
+2.3.6Coupling angle ....................................................................................... 22
+2.3.7 Summary of parameter effects ............................................................... 23
+2.4  Optimized Grating Design ................................................................................. 24
+
+
+iv
+Page
+3. EXPERIMENTAL DESIGN ..................................................................................... 27
+3.1
+
+In-Coupling and Out-Coupling .......................................................................... 27
+3.1.1Fiber v-groove array ............................................................................... 27
+3.1.2Precision stage and imaging .................................................................. 30
+3.2 Fabrication Process ............................................................................................ 34
+3.3  Coupler Layout................................................................................................... 35
+4. EXPERIMENTAL CHARACTERIZATION ........................................................... 39
+4.1
+
+Characterization Setup ....................................................................................... 39
+4.1.1 Sample inspection .................................................................................. 39
+4.2 Measurement of Curved Couplers with 8˚ Silicon Substrate V-Groove Assembly 41
+4.2.1 Fabry-Perot effects ................................................................................ 42
+4.3 Measurement with 10˚ All Pyrex V-Groove Assembly ..................................... 43
+4.3.1Straight coupler measurements at 10˚ .................................................... 44
+4.3.2Curved coupler measurements at 10˚..................................................... 45
+4.3.3 Analysis of results ................................................................................. 46
+4.4 Measurement Consistency.................................................................................. 46
+4.4.1 Input stability ......................................................................................... 47
+4.4.2 Mechanical stability............................................................................... 48
+4.4.3Coupler to chip separation ..................................................................... 49
+4.4.4Analysis of measurement consistency .................................................... 50
+4.5 Device Consistency ............................................................................................ 51
+4.6 Comparison of Experimental Results With Goals and Published Results ......... 53
+5. PRACTICAL APPLICATION .................................................................................. 54
+5.1
+
+Three-Port Ring Resonator Coupled Devices in Amorphous Silicon ................ 55
+5.1.1 Device structure and operation .............................................................. 55
+5.1.2Ring resonator coupling gap .................................................................. 56
+5.1.3 Thru and Drop port performance ........................................................... 57
+5.2 One Dimensional Photonic Crystal Cavity ............................................................. 59
+5.1.1Device structure and operation .............................................................. 59
+5.2.2Cavity performance ............................................................................... 61
+5.2.2Coupling performance ........................................................................... 61
+
+6. CONCLUSION AND FUTURE WORK .................................................................. 63
+LIST OF REFERENCES ...................................................................................................65
+
+v
+
+LIST OF TABLES
+
+Table
+
+Page
+
+2.1 Summary of center wavelength effects of grating parameters ................................. 24
+5.1 Effect of ring resonator coupling gap ....................................................................... 57
+5.2 Three-port signal distribution ................................................................................... 59
+
+vi
+
+LIST OF FIGURES
+
+Figure
+
+Page
+
+1.1 Comparison of coupling scale differences .................................................................... 2
+2.1 Illustration of grating coupling between optical fibers and an SOI sample .................. 5
+2.2 Example focused grating structure................................................................................ 8
+2.3 Differing spatial division methods of a sample grating type structure ....................... 10
+2.4 Visualization of CAMFR coupling simulation ........................................................... 11
+2.5 Reference coupler specifications ................................................................................ 12
+2.6 Comparison of published simulation with simulated reference coupler data ............. 13
+2.7 Effect of buried oxide thickness ................................................................................. 15
+2.8 Effect of silicon top layer thickness ............................................................................ 16
+2.9 Polynomial fitting to curve data at 80nm etch depth .................................................. 18
+2.10 Comparison of the effects of grating etch depth ....................................................... 19
+2.11 Comparison of the effects of grating period ............................................................. 20
+2.12 Comparison of the effects of fill factor ..................................................................... 22
+2.13 Effect of coupling angle ............................................................................................ 23
+2.14. Optimized grating profile design ............................................................................. 24
+2.15 Optimized grating coupler simulated performance................................................... 25
+2.16 Optimized grating coupler simulated fiber-to-fiber loss ........................................... 26
+
+vii
+Figure
+
+Page
+
+3.1 Scale perspective illustration of Pyrex v-groove array ............................................... 28
+3.2 Scale end facet diagram of Pyrex v-groove array ....................................................... 29
+3.3 Axes of adjustment for coupling stage........................................................................ 30
+3.4 V-groove array mounted to stage ................................................................................ 31
+3.5 Y view of v-groove and SOI chip ............................................................................... 32
+3.6 X view of v-groove and SOI chip ............................................................................... 33
+3.7 Fabrication process for defining grating couplers on SOI wafers .............................. 34
+3.8 Scale top profile view of straight coupler layout ........................................................ 36
+3.9 Scale side profile view of straight coupler layout....................................................... 36
+3.10 Layout of straight coupling setup ............................................................................. 37
+3.11 Layout of curved coupling setup............................................................................... 38
+4.1 Micrographs of fabricated curved and straight couplers............................................. 40
+4.2 Micrograph of device array ......................................................................................... 40
+4.3 Efficiency of curved grating system at 8˚ coupling angle .......................................... 41
+4.4 Periodic response of curved grating system................................................................ 42
+4.5 Efficiency of straight grating system at 10˚ coupling angle ....................................... 44
+4.6 Efficiency of curved grating system at 10˚ coupling angle ........................................ 45
+4.7 Effect of coupling efficiency with time ...................................................................... 47
+4.8 Effect of coupling efficiency with time on fine curve features .................................. 48
+4.9 Effect of mechanical realignment ............................................................................... 49
+4.10 Effect on efficiency from input/output coupling distance ........................................ 50
+4.11 Fine structure comparison of 5 different devices ...................................................... 51
+
+viii
+Figure
+
+Page
+
+4.12 Coupler consistency throughout a row of 5 devices ................................................. 52
+4.13 Comparison of best achieved coupling and published results for curved couplers .. 53
+5.1 Three-port amorphous silicon device.......................................................................... 55
+5.2 Thru and Drop port output performance ..................................................................... 57
+5.3 Three-port resonant features ....................................................................................... 58
+5.4 One dimensional photonic crystal cavity device layout ............................................. 60
+5.5 One dimensional photonic crystal cavity bistability response .................................... 61
+5.6 One dimensional photonic crystal spectrum ............................................................... 62
+
+ix
+
+ABSTRACT
+
+Wirth, Justin C. M.S.E.C.E., Purdue University, December 2011. Silicon Grating
+Couplers for Low Loss Coupling Between Optical Fiber and Silicon Nanowires. Major
+Professor: Andrew M. Weiner.
+
+The promise of silicon nanophotonic devices is constrained by the large inherent
+size difference between comparatively large optical fibers and much smaller photonic
+waveguides, which causes an unacceptable amount of loss without a mode size
+conversion solution. One such solution is the vertical grating coupler, which allows light
+to be efficiently coupled in from the top of a device. However, for standard 250nm
+crystalline silicon top layers of silicon-on-insulator wafers, no such published designs
+existed. The initial focus of this research was to design and test a grating coupler for
+operation at 1550nm in the near infrared which could be used for coupling to photonic
+devices on these wafers. Coupling quasi-TE mode polarized light at less than 10dB fiberto-fiber loss with a 3dB bandwidth across the C-band was required. Grating layouts were
+designed and simulated, and a maximally efficient solution was found. This design was
+then fabricated in both straight grating and curved grating varieties. Testing showed a
+fiber-to-fiber loss as low as 9.5dB, with 43nm of 1dB bandwidth and 76nm of 3dB
+bandwidth. Therefore, coupler performance exceeded the required efficiency and far
+surpassed the bandwidth target. Further expanding the design to other silicon structure
+types, amorphous versions of the same couplers were also fabricated. Performance was
+slightly less but comparable to crystalline couplers. Both material types were
+incorporated into devices and demonstrated as effective coupling solutions. Future work
+will focus on increasing efficiency, utilization of the couplers’ Fabry-Perot properties,
+and developing amorphous couplers for use on flexible substrates.
+
+1
+
+1. INTRODUCTION
+1.1
+
+Narrative of the Problem
+Silicon nanophotonics is the branch of optics that involves studying and applying
+
+the useful properties of photons in a silicon medium on the nanometer scale. Miniaturized
+systems using materials also found in silicon-based electronics processing offers the
+potential for small, relatively cheap to manufacture platforms on which to build photonic
+devices. This is contrasted with bulk optical photonic setups, which tend to be large,
+expensive, require vibration minimizing tables, and are prone to accidental misalignment.
+Silicon based device components such as high Q resonant cavities [1], low loss
+waveguides [2], optical buffers [3], AND and NAND logic [4], and optical modulators
+[5] have all been developed. Furthermore, more complex devices accomplishing arbitrary
+waveform generation [6], waveform sensing [7], chemical sensing [8], and amplification
+by four wave mixing [9] and Raman scattering [10] have all been shown as well.
+Additionally, the benefit of silicon over a silicon hybrid like silicon nitride is
+silicon’s abundant use, availability, and higher refractive index. This higher refractive
+index allows for very compact waveguides, with cross sections of 500nm by 250nm, or
+smaller, possible for silicon photonic devices. This is significantly smaller than what is
+possible with bulk or fiber optic system, and smaller still than possible with silicon
+nitride waveguides.
+This smaller size is potentially not an issue if using on-chip methods of signal
+generation. However, problems arise when trying to couple light from typical infrared
+fiber optic systems into and out of nanophotonic devices. A commonly used wavelength
+range for photonics work is the C band, which spans from 1530nm to 1565nm. For
+operation at 1550nm, which is near the middle of the C band, typical optical fiber
+confines the single mode optical signal to a 10.4ȝm mode field diameter [11].
+
+2
+The large inherent size mismatch between the 10.4ȝm typical mode diameter of
+the light mode in fiber and a 500nm by 250nm rectangular silicon waveguide means that
+an enormous amount of power will necessarily be lost when trying to move the signal
+directly from fiber to the waveguide end. This is illustrated in Fig. 1.1. Additionally,
+there exists a large numerical aperture difference between the two systems which will
+similarly hamper efficiency when coupling light out of the nanophotonic device. Power is
+especially important when trying to use nonlinear device effects in silicon, and the
+incoming power loss can prohibit interesting nonlinearities from being expressed. Also,
+this combined loss is such that it can exceed the amplification offered by fiber amplifiers,
+making good signal recovery from the chip very difficult.
+
+10ȝm
+Silicon Waveguide
+
+Fiber Core
+
+1550nm MFD in Fiber
+
+Fig. 1.1 Comparison of coupling scale differences
+Various solutions for the coupling problem have been proposed and implemented.
+One of the most simple is to use lensed fiber optic cable to focus the light down to a
+smaller mode size. When properly aligned and focused, this leads to a significant
+reduction in loss. Total loss from the input fiber, through the chip, and out to the output
+fiber, or fiber-to-fiber loss, is reduced to around 20dB with this method. However, this is
+still much higher loss than is desirable. Further efficiency gains can be had by better
+matching the fiber and chip edge modes by varying the nanowire end facet geometry.
+
+3
+Methods such as overcladdings [12], multi-dielectric structures [13], and inverse tapers
+[14] have been shown to achieve low loss. But the additional fabrication complexity in
+making overcladdings and dielectric stacks tend to make them undesirable compared to
+solutions that do not require new process steps. Furthermore, all of these methods require
+precise chip cleaving and polishing, which are not always feasible or available.
+A different approach involves launching light onto the chip vertically instead of
+horizontally. This has the significant benefit of avoiding the end facet all together, and
+only relies on normal process steps to produce a good structure. Vertical coupling also
+eliminates the need for precise chip cleaving or polishing. Utilizing a diffraction grating
+to redirect the light from near vertical incidence into the chip plane, these vertical grating
+couplers have been shown to have low losses similar to other enhanced coupling methods
+[15].
+For research or test applications, grating couplers also allow multiple devices to
+be laid out in two dimensions on the chip in a grid type pattern instead of linearly in a
+row. The resulting greater density means that many more devices can be fabricated in a
+single fabrication run, and this allows for much more flexibility in chip layout.
+Furthermore, lensed fiber side coupling setups tend to be limited to one optical input and
+output because of the necessary stage mechanics to do such sensitive alignment. Using
+grating couplers with the right setup makes it possible to use many inputs and outputs at
+once.
+For polarization sensitive applications, the grating coupler is particularly
+beneficial because it acts as a polarization filter. For the coupling design explored in this
+work, light polarized parallel with the direction of the grating teeth (TE polarized light)
+couples well to the grating, while almost none of the light polarized perpendicular to the
+grating teeth (TM light) will be coupled into the waveguide [16]. In practice, once light is
+in the silicon waveguide, it will not exist in a pure TE or TM mode, though it will
+strongly resemble one or the other [17]. The waveguide mode is then called the quasi-TE
+or quasi-TM mode. For structures that perform much better with the quasi-TE mode, such
+as ring resonators [1], the grating coupler provides a simple and convenient way of
+designing for and assuredly attaining this polarization.
+
+4
+Finally, grating couplers eliminate the need for devices that span from one side of
+the chip to the other. This cuts down on waveguide loss, and allows for a Fabry-Perot
+effect that has a much larger period than possible for long side coupled waveguides. This
+is beneficial for devices that have weak effects on short wavelength scales, as the short
+period Fabry-Perot effect that results from long waveguides will hide these.
+1.2
+
+Objective and Overview
+As a result of these benefits, a grating coupler coupling system for use with
+
+silicon nanophotonic devices was desired. The objective for this work was to design a
+vertical grating coupler for coupling use with standard silicon on insulator (SOI) wafers
+with 250nm crystalline silicon top layers. It was required that the coupler achieve
+efficient coupling with less than 10dB fiber-to-fiber loss for the quasi-TE mode and 3dB
+bandwidth over the C-band. The properties of designed couplers were tested to ensure
+consistent performance. Effective test work with crystalline SOI lead to work in
+amorphous SOI. Amorphous silicon has potential interesting applications in flexible
+nanophotonics, and these will be discussed as potential future work. Operation of
+multiple output couplers was explored in a ring resonator coupled device. However, to be
+considered truly successful, demonstration was needed with an actual test nanophotonic
+device. This device was a one dimensional photonic crystal, the functioning of which
+requires the short waveguide length made possible by grating couplers.
+This thesis covers theory and operation, as well as simulation of grating coupler
+properties and subsequent design choices, in chapter 2. Chapter 3 describes design of the
+experimental setup and coupler layout. Experimental results and consistency
+measurements in SOI wafers are examined in chapter 4. In Chapter 5, practical devices
+and application of the designed couplers are explored. This includes the demonstration of
+amorphous SOI grating couplers, results from multiple output port designs, and the
+successful practical application of the grating coupler’s use in coupling into and out of
+one dimensional photonic crystal samples. Finally, the conclusion and future work are
+addressed in chapter 6.
+
+5
+
+2. GRATING COUPLER SIMULATION AND DESIGN
+2.1
+
+Grating Coupler Theory and Operation
+
+2.1.1 Overview
+Grating couplers were invented in the 1970’s as a method of coupling free space
+laser light into glass films [18]. The grating coupler is essentially a Bragg grating
+optimized to diffract light from a free space source into a dielectric waveguide. Similarly,
+a coupler can also be used to diffract light from a waveguide into a free space detector.
+For the work presented here, and often for silicon photonics in general, the dielectric
+waveguide is silicon on top of silicon dioxide, the free space source is replaced by a
+single mode optical fiber transmitting laser light, and the free space detector replaced by
+a single mode fiber to collect light. An example (not to scale) of this type of coupling
+setup is shown in Fig. 2.1.
+Input
+
+Output
+
+SiO
+Silicon2
+Silicon Dioxide
+Silicon Substrate
+
+Fig. 2.1 Illustration of grating coupling between optical fibers and an SOI sample
+
+6
+When used in conjunction with photonic devices, the silicon section between the
+grating couplers in Fig. 2.1 will consist of two taper sections and the device section.
+These taper sections are necessary, as the incoming light from the fiber has a width of
+10.4ȝm and the nanophotonic wire commonly used for devices has a width of 500nm.
+Common taper shapes include linear and parabolic, and both can achieve very low loss
+size conversion. However, the necessary lengths are at least a hundred microns for
+parabolic tapers [19] and many hundreds of microns for linear tapers [20].
+
+2.1.2
+
+Coupling theory
+As a type of Bragg grating, the basic operation of a grating coupler is defined by
+
+the Bragg condition [21]:
+neff
+
+ntop sin(T c )  m
+
+O
+/
+
+(2.1)
+
+where neff is the effective refractive index of the grating, ntop is the refractive index of the
+material on top of the grating, Tc is the coupling angle measured perpendicular to the chip
+surface, m is the particular diffraction mode, O is the wavelength of incident light, and /
+is the grating period. This equation describes the modes of operation for a grating at a
+particular coupling angle, but it does not give any useful information about the efficiency
+of a given structure.
+Although methods have been developed to calculate the coupling efficiency
+between the single mode fiber and the grating coupler through only equations and
+analysis [22], computer simulation is necessary to model an appropriate variety of grating
+structures. Using the eigenmode expansion method [23] (further discussed in section.
+2.2.2), the coupling efficiency can calculated by determining the amount of power
+coupled out of the grating that couples to the Gaussian shaped fiber mode [24]. As the
+width of the waveguide is much greater than either the waveguide height or the
+wavelength of light, the model can be reduced to two dimensions, and can be further
+reduced to one dimension with high accuracy if the width of the grating is sufficiently
+long and the fiber is a constant distance from the grating. For this case, the efficiency is
+given by:
+
+7
+( y  y0 ) 2
+
+K
+
+E ( y, z
+
+z0 ) Ae
+
+w02
+
+e
+
+jy
+
+2S
+
+O
+
+2
+ntop sin(T c )
+
+dy
+
+(2.2)
+
+where A is a constant describing the normalized Gaussian beam, w0 is the beam width,
+and y is the coordinate axis parallel to the waveguide axis. The value of z, being the
+separation between the fiber and the top of the grating, is held constant at z0 . For a
+nonzero coupling angle, this is accomplished with a polished fiber end.
+While Eqn. 2.2 gives a way of finding the coupling efficiency for a grating to a
+fiber, it does not contain terms for the grating structure itself. Structural parameters
+include the silicon top layer height, grating period, depth, fill factor, and buried oxide
+thickness, all of which have a significant effect on the coupling efficiency [25]. In fact,
+they are not omitted, but appear by affecting the E(y,z) term. Using an appropriate field
+modeling package, the power coupled up by the grating as a result of an incident power
+in the waveguide can be calculated, and then fed into Eqn. 2.2 to get the system’s
+coupling efficiency.
+Although the focus thus far has been on the coupling situation from the grating
+coupler to optical fiber, the reverse case is also modeled by Eqn. 2.2. This is because all
+materials used are isotropic and linear, and all permittivities and permeabilities in the
+system can be expressed as symmetric matrices, so the system can be said to be
+reciprocal [26]. This allows the efficiency for a single grating-to-fiber case to be
+simulated and applied to both grating-to-fiber interfaces to obtain the fiber-to-fiber loss of
+the coupling system.
+
+2.1.3 Curved grating couplers
+In addition to linear grating couplers that taper down to the waveguide
+dimensions, focused grating couplers have been developed. These use the same sort of
+grating structure as straight couplers, except the gratings are specifically curved in the
+wafer plane to focus light down to the dimensions of the photonic wire. When properly
+curved, the light efficiently travels from the curved grating to the 500nm waveguide in as
+little as 12.5ȝm [27]. This curvature is described (modified for correctness from [27]) by:
+
+8
+qȜ0D
+
+yntop sin(T c )  n eff
+
+x2  y2
+
+(2.3)
+
+where q is a negative integer corresponding to each grating line, Ȝ0 is the vacuum center
+wavelength of incoming light, Į is a correction factor to match the grating spacing at x=0
+with results for a straight coupler, ntop is the refractive index of the material on top of the
+grating, neff is the effective refractive index of the grating, Tc is the coupling angle, x is
+the coordinate axis perpendicular to the waveguide axis, y is the coordinate axis parallel
+to the waveguide axis, and the origin located at the focal spot, where the waveguide
+begins. An example of this sort of focused structure is shown in Fig. 2.2.
+
+Y
+X
+
+Fig. 2.2 Example focused grating structure
+The advantage to this sort of structure over straight grating types is the compact
+footprint the can be achieved. Additionally, these types of couplers have been shown to
+have performance on the level of that of straights couplers [27].
+
+9
+
+2.2
+
+Simulation Methods
+
+2.2.1
+
+Design and simulation constraints
+The grating coupler structure was designed for use with SOI wafers that our group
+
+had access to, and were available without special order from manufacturers. These wafers
+have a crystal silicon top layer of 250nm and a buried silicon dioxide layer of 3ȝm. To
+reach the 10dB fiber-to-fiber loss target for the quasi-TE polarization mode, each end of
+the coupling setup must have slightly less than 5dB loss to account for a small loss in the
+waveguide, which means a required efficiency of slightly more than 32% per coupler.
+Additionally, the 3dB bandwidth must be at least 40nm, and the center wavelength must
+be near 1550nm.
+Since the mode field diameter of 1550nm light from standard fiber is 10.4ȝm, the
+grating coupler must be approximately this size to capture the transmitted light. In order
+to couple from this large mode into the waveguide mode, a taper must be used for straight
+waveguides, or a focused grating coupler must be used. At this stage, it is assumed that a
+very efficient method of mode conversion can be made, and thus the focus will be on
+coupler efficiency.
+Grating couplers are three dimensional structures, and thus for fully accurate
+simulation of conversion efficiency from the coupler to the waveguide a 3D simulation
+would be necessary. However, almost all of the third dimensional aspect comes from the
+taper of the larger grating width to the smaller waveguide structure, as the coupler itself is
+two dimensional. For a straight coupler, the structure is two dimensional in rectangular
+coordinates and uniformly extended into the third dimension. For curved couplers, the
+grating structure at the center of the curve is the same as that of the straight case. For the
+rest of the curve, the curvature is specified to retain the coupling efficiency seen at the
+center. As such, simulation of the grating itself was approximated in two dimensions.
+This approximation allowed much faster simulation, as 3D simulations take orders of
+magnitude longer to do than 2D for a given amount of processing power.
+
+10
+
+2.2.2 CAMFR
+Simulation was done with the software package CAMFR, short for “Cavity
+Modeling Framework” [28]. An example code from [24] based upon the principles
+presented in section 2.1.2 was found and modified for modeling use. Unlike many
+modeling methods that rely upon spatial discretization, such as finite element modeling
+and finite-difference time-domain simulation, CAMFR makes use of eigenmode
+expansion. In this method, a given geometry is separated into layers of constant refractive
+index distribution. The difference in how these two methods divide a simulated geometry
+is illustrated in Fig. 2.3
+Spatial Discretization
+
+Eigenmode Expansion
+
+Fig. 2.3 Differing spatial division methods of a sample grating type structure
+Using eigenmode expansion, simulation is accomplished by summing the field
+eigenmodes in each layer to get the field profile in that layer. Although this requires a
+number of different modes be simulated, perfectly matched layer (PML) boundary
+conditions are used at the boundaries of the simulation area to allow for distinct modes
+
+11
+without the issue of boundary reflection.
+This method is contrasted with spatial discretization, which requires the simulated
+structure be broken up into a grid and the fields simulated at every grid point. For
+accurate simulation this requires a fine grid and a corresponding large number of grid
+points and simulation time. With eigenmode expansion, a small number of layers are
+necessary, and the calculation time is independent of the layer length [24]. This leads to
+much more efficient simulation and is particularly useful for the simulation of grating
+couplers, as they are inherently layered structures.
+As CAMFR simulates a structure based on the incident light, simulation is done
+for a specific wavelength of the incoming signal. Once all the field modes for a
+wavelength have been calculated and summed, CAMFR allows the time varying field
+profile to be animated and expressed visually. A snapshot of this visual representation is
+shown in Fig. 2.4. The black outlines are the boundaries of the structures and material
+layers, with the top most layer representing an index matched fluid. The next three layers
+are the silicon top layer, silicon dioxide buffer, and silicon substrate of an SOI wafer. The
+topmost silicon layer is seen to contain the grating structure. Blue and red bands show the
+electric field of light as it travels from the left end of the grating to the right, being
+diffracted by the grating structure along the way. The deepness of color indicates the field
+intensity at the point.
+
+Fig. 2.4 Visualization of CAMFR coupling simulation
+(Full view on left, expanded view on right)
+
+In Fig. 2.4, it can be seen that the majority of the power is coupled upwards at a
+particular angle, although a significant amount leaks downwards into the substrate. This
+
+12
+is a result of the negative diffraction mode, and is the cause of much of the coupler loss.
+Without impractically high coupling angles [29] or complicated reflective layers under
+the grating [30], this loss cannot be completely removed. However, particular thicknesses
+of the oxide layer will reflect this light back up with the rest of the signal [25], and this is
+the reason more field intensity is present in the oxide layer in Fig. 2.4 than the bottom
+silicon layer.
+Once simulation of a given structure over a set of modes and wavelengths is
+complete, the coupling behavior is recorded numerically and the coupling efficiency can
+be calculated. Each wavelength’s efficiency can be plotted to form an efficiency curve.
+These curves are an easy way to see the characteristics of a coupler structure, such as
+efficiency and bandwidth, and are the main tool for evaluating coupler performance.
+
+2.2.3
+
+Validity check
+In order to check the validity of the simulation code, it was checked against a
+
+published simulation result in [24]. The chosen reference design has somewhat close
+characteristics to the SOI wafer to be used for the coupler in this research, and thus
+served as a good comparison. The reference SOI wafer had a 220nm silicon top layer and
+1ȝm of buried oxide. The reference coupler design consisted of 20 grating periods with a
+630nm grating period, a 50% fill factor, and a 70nm etch depth. This is illustrated in Fig
+2.5. Note that in the figure, only a few periods are shown.
+630nm
+
+Si
+SiO 2
+
+70nm
+150nm 315nm 315nm
+
+220nm
+
+1 ȝm
+
+Fig. 2.5 Reference coupler specifications
+
+13
+
+These coupler dimensions were put into the simulation code. Additionally, an 8
+degree tilt of the incoming light and an index matched layer above the coupler of n=1.46
+were used as in the reference design. This index matched layer simulates the use of an
+overcladding to match the refractive index of the fiber. This reduces the reflection
+between the fiber and this intermediary layer, and also enhances coupling to the substrate.
+The simulation was run at 2nm intervals from 1500nm to 1650nm, matching the range of
+the published data and giving a high resolution reconstruction of it. Polarization was set
+to the quasi-TE mode.
+A comparison between the published simulation data from [24] and the simulation
+data from this code is shown in Fig. 2.6.
+
+Published maximum of 46%
+
+Simulated maximum of 46.7%
+0.6
+
+Coupling Efficiency
+
+0.5
+
+0.4
+
+0.3
+
+0.2
+
+0.1
+
+0
+1500
+
+1525
+
+1550
+1575
+1600
+Wavelength (nm)
+
+1625
+
+1650
+
+Fig. 2.6 Comparison of published simulation with simulated reference coupler data
+The published maximum for the simulation is listed at 46%, and using the
+CAMFR code, a maximum value of 46.7% is the result. In both cases, the peak maxima
+line up at 1560nm and the curves have 3dB bandwidths of 75nm. The small dip at
+1640nm on the simulation recreation is a result of the way that CAMFR works.
+Sometimes a specific wavelength value will be affected by the simulation geometry in a
+
+14
+way that greatly decreases its efficiency on the first mode run. Because the simulated
+efficiency is so low in these cases (on the order of 10-7%), CAMFR stops running further
+modes, and the value is effectively recorded at zero. This does not occur for wavelengths
+right before or after the given wavelength, and as will be seen later, does not show up in
+experimental data. This type of effect occurs essentially randomly for about 1% of data
+points, and can effectively be ignored as a simulation artifact.
+From the very good agreement between the published data and the data from the
+simulation used here, it was concluded that the simulation code provides a very similar
+model to the reference model [24]. It should be noted that in [24] (similar to [13] [15]
+[19] [20] [27]), the experimental efficiency obtained was approximately 45% lower than
+the simulated maximum efficiency for the ideal structure, and thus this model is not
+expected to provide a perfect experimental fit.
+
+2.3
+
+Effects of Design Parameters
+The model having been shown to be valid, simulations were done to find the
+
+effects of the various design parameters on coupler efficiency in order to create a
+maximally efficient coupler. These parameters include the depth of the silicon top layer
+(TL), depth of buried oxide layer (BOX), grating periodicity (GP), grating etch depth
+(ED), fill factor (FF), and coupling angle (CA). All simulations shown have an index
+matched layer with n=1.46.
+
+2.3.1 Buried oxide layer
+As seen in literature [24] [25], the buried oxide layer has a large effect on the
+efficiency of a grating coupler as a result of its role in reflecting light that leaks through
+the coupling structure. This variation is periodic with thickness, and the difference
+between using a thickness that coincides with an efficiency maximum vs. a minimum can
+be as large as 37% [24]. However, neither [24] nor [25] is useful for predicting the effect
+of our 3ȝm BOX, as simulation in both is only concerned with thinner oxide layers.
+Since the oxide thickness of the wafers used in this research is fixed at 3ȝm, the
+purpose of simulation is to check the effect of the oxide rather than to optimize it.
+
+15
+However, if the effect of the thicker BOX is a similar or larger efficiency compared to the
+reference 1ȝm BOX, it could be taken as an indication that 3ȝm is very close to an
+optimal value. The difference between the 3ȝm BOX of these wafers and those used in
+the reference design is shown in Fig. 2.7.
+
+220nm TL, 630nm GP, 70nm ED, 50% FF, 8˚ CA
+0.6
+
+Coupling Efficiency
+
+0.5
+
+0.4
+
+1um BOX
+
+0.3
+
+3um BOX
+0.2
+
+0.1
+
+0
+1500
+
+1525
+
+1550
+1575
+1600
+Wavelength (nanometers)
+
+1625
+
+1650
+
+Fig. 2.7 Effect of buried oxide thickness
+As a result of increasing the BOX from 1ȝm to 3ȝm, the efficiency increased
+16%. The center wavelength is slightly blue shifted from 1560nm to 1556, and the 3dB
+bandwidth is decreased from 75nm to 52nm. This implies that the increased BOX should
+allow for slightly more efficient coupling at the expense of some bandwidth.
+
+2.3.2
+
+Silicon top layer
+The thickness of the silicon top layer also plays a major role in coupling
+
+efficiency [24]. It has been shown that a top layer thickness for the grating that exceeds
+the thickness of the waveguide can lead to highly increased efficiency [15]. Although this
+research does not go that far in scope, the modest increase of 30nm more silicon in the
+
+16
+coupler should have a positive effect on performance.
+This simulation was done with the 1ȝm BOX of the reference coupler instead of a
+3ȝm BOX in order to see the effect of a top layer thickness increase independent of any
+other parameters. The results of this are shown in Fig. 2.8.
+
+1ȝm BOX, 630nm GP, 70nm ED, 50% FF, 8˚ CA
+0.6
+
+Coupling Efficiency
+
+0.5
+
+0.4
+
+220nm TL
+
+0.3
+
+250nm TL
+0.2
+
+0.1
+
+0
+1500
+
+1525
+
+1550
+1575
+1600
+Wavelength (nanometers)
+
+1625
+
+1650
+
+Fig. 2.8 Effect of silicon top layer thickness
+The increased top layer thickness does indeed increase the maximum efficiency,
+and the result is a slight 5.5% boost. A significant red shift also occurred, moving the
+peak 52nm to 1609nm. The bandwidth was unaffected. It will be seen that the slight
+efficiency boost from the additional silicon can be further enhanced with grating
+parameters tailored to the new thickness.
+
+2.3.3
+
+Grating etch depth and the polynomial fit method
+The grating etch depth, grating period, and fill factor are the parameters that
+
+actually define the grating. Whereas the top layer height and buried oxide thickness were
+set by the chosen SOI wafers, these parameters must be chosen to maximize efficiency,
+
+17
+bandwidth, and have the correct center wavelength. Grating etch depth was the first
+addressed. As the etch depth changes, the effective refractive index and the reflectivity of
+the given area will also change [21]. More etching will cause a lower effective index, and
+likewise less etching will cause a higher effective index. This effective index change
+drives the change of the peak center wavelength
+As a result of designing parameter values instead of merely checking the effect of
+a single change, initial simulation of etch depth revealed a greater number of simulations
+runs were necessary to accurately gauge its efficiency effect. The smooth efficiency
+curve implied that a high number of points were not needed to accurately simulate the
+curve behavior. Furthermore, the extreme ends of the wavelength range did not need
+simulation either, as long as the center wavelength was apparent. In these cases, the
+bandwidth and curve behavior were recovered from curve symmetry.
+Because of to these factors, and in an effort to reduce simulation time without
+reducing accuracy, the interval between data points was increased from 2nm to 15nm.
+This interval was chosen as it is the largest convenient interval that keeps 3 data points in
+the C-band. The extreme lowest and highest wavelength points were dropped, leaving 9
+data points from 1515nm to 1635nm. A 6th order polynomial fit curve was then applied
+these points. The comparison between these three representations is shown in Fig. 2.9.
+
+18
+
+80nm ED
+250nm TL, 3ȝm BOX, 630nm GP, 50% FF, 8˚ CA
+0.6
+
+Coupling Efficiency
+
+0.5
+
+High
+resolution
+Simulation
+Data
+
+0.4
+
+Selected
+Points
+0.3
+
+Polynomial
+Fit of
+Selected
+Points
+
+0.2
+
+0.1
+
+0
+1500
+
+1525
+
+1550
+
+1575
+
+1600
+
+1625
+
+1650
+
+Wavelength (nm)
+
+Fig. 2.9 Polynomial fitting to curve data at 80nm etch depth
+It is apparent from Fig. 2.9 that the polynomial fit is extremely good. The curve
+passes through the centers of all of the 2nm interval data points, and thus traces the data
+in the interval from 1515 to 1635. The curve is not extended beyond this range as it
+begins to deviate from the data, but the efficiency is so low at these sections that they are
+essentially irrelevant. The very good accuracy of this simulation came at an eighth of the
+simulation time. A polynomial fit is used here for simulating etch depth behavior and is
+indicated by a solid line on the graph rather than discrete data points. For subsequent
+graphs in this thesis, solid lines in simulation graphs will similarly indicate use of the
+polynomial fit.
+Simulation of etch depth parameters took place for depths of 60nm to 140nm in
+10nm increments. 10nm was chosen as the increment size as it was deemed a reasonable
+level of accuracy that could be achieved through reactive ion etch (RIE) in the fabrication
+process. The simulation results are shown in Fig. 2.10.
+
+19
+
+250nm TL, 3ȝm BOX, 630nm GP, 50% FF, 8˚ CA
+0.6
+
+0.5
+
+60nm ED
+70nm ED
+80nm ED
+
+Coupling Efficiency
+
+0.4
+
+90nm ED
+100nm ED
+0.3
+
+110nm ED
+120nm ED
+130nm ED
+
+0.2
+
+140nm ED
+0.1
+
+0
+1515
+
+1530
+
+1545
+
+1560
+1575
+1590
+Wavelength (nm)
+
+1605
+
+1620
+
+1635
+
+Fig. 2.10 Comparison of the effects of grating etch depth
+
+It can be seen that etch depth significantly affects center wavelength, bandwidth,
+and maximum efficiency. For a 630nm period, the maximum efficiency occurs for an
+etch depth of 100nm. However, the maximum for this peak occurs at 1578nm, which is
+far above the desired 1550nm target. To achieve maximum coupling at 1550nm, the other
+parameters will have to be tweaked in conjunction with the etch depth.
+
+2.3.4
+
+Grating periodicity
+Once a possible maximum for etch depth was established, the grating periodicity
+
+was simulated. Simulation was done for wavelengths from 590nm to 670nm with a 20nm
+interval. Although a smaller interval could have been used, this interval was sufficient to
+see the behavior as periodicity varies. As with etch depth, the polynomial fit method was
+used to speed simulation time. These simulations are shown in Fig 2.11.
+
+20
+
+250nm TL, 3ȝm BOX, 100nm ED, 50% FF, 8˚ CA
+0.6
+
+0.5
+
+590nm GP
+
+Coupling Efficiency
+
+0.4
+
+610nm GP
+630nm GP
+0.3
+
+650nm GP
+670nm GP
+
+0.2
+
+0.1
+
+0
+1515
+
+1530
+
+1545
+
+1560
+1575
+1590
+Wavelength (nm)
+
+1605
+
+1620
+
+1635
+
+Fig. 2.11 Comparison of the effects of grating period
+As is shown by the plot, the periodicity has a large effect on the coupling
+efficiency, as well as the center wavelength and the bandwidth. The maximum efficiency
+occurs for 630nm. However, the 610nm period is closer to the center wavelength, has a
+higher bandwidth, and has only a slightly smaller coupling efficiency. The 35nm center
+wavelength difference between these curves speaks to the large effect the period has on
+the curve center.
+The effect of the grating period is similar to the effect of etch depth, although the
+grating period has a far stronger effect on center wavelength and less on efficiency. The
+major difference between the potential real effects of etch depth and grating period is that
+the grating period can be very precisely defined using electron beam lithography, while
+there is inherent error in defining the grating depth. This means that the grating period
+can be known to be very close to the desired value and unchanged by fabrication errors.
+
+21
+2.3.5
+
+Fill factor
+With simulations of grating depth and coupler period completed, fill factor, or the
+
+percentage of grating period occupied by unetched silicon, remained the only grating
+parameter to be modeled. In order to give a good sample of performance, an efficient
+baseline coupler needed to be found. Looking at Fig 2.11, a 630nm grating period
+provides the highest performance, but is too far off the center wavelength target.
+Fortunately, the etch depth can be modified to affect this. Initially, a deeper etch was
+applied to blue shift the peak center, but coupling efficiency suffered. Starting instead at a
+610nm period, a slightly shallower etch was applied, which resulted both in an
+appropriate red shift, and a sizeable efficiency increase. To be sure the coupler wasn’t
+being affected by the polynomial model, and to be sure the fine details of the curve
+structure were known, it was simulated with high wavelength resolution. 50% fill factor
+was used, as with previous simulations.
+The decreased period and etch depth increased the efficiency and moved the
+wavelength peak closer to the desired value of 1550nm. This design achieved 61%
+efficiency, which is higher than any design previously simulated. As it achieves the best
+performance from the previously tested parameters, this coupler design served as a very
+good baseline for testing the effect of this final parameter.
+Fill factors between 10% and 90% were tested at 10% intervals, and this is shown
+in Fig 2.12. High resolution testing was again used, as the close level between different
+fill factors required this level of resolution to accurately differentiate the optimal factor.
+
+22
+
+250nm TL, 3ȝm BOX, 610nm GP, 90nm ED, 8˚ CA
+0.7
+
+0.6
+10% FF
+20% FF
+
+Coupling Efficiency
+
+0.5
+
+30% FF
+40% FF
+
+0.4
+
+50% FF
+60% FF
+
+0.3
+
+70% FF
+80% FF
+
+0.2
+
+90% FF
+
+0.1
+
+0
+1500
+
+1525
+
+1550
+
+1575
+1600
+Wavelength (nm)
+
+1625
+
+1650
+
+Fig. 2.12 Comparison of the effects of fill factor
+Unlike the previous parameters, fill factor strongly affects the center wavelength
+while only weakly the maximum efficiency and bandwidth. Indeed, for factors between
+30-70%, the curves are almost identical wavelength shifted copies of each other. Outside
+of this range, the grating behavior begins to break down, and efficiency and bandwidth
+suffer. The best curve center was obtained using a 50% fill factor.
+
+2.3.6
+
+Coupling angle
+With all of the coupling design parameters set, the performance of the optimized
+
+grating structure with respect to coupling angle was simulated. As before, an index
+matched layer was used in this simulation. The simulation result is shown below in Fig.
+2.13.
+
+23
+
+250nm TL, 3ȝm BOX, 610nm GP, 90nm ED, 50% FF
+0.7
+
+Coupling Efficiency
+
+0.6
+7.4˚ CA
+
+0.5
+
+8.8˚ CA
+10.3˚ CA
+
+0.4
+
+11.8˚ CA
+0.3
+
+13.3˚ CA
+
+0.2
+0.1
+0
+1500 1510 1520 1530 1540 1550 1560 1570 1580 1590
+Wavelength (nm)
+
+Fig. 2.13 Effect of coupling angle
+The effect of the coupling angle is very similar to that of fill factor. Changing the
+angle results in changing the center wavelength, but does not affect coupling efficiency or
+bandwidth. Therefore, an angle can be chosen that represents a good estimate for
+coupling at 1550nm, and further refinement can be had by adjusting the fill factor. Or, if
+fabrication error causes the center wavelength to be outside of the acceptable bound, a
+different coupling angle could be used to bring it back within range.
+
+2.3.7
+
+Summary of parameter effects
+As compared with the reference coupler design from [24], the increased buried
+
+oxide layer results in a 16% efficiency increase and a significant red shift. On its own, the
+thicker 250nm silicon top layer increases peak efficiency by 5.5%. The etch depth and
+grating periodicity must be optimized for the specific value of the buried oxide layer and
+the silicon top layer to achieve maximum efficiency and bandwidth. Fill factor and
+coupling angle have little effect on peak efficiency as long as extreme values are not
+
+24
+used. In terms of wavelength effects, all parameter values cause a peak center shift
+depending on the value used.
+The wavelength shift for groove depth, grating period, and fill factor are all
+quadratic with very low parabolic curvature. Since the pertinent wavelength region is
+relatively narrow, these can be very effectively approximated as linear functions.
+Coupling angle is already entirely linear, so it does not need to be linearized. The linear
+effect of changing a given parameter on the wavelength peak is summarized in table 2.1,
+along with the correlation coefficient of the parameter’s linear fit. Note that positive shift
+values indicate a red shift when increasing the given parameter, and negative values
+indicate a blue shift.
+Table 2.1
+Summary of center wavelength effects of grating parameters
+Grating Parameter
+CW Shift
+Correlation Coefficient (R)
+Groove Depth
+Grating Period
+Fill Factor
+Coupling Angle
+
+2.4
+
+-1.0917nm/nm
+1.52nm/nm
+1.335nm/%
+-11.917nm/˚
+
+0.9984
+0.9977
+0.9989
+0.9998
+
+Optimized Grating Design
+From the simulation in section 2.3, the optimal grating design for a 250nm silicon
+
+top layer and 3ȝm buried oxide layer wafer was a 610nm grating period, 90nm etch
+depth, and 50% fill factor designed to work at a coupling angle of 8˚. This design is
+shown in Fig. 2.14.
+610nm
+
+Si
+SiO 2
+
+90nm
+160nm 305nm 305nm
+
+250nm
+
+3 ȝm
+
+Fig. 2.14 Optimized grating profile design
+
+25
+Note that this profile only shows a few periods for the sake of clarity, and that the
+simulated design consisted of 20 periods. Referring back to Eqn. 2.1:
+neff
+
+ntop sin(T c )  m
+
+O
+
+(2.1)
+
+/
+
+the designed grating values correspond to a coupling angle Tc = 8˚ and grating period / =
+610nm. Operation at O
+
+1550nm results in ntop =1.444 for the silicon dioxide
+
+overcladding and an effective index neff §2.83 for propagation of the quasi-TE mode in
+the silicon waveguide [24]. First order operation of the grating corresponds to m=1, and
+plugging in the other values and solving for m yields a value of m=1.035, showing a very
+good agreement between the designed grating values and basic grating theory.
+The simulated performance of the optimized grating design is shown in Fig. 2.15.
+250nm TL, 3ȝm BOX, 610nm GP, 90nm ED, 50% FF, 8˚ CA
+0.7
+
+0.6
+
+Coupling Efficiency
+
+0.5
+
+0.4
+
+0.3
+
+0.2
+
+0.1
+
+0
+1500
+
+1525
+
+1550
+
+1575
+Wavelength (nm)
+
+1600
+
+1625
+
+1650
+
+Fig. 2.15 Optimized grating coupler simulated performance
+For the simulation of this coupler, the maximum coupling efficiency achieved is
+60.7% at 1554nm. The 1dB bandwidth is 49nm, and the 3dB bandwidth is 90nm. For
+comparison with later experimental data, the plot of coupling efficiency in dB is plotted
+
+26
+in Fig. 2.16. This is done for fiber-to-fiber loss, and therefore is the combination of loss
+from an input and an output coupler. This plot assumes a short waveguide, and thus loss
+in the waveguide is negligible. Additionally, any taper loss is neglected. The wavelength
+range is reduced slightly to focus on the C-band. Lines at the -1dB and -3dB levels are
+plotted for easy graphical identification of the bandwidths.
+250nm TL, 3ȝm BOX, 610nm GP, 90nm ED, 50% FF, 8˚ CA
+1500
+
+1510
+
+1520
+
+1530
+
+1540
+
+1550
+
+1560
+
+1570
+
+1580
+
+1590
+
+1600
+
+0
+-1
+
+Fiber-to-Fiber coupling efficiency (dB)
+
+-2
+-3
+-4
+-5
+-6
+
+-1dB Line
+
+-7
+
+-3dB Line
+
+-8
+-9
+-10
+-11
+-12
+-13
+-14
+-15
+
+Wavelength (nm)
+
+Fig. 2.16 Optimized grating coupler simulated fiber-to-fiber loss
+The maximum efficiency here is -4.4dB. As a result of two couplers being
+used, the bandwidth has decreased to 34nm at 1dB, and 59dB at 3dB. From the fit
+between experiment and simulation in [24], it can be predicted that experimental
+bandwidth will be similar to that shown here, and assuming a similar 45% decrease in
+coupling efficiency per coupler, that a -9.5dB fiber to fiber loss could be achieved.
+Moving forward, this is the baseline with which to compare experimental data with the
+simulated data.
+
+

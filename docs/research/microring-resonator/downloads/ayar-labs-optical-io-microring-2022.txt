@@ -1,0 +1,24 @@
+# Ayar Labs: Optical I/O for Next-Gen Computing
+Source: https://www.optica-opn.org/home/industry/2022/may/ayar_labs_bets_on_optical_i_o_for_next-gen_computi/
+Publisher: Optica / Optics & Photonics News (industry article)
+Date accessed: 2026-06-18
+
+## Summary
+Ayar Labs develops CMOS-friendly, low-power optical I/O chiplets that place electrical-to-optical / optical-to-electrical conversion right next to a host ASIC (e.g., Nvidia GPU). The basic building block is a system of microring resonators.
+
+## Product Architecture
+- TeraPHY: optical I/O chiplet flip-chip bonded next to the host ASIC.
+- SuperNova: external multi-wavelength laser light source that feeds TeraPHY.
+- Single-mode fiber ribbon carries data-carrying light into/out of the chiplet.
+- Microring resonators decode/encode the optical signal.
+
+## Why Microrings Matter Here
+- Miniaturization and integration enabled by microring-resonator architecture allows O/E and E/O conversion at much higher density and lower energy than traditional pluggable transceivers.
+- Converts high-bandwidth electrical data from the host SoC to the optical domain quickly, then moves massive bandwidth over long distances with low energy.
+
+## Real-World Context
+- Partnerships with Nvidia, HPE, Intel, GlobalFoundries.
+- Early units shipping to customers; roadmap toward high-volume parts.
+
+## Takeaway for Page
+Shows microring resonators as a commercial building block for co-packaged optics and chip-to-chip optical interconnects in AI/HPC systems.

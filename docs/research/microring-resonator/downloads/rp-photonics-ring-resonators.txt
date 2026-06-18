@@ -1,0 +1,40 @@
+# Ring resonators
+Source: https://www.rp-photonics.com/ring_resonators.html
+Author: Dr. Rüdiger Paschotta (RP Photonics)
+Date accessed: 2026-06-18
+
+## Definition
+Optical resonators where light can independently circulate in two different directions.
+
+## What are Ring Resonators?
+Optical resonators can be made with two different topologies:
+- Linear resonators (standing-wave resonators) have two end mirrors with perpendicular incidence of light.
+- Ring resonators do not have any end mirrors; none of the resonator mirrors reflects light back into itself.
+
+When the transmission of both plane mirrors is the same and the two curved mirrors are highly reflecting, we have impedance matching in resonance: all incident power is transmitted on the other side, and there is effectively no reflected power because the directly reflected component and the light leaking out from the resonator cancel each other by destructive interference.
+
+## Different Forms of Ring Resonators
+- Combining laser mirrors
+- Total internal reflection (nonplanar ring oscillators)
+- Fiber optics (fiber ring resonator)
+- Spherical glass piece with whispering gallery modes
+- Micro-ring cavities realized with integrated optics as waveguide structures, using evanescent wave coupling with a straight waveguide
+
+## Differences from Linear Resonators
+- Reflected light never goes directly back to its source.
+- Curved mirrors introduce astigmatism due to non-normal incidence.
+- Light can independently circulate in two directions.
+- Unidirectional operation avoids spatial hole burning.
+- A ring resonator has only a single stability zone.
+
+## Applications
+- Resonant enhancement cavities (e.g., frequency doubling)
+- Ring lasers
+- Optical parametric oscillators
+- Filtering and signal processing (e.g., WDM)
+- Frequency comb generation
+
+## Bibliography (selected)
+[1] T. J. Kane and R. L. Byer, “Monolithic, unidirectional single-mode Nd:YAG ring laser”, Opt. Lett. 10 (2), 65 (1985)
+[7] I. Demirtzioglou et al., “Frequency comb generation in a silicon ring resonator modulator”, Opt. Express 26 (2), 790 (2018)
+[8] M. Zhang, “Broadband electro-optic frequency comb generation in a lithium niobate microring resonator”, Nature 568, 373 (2019)

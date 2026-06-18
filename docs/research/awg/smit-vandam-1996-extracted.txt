@@ -1,0 +1,1699 @@
+PHASAR-based WDM-devices: principles, design and
+applications
+Citation for published version (APA):
+Smit, M. K., & Dam, van, C. (1996). PHASAR-based WDM-devices: principles, design and applications. IEEE
+Journal of Selected Topics in Quantum Electronics, 2(2), 236-250.
+
+Document status and date:
+Published: 01/01/1996
+Document Version:
+Publisher’s PDF, also known as Version of Record (includes final page, issue and volume numbers)
+Please check the document version of this publication:
+• A submitted manuscript is the version of the article upon submission and before peer-review. There can be
+important differences between the submitted version and the official published version of record. People
+interested in the research are advised to contact the author for the final version of the publication, or visit the
+DOI to the publisher's website.
+• The final author version and the galley proof are versions of the publication after peer review.
+• The final published version features the final layout of the paper including the volume, issue and page
+numbers.
+Link to publication
+
+General rights
+Copyright and moral rights for the publications made accessible in the public portal are retained by the authors and/or other copyright owners
+and it is a condition of accessing publications that users recognise and abide by the legal requirements associated with these rights.
+• Users may download and print one copy of any publication from the public portal for the purpose of private study or research.
+• You may not further distribute the material or use it for any profit-making activity or commercial gain
+• You may freely distribute the URL identifying the publication in the public portal.
+If the publication is distributed under the terms of Article 25fa of the Dutch Copyright Act, indicated by the “Taverne” license above, please
+follow below link for the End User Agreement:
+www.tue.nl/taverne
+
+Take down policy
+If you believe that this document breaches copyright please contact us at:
+openaccess@tue.nl
+providing details and we will investigate your claim.
+
+Download date: 18. Jun. 2026
+
+236
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+PHASAR-Based WDM-Devices:
+Principles, Design and Applications
+Meint K. Smit, Associate Member, IEEE, and Cor van Dam
+(Invited Paper)
+
+Abstract—Wavelength multiplexers, demultiplexers and routers
+based on optical phased arrays play a key role in multiwavelength
+telecommunication links and networks. In this paper, a detailed
+description of phased-array operation and design is presented
+and an overview is given of the most important applications.
+
+I. INTRODUCTION
+
+C
+
+OMMERCIAL interest in WDM components and systems is rapidly increasing. WDM provides a new dimension for solving capacity and flexibility problems in the
+telecommunication network. It offers a huge transmission
+capacity and allows for novel network architectures that offer
+much more flexibility than the current networks [16], [17]. Key
+components in WDM systems are the wavelength multiplexers
+and demultiplexers. Many principles have been proposed and
+reported for realization of multiplexers and demultiplexers.
+Commercially available components are based on fiber-optic
+or microoptic techniques [56], [57]. Research on integratedoptic (de)multiplexers has, since the early 1990’s, increasingly
+been focused on grating-based and phased-array (PHASAR)
+based devices (also called arrayed waveguide gratings) [97].
+Both are imaging devices, i.e., they image the field of an
+input waveguide onto an array of output waveguides in a
+dispersive way. In grating-based devices a vertically etched
+reflection grating provides the focusing and dispersive properties required for demultiplexing. In phased-array based devices
+these properties are provided by an array of waveguides, the
+length of which has been chosen such as to obtain the required
+imaging and dispersive properties. As phased-array based
+devices are realized in conventional waveguide technology and
+do not require the vertical etching step needed in grating-based
+devices they appear to be more robust and fabrication tolerant.
+Phased array demultiplexers were proposed in 1988 by Smit
+[58]. The first devices operating at short wavelengths were
+reported by Vellekoop and Smit [93]–[95], [59]. Takahashi et
+al. reported the first devices operating in the long wavelength
+window [87], [88]. Dragone extended the phased-array concept
+from
+to
+devices, the so-called wavelength routers
+[27], [28] which play an important role in multiwavelength
+network applications.
+Manuscript received July 23, 1996; revised November 7, 1996. Part of this
+work was carried out in the ACTS-BLISS AC-065 project.
+The authors are with the Delft University of Technology, NL-2600 GA
+Delft, The Netherlands.
+Publisher Item Identifier S 1077-260X(96)09506-8.
+
+Devices reported so far can be divided into two main
+classes: silica-based devices and InP-based devices. Most of
+the silica-based devices employ fiber-matched (low-contrast)
+waveguide structures, which combine low propagation loss
+with a high fiber-coupling efficiency. More recently siliconbased polymer devices [32], [69] and lithiumniobate devices
+[53], [54] were reported which also employed fiber-matched
+waveguide structures.
+Silica-based devices have relatively large dimensions due
+to the low index contrast and the corresponding large bending
+radii of the fiber-matched waveguides. This makes them
+less suitable for integration of large numbers of components
+on a single chip. Further, silica has a limited potential for
+integration of active functions due to its passive character.
+The feasibility of integration with switches, however, was
+demonstrated by Okamoto who reported successful integration
+of thermo-optical switches with phased-arrays in an integrated
+optical add-drop multiplexer [48], [49], [52].
+The first InP-based PHASAR-demultiplexer was reported
+in 1992 by Zirngibl et al. [106]. InP-based devices have a
+better potential for integration of active functions. They exhibit
+higher propagation and fiber-coupling losses, however, the
+latter due to the small size of the waveguide cross section.
+Despite of the higher propagation losses the total on-chip
+device loss can be kept within acceptable limits due to the
+small component size which is possible because of the highindex contrast and which also allows for integrating larger
+numbers of components on a chip. InP-based demultiplexers
+cannot compete with silica-based devices with respect to fiber
+coupling loss, which makes them less suitable for realization
+of circuits with a low complexity. Their main advantage lies
+in their potential for monolithic integration of active components such as detectors [3], [4], [6], [74]–[76], [113], optical
+amplifiers and modulators [39]–[41], [108]–[112], [115], and
+switches [99], and their potential to integrate large numbers of
+components on a single chip.
+Starting in 1993 [80], an increasing number of system experiments have been reported. The first silicon-based devices were
+recently introduced to the market. Integrated devices are still in
+a research stage but promise to provide the higher functionality
+which will be required in future telecommunication networks.
+In this paper, we will review the present state-of-the-art for
+phased-array based devices. In Section II, the operation of
+the device will be described. Section III describes phasedarray design for a number of different requirements, such
+
+1077–260X/96$5.00  1996 IEEE
+
+SMIT AND VAN DAM: PHASAR-BASED WDM-DEVICES: PRINCIPLES, DESIGN AND APPLICATIONS
+
+237
+
+as polarization independence, flattened wavelength response,
+low-loss, etc. Section IV describes a number of applications of
+phased-array demultiplexers. In Section V, a novel PHASARdemultiplexer based on MMI-couplers is shortly described.
+II. BASIC OPERATION
+Fig. 1(a) shows the schematic layout of a PHASARdemultiplexer. The operation is understood as follows. When
+the beam propagating through the transmitter waveguide
+enters the free propagation region (FPR) it is no longer
+laterally confined and becomes divergent. On arriving at the
+input aperture the beam is coupled into the waveguide array
+and propagates through the individual array waveguides to
+the output aperture. The length of the array waveguides is
+chosen such that the optical path length difference between
+adjacent waveguides equals an integer multiple of the central
+wavelength of the demultiplexer. For this wavelength the
+fields in the individual waveguides will arrive at the output
+aperture with equal phase (apart from an integer multiple of
+2 ), and the field distribution at the input aperture will be
+reproduced at the output aperture. The divergent beam at the
+input aperture is thus transformed into a convergent one with
+equal amplitude and phase distribution, and an image of the
+input field at the object plane will be formed at the center of
+the image plane. The dispersion of the PHASAR is due to the
+linearly increasing length of the array waveguides, which will
+cause the phase change induced by a change in the wavelength
+to vary linearly along the output aperture. As a consequence,
+the outgoing beam will be tilted and the focal point will shift
+along the image plane. By placing receiver waveguides at
+proper positions along the image plane, spatial separation of
+the different wavelength channels is obtained.
+In the following subsections, the most important properties
+of a PHASAR will be analyzed.
+A. Focusing
+Focusing is obtained by choosing the length difference
+between adjacent array waveguides equal to an integer number
+of wavelengths, measured inside the array waveguides
+(1)
+in which
+is the order of the phased array,
+is
+the central wavelength (frequency) in vacuo, and
+is the
+effective index of the waveguide mode. With this choice the
+array acts as a lens with image and object planes at a distance
+of the array apertures.
+The input and output apertures of the phased array are
+typical examples of Rowland-type mountings [43]. The focal
+line of such a mounting, which defines the image plane,
+follows a circle with radius
+as shown in Fig. 1(b).
+Transmitter and receiver waveguides should be positioned on
+this line.
+
+(a)
+
+(b)
+Fig. 1. (a) Layout of the PHASAR demultiplexer. (b) Geometry of the
+receiver side.
+
+follows as
+asin
+
+(2)
+
+and
+are the propagation
+in which
+constants of the waveguide mode and the slab mode in the
+free propagation region (FPR), respectively, and
+is the
+lateral spacing (on center lines) of the waveguides in the array
+aperture.
+The dispersion
+of the array is described as the lateral
+displacement
+of the focal spot along the image plane per
+unit frequency change. From Fig. 1(b), it follows (after some
+manipulation) that
+(3)
+is the central frequency,
+is the
+in which
+(slab) mode index in the free propagation region,
+is the
+length increment of the array waveguides as described before,
+is the divergence angle between the array
+waveguides in the fan-in and fan-out sections, and
+is the
+group index of the waveguide mode,
+(4)
+
+B. Dispersion and Free Spectral Range
+From Fig. 1(b), it is seen that the dispersion angle resulting from a phase difference
+between adjacent waveguides
+
+It is seen that
+does not occur in the right-hand expression in
+(3) so that filling-in of the space between the array waveguides
+
+238
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+in which
+
+is the width of the equivalent Gaussian far field
+(8)
+
+Fig. 2. Central insertion loss, nonuniformity and FSR. The 100% line
+denotes the peak intensity of the input field.
+
+the effective width of the modal field (as described
+with
+is defined as the
+in Appendix A). The nonuniformity
+intensity ratio (in decibels) between the outer and the central
+channel. Using (7), the insertion loss of the receiver relative
+to the central channel is easily found by substituting the angle
+corresponding to the outer receiver
+waveguide
+(9)
+
+near the apertures due to a finite lithographical resolution does
+not affect the dispersive properties of the demultiplexer.
+From (2), it is seen that the response of the phased array
+is periodical. After each change of 2 in
+the field will
+be imaged at the same position. The period in the frequency
+domain, as shown in Fig. 2(b), is called the free spectral range
+(FSR). It is found as the frequency shift for which the phase
+shift
+equals 2
+(5)
+from which we find
+(6)
+.
+with
+The rightmost identity, which is well known from grating
+theory, follows by substituting
+[see (1)]. It is
+noted that for phased arrays, different from gratings, the FSR
+is not related to the order
+of the array, but to a modified
+order number
+, which can be interpreted as the order of
+the beam.
+As the exact relation between and
+is nonlinear [see
+(2)], (6) is only approximate and the FSR will be slightly
+dependent on the input and output ports. An accurate analysis
+is given by Takahashi et al. [91].
+C. Insertion Loss and Nonuniformity
+Fig. 2(a) shows the field in the image plane for four different
+wavelengths. It is the sum-field of the far fields of all individual
+array waveguides. As the far-field intensity of the individual
+waveguides reduces away from the center of the image plane,
+as indicated in the figure, the focal sum-field will do the same.
+If the wavelength is changed it will move through the image
+plane and follow the envelope described by the far-field of
+the individual array waveguides. If we approximate the modal
+field of the array waveguides as a Gaussian beam, and neglect
+the effects of coupling on the beam shape, we can derive
+some simple analytical equations for estimating insertion loss,
+channel nonuniformity and bandwidth.
+Using the Gaussian-beam approximation the intensity of the
+far-field is found from
+(7)
+
+,
+If the FSR is chosen equal to times the channel spacing
+as in wavelength routers (see Section IV-A), the excess loss
+of the outer channels will be close to 3 dB for reasons of
+power conservation: as for large numbers of channels receiver
+waveguide 1 and the virtual receiver
+1 will experience
+approximately the same loss, each of them has at least 3-dB
+excess loss relative to the central channel. For small values of
+the situation may be slightly better. Minimizing
+thus
+comes to increasing the FSR.
+of the central channel is mainly
+The insertion loss
+determined by diffraction of light into undesired orders. The
+adjacent orders of the main focal spot will carry a fraction
+, with
+(10)
+in which
+is the dispersion (3). If we neglect the power
+coupled into other orders the total loss
+can be estimated
+from
+
+(11)
+.
+in which it has been assumed that
+The factor 4 is due to the fact that power is lost in two orders,
+and equal losses occur (because of reciprocity) at both the
+input and the output side of the array. The term
+denotes
+the total propagation loss in the array and both FPR’s due to
+absorption and scattering. From this equation it is seen that
+for low-loss devices the waveguide spacing
+in the array
+apertures should be minimal. For semiconductor-based devices
+best total loss reported is in the order of 2 dB [77]. It should
+be noted that (11) is a worst-case guess: coupling between the
+array waveguides will reduce the loss as discussed in Section
+III-E.
+
+D. Bandwidth
+If the wavelength is changed the focal field of the PHASAR
+moves along the receiver waveguides. The frequency response
+of the different channels follows from the overlap of this
+field with the modal fields of the receiver waveguides. If we
+
+SMIT AND VAN DAM: PHASAR-BASED WDM-DEVICES: PRINCIPLES, DESIGN AND APPLICATIONS
+
+assume that the focal field is a good replica of the modal
+field at the input, and that the input and output waveguides
+are identical, the (logarithmic) transmission
+around the
+channel maximum
+follows as the overlap of the modal
+field with itself, displaced over a distance
+(12)
+is the normalized modal field,
+is the
+in which
+dispersion as defined in (3) and
+is the transmission in
+dB at the channel maximum. For small values of
+(smaller
+than the effective mode width ) the overlap integral can be
+evaluated analytically by approximating the modal fields as
+Gaussian fields
+
+The
+
+-dB bandwidth
+
+is twice the value
+
+(13)
+for which
+
+dB
+(14)
+The latter identity follows by substitution of
+. If
+we substitute
+as a representative value (crosstalk
+due to receiver spacing
+40 dB, see Section II-E), the 1-dB
+bandwidth is found to be 0.31
+. For a channel spacing
+of 100 GHz we thus find a 1-dB bandwidth of 31 GHz.
+E. Channel Crosstalk
+Crosstalk may be caused by many mechanisms. We will
+discuss six of them. The first four can be kept low by
+proper design. The other two follow from imperfections in
+the fabrication process and are more difficult to reduce.
+It is usual in the literature on WDM devices to characterize
+the crosstalk performance by specifying the single channel
+crosstalk figure, i.e., the maximum crosstalk value which is
+measured with one active input channel. Under operating
+conditions the crosstalk will be higher than this value because
+all active input channels will contribute to it. An analysis of the
+crosstalk penalty under simultaneous multichannel operation is
+given by Takahashi et al. [91].
+1) Receiver Crosstalk: The most obvious source of
+crosstalk is the coupling between the receivers through
+the exponential tails of the field distributions. This type
+of crosstalk directly follows from (12). Because we are
+now looking at the coupling through the exponential
+tails of the modal field the Gaussian approximation is
+not valid and the integral should be evaluated using
+the expressions for the (normalized) mode profile.
+In Fig. 3(a) the crosstalk due to overlapping fields
+has been calculated for different lateral -parameters.
+The curves are almost polarization independent. Note
+that in polarization dependent waveguides the lateral
+-parameter will be polarization dependent.
+2) Truncation: Another source of crosstalk results from
+truncation of the field due to the finite width of the
+array aperture. This causes power to be lost at the input
+
+239
+
+aperture, and at the output aperture the sidelobe level
+of the focal field will increase. For a proper PHASAR
+design, the array aperture angle should be chosen such
+that the corresponding crosstalk is sufficiently low.
+Fig. 3(b) shows the transmitted power (solid line) and
+the crosstalk versus the array aperture half angle ,
+normalized to the Gaussian width
+as defined in
+(8), for different values of the relative receiver spacing
+. The values shown are calculated for input and
+output waveguides with
+. As the estimation
+of Fig. 3(a) is rather pessimistic, it is best to use the
+envelope depicted by the bold line. The dependence on
+the -parameter is small. The envelope of the crosstalk
+curves (bold line) can be used for extimating the
+maximum crosstalk level. It is seen that for
+the truncation crosstalk is less than 35 dB.
+3) Mode Conversion: If the array waveguides are not
+strictly single mode a first-order mode excited at the
+junctions between straight and curved waveguides
+can propagate coherently through the array and
+cause “ghost” images. Because of the difference
+in propagation constant between the fundamental
+and the first-order mode these images will occur at
+different locations and the “ghost image” may couple
+to an undesired receiver thus degrading the crosstalk
+performance. Mode conversion can be kept small
+by optimising the offset at the junctions on minimal
+first-order mode excitation.
+4) Coupling in the Array: Crosstalk can also be incurred
+by phase distortion due to coupling in the input and
+output sections in the arrays. It might be expected that
+this type of coupling will not heavily affect the focusing
+and dispersive properties of the array on similar grounds
+as mentioned under (3) and (4). The filling in of the
+gaps near the array apertures can be considered as
+introducing an extremely strong coupling in the input
+and output region, which obviously does not degrade
+the PHASAR performance [59]. Day et al. [24] observe
+a degradation of the crosstalk performance using BPMsimulation, however.
+5) Phase Transfer Incoherence: A fifth source of crosstalk
+results from incoherence of the phased array due to
+imperfections in the fabrication process. The optical
+path length of the array guides is in the order of
+several thousands of wavelengths. Deviations in the
+propagation constant may lead to considerable errors in
+the phase transfer, and, consequently, to an increase of
+the crosstalk level. Takada et al. [86] and Yamada et al.
+[101], [102] have shown that improved crosstalk is feasible by correcting the phase errors. Phase errors may
+be caused by small deviations in the effective index,
+due to local variations in composition, film thickness or
+waveguide width, or by inhomogeneous filling in of the
+gap near the apertures of the phased array. Also more
+systematic errors, e.g., due to discretization in the mask
+pattern generation may contribute to the crosstalk [24].
+6) Background Radiation: As a last possible source of
+crosstalk, we mention background radiation due to
+
+240
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+light scattered out of the waveguides at junctions or
+rough waveguide edges. This is especially important
+in waveguide structures where the light is also guided
+besides the waveguides, e.g., in shallowly etched ridge
+guides or in waveguides structures on a heavily doped
+substrate where the undoped buffer layer may also act
+as a waveguide.
+Crosstalk in practical devices is not limited by design but
+by imperfections in the fabrication process. Typical crosstalk
+values reported for PHASAR-demultiplexers are in the order
+of 25 dB for InP-based devices to better than 30 dB for
+silica-based devices. Recent experiments in our laboratory
+show crosstalk levels better than 30 dB also for good
+semiconductor devices. Improvement of these figures is mainly
+a matter of improving fabrication technology.
+
+(a)
+
+F. Polarization Dependence
+Phased arrays are polarization independent if the array
+waveguides are polarization independent, i.e., the propagation
+constants for the fundamental TE- and TM-mode are equal.
+Waveguide birefringence, i.e., a difference in propagation
+constants, will result in a shift
+of the spectral responses
+with respect to each other, which is called the polarization
+dispersion. It can be calculated if we consider the wavelengths
+in the waveguide. Light with different wavelengths in vacuo
+will be coupled into the same receiver waveguide, if the
+wavelengths
+and
+of the fundamental modes in the
+waveguide are equal
+
+(15)
+in which
+and
+are the effective indices for both
+polarizations. By solving
+from (15), we find
+(16)
+is the group index. For InGaAsP–InP DH
+in which
+is typically in the order of 4–5
+waveguide structures
+nm. For silica-based and, more generally, for low-contrast
+waveguides, it will be much smaller. Also in waveguides
+structures which are designed for polarization independence
+polarization dependence may occur due to strain induced
+during the fabrication process. A number of methods to reduce
+polarization dependence will be discussed in Section IV.
+III. PHASED-ARRAY DESIGN
+A. Specification
+A PHASAR is specified by the following characteristics:
+• number of channels ;
+• central frequency
+and channel spacing
+;
+• -dB channel bandwidth
+;
+• free spectral range
+;
+• maximal insertion loss
+of the central channel;
+• maximal nonuniformity
+;
+
+(b)
+Fig. 3. (a) Crosstalk resulting from the coupling between two adjacent
+receiver channels for different values of the lateral V -parameter of the receiver
+waveguides. (b) Transmitted power (solid line) and crosstalk as a function of
+the relative array aperture a =0 , for different values of the relative receiver
+2.5, 3.0, 3.5). The values shown are calculated for
+spacing dr =w (dr =w
+input and output waveguides with V
+3. The bold line indicates the envelope
+of the crosstalk curves (maximum crosstalk level).
+
+=
+
+=
+
+• maximal crosstalk level;
+• maximal polarization dependence.
+It is noted that the nonuniformity and the FSR can not be
+chosen independent from each other (see Section IV-A).
+B. Demultiplexer Design Procedure
+PHASAR’s have many degrees of design freedom, and
+many design approaches are possible. The approach followed
+at Delft University of Technology for designing multiplexers
+and demultiplexers is explained below. It starts from a given
+waveguide structure (i.e., waveguide width
+and lateral parameter fixed). The design parameters of the PHASAR
+are derived subsequently from the design specifications. For
+design of a wavelength router the procedure is slightly different
+(see Section IV-A).
+• Receiver Spacing : We start with the crosstalk specification, which puts a lower limit on the receiver spacing
+. As with todays technology crosstalk levels lower than
+30 to 35 dB are difficult to realize it does not make
+sense to design the array for much lower crosstalk. To
+be on the safe side we take a margin of 5–10 dB and
+
+SMIT AND VAN DAM: PHASAR-BASED WDM-DEVICES: PRINCIPLES, DESIGN AND APPLICATIONS
+
+241
+
+(a)
+(a)
+
+(b)
+
+(b)
+
+Fig. 5. Zero-birefringent waveguide structures: (a) Buried waveguide, and
+(b) raised-strip waveguide.
+
+Fig. 4. Phased-array waveguide geometries.
+
+read from Fig. 3(a) the ratio
+required for 40 dB
+crosstalk level. It is noted that the crosstalk for TEand TM-polarization may be different because the lateral
+index contrast and, consequently, the lateral -parameter
+can differ substantially for the two polarizations.
+: From the maximum acceptable excess
+• FPR Length
+loss for the outer channel (the nonuniformity
+) we
+determine the maximum acceptable dispersion angle
+using (8) and (9). The minimal length
+of the free propagation region (FPR) then follows as
+in which
+is the -coordinate of the outer receiver
+(see Fig. 1(b)).
+• Length Increment
+: First we compute the required
+dispersion of the array from
+[see (3)]. The waveguide spacing
+in the array aperture
+should be chosen as small as possible (a large spacing will
+lead to high coupling losses from the FPR to the array and
+vice versa). With
+and
+fixed the divergence angle
+between the array waveguides is fixed:
+[see Fig. 1(b)] and the length increment
+of the array
+follows from (3).
+• Aperture Width : The angular half width of the array
+aperture should be determined using a graph as Fig. 3(b)
+(adapted for the specific waveguide structure used).
+• Number of Array Waveguides
+: The choice of
+fixes
+.
+the number of array waveguides:
+This completes the determination of the most important geometrical parameters of the PHASAR. For the array waveguides
+a number of different shapes can be applied to realize the
+length increment
+. Takahashi et al. [88] used the geometry
+as depicted in Fig. 4(a) which is very simple from a design
+point of view, with a constant for all array arms. Smit [59]
+and Dragone [27] applied the geometry of Fig. 4(b), which
+contains a minimum number of waveguide junctions. This
+is especially important in semiconductor waveguides where
+junction losses and mode conversion at junctions can degrade
+the PHASAR performance.
+The freedom in the choice of the array shape is bounded
+by the requirement that the array waveguides should not come
+too close to each other. For low-dispersion values, e.g., for
+duplexing 1.3 and 1.55 m, the shapes as depicted in Fig. 4
+are not suitable; the array waveguides come too close together
+or will even intersect. Adar et al. [1] applied S-bend like arrays
+in which the dispersion of one curved section is reduced by
+a second section with opposite curvature and, consequently,
+opposite
+. More complex shapes have been reported, too
+[44], [45].
+
+C. Design for Polarization Independence
+Several methods can be applied for eliminating the polarization dependence of the response due to waveguide birefringence. Five different methods will be discussed
+1) Nonbirefringent Waveguides: The most obvious way
+to make a PHASAR polarization independent is by
+eliminating the birefringence of the waveguide. This
+can be done by making the waveguide cross section
+square if the index contrast is the same in the vertical and lateral direction as, for example, in buried
+waveguide structures. Small deviations of the square
+shape, for example due to nonperfect control of the
+waveguide width, will disturb the polarization independence. If the index contrast between core and cladding
+is high the tolerance requirements on waveguide width
+control become impractically tight. Tolerant design
+requires, therefore, low-contrast waveguides with a relatively large waveguide core (which is advantageous for
+achieving low-fiber coupling loss). Bellcore [8], [63] recently reported a polarization independent device based
+on a buried InGaAsP–InP waveguide structure with a
+low-contrast waveguide core (small GaAs-fraction), as
+shown in Fig. 5(a). Philips and TU Delft [6], [13]–[15],
+[62], [96] reported several devices based on a raised
+strip guide [shown in Fig. 5(b)] using similar material
+for the waveguide core. The birefringence induced by
+the asymmetry in lateral and vertical index contrast,
+which occurs in this waveguide, was compensated by
+a small correction of the aspect ratio (height/width) of
+the waveguide core. An advantage of the raised strip
+guide is that, due to the high lateral index contrast, it
+allows for very short bending radii and, consequently,
+compact design.
+Attempts have been made to compensate the birefringence of conventional “flat” waveguide structures
+by applying strained MQW-waveguides. Compressive
+strain, obtained by increasing the Ga-fraction, increases
+the birefringence, whereas tensile strain reduces it. First
+results of this method show that polarization dispersion
+changes in the order of 7–12 nm are possible [98].
+A complication of this approach is that the intrinsic
+birefringence of MQW-structures is considerably higher
+than that of quaternary bulk material and requires
+very high strains to be compensated. This makes the
+approach very sensitive to well-width and composition
+control.
+
+242
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+Fig. 7. Schematic diagram of the birefringence compensation principle.
+
+(a)
+
+(b)
+Fig. 6. Schematic diagram of the different diffraction orders at the receiver
+side for both states of polarization: Polarization dispersion.
+
+The birefringence problem occurs also in silica-based
+waveguides, where it is due to strain induced by the
+different thermal expansion coefficients of silica and
+silicon. It can be reduced by using silica substrates
+instead of silicon substrates [78].
+2) Order Matching: The first attempt to make PHASAR’s
+polarization independent was based on matching the
+FSR to the polarization dispersion as shown in Fig. 6
+[66], [71], [94], [95], [107].
+If the FSR is chosen equal to the polarization dispersion the th-order beam for TE will overlap with the
+TM-polarized beam of order
+1, which makes the
+response virtually polarization independent. From (6), it
+is seen that this is obtained by choosing
+(17)
+For this design the procedure described in Section III-B
+should be slightly changed. By fixing the incremental
+length according to (17) the divergence angle
+is
+fixed through (3) and
+through
+[see
+being fixed in this way the nonuniformity
+Fig. 1(b)].
+can no longer be freely chosen. A disadvantage of
+this method is that the total wavelength span available
+
+for the WDM channels is limited by the polarization dispersion which is in the order of 4–5 nm for conventional
+InGaAsP–InP DH structures. Another disadvantage is
+that the exact value of the polarization dispersion is
+very sensitive to variations in layer composition and
+thickness, which makes it difficult to obtain a good
+match.
+3) Halfwave Plate: A very elegant method is the insertion
+of a
+-plate in the middle of the phased array.
+Light entering the array in TE-polarized state will be
+converted by the
+-plate and travel through the second half of the array in TM-polarized state, and TMpolarized light will similarly traverse half the array
+in TE-state. As a consequence TE- and TM-polarized
+input signals will experience the same phase transfer
+regardless of the birefringence properties of the waveguides applied. This method was proposed by Takahashi
+et al. [89] and using polyimide halfwave plates it has
+been successfully applied to silica-based [33], [50] and
+LiNbO -based devices [53], [54].
+As the polyimide halfwave plates have a thickness of
+more than 10 m, they are only applicable to waveguide
+structures with a small NA that can bridge this distance
+with small diffraction losses. In semiconductor waveguides, the method is not practical due to the large NA
+of these waveguides. It could be applied successfully
+there too if a compact and fabrication tolerant integrated
+polarization converter can be developed.
+4) Dispersion Compensation: In semiconductor-based
+PHASAR’s a broad-band solution for the polarization
+dependence problem is found in compensation of the
+polarization dispersion by inserting a waveguide section
+with a different birefringence in the phased array. The
+method was proposed for silica-based waveguides by
+Takahashi et al. [90] and successfully applied to InPbased devices by Zirngibl et al. [114].
+The operation can be explained by considering the
+phase transfer difference
+between two adjacent
+waveguides, in one of which a section with length
+with a different birefringence is inserted (see Fig. 7)
+(18)
+and
+are the effective mode indices
+in which
+of the original waveguide and the compensation section. It is easily verified that
+becomes polarization
+independent if
+is chosen according to
+(19)
+and
+are the differences between the TE
+in which
+and the TM-value of
+and , respectively. The whole
+
+SMIT AND VAN DAM: PHASAR-BASED WDM-DEVICES: PRINCIPLES, DESIGN AND APPLICATIONS
+
+243
+
+(a)
+Fig. 8. Application of a polarization splitter at the input.
+
+array can be made polarization independent by inserting
+in the first waveguide,
+in
+a section with length
+the second one,
+in the third one, and so on. The
+compensation section will thus obtain a triangular shape
+and its total length will amount to
+, in which
+is the number of array waveguides. The method applies
+for both positive and negative values of
+. For
+values close to 1, the compensation section will become
+excessively long. A disadvantage is that
+and
+are
+very sensitive to film thickness and waveguide width,
+so that the compensation requires tight control of these
+parameters.
+5) Polarization Splitter: Another method for obtaining polarization independence is by applying a polarization
+splitter at the input, as shown in Fig. 8. Due to the
+polarization dispersion the position of the focal spot in
+the image plane for TE polarization is shifted relative
+to the TM-polarized one. If the distance between the
+TE and the TM-polarized receiver in the object plane is
+chosen equal to the polarization dispersion in the image
+plane, the TE and TM-polarized signals will focus on the
+same position and the response will become polarization
+independent over a broad wavelength range. The method
+does not apply to
+devices.
+D. Design for Flattened Response
+In many applications, a flattened passband is important in
+order to relax the requirements on wavelength control. Three
+methods to achieve this goal will be discussed.
+1) Multimode Receiver Guideş. The most simple method
+is the use of broad (multimode) waveguides at the
+receiver side [5], [66], [67], [74], [75]. If the focal
+spot moves along these broad receivers almost 100%
+of the light will be coupled into the receiver over a
+considerable part of the receiver aperture, thus causing
+a flat region in the frequency response as shown in
+Fig. 9(a). In this way, the 1-dB bandwidth can easily
+be increased from 31% of the channel spacing, as
+shown in Section II-D for a nonflattened PHASAR, to
+more than 65%.
+
+(b)
+Fig. 9. Flattening of the wavelength response by (a) using multimode
+receiver waveguides, and (b) applying an MMI-powersplitter at the transmitter
+side. The dashed lines indicate the response without flattening.
+
+Due to the multimode character of the receiver
+waveguides this method can only be applied at the
+receiver side of a WDM-link, where the multimode
+waveguides can be coupled to a detector without
+additional signal loss.
+2) MMI-Flattening: A flattened response with single-mode
+outputs can be obtained by applying a short multimode interference (MMI) power splitter at the end of
+the transmitter waveguide [7], [64], [65]. This device
+converts the single waveguide mode at the input of
+the cou-pler into a double image. The resulting output
+field pattern has a “camel-like” shape and the depth of
+the central depression can be controlled with the MMI
+width. If the image of this “camel-shaped” field moves
+along the single mode receivers the response will have
+a flat region as shown in Fig. 9(b). This method of
+flattening introduces insertion loss due to the mismatch
+between the “camel-shaped” focal field and the receiver
+mode.
+A similar effect can be obtained by applying a junction and bringing the two output branches close
+together in the transmitter aperture. This method is less
+compact and less robust, however.
+3) Shaping the Phase Transfer: As the field in the image
+plane is the Fourier transform of the field at the output
+
+244
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+(a)
+
+(a)
+
+(b)
+Fig. 10. Fields at the input (dashed) and the output aperture (solid) of the
+phased array for (a) a waveguide structure with strong confinement, and (b)
+a structure with moderate confinement. For efficient coupling to the receiver
+waveguides the output field should follow the dashed lines.
+
+aperture, a more or less rectangular field can be realized
+if the field at the output aperture has a
+distribution ( measured along the aperture). Such a
+sinc distribution can be approximated in a discrete
+manner by multiplying the field at the array aperture
+with a function with alternating sign, in such a way that
+the Gaussian-like field is converted into a
+-like
+field with positive and negative sidelobes. The multiplication can be realized by inserting an additional half
+wavelength in the array waveguides terminating in the
+negative sidelobe regions or by increasing the optical
+length using thermo-optic or photo-elastic effects [46].
+
+E. Design for Low Loss
+For properly designed PHASAR’s realized with low-loss
+waveguides the total loss is dominated by the loss occurring
+at the junctions between the array and the FPR. Low losses
+can be obtained if the transition from the array to the FPR is
+adiabatical, i.e., if the gap between the waveguides reduces linearly to zero. Due to the finite resolution of the lithographical
+process the gap between the waveguides will stop abruptly,
+however, when the waveguides come too close together. At
+this discontinuity the field coming out of the array will show
+a modulation that is dependent on the width of the gap between
+the array waveguides and on the confinement of the field in the
+guides. Fig. 10 shows the field for a large and a smaller gap.
+Due to the ripple in the field pattern a considerable fraction
+of the power will diffract into adjacent orders and be lost.
+On reciprocity grounds an equal loss will occur at the input
+aperture.
+To reduce this loss, the ripple of the output field should
+be reduced. This can be obtained by reducing the gap width
+(which requires better lithography) or by reducing the confine-
+
+(b)
+Fig. 11. Schematic diagram illustrating the operation of a wavelength router:
+(a) Interconnectivity scheme (ai denotes the signal at input port a with
+frequency i) and (b) frequency response.
+
+ment of the waveguides. A disadvantage of the latter approach
+is that lowering the confinement increases the minimal bending
+radius and, consequently, increases the device size. Low
+confinement can be combined with small bending radii by
+applying a local contrast reduction near the array apertures
+using a double-etch process [23].
+IV. APPLICATIONS
+In addition to the basic functions of wavelength multiplexing and demultiplexing, PHASAR’s are applied in wavelength
+routers and, in combination with other components such as
+amplifiers and switches, in more complex devices for use
+in multiwavelength networks. In this section a number of
+applications will be discussed.
+A. Wavelength Routers
+Wavelength routers were first reported by Dragone [27],
+[28]. They provide an important additional functionality as
+compared to multiplexers and demultiplexers and play a key
+role in more complex devices as add-drop multiplexers and
+wavelength switches. Fig. 11 illustrates their functionality.
+Wavelength routers have input and output ports. Each of
+the
+input ports can carry
+different frequencies. The
+frequencies carried by input channel 1 are distributed among
+output channels 1 to , in such a way that output channel
+1 carries frequency
+and channel
+frequency 1. The
+frequencies carried by input 2 are distributed in the same
+
+SMIT AND VAN DAM: PHASAR-BASED WDM-DEVICES: PRINCIPLES, DESIGN AND APPLICATIONS
+
+way, but cyclically rotated by 1 channel in such a way that
+frequencies 1–3 are coupled to ports 3–1 and frequency 4 to
+port 4. In this way each output channel receives
+different
+frequencies, one from each input channel. To realize such an
+interconnectivity scheme in a strictly nonblocking way using a
+single frequency a huge number of switches would be required.
+Using a wavelength router, this functionality can be achieved
+using only one single component.
+A wavelength router is obtained by designing the input and
+the output side of a PHASAR symmetrically, i.e., with
+input and output ports. For the cyclical rotation of the input
+frequencies along the output ports, as described above, it is
+essential that the frequency response is periodical as shown in
+Fig. 11(b), which implies that the FSR should equal
+times
+the channel spacing. From (6), it is seen that this is obtained
+by choosing
+(20)
+
+is the group index of the waveguide mode,
+in which
+is the number of frequency channels and
+is the channel
+spacing. For this design the procedure described in Section IIIB should be changed in a similar way as described in Section
+III-C-2. By fixing the incremental length according to (20)
+the divergence angle
+is fixed through (3) and
+through
+[see Fig. 1(b)]. With this choice of the FSR
+the nonuniformity
+is fixed and will be in the order of 3
+dB, which can be seen as follows. Channels at a frequency
+away from the central frequency will experience
+an excess loss
+of at least 3 dB because the focal spot
+corresponding to this frequency will be equally divided among
+two orders which focus symmetrically around the center of the
+image plane. As in a periodical design the frequency spacing
+between the outer channels comes close to the FSR, the outer
+channels will experience an excess loss
+in the order of 3
+dB.
+Wavelength routers have been applied in various configurations in add-drop multiplexers and wavelength selective
+switches [29], [30], [37], [38], [49], [68], [79]–[83] and in
+multiwavelength networks [31]. In combination with a DFB
+laser used as a wavelength converter a wavelength router has
+also been applied as a wavelength switch [68], [72].
+B. Multiwavelength Receivers
+A multiwavelength receiver is obtained by integration of
+a demultiplexer with a photodiode array. The first PHASAR
+receiver, reported in 1993 by Amersfoort et al. [3], [4], applied
+a twinguide waveguide structure in which the passive region
+was obtained by locally removing the absorbing top layer. Integrated receivers have also been realized in buried waveguide
+structures [113] and in polarization independent raised-strip
+waveguides [6], [62]. A wavelength-flattened receiver module
+hybridly integrated with a silicon bipolar frontend array has
+been reported by Steenbergen et al. [74], [75], [76]. Recently,
+a low-loss (3 dB on-chip loss) ei-channel WDM receiver with
+10 GHz bandwidth per channel has been reported [77].
+
+245
+
+Fig. 12. Integrated multiwavelength laser.
+
+C. Multiwavelength Lasers
+Todays WDM systems use wavelength-selected or tunable
+lasers as sources. Multiplexing of a number of wavelengths
+into one fiber is done using a power combiner or a wavelength
+multiplexer. Integrated multiwavelength lasers have been realized by combining a DFB-laser array (with a linear frequency
+spacing) with a power combiner on a single chip [9], [103],
+[104].
+Using a power combiner for multiplexing the different
+wavelengths in a single fiber is a very tolerant method but
+dB,
+being the number of
+it introduces a loss of 10
+wavelength channels. The combination loss can be reduced by
+applying a wavelength multiplexer at the cost of more stringent
+requirements on the control of the laser wavelengths, however.
+An elegant solution to this problem is combining a
+broad-band optical amplifier array with a multiplexer into
+a Fabry–Perot cavity as depicted in Fig. 12. This principle
+was first demonstrated in the MAGIC-laser [100] in a
+hybridly integrated form. If one of the semiconductor optical
+amplifiers (SOA’s) is excited the device will start lasing
+at the passband maximum of the multiplexer channel to
+which the SOA is connected. All SOA’s can be operated
+and (intensity) modulated simultaneously, in principle. An
+important advantage of this component is that the wavelength
+channels are automatically tuned to the passbands of the
+multiplexer and coupled to the single output port with low loss.
+Zirngibl and Joyner reported the first multiwavelength lasers
+based on integration of a SOA-array with a PHASAR [39],
+[108], [110] and demonstrated it in a 9 200 Mb/s transmission experiment [113]. Despite of their long cavity length these
+lasers show single mode operation in a wide range of operating
+conditions [112]. Direct modulations speeds in excess of 1
+Gb/s were recently reported [115]. Power coupled into a fiber
+is still low. Highest power reported so far is 0.15 mW [70],
+[73].
+Joyner et al. [41] reported integration of a MW-laser with
+an electroabsorption modulator. They used the power radiated
+into an adjacent order of the phased array to couple light out
+of the cavity into the modulator.
+A problem in MW-lasers with a small FSR is that the laser
+may start lasing in a wrong order and, consequently, at a
+wrong frequency. Doerr et al. [26] proposed and demonstrated
+a method to suppress the transmission for undesired orders by
+in the array.
+chirping the incremental length
+Tachikawa et al. [83] reported a 32-channel discretely
+tunable laser based on a 4 8 PHASAR with 12 SOA’s with
+
+246
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+(a)
+
+(b)
+
+Fig. 14. MMI-based PHASAR configuration.
+TABLE I
+PHASE DIFFERENCES 'ij BETWEEN INPUT PORT i AND j , REQUIRED FOR POWER
+RECOMBINATION IN THE DIFFERENT OUTPUT PORTS OF A
+MMI COUPLER
+
+1
+
+424
+
+(c)
+Fig. 13. Three different ADM configurations: (a) Loop-back, (b) fold-back,
+and (c) cascaded demux/mux.
+
+one reflecting mirror connected to both the 4-input and the 8output ports. The 32 wavelengths are generated by powering
+the proper SOA pairs.
+D. Wavelength-Selective Switches and Add–Drop Multiplexers
+Add-drop multiplexers (ADM’s) form a special class of
+wavelength selective switches. They are used for coupling one
+or more wavelength signals from a main input port to one
+or more drop ports by operating the corresponding switches.
+Simultaneously, the other signals are routed to the main output
+port, together with the signals applied at the proper add ports.
+In Fig. 13(a) the configuration as realized by Tachikawa et
+al. [80], [82], [85] is shown. The realized device (hybridly
+integrated, in which the switching was done by changing fiber
+connectors), showed a fiber-to-fiber insertion loss of 3–4 dB
+for the add/drop signals and 6–8 dB for the transmitted signals.
+By a suitable arrangement of the loop-back optical paths the
+insertion loss difference between the transmitted signals can
+be minimized [35].
+A disadvantage of this loop-back configuration is that the
+crosstalk of the PHASAR is coupled directly into the main
+output port. This problem can be reduced by applying the
+PHASAR in a fold-back configuration as shown in Fig. 13(b)
+[29], [37]. A third approach is using a separate demultiplexer
+and multiplexer [Fig. 13(c)] as reported by Okamoto et al.
+[48], [49], [52]. The two PHASAR’s employed in this approach were placed close together in order to ensure that their
+channel frequencies match.
+In wavelength routed networks, spatial switching of arbitrary wavelength signals between multiple channels allows for
+efficient use of the transmission capacity using a fixed number
+of wavelengths and re-using them. For this approach, a number
+of configurations using silica-based waveguide structures have
+been reported [36], [37], [79].
+
+V. MMI-BASED PHASAR’s
+Recently, a novel type of PHASAR-based on MMI-couplers
+was proposed and experimentally demonstrated on InP [22],
+and a design for a low-contrast waveguide structure has been
+proposed [42]. It is obtained by replacing the FPR’s of the
+“classical” PHASAR by MMI-couplers. Fig. 14 shows three
+different realizations. The operation can be understood as
+follows. Conventional MMI-couplers divide the power applied
+to an input port equally among all
+output ports [61], but
+with a different phase for each port [10]. To each input port
+corresponds a specific set of phases at the output port. If
+signals with this specific phase set (with a minus sign)
+are applied to the input port all power will recombine in the
+corresponding output port, due to reciprocity. This is shown
+in Table I. If we apply, for example, four signals with equal
+amplitude and phase differences
+,
+and
+of
+45 , 180 , and 135 between between ports 1 and 2, ports
+2 and 3, and ports 3 and 4, respectively, the power will
+constructively recombine in port 1. If we increase
+,
+and
+with
+, 180 , and 270 , respectively, the
+output signal will move to port 2. If the phase the phase
+differences are increased with the same amounts the signal
+moves to port 4, then to port 3, and then to port 1 again, and
+so on.
+We will go through this sequence when the frequency is
+swept if the four branches of the MMI-PHASAR have length
+differences
+,
+, and
+which are related as
+1 : 2 : 3. These length differences can be obtained in different
+ways, as shown in Fig. 14.
+The characteristics of MMI-PHASAR’s differ from the
+classical PHASAR’s in the following repsects:
+• the response is inherently periodical;
+• the channel response is very uniform (some nonuni-
+
+SMIT AND VAN DAM: PHASAR-BASED WDM-DEVICES: PRINCIPLES, DESIGN AND APPLICATIONS
+
+formity is incurred by the transfer properties of the
+MMI-couplers);
+• the low-crosstalk window is very narrow, which makes
+the component very sensitive to fabrication tolerances;
+• flattening of the response is not possible.
+For small numbers of wavelength channels MMI-PHASAR’s
+can be very compact (e.g., 2800 m
+100 m for a fourchannel demux [22]). The critical crosstalk preformance makes
+the device less attractive for applications as mux, demux or
+wavelength router. For application in a multiwavelength laser,
+where crosstalk performance is less relevant, the component
+has interesting properties. In this application, “chirping” of the
+array will be required in order to suppress undesired orders
+[26].
+VI. CONCLUSION
+The application of PHASAR-based devices is rapidly broadening. PHASAR’s have proven to be flexible components
+which support realization of a broad class of functions for
+use in multiwavelength networks. Silica-based devices offer
+the best performance and are presently being most widely
+applied. They might get some competition from polymer based
+devices in the future. InP-based devices are most promising
+for realization of active MW-devices such as MW-lasers
+and receivers and, on the longer term, for more complicated
+circuits containing large numbers of components, such as adddrops and optical crossconnects.
+APPENDIX A
+WAVEGUIDE MODE EFFECTIVE WIDTH
+The diffraction properties of the phased array are conveniently expressed in terms of the effective mode width
+defined as the width of a uniform intensity distribution with
+the same maximum intensity and power content as the modal
+field
+(A.1)
+Substitution of the expression for the (TE-polarized) modal
+field [92] yields the following expression for
+:
+(A.2)
+in which
+is the waveguide width and
+and
+are
+the normalized -parameter and the normalized transverse
+attenuation constant, respectively. The rightmost expression,
+which is found empirically by curve fitting in the range 1
+10, gives us a simple expression for estimating the
+effective width.
+Substitution of the Gaussian distribution
+into (A.1) yields the following relation between
+and
+.
+(A.3)
+Using (A.2) and (A.3), the modal field is easily “translated”
+into an equivalent Gaussian field.
+
+247
+
+REFERENCES
+[1] R. Adar, C. H. Henry, C. Dragone, R. C. Kistler, and M. A. Milbrodt, “Broad-band array multiplexers made with silica waveguides on
+silicon,” J. Lightwave Technol.., vol. 11, pp. 212–219, Feb. 1993.
+[2] M. R. Amersfoort, M. K. Smit, Y. S. Oei, B. H. Verbeek, P. F. H.
+Groen, and E. G. Metaal, “Small-size, low-loss, 4-channel phasedarray wavelength division (de)multiplexer on InP,” in Proc. 6th Eur.
+Conf. Integrated Optics (ECIO ‘93), Neuchatel, Switzerland, Apr. 18–22,
+1993, pp. 2–5, postdeadline papers.
+[3] M. R. Amersfoort, C. R. de Boer, Y. S. Oei, B. H. Verbeek, P. Demeester, F. H. Groen, and J. W. Pedersen, “High performance 4-channel
+PHASAR wavelength demultiplexer integrated with photodetectors,” in
+Proc. 19th Eur. Conf. Optical Communication (ECOC‘93), Montreux,
+Switzerland, vol. 3, Sept. 12–16, 1993, pp. 49–52, postdeadline papers.
+[4] M. R. Amersfoort, C. R. de Boer, B. H. Verbeek, P. Demeester, A.
+Looyen, and J. J. G. M. van der Tol, “Low-loss phased-array based
+4-channel wavelength demultiplexer integrated with photodetectors,”
+IEEE Photon. Technol. Lett., vol. 6, pp. 62–64, Jan. 1994.
+[5] M. R. Amersfoort, C. R. de Boer, F. P. G. M. van Ham, M. K.
+Smit, P. Demeester, J. J. G. M. van der Tol, and A. Kuntze, “Phasedarray wavelength demultiplexer with flattened wavelength response,”
+Electron. Lett., vol. 30, no. 4, pp. 300–302, Feb. 1994.
+[6] M. R. Amersfoort, J. B. D. Soole, H. P. Leblanc, N. C. Andreakakis,
+A. Rajhel, and C. Caneau, “8
+2 nm polarization-independent WDM
+detector based on compact arrayed waveguide demultiplexer,” Integrated Photonics Research 1995, Dana Point, CA, Feb. 23–25, 1995,
+pp. PD3-1–PD3-2, postdeadline papers.
+[7] M. R. Amersfoort, J. B. D. Soole, H. P. Leblanc, N. C. Andreadakis,
+A. Rajhel, and C. Caneau, “Passband broadening of integrated arrayed
+waveguide filters using multimode interference couplers,” Electron.
+Lett., vol. 32, no. 5, pp. 449–451, Feb. 1996.
+[8] M. R. Amersfoort, J. B. D. Soole, H. P. Leblanc, N. C. Andreakakis, A.
+Rahjel, C. Caneau, M. A. Koza, R. Bhat, C. Youtsey, and I. Adesida,
+“Polarization-independent InP-arrayed waveguide filter using square
+cross-section waveguides,” Optical Fiber Communication (OFC’96),
+Tech. Dig. Ser., San Jose, CA, Feb. 25–Mar. 1, 1996, pp. 101–102.
+[9] M. R. Amersfoort, C. E. Zah, B. Pathak, F. Favire, P. S. D. Lin, A.
+Rahjel, N. C. Andreakakis, R. Bhat, C. Caneau, and M. A. Koza,
+“Wavelength accuracy and output power of multiwavelength DFB laser
+arrays with integrated star couplers and optical amplifiers,” Integrated
+Photonics Research 1996, Boston, MA, Apr. 29–May 2, 1996, pp.
+784–481.
+[10] P. A. Besse, M. Bachmann, and H. Melchior, “Phase relations in
+multi-mode interference couplers and their application to generalized
+integrated Mach-Zehnder optical switches,” in Proc. 6th Eur. Conf.
+Integrated Optics (ECIO’93), Neuchatel, Switzerland, Apr. 18–22, 1993,
+pp. 2.22–2.23.
+[11] H. Bissessur, F. Gaborit, B. Martin, P. Pagnod-Rossiaux, J.-L. Peyre, and
+M. Renaud, “16 Channel phased array demultiplexer on InP with low
+polarization sensitivity,” Electron. Lett., vol. 30, no. 4, pp. 336–337,
+Feb. 1994.
+[12] H. Bissessur, F. Gaborit, B. Martin, G. Ripoche, and P. PagnodRossiaux, “Tunable phased-array wavelength demultiplexer on InP,”
+Electron. Lett., vol. 31, no. 1, pp. 32–33, Jan. 1995.
+[13] H. Bissessur, F. Gaborit, B. Martin, and G. Ripoche, “Polarizationindependent phased-array demultiplexer on InP with high fabrication
+tolerance,” Electron. Lett., vol. 31, no. 16, pp. 1372–1373, Aug. 1995.
+[14] H. Bissessur, B. Martin, R. Mestric, and F. Gaborit, “Small-size,
+polarization-independent phased-array demultiplexers on InP,” Electron.
+Lett., vol. 31, no. 24, pp. 2118–2120, Nov. 1995.
+[15] H. Bissessur, P. Pagnod-Rossiaux, R. Mestric, and B. Martin, “Extremely small polarization independent phased-array demultiplexers on
+InP,” IEEE Photon. Technol. Lett., vol. 8, pp. 554–556, Apr. 1996.
+[16] C. A. Brackett, “Dense wavelength division multiplexing networks:
+Principles and applications,” IEEE J. Select. Areas Commun., vol. 8,
+pp. 948–964, 1990.
+[17] C. A. Brackett, A. S. Acampora, J. Sweitzer, G. Tangonan, M. T.
+Smith, W. Lennon, K. C. Wang, and R. H. Hobbs, “A scalable
+multiwavelength multihop optical network: A proposal for research
+on all-optical networks,” J. Lightwave Technol., vol. 11, pp. 736–753,
+May/June 1993.
+[18] T. Brenner, C. H. Joyner, M. Zirngibl, and C. Doerr, “Compact
+waveguide grating array de-multiplexer,” Integrated Photonics Research
+1996, Boston, MA, pp. PDP3-1–PDP3-3, Apr. 29–May 2, 1996, postdeadline papers.
+[19] K. S. Chiang, “Dispersion characteristics of strip dielectric waveguides,”
+IEEE Trans. Microwave Theory Tech., vol. 39, pp. 349–352, Feb. 1991.
+
+2
+
+248
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+[20] P. C. Clemens, G. Heise, R. Marz, H. Michel, A. Reichelt, and H.
+W. Schneider, “Optical phased array in SiO2 /Si with adaptable center
+wavelength,” in Proc. 7th Eur. Conf. Inegrated Optics (ECIO ‘95), Delft,
+The Netherlands, Apr. 3–6, 1995, pp. 505–508.
+[21] P. C. Clemens, G. Heise, R. Marz, A. Reichelt, and H. W. Schneider,
+“Wavelength-adaptable optical phased array in SiO2 -Si,” IEEE Photon.
+Technol. Lett., vol. 7, pp. 1040–1041, Oct. 1995.
+[22] C. van Dam, M. R. Amerfsoort, G. M. ten Kate, F. P. G. M. van Ham, M.
+K. Smit, P.A. Besse, M. Bachmann, and H. Melchior, “Novel InP-based
+phased-array wavelength demultiplexer using a generalized MMI-MZI
+configuration,” in Proc. 7th Eur. Conf. Integrated Optics (ECIO’95),
+Delft, The Netherlands, Apr. 3–6, 1995, pp. 275–278.
+[23] C. van Dam, A. A. M. Staring, E. J. Jansen, J. J. M. Binsma, T.
+van Dongen, M. K. Smit, and B. H. Verbeek, “Loss reduction for
+phased-array demultiplexers using a double etch technique,” Integrated
+Photonics Research 1996, Boston, MA, Apr. 29–May 2, 1996, pp.
+52–55.
+[24] S. Day, J. P. Stagg, D. Moule, S. J. Clemens, C. Rogers, S. Ohja,
+T. Clapp, J. Brook, and J. Morley, “The elimination of sidelobes in
+the arrayed waveguide WDM,” Integrated Photonics Research 1996,
+Boston, MA, Apr. 29–May 2, 1996, pp. 48–51.
+[25] C. R. Doerr, M. Zirngibl, and C. H. Joyner, “Chirping of the waveguide
+grating router for free-spectral-range mode selection in the multifrequency laser,” IEEE Photon. Technol. Lett., vol. 8, pp. 500–502, Apr.
+1996.
+[26] C. R. Doerr, M. Zirngibl, and C. H. Joyner, “Chirping of the waveguide
+grating router for free-spectral-range mode selection in the multifrequency laser,” Integrated Photonics Research 1996, Boston, MA, pp.
+132–135, Apr. 29–May 2, 1996.
+[27] C. Dragone, “An
+optical multiplexer using a planar arrangement
+of two star couplers,” IEEE Photon. Technol. Lett., vol. 3, pp. 812–815,
+Sept. 1991.
+[28] C. Dragone, C. A. Edwards, and R. C. Kistler, “Integrated optics
+multiplexer on silicon,” IEEE Photon. Technol. Lett., vol. 3,
+pp. 896–899, Oct. 1991.
+[29] M. Fukui, K. Oda, H. Toba, K. Okamoto, and M. Ishii, “10 channel
+10Gbit/s WDM add/ drop multiplexing/transmission experiment over
+240 km of dispersion-shifted fiber employing unequally-spaced arrayedwaveguide-grating ADM filter with fold-back configuration,” Electron.
+Lett., vol. 31, no. 20, pp. 1757–1759, Sept. 1995.
+[30] B. Glance, I. P. Kaminow, and R. W. Wilson, “Applications of the
+integrated waveguide grating router,” J. Lightwave Technol., vol. 12,
+pp. 957–962, June 1994.
+[31] B. R. Hemenway, M. L. Stevens, D. M. Castagozzi, D. Marquis, S.
+A. Parikh, J. J. Carney, S. G. Finn, E. A. Swanson, I. P Kaminow, C.
+Dragone, U. Koren, T. L. Koch, R. Thomas, C. Zveren, and E. Grella,
+“A 20-channel wavelength-routed all-optical network deployed in the
+Boston Metro area,” Optical Fiber Communication (OFC’95), Tech.
+Dig. Ser., San Diego, CA, Feb. 26–Mar. 3, 1995, pp. PD8-1–PD8-5,
+postdeadline papers.
+[32] Y. Hida, Y. Innoue, and S. Imamura, “Polymeric arrayed-waveguide
+grating multiplexer operating around 1.3 m,” Electron. Lett., vol. 30,
+no. 12, pp. 959–960, June 1994.
+[33] Y. Innoue, Y. Ohmori, M. Kawachi, S. Ando, T. Sawada, and H.
+Takahashi, “Polarization mode converter with polyimide half waveplate
+in silica-based planar lightwave circuits,” IEEE Photon. Technol. Lett.,
+vol. 6, pp. 626–628, May 1994.
+[34] Y. Inoue, A. Himeno, K. Moriwaki, and M. Kawachi, “Silica-based
+arrayed-waveguide grating circuit as optical splitter/router,” Electron.
+Lett., vol. 31, no. 9, pp. 726–727, Apr. 1995.
+[35] O. Ishida and H. Takahashi, “Loss-imbalance equalization of arrayedwaveguide grating add-drop multiplexer,” Electron. Lett., vol. 30, no.
+14, pp. 1160–1162, July 1994.
+[36] O. Ishida, H. Takahashi, and Y. Inoue, “FDM-channel selection filter
+employing an arrayed-waveguide grating multiplexer,” Electron. Lett.,
+vol. 30, no. 16, pp. 1327–1328, Aug. 1994.
+[37] O. Ishida, H. Takahashi, S. Suzuki, and Y. Innoue, “Multichannel
+frequency-selective switch employing an arrayed-waveguide grating
+multiplexer with fold-back optical paths,” IEEE Photon. Technol. Lett.,
+vol. 6, pp. 1219–1221, Oct. 1994.
+[38] O. Ishida, T. Hasegawa, M. Ishii, S. Suzuki, and K. Iwashita, “4
+4, 7-FDM-channel reconfigurable network hub emplying arrayedwaveguide-grating (AWG) multiplexers,” Optical Fiber Communication
+(OFC’95), Tech. Dig. Ser., San Diego, USA, Feb. 26–Mar. 3, 1995, pp.
+PD9-1–PD9-5, postdeadline papers.
+[39] C. H. Joyner, M. Zirngibl, and J. P. Meester, “A multifrequency
+waveguide grating laser by selective area epitaxy,” IEEE Photon.
+Technol. Lett., vol. 6, pp. 1277–1279, Nov. 1994.
+
+N 2N
+
+N 2N
+2
+
+2
+
+[40] C. H. Joyner, M. Zirngibl, and J. C. Centanni, “An 8 channel digitally
+tunable transmitter with electroabsorption modulated output by selective
+area epitaxy,” Integrated Photonics Research 1995, Dana Point, CA,
+Feb. 23–25, 1995, pp. PD2-2–PD2-4, postdeadline papers.
+, “An 8-channel digitally tunable transmitter with electroabsorp[41]
+tion modulated output by selective-area epitaxy,” IEEE Photon. Technol.
+Lett., vol. 7, pp. 1013–1015, Sept. 1995.
+[42] L. O. Lierstuen and A. Sudbo, “8-channel wavelength division multiplexer based on multimode interference couplers,” IEEE Photon.
+Technol. Lett., vol. 7, pp. 1034–1036, Sept. 1995.
+[43] R. März, Integrated Optics: Design and Modeling. Norwood, MA:
+Artech House, 1994.
+[44] R. Mestric, H. Bissessur, B. Martin, and A. Pinquier, “1.31–1.55-m
+phased-array demultiplexer on InP,” IEEE Photon. Technol. Lett., vol.
+8, pp. 638–640, May 1996.
+[45] aR. Mestric, M. Renaud, B. G. Martin, and F. Gaborit, “Extremely
+compact 1.31–1.55 m phased array duplexer on InP with 30 dB
+crosstalk over 100 nm,” in Proc. 22nd Eur. Conf. Optical Communication (ECOC’96), Oslo, Sweden, Sept. 15–19, 1996, pp. 3.131–3.134.
+[46] K. Okamoto and H. Yamada, “Arrayed-waveguide grating multiplexer
+with flat spectral response,” Opt. Lett., vol. 20, no. 1, pp. 43–45, Jan.
+1995.
+[47] K. Okamoto, K. Moriwaki, and S. Suzuki, “Fabrication of 64 64
+arrayed-waveguide grating multiplexer on silicon,” Electron. Lett., vol.
+31, no. 3, pp. 184–186, Feb. 1995.
+[48] K. Okamoto, K. Takiguchi, and Y. Ohmori, “16ch optical add/drop
+multiplexer using silica-based arrayed-waveguide gratings,” Optical
+Fiber Communication (OFC’95), Tech. Dig. Ser., San Diego, CA, Feb.
+26–Mar. 3, 1995, pp. PD10-1–PD10-5, postdeadline papers.
+[49] K. Okamoto, K. Takiguchi, and Y. Ohmori, “16-channel add/drop
+multiplexer using silica-based arrayed-waveguide gratings,” Electron.
+Lett., vol. 31, no. 9, pp. 723–724, Apr. 1995.
+[50] K. Okamoto, M. Ishii, Y. Hibino, and H. Toba, “Fabrication of unequal channel spacing arrayed-waveguide grating multiplexer modules,”
+Electron. Lett., vol. 31, no. 17, pp. 1464–1465, Aug. 1995.
+[51] K. Okamoto, M. Ishii, Y. Hibino, and Y. Ohmori, “Fabrication of
+variable bandwidth filters using arrayed-waveguide gratings,” Electron.
+Lett., vol. 31, no. 18, pp. 1592–1594, Aug. 1995.
+[52] K. Okamoto, M. Okuno, A. Himeno, and Y. Ohmori, “16-channel optical
+add/drop multiplexer consisting of arrayed-waveguide gratings and
+double-gate switches,” Electron. Lett., vol. 32, no. 16, pp. 1471–1472,
+Aug. 1996.
+[53] H. Okayama and M. Kawahara, “Waveguide array grating demultiplexer
+on LiNbO3 ,” Integrated Photonics Research 1995, Dana Point, CA, pp.
+296–298, Feb. 23–25, 1995.
+[54] H. Okayama, M. Kawahara, and T. Kamijoh, “Reflective waveguide
+array demultiplexer in LiNbO3 ,” J. Lightwave Technol., vol. 14, pp.
+985–990, June 1996.
+[55] E. C. M. Pennings, J. Van Schoonhoven, J. W. M. Van Uffelen, and M.
+K. Smit, “Reduced bend-ing and scattering losses in new optical ‘doubleridge’ waveguide,” Electron. Lett., vol. 25, no. 11, pp. 746–747, May
+1989.
+[56] E. C. M. Pennings, M. K. Smit, and G. D. Khoe, “Micro-Optic
+versus waveguide devices—An Overview,” invited paper, in Proc.
+Fifth MicroOptics Conf. 1995, Hiroshima, Japan, Oct. 18–20, 1995, pp.
+248–255.
+[57] E. C. M. Pennings, M. K. Smit, A. A. M. Staring, and G.-D. Khoe,
+“Integrated-Optics versus Micro-Optics—A comparison,” Integrated
+Photonics Research IPR’96, Boston, MA, Tech. Dig., vol. 6, Apr.
+29–May 2, 1996, pp. 460–463.
+[58] M. K. Smit, “Now focussing and dispersive planar component based on
+an optical phased array,” Electron. Lett., vol. 24, no. 7, pp. 385–386,
+Mar. 1988.
+[59]
+, “Optical phased arrays,” in Integrated Optics in Silicon-Based
+Aluminum Oxide, Ph.D. thesis, Delft Univ. of Technol., 1991, ch 6.
+[60] L. B. Soldano, M. Bouda, M. K. Smit, and B. H. Verbeek, “New
+small-size single-mode optical power splitter based on multi-mode
+interference,” in Proc. 18th Eur. Conf. Optical Communiction (ECOC
+‘92), Berlin, Germany, Sept. 27–Oct. 1, 1992, pp. 465–468.
+[61] L. B. Soldano and E. C. M. Pennings, “Optical multi-mode interference devices based on self-imaging: principles and applications,” J.
+Lightwave Technol., vol. 13, pp. 615–627, Apr. 1995.
+[62] J. B. D. Soole, M. R. Amersfoort, H. P. Leblanc, N. C. Andreadakis,
+A. Rajhel, and C. Caneau, “Polarization-independent monolithic eightchannel 2 nm spacing WDM receiver detector based on compact
+arrayed waveguide demultiplexer,” Electron. Lett., vol. 31, no. 15, pp.
+1289–1291, July 1995.
+[63] J. B. D. Soole, M. R. Amersfoort, H. P. Leblanc, N. C. Andreadakis, A.
+
+0
+
+2
+
+SMIT AND VAN DAM: PHASAR-BASED WDM-DEVICES: PRINCIPLES, DESIGN AND APPLICATIONS
+
+Rajhel, C. Caneau, M. A. Koza, R. Bhat, C. Youtsey, and I. Adesida,
+“Polarization-independent InP arrayed waveguide filter using square
+cross-section waveguides,” Electron. Lett., vol. 32, no. 4, pp. 323–324,
+Feb. 1996.
+[64] J. B. D. Soole, M. R. Amersfoort, H. P. Leblanc, N. C. Andreakakis,
+A. Rajhel, C. Caneau, R. Bhat, and M. A. Koza, “Use of multimode
+interference couplers to broaden the passband of dispersive integrated
+WDM filters,” Integrated Photonics Research 1996, Boston, MA, Apr.
+29–May 2, 1996, pp. 44–47.
+[65] J. B. D. Soole, M. R. Amersfoort, H. P. Leblanc, N. C. Andreadakis, A.
+Rajhel, C. Caneau, R. Bhat, M. A. Koza, C. Youtsey, and I. Adesida,
+“Use of multimode interference couplers to broaden the passband of
+wavelength-dispersive integrated WDM filters,” IEEE Photon. Technol.
+Lett., vol. 8, pp. 1340–1342, Oct. 1996.
+[66] L. H. Spiekman, F. P. G. M. van Ham, A. Kuntze, J.W. Pedersen,
+P. Demeester, and M. K. Smit, “Polarization-independent InP-based
+phased-array wavelength demultiplexer with flattened wavelength response,” in Proc. 20th Eur. Conf. Optical Communication (ECOC’94),
+Firenze, Italy, Sept. 25–29, 1994, pp. 759–762.
+[67] L. H. Spiekman, A. H. de Vreede, F. P. G. M. van Ham, A. Kuntze,
+J. J. G. M. Van der Tol, P. Demeester, and M. K. Smit, “Flattened
+response ensures polarization independence of InGaAsP/InP phased
+array wavelength demultiplexer,” in Proc. 7th Eur. Conf. Integrated
+Optics (ECIO’95), Delft, The Netherlands, Apr. 3–6, 1995, pp. 517–520.
+[68] L. H. Spiekman, A. A. M. Staring, C. van Dam, E. J. Jansen, J. J.
+M. Binsma, M. K. Smit, and B. H. Verbeek, “Space-switching using
+wavelength conversion at 2.5 Gb/s and integrated phased array routing,”
+in Proc. Eur. Conf. Optical Communications (ECOC’95), Brussels,
+Belgium, Sept. 17–21, 1995, pp. 1055–1058, postdeadline papers.
+[69] L. H. Spiekman, M. B. J. Diemeer, T. H. Hoekstra, and M. K. Smit,
+“First polymeric phased array wavelength demultiplexer operating at
+1550 nm,” Integrated Photonics Research 1996, Boston, MA, Apr.
+29–May 2, 1996, pp. 36–39.
+[70] L. H. Spiekman, A. A. M. Staring, J. J. M. Binsma, E. J. Jansen,
+T. van Dongen, P. J. A. Thijs, M. K. Smit, and B. H. Verbeek,
+“A compact phased array based multi-wavelength laser,” Integrated
+Photonics Research 1996, Boston, MA, Apr. 29–May 2, 1996, pp.
+136–138.
+[71] L. H. Spiekman, M. R. Amersfoort, A. H. de Vreede, F. P. G. M.
+van Ham, A. Kuntze, J. W. Pedersen, P. Demeester, and M. K.
+Smit, “Design and realization of polarization independent phased array
+wavelength demultiplexers using different array orders for TE and TM,”
+J. Lightwave Technol., vol. 14, pp. 991–995, June 1996.
+[72] A. A. M. Staring, L. H. Spiekman, C. van Dam, E. J. Jansen, J. J.
+M. Binsma, M. K. Smit, and B. H. Verbeek, “Space-switching 2.5
+Gbit/s signals using wavelength conversion and phased array routing,”
+Electron. Lett., vol. 32, no. 4, pp. 377–379, Feb. 1996.
+[73] A. A. M. Staring, L. H. Spiekman, J. J. M. Binsma, E. J. Jansen, T. van
+Dongen, P. J. A. Thijs, M. K. Smit, and B. H. Verbeek, “A compact
+9 channel multi-wavelength laser,” IEEE Photon. Technol. Lett., vol. 8,
+pp. 1139–1141, Sept. 1996.
+[74] C. A. M. Steenbergen, C. van Dam, T. L. M. Scholtes, A. H. de
+Vreede, L. Shi, J. J. G. M. van der Tol, P. Demeester, and M. K.
+Smit, “4-channel wavelength flattened demultiplexer integrated with
+photodetectors,” in Proc. 7th Eur. Conf. Integrated Optics (ECIO ‘95),
+Delft, The Netherlands, Apr. 3–6, 1995, pp. 271–274.
+[75] C. A. M. Steenbergen, C. van Dam, A. H. de Vreede, L. Shi, J. W.
+Pedersen, P. Demeester, and M. K. Smit, “Integrated 1 GHz 4-channel
+InP phasar based WDM-receiver with Si bi-polar frontend array,”
+in Proc. Eur. Conf. Optical Communications (ECOC’95), Brussels,
+Belgium, Sept. 17–21, 1995, pp. 211–214.
+[76] C. A. M. Steenbergen, M. O. van Deventer, L. C. N. de Vreede, C.
+van Dam, M. K. Smit, and B. H. Verbeek, “System performance of a
+4 channel phasar WDM receiver operating at 1.2 Gb/s,” Optical Fiber
+Communication (OFC’96), Tech. Dig. Ser., San Jose, CA, Feb. 25–Mar.
+1, 1996, pp. 310–311.
+[77] C. A. M. Steenbergen, C. van Dam, A. Looijen, C. G. P. Herben, M.
+de Kok, M. K. Smit, J. W. Pedersen, I. Moerman, R. G. Baets, and B.
+H. Verbeek, “Compact low loss 8
+10 GHz polarization independent
+WDM receiver,” in Proc. 22nd Eur. Conf. Optical Communication
+(ECOC’96), Oslo, Sweden, Sept. 15–19, 1996, pp. 1.129–1.132.
+[78] S. Suzuki, Y. Innoue, and Y. Ohmori, “Polarization-insensitive arrayedwaveguide grating multiplexer with SiO2 -on-SiO2 structure,” El. Lett.,
+vol. 30, no. 8, pp. 642–643, Apr. 1994.
+[79] S. Suzuki, A. Himeno, Y. Tachikawa, and Y. Yamada, “Multichannel
+optical wavelength selective switch with arrayed-waveguide grating
+multiplexer,” Electron. Lett., vol. 30, no. 13, pp. 1091–1092, June
+1994.
+
+2
+
+249
+
+[80] Y. Tachikawa, Y. Inoue, M. Kawachi, H. Takahashi, and K. Inoue,
+“Arrayed-waveguide grating add-drop multiplexer with loop-back optical paths,” Electron. Lett., vol. 29, no. 24, pp. 2133–2134, Nov.
+1993.
+[81] Y. Tachikawa and M. Kawachi, “Lightwave transrouter based on arryedwaveguide grating multiplexer,” Electron. Lett., vol. 30, no. 18, pp.
+1504–1506, Sept. 1994.
+[82] Y. Tachikawa, M. Ishii, Y. Inoue, and T. Nozawa, “Integrated-optic
+arrayed-waveguide grating multiplexers with loop-back optical paths,”
+in Proc. 7th Eur. Conf. Int. Opt. (ECIO ‘95), Delft, The Netherlands,
+Apr. 3–6, 1995, pp. 267–270.
+[83] Y. Tachikawa and K. Okamoto, “32 wavelength tunable arrayedwaveguide grating laser based on special input/output arrangement,”
+Electron. Lett., vol. 31, no. 19, pp. 1665–1666, Sept. 1995.
+[84] Y. Tachikawa and Y. Inoue, “Tunable WDM-channel group drop filters
+based on smart device configuration,” Electron. Lett., vol. 31, no. 23,
+pp. 2029–2030, Nov. 1995.
+[85] Y. Tachikawa, Y. Inoue, M. Ishii, and T. Nozawa, “Arreyed-waveguide
+grating multiplexer with loop-back optical paths and its applications,”
+J. Lightwave Technol., vol. 14, pp. 977–984, June 1996.
+[86] K. Takada, Y. Inoue, H. Yamada, and M. Horiguchi, “Measurement
+of phase error distributions in silica-based arrayed-waveguide grating
+multiplexers by using Fourier transform spectroscopy,” Electron. Lett.,
+vol. 30, no. 20, pp. 1671–1672, Sept. 1994.
+[87] H. Takahashi, S. Suzuki, K. Kato, and I. Nishi, “Arrayed-waveguide
+grating for wavelength division multi/demultiplexer with nanometer
+resolution,” Electron. Lett., vol. 26, no. 2, pp. 87–88, Jan. 1990.
+[88] H. Takahashi, I. Nishi, and Y. Hibino, “10 GHz spacing optical
+frequency division multiplexer based on arrayed-waveguide grating,”
+Electron. Lett., vol. 28, no. 4, pp. 380–382, Feb. 1992.
+[89] H. Takahashi, Y. Hibino, and I. Nishi, “Polarization-insensitive arrayedwaveguide grating wavelength multiplexer on silicon,” Opt. Lett., vol.
+17, no. 7, pp. 499–501, Apr. 1992.
+[90] H. Takahashi, Y. Hibino, Y. Ohmori, and M. Kawachi, “Polarizationinsensitive arrayed-waveguide wavelength demultiplexer with birefringence compensating film,” IEEE Photon. Technol. Lett., vol. 5, pp.
+707–709, June 1993.
+[91] H. Takahashi, K. Oda, H. Toba, and Y. Inoue, “Transmission characteriswavelength multiplexer,” J. Lightwave
+tics of arrayed waveguide
+Technol., vol. 13, pp. 447–455, Mar. 1995.
+[92] H. G. Unger, Planar Optical Waveguides and Fibers. Oxford, U.K.:
+Clarendon Press, Oxford Engineering Science Series, 1977.
+[93] A. R. Vellekoop and M. K. Smit, “Low-loss planar optical polarization
+splitter with small dimensions,” Electron. Lett., vol. 25, pp. 946–947,
+1989.
+, “A polarization independent planar wavelength demulti- plexer
+[94]
+with small dimensions,” in Proc. Eur. Conf. Opt. Integrated Systems,
+Amsterdam, The Netherlands, Sept. 25–28, 1989, paper D3.
+[95] A. R. Vellekoop and M. K. Smit, “Four-channel integrated-optic wavelength demultiplexer with weak polarization dependence,” J. Lightwave
+Technol., vol. 9, no. 3, pp. 310–314, Mar. 1991.
+[96] B. H. Verbeek, A. A. M. Staring, E. J. Jansen, R. van Roijen, J. J.
+M. Binsma, T. van Dongen, M. R. Amersfoort, C. van Dam en, and
+M. K. Smit, “Large bandwidth polarization independent and compact 8
+channel PHASAR demultiplexer/filter,” Optical Fiber Communication
+(OFC’94), Tech. Dig. Ser., San Jose, CA, Feb. 20–25, 1994, pp. 63–66,
+postdeadline papers.
+[97] B. Verbeek and M. K. Smit, “Phased array based WDM devices,”
+in Proc. Eur. Conf. on Optical Communication (ECOC’95), Brussels,
+Belgium, Sept. 17–21, 1995, pp. 195–202.
+[98] C. G. M. Vreeburg, C. R. de Boer, Y. S. Oei, B. H. Verbeek, R. T. H.
+Rongen, H. Vonk, M. R. Leys, and J. H. Wolter, “Strained InP/InGaAs
+quantum well layers for wavelength demultiplexers,” in Procs. 7th Eur.
+Conf. Integrated Optics (ECIO‘95), Delft, The Netherlands, Apr. 3–6,
+1995, pp. 283–286.
+[99] C. G. M. Vreeburg, T. Uitterdijk, Y. S. Oei, M. K. Smit, F. H. Groen,
+J. J. G. M. van der Tol, P. Demeester, and H. J. Frankena, “Compact
+integrated InP-based add-drop multiplexer,” in Proc. 22nd Eur. Conf.
+Optical Communication (ECOC’96), Oslo, Sweden, Sept. 15–19, 1996,
+pp. 5.67–5.70.
+[100] I. H. White, K. O. Nyairo, P. A. Kirkby, and C. J. Armistead,
+2 multichannel grating cavity laser for
+“Demonstration of a 1
+wavelength division multiplexing (WDM) applications,” Electron. Lett.,
+vol. 26, no. 13, pp. 832–834, June 1990.
+[101] H. Yamada, K. Takada, Y. Inoue, Y. Hibino, and M. Hroiguchi, “10
+GHz-spaced arrayed-waveguide grating multiplexer with phase-errorcompensating thin-film heaters,” Electron. Lett., vol. 31, no. 5, pp.
+360–361, Mar. 1995.
+
+N 2N
+
+2
+
+250
+
+IEEE JOURNAL OF SELECTED TOPICS IN QUANTUM ELECTRONICS, VOL. 2, NO. 2, JUNE 1996
+
+[102] H. Yamada, K. Takada, Y. Inoue, Y. Ohmori, and S. Mitachi, “Staticallyphase-compensated 10 GHz spaced arrayed-waveguide grating,” Electron. Lett., vol. 32, no. 17, pp. 1580–1582, Aug. 1996.
+[103] M. G. Young, U. Koren, B. I. Miller, M. Chien, T. L. Koch, D. M.
+Tennant, K. Feder, K. Dreyer, and G. Raybon, “Six wavelength laser
+array with integrated amplifier and modulator,” Electron. Lett., vol. 31,
+no. 21, pp. 1835–1836, Oct. 1995.
+[104] C. E. Zah, F. J. Favire, B. Pathak, R. Bhat, C. Caneau, P. S. D. Lin, A.
+S. Gozdz, N. C. Andreakakis, M. A. Koza, and T. P. Lee, “Monolithic
+integration of multiwavelength compressive-strained multiquantum-well
+distributed-feedback laser array with star coupler and optical amplifiers,”
+Electron. Lett., vol. 28, no. 25, pp. 2361–2362, Dec. 1992.
+[105] F. Zamkotsian, H. Okamoto, K. Kishi, M. Okamoto, Y. Yoshikuni, K.
+Sato, and K. Oe, “An InP-based optical multiplexer for 100-GHz pulsetrain generation,” IEEE Photon. Technol. Lett., vol. 7, pp. 502–504, May
+1995.
+[106] M. Zirngibl, C. Dragone, and C. H. Joyner, “Demonstration of a 15
+15 arrayed waveguide multiplexer on InP,” IEEE Photon. Technol. Lett.,
+vol. 4, pp. 1250–1253, Nov. 1992.
+[107] M. Zirngibl, C. H. Joyner, L. W. Stulz Th. Gaiffe, and C. Dragone,
+“Polarization independent 8 8 waveguide grating multiplexer on InP,”
+Electron. Lett., vol. 29, no. 2, pp. 201–202, Jan. 1993.
+[108] M. Zirngibl and C. H. Joyner, “12 frequency WDM laser based on a
+transmissive waveguide grating router,” Electron. Lett., vol. 30, no. 9,
+pp. 701–702, Apr. 1994.
+[109] M. Zirngibl, C. H. Joyner, and B. Glance, “Digitally tunable channel
+dropping filter/ equalizer based on waveguide grating router and optical
+amplifier integration,” IEEE Photon. Technol. Lett., vol. 6, pp. 513–515,
+Apr. 1994.
+[110] M. Zirngibl, C. H. Joyner, L. W. Stulz, U. Koren, M.-D. Chien, M. G.
+Young, and B. I. Miller, “Digitally tunable laser based on a waveguide
+grating multiplexer and an optical amplifier,” IEEE Photon. Technol.
+Lett., vol. 6, pp. 516–518, Apr. 1994.
+[111] M. Zirngibl, C. H. Joyner, and L. W. Stulz, “Demonstration of 9 200
+Mbit/s wavelength division multiplexed transmitter,” Electron. Lett., vol.
+30, no. 18, pp. 1484–1485, Sept. 1994.
+
+[112] M. Zirngibl, B. Glance, L. W. Stulz, C. H. Joyner, G. Raybon, and I.
+P. Kaminow, “Characterization of a multiwavelength waveguide grating
+router laser,” IEEE Photon. Technol. Lett., vol. 6, pp. 1082–1084, Sept.
+1994.
+[113] M. Zirngibl, C. H. Joyner, and L. W. Stulz, “WDM receiver by
+monolithic integration of an optical preamplifier, waveguide grating
+router and photodiode array,” Electron. Lett., vol. 31, no. 7, pp. 581–582,
+Mar. 1995.
+[114] M. Zirngibl, C. H. Joyner, and P. C. Chou, “Polarization compensated
+waveguide grating router on InP,” Electron. Lett., vol. 31, no. 19, pp.
+1662–1664, Sept. 1995.
+[115] M. Zirngibl, C. H. Joyner, C. R. Doerr, L. W. Stulz, and H. M. Presby,
+“A 18 channel multi frequency laser,” Integrated Photonics Research
+1996, Boston, MA, Apr. 29–May 2, 1996, pp. 128–131.
+
+2
+Meint K. Smit, for photograph and biography, see this issue, p. 150.
+
+2
+
+2
+
+Cor van Dam was born in the Hague, The Netherlands, in 1967. He received the master’s degree in
+electrical engineering from the Delft University of
+Technology, in 1990.
+His thesis research was carried out in the Integrated Optics group of the Laboratory of Telecommunication and Remote Sensing Technology and
+concerned the development of an CAD-tool for the
+design and analysis of photonic integrated circuits,
+using a microwave design system. In 1991, he
+was appointed to the scientific staff of the laboratory where he is currently carrying out his Ph.D. research which involves
+development of polarization independent integrated wavelength division demultiplexers.
+
+

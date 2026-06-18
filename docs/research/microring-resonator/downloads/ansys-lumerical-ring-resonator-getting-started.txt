@@ -1,0 +1,49 @@
+# Ring resonator getting started – Design and initial simulation
+Source: https://optics.ansys.com/hc/en-us/articles/360042800293-Ring-resonator-getting-started-Design-and-initial-simulation
+Publisher: Ansys (Lumerical)
+Date accessed: 2026-06-18
+
+## Summary
+Part 1 of the ring resonator tutorial uses MODE to design and simulate a ring resonator. Free spectral range (FSR) and quality factor (Q factor) are key performance metrics for this silicon-on-insulator (SOI) based waveguide design targeting on-chip communication applications.
+
+## Basic Configuration
+The most basic configuration of the microring resonator consists of a ring-shaped waveguide coupled to two optical waveguides. The cavity mode is excited by evanescent coupling between closely spaced optical waveguides.
+
+## Defining Quantities
+- Average (effective) ring length L
+- Complex propagation constant β of circulating mode
+- Field transmission coefficients of waveguide coupler τ11 and τ12
+- Bend loss
+
+## Resonance Condition
+On resonance, the phase acquired by the wave after a complete round-trip is an integer multiple of 2π:
+βL = 2πN, with N as the mode number.
+
+If effective refractive index is independent of wavelength:
+L = N λ0 / neff
+where neff = cβ/ω and λ0 = c/f0.
+
+## Free Spectral Range (wavelength units)
+FSR = λ² / (ng L)
+where ng = c(dβ/dω) is the group index.
+
+## Q Factor Approximation (neglecting losses other than coupling)
+Q ≈ λ / (2 δλ) = (ng L π / λ) × (|τ11| / (1 - |τ11|²))
+
+## Design Example
+- Target WDM channel spacing: 200 GHz (1.6 nm at 1550 nm)
+- Drop every 16th channel => FSR = 3200 GHz (25.6 nm at 1550 nm)
+- Desired FWHM: 100 GHz => Q ≈ 1550 nm / 0.8 nm ≈ 2000
+- SOI waveguide: 400 nm wide, 180 nm high
+- Group index at 1550 nm: ≈ 4.63
+- Calculated ring length L ≈ 20.2 µm
+- Coupling gap 100 nm gives Δn ≈ 0.109 and coupling length ≈ 1427 nm; in practice Lc = 0 and coupling from bent section is enough.
+- Radius chosen: 3.1 µm
+
+## Key Practical Notes
+- High-Q devices require longer simulation times for fields to decay.
+- Precise resonance position is very sensitive to exact optical length of the ring.
+- 3D FDTD shows lower total transmission because it accounts for more loss sources.
+
+## Reference
+Hammer, M. and Hiremath, K.R. and Stoffer, R. (2004) Analytical approaches to the description of optical microresonator devices. AIP Conference Proceedings 709. Springer.

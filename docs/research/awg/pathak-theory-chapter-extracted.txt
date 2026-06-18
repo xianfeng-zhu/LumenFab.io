@@ -1,0 +1,1708 @@
+iv
+
+2.4.4 Dispersion . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.5 Characterization . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.5.1 Insertion loss and non-uniformity . . . . . . . . . . . . . . .
+2.5.2 Crosstalk . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.5.3 Polarization Dependence . . . . . . . . . . . . . . . . . . . .
+2.5.4 Temperature Dependence . . . . . . . . . . . . . . . . . . . .
+2.6 Wavelength filter function . . . . . . . . . . . . . . . . . . . . . . . .
+2.6.1 Wavelength router . . . . . . . . . . . . . . . . . . . . . . . .
+2.6.2 Wavelength de/multiplexers . . . . . . . . . . . . . . . . . .
+2.7 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.7.1 Geometry of the star-coupler . . . . . . . . . . . . . . . . . .
+2.7.2 Geometry of the waveguide array . . . . . . . . . . . . . . .
+2.7.3 Rectangular Manhattan . . . . . . . . . . . . . . . . . . . . .
+2.8 Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+27
+28
+28
+31
+33
+34
+35
+35
+36
+38
+38
+39
+39
+42
+43
+
+3 Simulation
+3.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2 AWG decomposition . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.3 IPKISS: A parametric design framework . . . . . . . . . . . . . . . .
+3.4 Semi-analytical simulation model . . . . . . . . . . . . . . . . . . .
+3.4.1 Star-coupler model . . . . . . . . . . . . . . . . . . . . . . . .
+3.4.1.1 Field profile . . . . . . . . . . . . . . . . . . . . . . .
+3.4.1.2 Free space propagation . . . . . . . . . . . . . . . .
+3.4.2 Model of waveguide array . . . . . . . . . . . . . . . . . . . .
+3.4.3 Spectral response . . . . . . . . . . . . . . . . . . . . . . . . .
+3.5 Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+47
+48
+48
+49
+52
+53
+53
+54
+57
+59
+60
+61
+
+4 Experimental demonstrations
+4.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2 Fabrication of SOI integrated circuits . . . . . . . . . . . . . . . . .
+4.3 Experimental setup . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.3.1 Vertical coupling . . . . . . . . . . . . . . . . . . . . . . . . .
+4.3.2 Automatic vertical coupling . . . . . . . . . . . . . . . . . . .
+4.3.3 AWG normalization procedure . . . . . . . . . . . . . . . . .
+4.4 Design based demonstrations . . . . . . . . . . . . . . . . . . . . . .
+4.4.1 Rectangular AWG . . . . . . . . . . . . . . . . . . . . . . . . .
+4.4.1.1 Design . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.4.1.2 Result and Discussion . . . . . . . . . . . . . . . . .
+4.4.1.3 Channel spacing mismatch . . . . . . . . . . . . . .
+
+63
+64
+64
+65
+66
+66
+68
+69
+69
+69
+70
+75
+
+v
+
+4.4.2 Circular AWG . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+77
+
+4.4.2.1
+
+Design . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+78
+
+4.4.2.2
+
+Results . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+78
+
+4.4.3 S-shaped AWG . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+80
+
+4.4.3.1
+
+Design . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+80
+
+4.4.3.2
+
+Results . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+81
+
+4.4.4 Reflection-type AWG . . . . . . . . . . . . . . . . . . . . . . .
+
+82
+
+4.4.4.1
+
+Design . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+82
+
+4.4.4.2
+
+Results . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+83
+
+4.5 Application based demonstrations . . . . . . . . . . . . . . . . . . .
+
+83
+
+4.5.1 De/multiplexer . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+83
+
+4.5.1.1
+
+Design . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+83
+
+4.5.1.2
+
+Result and Discussion . . . . . . . . . . . . . . . . .
+
+85
+
+4.5.2 Router . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+88
+
+4.5.2.1
+
+Results . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+88
+
+4.6 Fabrication dependence . . . . . . . . . . . . . . . . . . . . . . . . .
+
+92
+
+4.6.1 Effect of mask discretization on waveguide width . . . . . .
+
+92
+
+4.6.1.1
+
+Design . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+93
+
+4.6.1.2
+
+Experiment . . . . . . . . . . . . . . . . . . . . . . .
+
+93
+
+4.6.2 Effect of mask discretization on waveguide length . . . . .
+
+94
+
+4.6.2.1
+
+Design . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+95
+
+4.6.2.2
+
+Simulation . . . . . . . . . . . . . . . . . . . . . . . .
+
+97
+
+4.6.2.3
+
+Experiment . . . . . . . . . . . . . . . . . . . . . . .
+
+97
+
+4.7 Polarization Diversity . . . . . . . . . . . . . . . . . . . . . . . . . . . 100
+4.7.1 Design of the 2D grating Coupler . . . . . . . . . . . . . . . . 101
+4.7.2 Design of the AWG . . . . . . . . . . . . . . . . . . . . . . . . 101
+4.7.3 Results . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 102
+4.7.3.1
+
+Analysis of the 2D grating coupler . . . . . . . . . . 103
+
+4.7.3.2
+
+Analysis of full Polarization Diversity Circuit . . . . 105
+
+4.8 Comparison with echelle gratings . . . . . . . . . . . . . . . . . . . 107
+4.8.1 Echelle Gratings . . . . . . . . . . . . . . . . . . . . . . . . . . 108
+4.8.2 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 108
+4.8.3 Results and Discussions . . . . . . . . . . . . . . . . . . . . . 109
+4.8.3.1
+
+AWG . . . . . . . . . . . . . . . . . . . . . . . . . . . 109
+
+4.8.3.2
+
+Echelle grating . . . . . . . . . . . . . . . . . . . . . 110
+
+4.9 Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 113
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 114
+
+vi
+
+5 Flattened Spectral Response
+
+117
+
+5.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 118
+5.2 Mode overlap . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 119
+5.3 MMI as Input Aperture . . . . . . . . . . . . . . . . . . . . . . . . . . 119
+5.3.1 Design of MMI and AWG . . . . . . . . . . . . . . . . . . . . 121
+5.3.2 Results and Discussion . . . . . . . . . . . . . . . . . . . . . . 124
+5.3.2.1
+
+Effect of MMI length . . . . . . . . . . . . . . . . . . 124
+
+5.3.2.2
+
+Optimization of Waveguide Array . . . . . . . . . . 125
+
+5.3.2.3
+
+Optimized Spectral Response . . . . . . . . . . . . 128
+
+5.4 MZI as input aperture . . . . . . . . . . . . . . . . . . . . . . . . . . 130
+5.4.1 Working Principle . . . . . . . . . . . . . . . . . . . . . . . . . 132
+5.4.2 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 132
+5.4.3 Simulation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 134
+5.5 Cascaded AWGs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 135
+5.5.1 Design and working Principle . . . . . . . . . . . . . . . . . . 137
+5.5.2 Simulation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 139
+5.5.3 Experiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 141
+5.6 Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 142
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 143
+6 Electro-optic tuning of the AWG
+
+145
+
+6.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 146
+6.2 Optical packet switch . . . . . . . . . . . . . . . . . . . . . . . . . . . 146
+6.2.1 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 146
+6.2.1.1
+
+Carrier-depletion based silicon modulators . . . . 147
+
+6.2.1.2
+
+Phased array . . . . . . . . . . . . . . . . . . . . . . 148
+
+6.2.2 Simulation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 149
+6.2.3 Experiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 150
+6.2.3.1
+
+Modulator characteristic . . . . . . . . . . . . . . . 150
+
+6.2.3.2
+
+Switch . . . . . . . . . . . . . . . . . . . . . . . . . . 151
+
+6.3 Active tuning of AWG . . . . . . . . . . . . . . . . . . . . . . . . . . . 153
+6.3.1 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 153
+6.3.2 Experiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 154
+6.3.2.1
+
+Phase error correction . . . . . . . . . . . . . . . . . 154
+
+6.3.2.2
+
+Halving the FSR . . . . . . . . . . . . . . . . . . . . . 155
+
+6.3.2.3
+
+Spectral shift . . . . . . . . . . . . . . . . . . . . . . 156
+
+6.4 Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 157
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 158
+
+vii
+
+7 AWGs in other material systems
+161
+7.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 162
+7.2 Silicon nitride for visible wavelengths . . . . . . . . . . . . . . . . . 162
+7.2.1 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 163
+7.2.2 Experiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 164
+7.3 Silicon for short wave infrared . . . . . . . . . . . . . . . . . . . . . 165
+7.3.1 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 166
+7.3.2 Experiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 167
+7.4 Silicon for Mid-infrared . . . . . . . . . . . . . . . . . . . . . . . . . 168
+7.4.1 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 168
+7.4.2 Experiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 169
+7.5 Germanium AWG for Mid-infrared . . . . . . . . . . . . . . . . . . . 169
+7.5.1 Design . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 170
+7.5.2 Experiment . . . . . . . . . . . . . . . . . . . . . . . . . . . . 172
+7.6 Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 173
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 174
+8 Conclusion
+177
+8.1 Conclusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 178
+8.2 Future perspectives . . . . . . . . . . . . . . . . . . . . . . . . . . . . 180
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 183
+A Design
+185
+A.1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 186
+A.1.1 Circular manhattan . . . . . . . . . . . . . . . . . . . . . . . . 186
+A.1.2 Angled waveguide with a constant bend radius . . . . . . . 187
+A.1.3 Angled waveguide with variable bend radius . . . . . . . . . 188
+A.2 Reflection type AWG . . . . . . . . . . . . . . . . . . . . . . . . . . . 189
+A.3 Low resolution AWG . . . . . . . . . . . . . . . . . . . . . . . . . . . 190
+A.4 Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 192
+References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193
+
+List of Figures
+
+1
+
+Algemeen werkingsprincipe van de AWG. . . . . . . . . . . . . . . . xxiii
+
+2
+
+Gefabriceerde AWG’s in silicium. . . . . . . . . . . . . . . . . . . . . xxv
+
+3
+
+Simulatiemodel van de AWG. De AWG wordt opgedeeld in stukken
+die elke met de meest efficiente methode worden doorgerekend. . xxvi
+
+4
+
+(a) Measured spectral response of 16 ×400 GHz AWG. (b) Measured flattop spectral response of 12 ×400 GHz MMI -AWG. . . . . xxvii
+
+5
+
+Basic operation of an AWG. . . . . . . . . . . . . . . . . . . . . . . . xxix
+
+6
+
+Fabricated silicon AWGs. . . . . . . . . . . . . . . . . . . . . . . . . . xxx
+
+7
+
+AWG simulation model. The AWG is broken up in parts, where
+each part is simulated with the most efficient technique . . . . . . xxxii
+
+8
+
+(a) Measured spectral response of 16 ×400 GHz AWG. (b) Measured flattop spectral response of 12 ×400 GHz MMI -AWG. . . . . xxxiii
+
+1.1 Fabricated silicon photonics components (a) 220 nm thick silicon
+waveguide cross section [16]. (b) Fiber grating coupler to couple
+the light from fiber to the silicon wire [17]. (c) Ring resonator. (d)
+Arrayed waveguide grating (AWG). . . . . . . . . . . . . . . . . . . .
+
+4
+
+1.2 History of arrayed waveguide grating/ Phasar / Waveguide grating
+router. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+6
+
+1.3 Optical image of a fabricated silicon AWG [16]. . . . . . . . . . . . .
+
+7
+
+2.1 Diffraction of light through an aperture. . . . . . . . . . . . . . . . .
+
+15
+
+2.2 (a) Arbitrary spaced linear array of isotropic point sources. (b)
+Equally spaced linear array of isotropic point sources. . . . . . . .
+
+16
+
+2.3 Array factor of an equally spaced uniform linear array with different number of sources. . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+18
+
+2.4 Far-field of an array of Gaussians with a full 1/e-width of 614 nm,
+spaced 2µm, for different number of apertures at λ = 1550 nm . .
+
+19
+
+2.5 Far-field of an array of Gaussians with a full 1/e-width of 614 nm
+with 4 µm aperture spacing in the array. . . . . . . . . . . . . . . . .
+
+20
+
+x
+
+2.6 Far-field of an array of Gaussians with a full 1/e-width of 614 nm
+with variation of α. . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.7 Schematic diagram of a 16×400 GHz AWG. . . . . . . . . . . . . . .
+2.8 Schematic representation of insertion loss, insertion loss nonuniformity, free spectral range(FSR), neighbour channel crosstalk,
+phase error crosstalk, cumulative crosstalk and passband aspect
+ratio. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.9 The light diverges in the input star-coupler after entering from the
+input aperture. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.10 Operational diagram of an AWG. . . . . . . . . . . . . . . . . . . . .
+2.11 The field distribution at the image plane of a 5 channel AWG with
+a variation of diffraction angle. . . . . . . . . . . . . . . . . . . . . .
+2.12 Schematic diagram of the AWG with ideal delay lines and with
+phase error affected delay lines. . . . . . . . . . . . . . . . . . . . .
+2.13 Schematic diagram of the AWG with ideal delay lines and with
+phase error affected delay lines. . . . . . . . . . . . . . . . . . . . .
+2.14 Schematic diagram of 16 × 400G H z Polarization diversity circuit.
+2.15 Transmission scheme of a 5 × 5 wavelength router. . . . . . . . . .
+2.16 Possible design flow for a wavelength router. Boxes are user defined parameters and Circles are calculated parameters. . . . . . .
+2.17 Possible design flow for a wavelength de/multiplexers. Boxes are
+user defined parameters and Circles are calculated parameters. .
+2.18 (a) Geometry of the confocal-type mounting (b) Geometry of the
+Rowland-type mounting. . . . . . . . . . . . . . . . . . . . . . . . .
+2.19 Geometry of rectangular manhattan waveguide paths with single
+waveguide width. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.20 Geometry of rectangular Manhattan waveguide paths with multiple waveguide width. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.1 An AWG decomposition for simulation. . . . . . . . . . . . . . . . .
+3.2 An example of a AWG definition in IPKISS, with user defined parameters, mask layout (GDSII view) and a 2D representation of the
+3D material distribution generation (virtual fabrication) . . . . . .
+3.3 T-matrix approach to simulate the AWG. . . . . . . . . . . . . . . .
+3.4 The geometry used for CAMFR simulation and the field distribution of an aperture simulated by CAMFR. . . . . . . . . . . . . . . .
+3.5 The geometry used for the MEEP simulation, the refractive index
+distribution from the material distribution and the field distribution of the aperture simulated by MEEP. . . . . . . . . . . . . . . . .
+3.6 Free space propagation from the central input to the central output of the star-coupler. . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+21
+22
+
+23
+25
+26
+30
+31
+32
+34
+35
+36
+37
+38
+40
+41
+49
+
+50
+52
+53
+
+54
+55
+
+xi
+
+3.7 Analytically simulated field distribution of an star-coupler. . . . .
+3.8 Free space propagation from an arbitrary input to an arbitrary
+output of the star-coupler. . . . . . . . . . . . . . . . . . . . . . . . .
+3.9 Simulated transmission of an 1×16 channels star-coupler. . . . . .
+3.10 Waveguide phase error model. . . . . . . . . . . . . . . . . . . . . .
+3.11 Simulated spectral response of a 12×400 GHz MMI-AWG. . . . . .
+4.1 Overview of the fabrication process uses to fabricate the SOI based
+photonic device using 193 nm optical lithography. . . . . . . . . .
+4.2 The measurement setup for vertical coupling. . . . . . . . . . . . .
+4.3 The automatic measurement setup using vertical coupling for
+photonics dies. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.4 Normalization procedure for the AWG measurement. . . . . . . .
+4.5 Spectral responses of 4 channel AWGs with (a) 50 GHz (b) 100 GHz
+(c) 400 GHz and (d) 800 GHz channel spacing. . . . . . . . . . . . .
+4.6 Spectral response of 8 channel AWGs with (a) 50 GHz (b) 100 GHz
+(c) 200 GHz and (d) 800 GHz channel spacing. . . . . . . . . . . . .
+4.7 Spectral response of 32 × 200 GHz AWGs. . . . . . . . . . . . . . . .
+4.8 Variation of crosstalk with delay length . . . . . . . . . . . . . . . .
+4.9 Crosstalk dependence on the design parameters. . . . . . . . . . .
+4.10 Location of the four 8 × 400 GHz AWGs in the mask. . . . . . . . .
+4.11 Crosstalk variation of the 8 × 400 GHz AWGs over the dies and
+within the die. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.12 Deviation range Vs fitted channel spacing for (a) 12×100 GHz
+AWGs (b) 12×200 GHz AWGs. . . . . . . . . . . . . . . . . . . . . . .
+4.13 Spectral response of 12×200 GHz AWGs using formula 1. Gray
+dashed lines indicates 201.9 GHz channel spacing grid. . . . . . .
+4.14 Spectral response of 12×200 GHz AWGs using formula 2. Gray
+dashed lines indicates 201.9 GHz channel spacing grid. . . . . . .
+4.15 Channel deviation for 12 ×100 GHz AWGs. . . . . . . . . . . . . . .
+4.16 Channel deviation for 12 ×200 GHz AWGs. . . . . . . . . . . . . . .
+4.17 optical image of the fabricated 16×400 GHz circular AWG. . . . . .
+4.18 Measured spectral response of the 16×400 GHz circular AWG. . .
+4.19 Measured spectral response of the 16×200 GHz circular AWG. . .
+4.20 Measured spectral response of the 16×100 GHz circular AWG. . .
+4.21 Optical image of a fabricated S-shaped AWGs. . . . . . . . . . . . .
+4.22 Measured spectral response of (a) 3×47 nm and (b) 3×40 nm Sshaped AWGs. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.23 Measured spectral response of (a) 4×32 nm and (b) 3×24 nm Sshaped AWGs. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.24 Optical image of a fabricated 8×200 GHz reflection type AWG. . .
+
+56
+56
+57
+58
+59
+
+65
+67
+68
+69
+71
+72
+72
+73
+73
+74
+74
+75
+76
+76
+77
+77
+78
+79
+79
+80
+81
+81
+82
+82
+
+xii
+
+4.25 Spectral response of a 8×200 GHz reflection type AWG. . . . . . .
+
+83
+
+4.26 Optical image of the fabricated AWGs. . . . . . . . . . . . . . . . . .
+
+84
+
+4.27 Experimental spectral response of 4×100 GHz AWG with 28 waveguides used in the array. . . . . . . . . . . . . . . . . . . . . . . . . .
+
+86
+
+4.28 Experimental spectral response of 8×250 GHz AWG with 40 waveguides used in the array. . . . . . . . . . . . . . . . . . . . . . . . . .
+
+86
+
+4.29 Experimental spectral response of 12×400 GHz AWG with 70
+waveguides used in the array. . . . . . . . . . . . . . . . . . . . . . .
+
+87
+
+4.30 (a) Insertion loss variation (b) non-uniformity variation (c) cross
+talk variation and (d) bandwidth variation with the variation of
+the number of waveguides used in the array waveguides for 4×100
+GHz, 8×250 GHz and 12×400 GHz AWGs. . . . . . . . . . . . . . . .
+
+88
+
+4.31 Fabricated (a) 400 GHz and (b) 200 GHz channel spaced 16 × 16
+router. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+89
+
+st
+
+4.32 Spectral response of 16 × 16, 400 GHz router for 1 input. . . . . .
+
+89
+
+4.33 Spectral response of 16 × 16, 400 GHz router for 8t h Input . . . . .
+
+90
+
+4.34 Spectral response of 16 × 16 router of 400 GHz for all inputs . . . .
+
+90
+
+st
+
+4.35 Spectral response of 16 × 16 router of 200 GHz for 1 input . . . .
+4.36 Spectral response of 16 × 16 router of 200 GHz for 8
+
+th
+
+91
+
+input . . . .
+
+92
+
+4.37 Spectral response of 16 × 16 router of 200 GHz for all inputs . . . .
+
+93
+
+4.38 Effect of mask discretization on the angled waveguides. . . . . . .
+
+94
+
+◦
+
+◦
+
+◦
+
+◦
+
+4.39 Optical image of the 8×400 GHz AWGs with 0 , 10 , 22.5 and 45
+rotated layouts. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+◦
+
+◦
+
+95
+
+◦
+
+4.40 Spectral response of the 8×400 GHz AWGs with 0 , 10 , 22.5 and
+45◦ rotated layouts. . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+96
+
+4.41 The length deviation over the waveguides of 16 × 400 GHz AWG
+due to 1 nm and 5 nm grid snapping. . . . . . . . . . . . . . . . . .
+
+96
+
+4.42 Simulated transmission spectrum of 16 × 400 GHz AWG (8th
+channel) for 1 nm, 5 nm and without grid snapping. . . . . . . . .
+
+97
+
+4.43 Experimental transmission spectrum of 16 × 200 GHz AWG using
+5 nm and 1 nm grid snapping. Black line indicate the cumulative
+crosstalk power of the device. . . . . . . . . . . . . . . . . . . . . . .
+
+98
+
+4.44 Experimental transmission spectrum of 16 × 400 GHz AWG using
+5 nm and 1 nm grid snapping. Black line indicates the cumulative
+crosstalk power of the device. . . . . . . . . . . . . . . . . . . . . . .
+
+99
+
+4.45 Fabricated 16× 200 GHz Polarization diversity circuit. . . . . . . . 101
+4.46 (a) Fabricated 2D grating coupler. (b) Schematic diagram of a 2D
+grating coupler with fiber align. . . . . . . . . . . . . . . . . . . . . . 102
+
+xiii
+
+4.47 Spectral response of a 2D grating coupler connected to two 1D
+grating couplers for differently oriented input polarizations ((a)
+Pol-1: 90 degree, (b) Pol-2: -45 degree, c) Pol-3: 0 degree, (d) Pol-4:
+45 degree oriented fiber polarizations with respect to the axis of
+the 2D grating). . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 104
+4.48 Mapping of alignment tolerance for different oriented fiber polarizations ((a) Pol-1: 90 degree, (b) Pol-2: -45 degree, c) Pol-3: 0 degree, (d) Pol-4: 45 degree oriented fiber polarizations with respect
+to the axis of the 2D grating). (a) and (c) The solid line represents
+the transmission through waveguide W G −1. The dashed line represent the transmission through waveguide W G − 2. . . . . . . . . 105
+4.49 Transmission of two 2-D grating couplers connected through
+waveguides. (a) Spectral response of the 2D grating for wavelength rage of 1.48 µ m to 1.56 µ m. (b) Flat passband spectral
+response of the 2D grating. . . . . . . . . . . . . . . . . . . . . . . . 106
+4.50 Spectral response of a 16 channels 200G H z polarization diversity
+wavelength de-multiplexer circuit for Pol −1 and Pol −3 polarizations. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 106
+4.51 (a) The output wavelength channel positions of the polarization
+diversity circuit for Pol − 1, Pol − 2, Pol − 3, and Pol − 4 polarizations. (b) Maximum shifted output channel. (c) Minimum shifted
+output channel. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 107
+4.52 Schematic diagram of 4 × 20 nm echelle grating. . . . . . . . . . . 109
+4.53 Experimental result of AWGs (a) 4 × 6.4 nm (b) 8 × 6.4 nm (c) 4 ×
+24 nm and (d) 4 × 32 nm. . . . . . . . . . . . . . . . . . . . . . . . . 110
+4.54 Experimental result of echelle grating (a) 4 × 6.4 nm (b) 8 × 6.4 nm
+(c) 4 × 10 nm and (d) 4 × 20 nm. . . . . . . . . . . . . . . . . . . . . 111
+4.55 The estimated crosstalk mapping of (a) AWG and (b) echelle grating. (c) Estimated design of best performance de/multiplexers . . 112
+5.1 Working principle of the AWG. . . . . . . . . . . . . . . . . . . . . . 118
+5.2 Spectral response profile calculated using overlap integral. . . . . 119
+5.3 Schematic diagram of silicon MMI-AWG and 3D diagram of the
+MMI aperture used as an input aperture of the AWG. . . . . . . . . 120
+5.4 Spectral response of the MMI-AWG calculated using overlap integral. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 120
+5.5 Working principle of the MMI-AWG for three wavelengths. . . . . 121
+
+xiv
+
+5.6 (a) Geometry of the MMI-aperture used in the simulations and
+actual design. (b)-(f) Simulated field distribution of the MMIaperture for different widths. The black circular dots indicate, for
+a given MMI width, the optimal length for achieving a flat spectral
+response. The square dots in (d) indicate the positions 13 µm, 15
+µm, 17 µm and 19 µm of the 5 µm wide MMI for which Fig. 5.8
+shows the field distribution. . . . . . . . . . . . . . . . . . . . . . . . 122
+5.7 Simulated (a) field distribution of 4.0 µm, 4.5 µm, 5.0 µm, 5.5 µm
+and 6.0 µm wide MMI-apertures for optimal length (indicated as
+dot in Fig. 5.6) and (b) spectral response of the AWG using the
+corresponding MMI-apertures. . . . . . . . . . . . . . . . . . . . . . 123
+5.8 Simulated (a) field distribution at the end of the MMI for different lengths and (b) spectral response of the AWG using the corresponding MMI-apertures. . . . . . . . . . . . . . . . . . . . . . . . . 123
+5.9 (a) Optical images of the fabricated 12×400 GHz MMI-AWG. (b)
+Optical images of the fabricated MMI aperture. (c) Optical images
+of the fabricated waveguide array. . . . . . . . . . . . . . . . . . . . 125
+5.10 Simulated spectral response of 400 GHz AWG with variation of
+MMI lengths. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 126
+5.11 Simulation and experimental spectral response of the MMI-AWG
+with variation of the number of waveguides used in the waveguide
+array. Solid lines indicate the measurement results and dash lines
+indicate the simulation results. . . . . . . . . . . . . . . . . . . . . . 126
+5.12 (a) Passband width (passband width is normalized to the channel
+spacing.) vs. number of waveguides used in the waveguide array of the MMI-AWG. (b) Comparison of the aspect ratio between
+conventional-AWG and MMI-AWG. . . . . . . . . . . . . . . . . . . 127
+5.13 Crosstalk vs. number of waveguides used in the waveguide array
+of the MMI-AWG. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 128
+5.14 Simulation Result of 12×400 GHz MMI-AWG. . . . . . . . . . . . . 129
+5.15 Measurement Result of 12×400 GHz MMI-AWG. . . . . . . . . . . . 129
+5.16 1 dB, 3 dB and 10 dB bandwidth for 12×400 GHz MMI-AWG. Associated non-uniformity is indicated in the graph. . . . . . . . . . . . 130
+5.17 Channel spacing variation of the 12×400 GHz MMI-AWG. . . . . . 131
+5.18 Schematic diagram of a silicon MZI-AWG. . . . . . . . . . . . . . . 131
+5.19 Transmission and Field distribution of the MZI. . . . . . . . . . . . 132
+5.20 Design methods of the MZI-AWG. . . . . . . . . . . . . . . . . . . . 133
+5.21 T-matrix simulation approach for the MZI-AWG. . . . . . . . . . . 134
+5.22 Simulated spectral response of the central output channel of
+9×400 GHz silicon MZI-AWG. . . . . . . . . . . . . . . . . . . . . . . 135
+
+xv
+
+5.23 Simulated spectral responses of the central output channel of
+9×400 GHz silicon MZI-AWG with (a) 29 (b) 34 (c) 38 and (d) 58
+waveguides in the array. . . . . . . . . . . . . . . . . . . . . . . . . .
+5.24 Simulated spectral responses of 9×400 GHz silicon MZI-AWG. . .
+5.25 Working principle of cascaded AWG (a) AWG1 = AWG2 (b) FSR of
+AWG1 = channel spacing of AWG2. . . . . . . . . . . . . . . . . . . .
+5.26 Two methods of cascading AWGs. . . . . . . . . . . . . . . . . . . .
+5.27 (a) The image plane of fist AWG and the object plane of the second
+AWG overlap at one point. (b) The image plane of fist AWG and the
+object plane of the second AWG overlap by using a field lens. . . .
+5.28 Simulation result of 7×400 GHz cascade AWG with a combination
+of (a) 2×200 GHz AWG, (b) 3×133 GHz, (c) 4×100 GHz (d) 2×100
+GHz and 7×400 GHz. . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.29 Experimental result of 7×400 GHz cascade AWG. . . . . . . . . . .
+
+136
+136
+137
+139
+
+140
+
+141
+142
+
+6.1 Schematic diagram of a optical phase switch based on single stage
+modulation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 147
+6.2 Schematic diagram of a interdigitated diode. . . . . . . . . . . . . . 148
+6.3 (a) Mask layout of the 1 × 4 silicon optical switch with 12 carrierdepletion based silicon modulators in the array (b) Enlarge portion an interdigitated diode. . . . . . . . . . . . . . . . . . . . . . . . 149
+6.4 Simulation of the 1 × 4 switch with 12 modulators in the array. . . 150
+6.5 Optical power variation with (a) 1st and (b) 6t h modulators are
+driven individually when all other modulators are inactive. Dots
+are indicating the measurement points where the solid lines are
+generated by the curve fitting. . . . . . . . . . . . . . . . . . . . . . 151
+6.6 Measured spectra of the 1 × 4 switch for (a) switching state 1 (b)
+switching state 2, (c) switching state 3 and (d) switching state 4. . 152
+6.7 Schematic diagram of an AWG with heaters to tune the performance.153
+6.8 Heat profile of a heater on top of a silicon 450 nm wide waveguide.
+The image courtesy by Sarvagya Dwivedi. . . . . . . . . . . . . . . . 154
+6.9 Spectral response of the 4 × 200 GHz AWG for 2nd output (blue
+line) before tuning and (red line) after tuning. . . . . . . . . . . . . 155
+6.10 Spectral response of the 4 × 200 GHz AWG for 2nd output (blue
+line) before tuning with the designed FSR and (red line) after tuning with half of the designed FSR. . . . . . . . . . . . . . . . . . . . 156
+6.11 Spectral response of the 4 × 200 GHz AWG for 2nd output (blue
+line) before tuning by the designed FSR and (red line) after tuning
+with half of the designed FSR. . . . . . . . . . . . . . . . . . . . . . . 157
+7.1 Mask layout of 12 × 2 nm Si3 N4 AWG with 60 waveguide in array. . 163
+
+xvi
+
+7.2 Cross-section of a fabricated Si3 N4 waveguide. The image courtesy by Dr. A.Z. Subramanian. . . . . . . . . . . . . . . . . . . . . . .
+7.3 Spectral response of the 8× 2 nm Si3 N4 AWG . . . . . . . . . . . . .
+7.4 Spectral response of the 12× 1 nm Si3 N4 AWG . . . . . . . . . . . .
+7.5 Spectral response of the 12× 0.5 nm Si3 N4 AWG . . . . . . . . . . .
+7.6 Mask layout of the 6×100 GHz AWG for short wave infrared. . . . .
+7.7 Measured spectral response of the 6×100 GHz AWG for short wave
+infrared. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.8 Mask layout of the 6×200 GHz AWG for 3.8 µm center wavelength
+and mode profile of the single-mode waveguide cross sections2 . .
+7.9 Measured spectral response of the 6×100 GHz AWG for short wave
+infrared. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.10 Cross-section of a fabricated Ge waveguide. The image courtesy
+by Aditya Malik. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.11 (a) Optical image of the fabricated 5×200 GHz Ge AWG with 36
+waveguides (b) SEM image of input star-coupler. Image courtesy
+of Aditya Malik. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.12 Spectral response of the 5×200 GHz Ge AWG (solid line) for TE
+polarization light (dash line) for TM polarization light. . . . . . . .
+A.1
+A.2
+A.3
+A.4
+
+164
+164
+165
+166
+166
+167
+168
+169
+170
+
+171
+172
+
+Geometry of a circular manhattan waveguide paths. . . . . . . . . 186
+Geometry of an angled waveguide paths with constant bend radius.187
+Geometry of an angled waveguide paths with variable bend radius. 188
+Geometry of reflection type AWG with (a) rectangular manhattan
+and (b) angled waveguide paths. . . . . . . . . . . . . . . . . . . . . 189
+A.5 MMI based reflectors (a) output looped shallowly etched MMI and
+(b) deep etched MMI with 45◦ facets. . . . . . . . . . . . . . . . . . 190
+A.6 Geometry of an angled waveguide paths with variable bend radius. 191
+
+List of Tables
+
+1.1 Comparison of AWGs for different materials . . . . . . . . . . . . .
+
+8
+
+4.1
+4.2
+4.3
+4.4
+4.5
+
+Design overview of the rectangular AWGs . . . . . . . . . . . . . . . 70
+Performance overview of the rectangular AWGs . . . . . . . . . . . 71
+Design overview of three AWG sets . . . . . . . . . . . . . . . . . . . 79
+Design overview of three AWG sets . . . . . . . . . . . . . . . . . . . 85
+Experimental performances overview of the 8×400 GHz AWGs
+with 0◦ , 10◦ , 22.5◦ and 45◦ rotated layouts . . . . . . . . . . . . . . 95
+4.6 Comparison of AWG insertion loss (IL, center channel and outer
+channel) between 1nm and 5nm mask grid discretization. . . . . . 100
+4.7 Comparison of AWG crosstalk level (crosstalk [XT] and cumulative
+crosstalk [CXT]) between 1nm and 5nm mask grid discretization. 100
+4.8 Comparison of size, insertion loss and crosstalk level between
+AWGs and Echelle gratings. . . . . . . . . . . . . . . . . . . . . . . . 111
+6.1 Performance of 1 × 4 switch at 1.52 µm wavelength. . . . . . . . . 152
+8.1 State of the art of Silicon AWGs . . . . . . . . . . . . . . . . . . . . . 179
+
+xviii
+
+List of Acronyms
+
+A
+AWG
+AF
+
+Arrayed Waveguide Grating
+Array Factor
+
+C
+CMOS
+CS
+CXT
+CWDM
+
+Complementary Metal-Oxide-Semiconductor
+Channel Spacing
+Cumulative Crosstalk
+Coarse Wavelength Division Multiplexing
+
+D
+DBR
+DFB
+DWDM
+
+Distributed Bragg reflector
+Distributed Feedback
+Dense wavelength division multiplexing
+
+F
+FPR
+FSR
+FDTD
+
+Free Propagation Region
+Free Spectral Range
+Finite Difference Time Domain
+
+xx
+
+I
+ICL
+
+Interband Cascade Laser
+
+L
+LAN
+
+Local Area Network
+
+M
+MAN
+MMI
+MZI
+
+Medium Area Network
+Multi Mode Interferometer
+Mach-Zehnder interferometer
+
+O
+OPA
+OPS
+
+Optical Phased Array
+Optical Packet Switch
+
+P
+PDL
+PCG
+
+Polarization Dependent Loss
+Planner Curve Grating
+
+Q
+QCL
+
+Quantum Cascade Laser
+
+xxi
+
+S
+SOI
+SWI
+
+Silicon on Insulator
+Short Wave Infrared
+
+W
+WDM
+WGR
+
+Wavelength Division Multiplexing
+Wavelength Grating Router
+
+Y
+XT
+
+Crosstalk
+
+Nederlandstalige Samenvatting
+
+Optische communicatiesystemen worden ingezet voor een groeiend aantal toepassingen en diensten zoals breedbandinternet, kabeltelevisie en datatransport
+over kortere afstanden. De fysische drager van deze communicatienetwerken is
+de optische vezel, die meerdere golflengtekanalen ondersteunt via wavelength
+division mutiplexing (WDM). Sinds de vroege jaren 90 zijn Arrayed Waveguide
+Grating (AWG) een van de meest gebruikte componenten in WDM systemen
+voor het (de)multiplexen van verschillende golflengtekanalen.
+da
+input apertures
+
+arm apertures
+
+arrayed waveguide
+
+object
+plane
+
+wavelength
+spectrum out
+
+white light in
+
+Input star-coupler
+
+output apertures
+
+Figuur 1: Algemeen werkingsprincipe van de AWG.
+
+AWG’s zijn gebaseerd op een bundel van dispersieve optische vertragingslijnen, zoals geschetst in Figuur 1. Het binnenkomende licht wordt verdeeld
+over de bundel in een eerste sterkoppelaar. Afhankelijk van de golflengte zal het
+
+xxiv
+
+N EDERLANDTALIGE S AMENVATTING
+
+licht dan in een andere uitgang van de tweede sterkoppelaar worden geprojecteerd. Dit concept kan gerealiseerd worden in verschillende materiaalsystemen
+en voor verschillende golflengtebgebieden. Elk materiaalplatform zal uiteraard
+andere mogelijkheden bieden en specifieke beperkingen opleggen voor zowel
+de sterkoppelaars als de golfgeleiderbundel. In materiaalsystemen met een laag
+indexcontrast, soals silica-on-silicon of InP is een voldoend grote bochstraal nodig voor de golfgeleiders waardoor de AWG een grotere oppervlakte zal innemen. Dit is uiteraard niet bevorderlijk voor de integratie van meerdere componenten in een enkel circuit.
+Wij kiezen voor een silicium-gebaseerd platform (Silicon Photonics). In
+Silicon-on-Insulator (SOI) is een sterk brekingsindexcontrast mogelijk waardoor golfgeleiders en bochten grootteordes compacter kunnen zijn. Daardoor
+kunnen in principle meer componenten in complexere circuits samengebracht
+worden. Bovendien laat het materiaal ook toe om CMOS technologie in te
+zetten voor de fabricage.
+Anderzijds speelt het hoog brekingsindexcontrast ook in ons nadeel, omdat
+het licht in de golfgeleiders veel sneller fasefouten opstapelt. Daardoor zullen
+silicium golflengtefilters een grotere overspraak vertonen. Dit beperkt de mogelijke implementaties voor AWGs, in het bijzonder voor toepassingen met veel
+golflengtekanelen of een hoge resolutie: Daarvoor zijn immers veel en lange
+vertragingslijnen nodig in de golfgeleiderbundel. Een bijkomend nadeel van
+ons materiaalsysteem is dat het zeer polarizatiegevoelig is. Wij hebben AWG’s
+gedemonstreerd voor een enkele polarizatie, en om polarizatie-ongevoelige circuits te realizeren hebben we het principe van polarizatie-diversiteit toegepast.
+
+Theorie en Ontwerp
+Zoals in Fig. 1 wordt getoond, bestaat een AWG uit twee sterkoppelaars en een
+bundel golfgeleiders met een constant lengteverschil. Het werkingsprincipe
+van de AWG is gebaseerd op dat van een phased array met identieke stralingselementen en een constant faseverschil tussen opeenvolgende elementen. Het
+licht komt binnen in de eerste sterkoppelaar en diffracteerd in het vlak van
+de chip om dan opgevangen te worden door de verschillende golfgeleiders
+van de bundel. Bij de propagatie door de golfgeleiderbundel zal het licht een
+faseverschuiving ondergaan. Het verschil in faseverschuiving tussen de opeenvolgende golfgeleiders in de bundel is constant tussen twee bundels, maar
+golflengtefhankelijk. Dit golflengteafhankelijke faseverschil vertaalt zich in de
+tweede sterkoppelaar naar een verschillende positie van het beeld: afhankelijk
+van de golflengte aan de input zal het licht op een andere plaats geprojecteerd
+worden, waar het kan opgevangen worden door een uitgangsgolfgeleider. Op
+
+N EDERLANDTALIGE S AMENVATTING
+
+xxv
+
+input-apertures
+
+arm-apertures
+
+bends
+
+Figuur 2: Gefabriceerde AWG’s in silicium.
+
+basis van deze theorie hebben we alle formules afgeleid om AWG’s te ontwerpen voor verschillende applications, zoals (de)multiplexing en routing. Uit de
+ontwerpparameters wordt dan de layout van de fabricagemaskers afgeleid. Dit
+hebben we gedaan voor verschillende materiaalsystemen en golflengtes, alsook
+verschillende geometrieen van de golfgeleiderbundel.
+
+AWG model
+Om AWG’s te simuleren hebben we een semi-analytisch model ontwikkeld en
+dat toegevoegd aan de IPKISS ontwerpsoftware. IPKISS biedt een uitbreid-
+
+xxvi
+
+N EDERLANDTALIGE S AMENVATTING
+
+baar parametrisch raamwerk dat eenvoudig kan herbruikt worden in verschillende technologieen. Ontwerpregels en technologiedata worden orthogonaal
+op de bibliotheek gedefinieerd. Ons model simuleert de transmissiematrices
+(T-matrix) van alle onderdelen met de meest geschikte simulatietechniek. In
+Figuure 3 wordt geschetst hoe de AWG eerst wordt opgedeeld in 3 stukken: de
+beide sterkoppelaars en de golfgeleiderbundel. De sterkoppelaars worden op
+hun beurt ook weer opgesplitst in de ingangs- en uitgangsaperturen en het gebied met vrije propagatie (free propagation region of FPR). De aperturen worden
+numeriek gesimuleerd op basis van eigenmode-expansie (CAMFR), en de berekende veldprofielen worden als excitatie gebruikt voor de FPR, die analytisch
+wordt doorgerekend op basis van 2-D Fresnel diffractie. De veldoverlap tussen
+het gediffracteerde licht en de uitgangsaperturen geeft dan de resulterende Tmatrix van de sterkoppelaar. Het golfgeleidermodel is eenvoudig gehouden, en
+bestaat uit een analytische propagatie van de grondmode, rekening houdende
+met golflengtedispersie en stochatische fasefouten. Een matrixvermenigvuldiging geeft dan de uiteindelijke T-matrix van de volledige AWG.
+
+Figuur 3: Simulatiemodel van de AWG. De AWG wordt opgedeeld in stukken
+die elke met de meest efficiente methode worden doorgerekend.
+
+Experimental
+We hebben AWG’s ontworpen met verschillende geometrieen voor de golfgeleiderbundel. Dit bevestigde de eerdere experimenten die aantoonden dat een
+rechthoekige layout het voordeligst in in silicium. We fabriceerden AWGs met
+
+N EDERLANDTALIGE S AMENVATTING
+
+xxvii
+
+4 tot 32 kanalen en 50-800 GHz kanaalspatiering. We introduceerden verbeteringen in het ontwerp, zoals monomode-multimode golfgeleiders, alsook verbeteringen in de fabricage zoals een reductie van het discretisatieraster. Hiermee demonstreerden we 16 × 400 GHz AWGs met een overspraak van -27dB
+en een transmissieverlies van slechts -1.5 dB. Dit resultaat is weergegeven in
+Figuure 4a. We ontwikkelden ook een S-vormige AWG voor grote kanaalspatiereing, meet een goede performantie bij kanaalspatieringen tussen 2000 GHz en
+6000 GHz.
+0
+Transmission (dB)
+
+Transmission (dB)
+
+0
+
+-5
+
+-10
+
+-15
+
+-20
+
+-5
+
+-10
+
+-15
+
+-25
+-20
+-30
+1.52
+
+1.54
+1.55
+1.53
+Wavelength (µm)
+
+(a)
+
+1.56
+
+1.5
+
+1.51
+
+1.52
+
+1.53
+
+1.54
+
+Wavelength (µm)
+
+(b)
+
+Figuur 4: (a) Measured spectral response of 16 ×400 GHz AWG. (b) Measured
+flattop spectral response of 12 ×400 GHz MMI -AWG.
+
+De gebruikelijke spectrale respons van een AWG kanaal heeft een gaussiaans verloop. maar voor veel toepassingen is een vlakke respons wenselijk, of
+zelfs een vereiste. Om hieraan te voldoen wordt aan de ingangsstructuur aangepast met een multi-mode interferometer (MMI), of uitgebreid met een MachZehder interferometer (MZI) of zelfs een tweede AWG. We demonstreerden een
+compacte 12×400 GHz MMI-AWG met een afgevlakte respons, zoals weergegeven in Figuure 4b. Het transmissieverlies, de overspraak en de niet-uniformiteit
+ware respectievelijk -3.29 dB, -17.0 dB and 1.55 dB.
+We toonden polarizatie-onafhankelijke multiplexering aan met behulp van
+polarisation diversity: Het binnenkomende signaal uit een optische vezel, en
+met een onbekende polarizatie, wordt ontbonden in twee orthogonale porazaties die elk naar een eigen circuit worden gekoppeld. Die individuele circuits die
+nominaal identiek zijn verwerken het licht afzonderlijk en de resultaten worden
+op het einde opnieuw samengevoegd. We demonstreerden een 16×200 GHz demultiplexer met twee AWGs en 2D koppelroosters voor het splitsen van de polarizaties. Het geschatte verlies tussen de ingangs- en uitgangsvezel is -15 dB. Het
+on-chip verlies en de overspraak door de AWG is respectivelijk -2.6 dB en -21.5
+dB. De grootste golflengteverschuiving ten gevolge van de polarizatie is slechts
+0.12 nm. Het polarizatie-afhenkelijk verlies varieert tussen 0.06 dB en 2.32 dB.
+
+xxviii
+
+N EDERLANDTALIGE S AMENVATTING
+
+De toepassing van een AWG is niet beperkt tot golflengtefilters. Als we een
+AWG van nulde orde combineren met elektro-optische modulatoren kunnen we
+een optische schakelaar bouwen. One demonstratie van een 1×4 optische schakelaar heeft een transmissieverlies van -6.0 dB en een overspraakniveau van 13.6 dB.
+Tenslotte toonden we de algemene inzetbaarheid van de AWG-theorie, ontwerpmethodes en -simulatie aan door AWGs te implementeren in verschillende materiaalsystemen en voor verschillende golflengtegebieden. Door de
+nodige materiaalparameters en een beschrijving van het fabricageproces toe te
+voegen, konden we AWG’s maken in siliciumnitride voor het zichtbare spectrum, silicium AWGs voor het kortegolfinfrarood bereik, en AWG’s in germanium voor mid-infrarood golflengtes.
+
+Conclusie
+In dit werk voerden we een uitgebreide studie uit rond AWG’s op een siliciumfotonica platform. We ontwikkelden een ontwerpprocedure en simulatiesoftware
+en hiermee demonstreerden we werldklasse componenten voor golflengtemultiplexering en -routering in het gebied rond 1550 nm. We breidden dit ook uit
+naar andere golflengtegebieden en materiaalsystemen.
+
+English summary
+
+Optical communications systems are being deployed for ever more communication services, from high speed internet to telephone, cable television and
+short-range datacom. The backbone of this networking is the multi-wavelength
+optical fiber link based on wavelength division de/multiplexing (WDM). Since
+the early 1990s, Arrayed Waveguide Grating (AWG) based devices have been a
+key component in these WDM systems, allowing for demultiplexing and routing of wavelength channels.
+da
+input apertures
+
+arm apertures
+
+arrayed waveguide
+
+object
+plane
+
+wavelength
+spectrum out
+
+white light in
+
+Input star-coupler
+
+output apertures
+
+Figure 5: Basic operation of an AWG.
+
+AWGs are based on a set of dispersive optical delay lines. This is illustrated
+in Figure 5. Light is distributed over the waveguides by a first star coupler, and
+depending on the wavelength, the light will be projected from one input to a
+
+xxx
+
+E NGLISH SUMMARY
+
+different output in the second star coupler. This principle can be realized in different material platforms and cover various wavelength ranges. Different platforms impose different design restrictions and opportunities for both the star
+couplers and the array waveguides. In low-contrast waveguides, such as silicaon-silicon and InP, bend radii will be large, resulting in relatively large devices.
+This is not beneficial for the integration of many additional functions on a single
+chip. Our platform of choice is silicon photonics. In silicon-on-insulator (SOI)
+the high contrast waveguides and the sharp bend radius allow to reduce the size
+of the device by several orders of magnitude. Therefore Si-based devices have
+a better potential to integrate a large number of components on a single chip.
+In addition, the compatibility with CMOS process technology allows the use of
+high-end fabrication facilities.
+
+input-apertures
+
+arm-apertures
+
+bends
+
+Figure 6: Fabricated silicon AWGs.
+
+On the downside, the high refractive index contrast waveguides are very sensitive to phase errors. As a result wavelength dependent silicon devices still ex-
+
+E NGLISH SUMMARY
+
+xxxi
+
+perience a relatively high crosstalk. This limits the implementation of the silicon AWGs challenging, especially in devices with high resolution and many
+channels, which require longer and more delay lines in the waveguide array.
+In addition to that, silicon high contrast waveguides are strongly polarization
+sensitive, making a polarization-insensitive circuit difficult. We demonstrated
+AWGs for a single polarization state, and used polarization diversity to realize a
+polarization independent circuit.
+
+Theory and Design
+As illustrated in Fig. 5, an AWG consists of two star-couplers and an array of
+waveguides with constant successive increment of length. The working principle of an AWG is based on the optical phased array, which have identical
+elements and constant phase difference between the successive elements. The
+light enters into input star-coupler and diverges. This diverging light beam is
+then coupled in an array of waveguides and propagates through these waveguides to a second star-coupler. During the propagation through the array
+waveguide the light, depending on its wavelength, accumulates a constant
+phase difference successive apertures in the second star-coupler. This phase
+difference will result in a lateral shift of the image in the second star coupler. As
+the phase difference is wavelength dependent the output location of the image
+will also be wavelength dependent, and output waveguides can be placed in
+the second star coupler to collect the light. Using this theory we derived all
+the necessary formulas to design the AWG parameters for different applications
+(demultiplexing and routing) and automatically generate the required mask layouts for fabrication. We did this for different materials and wavelength ranges,
+and different geometries of the waveguide array.
+
+AWG model
+To simulate the AWG we developed a semi-analytical model integrated with
+our design software (IPKISS). IPKISS is a modular framework: the components
+are based on parametric cells, which can be reused, modified and are portable
+between the technologies. Technology information then adds the default design rules and fabrication information. Our model simulates the transmission
+matrices (T-matrix) of all parts of the AWG using the most suitable simulation
+method. As shown in Figure 7, we divide the AWG in three parts: two starcouplers and the waveguide array. The star-couplers are again split up: the
+input and output apertures, and the free propagation region (FPR). The apertures are simulated numerically using eigenmode propagation (CAMFR), and
+
+xxxii
+
+E NGLISH SUMMARY
+
+the calculated field-profile at the end of the aperture is used as the input for the
+FPR, which is solved analytically using a 2D Fresnel-diffraction scheme. Field
+overlaps between the diffracted fields in the FPR and the fields in the apertures
+is used to calculate the input-to-output transmission in the star couplers. The
+waveguides model is a simple propagation models based on length and incorporating dispersion and stochastic phase errors. A final T-matrix multiplication
+then gives the complete transmission of the AWG.
+
+Figure 7: AWG simulation model. The AWG is broken up in parts, where each
+part is simulated with the most efficient technique
+
+Experimental
+We designed AWGs with different geometries of the waveguide array. With our
+experience based on previous tests we found that the rectangular shaped AWG
+is the best choice for silicon. We fabricated from 4 channels to 32 channels AWG
+with 50 GHz to 800 GHz channel spacing. Using design improvements like the
+single mode - multimode waveguide combination in the array and fabrication
+improvements like a smaller mask grid we demonstrated a.o. 16 × 400 AWGs
+with a crosstalk of - 27 dB and the insertion loss of -1.5 dB. This particular result
+is shown in Fig. 8(a). We also introduced S-shaped AWGs for very large channel spacings, demonstrating decent performance for channel spacing from 2000
+GHz to 6000 GHz.
+The spectral response of a conventional AWG channel is Gaussian-like, but
+for many applications a flat spectral response is preferred, or even necessary.
+
+E NGLISH SUMMARY
+
+xxxiii
+0
+Transmission (dB)
+
+Transmission (dB)
+
+0
+
+-5
+
+-10
+
+-15
+
+-20
+
+-5
+
+-10
+
+-15
+
+-25
+-20
+-30
+1.52
+
+1.54
+1.55
+1.53
+Wavelength (µm)
+
+(a)
+
+1.56
+
+1.5
+
+1.51
+
+1.52
+
+1.53
+
+1.54
+
+Wavelength (µm)
+
+(b)
+
+Figure 8: (a) Measured spectral response of 16 ×400 GHz AWG. (b) Measured
+flattop spectral response of 12 ×400 GHz MMI -AWG.
+
+To fulfil this requirement, the commonly used methods are using a Multi-Mode
+Interference Coupler (MMI) and Mach-Zehnder Interferometer (MZI) as a input of the AWG, or even a cascaded AWG. We demonstrated compact 12×400
+GHz MMI-AWG with a flattened spectral response. Insertion loss, crosstalk and
+non-uniformity are -3.29dB, -17.0dB and 1.55dB respectively (spectral response
+shown in Fig. 8(b) ).
+Polarization independent de/multiplexing is demonstrated by using a polarization diversity scheme: incoming signals with an unknown polarization
+are split into two orthogonal polarizations which are then coupled separately
+in two identical single polarization circuits. We demonstrated 16×200GHz polarization diversity wavelength de-multiplexer circuit using two silicon AWGs
+and 2D grating couplers. Estimated fiber to fiber loss is better than -15.0dB.
+Insertion loss and crosstalk induced by the AWGs are -2.6dB and -21.5dB, respectively. The maximum polarization dependent wavelength shift is 0.12nm.
+The polarization dependent loss varies between 0.06dB and 2.32dB
+The concept of the AWG is not limited to wavelength filter applications. By
+using a zero order waveguide array and carrier depletion type modulators we
+demonstrated a silicon optical switch. The 1×4 switch has a measured insertion
+loss of -6.0 dB and crosstalk of -13.6 dB.
+Finally we experimentally demonstrated the general applicability of the theory, design and simulation by designing the AWGs for different material systems
+and wavelength ranges. By providing an appropriate material information and
+a description of the fabrication process flow, we could demonstrate silicon nitride AWGs for visible wavelengths, silicon AWGs for short wave infrared and
+mid-infrared and germanium AWGs for mid-infrared wavelength.
+
+xxxiv
+
+E NGLISH SUMMARY
+
+Conclusion
+We made an in-depth study of the potential of AWGs based on a silicon photonics platform. We developed a design procedure and a simulation tool en
+through that demonstrated state-of-the-art devices for wavelength multiplexing and routing around 1550nm. We also extended this to other wavelength
+ranges and material systems.
+
+1
+Introduction
+
+“the quantum theory of light cannot be considered satisfactory since it defines
+the energy of a light particle (photon) by the equation E=hf containing the frequency f. Now a purely particle theory contains nothing that enables us to define a frequency; for this reason alone, therefore, we are compelled, in the case
+of light, to introduce the idea of a particle and that of frequency simultaneously.
+”
+
+– Louis de Broglie
+
+2
+
+C HAPTER 1
+
+1.1 Photonics
+The demonstration of the first semiconductor laser in 1962 [1] along with the
+rapid development of optical fiber form the foundations of the modern optical
+communication network. This development has opened a new research area,
+which deals with generation, transmission, modulation, amplification and detection of light. The research field has been titled photonics across the globe as
+it deals with photons in analogy to electronics where one deals with electrons.
+In short, according to the Merriam-Webster Dictionary "pho-ton-ics : a branch
+of physics that deals with the properties and applications of photons especially
+as a medium for transmitting information."
+Over the last 3 decades there has been an exponential increase in the data
+traffic sent over global communication networks. This coupled with the fact
+that round the clock connectivity is a must, has pushed traditional electronics links on backfoot and has forced researchers to look in optical communication circuits on a complete system level. Thus the necessity of high speed data
+transfer is main driving force behind photonics. Today, computing is no longer
+limited by the speed of the transistors but by the short range and long range
+communication speed. Optical telecommunication [2] became attractive for
+long distance communication because of the high-performance semiconductor
+lasers, low-loss optical fibers and erbium-doped fiber amplifiers and the advantages of the optical fiber over metallic wires: low loss, low crosstalk, huge bandwidth. These advantages allowed optical communication to migrate from long
+haul backbones to the network edges, developing metropolitan area networks
+(MANs) [3] and campus-level local area networks (LANs) [4]. The challenge is
+to realize efficient and cheap optical solutions also for short distance board- toboard, chip-to-chip and intra-chip communication. To make this happen an
+integrated optical solution is promising. The requirement for more integrated
+optical solutions is pushing photonics towards more miniaturization similar as
+what happened with integrated electronics. As a result photonics integrated
+circuits (PICs) now gradually replace discrete optical components and allow to
+obtain multiple functionalities on a single chip.
+Integrated photonics of course has its own share of drawbacks when compared with electronics. There is no single material to realize all the functionalities in photonics, unlike in electronics where the majority of the circuits are
+silicon based. The main reason is that silicon itself can’t emit light because of its
+indirect bandgap. Still, efforts have been made in this direction and e.g. an optically pumped Raman silicon laser was demonstrated in 2005 [5]. But due to the
+optical pumping, the laser emits very little light and therefore it is thus far not
+promising for real life applications. At this point, a III-V materials based light
+source has to be integrated on a silicon photonics chip [6, 7]. Another draw-
+
+I NTRODUCTION
+
+3
+
+back of photonics devices is that they have critical dimensions in the order of
+the wavelength. These critical dimensions are uncorrelated to the fabrication
+limitations. As an example, even if we improve the minimum fabricated feature
+size, the minimum gap required between two waveguides to avoid inter channel coupling will remain the same. Therefore also the overall device size will
+remain the same. Another disadvantage of photonics is that it doesn’t have a
+basic component like electronics has the transistor.
+As we discussed before integrated photonics has developed in several material systems. The most common of these are Silica-on silicon, III-V semiconductor materials, Lithium Niobate (LiNbO3 ) and Silicon-on-insulator. The required
+condition is that the waveguide core material should have a higher index than
+the cladding material and both should be transparent in the operation wavelength region.
+
+1.1.1 Silica-on-silicon
+On a silicon substrate a higher doped silica is used as a core where undoped
+silica is used as a cladding. In general due to the doping the core has higher
+refractive index (in the order of 2% or lower) compare to the cladding [8, 9].
+The waveguides fabricated in this low index contrast material require a large
+bend radius which increases the device footprint and decreases the integration
+density. Although this technology is very robust and mature, it is unsuitable for
+on-board or on-chip interconnects. Moreover, on this platform it is difficult to
+realize active devices.
+
+1.1.2 III-V Semiconductor materials
+GaAs and InP-based materials are used for fabricating active photonics devices.
+These materials are suitable for both optical and electrical functionalities due
+to the direct bandgap. Over the last decades these materials have not only been
+used for fabrication of semiconductor lasers but also for passive optical devices.
+This combination is the main advantage of this material platform [10]. The
+disadvantages are that it is expensive, has a lower-yield processing technology
+and lower integration density. The index contrast increases relative to silica-onsilicon but still the device size in general is bigger and hence less suitable for e.g.
+on-chip interconnects.
+
+1.1.3 Lithium Niobate (LiNbO3 )
+Lithium niobate is suitable for electro-optical modulation [11], acousto-optic
+devices and non-linear optics, but the high cost complex process makes it less
+suitable for large scale integration. In this material platform it is possible to
+
+4
+
+C HAPTER 1
+
+realize passive optical devices but not possible to realize the active device like
+laser and detectors.
+
+1.1.4 Silicon photonics
+In silicon photonics a silicon waveguide layer is used as a core on top of a buried
+oxide which acts as its lower cladding [12]. The refractive index of this silicon
+core layer and the oxide are 3.476 and 1.444 for 1500 nm wavelength, respectively. Other than the CMOS compatibility [13] this high index contrast increase
+the confinement of the light into the core material which makes it easier to realize smaller bend radii and guide light more efficiently [14]. A direct consequence is that the device footprint reduces significantly [15]. This makes the
+integration density very high. Figure 1.1 shows some silicon photonics components fabricated by using imec’s CMOS pilot line process. As the light is highly
+confined in the core it also can result in non-linear processes.
+
+(b)
+
+(c)
+
+(d)
+
+Figure 1.1: Fabricated silicon photonics components (a) 220 nm thick silicon
+waveguide cross section [16]. (b) Fiber grating coupler to couple the
+light from fiber to the silicon wire [17]. (c) Ring resonator. (d) Arrayed
+waveguide grating (AWG).
+
+The main disadvantage is that the waveguides are highly sensitive to fabrication and design imperfections. Sometime the required gap for the waveguide
+coupling can be smaller than the minimum feature size. The sidewall roughness introduced during the waveguide etching or the thickness variations of the
+
+I NTRODUCTION
+
+5
+
+wafer have significant impact on the device performance. On top of this the
+silicon waveguides are strongly birefringent and have significant temperature
+dependence.
+
+1.2 Wavelength division multiplexing
+Today optical circuits are used in all telecommunication networks. The backbone of this network is the optical fiber. To maximize the data density in this
+optical fiber multiple carrier wavelengths are used. This is called wavelength
+division multiplexing (WDM). To do that wavelength de/multiplexers are used.
+A multiplexer combines all the wavelength channels on a single fiber and a demultiplexer separates the wavelengths from a single fiber to the multiple wavelength channels. Therefore these WDM components are essential for the modern telecommunication network.
+There are four common wavelength filters which can be used in WDM
+systems [16]: ring resonators, Mach-Zehnder interferometers (MZI), echelle
+diffraction gratings and arrayed waveguide gratings. By using single or multiple
+rings or MZI in a quasi periodic manner it is possible to design single channel
+wavelength filters. The multiple rings or MZIs are combined in order to obtain
+better bandwidth and roll-off. In the ring the feedback introduces very sharp
+channel selection, where the MZI has a simple sinusoidal filter characteristic.
+As the MZI doesn’t introduce feedback the filter does not suffer from unwanted
+nonlinear effects. By using multiple such filters in parallel it is possible to design 1×N multiplexing or demultiplexing and N×N routing of many channels.
+However, single-component optical filters exist which are capable of multichannel de/multiplexing. These are mainly the echelle grating and the arrayed
+waveguide grating (AWG). In this work, we study AWGs in silicon. A detailed
+comparison is given in chapter 4.
+
+1.3 Arrayed waveguide grating
+An arrayed waveguide grating (AWG) consists of two star-couplers and an array of waveguides with linearly increasing length. A star-coupler is nothing
+but a 1×N or N×N splitter/combiner. In 1988 Smit demonstrated first a device consisting of a parallel array of curved ridge waveguides in Al2 O3 exploiting
+optical angular dispersion [18]. In the same year Dragone published the starcoupler [19]. In 1989 Smit and Vellekoop submitted a paper (published in 1991)
+demonstrating the phased array [20]. In this design the light is coupled to an
+array of circular waveguides by using slab propagation and the waveguides are
+terminating on an arc before reaching the points with output waveguides. This
+
+6
+
+C HAPTER 1
+
+coupling in/out to the waveguides array is similar to that used in Dragone’s starcoupler. Two months later Takahashi submitted a waveguide array similar to
+
+1991
+A. Vellekoop and M. Smit [20]
+
+C. Dragone [23]
+
+C. Dragone [22]
+
+H. Takahashi [21]
+
+1990
+
+1988
+
+M. Smit [18]
+
+C. Dragone [19]
+
+Figure 1.2: History of arrayed waveguide grating/ Phasar / Waveguide grating
+router.
+
+Smit’s phased array using external lenses to couple the light in and out of the
+chip which is similar to a free-space star-coupler [21]. One day after Takahashi’s
+submission date, Dragone submitted the design of the waveguide grating router
+(WGR) [22]. In 1991 Dragone experimentally demonstrated the WGR [23].
+Summarizing we can say that the AWG was developed individually by three
+separate groups during the early 90’s. Each of these three groups gave different names to this device: Dragone’s group called it the WGR (which we use
+for N×N de/multiplexers), Smit’s group called it the PHASAR, and Takahashi’s
+group called it the arrayed waveguide grating (AWG) (which we will use in this
+
+I NTRODUCTION
+
+7
+
+work). A figure detailing this historical development 1 is shown in Fig. 1.2.
+
+1.4 Silicon AWG
+After the first demonstrations of AWGs a lot of materials have been used to realize de/multiplexing. Table 1.1 shows an overview of the typical performance of
+AWGs fabricated in different material systems. More than two decades later low
+loss compact silicon waveguides [25] fabricated using a CMOS pilot line fabrication process were demonstrated by several groups (imec-Ghent university, Leti,
+IBM etc.). The tight bends and high contrast silicon waveguide allow to realize a compact AWG. But these high contrast waveguides are highly phase error
+sensitive for the same reason. Therefore this compact silicon AWG experienced
+a high crosstalk compared to those fabricated on a low index contrast material
+platform. Other than that the silicon AWG suffers from high polarization and
+temperature sensitivity. Over the years a lot of design modifications have been
+applied to improve the performance and also the fabrication process matured
+considerably. Today, and partly as a consequence of this work (see next section) the performance of silicon AWGs has reached a comparable level to that
+of low index contrast material platforms in terms of loss and crosstalk. A polar-
+
+Arrayed waveguide
+
+outputs
+
+output star-coupler
+
+inputs
+
+input star-coupler
+
+Figure 1.3: Optical image of a fabricated silicon AWG [16].
+
+ization insensitive spectral response is achieved by using polarization diversity
+approach [26, 27]. The main requirement for being able to use a polarization diversity approach is to have two identical AWGs which is now possible to realize
+using accurate CMOS fabrication processes.
+1 adapted from [24]
+
+8
+
+C HAPTER 1
+
+AWG Device
+Type
+Slica [28]
+Silica [29]
+lnP [30]
+lnP [31]
+Silicon [16]
+UGent-imec (2010)
+
+Channel Spacing
+(GHz)
+50
+25
+10
+50
+400
+
+Channel
+Number
+64
+400
+100
+64
+8
+
+Bend Radius
+(µm)
+5000
+2000
+500
+500
+5
+
+Crosstalk
+(dB)
+-40
+-25
+-17
+-25
+-24
+
+Table 1.1: Comparison of AWGs for different materials
+
+The temperature dependence is still an issue. Although a lot of theoretical
+approaches have been proposed and demonstrated using a negative temperature coefficient based cladding but they are not suitable for a practical application as these approaches reduce the device performance significantly.
+
+1.5 Objective
+The primary goal of this work was to study arrayed waveguide gratings with
+WDM compatible specifications, designed and fabricated in the silicon-oninsulator platform with CMOS based wafer scale fabrication technology. The
+objective was to improve the performance level towards that of lower index
+material platforms in terms of loss and crosstalk, which would allow to use
+these device in optical networks. Also reaching higher resolution (lower channel spacing) and larger channel counts, as required in real optical networks,
+was an important objective. A further target was to demonstrate AWG devices
+with flattop spectral response, which have many advantages e.g. to compensate
+for wavelength drift in the network, fabrication inaccuracies and temperature
+related shifts. Above all our aim was to develop a generic design and simulation environment, practical not only for silicon based AWGs but also for other
+material systems and allowing to extend the application of AWGs to other applications , in other wavelength ranges.
+
+1.5.1 Overview
+In chapter 2, a review of the theory and the design of the AWG is presented. After
+introducing the design parameters the characteristics of the AWG are discussed.
+A number of different geometrical designs of the AWG are introduced. In chapter 3, an overview of the semi-analytical simulation model of the AWG is introduced. As this simulation model is integrated with the design framework IPKISS
+
+I NTRODUCTION
+
+9
+
+a discussion about the integration also introduced. Experimental demonstration of the AWG is discussed in chapter 4. In this chapter the focus is on the
+SOI material platform with 1550 nm as a central wavelength. The experimental
+works described in three parts from various geometries to various applications.
+Fabrication dependence of the AWG also discussed in this chapter. In addition
+to that we discuss a polarization diversity circuit for polarization independent
+de/multiplexing. Finally we compare the experimental results of the AWGs with
+echelle gratings. In chapter 5 we discuss about the theoretical and experimental demonstration of a flattop spectral responses using MMI, MZI and an AWG
+as the input of the AWG. The demonstration of optical switching is discussed
+in chapter 6. The switching is obtained by using electro-optical phase shifters.
+Using the phase shifters tuning of the AWG performance is also discussed in
+this chapter. Collaborative works to realize the AWG in different materials for
+different applications are described in chapter 7. In this chapter we discuss the
+experimental demonstration of silicon nitride AWGs for visible wavelengths, silicon AWGs for short wave infrared and mid-infrared and germanium AWGs for
+mid-infrared wavelengths. Finally in chapter 8 the thesis is concluded with a
+discussion of future scope for this work.
+
+10
+
+C HAPTER 1
+
+References
+[1] R. N. Hall, G. E. Fenner, J. D. Kingsley, T. J. Soltys, and R. O. Carlson. Coherent Light Emission From GaAs Junctions. Phys. Rev. Lett., 9:366–368, Nov
+1962.
+[2] R. Ramaswami. Optical fiber communication: From transmission to networking. Communications Magazine, IEEE, 40(5):138–147, 2002.
+[3] K.C. Laudon and K. Laudon. Management Information Systems: Managing
+the Digital Firm (13th Edition). Prentice Hall, 2013.
+[4] R.M. Metcalfe, D.R. Boggs, C.P. Thacker, and B.W. Lampson. Multipoint
+data communication system with collision detection, December 13 1977.
+US Patent 4,063,220.
+[5] H. Park, A. Fang, S.Kodama, and J. Bowers. Hybrid silicon evanescent laser
+fabricated with a silicon waveguide and III-V offset quantum wells. Opt.
+Express, 13(23):9460–9464, Nov 2005.
+[6] S. Keyvaninia, S. Verstuyft, S. Pathak, F. Lelarge, G.-H. Duan, D. Bordel,
+J.-M. Fedeli, T. De Vries, B. Smalbrugge, E. J. Geluk, J. Bolk, M. Smit,
+G. Roelkens, and D. Van Thourhout. III-V-on-silicon multi-frequency lasers.
+Opt. Express, 21(11):13675–13683, Jun 2013.
+[7] M. Sugo, H. Mori, Y. Itoh, Y. Sakai, and M. Tachikawa. 1.5 um-LongWavelength Multiple Quantum Well Laser on a Si Substrate. Japanese Journal of Applied Physics, 30:3876–3878, 1991.
+[8] S. Suzuki, Y. Yanagisawa, M.and Hibino, and K. Oda. High-density integrated planar lightwave circuits using SiO2 -GeO2 waveguides with a high
+refractive index difference. Lightwave Technology, Journal of, 12(5):790–
+796, 1994.
+[9] A. Himeno, K. Kato, and T. Miya. Silica-based planar lightwave circuits. Selected Topics in Quantum Electronics, IEEE Journal of, 4(6):913–924, 1998.
+[10] J. H. D. Besten, R. G. Broeke, M. V. Geemert, J.J.M. Binsma, F. Heinrichsdorff, and T. V. Dongen. An Integrated 4 Laser on InP. Photonics Technology
+Letters, IEEE, 15(3):368–370, 2003.
+[11] E.L. Wooten, K.M. Kissa, A. Yi-Yan, E.J. Murphy, D.A. Lafaw, P.F. Hallemeier, D. Maack, D.V. Attanasio, D.J. Fritz, G.J. McBrien, and D.E. Bossi.
+A review of lithium niobate modulators for fiber-optic communications systems. Selected Topics in Quantum Electronics, IEEE Journal of, 6(1):69–82,
+Jan 2000.
+
+

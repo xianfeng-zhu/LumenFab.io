@@ -1,0 +1,42 @@
+# Optical resonators
+Source: https://www.rp-photonics.com/optical_resonators.html
+Author: Dr. Rüdiger Paschotta (RP Photonics)
+Date accessed: 2026-06-18
+
+## Definition
+Arrangements of optical components which allow a beam of light to circulate. Also called optical cavities.
+
+## Key Concepts
+- Resonators with bulk components vs. waveguide resonators.
+- Linear resonators vs. ring resonators.
+- Stable vs. unstable bulk-optical resonators.
+- Resonator modes: self-consistent field distributions reproducing after each round trip.
+- Resonant enhancement: build-up of high intracavity power at resonance.
+- Free spectral range (FSR): frequency spacing between adjacent longitudinal modes.
+- Finesse: ratio of FSR to resonance bandwidth.
+- Q-factor: ratio of resonance frequency to bandwidth.
+
+## Waveguide Resonators
+In waveguide resonators, transverse mode structure is determined by waveguide properties and is constant everywhere if waveguide properties are constant. A single transverse mode may exist, e.g., in single-mode fibers.
+
+## Ring vs Linear
+- Linear resonators: light bounces back and forth; standing wave.
+- Ring resonators: light circulates in a closed loop; no end mirrors; can circulate in two directions.
+- Ring resonators avoid direct back-reflection to source and spatial hole burning when unidirectional.
+
+## Micro- and Nano-resonators
+Very small resonators (few microns or less). Examples:
+- Short standing-wave resonators with Bragg mirrors (DFB lasers, VCSELs).
+- Tiny ring resonators on photonic integrated circuits (e.g., silicon-on-insulator).
+- Toroidal micro-resonators and whispering-gallery-mode microspheres.
+Small resonators have a large free spectral range.
+
+## Applications
+- Laser resonators
+- Etalons / optical filters
+- Mode cleaner cavities
+- Optical frequency standards
+- Precision length measurement
+- Enhancement cavities for nonlinear optics
+- Cavity ring-down spectroscopy
+- Dispersion effects (Gires–Tournois interferometer)

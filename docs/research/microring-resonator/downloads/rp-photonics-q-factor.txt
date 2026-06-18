@@ -1,0 +1,36 @@
+# Q-factor
+Source: https://www.rp-photonics.com/q_factor.html
+Author: Dr. Rüdiger Paschotta (RP Photonics)
+Date accessed: 2026-06-18
+
+## Definition
+A measure of the damping of resonator modes. Dimensionless.
+
+## Common Definitions
+1. Energy storage: Q = 2π × (stored energy) / (energy dissipated per oscillation cycle)
+2. Resonance bandwidth: Q = ν0 / δν
+   where ν0 is resonance frequency and δν is FWHM bandwidth.
+
+## Optical Resonator Formula (low-loss limit)
+Q = (2π ν0 T_rt) / l
+where ν0 is optical frequency, T_rt is round-trip time, and l is fractional power loss per round trip (l ≪ 1).
+
+## Important Relations
+- Q = 2π × (energy decay time) × optical frequency
+- Q = 2π × (number of oscillation periods for energy to decay to 1/e)
+- Q = finesse × (optical frequency / FSR)
+
+## Intrinsic vs Loaded Q
+- Intrinsic Q: determined only by inherent resonator losses.
+- Loaded Q: lower; includes losses from intentional external coupling.
+- 1/Q_loaded = 1/Q_intrinsic + coupling term
+
+## High-Q Resonators
+- Supermirror cavities: Q > 10^11
+- Silica toroidal microcavities: Q > 10^8
+- Silica microspheres (whispering-gallery modes): Q ≈ 10^10
+
+## Applications
+- Telecommunications filters
+- Optical frequency standards / narrow-linewidth lasers
+- Quantum optics

@@ -1,0 +1,837 @@
+possible, while the authors in [23], wanted a slightly wider band in order to reject a broad
+baseband data stream.
+In conclusion, while the receiver demonstrated in this Chapter performs the desired
+function it is complicated and places heavy demands on both photodetector bandwidth as
+well as the reflection mode suppression of a fiber fabry Perot which is difficult to achieve
+and unreliable in practice. A simpler solution must be found, or such components must
+become more stable if this kind of receiver is to become practical. The demonstration of
+coherent frequency shifting without the use of a local oscillator, however, opens the door
+to a number of techniques that hitherto were regarded as impractical owing to the phase
+locking and polarization tracking complications of a local oscillator. Some of these
+techniques are discussed in Chapter 5.
+
+41
+
+Chapter 5 Multifunctional microwave fiber optic links using a
+dual-electrode Mach-Zehnder modulator.
+
+The interest in fiber-optic microwave and millimeter wave links has also
+prompted interest in experiments demonstrating the feasibility of implementation of
+different radio-system functionalities over RF photonic links, however in the past these
+investigations have involved the use of complex laser sources [26], or they have involved
+the use of an optical local oscillator [27]. In this chapter, we present various microwave
+optical link experiments, which demonstrate the implementation of multiple microwave
+system functionalities in the optical domain without the use of an optical local oscillator.
+All the experiments are centered around the dual-electrode Mach-Zehnder modulator and
+most of them will be described as a simple reconfiguration of the transmitter described in
+Chapter 3 or the receiver described in Chapter 4. This device and combinations of such
+devices demonstrate great potential for integration and hence may make viable candidates
+for future economical RF photonic systems.
+We will demonstrate the following functionalities, depending on how the
+transmitter and the receiver in the link are constructed and operated:
+1) a frequency shifting optical link that takes an input microwave signal and shifts it
+to another specified microwave frequency. A frequency doubling optical link,
+which is a more specific version of the above;
+2) an optical link that accomplishes spectral inversion of an input microwave signal.
+This is useful for recompressing chirped RF pulses with the same circuit that was
+used to stretch them;
+
+42
+
+3) a down-converting optical RF link that down-converts input RF signals to
+baseband, thus reducing photodetector bandwidth requirements and eliminating
+the need for subsequent microwave down-conversion;
+4) an RF photonic link that transports direct sequence microwave CDMA signals
+over optical links and accomplishes code-selective frequency conversion of
+selected channels enabling optical demultiplexing of CDMA channels.
+
+5.1 RF Frequency translation and frequency doubling in optical links.
+The purpose of this kind of link is to take as input, the original RF signal and the
+desired frequency shift, to transport the signal across the optical link and to deliver the
+frequency shifted or frequency doubled signal to the output. It turns out that this function
+is particularly easy to achieve using a tandem single sideband modulator. We use the
+USB to carry the microwave data and we use the LSB to carry an RF single tone, which
+is placed appropriately distant from the carrier frequency in order to provide the desired
+frequency shift. The maximum frequency shift obtainable from the optical link depends
+on the bandwidth of the modulator and the photodetector. In the case of the modulator the
+maximum frequency shift is exactly equal to the electrical bandwidth of the modulator,
+and in the case of the photodetector, the desired microwave signal after the frequency
+shift, should lie within the bandwidth of the photodetector. Complete phase correlation is
+present between the upper and lower sidebands at the transmitter, but chromatic
+dispersion may induce some phase decorrelation which may in turn cause phase noise in
+the recovered microwave signal [24]. Frequency doubling is achieved as a special case of
+
+43
+
+frequency shifting wherein the single tone applied to the lower sideband is exactly equal
+in frequency to the carrier frequency of the microwave signal applied to the USB.
+Fig. 6.1a and b show the expected optical and RF spectra and Fig. 6.2c shows the
+measured microwave spectra from a frequency doubling tandem single sideband link.
+
+Optical
+
+ω−6
+
+ω+6
+
+ω
+
+ω−6
+
+(a)
+
+ω
+
+ω+6
+
+0
+
+6
+
+Microwave
+
+12
+
+6
+
+0
+
+GHz
+
+12
+
+GHz
+
+(b)
+20
+
+-10
+-20
+
+0
+
+Power (dBm)
+
+Power (dBm)
+
+-30
+-20
+
+-40
+
+-40
+-50
+-60
+
+-60
+
+-70
+-80
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+12
+
+13
+
+14
+
+-80
+
+15
+
+3
+
+Frequency (GHz)
+
+4
+
+5
+
+6
+
+(c)
+
+7
+
+8
+
+9
+
+10
+
+11
+
+12
+
+Frequency (GHz)
+
+Figure 5.1 Expected a)optical and b)microwave spectra after photodetection
+obtained from a frequency doubling tandem single sideband link. The measured
+microwave spectra in c) show the frequency doubling effect when the single tone is
+placed in the lower sideband. No frequency doubling effect is seen when the signal is
+placed in the upper sideband. The microwave signal at the original frequency of 6
+GHz can be eliminated by using a carrier suppression modulator.
+
+44
+
+13
+
+14
+
+15
+
+The performance of this kind of link would be enhanced if a carrier suppression
+modulator were employed. We did not possess such a modulator at the time of this
+experiment, hence an unwanted out of band signal can be seen at the original microwave
+frequency. Recent designs of such carrier suppression modulators [28, 29] show great
+promise for the applications in this chapter.
+
+5.2 RF Spectral Inversion over an RF photonic link
+The purpose of this link is to spectrally invert and input microwave signal and supply the
+inverted signal at either the same carrier frequency or at a different carrier frequency at
+the output. Both the original signal and a single tone frequency higher than the carrier
+frequency of the original signal are placed in the USB of an optical carrier. If the original
+carrier frequency is desired, then the frequency would have to be double the carrier
+frequency. In this case, a carrier suppression modulator such as the one described in [28]
+would have to be used.
+A second way to accomplish spectral inversion would be in a receiver scheme such
+as the one described in Chapter 4. It is clear from Fig. 4.2 that the up-shift in the second
+dual-electrode modulator and the subsequent beating of the LSB with the original optical
+carrier, causes the LSB to be spectrally inverted in the microwave domain. This kind of
+link is useful since the same microwave circuit that was used to stretch a chirped RF
+pulse, may be used to recompress it.
+
+45
+
+5.3 Downconverting RF photonic link
+In this kind of link the microwave signal and it’s carrier are placed in the upper sideband.
+If the input microwave signal is suppressed carrier, the carrier must be recovered by the
+use of electrical circuitry such as a Costas loop [18] in order to ensure exact phase and
+frequency matching. We had the luxury of having the carrier source in close physical
+proximity to the experiment, enabling exact phase and frequency matching with relative
+ease.
+At the photodetector, the input microwave signal appears in the baseband, since its
+carrier is also transmitted. Fig. 6.1 shows the expected and measured microwave spectra
+for this case. Since the original carrier was not suppressed, a signal at the original RF
+carrier frequency is also expected. This can be suppressed by employing a carrier
+suppression modulator.
+A second way to achieve frequency down-conversion is to employ the receiver
+DE-MZM described in Chapter 4 in LSB mode rather than in USB mode. The net effect
+will be to shift the whole optical spectrum down. If the appropriate sub-carrier frequency
+is chosen for down-shift, then the sideband will superimpose itself on the original optical
+carrier and may be directly detected. A down-shifted carrier suppression filter similar to
+the one employed in Chapter 4, will have to be used of course. Further experimental
+investigations in this regard are currently in progress.
+
+46
+
+5.4 Code-selective RF photonic mixing
+The need for multiple access techniques in local area networks has inspired interest
+in optical code division multiple access (OCDMA), however due to the absence of optical
+devices capable of adding or dropping channels based on their codes, such networks are
+generally of a broadcast and select nature. A recent demonstration of OCDMA add-drop
+multiplexers [30], requires that all channels be received at the photodetector, with
+undesired channels being cancelled due to orthogonal coding. Receiving all channels at
+once from within the same bandwidth causes deleterious effects such as cumulative shot
+noise and speckle, which can seriously limit the number of simultaneous users [31]. In
+this section, we demonstrate a technique that coherently frequency shifts a direct
+sequence encoded optical channel by mixing it with an identically encoded RF local
+oscillator in a dual-electrode Mach-Zehnder modulator (DE-MZM). The spectral
+separation would reduce the effects of cumulative shot noise and speckle, and full code
+orthogonality is possible since the bipolar nature of the optical field is recognized by the
+frequency shifting process.
+Figure 6.2 shows a block diagram of the experimental setup. For experimental
+convenience we do not encode the optical carrier itself but impose an encoded subcarrier
+on it. Using the subcarrier as an encoded optical carrier allows us to heterodyne the
+spectrum against the original un-encoded optical carrier to produce a microwave
+spectrum observable on an RF spectrum analyzer. The light source is a laser diode at foc
+GHz coupled into a DE-MZM which is connected in upper single sideband (USB)
+configuration [5]. To begin with we apply a ‘pure’, unencoded 6 GHz single tone to the
+
+47
+
+first DE-MZM with no code imposed. This results in a ‘pure’ tone at (foc+6) GHz
+observable at 6 GHz on the spectrum analyzer as shown in Fig. 6.3a [5]. Applying a 1.5
+MHz BPSK code C1(t) corresponding to the (1010) row of a 4x4 Hadamard matrix, to
+the 6 GHz frequency results in a ‘noisy’, encoded carrier at (foc+6) GHz observable at 6
+GHz as shown in Fig. 6.3b. The BPSK modulation converts the 1s and 0s to phases of 0
+and π, thus ensuring the bipolar nature of the code. At the decoder, we apply a low
+modulation depth 3 GHz signal with code C2(t) to the second DE-MZM, also in USB
+configuration. This had the effect of up-shifting the signal at (foc+6) GHz to (foc+9) GHz
+as in Chapter 4. The optical signal was then amplified and photodetected, and the signals
+at 6 GHz and 9 GHz were observed on an RF spectrum analyzer.
+
+Dual-electrode
+modulator
+
+Dual-electrode
+modulator
+
+DC
+
+DC
+
+LASER
+
+o
+
+o
+
+EDFA
+
+o
+
+o
+
+90
+0
+o
+90 hybrid
+
+90
+0
+o
+90 hybrid
+
+Photodetector
+
+BPSK
+
+6 GHz
+
+(1010)
+
+3 GHz BPSK
+
+Microwave
+Spectrum Analyzer
+
+(1010)/(1001)
+
+Code
+Generator
+
+Code
+Generator C2(t)
+
+ENCODER
+
+DECODER
+
+Figure 5.2 Experimental setup to demonstrate code-selective RF photonic mixing
+
+48
+
+-25
+
+-30
+
+-30
+
+-35
+
+-35
+Power (dBm)
+
+Power (dBm)
+
+-25
+
+-40
+-45
+-50
+
+-40
+-45
+-50
+
+-55
+
+-55
+
+-60
+
+-60
+
+-65
+5.997
+
+5.998
+
+5.999
+
+6.000
+
+6.001
+
+6.002
+
+-65
+5.997
+
+6.003
+
+5.998
+
+5.999
+
+6.000
+
+6.001
+
+6.002
+
+6.003
+
+Frequency (GHz)
+
+Frequency (GHz)
+
+(a)
+
+(b)
+
+Figure 5.3 Signal obtained at 6 GHz after heterodyning with original optical carrier
+for a) “pure” unencoded sub-carrier and b) “noisy” sub-carrier encoded with 1.5
+MHz chip-rate (1010) code.
+
+We observed the signal at 9 GHz for two different cases of C2. Case 1. Code C2 is
+identical to C1, i.e. both were (1010) but delayed by an appropriate amount to
+compensate for the delay through the system. Fig 3a shows the ‘pure’ un-encoded carrier
+recovered at 9 GHz. The delay for C2 was tuned to get best carrier recovery. Case 2.
+Code C2 is chosen to be (1001) i.e. orthogonal to C1, and tuned to get best carrier
+suppression at 9 GHz, delayed by the same amount as in case 1. In Fig. 3b no carrier is
+seen at 9 GHz indicating that the up-shift is indeed code selective.
+
+49
+
+-25
+
+-30
+
+-30
+
+-35
+
+-35
+Power (dBm)
+
+Power (dBm)
+
+-25
+
+-40
+-45
+-50
+
+-40
+-45
+-50
+
+-55
+
+-55
+
+-60
+
+-60
+
+-65
+8.997
+
+8.998
+
+8.999
+
+9.000
+
+9.001
+
+9.002
+
+-65
+8.997
+
+9.003
+
+8.998
+
+8.999
+
+9.000
+
+9.001
+
+Frequency (GHz)
+
+Frequency (GHz)
+
+(a)
+
+(b)
+
+9.002
+
+Figure 5.4 Signal obtained at 9 GHz after heterodyning with original optical carrier
+when code C2(t) is a) (1010) i.e. identical to C1(t) and b) (1001) i.e. orthogonal to
+C1(t). The carrier is recovered at 9 GHz when the codes are matched. Unmatched
+codes are rejected indicating the code-selectivity of the wavelength shift.
+
+5.5 Conclusions
+Several radio-system functionalities were demonstrated in this chapter. Most of
+them were implemented through the simple modification of the SSB or TSSB transmitter
+or receiver. While the proposals are feasible enough from the point of view of the design,
+further tests need to be done to determine the link performance. The ability to implement
+these radio system functions while simultaneously achieving transport of an RF signal
+may have a great deal of application in the fiber-wireless area. In addition the frequency
+doubling and shifting link described in 5.1 may be used to transport low phase noise RF
+local oscillators. The phase noise is low on account of common mode cancellation of the
+
+50
+
+9.003
+
+phase noise in the USB and LSB since the carrier, USB and LSB are phase correlated
+from the modulation process.
+We also described an experimental demonstration of code-selective wavelength
+conversion that can be used to demultiplex direct sequence encoded optical CDMA
+channels. The results we obtained confirm that we have demonstrated code selective
+wavelength conversion using RF photonic mixing in a DE-MZM. Unmatched channel
+rejection with the use of an orthogonal code was demonstrated. The bipolar nature of the
+optical field is recognized since the frequency shift happens before photodetection, thus
+allowing full code orthogonality. A coherent effect has been achieved without the use of
+an optical local oscillator and the associated difficulties of optical phase locking and
+polarization tracking. The spectral separation of the desired channel could lead to
+reduction in the effects of cumulative shot noise and speckle, which is important in order
+to support more simultaneous users [31]. The ability to pick out a signal from a spectrum
+and frequency shift it based on its code may have potential applications in routing
+techniques such as optical label switching. Such a link could also be used to carry
+microwave CDMA signals over fiber optic links with the ability to demultiplex them in
+the optical domain.
+While, the demonstration of such functionalities can lend considerable flexibility to
+RF photonic links, it is important to realize that the dual-electrode Mach-Zehnder
+modulator is currently an expensive and bulky component. It is important to achieve
+some level of integration so that these functions can be implemented in an economical
+way to create flexible and multi-purpose RF photonic links.
+
+51
+
+Chapter 6 Silicon-on-Insulator Nanophotonics
+The transmitter and receiver designs proposed in the previous chapters require
+the use of expensive active components. These include sophisticated devices such as the
+dual electrode Mach-Zehnder modulator which was used to perform the function of
+microwave photonic mixing. Such increased sophistication in communications circuits,
+as well as the integration of optical functions into other processing and control systems is
+significantly impeded by the cost and complexity of the different optical components that
+currently exist in diverse material systems. In order to truly exploit the potential of
+optical functionalities across a broad range of applications, it is essential to realize ultracompact multi-functional optics on a single material platform.
+Nanophotonic circuits offer one such option. The evolution of microelectronic
+technology has now reached the stage where device features that are significantly smaller
+than the optical wavelength can easily be fabricated with very high precision. To take
+advantage of this trend, it is necessary to make correspondingly small optical devices. A
+very high degree of miniaturization demands a high index contrast, in order to achieve
+small bend radii and greater confinement. On the other hand, such high index contrast
+structures are more susceptible to process inaccuracies and scattering due to surface
+roughness.
+
+These
+
+problems
+
+are
+
+being
+
+addressed
+
+by continued
+
+progress
+
+in
+
+microelectronics fabrication.
+Semiconductor systems such as InP/air and Si/SiO2 offer the high index contrast
+necessary to create such structures. Additionally, these semiconductors exhibit very low
+absorption at 1.55 µm, which is the wavelength of interest for optical communications.
+While the InP/air system is very attractive on account of the potential to integrate
+52
+
+optically active and passive devices on a single chip, InP is still beset by processing
+issues, and is not the material of choice in the electronics industry. This issue assumes
+special importance since many optical devices require the presence of significant
+electronic control in order to work effectively. A silicon based material system, on the
+other hand, offers the possibility of integrating both electronic and optical functions on a
+single substrate, with processing technology that is already well understood and in wide
+industrial use. The rest of this chapter will briefly discuss silicon optoelectronics, with
+specific reference to the Si/SiO2 material system that offers great potential for the
+integration of both electronic and optical functions on a single substrate. In particular, we
+will discuss the problem of coupling light into an SOI nanophotonic IC, which will
+motivate the work in the rest of this dissertation.
+6.1 Silicon-on-Insulator Optoelectronics
+
+There has been a great deal of recent interest in Silicon optoelectronics [32-41].
+Pioneering work by Soref and others led to the development of numerous passive and
+active optical devices on Silicon substrates [42-43]. Silicon optoelectronics refers to the
+integration of both optical and electrical functions on a silicon chip. This offers unique
+advantages, since processing technologies are very well established in silicon, and the
+photonics may thus be seamlessly integrated along with the electronics, using a CMOS
+process. In particular, SOI has attracted great attention on this front [34-35, 42]. SOI has
+already emerged as a future technology for high-speed, low-power electronics on account
+of its ability to provide improved circuit performance and guaranteed latch-up free
+circuits as compared to bulk silicon. Ever since the first successful SOI manufacturing
+
+53
+
+process, there has been considerable effort directed towards resolving the numerous
+materials issues confronting the technology. In addition to the advantages it offers
+electronics, SOI offers some unique advantages to optics, such as the existence of a
+guiding layer as seen in Figure 6.1. The superficial silicon layer sitting over a buried
+oxide layer forms a high index contrast optically confining layer where both electronic
+and optical components may be housed. In fact, the potential that SOI offers is being
+increasingly noticed in the photonics community, with work directed towards making
+passive spectrally selective devices [42] , couplers [44], as well as active devices such as
+modulators [45-49] and photodetectors [50-51]. The ultimate vision is that of a
+photonic/electronic integrated circuit that can be fabricated using a CMOS compatible
+process.
+
+Superficial Silicon (SuperSi)
+n = 3.5
+
+Buried Oxide (BOX)
+
+Silicon substrate
+
+n=1.45
+
+n = 3.5
+
+Figure 6.1 The Silicon-on-Insulator material system. Apart from the electronic
+advantages of such a system, the superficial silicon (SuperSi) may be used as a
+guiding layer for optics, thus enabling the integration of photonic and electronic
+devices on a single substrate.
+
+54
+
+A quick remark about the light source is in order. Even though there have been recent
+promising developments in the area of developing a silicon-based light source [52], there
+is still much work to be done in this area. This is a significant disadvantage for a silicon
+based material system, but it is not prohibitive. A silicon nanophotonic IC could derive its
+optical power from an off-chip light source in much the same way that an electronic IC
+uses an off-chip power supply. Such an architecture would require the coupling of light
+from SMF into the IC, and vice versa.
+6.2 The coupling problem
+Building photonic devices in a high index contrast material system enables
+waveguides with smaller bend radii and greater optical confinement. On the other hand,
+the high index contrast photonic system comes with a penalty. The Si/SiO2 index contrast
+requires that in order for a single mode condition to be maintained, the waveguiding layer
+has to be approximately between 200 and 300 nm thick. This results in a huge mismatch
+with the guided mode in standard single mode fiber (SMF), precluding the use of simple
+end-fire coupling on account of prohibitive insertion losses.
+Figure 6.2 shows a to-scale picture of the SMF core, and the cross section
+of a photonic crystal waveguide in a thin film of Silicon. The SMF core is approximately
+50X larger than the waveguide core, but the difference in mode sizes is larger on account
+of the difference in index contrast between the two systems. This necessitates the
+development of a low insertion loss I/O interface.
+
+55
+
+Photonic crystal waveguide
+SuperSi
+
+SMF Fiber core
+
+Buried Oxide (BOX)
+
+Diameter ~ 9 µm
+Silicon substrate
+
+Figure 6.2 To-scale representation of single mode fiber core next to waveguide in a
+2D photonic crystal thin film. There is a huge mismatch in the size of the modes
+making simple end-fire coupling techniques highly inefficient.
+
+6.3 Requirements from the fiber-IC interface
+The requirements of such an interface are simple:
+1. Efficiency
+This is, by far, the most important requirement. High insertion losses translate into
+degraded system performance and may completely preclude the use of silicon
+photonics in tight power budget systems.
+
+56
+
+2. Bandwidth
+The bandwidth needs to be large enough to allow multiple wavelength channels to
+couple in through one device. The number of channels is decided by system
+architecture, but the interface needs to couple as large a bandwidth as possible, with
+as flat a passband as possible.
+3. Low Polarization Dependent Loss (PDL)
+The polarization of light in optical fiber at the end of a link is random and
+unpredictable. The device needs to couple light in both polarizations into the IC
+without preference. Any preference translates into power loss which will convert
+polarization fluctuations into power fluctuations, thus degrading system performance.
+The design of a practical device must address these design criteria.
+
+6.4 Possible candidates
+Two possible candidates present themselves for the efficient coupling between SMF and
+the silicon thin film:
+1. Adiabatic tapers
+Figure 6.3 shows an adiabatic taper. Adiabatic tapers start with a large
+mode and gradually modify the effective index of the waveguide so that the mode can
+adapt without excessive losses. If the slope is gentle enough to satisfy an adiabatic
+condition, then it is possible to make very efficient interfaces. While these devices
+have attracted some attention to solve the coupling problem, tapering in two
+dimensions implies that the taper must be non-planar, requiring gray scale masking.
+CMOS processes are usually planar thus making fabrication of such tapers along with
+
+57
+
+electronics an issue. Furthermore, the etch used to fabricate the taper needs to result
+in a very smooth profile. Any roughness will translate into large scattering losses on
+account of the high index contrast. A third disadvantage is the reflection that results at
+the interface between the fiber and the high index silicon taper. The taper needs to be
+anti-reflection coated, resulting in a further non-planar process.
+
+Taper
+SuperSi thin film
+
+BOX
+Side view of SMF core
+
+Figure 6.3 Adiabatic tapers may be used to make a gentle transition between the
+disparate modes, however the fabrication of such tapers involves non-planar
+processes such as gray scale masking. In addition, surface roughness can lead to
+excessively lossy tapers.
+
+2. Grating couplers
+Figure 6.4 illustrates the the use of a grating coupler to couple the light from SMF
+into a nanophotonic IC. The grating is a series of perturbations in the waveguide that
+
+58
+
+scatter the light from a fiber into the high index contrast waveguide. Since it is a
+completely planar device, it is well suited for adaptation to a CMOS process. The
+grating enables top-side coupling of the light into the waveguide. The anti-reflection
+features of the grating are built into the design, so no separate non-planar antireflection coating is required. The rest of this dissertation describes the main issues
+confronting the design, fabrication and characterization of such couplers. Designing
+an efficient grating coupler is an extremely computationally intensive exercise. The
+chapters that follow will demonstrate this, while attempting to bring physical
+understanding to the mechanism of low loss grating couplers. Using the
+understanding developed, we will propose a novel design for a low insertion loss
+grating coupler, and describe a proof-of-concept experiment to verify it.
+
+Figure 6.4 Grating couplers are planar devices that may be fabricated by standard
+CMOS processes. The grating coupler serves to couple light from the fiber into the
+thin film. Coupling into the nanoscale waveguide may be accomplished by curving
+the grating teeth, thus accomplishing a simultaneous focusing function.
+
+59
+
+6.5 Conclusions
+Silicon-on-Insulator shows great promise as a material system for the
+integration of photonics and electronics on a single substrate. However, due to the lack of
+a well-developed silicon laser, it is necessary to couple light into a silicon photonic IC
+from an external light source. This requires the development of a key enabling
+technology viz. an efficient, low insertion loss interface between SMF and the
+nanophotonic IC.
+
+60
+
+Chapter 7 Grating coupler design
+This chapter deals with the theory of grating couplers, with specific reference to
+coupling efficiency. While the coupling mechanism of gratings is well understood, the
+issue of efficiency has not been studied in as much detail. The main perceived
+disadvantage of grating couplers for low insertion loss fiber-waveguide interfaces, is that
+a substantial portion of the incident energy is transmitted through the film and then lost in
+the substrate. For this reason, grating couplers were traditionally considered much less
+efficient than prism couplers [53].
+Grating coupler action can be considered on two levels. The microscopic study of
+the grating coupler can be described as the study of variation in coupling strength as a
+function of the various grating parameters such as depth, refractive index contrast, grating
+tooth profile, duty cycle and period. While considerable effort has been made to develop
+analytical [54-56] and numerical [57-58] models to evaluate the grating’s microscopic
+properties, relatively little work has been done to investigate the grating coupler’s
+macroscopic properties which include a physical understanding of how the grating
+functions as a whole device, and how its overall properties are affected by surrounding
+structures. It also includes the understanding of how grating efficiency is affected by
+external factors such as beam profile and beam alignment. To get a flavor for this,
+consider, as a simple illustration, the grating shown in Figure 7.1(a). In this case, the
+microscopic and macroscopic behaviors of the grating are identical. However, adding a
+single interface underneath the grating as in Fig. 7.1(b), such as exists in a Silicon-onInsulator (SOI) substrate, can make a substantial difference. This is easily understood, if
+one considers that light out-coupled into the substrate will now be reflected back into the
+
+61
+
+grating, and undergo additional scattering, with some light coupling back into the
+waveguide. The successive reflections and scatterings sum up in an infinite geometric
+progression. This modifies the coupling length, as well as the distribution of power
+between the substrate and cover. The scattering and power distribution is now a strong
+function of the thickness of the buried oxide layer [59] since this affects the optical phase
+of the light that is re-coupled into the waveguide. This simple example of a single
+interface below the grating, reveals that the eventual efficiencies will be decided by a
+complex interaction of various beams bouncing around inside the grating structure.
+
+Semi-infinite oxide
+
+Semi-infinite oxide
+
+Silicon
+
+Semi-infinite oxide
+
+Silicon
+Oxide layer
+
+Semi-infinite silicon
+
+(a)
+
+(b)
+
+Figure 7.1 The interfaces and structures surrounding a grating affect its its coupling
+length. The grating in (a) has a coupling length that is modified by the additional
+interface in (b). The cover/substrate coupling ratio is also affected by the additional
+layer in (b).
+
+62
+
+A grating’s efficiency and coupling properties may thus be affected by the
+materials and structures that surround it. This is encouraging from the point of view of
+efficiency enhancement, since it gives us additional control over the grating’s properties.
+To design an efficient coupler it is important to gain a thorough physical understanding of
+the way these properties are affected, and how the grating and its surrounding structures
+relate to the operation of the coupling device as a whole. Note that this chapter does not
+make any attempt to quantitatively analyze the coupling strength at a microscopic level,
+but rather seeks to create a physical understanding of grating coupler operation, and to
+provide an insight into the design issues that confront such couplers.
+Since grating couplers are non-magnetic, they are reciprocal devices.
+Accordingly, this chapter will switch back and forth between the in-coupling and outcoupling configurations for grating couplers, depending on which of these configurations
+better serves to explain a particular design concept.
+
+7.1 The Design Problem
+The design problem is summarized in Fig. 7.2. We need to suppress Ptrans and Prefl while
+channeling all the power into either Pback or Pforw. Either Pforw or Pback may be suppressed
+by phase matching and appropriate choice of grating period. The suppression of Ptrans and
+Prefl is not so straightforward, and after a brief discussion of momentum matching, much
+of the rest of the chapter is devoted to understanding the nature of Ptrans and Prefl, together
+with ideas to suppress them. In fact, efficient grating design is just about suppressing
+these two beams.
+
+63
+
+
