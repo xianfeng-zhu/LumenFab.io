@@ -6,23 +6,32 @@ import { v2Chapters } from "../data/v2Chapters";
 interface Props {
   title?: string;
   description?: string;
-  chapter: string;
-  pageIndex: number;
+  chapter?: string;
+  pageIndex?: number;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    chapter?: string;
+    pageIndex?: number;
+  };
 }
 
-const { title = "Untitled", description, chapter: chapterId, pageIndex } =
-  Astro.props;
+const frontmatter = Astro.props.frontmatter ?? {};
+const title = Astro.props.title ?? frontmatter.title ?? "Untitled";
+const description = Astro.props.description ?? frontmatter.description;
+const chapterId = Astro.props.chapter ?? frontmatter.chapter;
+const pageIndex = Astro.props.pageIndex ?? frontmatter.pageIndex;
 
-const chapterIndex = v2Chapters.findIndex((c) => c.id === chapterId);
+const chapterIndex = chapterId != null ? v2Chapters.findIndex((c) => c.id === chapterId) : -1;
 const chapterData = chapterIndex !== -1 ? v2Chapters[chapterIndex] : null;
 
 if (!chapterData) {
   throw new Error(
-    `V2Layout: chapter "${chapterId}" not found in v2Chapters`,
+    `V2Layout: chapter "${chapterId}" not found in v2Chapters. Make sure frontmatter has 'chapter: "XX"'.`,
   );
 }
 
-const currentPage = chapterData.pages[pageIndex];
+const currentPage = pageIndex != null ? chapterData.pages[pageIndex] : null;
 if (!currentPage) {
   throw new Error(
     `V2Layout: pageIndex ${pageIndex} out of bounds for chapter "${chapterId}" (${chapterData.pages.length} pages)`,
