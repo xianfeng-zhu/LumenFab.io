@@ -1,13 +1,5 @@
 # LumenFab.io Agent Instructions
 
-## Working Style
-
-- Default to action over discussion when the user's intent is clear.
-- State assumptions briefly when they materially affect the outcome.
-- Surface blockers, risks, and uncertainty plainly.
-- Preserve repository-local conventions and obey more specific `AGENTS.md` files inside subdirectories.
-- If repository-local instructions conflict, the more specific in-scope instructions win.
-
 ## Writing Style
 
 - Write pages as reader-facing content, not author notes, implementation plans, or editorial scaffolding.
