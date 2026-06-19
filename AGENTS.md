@@ -6,6 +6,7 @@
 - Avoid process phrases such as “这里先回答”, “本页只说明”, “后续再展开”, or similar wording that sounds like the page is documenting its own construction.
 - Avoid corrective paired negative phrasing. Prefer direct positive statements.
 - For Chinese content, use standard, bookish Chinese for explanations. Keep sentences precise and natural; avoid overly casual wording.
+- Language is not perspective. Writing in a given language does not mean the analysis defaults to that language's region as the viewpoint. A global industry analysis stays global regardless of which language it happens to be written in. Never frame supply chains, risks, or competitive dynamics around the interests of a single country unless the page explicitly defines a regional scope.
 - When introducing technical terms, explain them in the flow of the argument. Prefer short inline explanations or `TermNote` annotations over separate glossary-like blocks.
 - Use `TermNote` for compact term explanations when a concept is likely unfamiliar to readers. Keep the term label in normal text color and let the component provide the underline annotation.
 - Distinguish concept levels carefully. For example, QW / MQW is an active-region concept; InP / GaAs / Si / SOI / TFLN are material or platform concepts; DFB / EML / PD are device concepts; MZM / MRM are modulator structures; LPO / CPO are system architecture or module-boundary concepts.
