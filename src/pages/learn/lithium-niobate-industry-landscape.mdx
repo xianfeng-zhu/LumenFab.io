@@ -171,18 +171,65 @@ EML 单片面积虽小（0.15 vs 0.36 mm²），但 1:1 独占 + 低良率导致
 
 铌酸锂晶体的化学式是 LiNbO₃，从元素角度看，它需要铌（Nb）和锂（Li）两种关键元素。这两种原材料的全球供应格局决定了整个产业链的第一道"物理天花板"。
 
-### 铌源（Nb₂O₅）——全球供应高度集中
+### 铌源（Nb₂O₅）——从矿石到光学级粉体
 
-铌酸锂晶体的铌源是**高纯氧化铌（Nb₂O₅，纯度 ≥ 99.99%）**，由铌矿石经过选矿、化学提纯、煅烧后得到。
+铌酸锂晶体的铌源是**高纯氧化铌（Nb₂O₅，纯度 ≥ 99.99%）**。将铌矿石变成光学级 Nb₂O₅，需要经过三道关键工序，每一道都有自己独特的化学壁垒。
 
-| 环节 | 现状 |
-|------|------|
-| **矿源** | 全球铌矿产量 ~90% 来自巴西。CBMM（Araxá 矿，Moreira Salles 家族控股）占全球产量 ~77%，CMOC（Catalão 矿，2016 年被中国洛阳钼业收购）~11%，加拿大 Niobec ~8%。三大矿构成了全球铌供应的几乎全部 |
-| **供应集中风险** | 巴西既是供应中心也是单一风险点——2024 年巴西环保新法案延长矿山环评周期，CBMM 产能利用率阶段性下降，铌精矿价格曾较基准价大幅提升 65%。任何进口国都无法绕开巴西 |
-| **高纯粉体** | 从铌精矿到 99.99% 光学级 Nb₂O₅ 粉体，需要额外的化学提纯步骤。这一环节由少数企业掌握：日本 **Stella Chemifa** 是全球高纯化学品的标杆，此外还有几家中国和日本企业参与。光学级与冶金级是完全不同的品级，价差可达数十倍 |
-| **其他矿源** | 澳大利亚 West Arunta 地区和非洲刚果有勘探项目，但新矿从发现到投产通常需要 7–10 年。短期内巴西的主导地位无法被稀释 |
+#### 第一步：矿石 → 铌精矿
 
-> **关键风险**：虽然铌矿绝对储量充足（巴西 Araxá 单矿 4.6 亿吨矿石），但**光学级提纯产能**才是真正的瓶颈。这片市场极小——全球 LN 晶体对 Nb₂O₅ 的年需求仅数百吨——任何一家提纯商的产能中断都会导致晶圆厂无法获取原料。同时，CMOC 的中国国有背景使得西方在军事/航天级 LN 晶体的铌源选择上存在顾虑，催生了加拿大 Niobec 和澳大利亚勘探项目的战略价值。
+全球铌矿产量 ~90% 来自巴西三座矿山——CBMM（Araxá 矿，Moreira Salles 家族控股，~77%）、CMOC（Catalão 矿，中国洛阳钼业 2016 年收购，~11%）、加拿大 Niobec（~8%）。矿石主要为烧绿石（pyrochlore），含 Nb₂O₅ ~2.5–3%，通过浮选富集到 ~60% 铌精矿。
+
+这一步骤的瓶颈不在技术而在**地理集中度**：2024 年巴西环保新法案延长矿山环评周期，CBMM 产能阶段性下降，铌精矿价格曾较基准价大幅提升 65%。澳大利亚 West Arunta 和刚果有勘探项目，但新矿投产通常需 7–10 年。
+
+#### 第二步：铌精矿 → 工业级 Nb₂O₅——铌/钽分离是核心壁垒
+
+**这是整条提纯链上化学难度最高的一步。** 铌和钽在自然界中总是共生，且由于**镧系收缩效应**，Nb⁵⁺ 和 Ta⁵⁺ 的离子半径几乎完全相同（均为 ~0.64 Å，配位数 6），使它们成为化学上最难分离的元素对之一——被称为"化学孪生"。
+
+唯一的工业化分离方法是**氢氟酸体系下的溶剂萃取**：
+
+1. 铌精矿用浓 HF + H₂SO₄ 消解，转化为氟络合物 H₂[NbOF₅] 和 H₂[TaF₇]
+2. 用 **MIBK（甲基异丁基酮）**或 **TBP（磷酸三丁酯，50% 煤油溶液）** 进行多级逆流萃取
+3. 利用两种氟络合物在不同酸度下的萃取行为差异实现分离——典型全流程 20–29 级萃取（含共萃 5–7 级、洗涤 6–9 级、铌反萃 5–7 级、钽反萃 4–6 级）
+4. 含铌水相加氨水调 pH 8–11，沉淀出氢氧化铌，再煅烧（550–900°C）得到 Nb₂O₅
+
+分离效率直接决定后续纯度上限——如果铌/钽分离不干净（Ta 残留 >100 ppm），后续提纯几乎无法补救。
+
+**关键制约**：这套工艺必须使用高浓度氢氟酸，安全门槛极高；且全球能做规模化铌/钽溶剂萃取的企业不足 10 家。此外，不同矿源的杂质谱不同，**换了矿源就要重新开发提纯路线**，所需周期以年计。
+
+#### 第三步：工业级 → 光学级（≥99.99%）——过渡金属深度去除
+
+这个环节的核心挑战不在铌或钽本身，而在**过渡金属杂质——尤其是 Fe、Cu、Cr**。这三种元素在 1550 nm 通信波段产生明显的子带吸收：
+
+| 杂质 | 吸收特征 | 危害机制 | 光学级上限 |
+|------|---------|---------|-----------|
+| **Fe²⁺/Fe³⁺** | ~466 nm 电荷转移带，尾部延伸至近红外 | 光折变损伤的核心载体——Fe²⁺ 为电子供体，Fe³⁺ 为陷阱。1–2 ppm 即导致可测量的波导损耗 | 低于 2 ppm |
+| **Cu²⁺** | 宽吸收带中心 ~1040 nm，延伸至 1550 nm 区域 | 仅 **0.2–0.4 wt ppm** 就会在近红外产生可测量的残余吸收 | 低于 1 ppm |
+| **Cr³⁺** | ~500 nm 吸收带 | 不到 0.5 wt ppm 即可产生 0.035 cm⁻¹ 的吸收系数 | 低于 1 ppm |
+| **Ni、Mn** | 可见至近红外多波段 | 与 Fe/Cu 协同增加背景吸收 | 低于 2 ppm（合计） |
+
+去除这些杂质的核心手段：
+- **多级 MIBK 再萃取**：利用杂质在有机相/水相中的分配系数差异，选择性保留杂质在水相
+- **离子交换**：阴离子交换树脂在特定盐浓度下将 Fe 先于 Nb 洗脱，可达光谱纯
+- **醇盐法**（特殊路线）：NbCl₅ + 乙醇 → Nb(OEt)₅（可溶），不形成醇盐的 Fe、Ni 等金属留在固相，水解后得到卤素低于 1 ppm 的超纯 Nb₂O₅
+
+一套完整的光学级提纯路线涉及 10+ 个单元操作（溶解 → 多级萃取 → 反萃 → 再萃取 → 沉淀 → 洗涤至 F⁻ ≤ 3000 ppm → 干燥 → 煅烧 → 关键氧化步骤 → 研磨），每一步的参数都针对特定矿源调试。
+
+**为什么这个市场"没人做"？** 全球 LN 晶体行业每年消耗的光学级 Nb₂O₅ 仅 **数百吨**，而冶金级铌的消费量是 **数十万吨**——量级差距达 1000 倍。光学级提纯是一个技术上能做、但商业上鲜有人愿意投资的"被遗忘的角落"。供应商更换的验证周期长达 3–12 个月（需要生长数十炉晶体并做全表征），进一步固化了现有供需关系。
+
+#### 光学级 Nb₂O₅ 供应商格局
+
+| 供应商 | 所在地 | 最高纯度 | 备注 |
+|--------|--------|---------|------|
+| **TANIOBIS（JX Advanced Metals）** | 德国/日本 | **99.995%（LN-Grade）** | 行业标杆，前 H.C. Starck 铌钽业务，唯一公开提供 LN 专用品级的企业 |
+| **Noah Technologies** | 美国 | 99.98%（光学级）<br/>99.999%（5N） | Ta 低于 25 ppm（光学级规格） |
+| **Materion** | 美国 | 99.95%（光学级） | 主营溅射靶材，光学级为附属业务 |
+| **MPIL（印度）/ Kowa（日本分销）** | 印度/日本 | 99.99%（OG 级） | Fe、Cr、Cu、Mn、Mo、Ni 各低于 2 ppm |
+| **Taki Chemical** | 日本 | ≥99.99%（45N） | 专用于压电陶瓷和光学晶体 |
+| **ATT Elements** | 中国 | 99.99%–99.999% | 明确标注"用于高纯 LN 晶体" |
+| **Xinglu Chemical** | 中国 | 99.99%–99.995% | 明确标注"用于 LN 单晶及特种光学玻璃" |
+| **CBMM** | 巴西 | 99.5%（光学级） | 全球最大铌矿商，但光学级纯度达不到 LN 晶体主流要求，需经二次提纯 |
+
+> **市场参考**：全球 Nb₂O₅ 市场规模约 $2.5–3.2 亿（2024），其中光学级（4N+）占比约 10–20% 按量、20–30% 按值（纯度溢价）。4N+ 品类增长率 ~4.4% CAGR，高于 3N 品类的 3.5%，反映出光学应用的增速在加快。工业级（99.5%）批量价约 $50–60/kg，光学级（99.99%）约 $55–80/kg，5N 超纯级可能翻倍。
 
 ### 锂源（Li₂CO₃）——供需相对宽松但品质要求苛刻
 
@@ -419,3 +466,19 @@ TFLN 产业链的设备需求可以按制造环节分为四个阶段，每一阶
 - McKinsey & Company, "Opportunities in Networking Optics: Boosting Supply for Data Centers", 2025
 - 华泰证券, "光模块上游核心材料发展机遇", April 2026
 - DoNews, "光模块加速升级至1.6T/3.2T，磷化铟衬底与薄膜铌酸锂成新瓶颈", 2026
+- TANIOBIS (JX Advanced Metals), Niobium Pentoxide Product Specifications — LN-Grade (99.995%), HPO-Grade (99.98%)
+- CBMM, Niobium Oxides Product Page — Optical Grade (99.5%) and High Purity grades
+- Noah Technologies, Niobium(V) Oxide 99.98% Optical Grade & 99.999% Ultra-High Purity specifications
+- Stella Chemifa, US Patent 7,214,362 B2 & JP 4322122 B2 — High-purity niobium/tantalum compound purification methods
+- US Patent US 2004/0062709 A1 — "Powder of tantalum oxide or niobium oxide" (complete 4N+ production process)
+- Agulyansky, A. (2004), "The Chemistry of Tantalum and Niobium Fluoride Compounds" — MIBK/TBP solvent extraction stage counts
+- Ayanda & Adekola (2011), "A Review of Niobium-Tantalum Separation in Hydrometallurgy", J. Miner. Mater. Charact. Eng.
+- Shikika et al. (2020), "A review on extractive metallurgy of tantalum and niobium", Hydrometallurgy 198, 105496
+- Schwesyg, J.R. (2011), "Interaction of Light with Impurities in Lithium Niobate Crystals", Ph.D. Dissertation, University of Bonn — residual absorption from Fe/Cu/Cr/Ni/Mn at 0.1–1 wt. ppm
+- Leidinger, M., Buse, K., & Breunig, I. (2016), "Influence of dry-oxygen-annealing on the residual absorption of lithium niobate crystals", Opt. Mater. Express 6(1), 264–269 — Cu²⁺ absorption at 1040 nm extending to 1550 nm
+- Schwesyg et al. (2010), "Light absorption in undoped congruent and magnesium-doped lithium niobate crystals in the visible wavelength range", Applied Physics B — Cr at不到 0.5 wt. ppm effects
+- Clark, M.G. et al. (1973), "Electronic structure and optical index damage of iron-doped lithium niobate", J. Chem. Phys. 59, 6209 — Fe²⁺→Nb⁵⁺ charge transfer mechanism
+- Carlesso et al. (2025), 4N vs 2N precursor comparison for LiNbO₃ crystal growth — phase purity dependence on feedstock grade
+- Palatnikov, M.N. et al. (2023), "Growing, Structure and Optical Properties of LiNbO₃:B Crystals", Materials 16(2), 732 — boron doping for melt purification
+- Mordor Intelligence, "Niobium Pentoxide Market Size & Share Analysis", 2025
+- ResearchAndMarkets, "Niobium Pentoxide Market Report by Product Type, Application, and Region", 2025
